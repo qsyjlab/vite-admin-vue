@@ -4,10 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:42:20
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-10 22:24:13
+ * @LastEditTime: 2022-03-10 22:57:06
  * @FilePath: \vite-admin-vue\src\types\index.d.ts
  */
 
-declare interface test1 {
-  data: string
-}
