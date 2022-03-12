@@ -4,11 +4,13 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-12 23:59:14
+ * @LastEditTime: 2022-03-13 00:45:52
  * @FilePath: \vite-admin-vue\src\components\HelloWorld.vue
 -->
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+
+console.log(import.meta.env.VITE_APP_DESC)
 
 defineProps<{ msg: string }>()
 

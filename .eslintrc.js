@@ -1,10 +1,10 @@
 /*
- * @Description:
+ * @Description: eslint + vue + ts + prettier 整合配置文件
  * @Version: 1.0.0
  * @Autor: qsyj
  * @Date: 2022-03-10 17:36:51
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-12 23:48:38
+ * @LastEditTime: 2022-03-13 00:01:23
  * @FilePath: \vite-admin-vue\.eslintrc.js
  */
 module.exports = {
