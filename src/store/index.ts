@@ -1,19 +1,21 @@
-import { createStore, } from 'vuex'
-import type { VStoreRoot } from '../types/store.d'
+/*
+ * @Description: vuex 入口文件
+ * @Version: 1.0.0
+ * @Autor: qsyj
+ * @Date: 2022-03-12 16:58:20
+ * @LastEditors: qsyj
+ * @LastEditTime: 2022-03-12 16:58:45
+ * @FilePath: \vite-admin-vue\src\store\index.ts
+ */
+import { createStore } from 'vuex'
 
-import type { StoreOptions } from 'vuex'
+const files = import.meta.globEager('./modules/*')
 
-import { keyType, rootState } from './types'
+const modules: VStoreRoot.rootMoudles = {}
 
-const files = import.meta.globEager("./modules/*")
-
-
-const modules: VStoreRoot.rootMoudles<StoreOptions<VStoreRoot.rootState>> = {}
-
-
-Object.keys(files).forEach((file)=>{
-  const key:string = file.split('/').pop()?.split('.ts')[0] + ''
-  if(!key) return
+Object.keys(files).forEach((file) => {
+  const key: string = file.split('/').pop()?.split('.ts')[0] + ''
+  if (!key) return
   modules[key] = files[file].default
 })
 

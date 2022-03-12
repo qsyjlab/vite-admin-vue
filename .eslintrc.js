@@ -4,14 +4,14 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:36:51
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-11 09:25:29
+ * @LastEditTime: 2022-03-12 19:11:09
  * @FilePath: \vite-admin-vue\.eslintrc.js
  */
 module.exports = {
   root: true,
   env: {
-    node: true,
-    'vue/setup-compiler-macros': true
+    node: true
+    // 'vue/setup-compiler-macros': true
   },
   parser: 'vue-eslint-parser',
   parserOptions: {
@@ -35,9 +35,11 @@ module.exports = {
   // },
   rules: {
     'no-undef': 0,
+    'vue/comment-directive': 'off',
     // 'vue/setup-compiler-macros': true,
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-var-requires': 0,
+    // 'vue/html-self-closing': 'off',
     '@typescript-eslint/no-explicit-any': ['off'],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'

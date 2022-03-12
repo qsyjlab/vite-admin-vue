@@ -4,13 +4,13 @@
  * @Autor: qsyj
  * @Date: 2021-12-29 10:51:21
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-10 23:13:20
+ * @LastEditTime: 2022-03-12 18:29:34
  */
 // import { storage } from '@plugins/methods'
 
 import type { Module } from 'vuex'
 
-import type { appRootState } from '../modleTypes/app'
+// import type { appRootState } from '../modleTypes/app'
 import type { rootState } from '../types'
 
 // const STORE_LAYOUT = 'layout_config'
@@ -19,16 +19,16 @@ import type { rootState } from '../types'
 // const { $storage } = useStorage()
 // const layoutConfig = $storage.get('layoutConfig')
 
-const appMoudle: Module<appRootState, rootState> = {
+const appMoudle: Module<VStoreRoot.app.appRootState, rootState> = {
   namespaced: true,
   state: {
-    keepAliveList: [],
+    keepAliveList: {},
     layoutConfig: {
-          // 是否折叠 菜单栏
-          isCollapse: false,
-          themeColor: '#409eff'
-          // keepAliveList: []
-        }
+      // 是否折叠 菜单栏
+      isCollapse: false,
+      themeColor: '#409eff'
+      // keepAliveList: ['']
+    }
   },
   mutations: {
     // 折叠菜单栏
@@ -106,7 +106,14 @@ const appMoudle: Module<appRootState, rootState> = {
 
       // $storage.set('layoutConfig', state.layoutConfig)
     },
-    addAlive(state, { page, name = 'default', alive }) {
+    addAlive(
+      state,
+      {
+        page,
+        name = 'default',
+        alive
+      }: { page: string; name: string; alive: string }
+    ) {
       if (!state.keepAliveList[page]) {
         state.keepAliveList = {
           ...state.keepAliveList,
