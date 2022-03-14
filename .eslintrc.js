@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:36:51
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-13 00:01:23
+ * @LastEditTime: 2022-03-14 15:43:55
  * @FilePath: \vite-admin-vue\.eslintrc.js
  */
 module.exports = {
@@ -40,6 +40,7 @@ module.exports = {
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/no-var-requires': 0,
         // 'vue/html-self-closing': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/no-explicit-any': ['off'],
         'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
