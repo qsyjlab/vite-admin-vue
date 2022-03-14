@@ -4,13 +4,24 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-14 13:57:47
+ * @LastEditTime: 2022-03-14 14:21:23
  * @FilePath: \vite-admin-vue\src\components\HelloWorld.vue
 -->
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
+// import('element-plus/es/components/loading/style/css')
 
-console.log(import.meta.env.VITE_APP_DESC)
+// import 'element-plus/es/components/loading/style/css'
+import { ref, reactive, onMounted } from 'vue'
+
+// (() => {
+//     import('element-plus/es/components/loading/style/css')
+// })()
+
+onMounted(() => {
+    import('element-plus/es/components/loading/style/css')
+})
+ElMessage.error('测试')
 
 defineProps<{ msg: string }>()
 
@@ -20,7 +31,7 @@ const count = ref<number>(1)
 <template>
     <h1>{{ msg }}</h1>
 
-    <p>
+    <p v-loading="true">
         <el-button>测试</el-button>
         <ElButton>测试</ElButton>
         <el-checkbox v label="Option 1" size="large"></el-checkbox>

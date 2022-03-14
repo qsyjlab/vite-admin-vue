@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-13 00:35:32
+ * @LastEditTime: 2022-03-14 15:20:25
  * @FilePath: \vite-admin-vue\src\env.d.ts
  */
 /// <reference types="vite/client" />

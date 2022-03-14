@@ -4,21 +4,21 @@
  * @Autor: qsyj
  * @Date: 2022-03-12 17:01:17
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-12 18:28:47
+ * @LastEditTime: 2022-03-14 15:13:09
  * @FilePath: \vite-admin-vue\src\types\store\moudles\app.ts
  */
 
 export interface keepAliveListType {
-  [key: string | number]: {
-    [key: string | number]: string[]
-  }
+    [key: string | number]: {
+        [key: string | number]: string[]
+    }
 }
 
 export interface appRootStateType {
-  keepAliveList: keepAliveListType
-  layoutConfig: {
-    // 是否折叠 菜单栏
-    isCollapse: boolean
-    themeColor: string
-  }
+    keepAliveList: keepAliveListType
+    layoutConfig: {
+        // 是否折叠 菜单栏
+        isCollapse: boolean
+        themeColor: string
+    }
 }
