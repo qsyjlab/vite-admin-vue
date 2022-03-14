@@ -1,26 +1,45 @@
 {
-  "compilerOptions": {
-    "baseUrl": "./",
-    "types": ["node"],
-    "target": "esnext",
-    "useDefineForClassFields": true,
-    // "noUnusedParameters":false,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "strict": true,
-    "jsx": "preserve",
-    "sourceMap": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "lib": ["esnext", "dom"],
-    "paths": {
-      "@/*": ["src/*"],
-			"~/*": ["./*"]
+    "compilerOptions": {
+        "baseUrl": "./",
+        "types": [
+            "node",
+            "element-plus/global"
+        ],
+        "target": "esnext",
+        "useDefineForClassFields": true,
+        // "noUnusedParameters":false,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "strict": true,
+        "jsx": "preserve",
+        "sourceMap": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "lib": [
+            "esnext",
+            "dom"
+        ],
+        "paths": {
+            "@/*": [
+                "src/*"
+            ],
+            "~/*": [
+                "./*"
+            ]
+        },
     },
-  },
-  "typeRoots":[
-    "src/types/*.d.ts"
-  ],
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+    "typeRoots": [
+        "src/types/*.d.ts"
+    ],
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.d.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue"
+    ],
+    "references": [
+        {
+            "path": "./tsconfig.node.json"
+        }
+    ]
 }

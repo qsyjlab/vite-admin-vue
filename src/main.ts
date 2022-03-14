@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-10 23:06:36
+ * @LastEditTime: 2022-03-14 13:58:40
  * @FilePath: \vite-admin-vue\src\main.ts
  */
 import { createApp } from 'vue'
@@ -14,8 +14,7 @@ import App from './App.vue'
 import { setupRouter } from './router'
 import store from './store'
 
-
-async function setupWebApp(){
+async function setupWebApp() {
     const app = createApp(App)
 
     await setupRouter(app)
@@ -24,4 +23,3 @@ async function setupWebApp(){
 }
 
 setupWebApp()
-

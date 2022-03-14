@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:36:12
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-13 00:53:05
+ * @LastEditTime: 2022-03-14 13:53:02
  * @FilePath: \vite-admin-vue\.prettierrc.js
  */
 
@@ -13,15 +13,19 @@ module.exports = {
     singleQuote: true,
     trailingComma: 'none',
     // 行宽度
-    printWidth: 80,
+    printWidth: 200,
     // 缩进宽度 =》editorconfig
     tabWidth: 4,
+    useTabs: false,
     // 单个参数取消空格
     arrowParens: 'avoid',
     bracketSpacing: true,
+    proseWrap: 'preserve',
+    // "proseWrap": "never"
     // 关闭 prettier tslint 格式校验
     tslintIntegration: false,
-
+    eslintIntegration: false,
+    stylelintIntegration: false,
     // 配置 html 格式化
     overrides: [
         {

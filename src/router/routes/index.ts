@@ -4,23 +4,22 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 15:32:31
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-12 18:34:59
+ * @LastEditTime: 2022-03-14 13:52:27
  * @FilePath: \vite-admin-vue\src\router\routes\index.ts
  */
 
 import type { RouteRecordRaw } from 'vue-router'
 
 export const routes: RouteRecordRaw[] = [
-  {
-    path: '/',
-    redirect: { name: 'home' }
-  },
-  {
-    path: '/',
-    name: 'home',
-    component: () =>
-      import(/* webpackChunkName: "Home" */ '../../components/HelloWorld.vue')
-  }
+    {
+        path: '/',
+        redirect: { name: 'home' }
+    },
+    {
+        path: '/',
+        name: 'home',
+        component: () => import(/* webpackChunkName: "Home" */ '../../components/HelloWorld.vue')
+    }
 ]
 
 export { routes as default }

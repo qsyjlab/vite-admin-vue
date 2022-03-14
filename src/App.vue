@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-12 19:00:30
+ * @LastEditTime: 2022-03-14 13:58:35
  * @FilePath: \vite-admin-vue\src\App.vue
 -->
 <script setup lang="ts">
@@ -14,20 +14,20 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
-  <div>
-    <div></div>
-  </div>
+    <img alt="Vue logo" src="./assets/logo.png" />
+    <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+    <div>
+        <div></div>
+    </div>
 </template>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
 }
 </style>
