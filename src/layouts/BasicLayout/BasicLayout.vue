@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-14 22:45:20
+ * @LastEditTime: 2022-03-14 23:19:35
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
@@ -14,6 +14,7 @@
             <el-container>
                 <el-header>Header</el-header>
                 <el-main>
+                    <span class="test">asdasd</span>
                     <router-view></router-view>
                 </el-main>
             </el-container>
@@ -24,3 +25,9 @@
 <script setup lang="ts">
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 </script>
+
+<style lang="scss" scoped>
+.test {
+    color: red;
+}
+</style>
