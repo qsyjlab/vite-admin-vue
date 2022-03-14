@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-14 15:56:59
+ * @LastEditTime: 2022-03-14 22:42:01
  * @FilePath: \vite-admin-vue\src\components\HelloWorld.vue
 -->
 <script setup lang="ts">
@@ -18,9 +18,6 @@ import { ref, reactive, onMounted } from 'vue'
 //     import('element-plus/es/components/loading/style/css')
 // })()
 
-onMounted(() => {
-    import('element-plus/es/components/loading/style/css')
-})
 ElMessage.error('测试')
 
 defineProps<{ msg: string }>()
@@ -28,7 +25,7 @@ defineProps<{ msg: string }>()
 const count = ref<number>(1)
 </script>
 
-<template>{t}asdas</template>
+<template>asdasd1231231</template>
 
 <style scoped>
 a {

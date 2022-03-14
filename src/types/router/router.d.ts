@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 22:39:55
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-14 15:32:31
+ * @LastEditTime: 2022-03-14 22:20:04
  * @FilePath: \vite-admin-vue\src\types\router\router.d.ts
  */
 /// <reference types="vue-router" />
@@ -24,6 +24,10 @@ declare namespace VRouter {
         hideInMenu?: boolean
         // 面包屑 导航隐藏
         hideInBreadcrumb?: boolean
+        // 排序
         sort?: number
     }
+    // | { redirect?: import('vue-router').RouteRecordRedirectOption | Record<string, any> }
+
+    export type DefineRoutes = import('vue-router').RouteRecordRaw & { redirect?: import('vue-router').RouteRecordRedirectOption | Record<string, any> }
 }

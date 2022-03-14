@@ -4,11 +4,21 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-14 15:37:26
+ * @LastEditTime: 2022-03-14 22:45:20
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
-    <el-config-provider :locale="zhCn"> </el-config-provider>
+    <el-config-provider :locale="zhCn">
+        <el-container>
+            <el-aside width="200px">Aside</el-aside>
+            <el-container>
+                <el-header>Header</el-header>
+                <el-main>
+                    <router-view></router-view>
+                </el-main>
+            </el-container>
+        </el-container>
+    </el-config-provider>
 </template>
 
 <script setup lang="ts">
