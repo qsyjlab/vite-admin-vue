@@ -11,19 +11,19 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 export interface InterceptorsType {
-    requestInterceptors?: (config: AxiosRequestConfig) => AxiosRequestConfig
-    requestInterceptorsCatch?: (error: any) => any
-    responseInterceptors?: (response: AxiosResponse) => AxiosResponse
-    responseInterceptorsCatch?: (error: any) => any
+  requestInterceptors?: (config: AxiosRequestConfig) => AxiosRequestConfig
+  requestInterceptorsCatch?: (error: any) => any
+  responseInterceptors?: (response: AxiosResponse) => AxiosResponse
+  responseInterceptorsCatch?: (error: any) => any
 }
 
 export interface CustomRequestConfig extends AxiosRequestConfig {
-    interceptorsHooks?: InterceptorsType
-    method?: VService.Method
+  interceptorsHooks?: InterceptorsType
+  method?: VService.Method
 }
 
 export interface ResponseData<T = any> {
-    data?: T
-    code?: number
-    msg?: string
+  data?: T
+  code?: number
+  msg?: string
 }

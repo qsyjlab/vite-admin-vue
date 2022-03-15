@@ -10,11 +10,11 @@
 
 type RouteType = VRouter.DefineRoutes
 type RFiles = Record<
-    string,
-    {
-        [key: string]: any
-        default: VRouter.DefineRoutes[]
-    }
+  string,
+  {
+    [key: string]: any
+    default: VRouter.DefineRoutes[]
+  }
 >
 
 /**
@@ -23,11 +23,11 @@ type RFiles = Record<
  * @returns
  */
 export const loadRoutes = (files: RFiles): RouteType[] => {
-    return Object.keys(files).reduce((arr: RouteType[], key: string): RouteType[] => {
-        const routes: RouteType[] = files[key].default
-        arr.push(...routes)
-        return arr
-    }, [])
+  return Object.keys(files).reduce((arr: RouteType[], key: string): RouteType[] => {
+    const routes: RouteType[] = files[key].default
+    arr.push(...routes)
+    return arr
+  }, [])
 }
 
 /**
@@ -36,5 +36,5 @@ export const loadRoutes = (files: RFiles): RouteType[] => {
  * @returns
  */
 export function defineExposeRoutes(routes: VRouter.DefineRoutes[]): VRouter.DefineRoutes[] {
-    return routes
+  return routes
 }

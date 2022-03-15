@@ -9,12 +9,12 @@
  */
 
 declare namespace VService {
-    enum MethodEnum {
-        POST = 'post',
-        GET = 'get',
-        DELETE = 'delete',
-        OPTIONS = 'options',
-        PUT = 'put'
-    }
-    export type Method = 'get' | 'GET' | 'delete' | 'DELETE' | 'options' | 'OPTIONS' | 'post' | 'POST' | 'put' | 'PUT'
+  enum MethodEnum {
+    POST = 'post',
+    GET = 'get',
+    DELETE = 'delete',
+    OPTIONS = 'options',
+    PUT = 'put'
+  }
+  export type Method = 'get' | 'GET' | 'delete' | 'DELETE' | 'options' | 'OPTIONS' | 'post' | 'POST' | 'put' | 'PUT'
 }

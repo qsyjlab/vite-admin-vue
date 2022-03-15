@@ -10,25 +10,25 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-    /** 项目基本地址 */
-    BASE_URL: string
-    /** 项目名称 */
-    readonly VITE_APP_NAME: string
-    /** 项目标题 */
-    readonly VITE_APP_TITLE: string
-    /** 项目描述 */
-    readonly VITE_APP_DESC: string
-    /** 当前模式 */
-    readonly VITE_MODE: string
+  /** 项目基本地址 */
+  BASE_URL: string
+  /** 项目名称 */
+  readonly VITE_APP_NAME: string
+  /** 项目标题 */
+  readonly VITE_APP_TITLE: string
+  /** 项目描述 */
+  readonly VITE_APP_DESC: string
+  /** 当前模式 */
+  readonly VITE_MODE: string
 }
 
 interface ImportMeta {
-    readonly env: ImportMetaEnv
+  readonly env: ImportMetaEnv
 }
 
 declare module '*.vue' {
-    import type { DefineComponent } from 'vue'
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
-    const component: DefineComponent<{}, {}, any>
-    export default component
+  import type { DefineComponent } from 'vue'
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+  const component: DefineComponent<{}, {}, any>
+  export default component
 }

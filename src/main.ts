@@ -17,11 +17,11 @@ import setUpPlugins from './plugins'
 import store from './store'
 
 async function setupWebApp() {
-    const app = createApp(App)
-    await setupRouter(app)
-    app.use(store)
-    app.use(setUpPlugins)
-    app.mount('#app')
+  const app = createApp(App)
+  await setupRouter(app)
+  app.use(store)
+  app.use(setUpPlugins)
+  app.mount('#app')
 }
 
 setupWebApp()

@@ -1,11 +1,11 @@
 {
-  "recommendations": ["johnsoncodehk.volar"],
+  "recommendations": ["johnsoncodehk.volar"]
 
-//    // 保存时自动格式化
-//     "[javascript]": {
-//       "editor.defaultFormatter": "esbenp.prettier-vscode", // 格式化时使用 prettier
-//     },
-//     "editor.codeActionsOnSave": {
-//           "source.fixAll.eslint": true // 保存时使用eslint校验文件
-//       }
+  //    // 保存时自动格式化
+  //     "[javascript]": {
+  //       "editor.defaultFormatter": "esbenp.prettier-vscode", // 格式化时使用 prettier
+  //     },
+  //     "editor.codeActionsOnSave": {
+  //           "source.fixAll.eslint": true // 保存时使用eslint校验文件
+  //       }
 }

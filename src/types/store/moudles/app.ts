@@ -9,16 +9,16 @@
  */
 
 export interface keepAliveListType {
-    [key: string | number]: {
-        [key: string | number]: string[]
-    }
+  [key: string | number]: {
+    [key: string | number]: string[]
+  }
 }
 
 export interface appRootStateType {
-    keepAliveList: keepAliveListType
-    layoutConfig: {
-        // 是否折叠 菜单栏
-        isCollapse: boolean
-        themeColor: string
-    }
+  keepAliveList: keepAliveListType
+  layoutConfig: {
+    // 是否折叠 菜单栏
+    isCollapse: boolean
+    themeColor: string
+  }
 }

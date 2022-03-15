@@ -11,24 +11,24 @@
 import { defineExposeRoutes } from '@/utils'
 
 export default defineExposeRoutes([
-    {
-        name: 'routes',
-        path: 'routes',
+  {
+    name: 'routes',
+    path: 'routes',
+    meta: {
+      title: '测试'
+    },
+    component: () => import('@/components/HelloWorld.vue'),
+    // redirect: {},
+    children: [
+      {
+        name: 'routes2',
+        path: '/routes2',
         meta: {
-            title: '测试'
+          title: '测试'
         },
-        component: () => import('@/components/HelloWorld.vue'),
-        // redirect: {},
-        children: [
-            {
-                name: 'routes2',
-                path: '/routes2',
-                meta: {
-                    title: '测试'
-                },
-                redirect: {},
-                children: []
-            }
-        ]
-    }
+        redirect: {},
+        children: []
+      }
+    ]
+  }
 ])

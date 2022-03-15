@@ -14,9 +14,9 @@
  * @returns
  */
 export function viteImport(path: string) {
-    console.log('asdasd', import.meta.globEager('./modules/*'))
+  console.log('asdasd', import.meta.globEager('./modules/*'))
 
-    // return
+  // return
 }
 
 // export function loadFiles(path: string) {

@@ -11,5 +11,5 @@ import type { App } from 'vue'
 import setupElementPlus from './elementPlus'
 
 export default (app: App) => {
-    setupElementPlus(app)
+  setupElementPlus(app)
 }

@@ -10,24 +10,24 @@
 /// <reference types="vue-router" />
 
 declare namespace VRouter {
-    // router meta
-    export interface RouteMeta {
-        // 路由标题
-        title?: string
-        // 是否验证权限
-        isAuth?: boolean
-        // 是否缓存
-        isKeepAlive?: boolean
-        // 图标
-        icon?: string
-        // 菜单栏隐藏
-        hideInMenu?: boolean
-        // 面包屑 导航隐藏
-        hideInBreadcrumb?: boolean
-        // 排序
-        sort?: number
-    }
-    // | { redirect?: import('vue-router').RouteRecordRedirectOption | Record<string, any> }
+  // router meta
+  export interface RouteMeta {
+    // 路由标题
+    title?: string
+    // 是否验证权限
+    isAuth?: boolean
+    // 是否缓存
+    isKeepAlive?: boolean
+    // 图标
+    icon?: string
+    // 菜单栏隐藏
+    hideInMenu?: boolean
+    // 面包屑 导航隐藏
+    hideInBreadcrumb?: boolean
+    // 排序
+    sort?: number
+  }
+  // | { redirect?: import('vue-router').RouteRecordRedirectOption | Record<string, any> }
 
-    export type DefineRoutes = import('vue-router').RouteRecordRaw & { redirect?: import('vue-router').RouteRecordRedirectOption | Record<string, any> }
+  export type DefineRoutes = import('vue-router').RouteRecordRaw & { redirect?: import('vue-router').RouteRecordRedirectOption | Record<string, any> }
 }

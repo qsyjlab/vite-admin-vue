@@ -11,9 +11,9 @@
 import type { Router } from 'vue-router'
 
 export function createRouterGuard(router: Router) {
-    router.beforeEach((to, from, next) => {
-        next()
-    })
+  router.beforeEach((to, from, next) => {
+    next()
+  })
 
-    router.afterEach((to, from, failure) => {})
+  router.afterEach((to, from, failure) => {})
 }

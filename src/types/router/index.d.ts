@@ -24,11 +24,11 @@ import 'vue-router'
 //     }
 
 declare module 'vue-router' {
-    // type RouteRecordRaw  = VRouter.
+  // type RouteRecordRaw  = VRouter.
 
-    // export interface RouteRecordRaw
+  // export interface RouteRecordRaw
 
-    export interface RouteMeta extends VRouter.RouteMeta {
-        title?: string
-    }
+  export interface RouteMeta extends VRouter.RouteMeta {
+    title?: string
+  }
 }
