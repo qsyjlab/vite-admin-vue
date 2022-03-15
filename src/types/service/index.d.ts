@@ -4,13 +4,9 @@
  * @Autor: qsyj
  * @Date: 2022-03-13 01:00:14
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-14 13:52:35
+ * @LastEditTime: 2022-03-15 11:53:58
  * @FilePath: \vite-admin-vue\src\types\service\index.d.ts
  */
-
-interface testSetting {
-    dat: string
-}
 
 declare namespace VService {
     enum MethodEnum {

@@ -7,12 +7,13 @@
         "app:host": "vite --host",
         "app:prod": "vite --host --mode prod",
         "build": "vue-tsc --noEmit && vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "prettier": "prettier --write ."
     },
     "dependencies": {
         "axios": "^0.26.1",
         "element-plus": "^2.1.1",
-        "vue": "^3.2.25",
+        "vue": "^3.2.31",
         "vue-router": "4",
         "vuex": "^4.0.2"
     },
