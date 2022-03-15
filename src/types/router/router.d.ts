@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 22:39:55
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-14 22:20:04
+ * @LastEditTime: 2022-03-15 22:34:28
  * @FilePath: \vite-admin-vue\src\types\router\router.d.ts
  */
 /// <reference types="vue-router" />
@@ -27,7 +27,7 @@ declare namespace VRouter {
     // 排序
     sort?: number
   }
-  // | { redirect?: import('vue-router').RouteRecordRedirectOption | Record<string, any> }
 
+  // 路由成员类型
   export type DefineRoutes = import('vue-router').RouteRecordRaw & { redirect?: import('vue-router').RouteRecordRedirectOption | Record<string, any> }
 }

@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 16:01:22
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-14 22:35:30
+ * @LastEditTime: 2022-03-15 22:38:12
  * @FilePath: \vite-admin-vue\src\utils\router\helpers.ts
  */
 
@@ -19,8 +19,8 @@ type RFiles = Record<
 
 /**
  *
- * @param files 文件夹路径
- * @returns
+ * @param {String} files 文件夹路径
+ * @returns { RouteType }
  */
 export const loadRoutes = (files: RFiles): RouteType[] => {
   return Object.keys(files).reduce((arr: RouteType[], key: string): RouteType[] => {
@@ -32,9 +32,26 @@ export const loadRoutes = (files: RFiles): RouteType[] => {
 
 /**
  *  默认暴露类型检测
- * @param routes
- * @returns
+ * @param { VRouter.DefineRoutes[]} routes
+ * @returns { VRouter.DefineRoutes[] }
  */
 export function defineExposeRoutes(routes: VRouter.DefineRoutes[]): VRouter.DefineRoutes[] {
   return routes
+}
+
+/**
+ * 将路由转换成菜单列表
+ * @param { VRouter.DefineRoutes[] } routes 路由
+ * @param { VRouter.DefineRoutes[] } treeMap 默认值
+ * @returns { VRouter.DefineRoutes[] }
+ */
+export function transformRouteToList(routes: VRouter.DefineRoutes[], treeMap: VRouter.DefineRoutes[] = []) {
+  if (routes && routes.length === 0) return []
+  return routes.reduce((acc, cur) => {
+    acc.push(cur)
+    if (cur.children && cur.children.length > 0) {
+      transformRouteToList(cur.children, treeMap)
+    }
+    return acc
+  }, treeMap)
 }

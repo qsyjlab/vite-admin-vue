@@ -4,11 +4,9 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 15:32:31
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-14 22:40:23
+ * @LastEditTime: 2022-03-15 22:07:57
  * @FilePath: \vite-admin-vue\src\router\routes\index.ts
  */
-
-// import type { RouteRecordRaw } from 'vue-router'
 
 import { loadRoutes, defineExposeRoutes } from '@/utils'
 
@@ -20,9 +18,9 @@ export const routes = defineExposeRoutes([
   {
     path: '/',
     name: 'home',
-    redirect: { name: 'routes' },
+    redirect: { name: 'Welcome' },
     component: () => import(/* webpackChunkName: "Home" */ '@/layouts/BasicLayout/BasicLayout.vue'),
-    children: loadRoutes(import.meta.globEager('./test/*.ts'))
+    children: loadRoutes(import.meta.globEager('./system/*.ts'))
   }
 ])
 

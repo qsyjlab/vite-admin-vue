@@ -4,46 +4,22 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-15 16:22:06
+ * @LastEditTime: 2022-03-15 22:12:02
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
   <BasicLayout>
     <template #aside>
       <div class="layout-aside_wapper">
-        <el-menu default-active="2" class="el-menu-vertical-demo">
-          <el-sub-menu index="1">
-            <template #title>
-              <span>Navigator One</span>
-            </template>
-            <el-menu-item-group title="Group One">
-              <el-menu-item index="1-1">item one</el-menu-item>
-              <el-menu-item index="1-2">item one</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="Group Two">
-              <el-menu-item index="1-3">item three</el-menu-item>
-            </el-menu-item-group>
-            <el-sub-menu index="1-4">
-              <template #title>item four</template>
-              <el-menu-item index="1-4-1">item one</el-menu-item>
-            </el-sub-menu>
-          </el-sub-menu>
-          <el-menu-item index="2">
-            <span>Navigator Two</span>
-          </el-menu-item>
-          <el-menu-item index="3" disabled>
-            <span>Navigator Three</span>
-          </el-menu-item>
-          <el-menu-item index="4">
-            <span>Navigator Four</span>
-          </el-menu-item>
-        </el-menu>
+        <aside-menu></aside-menu>
       </div>
     </template>
     <template #header>
       <div class="layout-header_wapper">测试内容</div>
     </template>
-    <div class="layout-main_wapper">侧边栏asdasd</div>
+    <div class="layout-main_wapper">
+      <router-view></router-view>
+    </div>
     <template #footer>
       <div class="layout-footer_wapper">侧边栏</div>
     </template>
@@ -51,8 +27,8 @@
 </template>
 
 <script setup lang="ts">
-// import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import { BasicLayout } from '@/layouts/LayoutPackage'
+import { AsideMenu } from '../components'
 </script>
 
 <style lang="scss" scoped>
