@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 21:41:33
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 17:09:40
+ * @LastEditTime: 2022-03-16 22:15:29
  * @FilePath: \vite-admin-vue\src\layouts\components\SideBar\Menu\AsideMenu.vue
 -->
 <template>
@@ -27,6 +27,6 @@ withDefaults(defineProps<AsideMenu>(), {
   menuList: () => []
 })
 
-const { useMapStateHelper } = useStoreHelper()
-const { layoutConfig } = useMapStateHelper<VStoreRoot.app.appRootState>('app', ['layoutConfig'])
+const { useStateHelper } = useStoreHelper()
+const { layoutConfig } = useStateHelper<VStoreRoot.app.appRootState>('app', ['layoutConfig'])
 </script>

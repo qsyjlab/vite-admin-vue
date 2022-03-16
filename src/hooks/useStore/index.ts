@@ -1,20 +1,18 @@
 /*
- * @Description:
+ * @Description: vuex4 助手函数
  * @Version: 1.0.0
  * @Autor: qsyj
  * @Date: 2021-12-29 14:00:18
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 16:33:45
+ * @LastEditTime: 2022-03-16 22:17:04
  */
-import { useMapFunction } from './storeHooks'
-import type { namespaceType, mapType, mapHelperType } from './storeHooks'
 
+import type { Namespace, MapType, MapHelperType } from './storeHooks'
+
+import { useMapFunction } from './storeHooks'
 import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
-export type useHelperType = <T extends mapHelperType>(
-  namespace: namespaceType,
-  states: mapType
-) => T
+export type UseHelperType = <T extends MapHelperType>(namespace: Namespace, states: MapType) => T
 
 /**
  * @description 传参格式
@@ -31,7 +29,7 @@ export type useHelperType = <T extends mapHelperType>(
  * @param states 同state传参方式
  * @returns
  */
-const useMapStateHelper: useHelperType = (namespace, states) =>
+const useStateHelper: UseHelperType = (namespace, states) =>
   useMapFunction(namespace, states, mapState)
 
 /**
@@ -40,7 +38,7 @@ const useMapStateHelper: useHelperType = (namespace, states) =>
  * @param mutations
  * @returns
  */
-const useMapMutactionsHelper: useHelperType = (namespace, mutations) =>
+const useMutactionsHelper: UseHelperType = (namespace, mutations) =>
   useMapFunction(namespace, mutations, mapMutations, true)
 
 /**
@@ -49,7 +47,7 @@ const useMapMutactionsHelper: useHelperType = (namespace, mutations) =>
  * @param actions
  * @returns
  */
-const useMapActionsHelper: useHelperType = (namespace, actions) =>
+const useActionsHelper: UseHelperType = (namespace, actions) =>
   useMapFunction(namespace, actions, mapActions, true)
 
 /**
@@ -58,14 +56,14 @@ const useMapActionsHelper: useHelperType = (namespace, actions) =>
  * @param getters
  * @returns
  */
-const useMapGettersHelper: useHelperType = (namespace, getters) =>
+const useGettersHelper: UseHelperType = (namespace, getters) =>
   useMapFunction(namespace, getters, mapGetters)
 
 export default () => {
   return {
-    useMapStateHelper,
-    useMapMutactionsHelper,
-    useMapActionsHelper,
-    useMapGettersHelper
+    useStateHelper,
+    useMutactionsHelper,
+    useActionsHelper,
+    useGettersHelper
   }
 }

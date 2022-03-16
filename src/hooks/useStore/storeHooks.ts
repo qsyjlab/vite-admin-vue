@@ -4,30 +4,32 @@
  * @Autor: qsyj
  * @Date: 2021-12-29 13:20:02
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 14:39:23
+ * @LastEditTime: 2022-03-16 22:17:25
  */
 import { computed } from 'vue'
+import type { ComputedRef } from 'vue'
 import { useStore } from 'vuex'
+// import type { mapState } from 'vuex'
 
-export type namespaceType = string
-export type mapDefaultType = string[]
-export type mapHelperType = {
-  [propName: string]: any
+export type Namespace = string
+export type MapDefaultType = string[]
+export type MapHelperType = Record<string, any>
+
+export interface MapTypeHelperType {
+  default?: MapDefaultType
+  helper?: MapHelperType
 }
 
-export interface mapTypeHelperType {
-  default?: mapDefaultType
-  helper?: mapHelperType
-}
-
-export type mapType = mapDefaultType | mapTypeHelperType
+export type MapType = MapDefaultType | MapTypeHelperType
 export type funcType = boolean
-export type mapFuncType = any
 
-export type useMapFuncType = <T extends mapHelperType>(
-  namespace: namespaceType,
-  map: mapType,
-  mapFunc: mapFuncType,
+//TODO: 类型优化
+export type MapFuncType = any
+
+export type useMapFuncType = <T extends MapHelperType>(
+  namespace: Namespace,
+  map: MapType,
+  mapFunc: MapFuncType,
   funcType?: boolean
 ) => T
 
@@ -48,34 +50,31 @@ export type useMapFuncType = <T extends mapHelperType>(
  *    hepler: 同vuex辅助函数写法  example state=>state.app
  */
 
-export function useMapFunction<T extends mapHelperType>(
-  namespace: namespaceType,
-  map: mapType,
-  mapFunc: mapFuncType,
+export function useMapFunction<T extends MapHelperType>(
+  namespace: Namespace,
+  map: MapType,
+  mapFunc: MapFuncType,
   funcType = false
 ): T {
   const store = useStore()
 
-  // console.log('mapFunc', mapFunc(namespace, ['getAlive']))
-
+  //TODO: 类型优化
   let storeStateFncs: T
 
   if (Array.isArray(map)) {
     storeStateFncs = mapFunc(namespace, [...map])
-    // console.log('defaultsMapFunc', storeStateFncs)
   } else {
-    const { default: _defaults = [], helper = {} } = map as mapTypeHelperType
+    const { default: _defaults = [], helper = {} } = map
     const defaultsMapFunc = mapFunc(namespace, [..._defaults])
-
-    // console.log('defaultsMapFunc', defaultsMapFunc)
 
     const helperMapFunc = mapFunc(namespace, helper)
     storeStateFncs = Object.assign({}, defaultsMapFunc, helperMapFunc)
   }
 
+  //TODO: 类型优化
   const storeMap: any = {}
 
-  Object.keys(storeStateFncs).forEach(funcKey => {
+  Object.keys(storeStateFncs).forEach((funcKey: keyof typeof storeStateFncs) => {
     const func = storeStateFncs[funcKey].bind({ $store: store })
 
     if (funcType) {
@@ -85,5 +84,5 @@ export function useMapFunction<T extends mapHelperType>(
     }
   })
 
-  return { ...storeMap }
+  return { ...(storeMap as T) }
 }

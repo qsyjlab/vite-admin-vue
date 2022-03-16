@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 17:51:53
+ * @LastEditTime: 2022-03-16 21:43:21
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
@@ -35,8 +35,8 @@ import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { AsideMenu, GlobalHeader } from '../components'
 
-const { useMapStateHelper } = useStoreHelper()
-const { layoutConfig } = useMapStateHelper<VStoreRoot.app.appStateHepler>('app', ['layoutConfig'])
+const { useStateHelper } = useStoreHelper()
+const { layoutConfig } = useStateHelper<VStoreRoot.app.appStateHepler>('app', ['layoutConfig'])
 
 const store = useStore()
 
