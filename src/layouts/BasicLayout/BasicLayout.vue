@@ -4,11 +4,11 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 17:01:45
+ * @LastEditTime: 2022-03-16 17:51:53
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
-  <BasicLayout v-bind="layoutAttrs" :aside-width="layoutConfig.isCollapse ? 65 : 220">
+  <BasicLayout v-bind="layoutAttrs">
     <template #aside>
       <div class="layout-aside_wapper">
         <!-- {{ layoutConfig.isCollapse ? 65 : 220 }}
@@ -36,7 +36,7 @@ import { useStore } from 'vuex'
 import { AsideMenu, GlobalHeader } from '../components'
 
 const { useMapStateHelper } = useStoreHelper()
-const { layoutConfig } = useMapStateHelper<VStoreRoot.app.appRootState>('app', ['layoutConfig'])
+const { layoutConfig } = useMapStateHelper<VStoreRoot.app.appStateHepler>('app', ['layoutConfig'])
 
 const store = useStore()
 
@@ -46,7 +46,7 @@ const menuList = computed(() => store.state.route.menuList)
 // layout props
 const layoutAttrs = computed(() => {
   return {
-    asideWidth: layoutConfig.isCollapse ? 60 : 220
+    asideWidth: layoutConfig.value.isCollapse ? 65 : 220
   }
 })
 </script>
