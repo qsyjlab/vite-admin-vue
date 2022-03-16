@@ -4,14 +4,14 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-15 22:12:02
+ * @LastEditTime: 2022-03-16 10:46:08
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
   <BasicLayout>
     <template #aside>
       <div class="layout-aside_wapper">
-        <aside-menu></aside-menu>
+        <aside-menu :menu-list="menuList"></aside-menu>
       </div>
     </template>
     <template #header>
@@ -28,7 +28,14 @@
 
 <script setup lang="ts">
 import { BasicLayout } from '@/layouts/LayoutPackage'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 import { AsideMenu } from '../components'
+
+const store = useStore()
+
+// 获取菜单列表
+const menuList = computed(() => store.state.route.menuList)
 </script>
 
 <style lang="scss" scoped>

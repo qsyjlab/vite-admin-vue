@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 15:32:31
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-15 22:07:57
+ * @LastEditTime: 2022-03-16 11:09:31
  * @FilePath: \vite-admin-vue\src\router\routes\index.ts
  */
 
@@ -13,7 +13,8 @@ import { loadRoutes, defineExposeRoutes } from '@/utils'
 export const routes = defineExposeRoutes([
   {
     path: '/',
-    redirect: { name: 'home' }
+    redirect: { name: 'home' },
+    children: []
   },
   {
     path: '/',

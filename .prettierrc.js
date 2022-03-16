@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:36:12
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-15 16:20:02
+ * @LastEditTime: 2022-03-16 10:17:45
  * @FilePath: \vite-admin-vue\.prettierrc.js
  */
 
@@ -13,7 +13,7 @@ module.exports = {
   singleQuote: true,
   trailingComma: 'none',
   // 行宽度
-  printWidth: 180,
+  printWidth: 130,
   // 缩进宽度 =》editorconfig
   tabWidth: 2,
   useTabs: false,

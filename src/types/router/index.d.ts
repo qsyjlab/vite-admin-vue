@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 15:21:37
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-14 22:21:36
+ * @LastEditTime: 2022-03-16 10:52:22
  * @FilePath: \vite-admin-vue\src\types\router\index.d.ts
  */
 
@@ -29,6 +29,6 @@ declare module 'vue-router' {
   // export interface RouteRecordRaw
 
   export interface RouteMeta extends VRouter.RouteMeta {
-    title?: string
+    title: string
   }
 }

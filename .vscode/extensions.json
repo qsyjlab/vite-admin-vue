@@ -1,6 +1,9 @@
 {
-  "recommendations": ["johnsoncodehk.volar"]
-
+  "recommendations": [
+    "johnsoncodehk.volar",
+    // todo 高亮
+    "wayou.vscode-todo-highlight"
+  ]
   //    // 保存时自动格式化
   //     "[javascript]": {
   //       "editor.defaultFormatter": "esbenp.prettier-vscode", // 格式化时使用 prettier

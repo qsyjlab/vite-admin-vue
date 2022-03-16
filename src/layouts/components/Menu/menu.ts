@@ -4,12 +4,14 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 21:48:13
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-15 22:01:25
+ * @LastEditTime: 2022-03-16 10:50:15
  * @FilePath: \vite-admin-vue\src\layouts\components\Menu\menu.ts
  */
 
+import { RouteMeta } from 'vue-router'
+
 export interface MenuItem {
-  title: string
   name: string
-  children?: MenuItem
+  meta: RouteMeta
+  children?: MenuItem[]
 }
