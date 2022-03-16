@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-14 23:19:14
+ * @LastEditTime: 2022-03-16 16:25:21
  * @FilePath: \vite-admin-vue\vite.config.ts
  */
 import { defineConfig } from 'vite'
@@ -28,6 +28,12 @@ export default defineConfig(() => {
         resolvers: [ElementPlusResolver()]
       }),
       Components({
+        dts: true,
+        // 自动导入路径
+        include: [],
+        dirs: [],
+        // 排除路径
+
         resolvers: [ElementPlusResolver()]
       })
       // 'style-resources-loader': {

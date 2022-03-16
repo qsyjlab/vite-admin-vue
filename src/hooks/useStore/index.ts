@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2021-12-29 14:00:18
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 14:37:45
+ * @LastEditTime: 2022-03-16 16:33:45
  */
 import { useMapFunction } from './storeHooks'
 import type { namespaceType, mapType, mapHelperType } from './storeHooks'
@@ -31,7 +31,7 @@ export type useHelperType = <T extends mapHelperType>(
  * @param states 同state传参方式
  * @returns
  */
-export const useMapStateHelper: useHelperType = (namespace, states) =>
+const useMapStateHelper: useHelperType = (namespace, states) =>
   useMapFunction(namespace, states, mapState)
 
 /**
@@ -40,7 +40,7 @@ export const useMapStateHelper: useHelperType = (namespace, states) =>
  * @param mutations
  * @returns
  */
-export const useMapMutactionsHelper: useHelperType = (namespace, mutations) =>
+const useMapMutactionsHelper: useHelperType = (namespace, mutations) =>
   useMapFunction(namespace, mutations, mapMutations, true)
 
 /**
@@ -49,7 +49,7 @@ export const useMapMutactionsHelper: useHelperType = (namespace, mutations) =>
  * @param actions
  * @returns
  */
-export const useMapActionsHelper: useHelperType = (namespace, actions) =>
+const useMapActionsHelper: useHelperType = (namespace, actions) =>
   useMapFunction(namespace, actions, mapActions, true)
 
 /**
@@ -58,5 +58,14 @@ export const useMapActionsHelper: useHelperType = (namespace, actions) =>
  * @param getters
  * @returns
  */
-export const useMapGettersHelper: useHelperType = (namespace, getters) =>
+const useMapGettersHelper: useHelperType = (namespace, getters) =>
   useMapFunction(namespace, getters, mapGetters)
+
+export default () => {
+  return {
+    useMapStateHelper,
+    useMapMutactionsHelper,
+    useMapActionsHelper,
+    useMapGettersHelper
+  }
+}

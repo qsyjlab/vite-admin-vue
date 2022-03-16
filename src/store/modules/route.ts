@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 22:43:16
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-15 23:15:38
+ * @LastEditTime: 2022-03-16 16:28:17
  * @FilePath: \vite-admin-vue\src\store\modules\route.ts
  */
 import type { Module } from 'vuex'

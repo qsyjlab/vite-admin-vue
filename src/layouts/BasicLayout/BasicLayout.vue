@@ -4,13 +4,15 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 14:19:57
+ * @LastEditTime: 2022-03-16 17:01:45
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
-  <BasicLayout>
+  <BasicLayout v-bind="layoutAttrs" :aside-width="layoutConfig.isCollapse ? 65 : 220">
     <template #aside>
       <div class="layout-aside_wapper">
+        <!-- {{ layoutConfig.isCollapse ? 65 : 220 }}
+        --- {{ layoutAttrs }} --- ---- {{ layoutConfig }}--- -->
         <aside-menu :menu-list="menuList"></aside-menu>
       </div>
     </template>
@@ -27,15 +29,26 @@
 </template>
 
 <script setup lang="ts">
+import { useStoreHelper } from '@/hooks'
 import { BasicLayout } from '@/layouts/LayoutPackage'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { AsideMenu, GlobalHeader } from '../components'
 
+const { useMapStateHelper } = useStoreHelper()
+const { layoutConfig } = useMapStateHelper<VStoreRoot.app.appRootState>('app', ['layoutConfig'])
+
 const store = useStore()
 
 // 获取菜单列表
 const menuList = computed(() => store.state.route.menuList)
+
+// layout props
+const layoutAttrs = computed(() => {
+  return {
+    asideWidth: layoutConfig.isCollapse ? 60 : 220
+  }
+})
 </script>
 
 <style lang="scss" scoped>

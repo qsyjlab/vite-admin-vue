@@ -16,6 +16,7 @@ declare namespace VStoreRoot {
 
   namespace app {
     export type appRootState = import('./moudles/app').appRootStateType
+    export type appMutations = import('./moudles/app').appMutations
   }
 
   namespace route {

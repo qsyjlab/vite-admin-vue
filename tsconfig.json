@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "types": ["node", "element-plus/global"],
+    "types": [
+      "node",
+      "element-plus/global"
+    ],
     "target": "esnext",
     "useDefineForClassFields": true,
     // "noUnusedParameters":false,
@@ -12,10 +15,17 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "paths": {
-      "@/*": ["src/*"],
-      "~/*": ["./*"]
+      "@/*": [
+        "src/*"
+      ],
+      "~/*": [
+        "./*"
+      ]
     }
   },
   "typeRoots": [
@@ -23,7 +33,13 @@
     // 特定全局声明路径
     "src/layouts/LayoutPackage/components/type.d.ts"
   ],
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": [
+    "components.d.ts",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
+  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

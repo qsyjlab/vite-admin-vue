@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-12 17:01:17
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-15 22:59:59
+ * @LastEditTime: 2022-03-16 16:36:36
  * @FilePath: \vite-admin-vue\src\types\store\moudles\app.ts
  */
 
@@ -21,4 +21,8 @@ export interface appRootStateType {
     isCollapse: boolean
     themeColor: string
   }
+}
+
+export interface appMutations {
+  collapseMenu: () => void
 }

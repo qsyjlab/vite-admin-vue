@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 14:21:57
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 14:33:36
+ * @LastEditTime: 2022-03-16 16:40:06
  * @FilePath: \vite-admin-vue\src\layouts\components\header\components\MenuCollapse.vue
 -->
 <template>
@@ -15,11 +15,15 @@
   </hover-card>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useStoreHelper } from '@/hooks'
 
-const isCollapse = ref<boolean>(false)
+const { useMapMutactionsHelper } = useStoreHelper()
+
+const { collapseMenu } = useMapMutactionsHelper<VStoreRoot.app.appMutations>('app', [
+  'collapseMenu'
+])
 
 const folderMenu = () => {
-  isCollapse.value = !isCollapse.value
+  collapseMenu()
 }
 </script>

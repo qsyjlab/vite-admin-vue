@@ -41,14 +41,14 @@ const props = withDefaults(defineProps<Props>(), {
 const style = computed(() => {
   const { zIndex, width, paddingTop, transitionDuration, transitionTimingFunction } = props
 
-  return {
-    zIndex,
-    width: width + 'px',
-    paddingTop
-    // transitionDuration,
-    // transitionTimingFunction
-  }
-  // return `z-index: ${zIndex};width: ${width}px;padding-top: ${paddingTop}px;transition-duration: ${transitionDuration}ms;transition-timing-function: ${transitionTimingFunction};`
+  // return {
+  //   zIndex,
+  //   width: width + 'px',
+  //   paddingTop
+  //   // transitionDuration,
+  //   // transitionTimingFunction
+  // }
+  return `z-index: ${zIndex};width: ${width}px;padding-top: ${paddingTop}px;transition-duration: ${transitionDuration}ms;transition-timing-function: ${transitionTimingFunction};`
 })
 </script>
 
