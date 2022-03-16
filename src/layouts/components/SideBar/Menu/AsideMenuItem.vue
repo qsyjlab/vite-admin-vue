@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 21:53:45
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 11:46:59
+ * @LastEditTime: 2022-03-16 13:10:03
  * @FilePath: \vite-admin-vue\src\layouts\components\Menu\AsideMenuItem.vue
 -->
 <template>
@@ -13,8 +13,6 @@
   </el-menu-item>
   <el-sub-menu v-else :index="menuItem.name">
     <template #title>
-      <!-- <el-icon><location /></el-icon> -->
-
       <span>{{ menuItem.meta.title }}</span>
     </template>
 

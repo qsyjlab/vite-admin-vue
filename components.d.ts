@@ -14,7 +14,9 @@ declare module 'vue' {
     ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    HoverCard: typeof import('./src/components/common/HoverCard/HoverCard.vue')['default']
     Loading: typeof import('element-plus/es')['ElLoadingDirective']
+    Test: typeof import('./src/components/common/Test.vue')['default']
   }
 }
 

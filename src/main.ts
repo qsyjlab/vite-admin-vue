@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-14 14:45:48
+ * @LastEditTime: 2022-03-16 13:56:22
  * @FilePath: \vite-admin-vue\src\main.ts
  */
 import { createApp } from 'vue'
@@ -17,9 +17,14 @@ import setUpPlugins from './plugins'
 import store from './store'
 
 async function setupWebApp() {
+  // 创建实例
   const app = createApp(App)
+
+  // 挂载路由
   await setupRouter(app)
+  // vuex
   app.use(store)
+  // 插件
   app.use(setUpPlugins)
   app.mount('#app')
 }

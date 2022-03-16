@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 10:46:08
+ * @LastEditTime: 2022-03-16 14:19:57
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
@@ -15,7 +15,7 @@
       </div>
     </template>
     <template #header>
-      <div class="layout-header_wapper">测试内容</div>
+      <global-header></global-header>
     </template>
     <div class="layout-main_wapper">
       <router-view></router-view>
@@ -30,7 +30,7 @@
 import { BasicLayout } from '@/layouts/LayoutPackage'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
-import { AsideMenu } from '../components'
+import { AsideMenu, GlobalHeader } from '../components'
 
 const store = useStore()
 
@@ -43,13 +43,6 @@ const menuList = computed(() => store.state.route.menuList)
   height: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   // padding: 10px;
-}
-.layout-header_wapper {
-  height: 100%;
-  box-sizing: border-box;
-  padding: 10px;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
 }
 .layout-main_wapper {
   // z-index: 9999;
