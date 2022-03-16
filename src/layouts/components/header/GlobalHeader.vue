@@ -4,20 +4,21 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 14:17:37
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 14:30:12
+ * @LastEditTime: 2022-03-16 22:36:55
  * @FilePath: \vite-admin-vue\src\layouts\components\header\GlobalHeader.vue
 -->
 <template>
   <div class="layout-header_wapper">
     <div class="layout-header-left">
       <menu-collapse />
+      <Breadcrumb></Breadcrumb>
     </div>
     <div class="layout-header-right"></div>
   </div>
 </template>
 <script setup lang="ts">
 // import MenuCollapse from './components/MenuCollapse.vue'
-import { MenuCollapse } from './components'
+import { MenuCollapse, Breadcrumb } from './components'
 </script>
 <style scoped>
 .layout-header_wapper {
