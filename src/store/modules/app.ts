@@ -94,7 +94,10 @@ const appMoudle: Module<VStoreRoot.app.appRootState, VStoreRoot.rootState> = {
 
       // $storage.set('layoutConfig', state.layoutConfig)
     },
-    addAlive(state, { page, name = 'default', alive }: { page: string; name: string; alive: string }) {
+    addAlive(
+      state,
+      { page, name = 'default', alive }: { page: string; name: string; alive: string }
+    ) {
       if (!state.keepAliveList[page]) {
         state.keepAliveList = {
           ...state.keepAliveList,

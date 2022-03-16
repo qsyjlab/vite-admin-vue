@@ -16,5 +16,15 @@ declare namespace VService {
     OPTIONS = 'options',
     PUT = 'put'
   }
-  export type Method = 'get' | 'GET' | 'delete' | 'DELETE' | 'options' | 'OPTIONS' | 'post' | 'POST' | 'put' | 'PUT'
+  export type Method =
+    | 'get'
+    | 'GET'
+    | 'delete'
+    | 'DELETE'
+    | 'options'
+    | 'OPTIONS'
+    | 'post'
+    | 'POST'
+    | 'put'
+    | 'PUT'
 }

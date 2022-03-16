@@ -31,7 +31,14 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { LayoutConfigProvider, LayoutContainer, LayoutAside, LayoutHeader, LayoutFooter, LayoutMain } from './components'
+import {
+  LayoutConfigProvider,
+  LayoutContainer,
+  LayoutAside,
+  LayoutHeader,
+  LayoutFooter,
+  LayoutMain
+} from './components'
 
 interface Layout {
   asideWidth?: number

@@ -51,7 +51,8 @@ export default defineExposeRoutes([
             meta: {
               title: 'Avatar1'
             },
-            component: () => import(/* webpackChunkName: "Avatar" */ '@/views/system/WelcomeTo.vue'),
+            component: () =>
+              import(/* webpackChunkName: "Avatar" */ '@/views/system/WelcomeTo.vue'),
             children: []
           }
         ]

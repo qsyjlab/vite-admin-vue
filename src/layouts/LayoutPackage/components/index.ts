@@ -15,4 +15,11 @@ import LayoutAside from './LayoutAside.vue'
 import LayoutMain from './LayoutMain.vue'
 import LayoutFooter from './LayoutFooter.vue'
 
-export { LayoutConfigProvider, LayoutAside, LayoutContainer, LayoutHeader, LayoutMain, LayoutFooter }
+export {
+  LayoutConfigProvider,
+  LayoutAside,
+  LayoutContainer,
+  LayoutHeader,
+  LayoutMain,
+  LayoutFooter
+}

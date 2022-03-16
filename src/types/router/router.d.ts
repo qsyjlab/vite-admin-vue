@@ -29,7 +29,9 @@ declare namespace VRouter {
   }
 
   // 路由成员类型
-  export type DefineRoutes = import('vue-router').RouteRecordRaw & { redirect?: import('vue-router').RouteRecordRedirectOption | Record<string, any> } & {
+  export type DefineRoutes = import('vue-router').RouteRecordRaw & {
+    redirect?: import('vue-router').RouteRecordRedirectOption | Record<string, any>
+  } & {
     children: DefineRoutes[]
   }
 }

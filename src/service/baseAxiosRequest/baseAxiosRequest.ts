@@ -21,9 +21,15 @@ class BaseAxios {
   }
 
   setInterceptors(instance: AxiosInstance): void {
-    instance.interceptors.request.use(this.interceptors?.requestInterceptors, this.interceptors?.requestInterceptorsCatch)
+    instance.interceptors.request.use(
+      this.interceptors?.requestInterceptors,
+      this.interceptors?.requestInterceptorsCatch
+    )
     // 添加响应拦截器
-    instance.interceptors.response.use(this.interceptors.responseInterceptors, this.interceptors.responseInterceptorsCatch)
+    instance.interceptors.response.use(
+      this.interceptors.responseInterceptors,
+      this.interceptors.responseInterceptorsCatch
+    )
   }
 
   request<T = any>(options: CustomRequestConfig = {}): Promise<T> {

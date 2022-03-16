@@ -38,7 +38,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const style = computed(() => {
-  const { paddingTop, paddingBottom, paddingLeft, transitionDuration, transitionTimingFunction } = props
+  const { paddingTop, paddingBottom, paddingLeft, transitionDuration, transitionTimingFunction } =
+    props
   return `padding-top: ${paddingTop}px;padding-bottom: ${paddingBottom}px;padding-left: ${paddingLeft}px;transition-duration: ${transitionDuration}ms;transition-timing-function: ${transitionTimingFunction};`
 })
 </script>

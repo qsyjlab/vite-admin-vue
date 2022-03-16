@@ -45,7 +45,10 @@ export function defineExposeRoutes(routes: VRouter.DefineRoutes[]): VRouter.Defi
  * @param { VRouter.DefineRoutes[] } treeMap 默认值
  * @returns { VRouter.DefineRoutes[] }
  */
-export function transformRouteToList(routes: VRouter.DefineRoutes[], treeMap: VRouter.DefineRoutes[] = []) {
+export function transformRouteToList(
+  routes: VRouter.DefineRoutes[],
+  treeMap: VRouter.DefineRoutes[] = []
+) {
   if (routes && routes.length === 0) return []
 
   // let arr = []

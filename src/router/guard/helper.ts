@@ -10,6 +10,10 @@
 
 import type { RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
 
-export function handlePermissionRouter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
+export function handlePermissionRouter(
+  to: RouteLocationNormalized,
+  from: RouteLocationNormalized,
+  next: NavigationGuardNext
+) {
   return next()
 }
