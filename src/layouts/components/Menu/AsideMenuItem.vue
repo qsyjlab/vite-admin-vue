@@ -4,13 +4,11 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 21:53:45
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 11:17:32
+ * @LastEditTime: 2022-03-16 11:46:59
  * @FilePath: \vite-admin-vue\src\layouts\components\Menu\AsideMenuItem.vue
 -->
 <template>
   <el-menu-item v-if="!menuItem.children?.length" :index="menuItem.name">
-    <!-- <el-icon><setting /></el-icon> -->
-
     <span>{{ menuItem.meta.title }}</span>
   </el-menu-item>
   <el-sub-menu v-else :index="menuItem.name">
@@ -33,8 +31,6 @@
 </template>
 <script setup lang="ts">
 import type { MenuItem } from './menu'
-
-// import AsideMenuItem from './AsideMenuItem.vue'
 
 interface AsideMenuItemType {
   menuItem: MenuItem | never
