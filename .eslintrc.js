@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:36:51
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-15 16:22:38
+ * @LastEditTime: 2022-03-17 15:25:11
  * @FilePath: \vite-admin-vue\.eslintrc.js
  */
 module.exports = {
@@ -40,6 +40,8 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-var-requires': 0,
     // 'vue/html-self-closing': 'off',
+    // 多单词关闭
+    'vue/multi-word-component-names': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/no-explicit-any': ['off'],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',

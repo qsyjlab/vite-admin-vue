@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 11:12:36
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 11:24:32
+ * @LastEditTime: 2022-03-17 16:46:59
  * @FilePath: \vite-admin-vue\src\layouts\components\header\components\UserMenu\UserMenu.vue
 -->
 
@@ -17,10 +17,18 @@
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item>个人首页</el-dropdown-item>
-        <el-dropdown-item>退出登录</el-dropdown-item>
+        <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useRouter } from 'vue-router'
+
+const rotuer = useRouter()
+
+const logout = () => {
+  rotuer.push({ name: 'Login' })
+}
+</script>
 <style scoped></style>
