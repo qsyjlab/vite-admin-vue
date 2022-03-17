@@ -1,10 +1,10 @@
 <!--
- * @Description:
+ * @Description: 面包屑导航
  * @Version: 1.0.0
  * @Autor: qsyj
  * @Date: 2021-12-30 14:08:56
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 22:36:08
+ * @LastEditTime: 2022-03-16 22:38:47
 -->
 <template>
   <el-breadcrumb :separator="'/'">

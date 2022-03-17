@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 15:02:43
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 10:19:57
+ * @LastEditTime: 2022-03-17 10:38:11
  * @FilePath: \vite-admin-vue\src\router\guard\index.ts
  */
 
@@ -24,8 +24,8 @@ export function createRouterGuard(router: Router) {
 
     // console.log('to', to
     await store.commit('route/initRoutes', to.matched[0].children)
-    await handlePermissionRouter(to, from, next)
-    // next()
+    // await handlePermissionRouter(to, from, next)
+    next()
   })
 
   router.afterEach((to, from, failure) => {
