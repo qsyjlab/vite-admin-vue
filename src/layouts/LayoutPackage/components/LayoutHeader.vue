@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 11:14:56
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-15 14:44:23
+ * @LastEditTime: 2022-03-17 11:20:47
  * @FilePath: \vite-admin-vue\src\layouts\LayoutPackage\components\LayoutHeader.vue
 -->
 <template>
@@ -54,7 +54,7 @@ const style = computed(() => {
     transitionTimingFunction
   } = props
   const position = fixed ? 'fixed' : 'static'
-  return `position: ${position};z-index: ${zIndex};min-width: ${minWidth}px;height: ${height}px;padding-left: ${paddingLeft}px;transition-duration: ${transitionDuration}ms;transition-timing-function: ${transitionTimingFunction};`
+  return `position: ${position};z-index: ${zIndex};height: ${height}px;padding-left: ${paddingLeft}px;transition-duration: ${transitionDuration}ms;transition-timing-function: ${transitionTimingFunction};box-sizing: border-box;`
 })
 </script>
 
