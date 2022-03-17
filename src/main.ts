@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 13:56:22
+ * @LastEditTime: 2022-03-17 14:56:43
  * @FilePath: \vite-admin-vue\src\main.ts
  */
 import { createApp } from 'vue'

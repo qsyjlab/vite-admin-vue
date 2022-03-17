@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-15 21:31:02
+ * @LastEditTime: 2022-03-17 14:27:23
  * @FilePath: \vite-admin-vue\src\env.d.ts
  */
 /// <reference types="vite/client" />
@@ -20,6 +20,9 @@ interface ImportMetaEnv {
   readonly VITE_APP_DESC: string
   /** 当前模式 */
   readonly VITE_MODE: string
+  readonly VITE_APP_BASE_URL: {
+    API: string
+  }
 }
 
 interface ImportMeta {

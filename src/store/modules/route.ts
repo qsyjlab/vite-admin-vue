@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 22:43:16
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 16:28:17
+ * @LastEditTime: 2022-03-17 14:51:15
  * @FilePath: \vite-admin-vue\src\store\modules\route.ts
  */
 import type { Module } from 'vuex'
@@ -23,8 +23,6 @@ const routeModule: Module<VStoreRoot.route.routeRootState, VStoreRoot.rootState>
     // 初始化路由菜单
     initRoutes(state, routes) {
       state.menuList = transformRouteToList(routes, [])
-
-      console.log('state.menuList', state.menuList)
     }
   }
 }
