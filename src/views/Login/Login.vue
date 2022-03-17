@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 15:16:22
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 16:21:24
+ * @LastEditTime: 2022-03-17 22:11:09
  * @FilePath: \vite-admin-vue\src\views\Login\Login.vue
 -->
 <template>
@@ -67,6 +67,7 @@ const loginAdmin = () => {
   background-color: #f0f2f5;
 }
 .login-layout-body {
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   background-color: white;
   border-radius: 10px;
