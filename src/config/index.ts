@@ -4,11 +4,13 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 11:33:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 14:50:48
+ * @LastEditTime: 2022-03-18 14:12:44
  * @FilePath: \vite-admin-vue\src\config\index.ts
  */
 
 import { isReadonly } from '@/utils'
+
+import { StorageKeys } from '@/enum'
 
 interface readOnlyConfig {
   storage: {
@@ -28,7 +30,7 @@ interface readOnlyConfig {
 
 const config = isReadonly<readOnlyConfig>({
   storage: {
-    prefix: 'basic_',
+    prefix: 'BASIC_',
     expires: 7 * 24 * 3600
   },
   axios: {

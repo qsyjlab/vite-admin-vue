@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 11:12:36
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 16:46:59
+ * @LastEditTime: 2022-03-18 15:18:31
  * @FilePath: \vite-admin-vue\src\layouts\components\header\components\UserMenu\UserMenu.vue
 -->
 
@@ -23,12 +23,14 @@
   </el-dropdown>
 </template>
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
+import { useStoreHelper } from '@/hooks'
 
-const rotuer = useRouter()
+const { useActionsHelper } = useStoreHelper()
+
+const { loginOutSystem } = useActionsHelper<VStoreRoot.user.userActions>('user', ['loginOutSystem'])
 
 const logout = () => {
-  rotuer.push({ name: 'Login' })
+  loginOutSystem()
 }
 </script>
 <style scoped></style>

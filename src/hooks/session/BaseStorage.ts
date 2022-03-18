@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2021-12-27 13:39:36
  * @LastEditors: qsyj
- * @LastEditTime: 2021-12-31 15:52:35
+ * @LastEditTime: 2022-03-18 14:37:11
  */
 type baseLocalStorageType = Storage
 
@@ -18,10 +18,7 @@ export default class BaseStorage {
    * @param {*} Storage 缓存对象
    * @param {*} prefix 前缀
    */
-  constructor(
-    storage: baseLocalStorageType = window.localStorage,
-    prefix: string
-  ) {
+  constructor(storage: baseLocalStorageType = window.localStorage, prefix: string) {
     this.localStorage = storage
     this.prefix = prefix ? prefix : ''
   }
@@ -35,7 +32,7 @@ export default class BaseStorage {
    * @param {*} key 缓存key
    * @returns json 对象
    */
-  get(key: string): any {
+  get<T>(key: string): T | null {
     const value = this.localStorage.getItem(this.jointKey(key))
     if (!value) return null
     return JSON.parse(value)

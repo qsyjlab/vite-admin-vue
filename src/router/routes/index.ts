@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 15:32:31
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 15:49:11
+ * @LastEditTime: 2022-03-18 13:47:52
  * @FilePath: \vite-admin-vue\src\router\routes\index.ts
  */
 
@@ -33,7 +33,7 @@ export const routes = defineExposeRoutes([
   },
   {
     path: '/',
-    name: 'home',
+    name: 'Home',
     redirect: { name: 'Welcome' },
     meta: {
       title: '主系统',

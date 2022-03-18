@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 15:02:43
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 15:49:35
+ * @LastEditTime: 2022-03-18 15:26:24
  * @FilePath: \vite-admin-vue\src\router\guard\index.ts
  */
 
@@ -15,15 +15,10 @@ import { handlePermissionRouter } from './helper'
 import store from '@/store'
 
 export function createRouterGuard(router: Router) {
-  // const store = useStore()
-
   router.beforeEach(async (to, from, next) => {
-    // console.log(store)
-
-    // console.log('to', to)
-
-    // await store.commit('route/initRoutes', to.matched[0]?.children || [])
-    // await handlePermissionRouter(to, from, next)
+    if (!store.state.route.isFristEntry) {
+      await store.commit('route/initRoutes', to.matched[0]?.children || [])
+    }
     next()
   })
 

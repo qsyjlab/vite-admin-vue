@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 15:16:22
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 22:11:09
+ * @LastEditTime: 2022-03-18 14:57:55
  * @FilePath: \vite-admin-vue\src\views\Login\Login.vue
 -->
 <template>
@@ -44,7 +44,10 @@
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
-const router = useRouter()
+import { useStoreHelper } from '@/hooks'
+const { useActionsHelper } = useStoreHelper()
+
+const { loginSystem } = useActionsHelper<VStoreRoot.user.userMutations>('user', ['loginSystem'])
 
 const loginForm = reactive({
   username: '',
@@ -52,7 +55,7 @@ const loginForm = reactive({
 })
 
 const loginAdmin = () => {
-  router.push({ path: '/' })
+  loginSystem(loginForm)
 }
 </script>
 

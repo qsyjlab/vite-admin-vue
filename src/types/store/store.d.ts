@@ -4,11 +4,15 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 22:57:39
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 17:55:12
+ * @LastEditTime: 2022-03-18 15:25:16
  * @FilePath: \vite-admin-vue\src\types\store\store.d.ts
  */
 declare namespace VStoreRoot {
-  type rootState = Record<string, never>
+  type rootState = {
+    route: route.routeRootState
+    app: app.appRootState
+    user: user.userRootState
+  }
 
   type mapState<T> = {
     [P in keyof T]: import('vue').ComputedRef<T[P]>
@@ -28,5 +32,11 @@ declare namespace VStoreRoot {
 
   namespace route {
     export type routeRootState = import('./moudles/route').appRootStateType
+  }
+
+  namespace user {
+    export type userRootState = import('./moudles/user').userRootStateType
+
+    export type userActions = import('./moudles/user').userActions
   }
 }

@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 16:01:22
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 09:10:04
+ * @LastEditTime: 2022-03-18 14:22:08
  * @FilePath: \vite-admin-vue\src\utils\router\helpers.ts
  */
 
@@ -55,7 +55,7 @@ export function transformRouteToList(
   return routes.reduce((acc, cur) => {
     acc.push({
       ...cur,
-      children: transformRouteToList(cur.children, [])
+      children: transformRouteToList(cur.children as VRouter.DefineRoutes[], [])
     })
     return acc
   }, treeMap)
