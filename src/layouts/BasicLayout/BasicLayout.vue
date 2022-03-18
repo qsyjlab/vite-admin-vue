@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 21:43:21
+ * @LastEditTime: 2022-03-18 16:14:03
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
@@ -26,6 +26,9 @@
       <div class="layout-footer_wapper">侧边栏</div>
     </template>
   </BasicLayout>
+
+  <!-- 设置 -->
+  <global-setting></global-setting>
 </template>
 
 <script setup lang="ts">
@@ -33,7 +36,7 @@ import { useStoreHelper } from '@/hooks'
 import { BasicLayout } from '@/layouts/LayoutPackage'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
-import { AsideMenu, GlobalHeader } from '../components'
+import { AsideMenu, GlobalHeader, GlobalSetting } from '../components'
 
 const { useStateHelper } = useStoreHelper()
 const { layoutConfig } = useStateHelper<VStoreRoot.app.appStateHepler>('app', ['layoutConfig'])

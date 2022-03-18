@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 22:09:49
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 13:56:20
+ * @LastEditTime: 2022-03-18 16:53:39
  * @FilePath: \vite-admin-vue\src\views\system\WelcomeTo.vue
 -->
 
@@ -13,6 +13,8 @@
     <template #header>
       {{ $route.meta.title }}
     </template>
+
+    <el-button type="primary">asdas</el-button>
   </el-card>
 </template>
 <script setup lang="ts"></script>

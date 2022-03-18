@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 22:57:39
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-18 15:25:16
+ * @LastEditTime: 2022-03-18 15:44:08
  * @FilePath: \vite-admin-vue\src\types\store\store.d.ts
  */
 declare namespace VStoreRoot {

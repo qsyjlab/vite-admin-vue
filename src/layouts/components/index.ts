@@ -4,11 +4,12 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 21:57:01
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 14:19:24
+ * @LastEditTime: 2022-03-18 16:48:59
  * @FilePath: \vite-admin-vue\src\layouts\components\index.ts
  */
 
 import { AsideMenu } from './SideBar/Menu'
 import GlobalHeader from './header/GlobalHeader.vue'
+import GlobalSetting from './setting/SettingDraver.vue'
 
-export { AsideMenu, GlobalHeader }
+export { AsideMenu, GlobalHeader, GlobalSetting }
