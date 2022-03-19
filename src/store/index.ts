@@ -4,11 +4,14 @@
  * @Autor: qsyj
  * @Date: 2022-03-12 16:58:20
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-14 16:05:08
+ * @LastEditTime: 2022-03-19 23:01:30
  * @FilePath: \vite-admin-vue\src\store\index.ts
  */
-import { createStore } from 'vuex'
+import { createStore, useStore as useBaseStore } from 'vuex'
+import type { Store } from 'vuex'
+import type { InjectionKey } from 'vue'
 
+// 读取 module文件
 const files = import.meta.globEager('./modules/*')
 
 const modules: VStoreRoot.rootMoudles = {}
@@ -19,9 +22,16 @@ Object.keys(files).forEach(file => {
   modules[key] = files[file].default
 })
 
+// 唯一 key值
+export const storeSymbolkey: InjectionKey<Store<VStoreRoot.rootState>> = Symbol()
+
 export default createStore<VStoreRoot.rootState>({
-  state: {},
   mutations: {},
   actions: {},
   modules
 })
+
+/** 重写 useStore 方法 适配多模块类型 */
+export const useStore = () => {
+  return useBaseStore(storeSymbolkey)
+}

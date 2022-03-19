@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 16:25:21
+ * @LastEditTime: 2022-03-19 22:41:50
  * @FilePath: \vite-admin-vue\vite.config.ts
  */
 import { defineConfig } from 'vite'
@@ -22,6 +22,20 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 // https://vitejs.dev/config/
 export default defineConfig(() => {
   return {
+    // // 打包后文件分离 文件分离
+    // build: {
+    //   rollupOptions: {
+    //     output: {
+    //       // entryFileNames: '/js/[name]-[hash].[ext]',
+    //       // chunkFileNames: '/js/[name]-[hash].[ext]',
+    //       // assetFileNames: '/assets/[ext]/[name]-[hash].[ext]'
+
+    //       chunkFileNames: 'static/js/[name]-[hash].js',
+    //       entryFileNames: 'static/js/[name]-[hash].js',
+    //       assetFileNames: 'static/[ext]/[name]-[hash].[ext]'
+    //     }
+    //   }
+    // },
     plugins: [
       vue(),
       AutoImport({

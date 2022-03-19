@@ -4,11 +4,10 @@
  * @Autor: qsyj
  * @Date: 2021-12-29 13:20:02
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 22:17:25
+ * @LastEditTime: 2022-03-19 23:03:57
  */
 import { computed } from 'vue'
-import type { ComputedRef } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '@/store'
 // import type { mapState } from 'vuex'
 
 export type Namespace = string

@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 15:02:43
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-18 15:26:24
+ * @LastEditTime: 2022-03-19 15:15:48
  * @FilePath: \vite-admin-vue\src\router\guard\index.ts
  */
 
@@ -16,7 +16,7 @@ import store from '@/store'
 
 export function createRouterGuard(router: Router) {
   router.beforeEach(async (to, from, next) => {
-    if (!store.state.route.isFristEntry) {
+    if (!store.state?.route?.isFristEntry) {
       await store.commit('route/initRoutes', to.matched[0]?.children || [])
     }
     next()
