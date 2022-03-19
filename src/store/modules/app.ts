@@ -4,13 +4,13 @@
  * @Autor: qsyj
  * @Date: 2021-12-29 10:51:21
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-18 18:00:31
+ * @LastEditTime: 2022-03-18 22:19:17
  */
 // import { storage } from '@plugins/methods'
 
 import type { Module } from 'vuex'
 
-import { getThemeCluster } from '@/utils'
+import { getThemeCluster, updateElementStyle } from '@/utils'
 
 const appMoudle: Module<VStoreRoot.app.appRootState, VStoreRoot.rootState> = {
   namespaced: true,
@@ -39,22 +39,6 @@ const appMoudle: Module<VStoreRoot.app.appRootState, VStoreRoot.rootState> = {
     // 设置
     setLayoutConfig(state, val) {
       state.layoutConfig = { ...state.layoutConfig, ...val }
-
-      const updateElementStyle = (colorList: string[]): void => {
-        // document.documentElement is global
-        const el = document.documentElement
-        // set css var
-        el.style.setProperty('--el-color-primary', colorList[0])
-        el.style.setProperty('--el-button-bg-color', colorList[0])
-        el.style.setProperty('--el-button-active-bg-color', colorList[10])
-        el.style.setProperty('--el-button-active-border-color', colorList[10])
-        el.style.setProperty('--el-color-primary-dark-2', colorList[1])
-        el.style.setProperty('--el-color-primary-dark-1', colorList[1])
-
-        for (let index = 1; index <= 9; index++) {
-          el.style.setProperty(`--el-color-primary-light-${index}`, colorList[index])
-        }
-      }
       updateElementStyle(getThemeCluster(state.layoutConfig.themeColor))
     },
     addAlive(
