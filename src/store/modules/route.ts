@@ -10,6 +10,7 @@
 import type { Module } from 'vuex'
 
 import { transformRouteToList } from '@/utils'
+import { MenuItem } from '@/types/store/moudles/route'
 
 const routeModule: Module<VStoreRoot.route.routeRootState, VStoreRoot.rootState> = {
   namespaced: true,
@@ -22,7 +23,7 @@ const routeModule: Module<VStoreRoot.route.routeRootState, VStoreRoot.rootState>
   mutations: {
     // 初始化路由菜单
     initRoutes(state, routes) {
-      state.menuList = transformRouteToList(routes, [])
+      state.menuList = transformRouteToList<MenuItem>(routes, [])
       state.isFristEntry = true
     }
   }

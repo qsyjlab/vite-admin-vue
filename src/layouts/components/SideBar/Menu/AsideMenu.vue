@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 21:41:33
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 10:35:29
+ * @LastEditTime: 2022-03-19 23:31:21
  * @FilePath: \vite-admin-vue\src\layouts\components\SideBar\Menu\AsideMenu.vue
 -->
 <template>
@@ -15,9 +15,9 @@
   </el-menu>
 </template>
 <script setup lang="ts">
-import { MenuItem } from './menu'
 import AsideMenuItem from './AsideMenuItem.vue'
 import { useStoreHelper } from '@/hooks'
+import type { MenuItem } from '@/types/store/moudles/route'
 
 interface AsideMenu {
   menuList: MenuItem[] | never[]

@@ -4,11 +4,19 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 22:46:48
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-15 23:00:45
+ * @LastEditTime: 2022-03-19 23:36:55
  * @FilePath: \vite-admin-vue\src\types\store\moudles\route.ts
  */
 
+import { RouteMeta } from 'vue-router'
+
+export interface MenuItem {
+  name: string
+  meta: RouteMeta
+  children?: MenuItem[]
+}
+
 export interface appRootStateType {
-  menuList: VRouter.DefineRoutes[] | never[]
+  menuList: MenuItem[]
   isFristEntry: boolean
 }

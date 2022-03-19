@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-18 16:14:03
+ * @LastEditTime: 2022-03-19 23:24:24
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
@@ -35,7 +35,7 @@
 import { useStoreHelper } from '@/hooks'
 import { BasicLayout } from '@/layouts/LayoutPackage'
 import { computed } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '@/store'
 import { AsideMenu, GlobalHeader, GlobalSetting } from '../components'
 
 const { useStateHelper } = useStoreHelper()
@@ -43,8 +43,12 @@ const { layoutConfig } = useStateHelper<VStoreRoot.app.appStateHepler>('app', ['
 
 const store = useStore()
 
+console.log('store', store.state.route.menuList)
+
 // 获取菜单列表
 const menuList = computed(() => store.state.route.menuList)
+
+console.log("menuList'", menuList.value)
 
 // layout props
 const layoutAttrs = computed(() => {

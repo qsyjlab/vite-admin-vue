@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2021-12-30 14:08:56
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-18 16:28:12
+ * @LastEditTime: 2022-03-19 23:33:36
 -->
 <template>
   <div>
@@ -16,7 +16,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useStore } from 'vuex'
+import { useStore } from '@/store'
 import { reactive, toRefs } from 'vue'
 
 const store = useStore()

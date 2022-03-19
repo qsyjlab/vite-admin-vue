@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 22:39:55
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 15:29:31
+ * @LastEditTime: 2022-03-19 23:42:11
  * @FilePath: \vite-admin-vue\src\types\router\router.d.ts
  */
 /// <reference types="vue-router" />
@@ -13,7 +13,7 @@ declare namespace VRouter {
   // router meta
   export interface RouteMeta {
     // 路由标题
-    title: string
+    title?: string
     // 是否验证权限
     isAuth?: boolean
     // 是否缓存
@@ -33,5 +33,5 @@ declare namespace VRouter {
     redirect?: Record<string, any>
   } & {
     children?: DefineRoutes[]
-  }
+  } & { meta?: import('vue-router').RouteMeta }
 }

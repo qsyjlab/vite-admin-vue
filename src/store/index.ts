@@ -4,10 +4,10 @@
  * @Autor: qsyj
  * @Date: 2022-03-12 16:58:20
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-19 23:01:30
+ * @LastEditTime: 2022-03-19 23:15:03
  * @FilePath: \vite-admin-vue\src\store\index.ts
  */
-import { createStore, useStore as useBaseStore } from 'vuex'
+import { createStore, useStore as useBaseStore, createLogger } from 'vuex'
 import type { Store } from 'vuex'
 import type { InjectionKey } from 'vue'
 
@@ -23,7 +23,7 @@ Object.keys(files).forEach(file => {
 })
 
 // 唯一 key值
-export const storeSymbolkey: InjectionKey<Store<VStoreRoot.rootState>> = Symbol()
+export const storeSymbolkey: InjectionKey<Store<VStoreRoot.rootState>> = Symbol('vuex store')
 
 export default createStore<VStoreRoot.rootState>({
   mutations: {},

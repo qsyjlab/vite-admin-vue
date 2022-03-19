@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 16:01:22
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-18 14:22:08
+ * @LastEditTime: 2022-03-19 23:37:02
  * @FilePath: \vite-admin-vue\src\utils\router\helpers.ts
  */
 
@@ -45,17 +45,17 @@ export function defineExposeRoutes(routes: VRouter.DefineRoutes[]): VRouter.Defi
  * @param { VRouter.DefineRoutes[] } treeMap 默认值
  * @returns { VRouter.DefineRoutes[] }
  */
-export function transformRouteToList(
-  routes: VRouter.DefineRoutes[],
-  treeMap: VRouter.DefineRoutes[] = []
-) {
-  if (routes && routes.length === 0) return []
+export function transformRouteToList<T extends { children?: T[] }>(
+  routes: T[],
+  treeMap: T[] = []
+): T[] {
+  if (routes && routes?.length === 0) return []
 
   // let arr = []
   return routes.reduce((acc, cur) => {
     acc.push({
       ...cur,
-      children: transformRouteToList(cur.children as VRouter.DefineRoutes[], [])
+      children: transformRouteToList(cur?.children as T[], [])
     })
     return acc
   }, treeMap)
