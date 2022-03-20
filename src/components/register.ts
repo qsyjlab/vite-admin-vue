@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 13:45:46
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 14:50:24
+ * @LastEditTime: 2022-03-20 12:23:46
  * @FilePath: \vite-admin-vue\src\components\register.ts
  */
 import type { App } from 'vue'
