@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-20 11:58:52
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-20 21:54:17
+ * @LastEditTime: 2022-03-20 22:38:03
  * @FilePath: \vite-admin-vue\src\views\system\components\Form.vue
 -->
 
@@ -34,6 +34,23 @@ const form = defineFormFields([
     label: 'input',
     key: 'QsSelect',
     tag: 'qs-select',
+    attrs: {
+      options: [
+        {
+          label: '选项1',
+          value: 1
+        },
+        {
+          label: '选项2',
+          value: 2
+        }
+      ]
+    }
+  },
+  {
+    label: 'QsCheckboxGroup',
+    key: 'QsCheckboxGroup',
+    tag: 'QsCheckboxGroup',
     attrs: {
       options: [
         {
