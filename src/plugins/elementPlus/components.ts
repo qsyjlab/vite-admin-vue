@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:13:26
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-20 20:17:56
+ * @LastEditTime: 2022-03-20 21:18:01
  * @FilePath: \vite-admin-vue\src\plugins\elementPlus\components.ts
  */
 
@@ -24,5 +24,6 @@ export {
   ElInput,
   ElMenu,
   ElMenuItem,
-  ElSubMenu
+  ElSubMenu,
+  ElSelect
 } from 'element-plus'

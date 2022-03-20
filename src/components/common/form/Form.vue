@@ -8,6 +8,7 @@
       :rules="rules"
       :size="size"
       v-bind="{ ...$attrs }"
+      :label-width="labelWidth"
     >
       <ElFormItem v-for="item in form" :key="item.key" :label="item?.label" :prop="item.key">
         <!-- 默认情况下 -->

@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-01-12 09:54:13
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-20 14:52:37
+ * @LastEditTime: 2022-03-20 21:57:28
  */
 
 import type { Component, Prop, PropType } from 'vue'
@@ -95,6 +95,10 @@ export const buildProps = {
   cancelButton: {
     type: Boolean,
     default: true
+  },
+  labelWidth: {
+    type: [String, Number],
+    default: '150px'
   }
 }
 

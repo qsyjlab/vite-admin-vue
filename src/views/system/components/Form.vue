@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-20 11:58:52
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-20 20:48:58
+ * @LastEditTime: 2022-03-20 21:54:17
  * @FilePath: \vite-admin-vue\src\views\system\components\Form.vue
 -->
 
@@ -16,6 +16,8 @@
 
     <el-card shadow="never">
       <template #header> form </template>
+
+      <qs-form :form="form"></qs-form>
     </el-card>
   </el-card>
 </template>
@@ -24,9 +26,26 @@ import { defineFormFields } from '@/components/utils'
 
 const form = defineFormFields([
   {
-    label: 'test',
-    key: 'test',
+    label: 'ElInput',
+    key: 'input',
     tag: 'el-input'
+  },
+  {
+    label: 'input',
+    key: 'QsSelect',
+    tag: 'qs-select',
+    attrs: {
+      options: [
+        {
+          label: '选项1',
+          value: 1
+        },
+        {
+          label: '选项2',
+          value: 2
+        }
+      ]
+    }
   }
 ])
 
