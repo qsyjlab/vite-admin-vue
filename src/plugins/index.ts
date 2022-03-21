@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:11:35
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 16:27:11
+ * @LastEditTime: 2022-03-21 17:33:27
  * @FilePath: \vite-admin-vue\src\plugins\index.ts
  */
 import type { App } from 'vue'

@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 10:14:20
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 16:01:48
+ * @LastEditTime: 2022-03-21 22:13:29
  * @FilePath: \vite-admin-vue\src\router\guard\helper.ts
  */
 
@@ -30,7 +30,7 @@ export async function handlePermissionRouter(
 
   if (!isLogin) return next({ name: 'Login' })
 
-  const auth = to.matched?.slice(1)?.every(r => hasAuth(r.name?.toString()))
+  const auth = to.matched?.slice(1)?.every(r => r.meta.isNotAuth || hasAuth(r.name?.toString()))
 
   if (!auth) return next({ name: 'Error403' })
 

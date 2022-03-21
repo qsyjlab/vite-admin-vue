@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 22:39:55
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-19 23:42:11
+ * @LastEditTime: 2022-03-21 22:11:00
  * @FilePath: \vite-admin-vue\src\types\router\router.d.ts
  */
 /// <reference types="vue-router" />
@@ -15,7 +15,7 @@ declare namespace VRouter {
     // 路由标题
     title?: string
     // 是否验证权限
-    isAuth?: boolean
+    isNotAuth?: boolean
     // 是否缓存
     isKeepAlive?: boolean
     // 图标
