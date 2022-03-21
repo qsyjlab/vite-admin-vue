@@ -4,15 +4,17 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:11:35
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-20 20:20:12
+ * @LastEditTime: 2022-03-21 13:12:25
  * @FilePath: \vite-admin-vue\src\plugins\index.ts
  */
 import type { App } from 'vue'
 import setupElementPlus from './elementPlus'
 import setupElIcon from './elementPlusIcon'
 import { registerGlobalComponent } from '@/components/register'
+import setUpDayJs from './dayJs'
 
 export default (app: App) => {
+  setUpDayJs()
   setupElIcon(app)
   setupElementPlus(app)
 

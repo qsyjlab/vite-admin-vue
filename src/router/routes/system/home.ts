@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 22:05:48
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-15 22:25:41
+ * @LastEditTime: 2022-03-21 13:22:25
  * @FilePath: \vite-admin-vue\src\router\routes\system\home.ts
  */
 
@@ -15,7 +15,8 @@ export default defineExposeRoutes([
     path: '/welcome',
     name: 'Welcome',
     meta: {
-      title: 'Welcome'
+      title: 'Welcome',
+      sort: 1
     },
     component: () => import(/* webpackChunkName: "Welcome" */ '@/views/system/WelcomeTo.vue'),
     children: []
@@ -24,7 +25,8 @@ export default defineExposeRoutes([
     path: '/dashboard',
     name: 'Dashboard',
     meta: {
-      title: 'Dashboard'
+      title: 'Dashboard',
+      sort: 2
     },
     component: () => import(/* webpackChunkName: "Welcome" */ '@/views/system/WelcomeTo.vue'),
     children: []

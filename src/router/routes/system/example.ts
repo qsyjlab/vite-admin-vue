@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 22:14:21
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 11:18:20
+ * @LastEditTime: 2022-03-21 13:23:01
  * @FilePath: \vite-admin-vue\src\router\routes\system\example.ts
  */
 
@@ -15,7 +15,8 @@ export default defineExposeRoutes([
     path: '/card',
     name: 'Card',
     meta: {
-      title: 'Card'
+      title: 'Card',
+      sort: 5
     },
     component: () => import(/* webpackChunkName: "Card" */ '@/views/system/WelcomeTo.vue'),
     children: [
