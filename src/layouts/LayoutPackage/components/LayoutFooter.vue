@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 11:02:35
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 11:21:53
+ * @LastEditTime: 2022-03-21 22:52:49
  * @FilePath: \vite-admin-vue\src\layouts\LayoutPackage\components\LayoutFooter.vue
 -->
 
@@ -55,12 +55,16 @@ const style = computed(() => {
     transitionTimingFunction
   } = props
   const position = fixed ? 'fixed' : 'static'
-  return `z-index: ${zIndex};;height: ${height}px;padding-left: ${paddingLeft}px;transition-duration: ${transitionDuration}ms;transition-timing-function: ${transitionTimingFunction};box-sizing: border-box;`
+  return ` z-index: ${zIndex};;height: ${height}px;padding-left: ${paddingLeft}px;transition-duration: ${transitionDuration}ms;transition-timing-function: ${transitionTimingFunction};box-sizing: border-box;`
 })
 </script>
 
 <style scoped>
 .layout-footer {
   box-sizing: border-box;
+  flex: 0;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding: 20px 0;
 }
 </style>

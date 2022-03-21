@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 11:00:10
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 17:06:54
+ * @LastEditTime: 2022-03-21 22:52:14
  * @FilePath: \vite-admin-vue\src\layouts\LayoutPackage\components\LayoutMain.vue
 -->
 <template>
@@ -46,7 +46,8 @@ const style = computed(() => {
 
 <style scoped>
 .layout-main {
-  flex-grow: 1;
+  /* flex-grow: 1; */
+  flex: 1;
   width: 100%;
   transition-property: padding-left;
   box-sizing: border-box;

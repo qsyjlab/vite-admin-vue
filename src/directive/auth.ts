@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-21 16:15:34
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 17:26:54
+ * @LastEditTime: 2022-03-21 23:15:57
  * @FilePath: \vite-admin-vue\src\directive\auth.ts
  */
 
@@ -17,7 +17,7 @@ import store from '@/store'
 export const hasAuthDirective: Directive<HTMLElement, string> = {
   // beforeMount(el, binding, vnode, prevVnode) {},
   // 指令绑定元素挂载后
-  mounted(el, binding, vnode) {
+  mounted(el, binding) {
     if (!store.state.user.permissions.includes(binding.value)) el.parentNode?.removeChild(el)
   }
 }
@@ -26,9 +26,8 @@ export const hasAuthDirective: Directive<HTMLElement, string> = {
  * 是否角色
  */
 export const hasRoleDirective: Directive<HTMLElement, string> = {
-  // beforeMount(el, binding, vnode, prevVnode) {},
   // 指令绑定元素挂载后
-  mounted(el, binding, vnode) {
+  mounted(el, binding) {
     if (!(store.state.user.userInfo.userRole === binding.value)) el.parentNode?.removeChild(el)
   }
 }

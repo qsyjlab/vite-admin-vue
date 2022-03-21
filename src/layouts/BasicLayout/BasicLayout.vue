@@ -4,15 +4,13 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-19 23:24:24
+ * @LastEditTime: 2022-03-21 23:10:52
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
   <BasicLayout v-bind="layoutAttrs">
     <template #aside>
       <div class="layout-aside_wapper">
-        <!-- {{ layoutConfig.isCollapse ? 65 : 220 }}
-        --- {{ layoutAttrs }} --- ---- {{ layoutConfig }}--- -->
         <aside-menu :menu-list="menuList"></aside-menu>
       </div>
     </template>
@@ -23,7 +21,9 @@
       <router-view></router-view>
     </div>
     <template #footer>
-      <div class="layout-footer_wapper">侧边栏</div>
+      <div class="layout-footer_wapper">
+        <global-footer></global-footer>
+      </div>
     </template>
   </BasicLayout>
 
@@ -36,19 +36,15 @@ import { useStoreHelper } from '@/hooks'
 import { BasicLayout } from '@/layouts/LayoutPackage'
 import { computed } from 'vue'
 import { useStore } from '@/store'
-import { AsideMenu, GlobalHeader, GlobalSetting } from '../components'
+import { AsideMenu, GlobalHeader, GlobalSetting, GlobalFooter } from '../components'
 
 const { useStateHelper } = useStoreHelper()
 const { layoutConfig } = useStateHelper<VStoreRoot.app.appStateHepler>('app', ['layoutConfig'])
 
 const store = useStore()
 
-console.log('store', store.state.route.menuList)
-
 // 获取菜单列表
 const menuList = computed(() => store.state.route.menuList)
-
-console.log("menuList'", menuList.value)
 
 // layout props
 const layoutAttrs = computed(() => {

@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-20 11:58:52
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 11:44:14
+ * @LastEditTime: 2022-03-21 22:46:13
  * @FilePath: \vite-admin-vue\src\views\system\components\Form.vue
 -->
 
@@ -19,6 +19,17 @@
 
       <qs-form :form="form" @submit="submit"></qs-form>
     </el-card>
+    <el-card shadow="never">
+      <template #header> form inline</template>
+
+      <qs-form :inline="true" :form="form"></qs-form>
+    </el-card>
+    <el-card shadow="never">
+      <template #header> form inline</template>
+
+      <qs-form :inline="true" :form="form"></qs-form>
+    </el-card>
+
     <el-card shadow="never">
       <template #header> form inline</template>
 
