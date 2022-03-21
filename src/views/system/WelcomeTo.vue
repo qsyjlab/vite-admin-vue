@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 22:09:49
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-19 23:04:51
+ * @LastEditTime: 2022-03-21 17:07:00
  * @FilePath: \vite-admin-vue\src\views\system\WelcomeTo.vue
 -->
 
@@ -14,8 +14,8 @@
       {{ $route.meta.title }}
     </template>
 
-    <el-button type="primary">asdas</el-button>
-
+    <el-button v-hasAuth="'asdasd'" type="primary">asdas</el-button>
+    <el-button v-hasAuth="'asdasd'" type="danger">asdas</el-button>
     <el-button type="danger">asdas</el-button>
   </el-card>
 </template>
