@@ -3,3 +3,4 @@
 
 pnpm run check
 pnpm run prettier
+git add .
