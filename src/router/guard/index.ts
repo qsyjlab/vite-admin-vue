@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 15:02:43
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-19 15:15:48
+ * @LastEditTime: 2022-03-21 14:54:56
  * @FilePath: \vite-admin-vue\src\router\guard\index.ts
  */
 
@@ -12,17 +12,10 @@ import type { Router } from 'vue-router'
 // import { useStore } from 'vuex'
 import { handlePermissionRouter } from './helper'
 
-import store from '@/store'
-
 export function createRouterGuard(router: Router) {
   router.beforeEach(async (to, from, next) => {
-    if (!store.state?.route?.isFristEntry) {
-      await store.commit('route/initRoutes', to.matched[0]?.children || [])
-    }
-    next()
+    await handlePermissionRouter(to, from, next, router)
   })
 
-  router.afterEach((to, from, failure) => {
-    console.log('after router')
-  })
+  // router.afterEach((to, from, failure) => {})
 }

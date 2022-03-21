@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 15:32:31
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-18 13:47:52
+ * @LastEditTime: 2022-03-21 15:56:52
  * @FilePath: \vite-admin-vue\src\router\routes\index.ts
  */
 
@@ -14,22 +14,11 @@ import { createBlankContainer } from '@/layouts'
 export const routes = defineExposeRoutes([
   {
     path: '/',
-    redirect: { name: 'home' },
+    redirect: { name: 'Home' },
     meta: {
       title: '主系统',
       hideInBreadcrumb: true
     }
-  },
-  {
-    path: '/',
-    name: 'home',
-    redirect: { name: 'Welcome' },
-    meta: {
-      title: '主系统',
-      hideInBreadcrumb: true
-    },
-    component: () => import(/* webpackChunkName: "Home" */ '@/layouts/BasicLayout/BasicLayout.vue'),
-    children: loadRoutes(import.meta.globEager('./system/*.ts'))
   },
   {
     path: '/',
@@ -47,10 +36,25 @@ export const routes = defineExposeRoutes([
     name: 'User',
     redirect: { name: 'Login' },
     meta: {
-      hideInBreadcrumb: true
+      hideInBreadcrumb: true,
+      isAuth: false
     },
     component: createBlankContainer('User'),
     children: loadRoutes(import.meta.globEager('./user/*.ts'))
+  },
+  {
+    path: '/Error',
+    name: 'Error',
+    meta: {
+      hideInMenu: true,
+      hideInBreadcrumb: true
+    },
+    component: createBlankContainer('Error'),
+    children: loadRoutes(import.meta.globEager('./error/*.ts'))
+  },
+  {
+    path: '/:pathMatch(.*)',
+    redirect: { name: 'Error404' }
   }
 ])
 

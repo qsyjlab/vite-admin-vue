@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-18 14:41:54
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-18 15:12:43
+ * @LastEditTime: 2022-03-21 16:03:52
  * @FilePath: \vite-admin-vue\src\store\modules\user.ts
  */
 
@@ -20,7 +20,9 @@ const routeModule: Module<VStoreRoot.user.userRootState, VStoreRoot.rootState> =
       userId: '',
       userName: '',
       userRole: ''
-    }
+    },
+    // 权限
+    permissions: ['Home', 'Welcome', 'Dashboard']
   },
   mutations: {},
   actions: {

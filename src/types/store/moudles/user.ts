@@ -4,12 +4,13 @@
  * @Autor: qsyj
  * @Date: 2022-03-18 14:43:13
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-18 15:17:43
+ * @LastEditTime: 2022-03-21 14:08:49
  * @FilePath: \vite-admin-vue\src\types\store\moudles\user.ts
  */
 
 export interface userRootStateType {
   userInfo: Auth.UserInfo
+  permissions: string[]
 }
 
 export interface userActions {

@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-18 14:23:57
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-18 14:40:10
+ * @LastEditTime: 2022-03-21 15:39:20
  * @FilePath: \vite-admin-vue\src\hooks\session\storage.ts
  */
 
@@ -13,9 +13,8 @@ import BaseStorage from './BaseStorage'
 import config from '@/config'
 import { StorageKeys } from '@/enum'
 
-const $storage = new BaseStorage(window.localStorage, config.storage.prefix)
-
 export default () => {
+  const $storage = new BaseStorage(window.localStorage, config.storage.prefix)
   /**
    * 设置用户信息
    * @param data 用户信息
@@ -44,7 +43,11 @@ export default () => {
    * 获取token
    */
   const getTokenCahce = () => {
-    $storage.get<string>(StorageKeys.Token)
+    return $storage.get<string>(StorageKeys.Token)
+  }
+
+  const clearCache = () => {
+    $storage.clear()
   }
 
   return {
@@ -52,6 +55,7 @@ export default () => {
     setUserInfoCache,
     getUserInfoCache,
     setTokenCahce,
-    getTokenCahce
+    getTokenCahce,
+    clearCache
   }
 }

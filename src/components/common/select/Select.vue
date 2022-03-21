@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-01-06 15:26:29
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-20 22:22:15
+ * @LastEditTime: 2022-03-21 14:48:16
 -->
 <template>
   <el-select v-model="selected" v-bind="{ ...$attrs }" @change="handleChange">
@@ -48,17 +48,6 @@ interface OptionsType {
 const emit = defineEmits<{
   (e: 'update:modelValue', value: ModelValueType): ModelValueType
 }>()
-
-// const props = withDefaults(
-//   defineProps<{
-//     : ModelValueType
-//     options: OptionsType[]
-//   }>(),
-//   {
-//     modelValue:
-//     options: () => []
-//   }
-// )
 
 const props = defineProps({
   modelValue: {
