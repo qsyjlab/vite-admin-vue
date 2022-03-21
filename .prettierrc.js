@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:36:12
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 14:38:01
+ * @LastEditTime: 2022-03-21 23:19:16
  * @FilePath: \vite-admin-vue\.prettierrc.js
  */
 
@@ -23,8 +23,8 @@ module.exports = {
   // proseWrap: 'preserve',
   // "proseWrap": "never"
   // 关闭 prettier tslint 格式校验
-  tslintIntegration: false,
-  eslintIntegration: false,
+  // tslintIntegration: false,
+  // eslintIntegration: false,
   // stylelintIntegration: false,
   // 配置 html 格式化
   overrides: [
