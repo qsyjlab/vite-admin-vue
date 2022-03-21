@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-20 11:58:52
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-20 22:38:03
+ * @LastEditTime: 2022-03-21 11:44:14
  * @FilePath: \vite-admin-vue\src\views\system\components\Form.vue
 -->
 
@@ -17,7 +17,12 @@
     <el-card shadow="never">
       <template #header> form </template>
 
-      <qs-form :form="form"></qs-form>
+      <qs-form :form="form" @submit="submit"></qs-form>
+    </el-card>
+    <el-card shadow="never">
+      <template #header> form inline</template>
+
+      <qs-form :inline="true" :form="form"></qs-form>
     </el-card>
   </el-card>
 </template>
@@ -63,6 +68,11 @@ const form = defineFormFields([
         }
       ]
     }
+  },
+  {
+    label: 'ElDatePicker',
+    key: 'ElDatePicker',
+    tag: 'ElDatePicker'
   }
 ])
 

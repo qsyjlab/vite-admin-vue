@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-01-12 09:54:13
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-20 21:57:28
+ * @LastEditTime: 2022-03-21 11:34:12
  */
 
 import type { Component, Prop, PropType } from 'vue'
@@ -30,25 +30,6 @@ export enum EmitEnum {
 }
 
 type FormSize = 'large' | 'default' | 'small'
-
-// interface propsType {
-//   inline: boolean
-//   form: formType[]
-//   size: 'large' | 'default' | 'small'
-//   defaultValue: { [propName: string]: any }
-//   extraFixed: 'left' | 'right'
-//   confirmText: string
-//   cancelText: string
-//   confirmButton: boolean
-//   cancelButton: boolean
-// }
-
-// interface methodsType {
-//   handlieReSet: () => void
-//   handleSearch: () => void
-//   getValue: () => void
-//   handlePlaceholder: ComputedRef<(item: formType) => boolean | string>
-// }
 
 export const buildProps = {
   // layout 横列 竖列

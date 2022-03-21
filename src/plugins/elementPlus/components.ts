@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:13:26
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-20 22:29:33
+ * @LastEditTime: 2022-03-21 11:41:46
  * @FilePath: \vite-admin-vue\src\plugins\elementPlus\components.ts
  */
 
@@ -28,5 +28,7 @@ export {
   ElSelect,
   ElCheckbox,
   ElCheckboxButton,
-  ElCheckboxGroup
+  ElCheckboxGroup,
+  ElCascader,
+  ElDatePicker
 } from 'element-plus'

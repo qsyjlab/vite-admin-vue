@@ -4,11 +4,16 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 21:41:33
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-19 23:31:21
+ * @LastEditTime: 2022-03-21 11:48:08
  * @FilePath: \vite-admin-vue\src\layouts\components\SideBar\Menu\AsideMenu.vue
 -->
 <template>
-  <el-menu :collapse="layoutConfig.isCollapse" :collapse-transition="false" router>
+  <el-menu
+    :collapse="layoutConfig.isCollapse"
+    :default-active="$route.name?.toString()"
+    :collapse-transition="false"
+    router
+  >
     <template v-for="menu in menuList" :key="menu.name">
       <aside-menu-item :menu-item="menu"></aside-menu-item>
     </template>

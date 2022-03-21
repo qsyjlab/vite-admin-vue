@@ -7,14 +7,15 @@
       :model="query"
       :rules="rules"
       :size="size"
-      v-bind="{ ...$attrs }"
-      :label-width="labelWidth"
+      v-bind="{ ...$attrs, ...{ labelWidth: inline ? undefined : labelWidth } }"
+      @submit.prevent
     >
       <ElFormItem v-for="item in form" :key="item.key" :label="item?.label" :prop="item.key">
         <!-- 默认情况下 -->
         <span v-if="item.tag">
           <component
             :is="item.tag"
+            v-model="query[item.key]"
             v-bind="{
               ...item?.attrs,
               ...{
@@ -72,24 +73,15 @@ interface reactiveType {
   rules: { [propName: string]: any }
 }
 
-export default defineComponent({
+export default {
   name: 'QsForm'
-})
+}
 </script>
 
 <script setup lang="ts">
 import { ElForm } from 'element-plus'
 import { buildProps, EmitEnum } from './form'
-import {
-  computed,
-  defineComponent,
-  nextTick,
-  onBeforeMount,
-  reactive,
-  ref,
-  toRefs,
-  watch
-} from 'vue'
+import { computed, nextTick, onBeforeMount, reactive, ref, toRefs, watch } from 'vue'
 
 const props = defineProps(buildProps)
 
