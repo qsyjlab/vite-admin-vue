@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 23:10:52
+ * @LastEditTime: 2022-03-22 11:45:32
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
@@ -18,7 +18,7 @@
       <global-header></global-header>
     </template>
     <div class="layout-main_wapper">
-      <router-view></router-view>
+      <component :is="createBlankContainer('BasicLayout')"></component>
     </div>
     <template #footer>
       <div class="layout-footer_wapper">
@@ -32,11 +32,12 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useStoreHelper } from '@/hooks'
 import { BasicLayout } from '@/layouts/LayoutPackage'
-import { computed } from 'vue'
 import { useStore } from '@/store'
 import { AsideMenu, GlobalHeader, GlobalSetting, GlobalFooter } from '../components'
+import { createBlankContainer } from '@/layouts'
 
 const { useStateHelper } = useStoreHelper()
 const { layoutConfig } = useStateHelper<VStoreRoot.app.appStateHepler>('app', ['layoutConfig'])

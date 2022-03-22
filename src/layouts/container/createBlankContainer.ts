@@ -4,12 +4,13 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 15:37:49
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 15:52:12
+ * @LastEditTime: 2022-03-22 11:41:17
  * @FilePath: \vite-admin-vue\src\layouts\container\createBlankContainer.ts
  */
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, KeepAlive } from 'vue'
 import type { Component } from 'vue'
 import { RouterView } from 'vue-router'
+import { Transition } from '@/components'
 
 export default (name: string): Component => {
   if (!name) {
@@ -17,8 +18,17 @@ export default (name: string): Component => {
   }
   return defineComponent({
     name,
+
     render() {
-      return h(RouterView)
+      return h(
+        RouterView,
+        {},
+        {
+          default: props => {
+            return h(Transition, {}, () => h(KeepAlive, { include: [] }, props.Component))
+          }
+        }
+      )
     }
   })
 }
