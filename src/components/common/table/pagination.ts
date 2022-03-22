@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-01-10 11:05:21
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 17:37:08
+ * @LastEditTime: 2022-03-22 21:59:06
  */
 
 import { computed, getCurrentInstance, ref } from 'vue'
@@ -12,7 +12,6 @@ import { paginationDefaultConfig } from './table'
 
 export const usePagination = () => {
   const instance = getCurrentInstance()
-  console.log('instance', instance)
 
   const pageNum = ref<number>(1)
   const pageSize = ref<number>(10)

@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 15:02:43
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 17:51:46
+ * @LastEditTime: 2022-03-22 21:59:25
  * @FilePath: \vite-admin-vue\src\router\guard\index.ts
  */
 
@@ -18,8 +18,6 @@ export function createRouterGuard(router: Router) {
   })
 
   router.afterEach(to => {
-    console.log('to', to)
-
     keepAlive(to)
   })
 }

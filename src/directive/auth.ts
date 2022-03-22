@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-21 16:15:34
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 23:15:57
+ * @LastEditTime: 2022-03-22 21:57:32
  * @FilePath: \vite-admin-vue\src\directive\auth.ts
  */
 
@@ -15,7 +15,6 @@ import store from '@/store'
  * 是否有权限
  */
 export const hasAuthDirective: Directive<HTMLElement, string> = {
-  // beforeMount(el, binding, vnode, prevVnode) {},
   // 指令绑定元素挂载后
   mounted(el, binding) {
     if (!store.state.user.permissions.includes(binding.value)) el.parentNode?.removeChild(el)
