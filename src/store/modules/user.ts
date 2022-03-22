@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-18 14:41:54
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 17:24:02
+ * @LastEditTime: 2022-03-22 21:54:01
  * @FilePath: \vite-admin-vue\src\store\modules\user.ts
  */
 
@@ -13,7 +13,7 @@ import { router } from '@/router'
 import { ElMessage } from 'element-plus'
 import { useStorageHelper } from '@/hooks'
 
-const routeModule: Module<VStoreRoot.user.UserRootState, VStoreRoot.RootState> = {
+const routeModule: Module<VStoreRoot.User.UserRootState, VStoreRoot.RootState> = {
   namespaced: true,
   state: {
     userInfo: {

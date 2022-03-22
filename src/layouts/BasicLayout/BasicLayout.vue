@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 21:49:52
+ * @LastEditTime: 2022-03-22 21:53:00
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
@@ -40,7 +40,7 @@ import { AsideMenu, GlobalHeader, GlobalSetting, GlobalFooter } from '../compone
 import { createBlankContainer } from '@/layouts'
 
 const { useStateHelper } = useStoreHelper()
-const { layoutConfig } = useStateHelper<VStoreRoot.app.AppStateHepler>('app', ['layoutConfig'])
+const { layoutConfig } = useStateHelper<VStoreRoot.App.AppStateHepler>('app', ['layoutConfig'])
 
 const store = useStore()
 

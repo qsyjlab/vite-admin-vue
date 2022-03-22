@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 11:12:36
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-18 15:18:31
+ * @LastEditTime: 2022-03-22 21:53:48
  * @FilePath: \vite-admin-vue\src\layouts\components\header\components\UserMenu\UserMenu.vue
 -->
 
@@ -27,7 +27,7 @@ import { useStoreHelper } from '@/hooks'
 
 const { useActionsHelper } = useStoreHelper()
 
-const { loginOutSystem } = useActionsHelper<VStoreRoot.user.userActions>('user', ['loginOutSystem'])
+const { loginOutSystem } = useActionsHelper<VStoreRoot.User.UserActions>('user', ['loginOutSystem'])
 
 const logout = () => {
   loginOutSystem()

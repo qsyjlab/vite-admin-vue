@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 22:43:16
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 21:49:30
+ * @LastEditTime: 2022-03-22 21:53:53
  * @FilePath: \vite-admin-vue\src\store\modules\route.ts
  */
 import type { Module } from 'vuex'
@@ -12,7 +12,7 @@ import type { Module } from 'vuex'
 import { transformRouteToList } from '@/utils'
 import { MenuItem } from '@/types/store/moudles/route'
 
-const routeModule: Module<VStoreRoot.route.RouteRootState, VStoreRoot.RootState> = {
+const routeModule: Module<VStoreRoot.Route.RouteRootState, VStoreRoot.RootState> = {
   namespaced: true,
   state: {
     // 菜单栏数组

@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 21:41:33
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 11:48:08
+ * @LastEditTime: 2022-03-22 21:54:15
  * @FilePath: \vite-admin-vue\src\layouts\components\SideBar\Menu\AsideMenu.vue
 -->
 <template>
@@ -33,5 +33,5 @@ withDefaults(defineProps<AsideMenu>(), {
 })
 
 const { useStateHelper } = useStoreHelper()
-const { layoutConfig } = useStateHelper<VStoreRoot.app.appRootState>('app', ['layoutConfig'])
+const { layoutConfig } = useStateHelper<VStoreRoot.App.AppRootState>('app', ['layoutConfig'])
 </script>

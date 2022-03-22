@@ -36,12 +36,12 @@ import { useStoreHelper } from '@/hooks'
 
 const { useStateHelper, useMutactionsHelper } = useStoreHelper()
 
-const { isOpenSettig, layoutConfig } = useStateHelper<VStoreRoot.app.appStateHepler>('app', [
+const { isOpenSettig, layoutConfig } = useStateHelper<VStoreRoot.App.AppStateHepler>('app', [
   'isOpenSettig',
   'layoutConfig'
 ])
 
-const { toggleSettingDrawer } = useMutactionsHelper<VStoreRoot.app.appMutations>('app', [
+const { toggleSettingDrawer } = useMutactionsHelper<VStoreRoot.App.AppMutations>('app', [
   'toggleSettingDrawer'
 ])
 </script>

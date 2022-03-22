@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-12 16:58:20
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-19 23:15:03
+ * @LastEditTime: 2022-03-22 21:55:11
  * @FilePath: \vite-admin-vue\src\store\index.ts
  */
 import { createStore, useStore as useBaseStore, createLogger } from 'vuex'
@@ -14,7 +14,7 @@ import type { InjectionKey } from 'vue'
 // 读取 module文件
 const files = import.meta.globEager('./modules/*')
 
-const modules: VStoreRoot.rootMoudles = {}
+const modules: VStoreRoot.RootMoudles = {}
 
 Object.keys(files).forEach(file => {
   const key: string = file.split('/').pop()?.split('.ts')[0] + ''
@@ -23,9 +23,9 @@ Object.keys(files).forEach(file => {
 })
 
 // 唯一 key值
-export const storeSymbolkey: InjectionKey<Store<VStoreRoot.rootState>> = Symbol('vuex store')
+export const storeSymbolkey: InjectionKey<Store<VStoreRoot.RootState>> = Symbol('vuex store')
 
-export default createStore<VStoreRoot.rootState>({
+export default createStore<VStoreRoot.RootState>({
   mutations: {},
   actions: {},
   modules

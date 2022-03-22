@@ -4,16 +4,16 @@
  * @Autor: qsyj
  * @Date: 2022-03-18 14:43:13
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 14:08:49
+ * @LastEditTime: 2022-03-22 21:52:21
  * @FilePath: \vite-admin-vue\src\types\store\moudles\user.ts
  */
 
-export interface userRootStateType {
+export interface UserRootStateType {
   userInfo: Auth.UserInfo
   permissions: string[]
 }
 
-export interface userActions {
+export interface UserActions {
   loginSystem: (data: { username: string; password: string }) => void
   loginOutSystem: () => void
 }

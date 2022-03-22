@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 14:21:57
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 22:16:02
+ * @LastEditTime: 2022-03-22 21:52:53
  * @FilePath: \vite-admin-vue\src\layouts\components\header\components\MenuCollapse.vue
 -->
 <template>
@@ -19,7 +19,7 @@ import { useStoreHelper } from '@/hooks'
 
 const { useMutactionsHelper } = useStoreHelper()
 
-const { collapseMenu } = useMutactionsHelper<VStoreRoot.app.appMutations>('app', ['collapseMenu'])
+const { collapseMenu } = useMutactionsHelper<VStoreRoot.App.AppMutations>('app', ['collapseMenu'])
 
 const folderMenu = () => {
   collapseMenu()

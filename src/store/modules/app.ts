@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2021-12-29 10:51:21
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 21:49:23
+ * @LastEditTime: 2022-03-22 21:53:57
  */
 // import { storage } from '@plugins/methods'
 
@@ -12,7 +12,7 @@ import type { Module } from 'vuex'
 
 import { getThemeCluster, updateElementStyle } from '@/utils'
 
-const appMoudle: Module<VStoreRoot.app.AppRootState, VStoreRoot.RootState> = {
+const appMoudle: Module<VStoreRoot.App.AppRootState, VStoreRoot.RootState> = {
   namespaced: true,
   state: {
     // 是否打开设置抽屉
