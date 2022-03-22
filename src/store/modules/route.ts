@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 22:43:16
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-18 15:20:58
+ * @LastEditTime: 2022-03-22 21:49:30
  * @FilePath: \vite-admin-vue\src\store\modules\route.ts
  */
 import type { Module } from 'vuex'
@@ -12,20 +12,54 @@ import type { Module } from 'vuex'
 import { transformRouteToList } from '@/utils'
 import { MenuItem } from '@/types/store/moudles/route'
 
-const routeModule: Module<VStoreRoot.route.routeRootState, VStoreRoot.rootState> = {
+const routeModule: Module<VStoreRoot.route.RouteRootState, VStoreRoot.RootState> = {
   namespaced: true,
   state: {
     // 菜单栏数组
     menuList: [],
     // 是否第一次经过路由
-    isFristEntry: false
+    isFristEntry: false,
+    // 缓存列表
+    keepAliveList: {}
   },
   mutations: {
     // 初始化路由菜单
     initRoutes(state, routes) {
       state.menuList = transformRouteToList<MenuItem>(routes, [])
       state.isFristEntry = true
+    },
+    addAlive(
+      state,
+      { page, name = 'default', alive }: { page: string; name: string; alive: string }
+    ) {
+      if (!state.keepAliveList[page]) {
+        state.keepAliveList = {
+          ...state.keepAliveList,
+          [page]: { [name]: [alive] }
+        }
+        return
+      }
+
+      if (!Array.isArray(state.keepAliveList[page][name])) {
+        state.keepAliveList[page] = {
+          ...state.keepAliveList[page],
+          [name]: [alive]
+        }
+
+        return
+      }
+      if (!state.keepAliveList[page][name].includes(alive)) {
+        state.keepAliveList[page][name].push(alive)
+      }
     }
+  },
+  getters: {
+    getAlive:
+      ({ keepAliveList }) =>
+      (page: any, name = 'default'): string[] => {
+        const list = keepAliveList[page]?.[name]
+        return Array.isArray(list) ? list : []
+      }
   }
 }
 

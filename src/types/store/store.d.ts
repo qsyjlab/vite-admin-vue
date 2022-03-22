@@ -4,39 +4,39 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 22:57:39
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-19 22:52:14
+ * @LastEditTime: 2022-03-22 21:49:13
  * @FilePath: \vite-admin-vue\src\types\store\store.d.ts
  */
 declare namespace VStoreRoot {
-  type rootState = {
-    route: route.routeRootState
-    app: app.appRootState
-    user: user.userRootState
+  type RootState = {
+    route: route.RouteRootState
+    app: app.AppRootState
+    user: user.UserRootState
   }
 
-  type mapState<T> = {
+  type MapState<T> = {
     [P in keyof T]: import('vue').ComputedRef<T[P]>
   }
 
-  type rootMoudles = {
-    [key: string]: import('vuex').StoreOptions<rootState>
+  type RootMoudles = {
+    [key: string]: import('vuex').StoreOptions<RootState>
   }
 
   namespace app {
-    export type appRootState = import('./moudles/app').appRootStateType
+    export type AppRootState = import('./moudles/app').AppRootStateType
 
-    export type appStateHepler = import('./moudles/app').appStateHepler
+    export type AppStateHepler = import('./moudles/app').AppStateHepler
 
-    export type appMutations = import('./moudles/app').appMutations
+    export type AppMutations = import('./moudles/app').AppMutations
   }
 
   namespace route {
-    export type routeRootState = import('./moudles/route').appRootStateType
+    export type RouteRootState = import('./moudles/route').RouteRootStateType
   }
 
   namespace user {
-    export type userRootState = import('./moudles/user').userRootStateType
+    export type UserRootState = import('./moudles/user').userRootStateType
 
-    export type userActions = import('./moudles/user').userActions
+    export type UserActions = import('./moudles/user').userActions
   }
 }

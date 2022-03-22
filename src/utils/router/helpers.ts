@@ -50,7 +50,7 @@ export function defineExposeRoutes(routes: VRouter.DefineRoutes[]): VRouter.Defi
 export function transformRouteToList<
   T extends {
     children?: T[]
-    meta: { sort?: number | undefined; isNotAuth: boolean }
+    meta: { sort?: number | undefined; isNotAuth?: boolean }
     name: string
   }
 >(routes: T[], treeMap: T[] = []): T[] {

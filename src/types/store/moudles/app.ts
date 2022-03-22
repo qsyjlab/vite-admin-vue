@@ -4,18 +4,11 @@
  * @Autor: qsyj
  * @Date: 2022-03-12 17:01:17
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-18 15:44:26
+ * @LastEditTime: 2022-03-22 21:49:15
  * @FilePath: \vite-admin-vue\src\types\store\moudles\app.ts
  */
 
-export interface keepAliveListType {
-  [key: string | number]: {
-    [key: string | number]: string[]
-  }
-}
-
-export interface appRootStateType {
-  keepAliveList: keepAliveListType
+export interface AppRootStateType {
   isOpenSettig: boolean
   layoutConfig: {
     // 是否折叠 菜单栏
@@ -25,9 +18,9 @@ export interface appRootStateType {
   }
 }
 
-export interface appMutations {
+export interface AppMutations {
   collapseMenu: () => void
   toggleSettingDrawer: () => void
 }
 
-export type appStateHepler = VStoreRoot.mapState<appRootStateType>
+export type AppStateHepler = VStoreRoot.MapState<AppRootStateType>

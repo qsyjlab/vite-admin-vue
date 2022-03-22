@@ -4,9 +4,6 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 17:10:06
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 15:27:45
+ * @LastEditTime: 2022-03-22 17:59:49
  * @FilePath: \vite-admin-vue\src\types\router\helper.d.ts
  */
-
-// 路由 export 类型 检测
-// export declare function defineExposeRoutes(routes: VRouter.DefineRoutes[]): VRouter.DefineRoutes[]

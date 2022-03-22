@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 10:14:20
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 22:13:29
+ * @LastEditTime: 2022-03-22 17:54:32
  * @FilePath: \vite-admin-vue\src\router\guard\helper.ts
  */
 
@@ -39,4 +39,28 @@ export async function handlePermissionRouter(
   }
 
   return next()
+}
+
+/**
+ *  组件缓存
+ * @param {RouteLocationNormalized} routerTo
+ */
+export function keepAlive(routerTo: RouteLocationNormalized): void {
+  const length = routerTo.matched.length
+
+  if (length > 1) {
+    for (let i = length - 1; i > 0; i--) {
+      const [own, parent] = [routerTo.matched[i], routerTo.matched[i - 1]]
+
+      if (!own.meta.isKeepAlive) {
+        Object.keys(own.components).forEach(key => {
+          if (parent.components.default.name && own.components[key].name)
+            store.commit('route/addAlive', {
+              page: parent.components.default.name,
+              alive: own.components[key].name
+            })
+        })
+      }
+    }
+  }
 }

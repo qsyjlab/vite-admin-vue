@@ -13,7 +13,7 @@ import { router } from '@/router'
 import { ElMessage } from 'element-plus'
 import { useStorageHelper } from '@/hooks'
 
-const routeModule: Module<VStoreRoot.user.userRootState, VStoreRoot.rootState> = {
+const routeModule: Module<VStoreRoot.user.UserRootState, VStoreRoot.RootState> = {
   namespaced: true,
   state: {
     userInfo: {

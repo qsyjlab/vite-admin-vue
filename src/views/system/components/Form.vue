@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-20 11:58:52
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 22:46:13
+ * @LastEditTime: 2022-03-22 17:50:44
  * @FilePath: \vite-admin-vue\src\views\system\components\Form.vue
 -->
 
@@ -37,6 +37,10 @@
     </el-card>
   </el-card>
 </template>
+<script lang="ts">
+export default { name: 'Form' }
+</script>
+
 <script setup lang="ts">
 import { defineFormFields } from '@/components/utils'
 

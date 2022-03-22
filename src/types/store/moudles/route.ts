@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 22:46:48
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-19 23:36:55
+ * @LastEditTime: 2022-03-22 17:32:14
  * @FilePath: \vite-admin-vue\src\types\store\moudles\route.ts
  */
 
@@ -16,7 +16,8 @@ export interface MenuItem {
   children?: MenuItem[]
 }
 
-export interface appRootStateType {
+export interface RouteRootStateType {
   menuList: MenuItem[]
   isFristEntry: boolean
+  keepAliveList: any
 }
