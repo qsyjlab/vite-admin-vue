@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 11:08:44
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-15 11:37:10
+ * @LastEditTime: 2022-03-22 22:23:45
  * @FilePath: \vite-admin-vue\src\layouts\LayoutPackage\components\index.ts
  */
 
@@ -14,6 +14,7 @@ import LayoutHeader from './LayoutHeader.vue'
 import LayoutAside from './LayoutAside.vue'
 import LayoutMain from './LayoutMain.vue'
 import LayoutFooter from './LayoutFooter.vue'
+import LayoutTabs from './LayoutTabs.vue'
 
 export {
   LayoutConfigProvider,
@@ -21,5 +22,6 @@ export {
   LayoutContainer,
   LayoutHeader,
   LayoutMain,
-  LayoutFooter
+  LayoutFooter,
+  LayoutTabs
 }

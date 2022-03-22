@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 21:53:00
+ * @LastEditTime: 2022-03-22 22:46:44
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
@@ -14,9 +14,17 @@
         <aside-menu :menu-list="menuList"></aside-menu>
       </div>
     </template>
+
     <template #header>
       <global-header></global-header>
     </template>
+
+    <template #tabs>
+      <div class="layout-tabs-wapper">
+        <global-router-bar />
+      </div>
+    </template>
+
     <div class="layout-main_wapper">
       <component :is="createBlankContainer('BasicLayout')"></component>
     </div>
@@ -34,10 +42,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useStoreHelper } from '@/hooks'
-import { BasicLayout } from '@/layouts/LayoutPackage'
 import { useStore } from '@/store'
-import { AsideMenu, GlobalHeader, GlobalSetting, GlobalFooter } from '../components'
+import { BasicLayout } from '@/layouts/LayoutPackage'
 import { createBlankContainer } from '@/layouts'
+import {
+  AsideMenu,
+  GlobalHeader,
+  GlobalSetting,
+  GlobalFooter,
+  GlobalRouterBar
+} from '../components'
 
 const { useStateHelper } = useStoreHelper()
 const { layoutConfig } = useStateHelper<VStoreRoot.App.AppStateHepler>('app', ['layoutConfig'])
@@ -59,14 +73,15 @@ const layoutAttrs = computed(() => {
 .layout-aside_wapper {
   height: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-  // padding: 10px;
 }
 .layout-main_wapper {
-  // z-index: 9999;
   box-sizing: border-box;
   height: 100%;
   background-color: rgba(246, 249, 248);
   padding: 15px;
-  // background-color: red;
+}
+
+.layout-tabs-wapper {
+  height: 100%;
 }
 </style>

@@ -4,11 +4,11 @@
  * @Autor: qsyj
  * @Date: 2021-12-30 14:08:56
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 22:38:47
+ * @LastEditTime: 2022-03-22 23:15:20
 -->
 <template>
   <el-breadcrumb :separator="'/'">
-    <transition-group name="breadcrumb">
+    <transition-group name="breadcrumb" appear>
       <el-breadcrumb-item
         v-for="(item, index) in breadCrumbList"
         :key="index"
