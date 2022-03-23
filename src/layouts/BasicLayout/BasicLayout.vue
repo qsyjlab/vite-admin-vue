@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 22:46:44
+ * @LastEditTime: 2022-03-23 11:22:07
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
@@ -21,7 +21,7 @@
 
     <template #tabs>
       <div class="layout-tabs-wapper">
-        <global-router-bar />
+        <global-router-bar v-bind="routerBarAttrs" />
       </div>
     </template>
 
@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, onBeforeMount } from 'vue'
 import { useStoreHelper } from '@/hooks'
 import { useStore } from '@/store'
 import { BasicLayout } from '@/layouts/LayoutPackage'
@@ -57,6 +57,17 @@ const { useStateHelper } = useStoreHelper()
 const { layoutConfig } = useStateHelper<VStoreRoot.App.AppStateHepler>('app', ['layoutConfig'])
 
 const store = useStore()
+
+const routerBarAttrs = computed(() => {
+  return {
+    activeBgColor: 'var(--el-color-primary-light-2)',
+    biddenRouter: ['Welcome']
+  }
+})
+
+onBeforeMount(() => {
+  console.log()
+})
 
 // 获取菜单列表
 const menuList = computed(() => store.state.route.menuList)

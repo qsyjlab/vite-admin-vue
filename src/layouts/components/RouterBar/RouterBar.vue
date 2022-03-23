@@ -10,11 +10,16 @@
         v-for="(item, index) in routerList"
         :key="index"
         :class="['routerbar-item', item.fullPath == currentRouter?.fullPath ? 'active' : '']"
+        :style="{
+          backgroundColor: item.fullPath == currentRouter?.fullPath ? activeBgColor : bgColor,
+          borderColor: item.fullPath == currentRouter?.fullPath ? activeBgColor : borderColor
+        }"
         @click="goRouter(item)"
       >
         <div v-if="item.fullPath == currentRouter?.fullPath" class="active-dot"></div>
         <div>
-          <span
+          {{ item?.meta?.title }}
+          <!-- <span
             v-if="Object.keys(item.query).length === 0 && Object.keys(item.params).length === 0"
           >
             {{ item?.meta?.title }}
@@ -32,7 +37,7 @@
             "
           >
             {{ item?.meta?.title }} - {{ item.params.id }}
-          </span>
+          </span> -->
         </div>
         <div
           v-if="!biddenRouter.includes(item.name)"
@@ -41,118 +46,120 @@
         >
           <el-icon> <icon-close /> </el-icon>
         </div>
-        <!-- <span class="iconfont icon-searchclose"></span> -->
       </div>
     </div>
   </el-scrollbar>
 </template>
 <script lang="ts">
-import { onMounted, ref, watch, defineComponent } from 'vue'
-import { onBeforeRouteUpdate, useRouter } from 'vue-router'
+export default {
+  name: 'QsRouterBar'
+}
+</script>
 
-export default defineComponent({
-  name: 'QsRouterBar',
-  setup() {
-    const router = useRouter()
-    // 存放路由列表
-    const currentRouter = ref<any | null>(null)
-    const routerList = ref<any[]>([])
-    //禁止删除的 router tag name
-    const biddenRouter = ref<string[]>(['Dashboard'])
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { onBeforeRouteUpdate, RouteLocationNormalized, useRouter } from 'vue-router'
 
-    onMounted(() => {
-      // 开始初始化一次
-      initRouterList()
+import { tranformRouterInfo } from './routerBar'
 
-      watchRouterChange(router.currentRoute.value)
-    })
+import type { RouteRecordNormalized } from 'vue-router'
+import type { RouterType } from './routerBar'
 
-    onBeforeRouteUpdate((to, from, next) => {
-      console.log('before to')
-      next()
-    })
+interface Props {
+  biddenRouter?: string[]
+  bgColor?: string
+  textColor?: string
+  activeTextColor?: string
+  activeBgColor?: string
+  dotColor?: string
+  borderColor?: string
+}
 
-    watch(
-      () => router.currentRoute.value,
-      newVal => {
-        watchRouterChange(newVal)
-      }
-    )
+const props = withDefaults(defineProps<Props>(), {
+  // 禁止删除的路由
+  biddenRouter: () => [],
+  bgColor: 'white',
+  textColor: '#495060',
+  activeTextColor: 'white',
+  activeBgColor: '#42b983',
+  dotColor: 'white',
+  borderColor: '#d8dce5'
+})
 
-    //初始化路由数组
-    const initRouterList = (): void => {
-      let routes: any[] = router.getRoutes() as any
+const router = useRouter()
 
-      routes = routes.filter(item => {
-        if (biddenRouter.value.includes(item?.name)) return item
-      })
+const currentRouter = ref<RouterType | null>(null)
+// 存放路由列表
+const routerList = ref<RouterType[]>([])
+//禁止删除的 router tag name
+const biddenRouter = ref<string[]>(props.biddenRouter)
 
-      if (routes.length) {
-        let filter: any = {
-          fullPath: routes[0]?.path,
-          path: routes[0]?.path,
-          name: routes[0].name,
-          meta: routes[0].meta,
-          params: {},
-          query: {}
-        }
-        routerList.value.push(filter)
-      }
+onBeforeRouteUpdate((to, from, next) => {
+  watchRouterChange(to)
+  next()
+})
 
-      currentRouter.value = router.currentRoute.value as any
-    }
+onMounted(() => {
+  // 开始初始化一次
+  initRouterList()
 
-    // 删除路由导航tag
-    const removeRouterBar = (e: Event, index: number) => {
-      // console.log( )
-      e.stopPropagation()
-      // e.cancelBubble = true
-      // return
+  watchRouterChange(router.currentRoute.value)
+})
 
-      routerList.value.splice(index, 1)
+//初始化路由数组
+const initRouterList = (): void => {
+  let routes: RouteRecordNormalized[] = router.getRoutes()
 
-      currentRouter.value = routerList.value[routerList.value.length - 1]
-      // console.log(currentRouter.value.fullPath)
-      goRouter(currentRouter.value)
-    }
-
-    // 跳转路由
-    const goRouter = (curPath: any): void => {
-      currentRouter.value = curPath
-
-      router.push({
-        name: curPath.name,
-        query: Object.keys(curPath.query).length ? curPath.query : {},
-        params: Object.keys(curPath.params).length ? curPath.params : {}
-      })
-    }
-    // 监听路由变化
-    const watchRouterChange = (_router: any) => {
-      // 如果 routeList 为空数组 直接添加
-      if (routerList.value.length === 0) return routerList.value.push(_router)
-      else {
-        //    如果有此对象不做任何事
-        const findSameRouter = routerList.value.find(
-          item => item.name === _router.name && item.fullPath === _router.fullPath
-        )
-        // 否则 添加 新router object
-        if (!findSameRouter) routerList.value.push(_router)
-
-        // 切换当前router object
-        currentRouter.value = _router
-      }
-    }
-
-    return {
-      routerList,
-      currentRouter,
-      goRouter,
-      removeRouterBar,
-      biddenRouter
+  for (let item of routes) {
+    if (biddenRouter.value.includes(item?.name as string)) {
+      routerList.value.push(tranformRouterInfo(item))
     }
   }
-})
+
+  currentRouter.value = tranformRouterInfo(router.currentRoute.value)
+}
+
+// 删除路由导航tag
+const removeRouterBar = (e: Event, index: number) => {
+  e.stopPropagation()
+
+  routerList.value.splice(index, 1)
+
+  currentRouter.value = routerList.value[routerList.value.length - 1]
+
+  goRouter(currentRouter.value)
+}
+
+// 跳转路由
+const goRouter = (curPath: RouterType): void => {
+  if (!curPath) return
+
+  currentRouter.value = curPath
+
+  router.push({
+    name: curPath.name,
+    query: Object.keys(curPath.query).length ? curPath.query : {},
+    params: Object.keys(curPath.params).length ? curPath.params : {}
+  })
+}
+// 监听路由变化
+const watchRouterChange = (_router: RouteLocationNormalized) => {
+  // 如果 routeList 为空数组 直接添加
+  if (routerList.value.length === 0) return routerList.value.push(tranformRouterInfo(_router))
+  else {
+    //    如果有此对象不做任何事
+    const findSameRouter = routerList.value.find(
+      item => item.name === _router.name && item.fullPath === _router.fullPath
+    )
+    // 否则 添加 新router object
+    if (!findSameRouter) routerList.value.push(tranformRouterInfo(_router))
+
+    // 切换当前router object
+    currentRouter.value = tranformRouterInfo(_router)
+  }
+}
 </script>
+
 <style lang="scss" scoped>
 .router-container {
   min-width: 600px;
@@ -177,16 +184,6 @@ export default defineComponent({
   align-items: center;
   border-radius: 3px;
 }
-// .routerbar-item.active::before {
-//   width: 10px;
-//   height: 10px;
-//   display: flex;
-//   align-items: center;
-//   background-color: white;
-//   border-radius: 50%;
-//   margin-right: 6px;
-//   content: '';
-// }
 
 .active-dot {
   width: 10px;
@@ -209,20 +206,6 @@ export default defineComponent({
   align-items: center;
 }
 
-/* .el-scrollbar {
-  overflow-y: hidden;
-  height: 100%;
-} */
-/* .el-scrollbar .el-scrollbar__wrap {
-  overflow-y: hidden;
-  height: auto !important;
-}
-
-.el-scrollbar .el-scrollbar__wrap .el-scrollbar__view {
-  height: 100%;
-  overflow-y: hidden;
-} */
-
 .close-icon-style {
   display: flex;
   justify-content: center;
@@ -237,20 +220,4 @@ export default defineComponent({
 :deep(.scroll-wrap-class) {
   height: 100%;
 }
-
-/* // .iconfont.icon-searchclose{
-//     // width: 20px;
-//     // height: 20px;
-//     display: inline-block;
-//     margin-left: 5px;
-//     font-size: 12px;
-//     // transform:scale(0.6);
-//     // position: relative;
-//     border-radius: 50%;
-//     // z-index: 5;
-// }
-// .iconfont.icon-searchclose:hover{
-//      background-color: #b4bccc;
-//      background-size: 15px 15px;
-// }*/
 </style>
