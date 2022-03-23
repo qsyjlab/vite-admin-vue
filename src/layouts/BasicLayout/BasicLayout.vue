@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-23 11:22:07
+ * @LastEditTime: 2022-03-23 11:32:09
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onBeforeMount } from 'vue'
+import { computed } from 'vue'
 import { useStoreHelper } from '@/hooks'
 import { useStore } from '@/store'
 import { BasicLayout } from '@/layouts/LayoutPackage'
@@ -60,13 +60,9 @@ const store = useStore()
 
 const routerBarAttrs = computed(() => {
   return {
-    activeBgColor: 'var(--el-color-primary-light-2)',
+    activeBgColor: 'var(--el-color-primary)',
     biddenRouter: ['Welcome']
   }
-})
-
-onBeforeMount(() => {
-  console.log()
 })
 
 // 获取菜单列表

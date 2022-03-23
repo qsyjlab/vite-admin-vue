@@ -4,13 +4,14 @@
  * @Autor: qsyj
  * @Date: 2021-12-29 10:51:21
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 21:53:57
+ * @LastEditTime: 2022-03-23 14:30:26
  */
 // import { storage } from '@plugins/methods'
 
 import type { Module } from 'vuex'
 
 import { getThemeCluster, updateElementStyle } from '@/utils'
+import { useStorageHelper } from '@/hooks'
 
 const appMoudle: Module<VStoreRoot.App.AppRootState, VStoreRoot.RootState> = {
   namespaced: true,
@@ -39,6 +40,10 @@ const appMoudle: Module<VStoreRoot.App.AppRootState, VStoreRoot.RootState> = {
     setLayoutConfig(state, val) {
       state.layoutConfig = { ...state.layoutConfig, ...val }
       updateElementStyle(getThemeCluster(state.layoutConfig.themeColor))
+
+      const { setLayoutCache } = useStorageHelper()
+
+      setLayoutCache(state.layoutConfig)
     }
   },
   getters: {},

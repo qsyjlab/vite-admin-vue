@@ -46,3 +46,27 @@
   --el-button-active-bg-color: var(--el-color-primary-light-1) !important;
   --el-button-active-border-color: var(--el-color-primary-light-1) !important;
 }
+
+.el-menu {
+  --el-menu-item-height: 46px;
+}
+
+:deep(.el-menu-item.is-active) {
+  background-color: var(--el-menu-hover-bg-color);
+}
+
+:deep(.el-sub-menu__title:hover) {
+  // background-color: unset;
+  color: var(--el-menu-active-color);
+}
+
+:deep(.el-menu-item:hover) {
+  color: var(--el-menu-active-color);
+}
+
+:deep(.el-sub-menu .el-menu-item) {
+  height: 43px;
+  line-height: 43px;
+  padding: 0 45px;
+  min-width: 200px;
+}

@@ -4,50 +4,75 @@
  * @Autor: qsyj
  * @Date: 2021-12-27 13:39:36
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-18 14:37:11
+ * @LastEditTime: 2022-03-23 14:21:33
  */
-type baseLocalStorageType = Storage
+type BaseLocalStorageType = Storage
 
-export { baseLocalStorageType }
+interface OptionsType {
+  expires: number
+  prefix: string
+}
+
+type TimeStampType = number | undefined
+
+interface DataFormatterType {
+  value: any
+  timeStamp: TimeStampType
+}
+
+interface SetOptionsType {
+  isForever: boolean
+}
+
+export { BaseLocalStorageType }
 
 export default class BaseStorage {
-  localStorage: baseLocalStorageType
+  localStorage: BaseLocalStorageType
   prefix: string
+  expires: number
+
   /**
    *
-   * @param {*} Storage 缓存对象
-   * @param {*} prefix 前缀
+   * @param { BaseLocalStorageType } storage
+   * @param {OptionsType}  options
    */
-  constructor(storage: baseLocalStorageType = window.localStorage, prefix: string) {
-    this.localStorage = storage
-    this.prefix = prefix ? prefix : ''
-  }
+  constructor(storage: BaseLocalStorageType = window.localStorage, options: OptionsType) {
+    const { prefix, expires } = options
 
-  jointKey(key: string): string {
-    return this.prefix + key
+    this.localStorage = storage
+    this.prefix = prefix
+    this.expires = expires
   }
 
   /**
    *
-   * @param {*} key 缓存key
-   * @returns json 对象
+   * @param {String} key 缓存key
+   * @returns { T | null } json 对象
    */
   get<T>(key: string): T | null {
     const value = this.localStorage.getItem(this.jointKey(key))
+
     if (!value) return null
-    return JSON.parse(value)
+
+    const data: DataFormatterType = JSON.parse(value)
+
+    if (this.isExpires(data.timeStamp)) return null
+
+    return data.value
   }
   /**
    *
-   * @param {*} key 缓存key
-   * @param {*} value 缓存数
+   * @param {String} key 缓存key
+   * @param {*} value 缓存数据
    */
-  set(key: string, value: any): void {
-    this.localStorage.setItem(this.jointKey(key), JSON.stringify(value))
+  set(key: string, value: any, options?: SetOptionsType): void {
+    const { isForever } = options || {}
+
+    this.localStorage.setItem(this.jointKey(key), this.dataFormatter(value, isForever))
   }
 
   /**
-   *
+   * 移除key
    * @param {*} key
    */
   remove(key: string): void {
@@ -55,9 +80,41 @@ export default class BaseStorage {
   }
 
   /**
-   * @returns void
+   * 清除廍
    */
-  clear(): void {
-    return this.localStorage.clear()
+  clearAll(): void {
+    this.localStorage.clear()
+  }
+
+  jointKey(key: string): string {
+    return this.prefix + key
+  }
+
+  /**
+   * 默认存贮格式
+   * @param {*}  data
+   * @returns
+   */
+  dataFormatter(data: any, isForever = false): string {
+    const value: DataFormatterType = {
+      value: data,
+      timeStamp: isForever ? undefined : new Date().getTime()
+    }
+
+    return JSON.stringify(value)
+  }
+
+  /**
+   * token是否过期
+   * @param {Number} timeStamp
+   * @returns
+   */
+  isExpires(timeStamp: TimeStampType): boolean {
+    // 无时间戳 永久保存
+    if (!timeStamp) return false
+
+    if (new Date().getTime() <= timeStamp) return true
+
+    return false
   }
 }

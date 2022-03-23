@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-18 14:41:54
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 21:54:01
+ * @LastEditTime: 2022-03-23 14:32:10
  * @FilePath: \vite-admin-vue\src\store\modules\user.ts
  */
 
@@ -41,7 +41,12 @@ const routeModule: Module<VStoreRoot.User.UserRootState, VStoreRoot.RootState> =
     },
 
     // 退出登录
-    loginOutSystem() {
+    loginOutSystem(content) {
+      const { clearCache, setLayoutCache } = useStorageHelper()
+
+      clearCache()
+
+      setLayoutCache(content.rootState.app.layoutConfig)
       router.push({ name: 'Login' })
     }
   }

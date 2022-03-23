@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 10:14:20
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 17:54:32
+ * @LastEditTime: 2022-03-23 14:31:31
  * @FilePath: \vite-admin-vue\src\router\guard\helper.ts
  */
 
@@ -62,5 +62,17 @@ export function keepAlive(routerTo: RouteLocationNormalized): void {
         })
       }
     }
+  }
+}
+
+/**
+ * 初始化
+ */
+export function initApp() {
+  const { getLayoutCache } = useStorageHelper()
+
+  const layout = getLayoutCache()
+  if (layout) {
+    store.commit('app/setLayoutConfig', layout)
   }
 }
