@@ -17,6 +17,7 @@ specifiers:
   eslint-plugin-prettier: ^4.0.0
   eslint-plugin-vue: ^8.5.0
   husky: ^7.0.4
+  nprogress: ^0.2.0
   prettier: ^2.5.1
   sass: ^1.49.9
   sass-loader: ^12.6.0
@@ -35,6 +36,7 @@ dependencies:
   axios: 0.26.1
   dayjs: 1.11.0
   element-plus: 2.1.1_vue@3.2.31
+  nprogress: 0.2.0
   vue: 3.2.31
   vue-router: registry.npmmirror.com/vue-router/4.0.13_vue@3.2.31
   vuex: registry.npmmirror.com/vuex/4.0.2_vue@3.2.31
@@ -1524,6 +1526,10 @@ packages:
       {
         integrity: sha512-157VNH4CngrcsvF8xOVOe22cwniIR3nxSltdctvQeHZj8JttEeOXffK28jucWfWBXs0QNetAumjc1GiInnwX4w==
       }
+    dev: false
+
+  /nprogress/0.2.0:
+    resolution: { integrity: sha1-y480xTIT2JVyP8urkH6UIq28r7E= }
     dev: false
 
   /parent-module/1.0.1:

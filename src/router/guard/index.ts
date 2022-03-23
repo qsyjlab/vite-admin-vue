@@ -4,16 +4,18 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 15:02:43
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-23 14:31:56
+ * @LastEditTime: 2022-03-23 14:58:40
  * @FilePath: \vite-admin-vue\src\router\guard\index.ts
  */
 
 import type { Router } from 'vue-router'
 // import { useStore } from 'vuex'
 import { handlePermissionRouter, keepAlive, initApp } from './helper'
+import NProgress from 'nprogress'
 
 export function createRouterGuard(router: Router) {
   router.beforeEach(async (to, from, next) => {
+    NProgress.start()
     initApp()
 
     await handlePermissionRouter(to, from, next, router)
@@ -21,5 +23,7 @@ export function createRouterGuard(router: Router) {
 
   router.afterEach(to => {
     keepAlive(to)
+
+    NProgress.done()
   })
 }
