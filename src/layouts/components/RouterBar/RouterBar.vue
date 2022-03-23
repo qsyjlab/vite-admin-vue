@@ -40,11 +40,11 @@
           </span> -->
         </div>
         <div
-          v-if="!biddenRouter.includes(item.name)"
+          v-if="!biddenRouter.includes(item.name) && item.fullPath == currentRouter?.fullPath"
           class="close-icon-style"
           @click="removeRouterBar($event, index)"
         >
-          <el-icon> <icon-close /> </el-icon>
+          <icon-close :size="18" />
         </div>
       </div>
     </div>
