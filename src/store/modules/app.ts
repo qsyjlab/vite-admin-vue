@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2021-12-29 10:51:21
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-23 14:30:26
+ * @LastEditTime: 2022-03-23 21:40:23
  */
 // import { storage } from '@plugins/methods'
 
@@ -30,6 +30,9 @@ const appMoudle: Module<VStoreRoot.App.AppRootState, VStoreRoot.RootState> = {
     // 折叠菜单栏
     collapseMenu(state) {
       state.layoutConfig.isCollapse = !state.layoutConfig.isCollapse
+      const { setLayoutCache } = useStorageHelper()
+
+      setLayoutCache(state.layoutConfig)
     },
     // 设置抽屉开关
     toggleSettingDrawer(state) {
