@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-23 22:20:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-23 23:19:35
+ * @LastEditTime: 2022-03-24 21:02:52
  * @FilePath: \vite-admin-vue\src\views\system\icon\components\ElementPlusIcon.vue
 -->
 
@@ -14,7 +14,7 @@
       v-for="(item, index) in iconList"
       :key="index"
       class="grid-item"
-      :item="renderIcon('Icon' + item.name, item.com)"
+      :item="{ name: 'Icon' + item.name, com: renderIcon('Icon' + item.name, item.com) }"
       >{{ item.name }}</icon-trigger
     >
   </div>

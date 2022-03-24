@@ -4,15 +4,15 @@
  * @Autor: qsyj
  * @Date: 2022-03-23 21:51:13
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-23 23:22:14
+ * @LastEditTime: 2022-03-24 16:32:25
  * @FilePath: \vite-admin-vue\src\views\system\icon\components\IconTrigger.vue
 -->
 
 <template>
-  <el-tooltip effect="dark" content="Top Left prompts info" placement="top-start">
+  <el-tooltip effect="dark" :content="item.name" placement="top-start">
     <div class="icon-item">
       <div class="icon-main">
-        <component :is="item"></component>
+        <component :is="item.com"></component>
       </div>
 
       <div class="icon-desc"><slot></slot></div>

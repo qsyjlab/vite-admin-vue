@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-22 22:20:57
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 22:21:02
+ * @LastEditTime: 2022-03-24 21:29:07
  * @FilePath: \vite-admin-vue\src\layouts\LayoutPackage\components\LayoutTabs.vue
 -->
 <template>
@@ -66,6 +66,7 @@ const style = computed(() => {
   left: 0;
   flex-shrink: 0;
   width: 100%;
+  background-color: white;
   transition-property: padding-left;
 }
 </style>

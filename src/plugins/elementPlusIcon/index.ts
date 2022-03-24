@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 11:33:39
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-23 23:19:54
+ * @LastEditTime: 2022-03-24 21:34:56
  * @FilePath: \vite-admin-vue\src\plugins\elementPlusIcon\index.ts
  */
 import { App, Component, h } from 'vue'
@@ -26,11 +26,11 @@ export function renderIcon(name: string, icon: Component) {
     props: {
       size: {
         type: Number,
-        default: 20
+        default: undefined
       },
       color: {
         type: String,
-        default: ''
+        default: undefined
       }
     },
     render() {
