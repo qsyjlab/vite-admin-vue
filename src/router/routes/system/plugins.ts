@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-21 13:18:51
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-24 21:45:32
+ * @LastEditTime: 2022-03-25 17:17:08
  * @FilePath: \vite-admin-vue\src\router\routes\system\plugins.ts
  */
 
@@ -33,6 +33,16 @@ export default defineExposeRoutes([
           isNotAuth: true
         },
         component: () => import('@/views/system/plugins/DayJs.vue')
+      },
+      {
+        name: 'CanvsToPdf',
+        path: 'canvs-to-pdf',
+        meta: {
+          title: 'CanvsToPdf',
+          icon: 'icon-camera-filled',
+          isNotAuth: true
+        },
+        component: () => import('@/views/system/plugins/CanvsToPdf.vue')
       }
     ]
   }

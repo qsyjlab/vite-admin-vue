@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 22:05:48
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-24 21:51:21
+ * @LastEditTime: 2022-03-25 16:59:25
  * @FilePath: \vite-admin-vue\src\router\routes\system\home.ts
  */
 
@@ -31,7 +31,7 @@ export default defineExposeRoutes([
       sort: 2,
       icon: 'icon-stopwatch'
     },
-    component: () => import(/* webpackChunkName: "Welcome" */ '@/views/system/WelcomeTo.vue'),
+    component: () => import('@/views/system/WelcomeTo.vue'),
     children: []
   }
 ])

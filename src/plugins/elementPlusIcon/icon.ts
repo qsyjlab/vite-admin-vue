@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 11:34:17
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-24 21:53:54
+ * @LastEditTime: 2022-03-25 16:59:21
  * @FilePath: \vite-admin-vue\src\plugins\elementPlusIcon\icon.ts
  */
 export {
@@ -21,5 +21,6 @@ export {
   Cellphone,
   List,
   Stopwatch,
-  Folder
+  Folder,
+  CameraFilled
 } from '@element-plus/icons-vue'
