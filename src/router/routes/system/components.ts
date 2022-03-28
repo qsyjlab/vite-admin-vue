@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-20 12:02:24
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-24 22:17:28
+ * @LastEditTime: 2022-03-27 21:15:51
  * @FilePath: \vite-admin-vue\src\router\routes\system\components.ts
  */
 
@@ -28,7 +28,7 @@ export default defineExposeRoutes([
         path: 'form',
         meta: {
           title: '表单',
-
+          isNotAuth: true,
           icon: 'icon-list'
         },
         component: () => import('@/views/system/components/Form.vue')

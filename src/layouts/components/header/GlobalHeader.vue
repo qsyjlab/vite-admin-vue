@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 14:17:37
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 11:23:39
+ * @LastEditTime: 2022-03-27 21:07:37
  * @FilePath: \vite-admin-vue\src\layouts\components\header\GlobalHeader.vue
 -->
 <template>
@@ -27,7 +27,8 @@ import { MenuCollapse, Breadcrumb, UserMenu } from './components'
   box-sizing: border-box;
   /* padding: 10px; */
   background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12); */
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -4,3 +4,8 @@
 #nprogress .bar {
   background: var(--nprogress-bar-bg-color, var(--nprogress-bar-default-bg-color)) !important;
 }
+
+:root {
+  --el-border-radius-base: 0px !important;
+  --el-box-shadow-light: 0 1px 4px rgb(0 21 41 / 8%) !important;
+}

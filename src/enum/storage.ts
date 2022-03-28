@@ -4,10 +4,13 @@
  * @Autor: qsyj
  * @Date: 2022-03-18 13:56:24
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-23 13:28:54
+ * @LastEditTime: 2022-03-27 21:13:54
  * @FilePath: \vite-admin-vue\src\enum\storage.ts
  */
 
+/**
+ * 缓存 key
+ */
 export enum StorageKeys {
   Prefix = 'BAISC',
   Expires = 86400,

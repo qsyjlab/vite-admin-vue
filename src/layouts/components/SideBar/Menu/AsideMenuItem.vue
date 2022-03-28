@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 21:53:45
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-24 21:52:21
+ * @LastEditTime: 2022-03-27 21:37:39
  * @FilePath: \vite-admin-vue\src\layouts\components\SideBar\Menu\AsideMenuItem.vue
 -->
 <template>
@@ -13,7 +13,7 @@
     :index="menuItem.name"
     :route="{ name: menuItem.name }"
   >
-    <component :is="menuItem.meta.icon"></component>
+    <component :is="menuItem.meta.icon" :size="14"></component>
     <template #title>
       <span>{{ menuItem.meta.title }}</span></template
     >
@@ -21,7 +21,7 @@
 
   <el-sub-menu v-else :index="menuItem.name">
     <template #title>
-      <component :is="menuItem.meta.icon"></component>
+      <component :is="menuItem.meta.icon" :size="14"></component>
       <span>{{ menuItem.meta.title }}</span>
     </template>
 
@@ -31,7 +31,7 @@
         :index="childMenu.name"
         :route="{ name: childMenu.name }"
       >
-        <component :is="childMenu.meta.icon"></component>
+        <component :is="childMenu.meta.icon" :size="14"></component>
         <template #title>
           {{ childMenu.meta.title }}
         </template>

@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-23 11:32:09
+ * @LastEditTime: 2022-03-27 21:07:04
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
@@ -28,6 +28,7 @@
     <div class="layout-main_wapper">
       <component :is="createBlankContainer('BasicLayout')"></component>
     </div>
+
     <template #footer>
       <div class="layout-footer_wapper">
         <global-footer></global-footer>

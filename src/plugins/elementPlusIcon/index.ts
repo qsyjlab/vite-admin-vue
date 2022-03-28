@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 11:33:39
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-24 21:34:56
+ * @LastEditTime: 2022-03-27 21:36:39
  * @FilePath: \vite-admin-vue\src\plugins\elementPlusIcon\index.ts
  */
 import { App, Component, h } from 'vue'
