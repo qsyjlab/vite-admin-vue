@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-28 15:33:34
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-28 22:52:10
+ * @LastEditTime: 2022-03-28 23:15:11
  */
 
 import type {
@@ -13,10 +13,6 @@ import type {
   UploadRequestHandler,
   UploadFile
 } from 'element-plus'
-
-import { ref, onMounted } from 'vue'
-
-import PreviewImage from '../preview-image/PreviewImage.vue'
 
 export type QsUploadRequestHandler = UploadRequestHandler
 

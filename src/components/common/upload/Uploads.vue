@@ -41,6 +41,7 @@ export default {
 
 <script setup lang="ts">
 import { ElUpload } from 'element-plus'
+import { nextTick } from 'process'
 import { reactive, ref, toRefs, watch } from 'vue'
 import PreviewImage from '../preview-image/PreviewImage.vue'
 
@@ -81,7 +82,7 @@ const emit = defineEmits<{
   (e: 'change', value: ModelValueType[]): void
 }>()
 
-const preview = ref<InstanceType<typeof PreviewImage>>()
+const preview = ref<typeof PreviewImage>()
 
 const uploadRef = ref<InstanceType<typeof ElUpload>>()
 // const { previewImg } = usePreview()
@@ -101,7 +102,9 @@ watch(
 )
 
 const handlePreview = file => {
-  preview.value?.preview({ src: window.URL.createObjectURL(file.raw) })
+  if (!preview.value?.preview) return
+
+  preview.value.preview({ src: window.URL.createObjectURL(file.raw) })
 }
 
 // 处理文件移除事件
