@@ -47,6 +47,10 @@
   --el-button-active-border-color: var(--el-color-primary-light-1) !important;
 }
 
+:deep(.el-popper) {
+  --el-popper-border-radius: var(--el-popover-border-radius, 0px) !important;
+}
+
 .el-menu {
   --el-menu-item-height: 46px;
 }

@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-28 15:33:34
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-28 17:53:00
+ * @LastEditTime: 2022-03-28 22:52:10
  */
 
 import type {
@@ -44,24 +44,4 @@ export interface ResponseFile {
   code: number
   data?: any
   msg: string
-}
-
-/**
- * 图片预览
- * @returns
- */
-export const usePreview = () => {
-  const preview = ref<InstanceType<typeof PreviewImage>>()
-
-  onMounted(() => {
-    console.log('preview', preview)
-  })
-
-  function previewImg(src: string) {
-    console.log('preview', preview)
-  }
-
-  return {
-    previewImg
-  }
 }

@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-28 15:25:03
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-28 21:57:05
+ * @LastEditTime: 2022-03-28 22:52:19
 -->
 
 <template>
@@ -23,7 +23,7 @@ import { ref } from 'vue'
 const fileList = ref([])
 
 const fileChange = fileList => {
-  console.log('fileList', fileList)
+  // console.log('fileList', fileList)
 }
 </script>
 <style scoped></style>

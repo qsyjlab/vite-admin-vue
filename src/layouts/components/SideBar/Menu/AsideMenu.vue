@@ -27,8 +27,6 @@ const props = withDefaults(defineProps<AsideMenu>(), {
   menuList: () => []
 })
 
-console.log('menuList', props.menuList)
-
 const { useStateHelper } = useStoreHelper()
 const { layoutConfig } = useStateHelper<VStoreRoot.App.AppRootState>('app', ['layoutConfig'])
 </script>
