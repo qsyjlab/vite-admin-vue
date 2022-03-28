@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-20 12:02:24
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-27 21:15:51
+ * @LastEditTime: 2022-03-28 15:28:09
  * @FilePath: \vite-admin-vue\src\router\routes\system\components.ts
  */
 
@@ -29,9 +29,19 @@ export default defineExposeRoutes([
         meta: {
           title: '表单',
           isNotAuth: true,
-          icon: 'icon-list'
+          icon: 'icon-upload'
         },
         component: () => import('@/views/system/components/Form.vue')
+      },
+      {
+        name: 'Upload',
+        path: 'upload',
+        meta: {
+          title: '上传',
+          isNotAuth: true,
+          icon: 'icon-list'
+        },
+        component: () => import('@/views/system/components/Upload.vue')
       },
       {
         name: 'Table',

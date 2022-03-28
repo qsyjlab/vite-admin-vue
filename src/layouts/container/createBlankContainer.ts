@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 15:37:49
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-23 13:19:39
+ * @LastEditTime: 2022-03-28 15:17:23
  * @FilePath: \vite-admin-vue\src\layouts\container\createBlankContainer.ts
  */
 import { h, defineComponent, KeepAlive } from 'vue'
@@ -13,10 +13,6 @@ import { RouterView } from 'vue-router'
 import store from '@/store'
 
 export default (name: string, alive = true): Component => {
-  if (!name) {
-    console.warn('You must provide a name for this function')
-  }
-
   return defineComponent({
     name,
 

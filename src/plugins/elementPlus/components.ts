@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:13:26
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 22:43:52
+ * @LastEditTime: 2022-03-28 21:20:05
  * @FilePath: \vite-admin-vue\src\plugins\elementPlus\components.ts
  */
 
@@ -33,5 +33,6 @@ export {
   ElDatePicker,
   ElTable,
   ElTableColumn,
-  ElScrollbar
+  ElScrollbar,
+  ElUpload
 } from 'element-plus'
