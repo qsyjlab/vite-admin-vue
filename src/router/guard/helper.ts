@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 10:14:20
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-23 14:48:32
+ * @LastEditTime: 2022-03-28 22:30:13
  * @FilePath: \vite-admin-vue\src\router\guard\helper.ts
  */
 
@@ -20,6 +20,11 @@ export async function handlePermissionRouter(
   next: NavigationGuardNext,
   router: Router
 ) {
+  if (to.meta.href) {
+    window.open(to.meta.href)
+    next({ path: from.fullPath, replace: true, query: from.query })
+    return
+  }
   const { getTokenCahce } = useStorageHelper()
 
   const token = getTokenCahce()

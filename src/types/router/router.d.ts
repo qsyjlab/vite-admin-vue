@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 22:39:55
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 22:11:00
+ * @LastEditTime: 2022-03-28 22:28:39
  * @FilePath: \vite-admin-vue\src\types\router\router.d.ts
  */
 /// <reference types="vue-router" />
@@ -26,12 +26,14 @@ declare namespace VRouter {
     hideInBreadcrumb?: boolean
     // 排序
     sort?: number
+    // 外链
+    href?: string
   }
 
   // 路由成员类型
   export type DefineRoutes = import('vue-router').RouteRecordRaw & {
-    redirect?: Record<string, any>
-  } & {
+    redirect?: any
     children?: DefineRoutes[]
-  } & { meta?: import('vue-router').RouteMeta }
+    meta?: import('vue-router').RouteMeta
+  }
 }
