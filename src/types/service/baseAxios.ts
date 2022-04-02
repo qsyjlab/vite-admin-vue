@@ -4,26 +4,35 @@
  * @Autor: qsyj
  * @Date: 2022-03-13 01:14:04
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-13 01:23:53
+ * @LastEditTime: 2022-04-02 23:14:44
  * @FilePath: \vite-admin-vue\src\types\service\baseAxios.ts
  */
 
-import type { AxiosRequestConfig, AxiosResponse } from 'axios'
+import type { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
+
+export type RequestInterceptorsType = (config: AxiosRequestConfig) => AxiosRequestConfig
+
+export type RequestInterceptorsCatchType = (error: CatchError) => CatchError
+
+export type ResponseInterceptorsType = (response: AxiosResponse) => AxiosResponse
+
+export type ResponseInterceptorsCatchType = (error: CatchError) => CatchError
+
+export type CatchError = AxiosError
 
 export interface InterceptorsType {
-  requestInterceptors?: (config: AxiosRequestConfig) => AxiosRequestConfig
-  requestInterceptorsCatch?: (error: any) => any
-  responseInterceptors?: (response: AxiosResponse) => AxiosResponse
-  responseInterceptorsCatch?: (error: any) => any
+  requestInterceptors?: RequestInterceptorsType
+  requestInterceptorsCatch?: RequestInterceptorsCatchType
+  responseInterceptors?: ResponseInterceptorsType
+  responseInterceptorsCatch?: ResponseInterceptorsCatchType
 }
 
 export interface CustomRequestConfig extends AxiosRequestConfig {
   interceptorsHooks?: InterceptorsType
-  method?: VService.Method
 }
 
 export interface ResponseData<T = any> {
-  data?: T
-  code?: number
-  msg?: string
+  data: T
+  code: number
+  msg: string
 }

@@ -4,48 +4,36 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 11:33:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 15:02:19
+ * @LastEditTime: 2022-04-02 23:12:09
  * @FilePath: \vite-admin-vue\src\config\index.ts
  */
 
 import { isReadonly } from '@/utils'
 
-import { StorageKeys } from '@/enum'
+import { ReadOnlyConfig } from './types'
 
-interface readOnlyConfig {
-  readonly storage: {
-    prefix: StorageKeys.Prefix
-    expires: StorageKeys.Expires
-  }
-  readonly axios: {
-    headers: {
-      Authrization: {
-        position: string
-        value: string
-        key: string
-      }
-    }
+const VITE_EVN = import.meta.env
+
+export const url = {
+  baseUrl: {
+    system: VITE_EVN.VITE_APP_API_BASE_URL
+  },
+  fileUrl: {
+    file: VITE_EVN.VITE_APP_FILE_URL
   }
 }
 
-const config = isReadonly<readOnlyConfig>({
+const config = isReadonly<ReadOnlyConfig>({
   storage: {
-    prefix: StorageKeys.Prefix,
-    expires: StorageKeys.Expires
+    prefix: VITE_EVN.VITE_APP_LOCALSTORAGE_PREFIX,
+    expires: VITE_EVN.VITE_APP_LOCALSTORAGE_EXPIRES
   },
   axios: {
     headers: {
-      /**
-       * auth验证
-       * @description
-       */
-      Authrization: {
-        position: 'headers',
-        value: 'Bearer Auth',
-        key: 'Authorization'
-      }
+      Authrization: VITE_EVN.VITE_APP_AXIOS_HEADERS_AUTHRIZATION
     }
-  }
+  },
+  url
 })
 
 export { config as default }

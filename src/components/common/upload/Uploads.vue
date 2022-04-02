@@ -41,7 +41,7 @@ export default {
 
 <script setup lang="ts">
 import { ElUpload } from 'element-plus'
-import { nextTick } from 'process'
+
 import { reactive, ref, toRefs, watch } from 'vue'
 import PreviewImage from '../preview-image/PreviewImage.vue'
 
