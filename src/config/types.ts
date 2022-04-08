@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-04-02 23:11:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-04-02 23:11:33
+ * @LastEditTime: 2022-04-08 22:03:11
  */
 
 export interface UrlType {
@@ -23,7 +23,7 @@ export interface ReadOnlyConfig {
   }
   readonly axios: {
     headers: {
-      Authrization: string
+      Authorization: string
     }
   }
   readonly url: UrlType

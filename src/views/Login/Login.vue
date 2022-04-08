@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 15:16:22
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 21:54:56
+ * @LastEditTime: 2022-04-04 17:30:00
  * @FilePath: \vite-admin-vue\src\views\Login\Login.vue
 -->
 <template>
@@ -42,7 +42,6 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import { useRouter } from 'vue-router'
 
 import { useStoreHelper } from '@/hooks'
 const { useActionsHelper } = useStoreHelper()

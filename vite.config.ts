@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-29 15:55:17
+ * @LastEditTime: 2022-04-08 21:50:38
  * @FilePath: \vite-admin-vue\vite.config.ts
  */
 import { defineConfig } from 'vite'
@@ -48,8 +48,8 @@ export default defineConfig(() => {
       //   ext: '.gz'
       // })
     ],
-    base: '/dist/',
-    publicDir: 'dist',
+    base: '/',
+    publicDir: '/',
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),

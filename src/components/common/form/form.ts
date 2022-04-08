@@ -4,15 +4,16 @@
  * @Autor: qsyj
  * @Date: 2022-01-12 09:54:13
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 11:34:12
+ * @LastEditTime: 2022-04-08 21:46:44
  */
 
-import type { Component, Prop, PropType } from 'vue'
+import type { Component, PropType } from 'vue'
 export interface FormType {
   label?: string
   key: string
   tag?: string | Component
   slot?: string
+  isRender?: boolean
   attrs?: {
     [propName: string]: any
   }

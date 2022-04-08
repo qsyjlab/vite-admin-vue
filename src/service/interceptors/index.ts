@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-04-02 22:03:14
  * @LastEditors: qsyj
- * @LastEditTime: 2022-04-02 23:08:49
+ * @LastEditTime: 2022-04-08 21:52:41
  */
 
 import type {
@@ -13,7 +13,7 @@ import type {
   ResponseInterceptorsType,
   ResponseInterceptorsCatchType,
   InterceptorsType
-} from '@/types/service/baseAxios'
+} from '@/service/baseAxiosRequest/baseAxios'
 
 import { handleHttpError, requestHeaders } from './hepler'
 

@@ -1,11 +1,10 @@
 /*
  * @Description: 系统变量全局声明文件
- * @Version: 1.0.0
+ * @Version:
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-04-02 23:12:35
- * @FilePath: \vite-admin-vue\src\env.d.ts
+ * @LastEditTime: 2022-04-02 23:26:02
  */
 /// <reference types="vite/client" />
 
