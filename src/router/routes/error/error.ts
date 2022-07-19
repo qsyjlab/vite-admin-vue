@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-21 15:55:18
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 16:01:06
+ * @LastEditTime: 2022-07-19 16:56:22
  * @FilePath: \vite-admin-vue\src\router\routes\error\error.ts
  */
 
@@ -18,7 +18,7 @@ export default defineExposeRoutes([
       title: '404',
       isAuth: false
     },
-    component: () => import(/* webpackChunkName: "Login" */ '@/views/error/Error404.vue')
+    component: () => import('@/views/error/Error404.vue')
   },
   {
     path: '/error403',
@@ -27,6 +27,6 @@ export default defineExposeRoutes([
       title: '403',
       isAuth: false
     },
-    component: () => import(/* webpackChunkName: "Login" */ '@/views/error/Error403.vue')
+    component: () => import('@/views/error/Error403.vue')
   }
 ])
