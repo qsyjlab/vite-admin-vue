@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 11:12:36
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 21:53:48
+ * @LastEditTime: 2022-07-19 16:27:34
  * @FilePath: \vite-admin-vue\src\layouts\components\header\components\UserMenu\UserMenu.vue
 -->
 
@@ -23,11 +23,9 @@
   </el-dropdown>
 </template>
 <script setup lang="ts">
-import { useStoreHelper } from '@/hooks'
+import { useUserStore } from '@/store'
 
-const { useActionsHelper } = useStoreHelper()
-
-const { loginOutSystem } = useActionsHelper<VStoreRoot.User.UserActions>('user', ['loginOutSystem'])
+const { loginOutSystem } = useUserStore()
 
 const logout = () => {
   loginOutSystem()

@@ -4,14 +4,14 @@
  * @Autor: qsyj
  * @Date: 2022-04-02 22:19:48
  * @LastEditors: qsyj
- * @LastEditTime: 2022-04-08 22:05:00
+ * @LastEditTime: 2022-07-19 11:47:43
  */
 
 import { CatchError, CustomAxiosResponse } from '@/service/baseAxiosRequest/baseAxios'
 
 import { useStorageHelper } from '@/hooks'
 import config from '@/config'
-import store from '@/store'
+import store from '@/vuex'
 import { ElMessage } from 'element-plus'
 
 interface ErrorParams {
@@ -51,7 +51,7 @@ export function handleHttpError(error: CatchError): boolean {
    * error message
    * @param msg
    */
-  function errorMessage(msg) {
+  function errorMessage(msg: string) {
     import('element-plus').then(el => el.ElMessage.error(msg))
   }
 

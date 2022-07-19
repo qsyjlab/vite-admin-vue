@@ -4,15 +4,20 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 10:14:20
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-28 22:30:13
+ * @LastEditTime: 2022-07-19 16:50:12
  * @FilePath: \vite-admin-vue\src\router\guard\helper.ts
  */
 
-import type { RouteLocationNormalized, Router, NavigationGuardNext } from 'vue-router'
+import type {
+  RouteLocationNormalized,
+  Router,
+  NavigationGuardNext,
+  RouteRecordRaw
+} from 'vue-router'
 
-import store from '@/store'
 import { useStorageHelper } from '@/hooks'
 import { hasAuth } from '@/utils/router/auth'
+import { MenuItem, useAppStore, useRouteStore } from '@/store'
 
 export async function handlePermissionRouter(
   to: RouteLocationNormalized,
@@ -27,6 +32,8 @@ export async function handlePermissionRouter(
   }
   const { getTokenCahce } = useStorageHelper()
 
+  const routeStore = useRouteStore()
+
   const token = getTokenCahce()
 
   const isLogin = !!token
@@ -39,8 +46,9 @@ export async function handlePermissionRouter(
 
   if (!auth) return next({ name: 'Error403' })
 
-  if (!store.state.route.isFristEntry) {
-    await store.commit('route/initRoutes', to.matched[0]?.children || [])
+  if (!routeStore.isFristEntry) {
+    const matched = to.matched[0].children
+    await routeStore.initRoutes(transformRouteToList(matched, []))
   }
 
   return next()
@@ -57,15 +65,15 @@ export function keepAlive(routerTo: RouteLocationNormalized): void {
     for (let i = length - 1; i > 0; i--) {
       const [own, parent] = [routerTo.matched[i], routerTo.matched[i - 1]]
 
-      if (!own.meta.isKeepAlive) {
-        Object.keys(own.components).forEach(key => {
-          if (parent.components.default.name && own.components[key].name)
-            store.commit('route/addAlive', {
-              page: parent.components.default.name,
-              alive: own.components[key].name
-            })
-        })
-      }
+      // if (!own.meta.isKeepAlive) {
+      //   Object.keys(own.components).forEach(key => {
+      //     if (parent.components.default.name && own.components[key].name)
+      //       store.commit('route/addAlive', {
+      //         page: parent.components.default.name,
+      //         alive: own.components[key].name
+      //       })
+      //   })
+      // }
     }
   }
 }
@@ -75,9 +83,34 @@ export function keepAlive(routerTo: RouteLocationNormalized): void {
  */
 export function initApp() {
   const { getLayoutCache } = useStorageHelper()
+  const appStore = useAppStore()
 
   const layout = getLayoutCache()
   if (layout) {
-    store.commit('app/setLayoutConfig', layout)
+    appStore.setLayoutConfig(layout)
   }
+}
+
+/**
+ *
+ * @param { RouteRecordRaw[] } routes
+ * @param { MenuItem[]} treeMap
+ * @returns
+ */
+export function transformRouteToList(routes: RouteRecordRaw[], treeMap: MenuItem[]): MenuItem[] {
+  if (routes && routes?.length === 0) return []
+
+  return routes
+    .reduce((acc, cur) => {
+      if (cur.meta?.isNotAuth || hasAuth(cur.name as string)) {
+        acc.push({
+          name: cur.name as string,
+          meta: cur.meta,
+          children: transformRouteToList(cur.children || [], [])
+        })
+      }
+      return acc
+    }, treeMap)
+    .reverse()
+    .sort((last, next) => (last.meta?.sort || 0) - (next.meta?.sort || 0))
 }

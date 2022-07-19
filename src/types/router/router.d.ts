@@ -4,10 +4,9 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 22:39:55
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-28 22:28:39
+ * @LastEditTime: 2022-07-19 11:30:32
  * @FilePath: \vite-admin-vue\src\types\router\router.d.ts
  */
-/// <reference types="vue-router" />
 
 declare namespace VRouter {
   // router meta

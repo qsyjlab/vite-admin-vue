@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 14:59:32
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-27 21:07:04
+ * @LastEditTime: 2022-07-19 16:38:39
  * @FilePath: \vite-admin-vue\src\layouts\BasicLayout\BasicLayout.vue
 -->
 <template>
@@ -42,8 +42,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useStoreHelper } from '@/hooks'
-import { useStore } from '@/store'
+import { useAppStore, useRouteStore } from '@/store'
 import { BasicLayout } from '@/layouts/LayoutPackage'
 import { createBlankContainer } from '@/layouts'
 import {
@@ -54,10 +53,9 @@ import {
   GlobalRouterBar
 } from '../components'
 
-const { useStateHelper } = useStoreHelper()
-const { layoutConfig } = useStateHelper<VStoreRoot.App.AppStateHepler>('app', ['layoutConfig'])
+const appStore = useAppStore()
 
-const store = useStore()
+const routeStore = useRouteStore()
 
 const routerBarAttrs = computed(() => {
   return {
@@ -67,12 +65,12 @@ const routerBarAttrs = computed(() => {
 })
 
 // 获取菜单列表
-const menuList = computed(() => store.state.route.menuList)
+const menuList = computed(() => routeStore.menuList)
 
 // layout props
 const layoutAttrs = computed(() => {
   return {
-    asideWidth: layoutConfig.value.isCollapse ? 65 : 220
+    asideWidth: appStore.layoutConfig.isCollapse ? 65 : 220
   }
 })
 </script>

@@ -20,12 +20,14 @@
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "nprogress": "^0.2.0",
+    "pinia": "^2.0.16",
     "vue": "^3.2.31",
     "vue-router": "4",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@types/node": "^17.0.21",
+    "@types/nprogress": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
     "@vitejs/plugin-vue": "^2.2.0",

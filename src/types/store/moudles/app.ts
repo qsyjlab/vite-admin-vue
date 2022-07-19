@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-12 17:01:17
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-23 13:40:07
+ * @LastEditTime: 2022-07-19 13:17:24
  * @FilePath: \vite-admin-vue\src\types\store\moudles\app.ts
  */
 

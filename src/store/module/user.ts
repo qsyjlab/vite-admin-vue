@@ -4,29 +4,35 @@
  * @Autor: qsyj
  * @Date: 2022-03-18 14:41:54
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-24 21:49:45
+ * @LastEditTime: 2022-07-19 16:33:58
  * @FilePath: \vite-admin-vue\src\store\modules\user.ts
  */
 
-import type { Module } from 'vuex'
+// import type { Module, useStore } from 'vuex'
+// : Module<VStoreRoot.User.UserRootState, VStoreRoot.RootState> =
 import { router } from '@/router'
 import { ElMessage } from 'element-plus'
 import { useStorageHelper } from '@/hooks'
+import useAppStore from './app'
+import { defineStore } from 'pinia'
 
-const routeModule: Module<VStoreRoot.User.UserRootState, VStoreRoot.RootState> = {
-  namespaced: true,
-  state: {
-    userInfo: {
-      userId: '',
-      userName: '',
-      userRole: ''
-    },
-    // 权限
-    permissions: ['Home', 'Welcome', 'Dashboard', 'Components']
+export const userStoreKey = 'userStoreKey'
+
+export const useUserStore = defineStore(userStoreKey, {
+  state() {
+    return {
+      userInfo: {
+        userId: '',
+        userName: '',
+        userRole: ''
+      },
+      // 权限
+      permissions: ['Home', 'Welcome', 'Dashboard', 'Components']
+    }
   },
-  mutations: {},
+  // mutations: {},
   actions: {
-    loginSystem({ commit }, data) {
+    loginSystem(form: { username: string; password: string }) {
       const { setTokenCahce, setUserInfoCache } = useStorageHelper()
 
       setTokenCahce('token')
@@ -41,15 +47,17 @@ const routeModule: Module<VStoreRoot.User.UserRootState, VStoreRoot.RootState> =
     },
 
     // 退出登录
-    loginOutSystem(content) {
+    loginOutSystem() {
       const { clearCache, setLayoutCache } = useStorageHelper()
 
       clearCache()
 
-      setLayoutCache(content.rootState.app.layoutConfig)
+      const appStore = useAppStore()
+
+      setLayoutCache(appStore.layoutConfig)
       router.push({ name: 'Login' })
     }
   }
-}
+})
 
-export default routeModule
+export default useUserStore

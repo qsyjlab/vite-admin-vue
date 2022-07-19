@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 15:16:22
  * @LastEditors: qsyj
- * @LastEditTime: 2022-04-04 17:30:00
+ * @LastEditTime: 2022-07-19 16:33:09
  * @FilePath: \vite-admin-vue\src\views\Login\Login.vue
 -->
 <template>
@@ -41,12 +41,10 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from '@/store'
 import { reactive } from 'vue'
 
-import { useStoreHelper } from '@/hooks'
-const { useActionsHelper } = useStoreHelper()
-
-const { loginSystem } = useActionsHelper<VStoreRoot.User.UserActions>('user', ['loginSystem'])
+const { loginSystem } = useUserStore()
 
 const loginForm = reactive({
   username: '',
