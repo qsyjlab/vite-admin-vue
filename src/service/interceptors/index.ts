@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-04-02 22:03:14
  * @LastEditors: qsyj
- * @LastEditTime: 2022-04-08 21:52:41
+ * @LastEditTime: 2022-07-20 10:24:05
  */
 
 import type {
@@ -20,7 +20,7 @@ import { handleHttpError, requestHeaders } from './hepler'
 const requestInterceptors: RequestInterceptorsType = config => {
   config.headers = requestHeaders()
 
-  console.log(config.headers)
+  // console.log(config.headers)
 
   return config
 }

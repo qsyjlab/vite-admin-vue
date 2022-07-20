@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 22:09:49
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 17:07:00
+ * @LastEditTime: 2022-07-20 10:51:10
  * @FilePath: \vite-admin-vue\src\views\system\WelcomeTo.vue
 -->
 
@@ -19,4 +19,3 @@
     <el-button type="danger">asdas</el-button>
   </el-card>
 </template>
-<script setup lang="ts"></script>

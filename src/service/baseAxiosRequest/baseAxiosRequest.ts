@@ -4,18 +4,18 @@
  * @Autor: qsyj
  * @Date: 2022-03-13 00:49:54
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 09:43:03
+ * @LastEditTime: 2022-07-20 10:45:43
  */
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 import type { AxiosInstance } from 'axios'
 
-import type { InterceptorsType, CustomRequestConfig, ResponseData } from './baseAxios'
+import type { InterceptorsType, CustomRequestConfig, ResponseData, CatchError } from './baseAxios'
 
 class BaseAxios {
-  instanceConfig: CustomRequestConfig
-  instance: AxiosInstance
-  interceptors: InterceptorsType
+  private instanceConfig: CustomRequestConfig
+  private instance: AxiosInstance
+  private interceptors: InterceptorsType
   // 初始化设置
   constructor(config: CustomRequestConfig) {
     const { interceptorsHooks = {} } = config
@@ -40,13 +40,14 @@ class BaseAxios {
     )
   }
 
-  request<T = any, D = any>(options: CustomRequestConfig = {}): Promise<T> {
+  request<T = any>(options: CustomRequestConfig = {}): Promise<ResponseData<T>> {
     return this.instance
-      .request<any, ResponseData<T>, D>({
+      .request<T>({
         ...this.instanceConfig,
         ...options
       })
-      .then((response: any): any => response.data)
+      .then(response => response.data)
+      .catch((error: CatchError) => Promise.reject(error))
   }
 }
 export default BaseAxios

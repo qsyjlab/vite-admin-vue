@@ -4,14 +4,14 @@
  * @Autor: qsyj
  * @Date: 2022-04-02 22:19:48
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-19 11:47:43
+ * @LastEditTime: 2022-07-20 10:31:24
  */
 
 import { CatchError, CustomAxiosResponse } from '@/service/baseAxiosRequest/baseAxios'
 
 import { useStorageHelper } from '@/hooks'
 import config from '@/config'
-import store from '@/vuex'
+import { useStore } from '@/store'
 import { ElMessage } from 'element-plus'
 
 interface ErrorParams {
@@ -38,7 +38,7 @@ export function requestHeaders() {
     headers.Authorization += token
   }
 
-  return headers
+  return {}
 }
 
 /**
@@ -72,7 +72,9 @@ export function handleHttpError(error: CatchError): boolean {
    */
   function noAuthError(config: ErrorParams) {
     errorMessage(config.msg)
-    store.commit('user/loginOutSystem')
+
+    const { userStore } = useStore()
+    userStore.loginOutSystem()
   }
 
   const errorMap = new Map<ErrorMapKey, ErrorMap>([
@@ -96,7 +98,7 @@ export function handleHttpError(error: CatchError): boolean {
 }
 
 export function handleHttpBodyStatus(response: CustomAxiosResponse) {
-  if (response.data.code !== 1) {
-    ElMessage.error(response.data.msg)
-  }
+  // if (response.data.code !== 1) {
+  //   ElMessage.error(response.data.msg)
+  // }
 }
