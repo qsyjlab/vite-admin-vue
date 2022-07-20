@@ -80,7 +80,7 @@ export default {
 
 <script setup lang="ts">
 import { ElForm } from 'element-plus'
-import { buildProps, EmitEnum } from './form'
+import { buildProps } from './form'
 import { computed, nextTick, onBeforeMount, reactive, ref, toRefs, watch } from 'vue'
 
 const props = defineProps(buildProps)
@@ -98,7 +98,7 @@ const state = reactive<reactiveType>({
   rules: {}
 })
 
-const { query, formLayout, rules } = toRefs(state)
+const { query, rules } = toRefs(state)
 
 // created
 onBeforeMount(async () => {

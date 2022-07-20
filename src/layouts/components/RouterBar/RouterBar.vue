@@ -19,25 +19,6 @@
         <div v-if="item.fullPath == currentRouter?.fullPath" class="active-dot"></div>
         <div>
           {{ item?.meta?.title }}
-          <!-- <span
-            v-if="Object.keys(item.query).length === 0 && Object.keys(item.params).length === 0"
-          >
-            {{ item?.meta?.title }}
-          </span>
-          <span
-            v-else-if="
-              Object.keys(item.query).length !== 0 && Object.keys(item.params).length === 0
-            "
-          >
-            {{ item?.meta?.title }} - {{ item.query.id }}
-          </span>
-          <span
-            v-else-if="
-              Object.keys(item.query).length === 0 && Object.keys(item.params).length !== 0
-            "
-          >
-            {{ item?.meta?.title }} - {{ item.params.id }}
-          </span> -->
         </div>
         <div
           v-if="!biddenRouter.includes(item.name) && item.fullPath == currentRouter?.fullPath"

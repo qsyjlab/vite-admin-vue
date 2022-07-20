@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2021-12-30 14:08:56
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 23:15:20
+ * @LastEditTime: 2022-07-20 14:35:15
 -->
 <template>
   <el-breadcrumb :separator="'/'">
@@ -24,7 +24,7 @@ import { onMounted, reactive, toRefs } from 'vue'
 import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import type { RouteLocationMatched, RouteMeta } from 'vue-router'
 
-interface reactiveTypes {
+interface ReactiveTypes {
   breadCrumbList: {
     name: string
     path: string
@@ -34,7 +34,7 @@ interface reactiveTypes {
 
 const route = useRoute()
 
-const state = reactive<reactiveTypes>({
+const state = reactive<ReactiveTypes>({
   breadCrumbList: []
 })
 

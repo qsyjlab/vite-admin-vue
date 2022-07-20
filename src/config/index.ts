@@ -4,11 +4,11 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 11:33:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-04-08 22:03:09
+ * @LastEditTime: 2022-07-20 14:20:58
  * @FilePath: \vite-admin-vue\src\config\index.ts
  */
 
-import { isReadonly } from '@/utils'
+import { readonly } from '@/utils'
 
 import { ReadOnlyConfig } from './types'
 
@@ -23,7 +23,7 @@ export const url = {
   }
 }
 
-const config = isReadonly<ReadOnlyConfig>({
+const config = readonly<ReadOnlyConfig>({
   storage: {
     prefix: VITE_EVN.VITE_APP_LOCALSTORAGE_PREFIX,
     expires: VITE_EVN.VITE_APP_LOCALSTORAGE_EXPIRES

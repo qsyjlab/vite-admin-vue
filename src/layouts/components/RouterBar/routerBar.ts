@@ -4,17 +4,17 @@
  * @Autor: qsyj
  * @Date: 2022-03-23 09:38:59
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-23 10:34:23
+ * @LastEditTime: 2022-07-20 14:36:07
  * @FilePath: \vite-admin-vue\src\layouts\components\RouterBar\routerBar.ts
  */
 
-import { RouteRecordNormalized, RouteLocationNormalizedLoaded } from 'vue-router'
+import type { RouteRecordNormalized, RouteLocationNormalizedLoaded, RouteMeta } from 'vue-router'
 
 export interface RouterType {
   fullPath: string
   path: string
   name: string
-  meta: VRouter.RouteMeta
+  meta: RouteMeta
   params: Record<string | number, any>
   query: Record<string | number, any>
 }
