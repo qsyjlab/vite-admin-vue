@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-04-08 21:50:38
+ * @LastEditTime: 2022-07-20 09:10:16
  * @FilePath: \vite-admin-vue\vite.config.ts
  */
 import { defineConfig } from 'vite'
@@ -36,7 +36,6 @@ export default defineConfig(() => {
         include: [],
         dirs: [],
         // 排除路径
-
         resolvers: [ElementPlusResolver()]
       })
       // viteCompression({
