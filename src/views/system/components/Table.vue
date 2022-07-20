@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-21 21:55:46
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 22:15:58
+ * @LastEditTime: 2022-07-20 11:11:27
  * @FilePath: \vite-admin-vue\src\views\system\components\Table.vue
 -->
 <template>
@@ -15,6 +15,11 @@
     <qs-table :columns="columns" :data="dataSource" size="large"></qs-table>
   </el-card>
 </template>
+
+<script lang="ts">
+export default { name: 'Table' }
+</script>
+
 <script setup lang="ts">
 import { defineColumns } from '@/components/utils'
 

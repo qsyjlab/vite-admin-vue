@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-25 17:01:41
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-27 21:04:46
+ * @LastEditTime: 2022-07-20 11:13:04
  * @FilePath: \vite-admin-vue\src\views\system\plugins\CanvsToPdf.vue
 -->
 
@@ -20,6 +20,11 @@
     <el-button @click="canvesToPdf">htmlcanvs to pdf</el-button>
   </el-card>
 </template>
+
+<script lang="ts">
+export default { name: 'CanvsToPdf' }
+</script>
+
 <script setup lang="ts">
 import html2canvas from 'html2canvas'
 import { jsPDF } from 'jspdf'

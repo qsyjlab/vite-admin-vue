@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-21 13:18:51
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-25 17:17:08
+ * @LastEditTime: 2022-07-20 11:19:58
  * @FilePath: \vite-admin-vue\src\router\routes\system\plugins.ts
  */
 
@@ -22,7 +22,7 @@ export default defineExposeRoutes([
       isNotAuth: true
     },
     redirect: { name: 'DayJs' },
-    component: createBlankContainer('Components'),
+    component: createBlankContainer('Plugins'),
     children: [
       {
         name: 'DayJs',

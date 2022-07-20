@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 10:14:20
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-19 16:50:12
+ * @LastEditTime: 2022-07-20 11:18:57
  * @FilePath: \vite-admin-vue\src\router\guard\helper.ts
  */
 
@@ -17,7 +17,7 @@ import type {
 
 import { useStorageHelper } from '@/hooks'
 import { hasAuth } from '@/utils/router/auth'
-import { MenuItem, useAppStore, useRouteStore } from '@/store'
+import useStore, { MenuItem, useAppStore, useRouteStore } from '@/store'
 
 export async function handlePermissionRouter(
   to: RouteLocationNormalized,
@@ -61,18 +61,23 @@ export async function handlePermissionRouter(
 export function keepAlive(routerTo: RouteLocationNormalized): void {
   const length = routerTo.matched.length
 
+  const { routeStore } = useStore()
+
   if (length > 1) {
     for (let i = length - 1; i > 0; i--) {
       const [own, parent] = [routerTo.matched[i], routerTo.matched[i - 1]]
 
+      // console.log('own, parent', own, parent)
+
       // if (!own.meta.isKeepAlive) {
-      //   Object.keys(own.components).forEach(key => {
-      //     if (parent.components.default.name && own.components[key].name)
-      //       store.commit('route/addAlive', {
-      //         page: parent.components.default.name,
-      //         alive: own.components[key].name
-      //       })
-      //   })
+      Object.keys(own.components).forEach(key => {
+        if (parent.components.default.name && own.components[key].name) {
+          routeStore.addAlive({
+            page: parent.components.default.name,
+            alive: own.components[key].name
+          })
+        }
+      })
       // }
     }
   }

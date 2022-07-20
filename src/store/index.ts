@@ -3,7 +3,7 @@
  * @Autor: qsyj
  * @Date: 2022-07-19 11:48:34
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 09:24:50
+ * @LastEditTime: 2022-07-20 10:53:19
  */
 
 import { useAppStore, useRouteStore, useUserStore } from './module'
@@ -16,4 +16,5 @@ export const useStore = () => {
   }
 }
 
-export { useAppStore, useRouteStore, useUserStore, useStore as default }
+export * from './module'
+export { useStore as default }

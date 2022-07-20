@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 22:43:16
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 09:18:25
+ * @LastEditTime: 2022-07-20 11:30:59
  * @FilePath: \vite-admin-vue\src\store\modules\route.ts
  */
 
@@ -22,17 +22,21 @@ export interface MenuItem {
 export interface RouteState {
   menuList: MenuItem[]
   isFristEntry: boolean
-  keepAliveList: any
+  keepAliveList: {
+    [key: string]: {
+      [key: string]: Set<string>
+    }
+  }
 }
 
 export interface RouteAction {
   initRoutes: (routes: MenuItem[]) => void
-  addAlive: () => void
+  addAlive: (payload: { page: string; alive: string | undefined; name?: string }) => void
 }
 
 export interface RouteGetters {
   [key: string]: any
-  getAlive: (state: RouteState) => (page: string, name: string) => string[]
+  getAlive: (state: RouteState) => (page: string, name?: string) => string[]
 }
 
 export const routeStoreKey = 'routeStoreKey'
@@ -56,31 +60,31 @@ export const useRouteStore = defineStore<string, RouteState, RouteGetters, Route
 
         this.isFristEntry = true
       },
-      addAlive() {
-        // if (!this.keepAliveList[page]) {
-        //   this.keepAliveList = {
-        //     ...this.keepAliveList,
-        //     [page]: { [name]: [alive] }
-        //   }
-        //   return
-        // }
-        // if (!Array.isArray(this.keepAliveList[page][name])) {
-        //   this.keepAliveList[page] = {
-        //     ...this.keepAliveList[page],
-        //     [name]: [alive]
-        //   }
-        //   return
-        // }
-        // if (!this.keepAliveList[page][name].includes(alive)) {
-        //   this.keepAliveList[page][name].push(alive)
-        // }
+      addAlive(payload) {
+        const { page, alive, name = 'default' } = payload
+
+        if (!this?.keepAliveList[page]) {
+          const value = new Set<string>()
+          if (alive) {
+            value.add(alive)
+          }
+
+          this.keepAliveList = {
+            ...this.keepAliveList,
+            [page]: { [name]: value }
+          }
+        } else if (this.keepAliveList[page][name].size !== 0 && alive) {
+          this.keepAliveList[page][name].add(alive)
+        }
       }
     },
     getters: {
       getAlive: (state: RouteState) => {
         return (page, name = 'default') => {
-          const list = state.keepAliveList[page]?.[name] as string[]
-          return Array.isArray(list) ? list : []
+          const list = state.keepAliveList[page]?.[name]
+
+          if (!list) return []
+          return Array.from(list)
         }
       }
     }

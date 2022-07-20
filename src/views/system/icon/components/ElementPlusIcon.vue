@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-23 22:20:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-24 21:02:52
+ * @LastEditTime: 2022-07-20 11:12:30
  * @FilePath: \vite-admin-vue\src\views\system\icon\components\ElementPlusIcon.vue
 -->
 
@@ -19,6 +19,11 @@
     >
   </div>
 </template>
+
+<script lang="ts">
+export default { name: 'ElementPlusIcon' }
+</script>
+
 <script setup lang="ts">
 import IconTrigger from './IconTrigger.vue'
 import * as icons from '@/plugins/elementPlusIcon/icon'

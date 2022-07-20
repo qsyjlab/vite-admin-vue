@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 15:37:49
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-19 17:09:59
+ * @LastEditTime: 2022-07-20 11:32:28
  * @FilePath: \vite-admin-vue\src\layouts\container\createBlankContainer.ts
  */
 import { h, defineComponent, KeepAlive } from 'vue'
@@ -25,7 +25,6 @@ export default (name: string, alive = true): Component => {
   return defineComponent({
     name,
     setup() {
-      // TODO:  |  keepAlive 缓存
       const routeStore = useRouteStore()
       return () =>
         h(
@@ -36,9 +35,9 @@ export default (name: string, alive = true): Component => {
               if (alive)
                 return h(
                   KeepAlive,
-                  // { include:  routeStore.ge  routeStore.getters['route/getAlive'](name) },
+
                   {
-                    include: []
+                    include: routeStore.getAlive(name)
                   },
                   props.Component
                 )
