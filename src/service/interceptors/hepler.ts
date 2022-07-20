@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-04-02 22:19:48
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 10:31:24
+ * @LastEditTime: 2022-07-20 15:33:43
  */
 
 import { CatchError, CustomAxiosResponse } from '@/service/baseAxiosRequest/baseAxios'
@@ -12,7 +12,6 @@ import { CatchError, CustomAxiosResponse } from '@/service/baseAxiosRequest/base
 import { useStorageHelper } from '@/hooks'
 import config from '@/config'
 import { useStore } from '@/store'
-import { ElMessage } from 'element-plus'
 
 interface ErrorParams {
   msg: string

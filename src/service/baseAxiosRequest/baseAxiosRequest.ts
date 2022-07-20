@@ -4,9 +4,9 @@
  * @Autor: qsyj
  * @Date: 2022-03-13 00:49:54
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 10:45:43
+ * @LastEditTime: 2022-07-20 15:33:56
  */
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 
 import type { AxiosInstance } from 'axios'
 

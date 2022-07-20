@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 10:14:20
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 11:18:57
+ * @LastEditTime: 2022-07-20 15:31:27
  * @FilePath: \vite-admin-vue\src\router\guard\helper.ts
  */
 
@@ -16,7 +16,7 @@ import type {
 } from 'vue-router'
 
 import { useStorageHelper } from '@/hooks'
-import { hasAuth } from '@/utils/router/auth'
+import { hasAuth } from '@/utils'
 import useStore, { MenuItem, useAppStore, useRouteStore } from '@/store'
 
 export async function handlePermissionRouter(
@@ -27,8 +27,8 @@ export async function handlePermissionRouter(
 ) {
   if (to.meta.href) {
     window.open(to.meta.href)
-    next({ path: from.fullPath, replace: true, query: from.query })
-    return
+
+    return next({ path: from.fullPath, replace: true, query: from.query })
   }
   const { getTokenCahce } = useStorageHelper()
 
@@ -63,22 +63,20 @@ export function keepAlive(routerTo: RouteLocationNormalized): void {
 
   const { routeStore } = useStore()
 
+  // TODO: 这种方案不支持 过度动画
   if (length > 1) {
     for (let i = length - 1; i > 0; i--) {
       const [own, parent] = [routerTo.matched[i], routerTo.matched[i - 1]]
-
-      // console.log('own, parent', own, parent)
-
-      // if (!own.meta.isKeepAlive) {
-      Object.keys(own.components).forEach(key => {
-        if (parent.components.default.name && own.components[key].name) {
-          routeStore.addAlive({
-            page: parent.components.default.name,
-            alive: own.components[key].name
-          })
-        }
-      })
-      // }
+      if (!own.meta.isKeepAlive) {
+        Object.keys(own.components).forEach(key => {
+          if (parent.components.default.name && own.components[key].name) {
+            routeStore.addAlive({
+              page: parent.components.default.name,
+              alive: own.components[key].name
+            })
+          }
+        })
+      }
     }
   }
 }

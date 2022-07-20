@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-18 14:41:54
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-19 16:33:58
+ * @LastEditTime: 2022-07-20 15:21:16
  * @FilePath: \vite-admin-vue\src\store\modules\user.ts
  */
 
@@ -42,8 +42,13 @@ export const useUserStore = defineStore(userStoreKey, {
         userRole: 'ADMIN'
       })
 
-      ElMessage.success('Login Success')
       router.push({ name: 'Home' })
+
+      // ElMessage({
+      //   type: 'success',
+      //   message: 'Login Success'
+      // })
+      ElMessage.success('Login Success')
     },
 
     // 退出登录

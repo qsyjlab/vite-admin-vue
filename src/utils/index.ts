@@ -4,10 +4,11 @@
  * @Autor: qsyj
  * @Date: 2022-03-14 16:02:38
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 14:08:38
+ * @LastEditTime: 2022-07-20 15:47:49
  * @FilePath: \vite-admin-vue\src\utils\index.ts
  */
 
 export * from './es'
 export * from './router'
 export * from './theme'
+export * from './plugins'

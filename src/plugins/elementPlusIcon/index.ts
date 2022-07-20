@@ -7,12 +7,13 @@
  * @LastEditTime: 2022-03-27 21:36:39
  * @FilePath: \vite-admin-vue\src\plugins\elementPlusIcon\index.ts
  */
-import { App, Component, h } from 'vue'
+import { Component, h } from 'vue'
 import { defineComponent } from 'vue'
 
 import { ElIcon } from 'element-plus'
 
 import * as icons from './icon'
+import { defineAppPlugin } from '@/utils'
 
 /**
  * 包装 element 图标
@@ -46,15 +47,9 @@ export function renderIcon(name: string, icon: Component) {
   })
 }
 
-/**
- * 注册全局 icon
- * @param {App} app
- */
-export const setUpIcon = (app: App): void => {
+export default defineAppPlugin(app => {
   Object.entries(icons).forEach(([key, value]) => {
     const _icon = renderIcon('Icon' + key, value)
     app.component(_icon.name, _icon)
   })
-}
-
-export { setUpIcon as default }
+})
