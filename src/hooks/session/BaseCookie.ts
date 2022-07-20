@@ -1,6 +1,13 @@
-// /**
-//  * cookie
-//  */
+/*
+ * @Description:
+ * @Autor: qsyj
+ * @Date: 2022-03-17 11:30:34
+ * @LastEditors: qsyj
+ * @LastEditTime: 2022-07-20 11:36:10
+ */
+/**
+ * cookie
+ */
 
 export default class BaseCookie {
   del(key: string) {
@@ -29,7 +36,7 @@ export default class BaseCookie {
    */
   get(name: string) {
     const arr = document.cookie.match(new RegExp('(^| )' + name + '=([^;]*)(;|$)'))
-    if (arr != null) return decodeURIComponent(arr[2])
+    if (arr !== null) return decodeURIComponent(arr[2])
     return false
   }
 }

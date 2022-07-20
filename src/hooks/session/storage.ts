@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-18 14:23:57
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-23 14:29:01
+ * @LastEditTime: 2022-07-20 11:36:54
  * @FilePath: \vite-admin-vue\src\hooks\session\storage.ts
  */
 
@@ -12,7 +12,7 @@ import BaseStorage from './BaseStorage'
 
 import config from '@/config'
 import { StorageKeys } from '@/enum'
-import type { LayoutType } from '@/types/store/moudles/app'
+import { LayoutType } from '@/store'
 
 export default () => {
   const $storage = new BaseStorage(window.localStorage, config.storage)
