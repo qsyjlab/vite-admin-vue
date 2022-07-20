@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 15:32:31
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 16:23:10
+ * @LastEditTime: 2022-07-20 09:46:15
  * @FilePath: \vite-admin-vue\src\router\routes\index.ts
  */
 
@@ -28,7 +28,7 @@ export const routes = defineExposeRoutes([
       title: '主系统',
       hideInBreadcrumb: true
     },
-    component: () => import(/* webpackChunkName: "Home" */ '@/layouts/BasicLayout/BasicLayout.vue'),
+    component: () => import('@/layouts/BasicLayout/BasicLayout.vue'),
     children: loadRoutes(import.meta.globEager('./system/*.ts'))
   },
   {

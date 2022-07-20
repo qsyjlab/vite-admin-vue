@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 22:14:21
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 13:23:01
+ * @LastEditTime: 2022-07-20 09:45:24
  * @FilePath: \vite-admin-vue\src\router\routes\system\example.ts
  */
 
@@ -18,7 +18,7 @@ export default defineExposeRoutes([
       title: 'Card',
       sort: 5
     },
-    component: () => import(/* webpackChunkName: "Card" */ '@/views/system/WelcomeTo.vue'),
+    component: () => import('@/views/system/WelcomeTo.vue'),
     children: [
       {
         path: '/card-m',
@@ -26,7 +26,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'CardM'
         },
-        component: () => import(/* webpackChunkName: "Card" */ '@/views/system/WelcomeTo.vue'),
+        component: () => import('@/views/system/WelcomeTo.vue'),
         children: [
           {
             path: '/card1',
@@ -34,7 +34,7 @@ export default defineExposeRoutes([
             meta: {
               title: 'Card1'
             },
-            component: () => import(/* webpackChunkName: "Card" */ '@/views/system/WelcomeTo.vue'),
+            component: () => import('@/views/system/WelcomeTo.vue'),
             children: []
           },
           {
@@ -43,7 +43,7 @@ export default defineExposeRoutes([
             meta: {
               title: 'Menu1'
             },
-            component: () => import(/* webpackChunkName: "Menu" */ '@/views/system/WelcomeTo.vue'),
+            component: () => import('@/views/system/WelcomeTo.vue'),
             children: []
           },
           {
@@ -52,8 +52,7 @@ export default defineExposeRoutes([
             meta: {
               title: 'Avatar1'
             },
-            component: () =>
-              import(/* webpackChunkName: "Avatar" */ '@/views/system/WelcomeTo.vue'),
+            component: () => import('@/views/system/WelcomeTo.vue'),
             children: []
           }
         ]
@@ -64,7 +63,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'Menu'
         },
-        component: () => import(/* webpackChunkName: "Menu" */ '@/views/system/WelcomeTo.vue'),
+        component: () => import('@/views/system/WelcomeTo.vue'),
         children: []
       },
       {
@@ -73,7 +72,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'Avatar'
         },
-        component: () => import(/* webpackChunkName: "Avatar" */ '@/views/system/WelcomeTo.vue'),
+        component: () => import('@/views/system/WelcomeTo.vue'),
         children: []
       }
     ]

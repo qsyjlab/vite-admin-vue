@@ -4,17 +4,13 @@
  * @Autor: qsyj
  * @Date: 2022-03-13 00:49:54
  * @LastEditors: qsyj
- * @LastEditTime: 2022-04-08 21:52:42
+ * @LastEditTime: 2022-07-20 09:43:03
  */
 import axios from 'axios'
 
 import type { AxiosInstance } from 'axios'
 
-import type {
-  InterceptorsType,
-  CustomRequestConfig,
-  ResponseData
-} from '@/service/baseAxiosRequest/baseAxios'
+import type { InterceptorsType, CustomRequestConfig, ResponseData } from './baseAxios'
 
 class BaseAxios {
   instanceConfig: CustomRequestConfig
