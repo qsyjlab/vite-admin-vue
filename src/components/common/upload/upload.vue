@@ -101,7 +101,7 @@ watch(
   }
 )
 
-const handlePreview = file => {
+const handlePreview = (file: any) => {
   if (!preview.value?.preview) return
 
   preview.value.preview({ src: window.URL.createObjectURL(file.raw) })

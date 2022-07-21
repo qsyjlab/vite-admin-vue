@@ -4,15 +4,16 @@
  * @Autor: qsyj
  * @Date: 2022-03-16 13:45:46
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-20 12:23:46
+ * @LastEditTime: 2022-07-21 09:48:42
  * @FilePath: \vite-admin-vue\src\components\register.ts
  */
-import type { App } from 'vue'
+
+import { defineAppPlugin } from '@/utils'
 import * as components from './index'
 
-export function registerGlobalComponent(app: App) {
+export default defineAppPlugin(app => {
   Object.keys(components).forEach(item => {
     const key = item as keyof typeof components
     app.component(components[key].name, components[key])
   })
-}
+})

@@ -33,7 +33,7 @@ import { computed, reactive, toRefs, ref } from 'vue'
 import { buildProps } from './props'
 
 import { ElMessage } from 'element-plus'
-import Form from '../Form/Form.vue'
+import Form from '../form/Form.vue'
 
 interface ReactiveType {
   dialogVisible: boolean
@@ -62,7 +62,7 @@ const state = reactive<ReactiveType>({
   id: null
 })
 
-const { dialogVisible, loading, formDefaultValue } = toRefs(state)
+const { dialogVisible, loading } = toRefs(state)
 
 const getForm = computed(() => props.form.filter(item => !item.isRender))
 
@@ -87,7 +87,7 @@ const show = (id: string | number | null) => {
     state.loading = true
     props
       .httpDetails(id)
-      .then(res => {
+      .then((res: any) => {
         state.formDefaultValue = res.data || {}
         state.loading = false
       })
@@ -120,7 +120,7 @@ const search = async (val: any) => {
 
     props
       .httpAdd(props.handler({ ...props.defaultValue, ...val }))
-      .then(res => {
+      .then((res: any) => {
         ElMessage.success(res.msg)
         reload()
         initilize()
@@ -134,7 +134,7 @@ const search = async (val: any) => {
 
     props
       .httpEdit(state.id, props.handler({ ...props.defaultValue, ...val }))
-      .then(res => {
+      .then((res: any) => {
         ElMessage.success(res.msg)
         reload()
         initilize()

@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-01-07 10:11:59
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-20 22:37:32
+ * @LastEditTime: 2022-07-21 09:36:32
 -->
 <template>
   <el-checkbox-group v-model="checked" v-bind="{ ...$attrs, size }" @change="handleCheckChange">
@@ -27,7 +27,7 @@ export default {
 
 <script setup lang="ts">
 import type { GlobalSize } from '../common'
-import type { OptionsType } from './checkboxGroup'
+import type { OptionsType } from './checkbox-group'
 
 import { ref, watch } from 'vue'
 import type { PropType } from 'vue'
