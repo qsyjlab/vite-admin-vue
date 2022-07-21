@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-13 00:49:54
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 15:33:56
+ * @LastEditTime: 2022-07-21 09:32:40
  */
 import axios from 'axios'
 
@@ -13,7 +13,7 @@ import type { AxiosInstance } from 'axios'
 import type { InterceptorsType, CustomRequestConfig, ResponseData, CatchError } from './baseAxios'
 
 class BaseAxios {
-  private instanceConfig: CustomRequestConfig
+  private instanceConfig: CustomRequestConfig = {}
   private instance: AxiosInstance
   private interceptors: InterceptorsType
   // 初始化设置
@@ -28,7 +28,7 @@ class BaseAxios {
     this.setInterceptors(this.instance)
   }
 
-  setInterceptors(instance: AxiosInstance): void {
+  private setInterceptors(instance: AxiosInstance): void {
     instance.interceptors.request.use(
       this.interceptors?.requestInterceptors,
       this.interceptors?.requestInterceptorsCatch
@@ -50,4 +50,5 @@ class BaseAxios {
       .catch((error: CatchError) => Promise.reject(error))
   }
 }
+
 export default BaseAxios
