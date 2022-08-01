@@ -4,6 +4,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    CheckboxGroup: typeof import('./src/components/common/checkbox-group/checkbox-group.vue')['default']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
@@ -31,8 +32,16 @@ declare module 'vue' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    Form: typeof import('./src/components/common/form/form.vue')['default']
+    FormModal: typeof import('./src/components/common/form-modal/form-modal.vue')['default']
+    HoverCard: typeof import('./src/components/common/hover-card/hover-card.vue')['default']
     Loading: typeof import('element-plus/es')['ElLoadingDirective']
+    PreviewImage: typeof import('./src/components/common/preview-image/PreviewImage.vue')['default']
+    Select: typeof import('./src/components/common/select/select.vue')['default']
+    Table: typeof import('./src/components/common/table/table.vue')['default']
+    Transition: typeof import('./src/components/common/transition/transition.vue')['default']
+    Upload: typeof import('./src/components/common/upload/upload.vue')['default']
   }
 }
 
-export {}
+export { }

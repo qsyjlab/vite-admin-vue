@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-25 17:01:41
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 11:13:04
+ * @LastEditTime: 2022-08-01 09:52:04
  * @FilePath: \vite-admin-vue\src\views\system\plugins\CanvsToPdf.vue
 -->
 
@@ -30,7 +30,7 @@ import html2canvas from 'html2canvas'
 import { jsPDF } from 'jspdf'
 import { dataURItoBlob } from '@/utils'
 
-const transformCanvs = handler => {
+const transformCanvs = (handler: any) => {
   html2canvas(document.querySelector('#container') as HTMLElement, {}).then(
     (canves: HTMLCanvasElement) => {
       handler(canves)

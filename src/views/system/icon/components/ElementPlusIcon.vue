@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-23 22:20:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 11:12:30
+ * @LastEditTime: 2022-08-01 09:54:27
  * @FilePath: \vite-admin-vue\src\views\system\icon\components\ElementPlusIcon.vue
 -->
 
@@ -33,8 +33,11 @@ import { renderIcon } from '@/plugins/elementPlusIcon'
 
 const iconList = ref<{ name: string; com: Component }[]>([])
 
-Object.keys(icons).forEach(item => {
-  iconList.value.push({ name: icons[item].name, com: markRaw(icons[item]) })
+Object.keys(icons as any).forEach((item: string) => {
+  iconList.value.push({
+    name: icons[item as keyof typeof icons].name as string,
+    com: markRaw(icons[item as keyof typeof icons]) as Component
+  })
 })
 </script>
 <style scoped>

@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 09:44:16
+ * @LastEditTime: 2022-08-01 09:37:51
  * @FilePath: \vite-admin-vue\src\main.ts
  */
 import { createApp } from 'vue'
@@ -19,7 +19,7 @@ import setUpDirective from './directive'
 async function setupWebApp() {
   // 创建实例
   const app = createApp(App)
-  // 插件
+  // // 插件
   app.use(setUpPlugins)
 
   app.use(setUpDirective)

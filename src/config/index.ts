@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 11:33:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 14:20:58
+ * @LastEditTime: 2022-07-21 10:13:40
  * @FilePath: \vite-admin-vue\src\config\index.ts
  */
 
