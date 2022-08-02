@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:36:51
  * @LastEditors: qsyj
- * @LastEditTime: 2022-08-02 13:38:13
+ * @LastEditTime: 2022-08-02 13:44:38
  * @FilePath: \vite-admin-vue\.eslintrc.js
  */
 module.exports = {
@@ -38,7 +38,7 @@ module.exports = {
     // 禁止 if 语句中 return 语句之后有 else 块
     'no-else-return': 'warn',
     // 禁止多次声明同一变量
-    'no-redeclare': 'warn',
+    'no-redeclare': 'off',
     // 禁止变量声明与外层作用域的变量同名
     'no-shadow': 'off',
 
