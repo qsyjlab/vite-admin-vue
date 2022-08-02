@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 15:16:22
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 15:20:14
+ * @LastEditTime: 2022-08-02 16:39:59
  * @FilePath: \vite-admin-vue\src\views\Login\Login.vue
 -->
 <template>
@@ -28,6 +28,7 @@
             />
           </el-form-item>
         </el-form>
+        <el-button type="primary">asdas</el-button>
         <el-button
           size="large"
           style="width: 100%; margin-top: 15px"
