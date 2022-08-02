@@ -154,11 +154,10 @@ const update = async (fileList: any[]) => {
     await emit('change', fileList)
     await emit('update:modelValue', fileList)
     return
-  } else {
-    const emitsFile = fileList.map(item => item?.response)
-    await emit('change', emitsFile)
-    await emit('update:modelValue', emitsFile)
   }
+  const emitsFile = fileList.map(item => item?.response)
+  await emit('change', emitsFile)
+  await emit('update:modelValue', emitsFile)
 }
 
 // http自定义上传

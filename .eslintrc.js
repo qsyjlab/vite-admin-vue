@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:36:51
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 15:37:12
+ * @LastEditTime: 2022-08-02 13:38:13
  * @FilePath: \vite-admin-vue\.eslintrc.js
  */
 module.exports = {
@@ -21,20 +21,33 @@ module.exports = {
     ecmaVersion: 2020
   },
   extends: [
-    'plugin:vue/vue3-essential',
-    'plugin:vue/vue3-recommended',
     'eslint:recommended',
+    'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:vue/vue3-essential',
+    'plugin:prettier/recommended',
+    'prettier',
     '@vue/typescript/recommended',
     '@vue/prettier',
-    '@vue/prettier/@typescript-eslint',
-    'plugin:prettier/recommended'
+    '@vue/prettier/@typescript-eslint'
   ],
+  plugins: ['vue', '@typescript-eslint', 'prettier'],
   rules: {
-    // 必须全等
-    eqeqeq: 2,
+    // 要求使用 === 和 !==
+    eqeqeq: 'warn',
+    // 禁止 if 语句中 return 语句之后有 else 块
+    'no-else-return': 'warn',
+    // 禁止多次声明同一变量
+    'no-redeclare': 'warn',
+    // 禁止变量声明与外层作用域的变量同名
+    'no-shadow': 'off',
+
     // 关闭缩进检测 使用  prettier
     'no-undef': 0,
+    // 强制在圆括号内使用一致的空格
+    'space-in-parens': 'warn',
+    // 要求操作符周围有空格
+    'space-infix-ops': 'warn',
     'vue/comment-directive': 'off',
     // 'vue/setup-compiler-macros': true,
     '@typescript-eslint/explicit-module-boundary-types': 'off',
@@ -42,6 +55,7 @@ module.exports = {
     // 'vue/html-self-closing': 'off',
     // 多单词关闭
     'vue/multi-word-component-names': 'off',
+
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/no-explicit-any': ['off'],
     '@typescript-eslint/no-empty-function': 'off',

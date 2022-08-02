@@ -98,7 +98,7 @@ packages:
       }
     engines: { node: '>=6.9.0' }
     dependencies:
-      '@babel/highlight': 7.16.10
+      '@babel/highlight': 7.18.6
     dev: true
 
   /@babel/code-frame/7.18.6:
@@ -251,14 +251,6 @@ packages:
       '@babel/types': 7.18.9
     dev: true
 
-  /@babel/helper-validator-identifier/7.16.7:
-    resolution:
-      {
-        integrity: sha512-hsEnFemeiW4D08A5gUAZxLBTXpZ39P+a+DGDsHw1yxqyQ/jzFEnxf5uTEGp+3bzAbNOxU1paTgYS4ECU/IgfDw==
-      }
-    engines: { node: '>=6.9.0' }
-    dev: true
-
   /@babel/helper-validator-identifier/7.18.6:
     resolution:
       {
@@ -286,18 +278,6 @@ packages:
       '@babel/types': 7.18.9
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /@babel/highlight/7.16.10:
-    resolution:
-      {
-        integrity: sha512-5FnTQLSLswEj6IkgVw5KusNUUFY9ZGqe/TRFnP/BKYHYgfh7tc+C7mwiy95/yNP7Dh9x580Vv8r7u7ZfTBFxdw==
-      }
-    engines: { node: '>=6.9.0' }
-    dependencies:
-      '@babel/helper-validator-identifier': 7.16.7
-      chalk: 2.4.2
-      js-tokens: 4.0.0
     dev: true
 
   /@babel/highlight/7.18.6:
@@ -4315,7 +4295,7 @@ packages:
       vue-template-compiler:
         optional: true
     dependencies:
-      '@babel/code-frame': 7.16.7
+      '@babel/code-frame': 7.18.6
       '@types/json-schema': 7.0.9
       chalk: 4.1.2
       cosmiconfig: 6.0.0

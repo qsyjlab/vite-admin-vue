@@ -24,13 +24,12 @@ export const getThemeCluster = (themeColor: string): string[] => {
     if (tint === 0) {
       // when primary color is in its rgb space
       return [red, green, blue].join(',')
-    } else {
-      red += Math.round(tint * (255 - red))
-      green += Math.round(tint * (255 - green))
-      blue += Math.round(tint * (255 - blue))
-
-      return `#${red.toString(16)}${green.toString(16)}${blue.toString(16)}`
     }
+    red += Math.round(tint * (255 - red))
+    green += Math.round(tint * (255 - green))
+    blue += Math.round(tint * (255 - blue))
+
+    return `#${red.toString(16)}${green.toString(16)}${blue.toString(16)}`
   }
 
   const shadeColor = (color: any, shade: any): any => {

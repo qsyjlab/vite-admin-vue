@@ -127,17 +127,16 @@ const goRouter = (curPath: RouterType): void => {
 const watchRouterChange = (_router: RouteLocationNormalized) => {
   // 如果 routeList 为空数组 直接添加
   if (routerList.value.length === 0) return routerList.value.push(tranformRouterInfo(_router))
-  else {
-    //    如果有此对象不做任何事
-    const findSameRouter = routerList.value.find(
-      item => item.name === _router.name && item.fullPath === _router.fullPath
-    )
-    // 否则 添加 新router object
-    if (!findSameRouter) routerList.value.push(tranformRouterInfo(_router))
 
-    // 切换当前router object
-    currentRouter.value = tranformRouterInfo(_router)
-  }
+  //    如果有此对象不做任何事
+  const findSameRouter = routerList.value.find(
+    item => item.name === _router.name && item.fullPath === _router.fullPath
+  )
+  // 否则 添加 新router object
+  if (!findSameRouter) routerList.value.push(tranformRouterInfo(_router))
+
+  // 切换当前router object
+  currentRouter.value = tranformRouterInfo(_router)
 }
 </script>
 
