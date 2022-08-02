@@ -6,7 +6,7 @@ specifiers:
   '@types/nprogress': ^0.2.0
   '@typescript-eslint/eslint-plugin': ^5.14.0
   '@typescript-eslint/parser': ^5.14.0
-  '@vitejs/plugin-vue': ^2.2.4
+  '@vitejs/plugin-vue': ^2.3.3
   '@vue/cli-plugin-typescript': ~4.5.0
   '@vue/eslint-config-prettier': ^6.0.0
   '@vue/eslint-config-typescript': ^7.0.0
@@ -24,7 +24,6 @@ specifiers:
   pinia: ^2.0.16
   prettier: ^2.5.1
   sass: ^1.49.9
-  sass-loader: ^12.6.0
   typescript: ^4.5.4
   unplugin-auto-import: ^0.6.4
   unplugin-vue-components: ^0.18.0
@@ -52,7 +51,7 @@ devDependencies:
   '@types/nprogress': 0.2.0
   '@typescript-eslint/eslint-plugin': 5.14.0_6qcuxdb42yq5wfvodoovog6mya
   '@typescript-eslint/parser': 5.14.0_pzezdwkd5bvjkx2hshexc25sxq
-  '@vitejs/plugin-vue': 2.2.4_vite@3.0.4+vue@3.2.37
+  '@vitejs/plugin-vue': 2.3.3_vite@3.0.4+vue@3.2.37
   '@vue/cli-plugin-typescript': 4.5.15_pzezdwkd5bvjkx2hshexc25sxq
   '@vue/eslint-config-prettier': 6.0.0_2vikhsv3xhfl7jawlkb35dkvfa
   '@vue/eslint-config-typescript': 7.0.0_7kyzwxd5zerjw4y764wjznbzu4
@@ -63,7 +62,6 @@ devDependencies:
   husky: 7.0.4
   prettier: 2.5.1
   sass: 1.49.9
-  sass-loader: 12.6.0_sass@1.49.9
   typescript: 4.6.2
   unplugin-auto-import: 0.6.4_vite@3.0.4
   unplugin-vue-components: 0.18.0_vite@3.0.4+vue@3.2.37
@@ -644,6 +642,13 @@ packages:
       '@types/node': 17.0.21
     dev: true
 
+  /@types/json-schema/7.0.11:
+    resolution:
+      {
+        integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==
+      }
+    dev: true
+
   /@types/json-schema/7.0.9:
     resolution:
       {
@@ -899,12 +904,10 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
-  /@vitejs/plugin-vue/2.2.4_vite@3.0.4+vue@3.2.37:
+  /@vitejs/plugin-vue/2.3.3_vite@3.0.4+vue@3.2.37:
     resolution:
       {
-        integrity: sha512-ev9AOlp0ljCaDkFZF3JwC/pD2N4Hh+r5srl5JHM6BKg5+99jiiK0rE/XaRs3pVm1wzyKkjUy/StBSoXX5fFzcw==,
-        registry: http://registry.npm.taobao.org/,
-        tarball: http://registry.npm.taobao.org/@vitejs/plugin-vue/-/plugin-vue-2.2.4.tgz
+        integrity: sha512-SmQLDyhz+6lGJhPELsBdzXGc+AcaT8stgkbiTFGpXPe8Tl1tJaBw1A6pxDqDuRsVkD8uscrkx3hA7QDOoKYtyw==
       }
     engines: { node: '>=12.0.0' }
     peerDependencies:
@@ -2258,7 +2261,7 @@ packages:
       chownr: 1.1.4
       figgy-pudding: 3.5.2
       glob: 7.2.0
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       infer-owner: 1.0.4
       lru-cache: 5.1.1
       mississippi: 3.0.0
@@ -2345,7 +2348,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.17.8
       '@types/raf': 3.4.0
-      core-js: 3.21.1
+      core-js: 3.24.1
       raf: 3.4.1
       regenerator-runtime: 0.13.9
       rgbcolor: 1.0.1
@@ -2690,12 +2693,11 @@ packages:
     engines: { node: '>=0.10.0' }
     dev: true
 
-  /core-js/3.21.1:
+  /core-js/3.24.1:
     resolution:
       {
-        integrity: sha512-FRq5b/VMrWlrmCzwRrpDYNxyHP9BcAZC+xHJaqTgIE5091ZV1NTmyh0sGOg5XqpnHvR0svdy0sv1gWA1zmhxig==
+        integrity: sha512-0QTBSYSUZ6Gq21utGzkfITDylE8jWC9Ne1D2MrhvlsZBI1x39OdDIVbzSqtgMndIy6BlHxBXpMGqzZmnztg2rg==
       }
-    deprecated: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
     requiresBuild: true
     dev: false
     optional: true
@@ -3088,10 +3090,10 @@ packages:
     engines: { node: '>=0.4', npm: '>=1.2' }
     dev: true
 
-  /dompurify/2.3.6:
+  /dompurify/2.3.10:
     resolution:
       {
-        integrity: sha512-OFP2u/3T1R5CEgWCEONuJ1a5+MFKnOYpkywpUSxv/dj1LeBT1erK+JwM7zK0ROy2BRhqVCf0LRw/kHqKuMkVGg==
+        integrity: sha512-o7Fg/AgC7p/XpKjf/+RC3Ok6k4St5F7Q6q6+Nnm3p2zGWioAY6dh0CbbuwOhH2UcSzKsdniE/YnE2/92JcsA+g==
       }
     requiresBuild: true
     dev: false
@@ -3213,7 +3215,7 @@ packages:
       }
     engines: { node: '>=6.9.0' }
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       memory-fs: 0.5.0
       tapable: 1.1.3
     dev: true
@@ -4296,16 +4298,16 @@ packages:
         optional: true
     dependencies:
       '@babel/code-frame': 7.18.6
-      '@types/json-schema': 7.0.9
+      '@types/json-schema': 7.0.11
       chalk: 4.1.2
       cosmiconfig: 6.0.0
       deepmerge: 4.2.2
       eslint: 8.10.0
       fs-extra: 9.1.0
-      memfs: 3.4.1
+      memfs: 3.4.7
       minimatch: 3.1.2
       schema-utils: 2.7.0
-      semver: 7.3.5
+      semver: 7.3.7
       tapable: 1.1.3
       typescript: 4.6.2
       webpack: 4.46.0
@@ -4370,7 +4372,7 @@ packages:
     engines: { node: '>=10' }
     dependencies:
       at-least-node: 1.0.0
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       jsonfile: 6.1.0
       universalify: 2.0.0
     dev: true
@@ -4392,7 +4394,7 @@ packages:
         tarball: http://registry.npm.taobao.org/fs-write-stream-atomic/-/fs-write-stream-atomic-1.0.10.tgz
       }
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       iferr: 0.1.5
       imurmurhash: 0.1.4
       readable-stream: 2.3.7
@@ -4418,7 +4420,7 @@ packages:
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
-      nan: 2.15.0
+      nan: 2.16.0
     dev: true
     optional: true
 
@@ -4620,6 +4622,13 @@ packages:
       slash: 2.0.0
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /graceful-fs/4.2.10:
+    resolution:
+      {
+        integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==
+      }
     dev: true
 
   /graceful-fs/4.2.9:
@@ -5397,7 +5406,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
     dev: true
 
   /jspdf/2.5.1:
@@ -5412,8 +5421,8 @@ packages:
       fflate: 0.4.8
     optionalDependencies:
       canvg: 3.0.10
-      core-js: 3.21.1
-      dompurify: 2.3.6
+      core-js: 3.24.1
+      dompurify: 2.3.10
       html2canvas: 1.4.1
     dev: false
 
@@ -5474,14 +5483,6 @@ packages:
         tarball: http://registry.npm.taobao.org/kind-of/-/kind-of-6.0.3.tgz
       }
     engines: { node: '>=0.10.0' }
-    dev: true
-
-  /klona/2.0.5:
-    resolution:
-      {
-        integrity: sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==
-      }
-    engines: { node: '>= 8' }
     dev: true
 
   /launch-editor/2.3.0:
@@ -5735,10 +5736,10 @@ packages:
       safe-buffer: 5.2.1
     dev: true
 
-  /memfs/3.4.1:
+  /memfs/3.4.7:
     resolution:
       {
-        integrity: sha512-1c9VPVvW5P7I85c35zAdEr1TD5+F11IToIHIlrVIcflfnzPkJa0ZoYEoEdYDP8KgPFoSZ/opDrUsAoZWym3mtw==
+        integrity: sha512-ygaiUSNalBX85388uskeCyhSAoOSgzBbtVCr9jA2RROssFL9Q19/ZXFqS+2Th2sr1ewNIWgFdLzLC3Yl1Zv+lw==
       }
     engines: { node: '>= 4.0.0' }
     dependencies:
@@ -5998,10 +5999,10 @@ packages:
       }
     dev: true
 
-  /nan/2.15.0:
+  /nan/2.16.0:
     resolution:
       {
-        integrity: sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==
+        integrity: sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==
       }
     requiresBuild: true
     dev: true
@@ -6926,7 +6927,7 @@ packages:
       }
     engines: { node: '>=0.10' }
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       micromatch: 3.1.10
       readable-stream: 2.3.7
     transitivePeerDependencies:
@@ -7216,33 +7217,6 @@ packages:
       }
     dev: true
 
-  /sass-loader/12.6.0_sass@1.49.9:
-    resolution:
-      {
-        integrity: sha512-oLTaH0YCtX4cfnJZxKSLAyglED0naiYfNG1iXfU5w1LNZ+ukoA5DtyDIN5zmKVZwYNJP4KRc5Y3hkWga+7tYfA==
-      }
-    engines: { node: '>= 12.13.0' }
-    peerDependencies:
-      fibers: '>= 3.1.0'
-      node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
-      sass: ^1.3.0
-      sass-embedded: '*'
-      webpack: ^5.0.0
-    peerDependenciesMeta:
-      fibers:
-        optional: true
-      node-sass:
-        optional: true
-      sass:
-        optional: true
-      sass-embedded:
-        optional: true
-    dependencies:
-      klona: 2.0.5
-      neo-async: 2.6.2
-      sass: 1.49.9
-    dev: true
-
   /sass/1.49.9:
     resolution:
       {
@@ -7277,7 +7251,7 @@ packages:
       }
     engines: { node: '>= 8.9.0' }
     dependencies:
-      '@types/json-schema': 7.0.9
+      '@types/json-schema': 7.0.11
       ajv: 6.12.6
       ajv-keywords: 3.5.2_ajv@6.12.6
     dev: true
@@ -7290,7 +7264,7 @@ packages:
       }
     engines: { node: '>= 8.9.0' }
     dependencies:
-      '@types/json-schema': 7.0.9
+      '@types/json-schema': 7.0.11
       ajv: 6.12.6
       ajv-keywords: 3.5.2_ajv@6.12.6
     dev: true
@@ -7323,6 +7297,18 @@ packages:
     dependencies:
       lru-cache: 6.0.0
     dev: true
+
+  /semver/7.3.7:
+    resolution:
+      {
+        integrity: sha512-QlYTucUYOews+WeEujDoEGziz4K6c47V/Bd+LjSSYcA94p+DmINdf7ncaUinThfvZyu13lN9OY1XDxt8C0Tw0g==
+      }
+    engines: { node: '>=10' }
+    hasBin: true
+    dependencies:
+      lru-cache: 6.0.0
+    dev: true
+    optional: true
 
   /serialize-javascript/4.0.0:
     resolution:
@@ -8694,7 +8680,7 @@ packages:
         tarball: http://registry.npm.taobao.org/watchpack/-/watchpack-1.7.5.tgz
       }
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       neo-async: 2.6.2
     optionalDependencies:
       chokidar: 3.5.3
