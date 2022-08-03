@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-08-03 16:37:07
+ * @LastEditTime: 2022-08-03 16:50:22
  * @FilePath: \vite-admin-vue\vite.config.ts
  */
 import { defineConfig } from 'vite'
@@ -62,7 +62,7 @@ export default defineConfig({
   },
   build: {
     assetsInlineLimit: 4096,
-    minify: 'terser'
+    minify: 'esbuild'
     // rollupOptions: {
     //   output: {
     //     // chunkFileNames: 'static/js/[name]-[hash].js',
