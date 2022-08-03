@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:36:51
  * @LastEditors: qsyj
- * @LastEditTime: 2022-08-03 13:16:16
+ * @LastEditTime: 2022-08-03 13:32:27
  * @FilePath: \vite-admin-vue\.eslintrc.js
  */
 module.exports = {
@@ -36,8 +36,9 @@ module.exports = {
     'prettier',
     // package @vue/eslint-config-typescript
     '@vue/typescript/recommended',
+    // package @vue/eslint-config-prettier
     '@vue/prettier'
-
+    // // package @vue/eslint-config-typescript
     // '@vue/prettier/@typescript-eslint'
   ],
   // plugins: ['vue', '@typescript-eslint', 'prettier'],
