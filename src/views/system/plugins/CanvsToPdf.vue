@@ -40,7 +40,7 @@ const transformCanvs = (handler: any) => {
 
 const canvesToImage = () => {
   transformCanvs((canves: HTMLCanvasElement) => {
-    let link = document.createElement('a') //创建a标签
+    const link = document.createElement('a') //创建a标签
     link.style.display = 'none' //使其隐藏
     link.href = window.URL.createObjectURL(dataURItoBlob(canves.toDataURL('image/png', 2.0))) //赋予文件下载地址
     link.setAttribute('download', 'canves.png') //设置下载属性 以及文件名

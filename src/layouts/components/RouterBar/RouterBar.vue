@@ -89,9 +89,9 @@ onMounted(() => {
 
 //初始化路由数组
 const initRouterList = (): void => {
-  let routes: RouteRecordNormalized[] = router.getRoutes()
+  const routes: RouteRecordNormalized[] = router.getRoutes()
 
-  for (let item of routes) {
+  for (const item of routes) {
     if (biddenRouter.value.includes(item?.name as string)) {
       routerList.value.push(tranformRouterInfo(item))
     }

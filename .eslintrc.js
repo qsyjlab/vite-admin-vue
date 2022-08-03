@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:36:51
  * @LastEditors: qsyj
- * @LastEditTime: 2022-08-02 13:44:38
+ * @LastEditTime: 2022-08-03 13:16:16
  * @FilePath: \vite-admin-vue\.eslintrc.js
  */
 module.exports = {
@@ -15,23 +15,32 @@ module.exports = {
   },
   parser: 'vue-eslint-parser',
   parserOptions: {
+    // package @typescript-eslint/parser
     parser: '@typescript-eslint/parser', // ts解析器，vue解析器在遇到ts时使用ts解析器
     // ecmaVersion: 'latest', // 最新的语法也不会报错
     sourceType: 'module',
     ecmaVersion: 2020
   },
   extends: [
+    // package eslint
     'eslint:recommended',
+    // package eslint-plugin-vue
     'plugin:vue/vue3-recommended',
+    // package @typescript-eslint/eslint-plugin
     'plugin:@typescript-eslint/recommended',
+    // package eslint + eslint-plugin-vue
     'plugin:vue/vue3-essential',
+    // package eslint-plugin-prettier + prettier
     'plugin:prettier/recommended',
+    // package  prettier
     'prettier',
+    // package @vue/eslint-config-typescript
     '@vue/typescript/recommended',
-    '@vue/prettier',
-    '@vue/prettier/@typescript-eslint'
+    '@vue/prettier'
+
+    // '@vue/prettier/@typescript-eslint'
   ],
-  plugins: ['vue', '@typescript-eslint', 'prettier'],
+  // plugins: ['vue', '@typescript-eslint', 'prettier'],
   rules: {
     // 要求使用 === 和 !==
     eqeqeq: 'warn',

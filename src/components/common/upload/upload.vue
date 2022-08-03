@@ -176,7 +176,7 @@ const httpRequest: QsUploadRequestHandler = info => {
     return props
       .customRequest(formdata, {
         onUploadProgress: progressEvent => {
-          let percent = ((progressEvent.loaded / progressEvent.total) * 100) | 0
+          const percent = ((progressEvent.loaded / progressEvent.total) * 100) | 0
 
           //调用onProgress方法来显示进度条，需要传递个对象 percent为进度值
           onProgress({

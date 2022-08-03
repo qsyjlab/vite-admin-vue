@@ -28,7 +28,6 @@
             />
           </el-form-item>
         </el-form>
-        <el-button type="primary">asdas</el-button>
         <el-button
           size="large"
           style="width: 100%; margin-top: 15px"
