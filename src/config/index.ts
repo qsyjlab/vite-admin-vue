@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-17 11:33:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-21 10:13:40
+ * @LastEditTime: 2022-08-03 16:16:44
  * @FilePath: \vite-admin-vue\src\config\index.ts
  */
 
@@ -35,5 +35,7 @@ const config = readonly<ReadOnlyConfig>({
   },
   url
 })
+
+console.log('config', config)
 
 export { config as default }

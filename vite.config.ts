@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-08-01 13:53:52
+ * @LastEditTime: 2022-08-03 16:37:07
  * @FilePath: \vite-admin-vue\vite.config.ts
  */
 import { defineConfig } from 'vite'
@@ -22,32 +22,27 @@ import Components from 'unplugin-vue-components/vite'
 // elementplus 处理器
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
+const rootPath = process.cwd()
+
 // https://vitejs.dev/config/
 export default defineConfig({
+  root: rootPath,
+  base: '/',
+  envDir: `${rootPath}/env`,
   plugins: [
     vue(),
     AutoImport({
       resolvers: [ElementPlusResolver()]
     }),
     Components({
-      // dts: true,
-      // // 自动导入路径
-      // include: [],
-      // dirs: [],
+      dts: true,
+      // 自动导入路径
+      include: [],
+      dirs: [],
       // 排除路径
       resolvers: [ElementPlusResolver()]
     })
-    // viteCompression({
-    //   verbose: true,
-    //   disable: false,
-    //   deleteOriginFile: true,
-    //   threshold: 10240,
-    //   algorithm: 'gzip',
-    //   ext: '.gz'
-    // })
   ],
-  // base: './',
-  // publicDir: './',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -65,8 +60,9 @@ export default defineConfig({
       }
     }
   },
-  // 打包后文件分离 文件分离
   build: {
+    assetsInlineLimit: 4096,
+    minify: 'terser'
     // rollupOptions: {
     //   output: {
     //     // chunkFileNames: 'static/js/[name]-[hash].js',
@@ -81,8 +77,9 @@ export default defineConfig({
     //     drop_debugger: true
     //   }
     // }
+  },
+  server: {
+    host: '127.0.0.1',
+    port: 5174
   }
-  // esbuild: {
-  //   minify: true
-  // }
 })
