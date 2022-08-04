@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:34:00
  * @LastEditors: qsyj
- * @LastEditTime: 2022-08-03 16:50:22
+ * @LastEditTime: 2022-08-04 15:44:42
  * @FilePath: \vite-admin-vue\vite.config.ts
  */
 import { defineConfig } from 'vite'
@@ -16,19 +16,19 @@ import { fileURLToPath } from 'url'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 
+import { envDir, projectRootPath } from './build'
+
 // gzip 压缩
 // import viteCompression from 'vite-plugin-compression'
 
 // elementplus 处理器
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
-const rootPath = process.cwd()
-
 // https://vitejs.dev/config/
 export default defineConfig({
-  root: rootPath,
+  root: projectRootPath,
   base: '/',
-  envDir: `${rootPath}/env`,
+  envDir,
   plugins: [
     vue(),
     AutoImport({
