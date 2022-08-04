@@ -4,8 +4,12 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:36:51
  * @LastEditors: qsyj
- * @LastEditTime: 2022-08-03 13:32:27
+ * @LastEditTime: 2022-08-04 15:07:39
  * @FilePath: \vite-admin-vue\.eslintrc.js
+ */
+
+/**
+ * @type { import('eslint').Linter.Config }
  */
 module.exports = {
   root: true,

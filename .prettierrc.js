@@ -4,10 +4,13 @@
  * @Autor: qsyj
  * @Date: 2022-03-10 17:36:12
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 23:19:16
+ * @LastEditTime: 2022-08-04 15:05:57
  * @FilePath: \vite-admin-vue\.prettierrc.js
  */
 
+/**
+ * @type { import('prettier').Options }
+ */
 module.exports = {
   semi: false,
   singleQuote: true,
