@@ -22,6 +22,7 @@ specifiers:
   nprogress: ^0.2.0
   pinia: ^2.0.16
   prettier: ^2.5.1
+  rimraf: ^3.0.2
   sass: ^1.49.9
   terser: ^5.14.2
   typescript: ^4.5.4
@@ -60,6 +61,7 @@ devDependencies:
   eslint-plugin-vue: 8.5.0_eslint@8.10.0
   husky: 7.0.4
   prettier: 2.5.1
+  rimraf: 3.0.2
   sass: 1.49.9
   terser: 5.14.2
   typescript: 4.6.2
@@ -1904,9 +1906,7 @@ packages:
   /fs.realpath/1.0.0:
     resolution:
       {
-        integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==,
-        registry: http://registry.npm.taobao.org/,
-        tarball: http://registry.npm.taobao.org/fs.realpath/-/fs.realpath-1.0.0.tgz
+        integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
       }
     dev: true
 
@@ -1962,9 +1962,7 @@ packages:
   /glob/7.2.0:
     resolution:
       {
-        integrity: sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==,
-        registry: http://registry.npm.taobao.org/,
-        tarball: http://registry.npm.taobao.org/glob/-/glob-7.2.0.tgz
+        integrity: sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==
       }
     dependencies:
       fs.realpath: 1.0.0
@@ -2111,9 +2109,7 @@ packages:
   /inflight/1.0.6:
     resolution:
       {
-        integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==,
-        registry: http://registry.npm.taobao.org/,
-        tarball: http://registry.npm.taobao.org/inflight/-/inflight-1.0.6.tgz
+        integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==
       }
     dependencies:
       once: 1.4.0
@@ -2123,9 +2119,7 @@ packages:
   /inherits/2.0.4:
     resolution:
       {
-        integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==,
-        registry: http://registry.npm.taobao.org/,
-        tarball: http://registry.npm.taobao.org/inherits/-/inherits-2.0.4.tgz
+        integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
       }
     dev: true
 
@@ -2417,9 +2411,7 @@ packages:
   /once/1.4.0:
     resolution:
       {
-        integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==,
-        registry: http://registry.npm.taobao.org/,
-        tarball: http://registry.npm.taobao.org/once/-/once-1.4.0.tgz
+        integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==
       }
     dependencies:
       wrappy: 1.0.2
@@ -2455,9 +2447,7 @@ packages:
   /path-is-absolute/1.0.1:
     resolution:
       {
-        integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==,
-        registry: http://registry.npm.taobao.org/,
-        tarball: http://registry.npm.taobao.org/path-is-absolute/-/path-is-absolute-1.0.1.tgz
+        integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==
       }
     engines: { node: '>=0.10.0' }
     dev: true
@@ -2677,9 +2667,7 @@ packages:
   /rimraf/3.0.2:
     resolution:
       {
-        integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==,
-        registry: http://registry.npm.taobao.org/,
-        tarball: http://registry.npm.taobao.org/rimraf/-/rimraf-3.0.2.tgz
+        integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
       }
     hasBin: true
     dependencies:
@@ -3265,9 +3253,7 @@ packages:
   /wrappy/1.0.2:
     resolution:
       {
-        integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==,
-        registry: http://registry.npm.taobao.org/,
-        tarball: http://registry.npm.taobao.org/wrappy/-/wrappy-1.0.2.tgz
+        integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==
       }
     dev: true
 
