@@ -16,10 +16,12 @@ specifiers:
   eslint-config-prettier: ^8.5.0
   eslint-plugin-prettier: ^4.0.0
   eslint-plugin-vue: ^8.5.0
+  esno: ^0.16.3
   html2canvas: ^1.4.1
   husky: ^7.0.4
   jspdf: ^2.5.1
   nprogress: ^0.2.0
+  picocolors: ^1.0.0
   pinia: ^2.0.16
   prettier: ^2.5.1
   rimraf: ^3.0.2
@@ -59,7 +61,9 @@ devDependencies:
   eslint-config-prettier: 8.5.0_eslint@8.10.0
   eslint-plugin-prettier: 4.0.0_6pitu4b2tqihty6rv5qeiyb35m
   eslint-plugin-vue: 8.5.0_eslint@8.10.0
+  esno: 0.16.3
   husky: 7.0.4
+  picocolors: 1.0.0
   prettier: 2.5.1
   rimraf: 3.0.2
   sass: 1.49.9
@@ -146,6 +150,36 @@ packages:
     dependencies:
       vue: 3.2.37
     dev: false
+
+  /@esbuild-kit/cjs-loader/2.3.2:
+    resolution:
+      {
+        integrity: sha512-3UIFKrGfq2d2R2A/SpJaeHTP5z3nrOnVMxE+cNpOuuW+Lotm0Sfbc9lVHCjcxaxgcx0MKI7g2FvxvWlylzDRKg==
+      }
+    dependencies:
+      '@esbuild-kit/core-utils': 2.1.0
+      get-tsconfig: 4.2.0
+    dev: true
+
+  /@esbuild-kit/core-utils/2.1.0:
+    resolution:
+      {
+        integrity: sha512-fZirrc2KjeTumVjE4bpleWOk2gD83b7WuGeQqOceKFQL+heNKKkNB5G5pekOUTLzfSBc0hP7hCSBoD9TuR0hLw==
+      }
+    dependencies:
+      esbuild: 0.14.51
+      source-map-support: 0.5.21
+    dev: true
+
+  /@esbuild-kit/esm-loader/2.4.2:
+    resolution:
+      {
+        integrity: sha512-N9dPKAj8WOx6djVnStgILWXip4fjDcBk9L7azO0/uQDpu8Ee0eaL78mkN4Acid9BzvNAKWwdYXFJZnsVahNEew==
+      }
+    dependencies:
+      '@esbuild-kit/core-utils': 2.1.0
+      get-tsconfig: 4.2.0
+    dev: true
 
   /@eslint/eslintrc/1.2.0:
     resolution:
@@ -1686,6 +1720,16 @@ packages:
       - supports-color
     dev: true
 
+  /esno/0.16.3:
+    resolution:
+      {
+        integrity: sha512-6slSBEV1lMKcX13DBifvnDFpNno5WXhw4j/ff7RI0y51BZiDqEe5dNhhjhIQ3iCOQuzsm2MbVzmwqbN78BBhPg==
+      }
+    hasBin: true
+    dependencies:
+      tsx: 3.8.0
+    dev: true
+
   /espree/6.2.1:
     resolution:
       {
@@ -1934,6 +1978,13 @@ packages:
         integrity: sha512-dsKNQNdj6xA3T+QlADDA7mOSlX0qiMINjn0cgr+eGHGsbSHzTabcIogz2+p/iqP1Xs6EP/sS2SbqH+brGTbq0g==,
         registry: http://registry.npm.taobao.org/,
         tarball: http://registry.npm.taobao.org/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz
+      }
+    dev: true
+
+  /get-tsconfig/4.2.0:
+    resolution:
+      {
+        integrity: sha512-X8u8fREiYOE6S8hLbq99PeykTDoLVnxvF4DjWKJmz9xy2nNRdUcV8ZN9tniJFeKyTU3qnC9lL8n4Chd6LmVKHg==
       }
     dev: true
 
@@ -2917,6 +2968,20 @@ packages:
     dependencies:
       tslib: 1.14.1
       typescript: 4.6.2
+    dev: true
+
+  /tsx/3.8.0:
+    resolution:
+      {
+        integrity: sha512-PcvTwRXTm6hDWfPihA4n5WW/9SmgFNxKaDKqvLLG+FKNEPA4crsipChzC7PVozPtdOaMfR5QctDlkC/hKoIsxw==
+      }
+    hasBin: true
+    dependencies:
+      '@esbuild-kit/cjs-loader': 2.3.2
+      '@esbuild-kit/core-utils': 2.1.0
+      '@esbuild-kit/esm-loader': 2.4.2
+    optionalDependencies:
+      fsevents: 2.3.2
     dev: true
 
   /type-check/0.4.0:

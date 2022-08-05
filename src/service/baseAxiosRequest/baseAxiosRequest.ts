@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-13 00:49:54
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-21 09:32:40
+ * @LastEditTime: 2022-08-04 16:58:08
  */
 import axios from 'axios'
 
@@ -40,9 +40,19 @@ class BaseAxios {
     )
   }
 
+  // request<T = any>(options: CustomRequestConfig = {}): Promise<ResponseData<T>> {
+  //   return this.instance
+  //     .request<ResponseData<T>>({
+  //       ...this.instanceConfig,
+  //       ...options
+  //     })
+  //     .then(response => response.data)
+  //     .catch((error: CatchError) => Promise.reject(error))
+  // }
+
   request<T = any>(options: CustomRequestConfig = {}): Promise<ResponseData<T>> {
     return this.instance
-      .request<T>({
+      .request<ResponseData<T>>({
         ...this.instanceConfig,
         ...options
       })

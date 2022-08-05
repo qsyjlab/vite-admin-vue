@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-13 01:14:04
  * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 10:35:42
+ * @LastEditTime: 2022-08-04 16:54:17
  * @FilePath: \vite-admin-vue\src\types\service\baseAxios.ts
  */
 
@@ -32,10 +32,10 @@ export interface CustomRequestConfig extends AxiosRequestConfig {
   interceptorsHooks?: InterceptorsType
 }
 
-// export interface ResponseData<T = unknown> {
-//   data: T
-//   code: number
-//   msg: string
-// }
+export interface ResponseData<T = unknown> {
+  data: T
+  code: number
+  msg: string
+}
 
-export type ResponseData<T = unknown> = T
+// export type ResponseData<T = unknown> = T

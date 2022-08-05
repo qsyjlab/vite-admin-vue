@@ -6,6 +6,7 @@
     "useDefineForClassFields": true,
     "noImplicitAny": true,
     // "noUnusedParameters":false,
+    "allowSyntheticDefaultImports": true,
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,

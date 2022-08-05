@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-15 22:09:49
  * @LastEditors: qsyj
- * @LastEditTime: 2022-08-02 17:51:30
+ * @LastEditTime: 2022-08-04 17:37:42
  * @FilePath: \vite-admin-vue\src\views\system\WelcomeTo.vue
 -->
 
@@ -23,6 +23,12 @@
 
 <script setup lang="ts">
 import { getTodos } from '@/api/todos'
+
+import axios from 'axios'
+
+axios.get('https://www.bilibili.com/').then(res => {
+  console.log('res', res)
+})
 
 getTodos({}).then(res => {
   console.log('res', res)
