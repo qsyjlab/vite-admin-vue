@@ -1,13 +1,3 @@
-/*
- * @Description: eslint + vue + ts + prettier 整合配置文件
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-10 17:36:51
- * @LastEditors: qsyj
- * @LastEditTime: 2022-08-04 15:07:39
- * @FilePath: \vite-admin-vue\.eslintrc.js
- */
-
 /**
  * @type { import('eslint').Linter.Config }
  */
@@ -15,7 +5,6 @@ module.exports = {
   root: true,
   env: {
     node: true
-    // 'vue/setup-compiler-macros': true
   },
   parser: 'vue-eslint-parser',
   parserOptions: {
@@ -26,26 +15,13 @@ module.exports = {
     ecmaVersion: 2020
   },
   extends: [
-    // package eslint
     'eslint:recommended',
-    // package eslint-plugin-vue
-    'plugin:vue/vue3-recommended',
-    // package @typescript-eslint/eslint-plugin
-    'plugin:@typescript-eslint/recommended',
-    // package eslint + eslint-plugin-vue
     'plugin:vue/vue3-essential',
-    // package eslint-plugin-prettier + prettier
+    'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    // package  prettier
-    'prettier',
-    // package @vue/eslint-config-typescript
-    '@vue/typescript/recommended',
-    // package @vue/eslint-config-prettier
-    '@vue/prettier'
-    // // package @vue/eslint-config-typescript
-    // '@vue/prettier/@typescript-eslint'
+    'prettier'
   ],
-  // plugins: ['vue', '@typescript-eslint', 'prettier'],
+  plugins: ['vue', '@typescript-eslint'],
   rules: {
     // 要求使用 === 和 !==
     eqeqeq: 'warn',
