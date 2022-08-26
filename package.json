@@ -10,9 +10,15 @@
     "check": "vue-tsc --noEmit --skipLibCheck",
     "preview": "vite preview",
     "prettier": "prettier --write .",
-    "lint": "eslint src --fix --ext .ts,.tsx,.vue,.js,.jsx",
+    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
     "prepare": "husky install",
     "clean:lib": "rimraf node_modules"
+  },
+  "lint-staged": {
+    "*.{vue,js,ts,jsx,tsx,md,json}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   },
   "dependencies": {
     "@element-plus/icons-vue": "^1.1.3",
@@ -27,6 +33,8 @@
     "vue-router": "4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
     "@types/node": "^17.0.21",
     "@types/nprogress": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
@@ -40,6 +48,7 @@
     "eslint-plugin-vue": "^8.5.0",
     "esno": "^0.16.3",
     "husky": "^7.0.4",
+    "lint-staged": "^13.0.3",
     "picocolors": "^1.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
