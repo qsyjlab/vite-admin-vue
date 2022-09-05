@@ -44,10 +44,7 @@ export default defineConfig({
     // css预处理器
     preprocessorOptions: {
       scss: {
-        // src\styles\scss\index.scss
-        // 引入 var.scss 这样就可以在全局中使用 var.scss中预定义的变量了
-        // 给导入的路径最后加上 ;
-        additionalData: '@import "./src/styles/scss/index.scss";'
+        additionalData: '@use "./src/styles/scss/index.scss" as *;'
       }
     }
   },
