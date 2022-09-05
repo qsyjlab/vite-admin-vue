@@ -1,12 +1,3 @@
-/*
- * @Description:
- * @Autor: qsyj
- * @Date: 2022-07-19 11:04:09
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-19 11:30:29
- */
-
-// import 'vue-router'
 /// <reference types="vue-router" />
 
 interface ExtraRouteMeta {

@@ -1,11 +1,3 @@
-/*
- * @Description:
- * @Autor: qsyj
- * @Date: 2022-07-20 14:39:04
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 14:43:41
- */
-
 import type { InjectionKey } from 'vue'
 
 /**

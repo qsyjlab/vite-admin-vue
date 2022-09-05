@@ -1,12 +1,3 @@
-/*
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-01-07 14:14:17
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 22:24:13
- */
-
 import type { PropType } from 'vue'
 
 export enum TableEmits {

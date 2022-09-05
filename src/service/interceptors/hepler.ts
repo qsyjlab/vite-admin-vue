@@ -1,12 +1,3 @@
-/*
- * @Description: 处理 http 错误状态
- * @Version:
- * @Autor: qsyj
- * @Date: 2022-04-02 22:19:48
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 15:33:43
- */
-
 import { CatchError, CustomAxiosResponse } from '@/service/baseAxiosRequest/baseAxios'
 
 import { useStorageHelper } from '@/hooks'

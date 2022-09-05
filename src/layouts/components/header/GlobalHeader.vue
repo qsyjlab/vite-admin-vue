@@ -1,12 +1,3 @@
-<!--
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-16 14:17:37
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-27 21:07:37
- * @FilePath: \vite-admin-vue\src\layouts\components\header\GlobalHeader.vue
--->
 <template>
   <div class="layout-header_wapper">
     <div class="layout-header-left">

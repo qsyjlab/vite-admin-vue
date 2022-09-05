@@ -1,13 +1,3 @@
-/*
- * @Description: 助手函数
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-16 10:14:20
- * @LastEditors: qsyj
- * @LastEditTime: 2022-08-04 14:58:59
- * @FilePath: \vite-admin-vue\src\router\guard\helper.ts
- */
-
 import type {
   RouteLocationNormalized,
   Router,

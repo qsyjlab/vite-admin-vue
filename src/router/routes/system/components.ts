@@ -1,13 +1,3 @@
-/*
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-20 12:02:24
- * @LastEditors: qsyj
- * @LastEditTime: 2022-08-04 14:57:37
- * @FilePath: \vite-admin-vue\src\router\routes\system\components.ts
- */
-
 import { defineExposeRoutes } from '@/utils'
 import { createBlankContainer } from '@/layouts'
 

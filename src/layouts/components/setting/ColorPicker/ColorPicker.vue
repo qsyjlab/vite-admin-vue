@@ -1,11 +1,3 @@
-<!--
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2021-12-30 14:08:56
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-19 15:25:57
--->
 <template>
   <div>
     <el-color-picker

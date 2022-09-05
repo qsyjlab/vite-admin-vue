@@ -1,12 +1,3 @@
-<!--
- * @Description:
- * @Version:
- * @Autor: qsyj
- * @Date: 2022-03-28 15:25:03
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 11:12:02
--->
-
 <template>
   <el-card>
     <template #header>

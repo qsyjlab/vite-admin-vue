@@ -1,13 +1,3 @@
-/*
- * @Description: user vuex
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-18 14:41:54
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 15:21:16
- * @FilePath: \vite-admin-vue\src\store\modules\user.ts
- */
-
 // import type { Module, useStore } from 'vuex'
 // : Module<VStoreRoot.User.UserRootState, VStoreRoot.RootState> =
 import { router } from '@/router'

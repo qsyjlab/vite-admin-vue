@@ -1,13 +1,3 @@
-/*
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-23 09:38:59
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 14:36:07
- * @FilePath: \vite-admin-vue\src\layouts\components\RouterBar\routerBar.ts
- */
-
 import type { RouteRecordNormalized, RouteLocationNormalizedLoaded, RouteMeta } from 'vue-router'
 
 export interface RouterType {

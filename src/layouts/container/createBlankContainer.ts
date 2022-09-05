@@ -1,12 +1,3 @@
-/*
- * @Description: 创建空容器
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-17 15:37:49
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 11:32:28
- * @FilePath: \vite-admin-vue\src\layouts\container\createBlankContainer.ts
- */
 import { h, defineComponent, KeepAlive } from 'vue'
 
 import type { Component, VNode } from 'vue'

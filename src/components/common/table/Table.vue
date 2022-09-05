@@ -2,13 +2,6 @@
   <div>
     <div class="table-tools">
       <slot name="extra"></slot>
-
-      <!-- <QsDeleteButton
-        v-if="delHttp"
-        :http="delHttp"
-        :data="selectedKeys"
-        @reload="reload"
-      /> -->
     </div>
 
     <ElTable

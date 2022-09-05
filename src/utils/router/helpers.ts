@@ -1,13 +1,3 @@
-/*
- * @Description: 助手方法
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-14 16:01:22
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-19 16:59:59
- * @FilePath: \vite-admin-vue\src\utils\router\helpers.ts
- */
-
 import { RouteRecordRaw } from 'vue-router'
 
 type RFiles = Record<

@@ -1,13 +1,3 @@
-/*
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-21 15:55:18
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-19 16:56:22
- * @FilePath: \vite-admin-vue\src\router\routes\error\error.ts
- */
-
 import { defineExposeRoutes } from '@/utils'
 
 export default defineExposeRoutes([

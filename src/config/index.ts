@@ -1,13 +1,3 @@
-/*
- * @Description: globa config
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-17 11:33:00
- * @LastEditors: qsyj
- * @LastEditTime: 2022-08-03 16:16:44
- * @FilePath: \vite-admin-vue\src\config\index.ts
- */
-
 import { readonly } from '@/utils'
 
 import { ReadOnlyConfig } from './types'

@@ -1,11 +1,3 @@
-/*
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-01-12 10:00:32
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-21 09:38:02
- */
 import { PropType } from 'vue'
 import type { FormType } from '../form/form'
 

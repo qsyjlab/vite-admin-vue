@@ -1,11 +1,3 @@
-/*
- * @Description:
- * @Version:
- * @Autor: qsyj
- * @Date: 2022-03-13 00:49:54
- * @LastEditors: qsyj
- * @LastEditTime: 2022-08-04 16:58:08
- */
 import axios from 'axios'
 
 import type { AxiosInstance } from 'axios'

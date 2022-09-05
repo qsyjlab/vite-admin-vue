@@ -1,12 +1,3 @@
-<!--
- * @Description: header
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-15 11:14:56
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-17 11:20:47
- * @FilePath: \vite-admin-vue\src\layouts\LayoutPackage\components\LayoutHeader.vue
--->
 <template>
   <div class="layout-header" :style="style">
     <slot />

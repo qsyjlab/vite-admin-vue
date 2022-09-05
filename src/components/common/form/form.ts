@@ -1,12 +1,3 @@
-/*
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-01-12 09:54:13
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 14:07:32
- */
-
 import type { Component, PropType } from 'vue'
 export interface FormType {
   label?: string

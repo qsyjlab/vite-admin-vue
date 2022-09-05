@@ -1,11 +1,3 @@
-<!--
- * @Description: 面包屑导航
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2021-12-30 14:08:56
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 14:35:15
--->
 <template>
   <el-breadcrumb :separator="'/'">
     <transition-group name="breadcrumb" appear>

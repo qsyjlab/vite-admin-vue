@@ -1,11 +1,3 @@
-/*
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2021-12-27 13:39:36
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-23 14:21:33
- */
 type BaseLocalStorageType = Storage
 
 interface OptionsType {

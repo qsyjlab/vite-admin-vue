@@ -1,12 +1,3 @@
-<!--
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-15 21:53:45
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-19 16:31:23
- * @FilePath: \vite-admin-vue\src\layouts\components\SideBar\Menu\AsideMenuItem.vue
--->
 <template>
   <el-menu-item
     v-if="!menuItem.children?.length"

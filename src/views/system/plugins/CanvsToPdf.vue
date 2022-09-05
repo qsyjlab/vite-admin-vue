@@ -1,13 +1,3 @@
-<!--
- * @Description: canvs 转 pdf
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-25 17:01:41
- * @LastEditors: qsyj
- * @LastEditTime: 2022-08-01 09:52:04
- * @FilePath: \vite-admin-vue\src\views\system\plugins\CanvsToPdf.vue
--->
-
 <template>
   <el-card>
     <template #header>

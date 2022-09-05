@@ -1,11 +1,3 @@
-/*
- * @Description:
- * @Autor: qsyj
- * @Date: 2022-07-19 11:50:25
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 09:17:26
- */
-
 import { defineStore } from 'pinia'
 import { useStorageHelper } from '@/hooks'
 import { getThemeCluster, updateElementStyle } from '@/utils'

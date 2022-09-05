@@ -1,13 +1,3 @@
-/*
- * @Description: 拦截器入口
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-10 15:02:43
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 10:54:23
- * @FilePath: \vite-admin-vue\src\router\guard\index.ts
- */
-
 import type { Router } from 'vue-router'
 // import { useStore } from 'vuex'
 import { handlePermissionRouter, keepAlive, initApp } from './helper'

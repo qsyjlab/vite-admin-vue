@@ -1,11 +1,3 @@
-<!--
- * @Description: 页面过度组件
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-01-05 10:17:34
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 11:01:15
--->
 <template>
   <transition name="fade-transform" mode="out-in">
     <slot></slot>

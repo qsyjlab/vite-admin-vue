@@ -1,13 +1,3 @@
-/*
- * @Description: proxy 代理
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-17 13:57:32
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 14:19:36
- * @FilePath: \vite-admin-vue\src\utils\es\proxy.ts
- */
-
 /**
  *
  * @param obj

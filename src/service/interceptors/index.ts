@@ -1,12 +1,3 @@
-/*
- * @Description: axios 拦截器
- * @Version:
- * @Autor: qsyj
- * @Date: 2022-04-02 22:03:14
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-20 10:24:05
- */
-
 import type {
   RequestInterceptorsType,
   RequestInterceptorsCatchType,

@@ -1,12 +1,3 @@
-/*
- * @Description:
- * @Version:
- * @Autor: qsyj
- * @Date: 2022-03-28 15:33:34
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-21 09:42:44
- */
-
 import type {
   UploadUserFile,
   UploadProgressEvent,

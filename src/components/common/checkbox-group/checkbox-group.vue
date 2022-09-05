@@ -1,11 +1,3 @@
-<!--
- * @Description:基于elementplus 封装 checkbox
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-01-07 10:11:59
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-21 09:36:32
--->
 <template>
   <el-checkbox-group v-model="checked" v-bind="{ ...$attrs, size }" @change="handleCheckChange">
     <component

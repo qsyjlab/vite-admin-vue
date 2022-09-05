@@ -1,11 +1,3 @@
-/*
- * @Description: 系统变量全局声明文件
- * @Version:
- * @Autor: qsyj
- * @Date: 2022-03-10 17:34:00
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-21 10:11:48
- */
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {

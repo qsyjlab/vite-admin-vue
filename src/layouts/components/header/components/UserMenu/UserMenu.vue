@@ -1,13 +1,3 @@
-<!--
- * @Description:用户按钮
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-17 11:12:36
- * @LastEditors: qsyj
- * @LastEditTime: 2022-07-19 16:27:34
- * @FilePath: \vite-admin-vue\src\layouts\components\header\components\UserMenu\UserMenu.vue
--->
-
 <template>
   <el-dropdown style="height: 100%">
     <hover-card style="height: 100%">

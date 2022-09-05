@@ -1,13 +1,3 @@
-<!--
- * @Description: @element-plus/icons-vue
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-23 22:20:00
- * @LastEditors: qsyj
- * @LastEditTime: 2022-08-01 09:54:27
- * @FilePath: \vite-admin-vue\src\views\system\icon\components\ElementPlusIcon.vue
--->
-
 <template>
   <div class="grid">
     <icon-trigger

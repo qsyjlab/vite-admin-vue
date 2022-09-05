@@ -1,12 +1,3 @@
-/*
- * @Description: vite.config
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-10 17:34:00
- * @LastEditors: qsyj
- * @LastEditTime: 2022-08-04 15:44:42
- * @FilePath: \vite-admin-vue\vite.config.ts
- */
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 

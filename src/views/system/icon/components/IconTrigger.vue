@@ -1,13 +1,3 @@
-<!--
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-23 21:51:13
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-24 16:32:25
- * @FilePath: \vite-admin-vue\src\views\system\icon\components\IconTrigger.vue
--->
-
 <template>
   <el-tooltip effect="dark" :content="item.name" placement="top-start">
     <div class="icon-item">
