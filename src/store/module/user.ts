@@ -1,5 +1,3 @@
-// import type { Module, useStore } from 'vuex'
-// : Module<VStoreRoot.User.UserRootState, VStoreRoot.RootState> =
 import { router } from '@/router'
 import { ElMessage } from 'element-plus'
 import { useStorageHelper } from '@/hooks'
