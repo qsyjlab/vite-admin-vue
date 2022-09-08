@@ -8,7 +8,7 @@ export default defineExposeRoutes([
       title: '404',
       isAuth: false
     },
-    component: () => import('@/views/error/Error404.vue')
+    component: () => import('@/views/error/error-404.vue')
   },
   {
     path: '/error403',
@@ -17,6 +17,6 @@ export default defineExposeRoutes([
       title: '403',
       isAuth: false
     },
-    component: () => import('@/views/error/Error403.vue')
+    component: () => import('@/views/error/error-403.vue')
   }
 ])
