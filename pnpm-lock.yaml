@@ -21,6 +21,7 @@ specifiers:
   husky: ^7.0.4
   jspdf: ^2.5.1
   lint-staged: ^13.0.3
+  mockjs: ^1.1.0
   nprogress: ^0.2.0
   picocolors: ^1.0.0
   pinia: ^2.0.16
@@ -67,6 +68,7 @@ devDependencies:
   esno: 0.16.3
   husky: 7.0.4
   lint-staged: 13.0.3
+  mockjs: 1.1.0
   picocolors: 1.0.0
   postcss: 8.4.16
   postcss-preset-env: 7.8.0_postcss@8.4.16
@@ -2667,6 +2669,13 @@ packages:
       arrify: 1.0.1
       is-plain-obj: 1.1.0
       kind-of: 6.0.3
+    dev: true
+
+  /mockjs/1.1.0:
+    resolution: {integrity: sha512-eQsKcWzIaZzEZ07NuEyO4Nw65g0hdWAyurVol1IPl1gahRwY+svqzfgfey8U8dahLwG44d6/RwEzuK52rSa/JQ==}
+    hasBin: true
+    dependencies:
+      commander: 9.4.0
     dev: true
 
   /ms/2.1.2:
