@@ -7,6 +7,8 @@ import { fileURLToPath } from 'url'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 
+import { viteMockServe } from 'vite-plugin-mock'
+
 import { envDir, projectRootPath } from './build'
 
 // gzip 压缩
@@ -16,7 +18,7 @@ import { envDir, projectRootPath } from './build'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   root: projectRootPath,
   base: '/',
   envDir,
@@ -32,6 +34,15 @@ export default defineConfig({
       dirs: [],
       // 排除路径
       resolvers: [ElementPlusResolver()]
+    }),
+    viteMockServe({
+      mockPath: 'mock',
+      localEnabled: command === 'serve',
+      prodEnabled: command !== 'serve',
+      injectCode: `
+        import { setupProdMockServer } from './index';
+        setupProdMockServer();
+      `
     })
   ],
   resolve: {
@@ -70,4 +81,4 @@ export default defineConfig({
     host: '127.0.0.1',
     port: 5174
   }
-})
+}))

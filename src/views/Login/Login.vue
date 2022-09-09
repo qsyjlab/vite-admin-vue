@@ -35,6 +35,15 @@
 import { useUserStore } from '@/store'
 import { reactive } from 'vue'
 
+import axios from 'axios'
+
+axios.get('/basic-api/getUsers', { data: 1 }).then(res => {
+  console.log('res', res)
+})
+
+axios.post('/basic-api/login', { data: 1 }).then(res => {
+  console.log('res', res)
+})
 const { loginSystem } = useUserStore()
 
 const loginForm = reactive({
@@ -55,6 +64,7 @@ const loginAdmin = () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   background-color: #f0f2f5;
 }
 .login-layout-body {
