@@ -7,7 +7,7 @@ import type {
 
 import { useStorageHelper } from '@/hooks'
 import { hasAuth } from '@/utils'
-import useStore, { MenuItem, useAppStore, useRouteStore } from '@/store'
+import { MenuItem, useAppStore, useRouteStore } from '@/store'
 
 export async function handlePermissionRouter(
   to: RouteLocationNormalized,
@@ -51,7 +51,9 @@ export async function handlePermissionRouter(
 export function keepAlive(routerTo: RouteLocationNormalized): void {
   const length = routerTo.matched.length
 
-  const { routeStore } = useStore()
+  // const { routeStore } = useStore()
+
+  const routeStore = useRouteStore()
 
   // TODO: 这种方案不支持 过度动画
   if (length > 1) {

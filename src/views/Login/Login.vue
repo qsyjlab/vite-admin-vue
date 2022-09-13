@@ -33,26 +33,24 @@
 
 <script setup lang="ts">
 import { useUserStore } from '@/store'
+import { ElMessage } from 'element-plus'
 import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
 
-import axios from 'axios'
-
-axios.get('/basic-api/getUsers', { data: 1 }).then(res => {
-  console.log('res', res)
-})
-
-axios.post('/basic-api/login', { data: 1 }).then(res => {
-  console.log('res', res)
-})
 const { loginSystem } = useUserStore()
 
 const loginForm = reactive({
-  username: '',
-  password: ''
+  username: 'admin',
+  password: '123456'
 })
+const router = useRouter()
 
 const loginAdmin = () => {
-  loginSystem(loginForm)
+  loginSystem(loginForm).then(() => {
+    ElMessage.success('登录成功')
+
+    router.push({ name: 'Home' })
+  })
 }
 </script>
 

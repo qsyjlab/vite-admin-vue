@@ -2,7 +2,7 @@ import { CatchError, CustomAxiosResponse } from '@/service/baseAxiosRequest/base
 
 import { useStorageHelper } from '@/hooks'
 import config from '@/config'
-import { useStore } from '@/store'
+import { useUserStore } from '@/store'
 
 interface ErrorParams {
   msg: string
@@ -63,7 +63,8 @@ export function handleHttpError(error: CatchError): boolean {
   function noAuthError(config: ErrorParams) {
     errorMessage(config.msg)
 
-    const { userStore } = useStore()
+    const userStore = useUserStore()
+    // const { userStore } = useStore()
     userStore.loginOutSystem()
   }
 

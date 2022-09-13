@@ -13,7 +13,7 @@ export const url = {
   }
 }
 
-const config = readonly<ReadOnlyConfig>({
+const config = {
   storage: {
     prefix: VITE_EVN.VITE_APP_LOCALSTORAGE_PREFIX,
     expires: VITE_EVN.VITE_APP_LOCALSTORAGE_EXPIRES
@@ -24,8 +24,6 @@ const config = readonly<ReadOnlyConfig>({
     }
   },
   url
-})
+}
 
-console.log('config', config)
-
-export { config as default }
+export { config as default, config }

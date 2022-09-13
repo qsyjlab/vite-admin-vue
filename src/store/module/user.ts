@@ -1,8 +1,10 @@
 import { router } from '@/router'
-import { ElMessage } from 'element-plus'
 import { useStorageHelper } from '@/hooks'
+
 import useAppStore from './app'
 import { defineStore } from 'pinia'
+
+import { login as loginHttp } from '@/api/user'
 
 export const userStoreKey = 'userStoreKey'
 
@@ -18,35 +20,23 @@ export const useUserStore = defineStore(userStoreKey, {
       permissions: ['Home', 'Welcome', 'Dashboard', 'Components']
     }
   },
-  // mutations: {},
   actions: {
     loginSystem(form: { username: string; password: string }) {
-      const { setTokenCahce, setUserInfoCache } = useStorageHelper()
+      return loginHttp(form).then(res => {
+        const { setTokenCahce, setUserInfoCache } = useStorageHelper()
 
-      setTokenCahce('token')
-      setUserInfoCache({
-        userId: 1,
-        userName: 'ADMIN',
-        userRole: 'ADMIN'
+        const { data } = res
+
+        setTokenCahce(data.token)
+        setUserInfoCache(data)
       })
-
-      router.push({ name: 'Home' })
-
-      // ElMessage({
-      //   type: 'success',
-      //   message: 'Login Success'
-      // })
-      ElMessage.success('Login Success')
     },
 
     // 退出登录
     loginOutSystem() {
       const { clearCache, setLayoutCache } = useStorageHelper()
-
       clearCache()
-
       const appStore = useAppStore()
-
       setLayoutCache(appStore.layoutConfig)
       router.push({ name: 'Login' })
     }
