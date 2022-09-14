@@ -82,7 +82,7 @@ const form = defineFormFields([
 ])
 
 const submit = (val: any) => {
-  console.log('submit', val)
+  // console.log('submit', val)
 }
 </script>
 <style scoped></style>

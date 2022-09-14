@@ -8,8 +8,7 @@ import type {
 import { useStorageHelper } from '@/hooks'
 import { hasAuth } from '@/utils'
 import { MenuItem, useAppStore, useRouteStore } from '@/store'
-import routes, { asyncRoutes } from '../routes'
-import { loadRouterModules } from '../helper'
+import routes from '../routes'
 
 export async function handlePermissionRouter(
   to: RouteLocationNormalized,
@@ -51,33 +50,6 @@ export async function handlePermissionRouter(
   }
 
   return next()
-}
-
-/**
- *  组件缓存
- * @param {RouteLocationNormalized} routerTo
- */
-export function keepAlive(routerTo: RouteLocationNormalized): void {
-  const length = routerTo.matched.length
-
-  const routeStore = useRouteStore()
-
-  // TODO: 这种方案不支持 过度动画
-  if (length > 1) {
-    for (let i = length - 1; i > 0; i--) {
-      const [own, parent] = [routerTo.matched[i], routerTo.matched[i - 1]]
-      if (!own.meta.isKeepAlive) {
-        Object.keys(own.components).forEach(key => {
-          if (parent.components.default.name && own.components[key].name) {
-            routeStore.addAlive({
-              page: parent.components.default.name,
-              alive: own.components[key].name
-            })
-          }
-        })
-      }
-    }
-  }
 }
 
 /**

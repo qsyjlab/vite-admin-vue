@@ -1,5 +1,3 @@
-// import { transformRouteToList } from '@/utils'
-// import { asyncRoutes } from '@/router/routes'
 import { createWebHistoryRouter } from '@/router/helper'
 import { defineStore } from 'pinia'
 
@@ -16,22 +14,18 @@ export interface MenuItem {
 export interface RouteState {
   menuList: MenuItem[]
   isFristEntry: boolean
-  keepAliveList: {
-    [key: string]: {
-      [key: string]: Set<string>
-    }
-  }
+  keepAliveCache: Set<string>
 }
 
 export interface RouteAction {
   initRoutes: (routes: MenuItem[]) => void
-  addAlive: (payload: { page: string; alive: string | undefined; name?: string }) => void
+  addAlive: (names: string[]) => void
   buildRoutes: (asyncRoutes: RouteRecordRaw[]) => Promise<RouteRecordRaw[]>
 }
 
 export interface RouteGetters {
   [key: string]: any
-  getAlive: (state: RouteState) => (page: string, name?: string) => string[]
+  getAliveCache: (state: RouteState) => string[]
 }
 
 export const routeStoreKey = 'routeStoreKey'
@@ -45,7 +39,7 @@ export const useRouteStore = defineStore<string, RouteState, RouteGetters, Route
         // 是否第一次经过路由
         isFristEntry: false,
         // 缓存列表
-        keepAliveList: {}
+        keepAliveCache: new Set()
       }
     },
     actions: {
@@ -127,32 +121,16 @@ export const useRouteStore = defineStore<string, RouteState, RouteGetters, Route
 
         this.isFristEntry = true
       },
-      addAlive(payload) {
-        const { page, alive, name = 'default' } = payload
-
-        if (!this?.keepAliveList[page]) {
-          const value = new Set<string>()
-          if (alive) {
-            value.add(alive)
-          }
-
-          this.keepAliveList = {
-            ...this.keepAliveList,
-            [page]: { [name]: value }
-          }
-        } else if (this.keepAliveList[page][name].size !== 0 && alive) {
-          this.keepAliveList[page][name].add(alive)
+      addAlive(names) {
+        for (let i = 0; i < names.length; i++) {
+          this.keepAliveCache.add(names[i])
         }
       }
     },
     getters: {
-      getAlive: (state: RouteState) => {
-        return (page, name = 'default') => {
-          const list = state.keepAliveList[page]?.[name]
-
-          if (!list) return []
-          return Array.from(list)
-        }
+      // 获取 keepAlive 缓存
+      getAliveCache: (state: RouteState) => {
+        return Array.from(state.keepAliveCache)
       }
     }
   }

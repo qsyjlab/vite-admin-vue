@@ -48,15 +48,6 @@ const user: MockMethod[] = [
       return resultSuccess(_user)
     }
   }
-  // {
-  //   url: '/basic-api/getUsers',
-  //   method: 'get',
-  //   timeout: 200,
-  //   response: (_this, opt) => {
-  //     // console.log(_this, opt)
-  //   }
-  //   // rawResponse?: (this: RespThisType, req: IncomingMessage, res: ServerResponse) => void;
-  // }
 ]
 
 export default user

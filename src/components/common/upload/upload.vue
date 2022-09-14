@@ -162,8 +162,6 @@ const update = async (fileList: any[]) => {
 
 // http自定义上传
 const httpRequest: QsUploadRequestHandler = info => {
-  console.log('asdasd')
-
   const { data, filename, onProgress, file } = info
 
   if (props.customRequest) {

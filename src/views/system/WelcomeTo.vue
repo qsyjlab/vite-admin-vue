@@ -15,12 +15,4 @@
 import { getTodos } from '@/api/todos'
 
 import axios from 'axios'
-
-axios.get('https://www.bilibili.com/').then(res => {
-  console.log('res', res)
-})
-
-getTodos({}).then(res => {
-  console.log('res', res)
-})
 </script>

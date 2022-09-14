@@ -28,7 +28,7 @@ export default (name: string, alive = true): Component => {
                 return h(Transition, {}, () =>
                   h(
                     KeepAlive,
-                    { include: routeStore.getAlive(name) },
+                    { include: routeStore.getAliveCache },
                     h(props.Component, { key: props.route.fullPath })
                   )
                 )

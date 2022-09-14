@@ -8,6 +8,7 @@ export default defineExposeRoutes([
     meta: {
       title: '一级菜单',
       isNotAuth: true,
+      isKeepAlive: true,
       icon: 'icon-list'
     },
     component: createBlankContainer('Menu1'),
@@ -18,6 +19,7 @@ export default defineExposeRoutes([
         meta: {
           title: '二级菜单',
           isNotAuth: true,
+          isKeepAlive: true,
           icon: 'icon-list'
         },
         component: () => import('@/views/system/components/Upload.vue')
@@ -61,7 +63,8 @@ export default defineExposeRoutes([
             meta: {
               title: '三级菜单',
               isNotAuth: true,
-              icon: 'icon-list'
+              icon: 'icon-list',
+              isKeepAlive: true
             },
             component: () => import('@/views/system/components/Upload.vue')
             // () => import('@/views/system/components/Upload.vue')

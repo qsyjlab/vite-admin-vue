@@ -1,6 +1,6 @@
 import { createWebHistoryRouter } from './helper'
 
-import { createRouterGuard } from './guard'
+import { setupRouterGuard } from './guard'
 import routes from './routes'
 
 import type { App } from 'vue'
@@ -15,7 +15,7 @@ export const router = createWebHistoryRouter(routes, {
 
 export async function setupRouter(app: App) {
   app.use(router)
-  createRouterGuard(router)
+  setupRouterGuard(router)
 
   await router.isReady()
 }
