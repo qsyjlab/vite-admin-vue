@@ -5,6 +5,7 @@ import { RouterView } from 'vue-router'
 
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
+import { Transition } from '@/components'
 import { useRouteStore } from '@/store'
 
 interface RouteViewDefaultSlotProps {
@@ -24,15 +25,15 @@ export default (name: string, alive = true): Component => {
           {
             default: (props: RouteViewDefaultSlotProps) => {
               if (alive)
-                return h(
-                  KeepAlive,
-
-                  {
-                    include: routeStore.getAlive(name)
-                  },
-                  props.Component
+                return h(Transition, {}, () =>
+                  h(
+                    KeepAlive,
+                    { include: routeStore.getAlive(name) },
+                    h(props.Component, { key: props.route.fullPath })
+                  )
                 )
-              return () => h(props.Component)
+
+              return h(Transition, {}, h(props.Component, { key: props.route.fullPath }))
             }
           }
         )

@@ -4,7 +4,7 @@ import { defineExposeRoutes } from '@/utils'
 export default defineExposeRoutes([
   {
     name: 'OutLink',
-    path: 'out-link',
+    path: '/out-link',
     meta: {
       isNotAuth: true,
       sort: 7,

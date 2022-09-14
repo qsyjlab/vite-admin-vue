@@ -4,7 +4,7 @@ import { createBlankContainer } from '@/layouts'
 export default defineExposeRoutes([
   {
     name: 'Components',
-    path: 'components',
+    path: '/components',
     meta: {
       title: '组件',
       sort: 4,

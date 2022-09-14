@@ -4,7 +4,7 @@ import { createBlankContainer } from '@/layouts'
 export default defineExposeRoutes([
   {
     name: 'Plugins',
-    path: 'plugins',
+    path: '/plugins',
     meta: {
       title: '插件',
       sort: 3,

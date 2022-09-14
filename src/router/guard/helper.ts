@@ -8,6 +8,8 @@ import type {
 import { useStorageHelper } from '@/hooks'
 import { hasAuth } from '@/utils'
 import { MenuItem, useAppStore, useRouteStore } from '@/store'
+import routes, { asyncRoutes } from '../routes'
+import { loadRouterModules } from '../helper'
 
 export async function handlePermissionRouter(
   to: RouteLocationNormalized,
@@ -38,6 +40,13 @@ export async function handlePermissionRouter(
 
   if (!routeStore.isFristEntry) {
     const matched = to.matched[0].children
+
+    const buildRoutes = await routeStore.buildRoutes(routes)
+
+    buildRoutes.forEach(r => {
+      router.addRoute(r)
+    })
+
     await routeStore.initRoutes(transformRouteToList(matched, []))
   }
 
@@ -50,8 +59,6 @@ export async function handlePermissionRouter(
  */
 export function keepAlive(routerTo: RouteLocationNormalized): void {
   const length = routerTo.matched.length
-
-  // const { routeStore } = useStore()
 
   const routeStore = useRouteStore()
 
