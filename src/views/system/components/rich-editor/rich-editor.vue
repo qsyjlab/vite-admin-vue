@@ -10,7 +10,8 @@
 <script setup lang="ts">
 import tinymce from 'tinymce/tinymce'
 import TinymceVueEditor from '@tinymce/tinymce-vue'
-import 'tinymce/themes/silver/theme.min'
+import 'tinymce/themes/silver/theme'
+// import 'tinymce/models/dom'
 import 'tinymce/icons/default'
 import 'tinymce/plugins/image' // 插入上传图片插件
 import 'tinymce/plugins/importcss' //图片工具

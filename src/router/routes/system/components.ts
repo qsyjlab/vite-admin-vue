@@ -14,6 +14,27 @@ export default defineExposeRoutes([
     component: createBlankContainer('Components'),
     children: [
       {
+        name: 'Editor',
+        path: 'editor',
+        meta: {
+          title: '编辑器',
+          isNotAuth: true
+        },
+        component: createBlankContainer('Editor'),
+        children: [
+          {
+            name: 'RichEditor',
+            path: 'rich-editor',
+            meta: {
+              title: '编辑器',
+              isNotAuth: true
+            },
+            component: () => import('@/views/system/components/rich-editor/rich-editor.vue')
+          }
+        ]
+      },
+
+      {
         name: 'Form',
         path: 'form',
         meta: {
