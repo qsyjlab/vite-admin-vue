@@ -7,7 +7,6 @@ import { setupRouter } from './router'
 import setUpPlugins from './plugins'
 import setUpDirective from './directive'
 
-import config from '@/config'
 async function setupWebApp() {
   // 创建实例
   const app = createApp(App)

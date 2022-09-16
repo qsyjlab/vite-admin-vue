@@ -26,7 +26,7 @@ export default defineExposeRoutes([
             name: 'RichEditor',
             path: 'rich-editor',
             meta: {
-              title: '编辑器',
+              title: 'tinymce富文本',
               isNotAuth: true
             },
             component: () => import('@/views/system/components/rich-editor/rich-editor.vue')
