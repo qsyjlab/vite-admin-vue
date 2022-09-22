@@ -21,7 +21,7 @@
     ]
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^1.1.3",
+    "@element-plus/icons-vue": "^2.0.9",
     "@tinymce/tinymce-vue": "4",
     "axios": "^0.26.1",
     "dayjs": "^1.11.0",
