@@ -18,5 +18,6 @@
   },
   "fileheader.configObj": {
     "autoAdd": false
-  }
+  },
+  "[dotenv]": {}
 }
