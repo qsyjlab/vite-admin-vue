@@ -2,14 +2,15 @@ export interface RemLayoutOptions {
   clientWidth?: number
   base?: number
   event?: keyof WindowEventMap
+  originSize?: number
 }
 
 // rem layout
 export function useRemLayout(options: RemLayoutOptions = {}) {
-  const { clientWidth = 1920, base = 100, event = 'resize' } = options
+  const { clientWidth = 1920, base = 100, event = 'resize', originSize = 16 } = options
 
   const docEl = document.documentElement
-  const originSize = docEl.style.fontSize
+  const _originSize = docEl.style.fontSize
 
   function resize() {
     let _clientWidth = docEl.clientWidth
@@ -24,10 +25,11 @@ export function useRemLayout(options: RemLayoutOptions = {}) {
   }
 
   function stopObserverSize() {
-    if (!originSize) {
-      document.getElementsByTagName('html')[0].style.fontSize = ''
+    if (!_originSize) {
+      document.documentElement.style.fontSize = ''
+      // document.getElementsByTagName('html')[0].style.fontSize = ''
     } else {
-      document.documentElement.style.fontSize = originSize + 'px'
+      document.documentElement.style.fontSize = _originSize + 'px'
     }
 
     window?.removeEventListener(event, resize)
