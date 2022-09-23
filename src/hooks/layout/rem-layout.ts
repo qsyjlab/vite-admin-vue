@@ -10,7 +10,7 @@ export function useRemLayout(options: RemLayoutOptions = {}) {
   const { clientWidth = 1920, base = 100, event = 'resize', originSize = 16 } = options
 
   const docEl = document.documentElement
-  const _originSize = docEl.style.fontSize
+  const _originSize = originSize || docEl.style.fontSize
 
   function resize() {
     let _clientWidth = docEl.clientWidth
