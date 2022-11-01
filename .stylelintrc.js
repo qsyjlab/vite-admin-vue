@@ -1,16 +1,15 @@
 module.exports = {
   extends: [
-    'stylelint-config-standard',
-    'stylelint-config-prettier',
-    'stylelint-config-html/vue',
-    'stylelint-config-recommended-vue/scss',
-    'stylelint-config-recommended-scss'
+    // 'stylelint-config-standard',
+    'stylelint-config-recommended-scss',
+    'stylelint-config-standard-vue',
+    'stylelint-config-prettier'
   ],
   // 不同格式的文件指定自定义语法
   overrides: [
     {
-      files: ['**/*.(sass|css|vue|html)'],
-      customSyntax: 'postcss-sass'
+      files: ['**/*.(scss|css|vue|html)'],
+      customSyntax: 'postcss-scss'
     },
     {
       files: ['**/*.(html|vue)'],
@@ -19,25 +18,23 @@ module.exports = {
   ],
   ignoreFiles: ['**/*.js', '**/*.jsx', '**/*.tsx', '**/*.ts', '**/*.json', '**/*.md', '**/*.yaml'],
   rules: {
-    'declaration-block-semicolon-newline-after': 'always',
-    'no-descending-specificity': null, // 禁止在具有较高优先级的选择器后出现被其覆盖的较低优先级的选择器
+    // 'string-quotes': 'single',
+    // 禁止在具有较高优先级的选择器后出现被其覆盖的较低优先级的选择器
+    'no-descending-specificity': null,
     'selector-pseudo-element-no-unknown': [
       true,
       {
-        ignorePseudoElements: ['v-deep', ':deep']
+        ignorePseudoElements: ['v-deep']
       }
     ],
-    indentation: [
-      2,
-      {
-        baseIndentLevel: 1
-      }
-    ],
+    'selector-class-pattern': null,
     'selector-pseudo-class-no-unknown': [
       true,
       {
         ignorePseudoClasses: ['deep']
       }
-    ]
+    ],
+    // 禁用每个选择器之前插入空行
+    'rule-empty-line-before': null
   }
 }
