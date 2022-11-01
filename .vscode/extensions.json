@@ -1,7 +1,11 @@
 {
   "recommendations": [
-    "johnsoncodehk.volar",
-    // todo 高亮
-    "wayou.vscode-todo-highlight"
+    "mikestead.dotenv",
+    "editorconfig.editorconfig",
+    "usernamehw.errorlens",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "vue.vscode-typescript-vue-plugin",
+    "Vue.volar"
   ]
 }
