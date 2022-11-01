@@ -24,9 +24,11 @@ const props = withDefaults(defineProps<Props>(), {})
   align-items: center;
   cursor: pointer;
 }
+
 .icon-main {
   margin-bottom: 7px;
 }
+
 .icon-desc {
   font-size: 14px;
 }

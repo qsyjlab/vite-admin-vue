@@ -62,29 +62,33 @@ const loginAdmin = () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   background-color: #f0f2f5;
 }
+
 .login-layout-body {
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
   box-sizing: border-box;
   background-color: white;
   border-radius: 10px;
   width: 600px;
   padding: 25px;
+
   .body-header {
     text-align: center;
     margin-bottom: 40px;
   }
+
   .header-title {
     font-size: 30px;
     margin-bottom: 10px;
     font-weight: bold;
   }
+
   .header-desc {
     color: #848587;
     font-size: 13px;
   }
+
   .form-content {
     padding: 0 50px;
     padding-bottom: 50px;

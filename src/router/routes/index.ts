@@ -48,7 +48,7 @@ export const routes = defineExposeRoutes([
       title: '主系统',
       hideInBreadcrumb: true
     },
-    component: () => import('@/layouts/BasicLayout/BasicLayout.vue'),
+    component: () => import('@/layouts/basic-layout/basic-layout.vue'),
     children: loadRoutes(import.meta.globEager('./system/*.ts'))
   },
   {

@@ -1,6 +1,6 @@
 module.exports = {
   extends: [
-    // 'stylelint-config-standard',
+    'stylelint-config-standard',
     'stylelint-config-recommended-scss',
     'stylelint-config-standard-vue',
     'stylelint-config-prettier'
@@ -28,6 +28,7 @@ module.exports = {
       }
     ],
     'selector-class-pattern': null,
+    'import-notation': 'string',
     'selector-pseudo-class-no-unknown': [
       true,
       {
