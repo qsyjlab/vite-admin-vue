@@ -1,11 +1,3 @@
-<!--
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-01-06 15:26:29
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 14:48:16
--->
 <template>
   <el-select v-model="selected" v-bind="{ ...$attrs }" @change="handleChange">
     <el-option

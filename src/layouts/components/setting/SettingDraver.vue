@@ -30,20 +30,14 @@
 </template>
 
 <script setup lang="ts">
+import { useAppStore } from '@/store'
+import { storeToRefs } from 'pinia'
 import ColorPicker from './ColorPicker/ColorPicker.vue'
 
-import { useStoreHelper } from '@/hooks'
+const appStore = useAppStore()
+const { isOpenSettig, layoutConfig } = storeToRefs(appStore)
 
-const { useStateHelper, useMutactionsHelper } = useStoreHelper()
-
-const { isOpenSettig, layoutConfig } = useStateHelper<VStoreRoot.App.AppStateHepler>('app', [
-  'isOpenSettig',
-  'layoutConfig'
-])
-
-const { toggleSettingDrawer } = useMutactionsHelper<VStoreRoot.App.AppMutations>('app', [
-  'toggleSettingDrawer'
-])
+const { toggleSettingDrawer } = appStore
 </script>
 
 <style scoped>

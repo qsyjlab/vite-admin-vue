@@ -1,12 +1,3 @@
-/*
- * @Description: axios 拦截器
- * @Version:
- * @Autor: qsyj
- * @Date: 2022-04-02 22:03:14
- * @LastEditors: qsyj
- * @LastEditTime: 2022-04-08 21:52:41
- */
-
 import type {
   RequestInterceptorsType,
   RequestInterceptorsCatchType,
@@ -19,8 +10,6 @@ import { handleHttpError, requestHeaders } from './hepler'
 
 const requestInterceptors: RequestInterceptorsType = config => {
   config.headers = requestHeaders()
-
-  console.log(config.headers)
 
   return config
 }

@@ -1,12 +1,3 @@
-/*
- * @Description:
- * @Version:
- * @Autor: qsyj
- * @Date: 2022-03-28 15:33:34
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-28 23:15:11
- */
-
 import type {
   UploadUserFile,
   UploadProgressEvent,
@@ -16,7 +7,7 @@ import type {
 
 export type QsUploadRequestHandler = UploadRequestHandler
 
-export type ModelValueType = UploadUserFile | never
+export type ModelValueType = UploadUserFile
 
 export interface CustomUploadOptions {
   // TODO: 额外参数类型添加

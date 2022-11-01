@@ -1,12 +1,3 @@
-<!--
- * @Description: 图片预览
- * @Version:
- * @Autor: qsyj
- * @Date: 2022-03-28 17:36:00
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-28 21:01:49
--->
-
 <template>
   <el-dialog v-model="dialogVisible" title="预览" v-bind="$attrs" width="50%">
     <div class="image-viewer_wrapper">

@@ -1,35 +1,34 @@
-/*
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-18 14:23:57
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-23 14:29:01
- * @FilePath: \vite-admin-vue\src\hooks\session\storage.ts
- */
-
 import BaseStorage from './BaseStorage'
 
 import config from '@/config'
 import { StorageKeys } from '@/enum'
-import type { LayoutType } from '@/types/store/moudles/app'
+import { LayoutType } from '@/store'
+
+/**
+ * TODO: 站定在目前位置
+ */
+interface UserInfo {
+  userId: string | number
+  userName: string
+  userRole: string
+}
 
 export default () => {
   const $storage = new BaseStorage(window.localStorage, config.storage)
   /**
    * 设置用户信息
-   * @param {Auth.UserInfo} data 用户信息
+   * @param {UserInfo} data 用户信息
    */
-  const setUserInfoCache = (data: Auth.UserInfo) => {
+  const setUserInfoCache = (data: UserInfo) => {
     $storage.set(StorageKeys.UserInfo, data)
   }
 
   /**
    * 获取用户信息
-   * @returns {Auth.UserInfo}
+   * @returns {UserInfo}
    */
   const getUserInfoCache = () => {
-    return $storage.get<Auth.UserInfo>(StorageKeys.UserInfo)
+    return $storage.get<UserInfo>(StorageKeys.UserInfo)
   }
 
   /**

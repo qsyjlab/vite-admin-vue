@@ -4,7 +4,7 @@
  * @Autor: qsyj
  * @Date: 2022-03-18 16:31:07
  * @LastEditors: qsyj
- * @LastEditTime: 2022-03-18 22:18:11
+ * @LastEditTime: 2022-08-26 17:48:14
  * @FilePath: \vite-admin-vue\src\utils\theme\theme.ts
  */
 
@@ -24,13 +24,12 @@ export const getThemeCluster = (themeColor: string): string[] => {
     if (tint === 0) {
       // when primary color is in its rgb space
       return [red, green, blue].join(',')
-    } else {
-      red += Math.round(tint * (255 - red))
-      green += Math.round(tint * (255 - green))
-      blue += Math.round(tint * (255 - blue))
-
-      return `#${red.toString(16)}${green.toString(16)}${blue.toString(16)}`
     }
+    red += Math.round(tint * (255 - red))
+    green += Math.round(tint * (255 - green))
+    blue += Math.round(tint * (255 - blue))
+
+    return `#${red.toString(16)}${green.toString(16)}${blue.toString(16)}`
   }
 
   const shadeColor = (color: any, shade: any): any => {

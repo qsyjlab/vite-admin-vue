@@ -1,13 +1,3 @@
-<!--
- * @Description: canvs 转 pdf
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-25 17:01:41
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-27 21:04:46
- * @FilePath: \vite-admin-vue\src\views\system\plugins\CanvsToPdf.vue
--->
-
 <template>
   <el-card>
     <template #header>
@@ -20,12 +10,17 @@
     <el-button @click="canvesToPdf">htmlcanvs to pdf</el-button>
   </el-card>
 </template>
+
+<script lang="ts">
+export default { name: 'CanvsToPdf' }
+</script>
+
 <script setup lang="ts">
 import html2canvas from 'html2canvas'
 import { jsPDF } from 'jspdf'
 import { dataURItoBlob } from '@/utils'
 
-const transformCanvs = handler => {
+const transformCanvs = (handler: any) => {
   html2canvas(document.querySelector('#container') as HTMLElement, {}).then(
     (canves: HTMLCanvasElement) => {
       handler(canves)
@@ -35,7 +30,7 @@ const transformCanvs = handler => {
 
 const canvesToImage = () => {
   transformCanvs((canves: HTMLCanvasElement) => {
-    let link = document.createElement('a') //创建a标签
+    const link = document.createElement('a') //创建a标签
     link.style.display = 'none' //使其隐藏
     link.href = window.URL.createObjectURL(dataURItoBlob(canves.toDataURL('image/png', 2.0))) //赋予文件下载地址
     link.setAttribute('download', 'canves.png') //设置下载属性 以及文件名

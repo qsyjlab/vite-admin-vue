@@ -1,13 +1,3 @@
-<!--
- * @Description:用户按钮
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-17 11:12:36
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 21:53:48
- * @FilePath: \vite-admin-vue\src\layouts\components\header\components\UserMenu\UserMenu.vue
--->
-
 <template>
   <el-dropdown style="height: 100%">
     <hover-card style="height: 100%">
@@ -23,11 +13,9 @@
   </el-dropdown>
 </template>
 <script setup lang="ts">
-import { useStoreHelper } from '@/hooks'
+import { useUserStore } from '@/store'
 
-const { useActionsHelper } = useStoreHelper()
-
-const { loginOutSystem } = useActionsHelper<VStoreRoot.User.UserActions>('user', ['loginOutSystem'])
+const { loginOutSystem } = useUserStore()
 
 const logout = () => {
   loginOutSystem()

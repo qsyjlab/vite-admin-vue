@@ -2,13 +2,6 @@
   <div>
     <div class="table-tools">
       <slot name="extra"></slot>
-
-      <!-- <QsDeleteButton
-        v-if="delHttp"
-        :http="delHttp"
-        :data="selectedKeys"
-        @reload="reload"
-      /> -->
     </div>
 
     <ElTable
@@ -240,10 +233,10 @@ const getHttp = async () => {
 
 // 处理选中 select
 const handleSelect = (selection: any, row: any) => {
-  let ids = getKeys(selection, props?.treeProps?.children, [])
+  const ids = getKeys(selection, props?.treeProps?.children, [])
 
-  let id = row[props.rowId]
-  let obj = {
+  const id = row[props.rowId]
+  const obj = {
     selection,
     row,
     id,
@@ -255,9 +248,9 @@ const handleSelect = (selection: any, row: any) => {
 
 // 选择全部事件
 const handleSelectAll = (selection: any) => {
-  let ids = getKeys(selection, props?.treeProps?.children, [])
+  const ids = getKeys(selection, props?.treeProps?.children, [])
   // let ids = selection.map((i) => i[props.rowId]);
-  let obj = {
+  const obj = {
     selection,
     ids,
     type: 'all'
@@ -271,7 +264,7 @@ const handleSelectAll = (selection: any) => {
 
 const handleSelectionChange = (selection: any) => {
   // let ids = selection.map((i) => i[props.rowId]);
-  let ids = getKeys(selection, props?.treeProps?.children, [])
+  const ids = getKeys(selection, props?.treeProps?.children, [])
   state.selectionkeys = [...ids]
   updateSelectedKey(ids)
 }

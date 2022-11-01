@@ -1,20 +1,10 @@
-/*
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-20 12:02:24
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-28 15:28:09
- * @FilePath: \vite-admin-vue\src\router\routes\system\components.ts
- */
-
 import { defineExposeRoutes } from '@/utils'
 import { createBlankContainer } from '@/layouts'
 
 export default defineExposeRoutes([
   {
     name: 'Components',
-    path: 'components',
+    path: '/components',
     meta: {
       title: '组件',
       sort: 4,
@@ -23,6 +13,27 @@ export default defineExposeRoutes([
     redirect: { name: 'Form' },
     component: createBlankContainer('Components'),
     children: [
+      {
+        name: 'Editor',
+        path: 'editor',
+        meta: {
+          title: '编辑器',
+          isNotAuth: true
+        },
+        component: createBlankContainer('Editor'),
+        children: [
+          {
+            name: 'RichEditor',
+            path: 'rich-editor',
+            meta: {
+              title: 'tinymce富文本',
+              isNotAuth: true
+            },
+            component: () => import('@/views/system/components/rich-editor/rich-editor.vue')
+          }
+        ]
+      },
+
       {
         name: 'Form',
         path: 'form',

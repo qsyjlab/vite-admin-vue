@@ -1,13 +1,3 @@
-<!--
- * @Description: aside
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-15 11:01:29
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-15 15:12:24
- * @FilePath: \vite-admin-vue\src\layouts\LayoutPackage\components\LayoutAside.vue
--->
-
 <template>
   <div class="layout-aside" :style="style">
     <slot />

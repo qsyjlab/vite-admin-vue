@@ -1,13 +1,6 @@
-/*
- * @Description: prettier prettier 配置文件
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-10 17:36:12
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 23:19:16
- * @FilePath: \vite-admin-vue\.prettierrc.js
+/**
+ * @type { import('prettier').Options }
  */
-
 module.exports = {
   semi: false,
   singleQuote: true,

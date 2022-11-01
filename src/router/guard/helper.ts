@@ -1,18 +1,14 @@
-/*
- * @Description: 助手函数
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-16 10:14:20
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-28 22:30:13
- * @FilePath: \vite-admin-vue\src\router\guard\helper.ts
- */
+import type {
+  RouteLocationNormalized,
+  Router,
+  NavigationGuardNext,
+  RouteRecordRaw
+} from 'vue-router'
 
-import type { RouteLocationNormalized, Router, NavigationGuardNext } from 'vue-router'
-
-import store from '@/store'
 import { useStorageHelper } from '@/hooks'
-import { hasAuth } from '@/utils/router/auth'
+import { hasAuth } from '@/utils'
+import { MenuItem, useAppStore, useRouteStore } from '@/store'
+import routes from '../routes'
 
 export async function handlePermissionRouter(
   to: RouteLocationNormalized,
@@ -22,10 +18,12 @@ export async function handlePermissionRouter(
 ) {
   if (to.meta.href) {
     window.open(to.meta.href)
-    next({ path: from.fullPath, replace: true, query: from.query })
-    return
+
+    return next({ path: from.fullPath, replace: true, query: from.query })
   }
   const { getTokenCahce } = useStorageHelper()
+
+  const routeStore = useRouteStore()
 
   const token = getTokenCahce()
 
@@ -39,35 +37,19 @@ export async function handlePermissionRouter(
 
   if (!auth) return next({ name: 'Error403' })
 
-  if (!store.state.route.isFristEntry) {
-    await store.commit('route/initRoutes', to.matched[0]?.children || [])
+  if (!routeStore.isFristEntry) {
+    const matched = to.matched[0].children
+
+    const buildRoutes = await routeStore.buildRoutes(routes)
+
+    buildRoutes.forEach(r => {
+      router.addRoute(r)
+    })
+
+    await routeStore.initRoutes(transformRouteToList(matched, []))
   }
 
   return next()
-}
-
-/**
- *  组件缓存
- * @param {RouteLocationNormalized} routerTo
- */
-export function keepAlive(routerTo: RouteLocationNormalized): void {
-  const length = routerTo.matched.length
-
-  if (length > 1) {
-    for (let i = length - 1; i > 0; i--) {
-      const [own, parent] = [routerTo.matched[i], routerTo.matched[i - 1]]
-
-      if (!own.meta.isKeepAlive) {
-        Object.keys(own.components).forEach(key => {
-          if (parent.components.default.name && own.components[key].name)
-            store.commit('route/addAlive', {
-              page: parent.components.default.name,
-              alive: own.components[key].name
-            })
-        })
-      }
-    }
-  }
 }
 
 /**
@@ -75,9 +57,34 @@ export function keepAlive(routerTo: RouteLocationNormalized): void {
  */
 export function initApp() {
   const { getLayoutCache } = useStorageHelper()
+  const appStore = useAppStore()
 
   const layout = getLayoutCache()
   if (layout) {
-    store.commit('app/setLayoutConfig', layout)
+    appStore.setLayoutConfig(layout)
   }
+}
+
+/**
+ *
+ * @param { RouteRecordRaw[] } routes
+ * @param { MenuItem[]} treeMap
+ * @returns
+ */
+export function transformRouteToList(routes: RouteRecordRaw[], treeMap: MenuItem[]): MenuItem[] {
+  if (routes && routes?.length === 0) return []
+
+  return routes
+    .reduce((acc, cur) => {
+      if (cur.meta?.isNotAuth || hasAuth(cur.name as string)) {
+        acc.push({
+          name: cur.name as string,
+          meta: cur.meta,
+          children: transformRouteToList(cur.children || [], [])
+        })
+      }
+      return acc
+    }, treeMap)
+    .reverse()
+    .sort((last, next) => (last.meta?.sort || 0) - (next.meta?.sort || 0))
 }

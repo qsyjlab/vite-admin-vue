@@ -1,15 +1,35 @@
-/*
- * @Description: 路由定义文件
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-10 15:32:31
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-22 16:23:10
- * @FilePath: \vite-admin-vue\src\router\routes\index.ts
- */
-
 import { loadRoutes, defineExposeRoutes } from '@/utils'
 import { createBlankContainer } from '@/layouts'
+// import { loadRouterModules } from '../helper'
+import { RouteRecordRaw } from 'vue-router'
+
+export type RouteModules = Record<
+  string,
+  {
+    default: RouteRecordRaw | RouteRecordRaw[]
+  }
+>
+
+// 加载路由模块
+export function loadRouterModules() {
+  const modules: RouteModules = import.meta.glob('../routes/**/*.ts', { eager: true })
+
+  const routeModuleList: RouteRecordRaw[] = []
+
+  Object.keys(modules).forEach(key => {
+    const m = modules[key].default
+
+    const ml = Array.isArray(m) ? [...m] : [m]
+
+    routeModuleList.push(...ml)
+  })
+
+  return routeModuleList
+}
+
+export const asyncRoutes = loadRouterModules()
+
+console.log('初始化', asyncRoutes)
 
 export const routes = defineExposeRoutes([
   {
@@ -28,7 +48,7 @@ export const routes = defineExposeRoutes([
       title: '主系统',
       hideInBreadcrumb: true
     },
-    component: () => import(/* webpackChunkName: "Home" */ '@/layouts/BasicLayout/BasicLayout.vue'),
+    component: () => import('@/layouts/BasicLayout/BasicLayout.vue'),
     children: loadRoutes(import.meta.globEager('./system/*.ts'))
   },
   {

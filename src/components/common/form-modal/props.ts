@@ -1,11 +1,3 @@
-/*
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-01-12 10:00:32
- * @LastEditors: qsyj
- * @LastEditTime: 2022-04-06 23:17:31
- */
 import { PropType } from 'vue'
 import type { FormType } from '../form/form'
 
@@ -31,7 +23,7 @@ export const buildProps = {
   // 处理提交时的数据
   handler: {
     type: Function,
-    default: data => data
+    default: (data: any) => data
   },
   width: {
     type: [String, Number],

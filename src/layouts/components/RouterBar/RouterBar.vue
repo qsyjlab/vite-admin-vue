@@ -19,25 +19,6 @@
         <div v-if="item.fullPath == currentRouter?.fullPath" class="active-dot"></div>
         <div>
           {{ item?.meta?.title }}
-          <!-- <span
-            v-if="Object.keys(item.query).length === 0 && Object.keys(item.params).length === 0"
-          >
-            {{ item?.meta?.title }}
-          </span>
-          <span
-            v-else-if="
-              Object.keys(item.query).length !== 0 && Object.keys(item.params).length === 0
-            "
-          >
-            {{ item?.meta?.title }} - {{ item.query.id }}
-          </span>
-          <span
-            v-else-if="
-              Object.keys(item.query).length === 0 && Object.keys(item.params).length !== 0
-            "
-          >
-            {{ item?.meta?.title }} - {{ item.params.id }}
-          </span> -->
         </div>
         <div
           v-if="!biddenRouter.includes(item.name) && item.fullPath == currentRouter?.fullPath"
@@ -108,9 +89,9 @@ onMounted(() => {
 
 //初始化路由数组
 const initRouterList = (): void => {
-  let routes: RouteRecordNormalized[] = router.getRoutes()
+  const routes: RouteRecordNormalized[] = router.getRoutes()
 
-  for (let item of routes) {
+  for (const item of routes) {
     if (biddenRouter.value.includes(item?.name as string)) {
       routerList.value.push(tranformRouterInfo(item))
     }
@@ -146,17 +127,16 @@ const goRouter = (curPath: RouterType): void => {
 const watchRouterChange = (_router: RouteLocationNormalized) => {
   // 如果 routeList 为空数组 直接添加
   if (routerList.value.length === 0) return routerList.value.push(tranformRouterInfo(_router))
-  else {
-    //    如果有此对象不做任何事
-    const findSameRouter = routerList.value.find(
-      item => item.name === _router.name && item.fullPath === _router.fullPath
-    )
-    // 否则 添加 新router object
-    if (!findSameRouter) routerList.value.push(tranformRouterInfo(_router))
 
-    // 切换当前router object
-    currentRouter.value = tranformRouterInfo(_router)
-  }
+  //    如果有此对象不做任何事
+  const findSameRouter = routerList.value.find(
+    item => item.name === _router.name && item.fullPath === _router.fullPath
+  )
+  // 否则 添加 新router object
+  if (!findSameRouter) routerList.value.push(tranformRouterInfo(_router))
+
+  // 切换当前router object
+  currentRouter.value = tranformRouterInfo(_router)
 }
 </script>
 

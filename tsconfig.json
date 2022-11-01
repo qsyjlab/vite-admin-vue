@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "types": ["node", "element-plus/global"],
+    "types": ["node", "element-plus/global", "vite/client"],
     "target": "esnext",
     "useDefineForClassFields": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     // "noUnusedParameters":false,
+    "allowSyntheticDefaultImports": true,
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
@@ -20,12 +21,18 @@
     }
   },
   "typeRoots": [
-    "src/types/*.d.ts",
-    // 特定全局声明路径
-    "src/layouts/LayoutPackage/components/type.d.ts",
-    "src/components/components.d.ts"
+    // "src/types/*.d.ts",
+    "typings/*.d.ts"
   ],
-  "include": ["components.d.ts", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": [
+    "components.d.ts",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "typings/*.d.ts",
+    "mock/*.ts"
+  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

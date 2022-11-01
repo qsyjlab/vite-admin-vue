@@ -1,29 +1,50 @@
-/*
- * @Description: 拦截器入口
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-10 15:02:43
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-28 22:19:26
- * @FilePath: \vite-admin-vue\src\router\guard\index.ts
- */
-
 import type { Router } from 'vue-router'
-// import { useStore } from 'vuex'
-import { handlePermissionRouter, keepAlive, initApp } from './helper'
+
 import NProgress from 'nprogress'
+
+import { useRouteStore } from '@/store'
+
+import { handlePermissionRouter, initApp } from './helper'
+
+export function setupRouterGuard(router: Router) {
+  createProgressGuard(router)
+  createSettingGuard(router)
+  createKeepAliveGuard(router)
+  createRouterGuard(router)
+}
 
 export function createRouterGuard(router: Router) {
   router.beforeEach(async (to, from, next) => {
-    NProgress.start()
     initApp()
-
     await handlePermissionRouter(to, from, next, router)
   })
+}
 
-  router.afterEach(to => {
-    keepAlive(to)
+// progresss
+export function createProgressGuard(router: Router) {
+  router.beforeEach(() => {
+    NProgress.start()
+  })
 
+  router.afterEach(() => {
     NProgress.done()
+  })
+}
+
+// setting color, layout
+export function createSettingGuard(router: Router) {
+  router.beforeEach(() => {
+    initApp()
+  })
+}
+
+// components cahce
+export function createKeepAliveGuard(router: Router) {
+  router.afterEach(to => {
+    const { addAlive } = useRouteStore()
+
+    if (to.meta.isKeepAlive && to.name) {
+      addAlive([to.name as string])
+    }
   })
 }

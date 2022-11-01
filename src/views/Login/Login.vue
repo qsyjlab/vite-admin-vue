@@ -1,12 +1,3 @@
-<!--
- * @Description:  登录页面
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-17 15:16:22
- * @LastEditors: qsyj
- * @LastEditTime: 2022-04-04 17:30:00
- * @FilePath: \vite-admin-vue\src\views\Login\Login.vue
--->
 <template>
   <div class="login-container">
     <div class="login-layout-body">
@@ -41,20 +32,25 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from '@/store'
+import { ElMessage } from 'element-plus'
 import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
 
-import { useStoreHelper } from '@/hooks'
-const { useActionsHelper } = useStoreHelper()
-
-const { loginSystem } = useActionsHelper<VStoreRoot.User.UserActions>('user', ['loginSystem'])
+const { loginSystem } = useUserStore()
 
 const loginForm = reactive({
-  username: '',
-  password: ''
+  username: 'admin',
+  password: '123456'
 })
+const router = useRouter()
 
 const loginAdmin = () => {
-  loginSystem(loginForm)
+  loginSystem(loginForm).then(() => {
+    ElMessage.success('登录成功')
+
+    router.push({ name: 'Home' })
+  })
 }
 </script>
 
@@ -66,6 +62,7 @@ const loginAdmin = () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   background-color: #f0f2f5;
 }
 .login-layout-body {

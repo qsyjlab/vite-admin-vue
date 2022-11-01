@@ -1,25 +1,13 @@
-/*
- * @Description:
- * @Version:
- * @Autor: qsyj
- * @Date: 2022-03-13 00:49:54
- * @LastEditors: qsyj
- * @LastEditTime: 2022-04-08 21:52:42
- */
 import axios from 'axios'
 
 import type { AxiosInstance } from 'axios'
 
-import type {
-  InterceptorsType,
-  CustomRequestConfig,
-  ResponseData
-} from '@/service/baseAxiosRequest/baseAxios'
+import type { InterceptorsType, CustomRequestConfig, ResponseData, CatchError } from './baseAxios'
 
 class BaseAxios {
-  instanceConfig: CustomRequestConfig
-  instance: AxiosInstance
-  interceptors: InterceptorsType
+  private instanceConfig: CustomRequestConfig = {}
+  private instance: AxiosInstance
+  private interceptors: InterceptorsType
   // 初始化设置
   constructor(config: CustomRequestConfig) {
     const { interceptorsHooks = {} } = config
@@ -32,7 +20,7 @@ class BaseAxios {
     this.setInterceptors(this.instance)
   }
 
-  setInterceptors(instance: AxiosInstance): void {
+  private setInterceptors(instance: AxiosInstance): void {
     instance.interceptors.request.use(
       this.interceptors?.requestInterceptors,
       this.interceptors?.requestInterceptorsCatch
@@ -44,13 +32,25 @@ class BaseAxios {
     )
   }
 
-  request<T = any, D = any>(options: CustomRequestConfig = {}): Promise<T> {
+  // request<T = any>(options: CustomRequestConfig = {}): Promise<ResponseData<T>> {
+  //   return this.instance
+  //     .request<ResponseData<T>>({
+  //       ...this.instanceConfig,
+  //       ...options
+  //     })
+  //     .then(response => response.data)
+  //     .catch((error: CatchError) => Promise.reject(error))
+  // }
+
+  request<T = any>(options: CustomRequestConfig = {}): Promise<ResponseData<T>> {
     return this.instance
-      .request<any, ResponseData<T>, D>({
+      .request<ResponseData<T>>({
         ...this.instanceConfig,
         ...options
       })
-      .then((response: any): any => response.data)
+      .then(response => response.data)
+      .catch((error: CatchError) => Promise.reject(error))
   }
 }
+
 export default BaseAxios

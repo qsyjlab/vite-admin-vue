@@ -1,13 +1,3 @@
-<!--
- * @Description: 布局
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-15 11:04:26
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-27 21:08:47
- * @FilePath: \vite-admin-vue\src\layouts\LayoutPackage\BasicLayout.vue
--->
-
 <template>
   <layout-config-provider>
     <layout-container>

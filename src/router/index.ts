@@ -1,28 +1,21 @@
-/*
- * @Description: router 入口文件
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-10 14:51:52
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-14 14:45:06
- * @FilePath: \vite-admin-vue\src\router\index.ts
- */
+import { createWebHistoryRouter } from './helper'
 
-import { createRouter, createWebHistory } from 'vue-router'
-
-import { createRouterGuard } from './guard'
+import { setupRouterGuard } from './guard'
 import routes from './routes'
 
 import type { App } from 'vue'
 
-export const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+export const router = createWebHistoryRouter(routes, {
+  scrollBehavior: () => ({
+    left: 0,
+    top: 0,
+    behavior: 'smooth'
+  })
 })
 
 export async function setupRouter(app: App) {
   app.use(router)
-  createRouterGuard(router)
+  setupRouterGuard(router)
 
   await router.isReady()
 }

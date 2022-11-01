@@ -1,12 +1,3 @@
-<!--
- * @Description: main
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-15 11:00:10
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 22:52:14
- * @FilePath: \vite-admin-vue\src\layouts\LayoutPackage\components\LayoutMain.vue
--->
 <template>
   <div class="layout-main" :style="style">
     <slot />

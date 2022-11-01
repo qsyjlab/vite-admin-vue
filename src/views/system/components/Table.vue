@@ -1,12 +1,3 @@
-<!--
- * @Description: table
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-21 21:55:46
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-21 22:15:58
- * @FilePath: \vite-admin-vue\src\views\system\components\Table.vue
--->
 <template>
   <el-card>
     <template #header>
@@ -15,6 +6,11 @@
     <qs-table :columns="columns" :data="dataSource" size="large"></qs-table>
   </el-card>
 </template>
+
+<script lang="ts">
+export default { name: 'Table' }
+</script>
+
 <script setup lang="ts">
 import { defineColumns } from '@/components/utils'
 

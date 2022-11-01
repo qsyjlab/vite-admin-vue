@@ -1,11 +1,3 @@
-<!--
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2021-12-30 14:08:56
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-19 23:33:36
--->
 <template>
   <div>
     <el-color-picker
@@ -16,16 +8,16 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useStore } from '@/store'
+import { useAppStore } from '@/store'
 import { reactive, toRefs } from 'vue'
 
-const store = useStore()
+const appStore = useAppStore()
 const state = reactive({
-  colorStatus: store.state.app.layoutConfig.themeColor
+  colorStatus: appStore.layoutConfig.themeColor
 })
 
 const changeColor = (val: string) => {
-  store.commit('app/setLayoutConfig', { themeColor: val })
+  appStore.setLayoutConfig({ themeColor: val })
 }
 
 const { colorStatus } = toRefs(state)

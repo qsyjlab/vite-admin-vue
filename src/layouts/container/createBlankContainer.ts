@@ -1,37 +1,42 @@
-/*
- * @Description: 创建空容器
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-17 15:37:49
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-28 15:17:23
- * @FilePath: \vite-admin-vue\src\layouts\container\createBlankContainer.ts
- */
 import { h, defineComponent, KeepAlive } from 'vue'
-import type { Component } from 'vue'
+
+import type { Component, VNode } from 'vue'
 import { RouterView } from 'vue-router'
-import store from '@/store'
+
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
+
+import { Transition } from '@/components'
+import { useRouteStore } from '@/store'
+
+interface RouteViewDefaultSlotProps {
+  Component: VNode
+  route: RouteLocationNormalizedLoaded
+}
 
 export default (name: string, alive = true): Component => {
   return defineComponent({
     name,
+    setup() {
+      const routeStore = useRouteStore()
+      return () =>
+        h(
+          RouterView,
+          {},
+          {
+            default: (props: RouteViewDefaultSlotProps) => {
+              if (alive)
+                return h(Transition, {}, () =>
+                  h(
+                    KeepAlive,
+                    { include: routeStore.getAliveCache },
+                    h(props.Component, { key: props.route.fullPath })
+                  )
+                )
 
-    render() {
-      return h(
-        RouterView,
-        {},
-        {
-          default: props => {
-            if (alive)
-              return h(
-                KeepAlive,
-                { include: store.getters['route/getAlive'](name) },
-                props.Component
-              )
-            return () => h(props.Component)
+              return h(Transition, {}, h(props.Component, { key: props.route.fullPath }))
+            }
           }
-        }
-      )
+        )
     }
   })
 }

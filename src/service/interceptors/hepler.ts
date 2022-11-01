@@ -1,18 +1,8 @@
-/*
- * @Description: 处理 http 错误状态
- * @Version:
- * @Autor: qsyj
- * @Date: 2022-04-02 22:19:48
- * @LastEditors: qsyj
- * @LastEditTime: 2022-04-08 22:05:00
- */
-
 import { CatchError, CustomAxiosResponse } from '@/service/baseAxiosRequest/baseAxios'
 
 import { useStorageHelper } from '@/hooks'
 import config from '@/config'
-import store from '@/store'
-import { ElMessage } from 'element-plus'
+import { useUserStore } from '@/store'
 
 interface ErrorParams {
   msg: string
@@ -38,7 +28,7 @@ export function requestHeaders() {
     headers.Authorization += token
   }
 
-  return headers
+  return {}
 }
 
 /**
@@ -51,7 +41,7 @@ export function handleHttpError(error: CatchError): boolean {
    * error message
    * @param msg
    */
-  function errorMessage(msg) {
+  function errorMessage(msg: string) {
     import('element-plus').then(el => el.ElMessage.error(msg))
   }
 
@@ -72,7 +62,10 @@ export function handleHttpError(error: CatchError): boolean {
    */
   function noAuthError(config: ErrorParams) {
     errorMessage(config.msg)
-    store.commit('user/loginOutSystem')
+
+    const userStore = useUserStore()
+    // const { userStore } = useStore()
+    userStore.loginOutSystem()
   }
 
   const errorMap = new Map<ErrorMapKey, ErrorMap>([
@@ -96,7 +89,7 @@ export function handleHttpError(error: CatchError): boolean {
 }
 
 export function handleHttpBodyStatus(response: CustomAxiosResponse) {
-  if (response.data.code !== 1) {
-    ElMessage.error(response.data.msg)
-  }
+  // if (response.data.code !== 1) {
+  //   ElMessage.error(response.data.msg)
+  // }
 }

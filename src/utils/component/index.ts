@@ -1,9 +1,19 @@
-/*
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-16 13:48:51
- * @LastEditors: qsyj
- * @LastEditTime: 2022-03-16 13:56:24
- * @FilePath: \vite-admin-vue\src\utils\component\index.ts
- */
+import type { Plugin } from 'vue'
+
+export type SFCWithInstall<T> = T & Plugin
+
+export const withInstall = <T, E extends Record<string, any>>(main: T, extra?: E) => {
+  const _main = main as SFCWithInstall<T>
+  _main.install = (app): void => {
+    for (const comp of [_main, ...Object.values(extra ?? {})]) {
+      app.component(comp.name, comp)
+    }
+  }
+
+  if (extra) {
+    for (const [key, comp] of Object.entries(extra)) {
+      ;(_main as any)[key] = comp
+    }
+  }
+  return _main as SFCWithInstall<T> & E
+}
