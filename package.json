@@ -20,7 +20,7 @@
     "@tinymce/tinymce-vue": "4",
     "axios": "^0.26.1",
     "dayjs": "^1.11.0",
-    "element-plus": "^2.2.16",
+    "element-plus": "2.2.19",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "lodash-es": "^4.17.21",

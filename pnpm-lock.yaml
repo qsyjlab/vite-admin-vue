@@ -14,7 +14,7 @@ specifiers:
   '@vitejs/plugin-vue-jsx': ^2.1.0
   axios: ^0.26.1
   dayjs: ^1.11.0
-  element-plus: ^2.2.16
+  element-plus: 2.2.19
   eslint: ^8.10.0
   eslint-config-prettier: ^8.5.0
   eslint-plugin-prettier: ^4.0.0
@@ -64,7 +64,7 @@ dependencies:
   '@tinymce/tinymce-vue': 4.0.7_vue@3.2.37
   axios: 0.26.1
   dayjs: 1.11.0
-  element-plus: 2.2.16_vue@3.2.37
+  element-plus: 2.2.19_vue@3.2.37
   html2canvas: 1.4.1
   jspdf: 2.5.1
   lodash-es: 4.17.21
@@ -2017,8 +2017,8 @@ packages:
     resolution: {integrity: sha512-e7Wsh4ilaioBZ5bMm6+F4V5c11dh56/5Jwz7Hl5Tu1J7cnB+Pqx5qIF2iC7HPpfyQMqGSvvLP5bBAIDd2gAtGw==}
     dev: true
 
-  /element-plus/2.2.16_vue@3.2.37:
-    resolution: {integrity: sha512-rvaTMFIujec9YDC5lyaiQv2XVUCHuhVDq2k+9vQxP78N8Wd07iEOGa9pvEVOO2uYc75l4rSl2RE/IWPH/6Mdzw==}
+  /element-plus/2.2.19_vue@3.2.37:
+    resolution: {integrity: sha512-uN0gt9lUus/IHzu5J6vkbYoYJgUtU05osdtFv9RO27bHKOG5GN7dH6uA3OKfkQQ6R2sV8ZxY1rc9PH1X8Dgrow==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
