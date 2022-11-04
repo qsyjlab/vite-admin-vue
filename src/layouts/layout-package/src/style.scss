@@ -1,0 +1,52 @@
+.layout {
+  &-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  &-header {
+    height: 50px;
+    left: 0;
+    top: 0;
+    flex-shrink: 0;
+    width: 100%;
+    transition-property: padding-left;
+    padding-left: 200px;
+    // background-color: rgba(240, 242, 245, 0.6);
+    box-sizing: border-box;
+    position: fixed;
+    // border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  &-tab {
+    left: 0;
+    flex-shrink: 0;
+    width: 100%;
+    background-color: white;
+    transition-property: padding-left;
+  }
+
+  &-sidebar {
+    width: 200px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    transition-property: all;
+  }
+
+  &-main {
+    flex: 1;
+    width: 100%;
+    transition-property: padding-left;
+    box-sizing: border-box;
+  }
+
+  &-footer {
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+}
