@@ -6,6 +6,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { CSSProperties } from 'vue'
 
 interface Props {
   /** fixed布局的层级 */
@@ -28,26 +29,15 @@ const props = withDefaults(defineProps<Props>(), {
   transitionTimingFunction: 'ease-in-out'
 })
 
-const style = computed(() => {
+const style = computed<CSSProperties>(() => {
   const { zIndex, width, paddingTop, transitionDuration, transitionTimingFunction } = props
 
-  // return {
-  //   zIndex,
-  //   width: width + 'px',
-  //   paddingTop
-  //   // transitionDuration,
-  //   // transitionTimingFunction
-  // }
-  return `z-index: ${zIndex};width: ${width}px;padding-top: ${paddingTop}px;transition-duration: ${transitionDuration}ms;transition-timing-function: ${transitionTimingFunction};`
+  return {
+    zIndex,
+    transitionTimingFunction,
+    transitionDuration: `${transitionDuration}ms`,
+    width: `${width}px`,
+    paddingTop: `${paddingTop}px`
+  }
 })
 </script>
-
-<!-- <style scoped>
-.layout-aside {
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100%;
-  transition-property: all;
-}
-</style> -->

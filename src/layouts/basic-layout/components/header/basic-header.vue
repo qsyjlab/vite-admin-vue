@@ -1,6 +1,7 @@
 <template>
   <div class="layout-header_wapper">
     <div class="layout-header-left">
+      <slot name="logo" />
       <menu-collapse />
       <Breadcrumb style="margin-left: 10px"></Breadcrumb>
     </div>
@@ -16,12 +17,8 @@ import { MenuCollapse, Breadcrumb, UserMenu } from './components'
 .layout-header_wapper {
   height: 100%;
   box-sizing: border-box;
-
-  /* padding: 10px; */
   background-color: white;
   box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
-
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12); */
   display: flex;
   align-items: center;
   justify-content: space-between;

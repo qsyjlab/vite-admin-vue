@@ -1,13 +1,16 @@
 <template>
   <div class="layout-aside_wapper">
-    <!-- 菜单 -->
+    <slot name="logo"></slot>
+
     <aside-menu :collapsed="props.collapsed" :menu-list="menuList"></aside-menu>
   </div>
 </template>
 <script setup lang="ts">
 import { useRouteStore } from '@/store'
 import { computed } from 'vue'
+
 import { AsideMenu } from './menu'
+
 interface IProps {
   collapsed?: boolean
 }

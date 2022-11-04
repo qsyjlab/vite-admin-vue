@@ -32,7 +32,7 @@ export function useLayoutConfigHandler(): [Ref<ProjectLayoutConfig>, SetLayoutCo
       }
       case LayoutConfigHandlerEnum.MENU_WIDTH: {
         return {
-          menuWidth: value
+          asideWidth: value
         }
       }
       case LayoutConfigHandlerEnum.HEADER_HEIGHT: {

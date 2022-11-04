@@ -35,32 +35,44 @@ import {
   LayoutTabs
 } from './components'
 
+import type { LayoutProps, AsideProps, MainProps } from './types'
 import './style.scss'
 
 interface Layout {
-  asideWidth?: number
-  headerHeight?: number
-  tabHeight?: number
+  asideWidth?: LayoutProps['asideWidth']
+  asideHeight?: LayoutProps['asideHeight']
+  asideTop?: LayoutProps['asideTop']
+  asidePaddingTop?: LayoutProps['asidePaddingTop']
+  headerHeight?: LayoutProps['headerHeight']
+  headerPaddingLeft?: LayoutProps['headerPaddingLeft']
+  headerZIndex?: LayoutProps['headerZIndex']
+  tabHeight?: LayoutProps['tabHeight']
 }
 
 const props = withDefaults(defineProps<Layout>(), {
   asideWidth: 220,
+  asidePaddingTop: 0,
+  asideTop: 0,
   headerHeight: 48,
-  tabHeight: 40
+  tabHeight: 56,
+  headerZIndex: 1001,
+  mainPaddingLeft: 220
 })
 
 // 侧边栏属性
-const asideAttrs = computed(() => {
+const asideAttrs = computed<AsideProps>(() => {
   return {
-    width: props.asideWidth
+    width: props.asideWidth,
+    paddingTop: props.asidePaddingTop
   }
 })
 
 // 头部属性
 const headerAttrs = computed(() => {
   return {
-    paddingLeft: props.asideWidth,
-    height: props.headerHeight
+    paddingLeft: props.headerPaddingLeft,
+    height: props.headerHeight,
+    zIndex: props.headerZIndex
   }
 })
 
@@ -74,7 +86,7 @@ const tabAttrs = computed(() => {
 })
 
 // 内容属性
-const mainAttrs = computed(() => {
+const mainAttrs = computed<MainProps>(() => {
   return {
     paddingLeft: props.asideWidth,
     paddingTop: props.headerHeight + props.tabHeight

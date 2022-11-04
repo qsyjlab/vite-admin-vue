@@ -13,7 +13,7 @@ import MenuItem from './menu-item.vue'
 import { MenuItem as MenuItemType } from '@/store'
 
 interface IProps {
-  collapsed: boolean
+  collapsed?: boolean
   menuList: MenuItemType[]
 }
 

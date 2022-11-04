@@ -21,4 +21,3 @@ const logout = () => {
   loginOutSystem()
 }
 </script>
-<style scoped></style>

@@ -53,18 +53,22 @@ import type { Component } from 'vue'
 import { ref } from 'vue'
 import { Check } from './icon'
 
-const emits = defineEmits<{
-  (e: 'change', value: unknown): void
-}>()
-
-const props = defineProps<{
+interface IProps {
   defaultValue?: unknown
   options: {
     title: string
     value: unknown
     icon: Component
   }[]
-}>()
+}
+
+interface IEmits {
+  (e: 'change', value: unknown): void
+}
+
+const emits = defineEmits<IEmits>()
+
+const props = defineProps<IProps>()
 
 const checkValue = ref(props.defaultValue)
 

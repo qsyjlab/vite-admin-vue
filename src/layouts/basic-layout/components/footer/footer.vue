@@ -7,7 +7,11 @@ const year = new Date().getFullYear()
 </script>
 <style scoped>
 .footer {
+  height: 100%;
   text-align: center;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

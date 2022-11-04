@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-interface Props {
+interface IProps {
   /** 开启fixed布局 */
   fixed?: boolean
   /** fixed布局的层级 */
@@ -24,7 +24,7 @@ interface Props {
   transitionTimingFunction?: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<IProps>(), {
   fixed: true,
   zIndex: 1001,
   minWidth: 1200,

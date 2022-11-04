@@ -42,7 +42,6 @@
         <div class="setting-item is-vertical">
           <div class="setting-item__label">导航模式</div>
           <div class="setting-item__content">
-            <!-- <component :is="LeftSide"></component> -->
             <CheckButtonGroup
               :default-value="layoutConfig.layoutMode"
               :options="layoutModeOptions"
@@ -65,7 +64,7 @@
           <div class="setting-item__label">菜单展开宽度</div>
           <div class="setting-item__content">
             <el-input-number
-              v-model="layoutConfig.menuWidth"
+              v-model="layoutConfig.asideWidth"
               @change=" (value:number) => setLayoutConfig(LayoutConfigHandlerEnum.MENU_WIDTH, value)"
             />
           </div>
