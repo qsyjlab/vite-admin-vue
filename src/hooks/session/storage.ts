@@ -2,19 +2,21 @@ import BaseStorage from './BaseStorage'
 
 import config from '@/config'
 import { StorageKeys } from '@/enum'
-import { LayoutType } from '@/store'
+
+import type { ProjectLayoutConfig } from '@/layouts'
 
 /**
  * TODO: 站定在目前位置
  */
+
+const $storage = new BaseStorage(window.localStorage, config.storage)
 interface UserInfo {
   userId: string | number
   userName: string
   userRole: string
 }
 
-export default () => {
-  const $storage = new BaseStorage(window.localStorage, config.storage)
+export const useStorageHelper = () => {
   /**
    * 设置用户信息
    * @param {UserInfo} data 用户信息
@@ -49,18 +51,18 @@ export default () => {
 
   /**
    * 获取配置
-   * @param {LayoutType} layout
+   * @param {ProjectLayoutConfig} layout
    * @returns
    */
-  const setLayoutCache = (layout: LayoutType | undefined) => {
+  const setLayoutCache = (layout: ProjectLayoutConfig | undefined) => {
     return $storage.set(StorageKeys.Layout, layout, { isForever: true })
   }
 
   /**
-   * @returns {LayoutType}
+   * @returns {ProjectLayoutConfig}
    */
   const getLayoutCache = () => {
-    return $storage.get<LayoutType>(StorageKeys.Layout)
+    return $storage.get<ProjectLayoutConfig>(StorageKeys.Layout)
   }
 
   /**
@@ -81,3 +83,5 @@ export default () => {
     clearCache
   }
 }
+
+export default useStorageHelper

@@ -3,7 +3,7 @@
     <div class="setting-bottom">
       <div
         class="setting-buttom-class"
-        :style="{ backgroundColor: '#09BFA1' }"
+        :style="{ backgroundColor: layoutConfig.themeColor }"
         @click="toggleSettingDrawer"
       >
         <el-icon v-if="!isOpenSettig">
@@ -35,7 +35,10 @@
         <div class="setting-item">
           <div class="setting-item__label">主题色</div>
           <div class="setting-item__content">
-            <color-picker></color-picker>
+            <el-color-picker
+              v-model="layoutConfig.themeColor"
+              @change="(value:string) => setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, value)"
+            />
           </div>
         </div>
 
@@ -88,14 +91,13 @@
 import { useLayoutStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import { LayoutMode } from '../../enum'
-import ColorPicker from './color-picker.vue'
 import CheckButtonGroup from './check-button-group.vue'
 import { LeftSideMix, NavTop, SideTopMix, LeftSide } from './icon'
 
 import { useLayoutConfigHandler, LayoutConfigHandlerEnum } from '@/hooks'
 
 const layoutStore = useLayoutStore()
-const [layoutConfig, setLayoutConfig] = useLayoutConfigHandler()
+const { layoutConfig, setLayoutConfig } = useLayoutConfigHandler()
 const { isOpenSettig } = storeToRefs(layoutStore)
 
 const { toggleSettingDrawer } = layoutStore

@@ -53,19 +53,6 @@ export async function handlePermissionRouter(
 }
 
 /**
- * 初始化
- */
-export function initApp() {
-  const { getLayoutCache } = useStorageHelper()
-  const appStore = useAppStore()
-
-  const layout = getLayoutCache()
-  if (layout) {
-    appStore.setLayoutConfig(layout)
-  }
-}
-
-/**
  *
  * @param { RouteRecordRaw[] } routes
  * @param { MenuItem[]} treeMap
