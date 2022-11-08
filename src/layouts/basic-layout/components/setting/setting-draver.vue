@@ -37,7 +37,7 @@
           <div class="setting-item__content">
             <el-color-picker
               v-model="layoutConfig.themeColor"
-              @change="(value:string) => setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, value)"
+              @change="(value:any) => setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, value)"
             />
           </div>
         </div>
@@ -58,7 +58,7 @@
           <div class="setting-item__content">
             <el-switch
               v-model="layoutConfig.collapsed"
-              @change=" (value:boolean) => setLayoutConfig(LayoutConfigHandlerEnum.COLLAPSED, value)"
+              @change="(value:any) =>  setLayoutConfig(LayoutConfigHandlerEnum.COLLAPSED, value)"
             />
           </div>
         </div>
@@ -68,7 +68,7 @@
           <div class="setting-item__content">
             <el-input-number
               v-model="layoutConfig.asideWidth"
-              @change=" (value:number) => setLayoutConfig(LayoutConfigHandlerEnum.MENU_WIDTH, value)"
+              @change=" (value:any) => setLayoutConfig(LayoutConfigHandlerEnum.MENU_WIDTH, value)"
             />
           </div>
         </div>
@@ -78,7 +78,7 @@
           <div class="setting-item__content">
             <el-input-number
               v-model="layoutConfig.headerHeight"
-              @change=" (value:number) => setLayoutConfig(LayoutConfigHandlerEnum.HEADER_HEIGHT, value)"
+              @change=" (value:any) => setLayoutConfig(LayoutConfigHandlerEnum.HEADER_HEIGHT, value)"
             />
           </div>
         </div>
@@ -147,30 +147,19 @@ const layoutModeOptions = [
   left: 0;
   right: 0;
   background: rgb(0 0 0 / 20%);
-
-  // transition: all 0.4s;
 }
 
 .setting-body {
-  // position: absolute;
-  // width: 300px;
   width: 100%;
   height: 100%;
   top: 0;
   right: 0;
   box-sizing: border-box;
-
-  // padding: 20px;
-  // transition: all 0.3s;
-  background-color: white;
 }
 
 .setting-bottom {
   position: absolute;
   top: 40%;
-
-  // transition: all 0.3s;
-  // transition-delay: 200;
   transform: translateY(-50%);
 }
 
@@ -189,8 +178,6 @@ const layoutModeOptions = [
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* line-height: 48px; */
   outline: 0;
 }
 
