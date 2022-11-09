@@ -15,17 +15,14 @@
     width: 100%;
     transition-property: padding-left;
     padding-left: 200px;
-    // background-color: rgba(240, 242, 245, 0.6);
     box-sizing: border-box;
     position: fixed;
-    // border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   }
 
   &-tab {
     left: 0;
     flex-shrink: 0;
     width: 100%;
-    background-color: white;
     transition-property: padding-left;
   }
 

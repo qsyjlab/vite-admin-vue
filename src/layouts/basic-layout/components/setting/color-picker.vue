@@ -16,8 +16,8 @@ const state = reactive({
   colorStatus: appStore.layoutConfig.themeColor
 })
 
-const changeColor = (val: string) => {
-  appStore.setLayoutConfig({ themeColor: val })
+const changeColor = (val: string | null) => {
+  appStore.setLayoutConfig({ themeColor: val || '' })
 }
 
 const { colorStatus } = toRefs(state)

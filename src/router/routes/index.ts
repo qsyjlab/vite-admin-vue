@@ -29,8 +29,6 @@ export function loadRouterModules() {
 
 export const asyncRoutes = loadRouterModules()
 
-console.log('初始化', asyncRoutes)
-
 export const routes = defineExposeRoutes([
   {
     path: '/',

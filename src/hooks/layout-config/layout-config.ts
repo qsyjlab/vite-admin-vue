@@ -3,8 +3,9 @@ import { storeToRefs } from 'pinia'
 
 import type { ProjectLayoutConfig } from '@/layouts'
 
-import { updateElementCssVar } from './use-theme-color'
-import { generateThemeCluster } from '@/utils'
+import { useElementCssVar } from './use-theme-color'
+
+import { useDark, useToggle } from '@vueuse/core'
 
 type SetLayoutConfig = (eventKey: LayoutConfigHandlerEnum, value: any) => void
 
@@ -25,6 +26,7 @@ export enum LayoutConfigHandlerEnum {
 
 export function useLayoutConfigHandler() {
   const layoutStore = useLayoutStore()
+  const { setElementCssVar, removeElementCssVar } = useElementCssVar()
 
   const { layoutConfig } = storeToRefs(layoutStore)
   function handler(eventKey: LayoutConfigHandlerEnum, value: any): ProjectLayoutConfig | null {
@@ -52,13 +54,21 @@ export function useLayoutConfigHandler() {
       }
 
       case LayoutConfigHandlerEnum.THEME_COLOR: {
-        updateElementCssVar(generateThemeCluster(value))
+        setElementCssVar(value)
         return {
           themeColor: value
         }
       }
       case LayoutConfigHandlerEnum.LAYOUT_THEME: {
-        return null
+        const isDark = useDark()
+        const toggleDark = useToggle(isDark)
+        toggleDark()
+
+        if (isDark.value) {
+          removeElementCssVar()
+        }
+
+        return value
       }
 
       default:
@@ -66,6 +76,7 @@ export function useLayoutConfigHandler() {
     }
   }
 
+  // type t = keyof ProjectLayoutConfig
   const setLayoutConfig: SetLayoutConfig = (eventKey, value) => {
     const config = handler(eventKey, value)
 
@@ -73,7 +84,9 @@ export function useLayoutConfigHandler() {
   }
 
   const initLayout = (config: ProjectLayoutConfig) => {
-    setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, config.themeColor)
+    if (config.themeColor) {
+      setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, config.themeColor)
+    }
   }
 
   return {
