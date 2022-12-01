@@ -29,6 +29,8 @@ export function loadRouterModules() {
 
 export const asyncRoutes = loadRouterModules()
 
+console.log(loadRoutes(import.meta.glob('./system-2/*.ts', { eager: true })))
+
 export const routes = defineExposeRoutes([
   {
     path: '/',
@@ -47,7 +49,18 @@ export const routes = defineExposeRoutes([
       hideInBreadcrumb: true
     },
     component: () => import('@/layouts/basic-layout/basic-layout.vue'),
-    children: loadRoutes(import.meta.globEager('./system/*.ts'))
+    children: loadRoutes(import.meta.glob('./system/*.ts', { eager: true }))
+  },
+  {
+    path: '/system-branch',
+    name: 'SystemBranch',
+    redirect: { name: 'icon1' },
+    meta: {
+      title: 'SystemBranch',
+      hideInBreadcrumb: true
+    },
+    component: () => import('@/layouts/basic-layout/basic-layout.vue'),
+    children: loadRoutes(import.meta.glob('./system-2/*.ts', { eager: true }))
   },
   {
     path: '/user',

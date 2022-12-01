@@ -82,6 +82,9 @@
             />
           </div>
         </div>
+
+        <el-button @click="$router.push({ name: 'Home' })">主系统</el-button>
+        <el-button @click="$router.push({ name: 'icon1' })">分支系统</el-button>
       </div>
     </el-drawer>
   </div>

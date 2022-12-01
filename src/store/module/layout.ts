@@ -31,7 +31,7 @@ export const useLayoutStore = defineStore<string, LayoutState, LayoutGetter, Lay
     state() {
       return {
         layoutConfig: {
-          layoutMode: LayoutMode.SideMix,
+          layoutMode: LayoutMode.Side,
           collapsed: false,
           asideWidth: 220,
           headerHeight: 48,
