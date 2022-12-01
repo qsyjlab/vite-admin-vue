@@ -23,6 +23,7 @@ module.exports = {
   ],
   plugins: ['vue', '@typescript-eslint'],
   rules: {
+    endOfLine: 'off',
     // 要求使用 === 和 !==
     eqeqeq: 'warn',
     // 禁止 if 语句中 return 语句之后有 else 块
