@@ -59,7 +59,7 @@ export function resolveRouteTreeToList(routes: RouteRecordRaw[]) {
   }
 }
 
-export function buildRoutes(asyncRoutes: RouteRecordRaw[]) {
+export async function buildRoutes(asyncRoutes: RouteRecordRaw[]) {
   const routes = asyncRoutes
 
   function isMultipleRoute(route: RouteRecordRaw): boolean {

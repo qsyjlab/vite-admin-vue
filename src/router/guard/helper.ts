@@ -46,7 +46,7 @@ export async function handlePermissionRouter(
     !routeStore.routeMapping[module.name as string].isFlat
   ) {
     const menus = transformRoutes(module.children, [])
-    const _buildRoutes = buildRoutes([module])
+    const _buildRoutes = await buildRoutes([module])
 
     const { relationObj: relation } = resolveRouteTreeToList([module])
 
