@@ -21,7 +21,7 @@ import { MenuCollapse, Breadcrumb, UserMenu } from './components'
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-image: radial-gradient(transparent 1px, #fff, 1px);
+  background-image: radial-gradient(transparent 1px, #fff 1px);
   background-size: 4px 4px;
   backdrop-filter: saturate(50%) blur(4px);
 }
