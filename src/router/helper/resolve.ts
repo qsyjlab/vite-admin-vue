@@ -1,4 +1,4 @@
-import { hasAuth } from '@/utils'
+import { hasAuth } from '@/auth'
 import { cloneDeep, omit } from 'lodash-es'
 import { createRouter, createWebHistory, RouteMeta } from 'vue-router'
 

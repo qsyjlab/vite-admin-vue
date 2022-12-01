@@ -1,7 +1,7 @@
 import type { RouteLocationNormalized, Router, NavigationGuardNext } from 'vue-router'
 
 import { useStorageHelper } from '@/hooks'
-import { hasAuth } from '@/utils'
+import { hasAuth } from '@/auth'
 import { useRouteStore } from '@/store'
 import { buildRoutes, resolveRouteTreeToList, transformRoutes } from '../helper'
 
