@@ -14,7 +14,7 @@ export interface RouteState {
   routeMapping: Record<
     string,
     // TODO: 添加限制类型
-    { isFlat: boolean; originRoutesRelation: RouteTreeRelation; menus: any[] }
+    { isFlat: boolean; originRoutesRelation: Record<string, RouteTreeRelation>; menus: any[] }
   >
   isFristEntry: boolean
   keepAliveCache: Set<string>
@@ -26,7 +26,7 @@ export interface RouteAction {
   saveRoutesRelation: (
     moduleName: string,
     parameters: {
-      relation: RouteTreeRelation
+      relation: Record<string, RouteTreeRelation>
       menus: any[]
     }
   ) => void

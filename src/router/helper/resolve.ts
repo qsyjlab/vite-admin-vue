@@ -1,6 +1,6 @@
 import { hasAuth } from '@/utils'
 import { cloneDeep, omit } from 'lodash-es'
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, RouteMeta } from 'vue-router'
 
 import type { RouteRecordNormalized } from 'vue-router'
 
@@ -25,11 +25,11 @@ export function resolveRouteTreeToList(routes: RouteRecordRaw[]) {
   return { relationObj }
   function traverseData(
     tree: RouteRecordRaw[],
-    pIds?: string[],
+    pName?: string,
     pNames?: string[],
     pLevels?: string[]
   ): string[] {
-    const parentIds = pIds || []
+    const parentName = pName || ''
     const parentNames = pNames || []
     const levels = pLevels || []
 
@@ -41,20 +41,17 @@ export function resolveRouteTreeToList(routes: RouteRecordRaw[]) {
       info.name = info.name as string
       levs.push(info.name)
       _obj.name = info.name
-
+      _obj.meta = info.meta
       _obj.parentNames = parentNames
+      _obj.parentName = parentName
 
       relationObj[info.name as string] = _obj
 
       if (info.children && info.children.length) {
-        const newParentIds = parentIds.slice()
         const newParentNames = parentNames.slice()
-        const strId = info.name
-
-        newParentIds.push(strId)
         newParentNames.push(info.name)
 
-        _obj.childrenNames = traverseData(info.children, newParentIds, newParentNames, levs)
+        _obj.childrenNames = traverseData(info.children, info.name, newParentNames, levs)
       }
 
       return _obj.name
@@ -155,6 +152,8 @@ export function transformRoutes(routes: RouteRecordRaw[], treeMap: any[]): any[]
 
 export interface RouteTreeRelation {
   name?: string
+  parentName?: string | null
   parentNames?: string[]
   childrenNames?: string[]
+  meta?: RouteMeta
 }

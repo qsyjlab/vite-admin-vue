@@ -5,6 +5,7 @@ module.exports = {
   semi: false,
   singleQuote: true,
   trailingComma: 'none',
+  // endOfLine: 'auto',
   // 行宽度
   printWidth: 100,
   // 缩进宽度 =》editorconfig
