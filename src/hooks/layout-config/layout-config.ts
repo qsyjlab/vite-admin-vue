@@ -67,8 +67,9 @@ export function useLayoutConfigHandler() {
         if (isDark.value) {
           removeElementCssVar()
         }
-
-        return value
+        return {
+          theme: value
+        }
       }
 
       default:
