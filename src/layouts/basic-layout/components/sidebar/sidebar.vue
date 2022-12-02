@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-aside_wapper">
+  <div class="layout-aside__wrapper">
     <slot name="logo"></slot>
 
     <aside-menu :collapsed="props.collapsed" :menu-list="menus"></aside-menu>
@@ -15,8 +15,6 @@ import { AsideMenu } from './menu'
 interface IProps {
   collapsed?: boolean
 }
-
-console.log('asdasd')
 
 const props = withDefaults(defineProps<IProps>(), {
   collapsed: false

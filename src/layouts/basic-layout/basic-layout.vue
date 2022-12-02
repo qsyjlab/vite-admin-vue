@@ -33,14 +33,12 @@
       <basic-router-bar v-bind="routerBarAttrs" />
     </template>
 
-    <div class="layout-main_wapper">
+    <div class="layout-main__wrapper">
       <component :is="createBlankContainer('BasicLayout')"></component>
     </div>
 
     <template #footer>
-      <div class="layout-footer_wapper">
-        <basic-footer />
-      </div>
+      <basic-footer />
     </template>
   </Layout>
 

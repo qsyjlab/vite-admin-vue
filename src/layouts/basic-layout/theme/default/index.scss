@@ -1,0 +1,36 @@
+.layout {
+  &-tabs {
+    &__wrapper {
+      height: 100%;
+    }
+  }
+
+  &-aside {
+    &__wrapper {
+      overflow: hidden;
+      height: 100%;
+      box-shadow: 0 2px 4px rgb(0 0 0 / 12%), 0 0 6px rgb(0 0 0 / 4%);
+    }
+  }
+
+  &-main {
+    &__wrapper {
+      box-sizing: border-box;
+      height: 100%;
+      padding: 15px;
+    }
+  }
+
+  &-footer {
+    &__wrapper {
+      height: 100%;
+    }
+    &__content {
+      height: 100%;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
