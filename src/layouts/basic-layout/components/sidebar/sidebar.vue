@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-aside__wrapper">
+  <div class="basic-layout-aside__wrapper">
     <slot name="logo"></slot>
 
     <aside-menu :collapsed="props.collapsed" :menu-list="menus"></aside-menu>

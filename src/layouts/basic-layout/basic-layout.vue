@@ -33,7 +33,7 @@
       <basic-router-bar v-bind="routerBarAttrs" />
     </template>
 
-    <div class="layout-main__wrapper">
+    <div class="basic-layout-main__wrapper">
       <component :is="createBlankContainer('BasicLayout')"></component>
     </div>
 

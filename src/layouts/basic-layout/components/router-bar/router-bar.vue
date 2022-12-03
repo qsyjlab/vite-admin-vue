@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-tabs__wrapper">
+  <div class="basic-layout-tabs__wrapper">
     <el-scrollbar
       style="height: 100%"
       noresize

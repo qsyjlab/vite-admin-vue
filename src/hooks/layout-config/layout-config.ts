@@ -65,17 +65,17 @@ export function useLayoutConfigHandler() {
         }
       }
       case LayoutConfigHandlerEnum.LAYOUT_THEME: {
-        const isDark = useDark({
-          storageKey: 'LAYOUT_THEME',
-          storage: localStorage
-        })
+        // const isDark = useDark({
+        //   storageKey: 'LAYOUT_THEME',
+        //   storage: localStorage
+        // })
 
-        const toggleDark = useToggle(isDark)
-        toggleDark()
+        // const toggleDark = useToggle(isDark)
+        // toggleDark()
 
-        if (isDark.value) {
-          removeElementCssVar()
-        }
+        // if (isDark.value) {
+        //   removeElementCssVar()
+        // }
         return {
           theme: value
         }

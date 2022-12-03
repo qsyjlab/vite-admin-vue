@@ -47,23 +47,3 @@ const logoImageStyle = computed<CSSProperties>(() => {
   }
 })
 </script>
-
-<style lang="scss" scoped>
-.basic-layout {
-  &-logo {
-    overflow: hidden;
-    height: 56px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-
-    &__img {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 80px;
-      flex-shrink: 0;
-    }
-  }
-}
-</style>
