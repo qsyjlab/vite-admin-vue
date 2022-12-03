@@ -18,7 +18,6 @@ interface LayoutAction {
   toggleSettingDrawer: () => void
   setMixMenuFixed: (val: boolean) => void
   setMixMenuLayoutConfig: (config: Partial<LayoutState['mixMenuLayoutConfig']>) => void
-  // setLayoutThemeColor: (color: string) => void
 }
 
 export type LayoutGetter = Record<string, never>
@@ -34,6 +33,7 @@ export const useLayoutStore = defineStore<string, LayoutState, LayoutGetter, Lay
           layoutMode: LayoutMode.Side,
           collapsed: false,
           asideWidth: 220,
+          tabBarHeight: 32,
           headerHeight: 48,
           theme: 'light',
           themeColor: '#409eff'

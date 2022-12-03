@@ -7,29 +7,34 @@ import { useElementCssVar } from './use-theme-color'
 
 import { useDark, useToggle } from '@vueuse/core'
 
-type SetLayoutConfig = (eventKey: LayoutConfigHandlerEnum, value: any) => void
+type SetLayoutConfig = (eventKey: EventKeys, value: any) => void
+type EventKeys = typeof LayoutConfigHandlerEnum[keyof typeof LayoutConfigHandlerEnum]
 
-export enum LayoutConfigHandlerEnum {
+// type LayoutConfigHandlerEnumKeys = keyof typeof LayoutConfigHandlerEnum
+
+export const LayoutConfigHandlerEnum = {
   // 布局模式
-  LAYOUT_MODE,
+  LAYOUT_MODE: 'layoutMode',
   // 折叠菜单
-  COLLAPSED,
+  COLLAPSED: 'collapsed',
   // 菜单宽度
-  MENU_WIDTH,
+  MENU_WIDTH: 'asideWidth',
   // 布局主体
-  LAYOUT_THEME,
+  LAYOUT_THEME: 'theme',
   // 头部高度
-  HEADER_HEIGHT,
+  HEADER_HEIGHT: 'headerHeight',
   // themeColor
-  THEME_COLOR
-}
+  THEME_COLOR: 'themeColor',
+  // tabbar
+  TAB_BAR_HEIGHT: 'tabBarHeight'
+} as const
 
 export function useLayoutConfigHandler() {
   const layoutStore = useLayoutStore()
   const { setElementCssVar, removeElementCssVar } = useElementCssVar()
 
   const { layoutConfig } = storeToRefs(layoutStore)
-  function handler(eventKey: LayoutConfigHandlerEnum, value: any): ProjectLayoutConfig | null {
+  function handler(eventKey: EventKeys, value: any): ProjectLayoutConfig | null {
     switch (eventKey) {
       case LayoutConfigHandlerEnum.COLLAPSED: {
         return {
@@ -60,7 +65,11 @@ export function useLayoutConfigHandler() {
         }
       }
       case LayoutConfigHandlerEnum.LAYOUT_THEME: {
-        const isDark = useDark()
+        const isDark = useDark({
+          storageKey: 'LAYOUT_THEME',
+          storage: localStorage
+        })
+
         const toggleDark = useToggle(isDark)
         toggleDark()
 
@@ -72,12 +81,17 @@ export function useLayoutConfigHandler() {
         }
       }
 
+      case LayoutConfigHandlerEnum.TAB_BAR_HEIGHT: {
+        return {
+          tabBarHeight: value
+        }
+      }
+
       default:
         return null
     }
   }
 
-  // type t = keyof ProjectLayoutConfig
   const setLayoutConfig: SetLayoutConfig = (eventKey, value) => {
     const config = handler(eventKey, value)
 
@@ -85,9 +99,10 @@ export function useLayoutConfigHandler() {
   }
 
   const initLayout = (config: ProjectLayoutConfig) => {
-    if (config.themeColor) {
-      setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, config.themeColor)
-    }
+    layoutStore.setLayoutConfig(config)
+    config.themeColor && setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, config.themeColor)
+
+    config.theme && setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_THEME, config.theme)
   }
 
   return {

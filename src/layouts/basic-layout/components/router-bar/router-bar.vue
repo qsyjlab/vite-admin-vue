@@ -21,8 +21,10 @@
           <div>
             {{ item?.meta?.title }}
           </div>
+
+          <!-- && item.fullPath == currentRouter?.fullPath -->
           <div
-            v-if="!biddenRouter.includes(item.name) && item.fullPath == currentRouter?.fullPath"
+            v-if="!biddenRouter.includes(item.name)"
             class="close-icon-style"
             @click="removeRouterBar($event, index)"
           >
@@ -147,13 +149,17 @@ const watchRouterChange = (_router: RouteLocationNormalized) => {
   display: flex;
   height: 100%;
   box-sizing: border-box;
-  padding: 0 3px;
-
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04); */
+  padding: 3px;
+  // box-shadow: 0 2px 4px rgb(0 0 0 / 12%), 0 0 6px rgb(0 0 0 / 4%);
   align-items: center;
 }
 
 .routerbar-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  box-sizing: border-box;
   padding: 5px 6px;
   font-size: 13px;
   margin-left: 7px;
@@ -162,9 +168,6 @@ const watchRouterChange = (_router: RouteLocationNormalized) => {
   border: 1px solid #d8dce5;
   flex-shrink: 0;
   transition: all 0.3s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border-radius: 3px;
 }
 

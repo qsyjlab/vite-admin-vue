@@ -7,6 +7,7 @@ export interface ProjectLayoutConfig {
   asideWidth?: number
   collapsed?: boolean
   headerHeight?: number
+  tabBarHeight?: number
   themeColor?: string
   theme?: ThemeMode
 }

@@ -83,6 +83,16 @@
           </div>
         </div>
 
+        <div class="setting-item">
+          <div class="setting-item__label">tab bar高度</div>
+          <div class="setting-item__content">
+            <el-input-number
+              v-model="layoutConfig.tabBarHeight"
+              @change=" (value:any) => setLayoutConfig(LayoutConfigHandlerEnum.TAB_BAR_HEIGHT, value)"
+            />
+          </div>
+        </div>
+
         <el-button @click="$router.push({ name: 'Home' })">主系统</el-button>
         <el-button @click="$router.push({ name: 'icon1' })">分支系统</el-button>
       </div>

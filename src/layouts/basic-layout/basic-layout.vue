@@ -80,7 +80,15 @@ const routerBarAttrs = computed(() => {
 
 // layout props
 const layoutAttrs = computed<BasicLayoutProps>(() => {
-  const { layoutMode, asideWidth = 220, collapsed, headerHeight } = unref(layoutConfig)
+  console.log('layoutConfig', layoutConfig)
+
+  const {
+    layoutMode,
+    asideWidth = 220,
+    collapsed,
+    headerHeight,
+    tabBarHeight
+  } = unref(layoutConfig)
 
   const { fixedMenu, showChildren } = unref(mixMenuLayoutConfig)
   const layoutModeMap: LayoutModeMap = {
@@ -88,6 +96,7 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       const _asideWidth = collapsed ? 65 : asideWidth
       return {
         headerHeight,
+        tabHeight: tabBarHeight,
         asideWidth: _asideWidth,
         headerPaddingLeft: _asideWidth,
         headerZIndex: 1001
@@ -97,6 +106,7 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       const _asideWidth = collapsed ? 65 : asideWidth
       return {
         headerHeight,
+        tabHeight: tabBarHeight,
         asideWidth: _asideWidth,
         asidePaddingTop: headerHeight,
         headerZIndex: 1003,
@@ -104,6 +114,7 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       }
     },
     [LayoutMode.Top]: () => ({
+      tabHeight: tabBarHeight,
       asideWidth: 0,
       headerPaddingLeft: 0
     }),
@@ -111,6 +122,7 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       const _asideWidth = fixedMenu && showChildren ? 75 + asideWidth : 75
       return {
         headerHeight,
+        tabHeight: tabBarHeight,
         asideWidth: _asideWidth,
         headerPaddingLeft: _asideWidth
       }

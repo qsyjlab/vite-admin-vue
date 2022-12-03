@@ -10,7 +10,6 @@ function initAppConfig() {
 
   initLayout(getLayoutCache() || {})
 }
-
 initAppConfig()
 </script>
 <style>
