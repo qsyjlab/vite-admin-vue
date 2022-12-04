@@ -29,8 +29,6 @@ export function loadRouterModules() {
 
 export const asyncRoutes = loadRouterModules()
 
-console.log(loadRoutes(import.meta.glob('./system-2/*.ts', { eager: true })))
-
 export const routes = defineExposeRoutes([
   {
     path: '/',
@@ -71,17 +69,17 @@ export const routes = defineExposeRoutes([
       isAuth: false
     },
     component: createBlankContainer('User'),
-    children: loadRoutes(import.meta.globEager('./user/*.ts'))
+    children: loadRoutes(import.meta.glob('./user/*.ts', { eager: true }))
   },
   {
-    path: '/Error',
+    path: '/error',
     name: 'Error',
     meta: {
       hideInMenu: true,
       hideInBreadcrumb: true
     },
     component: createBlankContainer('Error'),
-    children: loadRoutes(import.meta.globEager('./error/*.ts'))
+    children: loadRoutes(import.meta.glob('./error/*.ts', { eager: true }))
   },
   {
     path: '/:pathMatch(.*)',

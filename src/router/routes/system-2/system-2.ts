@@ -11,36 +11,36 @@ export default defineExposeRoutes([
     component: () => import('@/views/system/WelcomeTo.vue'),
     children: [
       {
-        path: '/card-m',
-        name: 'CardM',
+        path: 'icon1-1',
+        name: 'icon1-1',
         meta: {
-          title: 'CardM'
+          title: 'icon1-1'
         },
         component: () => import('@/views/system/WelcomeTo.vue'),
         children: [
           {
-            path: '/card1',
-            name: 'Card1',
+            path: 'icon1-1-1',
+            name: 'icon1-1-1',
             meta: {
-              title: 'Card1'
+              title: 'icon1-1-1'
             },
             component: () => import('@/views/system/WelcomeTo.vue'),
             children: []
           },
           {
-            path: '/Menu1',
-            name: 'Menu1',
+            path: 'icon1-1-2',
+            name: 'icon1-1-2',
             meta: {
-              title: 'Menu1'
+              title: 'icon1-1-2'
             },
             component: () => import('@/views/system/WelcomeTo.vue'),
             children: []
           },
           {
-            path: '/Avatar1',
-            name: 'Avatar1',
+            path: 'icon1-1-3',
+            name: 'icon1-1-3',
             meta: {
-              title: 'Avatar1'
+              title: 'icon1-1-3'
             },
             component: () => import('@/views/system/WelcomeTo.vue'),
             children: []
@@ -48,19 +48,19 @@ export default defineExposeRoutes([
         ]
       },
       {
-        path: '/Menu',
-        name: 'Menu',
+        path: 'icon1-2-1',
+        name: 'icon1-2-1',
         meta: {
-          title: 'Menu'
+          title: 'icon1-2-1'
         },
         component: () => import('@/views/system/WelcomeTo.vue'),
         children: []
       },
       {
-        path: '/Avatar',
-        name: 'Avatar',
+        path: 'icon1-2-2',
+        name: 'icon1-2-2',
         meta: {
-          title: 'Avatar'
+          title: 'icon1-2-2'
         },
         component: () => import('@/views/system/WelcomeTo.vue'),
         children: []
@@ -68,45 +68,45 @@ export default defineExposeRoutes([
     ]
   },
   {
-    path: 'icon2',
-    name: 'icon2',
+    path: 'icon1-3',
+    name: 'icon1-3',
     meta: {
-      title: 'icon2',
+      title: 'icon1-3',
       isNotAuth: true
     },
     component: () => import('@/views/system/WelcomeTo.vue'),
     children: [
       {
-        path: 'icon2-1',
-        name: 'icon2-1',
+        path: 'icon1-3-1',
+        name: 'icon1-3-1',
         meta: {
           isNotAuth: true,
-          title: 'icon2-1'
+          title: 'icon1-3-1'
         },
         component: () => import('@/views/system/WelcomeTo.vue'),
         children: [
           {
-            path: 'icon2-1-1',
-            name: 'icon2-1-1',
+            path: 'icon1-3-1-1',
+            name: 'icon1-3-1-1',
             meta: {
               isNotAuth: true,
-              title: 'icon2-1-1'
+              title: 'icon1-3-1-1'
             },
             component: () => import('@/views/system/WelcomeTo.vue'),
             children: []
           },
           {
-            path: 'icon2-1-2',
-            name: 'icon2-1-2',
+            path: 'icon1-3-1-2',
+            name: 'icon1-3-1-2',
             meta: {
               isNotAuth: true,
-              title: 'icon2-1-2'
+              title: 'icon1-3-1-2'
             },
             component: () => import('@/views/system/WelcomeTo.vue'),
             children: []
           },
           {
-            path: 'icon2-1-3',
+            path: 'menu3',
             name: 'icon2-1-3',
             meta: {
               isNotAuth: true,
