@@ -1,3 +1,35 @@
+:root {
+  --basic-layout-dark-color: #141414;
+  --basic-layout-border-color: #414243;
+}
+
 html.dark {
   color-scheme: dark;
+  .basic-layout {
+    &-header {
+      &__wrapper {
+        border-bottom: 1px solid var(--basic-layout-border-color);
+        background-color: var(--basic-layout-dark-color);
+        background-image: radial-gradient(transparent 1px, var(--basic-layout-dark-color) 1px);
+      }
+    }
+
+    &-tabs {
+      &__wrapper {
+        border-bottom: 1px solid var(--basic-layout-border-color);
+      }
+    }
+
+    &-aside {
+      &__wrapper {
+        border-right: 1px solid var(--basic-layout-border-color);
+      }
+    }
+
+    &-mix-menu {
+      &-children {
+        background-color: var(--basic-layout-dark-color);
+      }
+    }
+  }
 }

@@ -7,7 +7,7 @@
       }"
     >
       <div
-        v-for="(item, index) in routeStore.menuList"
+        v-for="(item, index) in menus"
         :key="index"
         class="basic-layout-mix-menu-module__item"
         @click="clickMenuModuleHandler(item)"
@@ -92,6 +92,7 @@ defineProps<IProps>()
 const routeStore = useRouteStore()
 
 const layoutStore = useLayoutStore()
+
 const { setMixMenuFixed, setMixMenuLayoutConfig } = layoutStore
 
 const { mixMenuLayoutConfig } = storeToRefs(layoutStore)
@@ -103,6 +104,11 @@ const activeKey = ref(route.name)
 
 const showChildren = ref(false)
 const activeChildren = ref<MenuItemType[]>([])
+
+const menus = computed(() => {
+  const matched = router.currentRoute.value.matched[0]
+  return (matched.name && routeStore.routeMapping[matched.name as string].menus) || []
+})
 
 watch([showChildren], () => {
   setMixMenuLayoutConfig({

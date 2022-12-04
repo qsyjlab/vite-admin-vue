@@ -34,6 +34,14 @@ export function useLayoutConfigHandler() {
   const { setElementCssVar, removeElementCssVar } = useElementCssVar()
 
   const { layoutConfig } = storeToRefs(layoutStore)
+
+  const isDark = useDark({
+    storageKey: 'LAYOUT_THEME',
+    storage: localStorage
+  })
+
+  const toggleDark = useToggle(isDark)
+
   function handler(eventKey: EventKeys, value: any): ProjectLayoutConfig | null {
     switch (eventKey) {
       case LayoutConfigHandlerEnum.COLLAPSED: {
@@ -59,18 +67,12 @@ export function useLayoutConfigHandler() {
       }
 
       case LayoutConfigHandlerEnum.THEME_COLOR: {
-        setElementCssVar(value)
+        !isDark.value && setElementCssVar(value)
         return {
           themeColor: value
         }
       }
       case LayoutConfigHandlerEnum.LAYOUT_THEME: {
-        const isDark = useDark({
-          storageKey: 'LAYOUT_THEME',
-          storage: localStorage
-        })
-
-        const toggleDark = useToggle(isDark)
         if (value === 'dark' && !isDark.value) {
           toggleDark()
 
