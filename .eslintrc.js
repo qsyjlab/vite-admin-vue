@@ -12,7 +12,12 @@ module.exports = {
     parser: '@typescript-eslint/parser', // ts解析器，vue解析器在遇到ts时使用ts解析器
     // ecmaVersion: 'latest', // 最新的语法也不会报错
     sourceType: 'module',
-    ecmaVersion: 2020
+    ecmaVersion: 2020,
+    //  解析 tsx
+    jsxPragma: 'React',
+    ecmaFeatures: {
+      jsx: true
+    }
   },
   extends: [
     'eslint:recommended',
