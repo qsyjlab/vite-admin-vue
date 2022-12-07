@@ -15,4 +15,3 @@
 //   content.value = '测试数值'
 // }, 2000)
 </script>
-<style scoped></style>

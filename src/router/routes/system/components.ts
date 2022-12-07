@@ -14,6 +14,27 @@ export default defineExposeRoutes([
     component: createBlankContainer('Components'),
     children: [
       {
+        name: 'ProTable',
+        path: 'pro-table',
+        meta: {
+          title: 'ProTable',
+          isNotAuth: true
+        },
+        component: createBlankContainer('ProTable'),
+        children: [
+          {
+            name: 'ProTableBasic',
+            path: 'pro-table-basic',
+            meta: {
+              title: 'ProTable 基本使用',
+              isNotAuth: true
+            },
+            component: () => import('@/views/system/components/pro-table/pro-table.vue')
+          }
+        ]
+      },
+
+      {
         name: 'Editor',
         path: 'editor',
         meta: {
