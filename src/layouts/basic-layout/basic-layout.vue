@@ -34,7 +34,7 @@
     </template>
 
     <div class="basic-layout-main__wrapper">
-      <component :is="createBlankContainer('BasicLayout')"></component>
+      <component :is="container"></component>
     </div>
 
     <template #footer>
@@ -68,6 +68,8 @@ import {
 import { Logo, LogoProps } from './components/logo'
 
 import type { BasicLayoutProps, LayoutModeMap, LogoModeMap } from './basic-layout'
+
+const container = createBlankContainer('BasicLayout')
 
 const { layoutConfig, mixMenuLayoutConfig } = storeToRefs(useLayoutStore())
 
