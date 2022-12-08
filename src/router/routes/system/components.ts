@@ -76,6 +76,16 @@ export default defineExposeRoutes([
         component: () => import('@/views/system/components/Upload.vue')
       },
       {
+        name: 'DargSort',
+        path: 'drag-sort',
+        meta: {
+          title: '拖拽排序',
+          isNotAuth: true,
+          icon: 'icon-cellphone'
+        },
+        component: () => import('@/views/system/components/drag-sort/drag-sort.vue')
+      },
+      {
         name: 'Table',
         path: 'table',
         meta: {
