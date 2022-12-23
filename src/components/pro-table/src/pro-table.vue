@@ -11,16 +11,14 @@
         <slot></slot>
       </div>
       <div class="pro-table-header__right">
-        <el-tooltip effect="dark" content="刷新" placement="top">
-          <span style="cursor: pointer" @click="refresh"
-            ><el-icon :size="18"><RefreshRight /></el-icon
-          ></span>
-        </el-tooltip>
-        <el-tooltip effect="dark" content="刷新" placement="top">
-          <span style="cursor: pointer" @click="refresh"
-            ><el-icon :size="18"><RefreshRight /></el-icon
-          ></span>
-        </el-tooltip>
+        <el-space>
+          <el-tooltip effect="dark" content="刷新" placement="top">
+            <span style="cursor: pointer" @click="refresh"
+              ><el-icon :size="18"><RefreshRight /></el-icon
+            ></span>
+          </el-tooltip>
+          <SettingColumns :columns="tableColums" />
+        </el-space>
       </div>
     </div>
 
@@ -34,16 +32,12 @@
     >
       <el-table-column v-if="checkable" type="selection" width="55" :reserve-selection="true" />
       <template v-for="(item, idx) in tableColums" :key="`${item.key}-${idx}`">
-        <el-table-column :prop="item.key" :label="item.title" v-bind="{ ...item }">
-          <template #default="{ row, column, $index }">
-            <slot :name="item.key" v-bind="{ row, column, $index }">{{ row[item.key] }}</slot>
+        <pro-table-column :column="item">
+          <template v-for="slot in Object.keys($slots)" #[slot]="scope">
+            <!-- {{ scope }} -->
+            <slot :name="slot" v-bind="scope"></slot>
           </template>
-          <template #header="{ column, $index }">
-            <slot :name="`headerSlot${item.key}`" v-bind="{ column, $index }">{{
-              column.label
-            }}</slot>
-          </template>
-        </el-table-column>
+        </pro-table-column>
       </template>
     </el-table>
 
@@ -65,13 +59,17 @@
 <script setup lang="ts">
 import { useTable } from './pro-table'
 import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
-
 import { RefreshRight } from '@element-plus/icons-vue'
-
+import SettingColumns from './setting.vue'
 import './style.scss'
+
+import ProTableColumn from './pro-table-column.vue'
+import { useSlots } from 'vue'
 
 const props = defineProps(Object.assign({}, proTableProps, proTableHeaderProps))
 const emits = defineEmits(proTableEmits)
+
+// const slots = useSlots()
 
 const {
   tableColums,

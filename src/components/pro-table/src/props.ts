@@ -4,6 +4,7 @@ import type { ExtractPropTypes } from 'vue'
 export interface ProTableColumnItem {
   title: number | string
   key: number | string
+  children?: ProTableColumnItem[]
 }
 
 export type ProTableColumns = ProTableColumnItem[]
@@ -50,6 +51,13 @@ export const proTableProps = {
   reserveSelection: {
     type: Boolean,
     default: false
+  }
+}
+
+export const proTableColumnProps = {
+  column: {
+    type: definePropType<ProTableColumnItem>(Object),
+    default: () => ({})
   }
 }
 

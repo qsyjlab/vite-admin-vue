@@ -9,6 +9,7 @@
       :is-pagination="true"
       @page-change="pageChange"
     >
+      <template #name="scope"> {{ getScope(scope) }} </template>
       <template #operation>
         <el-button size="small" type="primary">编辑</el-button>
         <el-button size="small" type="danger">删除</el-button>
@@ -21,6 +22,10 @@
 import { VProTable } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
 
+function getScope(sc) {
+  console.log('sc', sc)
+}
+
 const columns = [
   {
     title: '名称',
@@ -31,7 +36,19 @@ const columns = [
   },
   {
     title: '年龄',
-    key: 'age'
+    key: 'age',
+    children: [
+      {
+        title: '年龄2',
+        key: 'age',
+        children: []
+      },
+      {
+        title: '年龄3',
+        key: 'age',
+        children: []
+      }
+    ]
   },
   {
     title: '地址',
@@ -61,7 +78,7 @@ const columns = [
   }
 ]
 
-const data = ref([])
+const data = ref<any[]>()
 
 onMounted(() => {
   setTimeout(() => {

@@ -15,7 +15,7 @@ specifiers:
   '@vueuse/core': ^9.4.0
   axios: ^0.26.1
   dayjs: ^1.11.0
-  element-plus: 2.2.19
+  element-plus: 2.2.26
   eslint: ^8.10.0
   eslint-config-prettier: ^8.5.0
   eslint-plugin-prettier: ^4.0.0
@@ -66,7 +66,7 @@ dependencies:
   '@vueuse/core': 9.4.0_vue@3.2.37
   axios: 0.26.1
   dayjs: 1.11.0
-  element-plus: 2.2.19_vue@3.2.37
+  element-plus: 2.2.26_vue@3.2.37
   html2canvas: 1.4.1
   jspdf: 2.5.1
   lodash-es: 4.17.21
@@ -2015,8 +2015,8 @@ packages:
     resolution: {integrity: sha512-e7Wsh4ilaioBZ5bMm6+F4V5c11dh56/5Jwz7Hl5Tu1J7cnB+Pqx5qIF2iC7HPpfyQMqGSvvLP5bBAIDd2gAtGw==}
     dev: true
 
-  /element-plus/2.2.19_vue@3.2.37:
-    resolution: {integrity: sha512-uN0gt9lUus/IHzu5J6vkbYoYJgUtU05osdtFv9RO27bHKOG5GN7dH6uA3OKfkQQ6R2sV8ZxY1rc9PH1X8Dgrow==}
+  /element-plus/2.2.26_vue@3.2.37:
+    resolution: {integrity: sha512-O/rdY5m9DkclpVg8r3GynyqCunm7MxSR142xSsjrZA77bi7bcwA3SIy6SPEDqHi5R4KqgkGYgKSp4Q4e3irbYg==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
