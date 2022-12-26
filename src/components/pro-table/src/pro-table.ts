@@ -34,8 +34,6 @@ export const useTable = (options: UseTableOptions) => {
   )
 
   const handleCurrentChange = (val: number) => {
-    console.log('val', val)
-
     pageQuery.pageNum = val
     updateTableList()
     emitPagination()

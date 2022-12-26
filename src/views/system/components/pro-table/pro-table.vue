@@ -9,7 +9,7 @@
       :is-pagination="true"
       @page-change="pageChange"
     >
-      <template #name="scope"> {{ getScope(scope) }} </template>
+      <!-- <template #name="scope"> {{ getScope(scope) }} </template> -->
       <template #operation>
         <el-button size="small" type="primary">编辑</el-button>
         <el-button size="small" type="danger">删除</el-button>
@@ -22,9 +22,9 @@
 import { VProTable } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
 
-function getScope(sc) {
-  console.log('sc', sc)
-}
+// function getScope(sc) {
+//   console.log('sc', sc)
+// }
 
 const columns = [
   {

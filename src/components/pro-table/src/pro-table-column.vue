@@ -24,17 +24,14 @@ const renderColumns = (item: ProTableColumnItem) => {
             if (item.children && item.children.length)
               return item.children.map(child => renderColumns(child))
 
-            if (slots[item.key])
-              return slots[item.key]?.({ ...scope, info: item, _self: undefined, store: undefined })
+            if (slots[item.key]) return slots[item.key]?.({ ...scope, info: item })
             return row[item.key]
           },
           header: (scope: any) => {
             if (slots[`${item.key}Header`])
               return slots[`${item.key}Header`]?.({
                 ...scope,
-                info: item,
-                _self: undefined,
-                store: undefined
+                info: item
               })
             return item.title
           }
