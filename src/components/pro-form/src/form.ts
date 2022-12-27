@@ -1,5 +1,5 @@
 import type { SetupContext } from 'vue'
-import { reactive, onBeforeMount, ref } from 'vue'
+import { reactive, onBeforeMount, ref, watch } from 'vue'
 import { FormProps, FormItem, formEmits, emitsEnums } from './form-props'
 
 import type { FormInstance } from 'element-plus'
@@ -21,6 +21,13 @@ export const useForm = (parameter: UseFormParameter) => {
   onBeforeMount(() => {
     initializeForm()
   })
+
+  watch(
+    () => props.value,
+    () => {
+      changeModelValue()
+    }
+  )
 
   const validate = (handle?: () => void) => {
     formRef.value?.validate((valid, fields) => {
@@ -44,6 +51,12 @@ export const useForm = (parameter: UseFormParameter) => {
       if (!inline) {
         formRules[item.key] = item.rules
       }
+    })
+  }
+
+  const changeModelValue = () => {
+    Object.keys(props.value).forEach(key => {
+      formModel[key] = props.value[key]
     })
   }
 

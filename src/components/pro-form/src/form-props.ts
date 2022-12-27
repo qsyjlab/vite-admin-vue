@@ -19,6 +19,10 @@ export const formProps = {
   inline: {
     type: Boolean,
     default: true
+  },
+  value: {
+    type: definePropType<Record<string, any>>(Object),
+    default: () => ({})
   }
 }
 
