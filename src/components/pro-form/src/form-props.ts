@@ -8,7 +8,7 @@ export interface FormItem {
   key: string
   attrs?: Record<string, any>
   rules?: FormItemRule[]
-  layoutCol?: ColProps
+  layoutCol?: Partial<ColProps>
 }
 
 export const formProps = {

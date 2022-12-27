@@ -5,14 +5,7 @@
       <template #extra> 测试 </template>
     </VProForm>
 
-    <VProForm
-      :inline="false"
-      :fields="fields"
-      @submit="submit"
-      @reset="reset"
-      label-width="150px"
-      label-position="top"
-    >
+    <VProForm :inline="false" :fields="fields" @submit="submit" @reset="reset" label-width="150px">
       <template #extra> 测试 </template>
     </VProForm>
   </el-card>
@@ -29,21 +22,33 @@ const fields = [
       { required: true, message: 'Please input Activity name', trigger: 'blur' },
       { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
     ]
+    // layoutCol: {
+    //   span: 8
+    // }
   },
   {
     label: 'zone',
     el: 'el-input',
     key: 'zone'
+    // layoutCol: {
+    //   span: 8
+    // }
   },
   {
     label: 'time',
     el: 'el-input',
     key: 'time'
+    // layoutCol: {
+    //   span: 8
+    // }
   },
   {
     label: 'delivery',
     key: 'delivery',
-    el: 'el-input'
+    el: 'el-input',
+    layoutCol: {
+      // span: 8
+    }
   },
   // {
   //   label: 'time-picker-is-range',
@@ -61,6 +66,9 @@ const fields = [
     label: 'el-date-picker',
     key: 'el-date-picker',
     el: 'el-date-picker',
+    // layoutCol: {
+    //   span: 8
+    // },
     attrs: {
       type: 'daterange',
       'is-range': true,
