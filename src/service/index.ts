@@ -1,18 +1,14 @@
-import BaseAxios from './baseAxiosRequest/baseAxiosRequest'
+import BaseAxios from './base-axios-request/base-axios-request'
 
-import { interceptorsHooks } from './interceptors'
+import { interceptorsHooks, transformResponse } from './interceptors'
 
-import config from '@/config'
-
-export const baseService = new BaseAxios({
-  baseURL: config?.url.baseUrl.system,
-  interceptorsHooks
-})
-
-export const localhostService = new BaseAxios({
+export const mockService = new BaseAxios({
+  interceptorsHooks,
   baseURL: '/basic-api',
-  interceptorsHooks
+  transform: {
+    transformResponse
+  }
 })
 
 // 暴露出所有类型
-export * from './baseAxiosRequest/baseAxios'
+export * from './base-axios-request/base-axios'
