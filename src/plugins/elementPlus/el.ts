@@ -8,5 +8,6 @@ export {
   ElCheckboxGroup,
   ElRadioGroup,
   ElCheckbox,
-  ElInput
+  ElInput,
+  ElTimePicker
 } from 'element-plus'

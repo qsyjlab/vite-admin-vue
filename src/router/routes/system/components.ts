@@ -56,14 +56,14 @@ export default defineExposeRoutes([
       },
 
       {
-        name: 'Form',
-        path: 'form',
+        name: 'ProForm',
+        path: 'pro-form',
         meta: {
-          title: '表单',
+          title: 'ProForm',
           isNotAuth: true,
           icon: 'icon-upload'
         },
-        component: () => import('@/views/system/components/Form.vue')
+        component: () => import('@/views/system/components/pro-form/pro-form.vue')
       },
       {
         name: 'Upload',
