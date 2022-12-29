@@ -26,6 +26,7 @@
     <el-table
       :data="dataSource"
       v-bind="$attrs"
+      v-loading="loading"
       :border="border"
       :row-key="rowKey"
       :table-layout="tableLayout"
@@ -57,14 +58,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useTable } from './pro-table'
+import { useProTable } from './pro-table'
 import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
 import { RefreshRight } from '@element-plus/icons-vue'
 import SettingColumns from './setting.vue'
 import './style.scss'
 
 import ProTableColumn from './pro-table-column.vue'
-import { useSlots } from 'vue'
 
 const props = defineProps(Object.assign({}, proTableProps, proTableHeaderProps))
 const emits = defineEmits(proTableEmits)
@@ -78,9 +78,10 @@ const {
   handleCurrentChange,
   handleSizeChange,
   total,
+  loading,
   reload,
   refresh
-} = useTable({
+} = useProTable({
   props,
   emits
 })

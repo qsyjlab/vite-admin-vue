@@ -2,13 +2,14 @@ import { computed, reactive, ref, toRefs, watch } from 'vue'
 import { sliceData } from './utils'
 import type { SetupContext } from 'vue'
 import { proTableEmits, ProTableProps, emitsEnums } from './props'
+import { useLoading } from './hooks'
 
 type UseTableOptions = {
   props: ProTableProps
   emits: SetupContext<typeof proTableEmits>['emit']
 }
 
-export const useTable = (options: UseTableOptions) => {
+export const useProTable = (options: UseTableOptions) => {
   const { props, emits } = options
 
   const { columns, data, request, params = {}, isPagination } = toRefs(props)
@@ -21,6 +22,8 @@ export const useTable = (options: UseTableOptions) => {
     pageNum: 1,
     pageSize: 10
   })
+
+  const { loading, setLoading } = useLoading()
 
   watch(
     [params, data],
@@ -58,6 +61,8 @@ export const useTable = (options: UseTableOptions) => {
   }
 
   async function updateTableList() {
+    setLoading(true)
+
     try {
       if (!request?.value) {
         dataSource.value = isPagination
@@ -74,6 +79,7 @@ export const useTable = (options: UseTableOptions) => {
         dataSource.value = data
         total.value = total
       }
+      setLoading(false)
     } catch (error) {
       console.error(error)
     }
@@ -85,6 +91,7 @@ export const useTable = (options: UseTableOptions) => {
 
   return {
     total,
+    loading,
     tableColums,
     dataSource,
     pageQuery,
