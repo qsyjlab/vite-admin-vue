@@ -1,0 +1,27 @@
+.pro-table {
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 10px 0;
+    &__left {
+      flex-shrink: 0;
+    }
+
+    &__right {
+      flex-shrink: 0;
+    }
+    > span {
+      display: inline-block;
+    }
+  }
+
+  &__pagination {
+    display: flex;
+    align-items: center;
+    text-align: right;
+    justify-content: flex-end;
+    padding: 20px 10px;
+  }
+}

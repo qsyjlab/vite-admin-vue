@@ -1,5 +1,8 @@
 import { defineStore } from 'pinia'
-import { LayoutMode, ProjectLayoutConfig } from '@/layouts'
+import type { ProjectLayoutConfig } from '@/layouts'
+
+import { LayoutMode } from '@/layouts'
+import { useStorageHelper } from '@/hooks'
 
 interface LayoutState {
   layoutConfig: ProjectLayoutConfig
@@ -27,11 +30,13 @@ export const useLayoutStore = defineStore<string, LayoutState, LayoutGetter, Lay
     state() {
       return {
         layoutConfig: {
-          layoutMode: LayoutMode.SideMix,
+          layoutMode: LayoutMode.Side,
           collapsed: false,
           asideWidth: 220,
+          tabBarHeight: 32,
           headerHeight: 48,
-          theme: 'light'
+          theme: 'light',
+          themeColor: '#409eff'
         },
         mixMenuLayoutConfig: {
           fixedMenu: false,
@@ -43,6 +48,10 @@ export const useLayoutStore = defineStore<string, LayoutState, LayoutGetter, Lay
     actions: {
       setLayoutConfig(config) {
         this.layoutConfig = { ...this.layoutConfig, ...config }
+
+        const { setLayoutCache } = useStorageHelper()
+
+        setLayoutCache(this.layoutConfig)
       },
       setMixMenuLayoutConfig(config) {
         this.mixMenuLayoutConfig = { ...this.mixMenuLayoutConfig, ...config }

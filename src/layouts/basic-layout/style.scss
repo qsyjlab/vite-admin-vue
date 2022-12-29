@@ -1,20 +1,2 @@
-.layout-aside_wapper {
-  overflow: hidden;
-  height: 100%;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 12%), 0 0 6px rgb(0 0 0 / 4%);
-}
-
-.layout-main_wapper {
-  box-sizing: border-box;
-  height: 100%;
-  background-color: rgb(246 249 248);
-  padding: 15px;
-}
-
-.layout-tabs-wapper {
-  height: 100%;
-}
-
-.layout-footer_wapper {
-  height: 100%;
-}
+@use './theme/default';
+@use './theme/dark';

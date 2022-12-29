@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<Layout>(), {
   asidePaddingTop: 0,
   asideTop: 0,
   headerHeight: 48,
-  tabHeight: 56,
+  tabHeight: 32,
   headerZIndex: 1001,
   mainPaddingLeft: 220
 })

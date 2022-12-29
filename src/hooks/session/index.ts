@@ -1,3 +1,1 @@
-import useStorageHelper from './storage'
-
-export { useStorageHelper }
+export * from './storage'

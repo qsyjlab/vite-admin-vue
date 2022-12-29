@@ -1,19 +1,10 @@
-/*
- * @Description:
- * @Version: 1.0.0
- * @Autor: qsyj
- * @Date: 2022-03-18 16:31:07
- * @LastEditors: qsyj
- * @LastEditTime: 2022-08-26 17:48:14
- * @FilePath: \vite-admin-vue\src\utils\theme\theme.ts
- */
-
+// TODO: 替换成别的色阶库
 /**
  * 获取色阶
  * @param themeColor
  * @returns
  */
-export const getThemeCluster = (themeColor: string): string[] => {
+export const generateThemeCluster = (themeColor: string): string[] => {
   const theme = themeColor.replace(/#/, '')
 
   const tintColor = (color: string, tint: number): string => {
@@ -50,24 +41,4 @@ export const getThemeCluster = (themeColor: string): string[] => {
   }
   clusters.push(shadeColor(theme, 0.1))
   return clusters
-}
-
-/**
- * 更新 element primary 配色
- * @param colorList
- */
-export const updateElementStyle = (colorList: string[]): void => {
-  // document.documentElement is global
-  const el = document.documentElement
-  // set css var
-  el.style.setProperty('--el-color-primary', colorList[0])
-  el.style.setProperty('--el-button-bg-color', colorList[0])
-  el.style.setProperty('--el-button-active-bg-color', colorList[10])
-  el.style.setProperty('--el-button-active-border-color', colorList[10])
-  el.style.setProperty('--el-color-primary-dark-2', colorList[1])
-  el.style.setProperty('--el-color-primary-dark-1', colorList[1])
-
-  for (let index = 1; index <= 9; index++) {
-    el.style.setProperty(`--el-color-primary-light-${index}`, colorList[index])
-  }
 }

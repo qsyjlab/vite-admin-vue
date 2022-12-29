@@ -1,17 +1,7 @@
 <template>
-  <div class="footer">Copyright 2021 - {{ year }} by 青衫依旧</div>
+  <div class="basic-layout-footer__wrapper">
+    <div class="basic-layout-footer__content">
+      Copyright 2021 - {{ new Date().getFullYear() }} by 青衫依旧
+    </div>
+  </div>
 </template>
-
-<script setup lang="ts">
-const year = new Date().getFullYear()
-</script>
-<style scoped>
-.footer {
-  height: 100%;
-  text-align: center;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-</style>

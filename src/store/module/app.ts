@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useStorageHelper } from '@/hooks'
-import { getThemeCluster, updateElementStyle } from '@/utils'
+import { generateThemeCluster } from '@/utils'
 
 export interface LayoutType {
   // 是否折叠 菜单栏
@@ -53,12 +53,10 @@ export const useAppStore = defineStore<string, AppState, AppGetter, AppAction>(a
 
     // 设置
     setLayoutConfig(val) {
-      this.layoutConfig = { ...this.layoutConfig, ...val }
-      updateElementStyle(getThemeCluster(this.layoutConfig.themeColor))
-
-      const { setLayoutCache } = useStorageHelper()
-
-      setLayoutCache(this.layoutConfig)
+      // this.layoutConfig = { ...this.layoutConfig, ...val }
+      // updateElementStyle(generateThemeCluster(this.layoutConfig.themeColor))
+      // const { setLayoutCache } = useStorageHelper()
+      // setLayoutCache(this.layoutConfig)
     }
   },
   getters: {}

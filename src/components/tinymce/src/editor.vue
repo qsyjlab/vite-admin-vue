@@ -132,4 +132,3 @@ function getContent() {
   return tinymceEditorInstance.value?.getContent({ format: props.outputFormat }) || ''
 }
 </script>
-<style scoped></style>

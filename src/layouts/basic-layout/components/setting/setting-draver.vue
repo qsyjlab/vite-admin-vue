@@ -3,7 +3,7 @@
     <div class="setting-bottom">
       <div
         class="setting-buttom-class"
-        :style="{ backgroundColor: '#09BFA1' }"
+        :style="{ backgroundColor: layoutConfig.themeColor }"
         @click="toggleSettingDrawer"
       >
         <el-icon v-if="!isOpenSettig">
@@ -35,7 +35,10 @@
         <div class="setting-item">
           <div class="setting-item__label">主题色</div>
           <div class="setting-item__content">
-            <color-picker></color-picker>
+            <el-color-picker
+              v-model="layoutConfig.themeColor"
+              @change="(value:any) => setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, value)"
+            />
           </div>
         </div>
 
@@ -55,7 +58,7 @@
           <div class="setting-item__content">
             <el-switch
               v-model="layoutConfig.collapsed"
-              @change=" (value:boolean) => setLayoutConfig(LayoutConfigHandlerEnum.COLLAPSED, value)"
+              @change="(value:any) =>  setLayoutConfig(LayoutConfigHandlerEnum.COLLAPSED, value)"
             />
           </div>
         </div>
@@ -65,7 +68,7 @@
           <div class="setting-item__content">
             <el-input-number
               v-model="layoutConfig.asideWidth"
-              @change=" (value:number) => setLayoutConfig(LayoutConfigHandlerEnum.MENU_WIDTH, value)"
+              @change=" (value:any) => setLayoutConfig(LayoutConfigHandlerEnum.MENU_WIDTH, value)"
             />
           </div>
         </div>
@@ -75,10 +78,23 @@
           <div class="setting-item__content">
             <el-input-number
               v-model="layoutConfig.headerHeight"
-              @change=" (value:number) => setLayoutConfig(LayoutConfigHandlerEnum.HEADER_HEIGHT, value)"
+              @change=" (value:any) => setLayoutConfig(LayoutConfigHandlerEnum.HEADER_HEIGHT, value)"
             />
           </div>
         </div>
+
+        <div class="setting-item">
+          <div class="setting-item__label">tab bar高度</div>
+          <div class="setting-item__content">
+            <el-input-number
+              v-model="layoutConfig.tabBarHeight"
+              @change=" (value:any) => setLayoutConfig(LayoutConfigHandlerEnum.TAB_BAR_HEIGHT, value)"
+            />
+          </div>
+        </div>
+
+        <el-button @click="$router.push({ name: 'Home' })">主系统</el-button>
+        <el-button @click="$router.push({ name: 'icon1' })">分支系统</el-button>
       </div>
     </el-drawer>
   </div>
@@ -88,14 +104,13 @@
 import { useLayoutStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import { LayoutMode } from '../../enum'
-import ColorPicker from './color-picker.vue'
 import CheckButtonGroup from './check-button-group.vue'
 import { LeftSideMix, NavTop, SideTopMix, LeftSide } from './icon'
 
 import { useLayoutConfigHandler, LayoutConfigHandlerEnum } from '@/hooks'
 
 const layoutStore = useLayoutStore()
-const [layoutConfig, setLayoutConfig] = useLayoutConfigHandler()
+const { layoutConfig, setLayoutConfig } = useLayoutConfigHandler()
 const { isOpenSettig } = storeToRefs(layoutStore)
 
 const { toggleSettingDrawer } = layoutStore
@@ -145,30 +160,19 @@ const layoutModeOptions = [
   left: 0;
   right: 0;
   background: rgb(0 0 0 / 20%);
-
-  // transition: all 0.4s;
 }
 
 .setting-body {
-  // position: absolute;
-  // width: 300px;
   width: 100%;
   height: 100%;
   top: 0;
   right: 0;
   box-sizing: border-box;
-
-  // padding: 20px;
-  // transition: all 0.3s;
-  background-color: white;
 }
 
 .setting-bottom {
   position: absolute;
   top: 40%;
-
-  // transition: all 0.3s;
-  // transition-delay: 200;
   transform: translateY(-50%);
 }
 
@@ -187,8 +191,6 @@ const layoutModeOptions = [
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* line-height: 48px; */
   outline: 0;
 }
 

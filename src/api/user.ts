@@ -1,7 +1,9 @@
-import { localhostService as service } from '@/service'
+import { mockService } from '@/service'
+
+import type { UserModel } from '../../mock/user'
 
 export function login(data: Record<string, any>) {
-  return service.request({
+  return mockService.request<UserModel>({
     url: '/login',
     method: 'post',
     data

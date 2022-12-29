@@ -1,52 +1,19 @@
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
 
 import { fileURLToPath } from 'url'
-import vueJsx from '@vitejs/plugin-vue-jsx'
-
-// 自动导入
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-
-import { viteMockServe } from 'vite-plugin-mock'
 
 import { envDir, projectRootPath } from './build'
+import { createVitePlugin } from './build/vite'
 
 // gzip 压缩
 // import viteCompression from 'vite-plugin-compression'
 
-// elementplus 处理器
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-
 // https://vitejs.dev/config/
-export default defineConfig(({ command }) => ({
+export default defineConfig(configEnv => ({
   root: projectRootPath,
   base: '/',
   envDir,
-  plugins: [
-    vue(),
-    vueJsx(),
-    AutoImport({
-      resolvers: [ElementPlusResolver()]
-    }),
-    Components({
-      dts: true,
-      // 自动导入路径
-      include: [],
-      dirs: [],
-      // 排除路径
-      resolvers: [ElementPlusResolver()]
-    }),
-    viteMockServe({
-      mockPath: 'mock',
-      localEnabled: command === 'serve',
-      prodEnabled: command !== 'serve',
-      injectCode: `
-        import { setupProdMockServer } from '../mock/index';
-        setupProdMockServer();
-      `
-    })
-  ],
+  plugins: createVitePlugin(configEnv),
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

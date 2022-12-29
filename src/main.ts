@@ -7,6 +7,8 @@ import { setupRouter } from './router'
 import setUpPlugins from './plugins'
 import setUpDirective from './directive'
 
+import 'element-plus/theme-chalk/dark/css-vars.css'
+
 async function setupWebApp() {
   // 创建实例
   const app = createApp(App)

@@ -1,17 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 
-import type { RouteRecordRaw, RouterOptions } from 'vue-router'
-
-export function createWebHistoryRouter(
-  routes: RouteRecordRaw[],
-  options?: Omit<RouterOptions, 'routes' | 'history'>
-) {
-  return createRouter({
-    routes,
-    history: createWebHistory(import.meta.env.BASE_URL),
-    ...options
-  })
-}
+export * from './resolve'
 
 export type RouteModules = Record<
   string,

@@ -60,14 +60,12 @@
 
   &-children {
     position: absolute;
-    background-color: #409eff;
-    // width: 240px;
     top: 0;
     left: 70px;
-    // padding-left: 80px;
     height: 100%;
     box-sizing: border-box;
     transition: all 0.3s;
+    background-color: white;
 
     &-header {
       display: flex;
@@ -100,16 +98,9 @@
 
     &__content {
       overflow-x: hidden;
-      // position: relative;
-      // z-index: 100;
       width: 100%;
       height: 100%;
-      background-color: white;
       overflow: hidden;
-      // z-index: 102;
     }
   }
-
-  // &-logo {
-  // }
 }

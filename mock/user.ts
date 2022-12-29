@@ -45,9 +45,21 @@ const user: MockMethod[] = [
       const _user = userList.find(item => item.password === password && item.username === username)
 
       if (!_user) return resultError('Incorrect account or password')
+
+      console.log('_user', _user)
+
       return resultSuccess(_user)
     }
   }
 ]
+
+export interface UserModel {
+  userId: number
+  username: string
+  realName: string
+  desc: string
+  password: string
+  token: string
+}
 
 export default user

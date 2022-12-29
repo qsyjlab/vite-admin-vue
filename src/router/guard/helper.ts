@@ -1,14 +1,9 @@
-import type {
-  RouteLocationNormalized,
-  Router,
-  NavigationGuardNext,
-  RouteRecordRaw
-} from 'vue-router'
+import type { RouteLocationNormalized, Router, NavigationGuardNext } from 'vue-router'
 
 import { useStorageHelper } from '@/hooks'
-import { hasAuth } from '@/utils'
-import { MenuItem, useAppStore, useRouteStore } from '@/store'
-import routes from '../routes'
+import { hasAuth } from '@/auth'
+import { useRouteStore } from '@/store'
+import { buildRoutes, resolveRouteTreeToList, transformRoutes } from '../helper'
 
 export async function handlePermissionRouter(
   to: RouteLocationNormalized,
@@ -16,6 +11,7 @@ export async function handlePermissionRouter(
   next: NavigationGuardNext,
   router: Router
 ) {
+  // 外链
   if (to.meta.href) {
     window.open(to.meta.href)
 
@@ -37,54 +33,32 @@ export async function handlePermissionRouter(
 
   if (!auth) return next({ name: 'Error403' })
 
-  if (!routeStore.isFristEntry) {
-    const matched = to.matched[0].children
+  const module = to.matched[0]
 
-    const buildRoutes = await routeStore.buildRoutes(routes)
+  if (!module.name) {
+    console.error('Route name Missing')
+    return
+  }
 
-    buildRoutes.forEach(r => {
-      router.addRoute(r)
+  // 路由拍平重新注册规则
+  if (
+    !routeStore.routeMapping[module.name as string] ||
+    !routeStore.routeMapping[module.name as string].isFlat
+  ) {
+    const menus = transformRoutes(module.children, [])
+    const _buildRoutes = await buildRoutes([module])
+
+    const { relationObj: relation } = resolveRouteTreeToList([module])
+
+    routeStore.saveRoutesRelation(module.name as string, {
+      menus,
+      relation
     })
 
-    await routeStore.initRoutes(transformRouteToList(matched, []))
+    _buildRoutes.forEach(r => {
+      router.addRoute(r)
+    })
   }
 
   return next()
-}
-
-/**
- * 初始化
- */
-export function initApp() {
-  const { getLayoutCache } = useStorageHelper()
-  const appStore = useAppStore()
-
-  const layout = getLayoutCache()
-  if (layout) {
-    appStore.setLayoutConfig(layout)
-  }
-}
-
-/**
- *
- * @param { RouteRecordRaw[] } routes
- * @param { MenuItem[]} treeMap
- * @returns
- */
-export function transformRouteToList(routes: RouteRecordRaw[], treeMap: MenuItem[]): MenuItem[] {
-  if (routes && routes?.length === 0) return []
-
-  return routes
-    .reduce((acc, cur) => {
-      if (cur.meta?.isNotAuth || hasAuth(cur.name as string)) {
-        acc.push({
-          name: cur.name as string,
-          meta: cur.meta,
-          children: transformRouteToList(cur.children || [], [])
-        })
-      }
-      return acc
-    }, treeMap)
-    .reverse()
-    .sort((last, next) => (last.meta?.sort || 0) - (next.meta?.sort || 0))
 }

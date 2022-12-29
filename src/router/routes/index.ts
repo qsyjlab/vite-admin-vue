@@ -29,8 +29,6 @@ export function loadRouterModules() {
 
 export const asyncRoutes = loadRouterModules()
 
-console.log('初始化', asyncRoutes)
-
 export const routes = defineExposeRoutes([
   {
     path: '/',
@@ -49,7 +47,18 @@ export const routes = defineExposeRoutes([
       hideInBreadcrumb: true
     },
     component: () => import('@/layouts/basic-layout/basic-layout.vue'),
-    children: loadRoutes(import.meta.globEager('./system/*.ts'))
+    children: loadRoutes(import.meta.glob('./system/*.ts', { eager: true }))
+  },
+  {
+    path: '/system-branch',
+    name: 'SystemBranch',
+    redirect: { name: 'icon1' },
+    meta: {
+      title: 'SystemBranch',
+      hideInBreadcrumb: true
+    },
+    component: () => import('@/layouts/basic-layout/basic-layout.vue'),
+    children: loadRoutes(import.meta.glob('./system-2/*.ts', { eager: true }))
   },
   {
     path: '/user',
@@ -60,17 +69,17 @@ export const routes = defineExposeRoutes([
       isAuth: false
     },
     component: createBlankContainer('User'),
-    children: loadRoutes(import.meta.globEager('./user/*.ts'))
+    children: loadRoutes(import.meta.glob('./user/*.ts', { eager: true }))
   },
   {
-    path: '/Error',
+    path: '/error',
     name: 'Error',
     meta: {
       hideInMenu: true,
       hideInBreadcrumb: true
     },
     component: createBlankContainer('Error'),
-    children: loadRoutes(import.meta.globEager('./error/*.ts'))
+    children: loadRoutes(import.meta.glob('./error/*.ts', { eager: true }))
   },
   {
     path: '/:pathMatch(.*)',

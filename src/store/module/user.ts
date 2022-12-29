@@ -25,10 +25,10 @@ export const useUserStore = defineStore(userStoreKey, {
       return loginHttp(form).then(res => {
         const { setTokenCahce, setUserInfoCache } = useStorageHelper()
 
-        const { data } = res
+        console.log('res.data?.token ', res)
 
-        setTokenCahce(data.token)
-        setUserInfoCache(data)
+        setTokenCahce(res.data?.token || '')
+        setUserInfoCache(res.data as any)
       })
     },
 

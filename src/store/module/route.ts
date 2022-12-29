@@ -1,9 +1,7 @@
-import { createWebHistoryRouter } from '@/router/helper'
+import type { RouteTreeRelation } from '@/router'
 import { defineStore } from 'pinia'
 
-import type { RouteMeta, RouteRecordNormalized, RouteRecordRaw } from 'vue-router'
-
-import { cloneDeep, omit } from 'lodash-es'
+import type { RouteMeta, RouteRecordName } from 'vue-router'
 
 export interface MenuItem {
   name: string
@@ -13,14 +11,25 @@ export interface MenuItem {
 
 export interface RouteState {
   menuList: MenuItem[]
+  routeMapping: Record<
+    string,
+    // TODO: 添加限制类型
+    { isFlat: boolean; originRoutesRelation: Record<string, RouteTreeRelation>; menus: any[] }
+  >
   isFristEntry: boolean
   keepAliveCache: Set<string>
 }
 
 export interface RouteAction {
-  initRoutes: (routes: MenuItem[]) => void
   addAlive: (names: string[]) => void
-  buildRoutes: (asyncRoutes: RouteRecordRaw[]) => Promise<RouteRecordRaw[]>
+  // TODO: 优化类型
+  saveRoutesRelation: (
+    moduleName: string,
+    parameters: {
+      relation: Record<string, RouteTreeRelation>
+      menus: any[]
+    }
+  ) => void
 }
 
 export interface RouteGetters {
@@ -34,8 +43,10 @@ export const useRouteStore = defineStore<string, RouteState, RouteGetters, Route
   {
     state() {
       return {
+        currentModule: '',
         // 菜单栏数组
         menuList: [],
+        routeMapping: {},
         // 是否第一次经过路由
         isFristEntry: false,
         // 缓存列表
@@ -43,87 +54,24 @@ export const useRouteStore = defineStore<string, RouteState, RouteGetters, Route
       }
     },
     actions: {
-      async buildRoutes(asyncRoutes) {
-        const routes = asyncRoutes
-
-        function isMultipleRoute(route: RouteRecordRaw): boolean {
-          if (!route || !Reflect.has(route, 'children') || !route.children?.length) return false
-
-          const child = route.children
-
-          let isMultpile = false
-
-          for (let i = 0; i < child.length; i++) {
-            const c = child[i]
-            if (c.children?.length) {
-              isMultpile = true
-              break
-            }
-          }
-
-          return isMultpile
-        }
-
-        function upgradeRouteLevel(route: RouteRecordRaw) {
-          const routerInstance = createWebHistoryRouter([route])
-
-          const routes = routerInstance.getRoutes()
-
-          addToChildren(routes, route.children || [], route)
-
-          route.children = route.children?.map(item => omit(item, 'children')) as RouteRecordRaw[]
-        }
-
-        function addToChildren(
-          routes: RouteRecordNormalized[],
-          children: RouteRecordRaw[],
-          routeRoot: RouteRecordRaw
-        ) {
-          for (let i = 0; i < children.length; i++) {
-            const c = children[i]
-            const route = routes.find(item => item.name === c.name)
-
-            if (!route) continue
-
-            routeRoot.children = routeRoot.children || []
-
-            if (!routeRoot.children.find(item => item.name === route.name)) {
-              routeRoot.children.push(route)
-            }
-
-            if (c.children?.length) {
-              addToChildren(routes, c.children, routeRoot)
-            }
-          }
-        }
-
-        function flatMultiLevelRoutes(routes: RouteRecordRaw[]): RouteRecordRaw[] {
-          const rs: RouteRecordRaw[] = cloneDeep(routes)
-
-          for (let i = 0; i < rs.length; i++) {
-            const r = rs[i]
-
-            if (!isMultipleRoute(r)) {
-              continue
-            }
-            upgradeRouteLevel(r)
-          }
-
-          return rs
-        }
-
-        return flatMultiLevelRoutes(routes)
-      },
-
-      // 初始化路由菜单
-      initRoutes(routes) {
-        this.menuList = routes
-
-        this.isFristEntry = true
-      },
       addAlive(names) {
         for (let i = 0; i < names.length; i++) {
           this.keepAliveCache.add(names[i])
+        }
+      },
+
+      // 保存拍平后的路由状态
+      saveRoutesRelation(moduleName, parameters) {
+        const module = this.routeMapping[moduleName]
+        // 如果已经拍平了 跳过
+        if (module && module.isFlat) return
+
+        const { menus, relation: originRoutesRelation } = parameters
+
+        this.routeMapping[moduleName] = {
+          originRoutesRelation,
+          menus,
+          isFlat: true
         }
       }
     },

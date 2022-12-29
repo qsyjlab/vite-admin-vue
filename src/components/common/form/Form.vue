@@ -195,7 +195,7 @@ defineExpose({
     margin-right: 0;
   }
   .basic_button:first-child {
-    margin-right: 0px;
+    margin-right: 0;
   }
 }
 .basic_button {

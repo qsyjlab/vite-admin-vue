@@ -4,7 +4,7 @@
       <el-breadcrumb-item
         v-for="(item, index) in breadCrumbList"
         :key="index"
-        :to="{ path: item.path }"
+        :to="{ name: item.name }"
         >{{ item?.meta?.title }}</el-breadcrumb-item
       >
     </transition-group>
@@ -12,43 +12,46 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, toRefs } from 'vue'
-import { onBeforeRouteUpdate, useRoute } from 'vue-router'
-import type { RouteLocationMatched, RouteMeta } from 'vue-router'
+import { computed, unref } from 'vue'
+import type { RouteMeta } from 'vue-router'
+import { useRouteStore } from '@/store'
+import { useRouterHelper } from '@/hooks'
 
-interface ReactiveTypes {
-  breadCrumbList: {
-    name: string
-    path: string
-    meta: RouteMeta
-  }[]
+interface BreadcrumbItem {
+  name: string
+  meta?: RouteMeta
 }
 
-const route = useRoute()
+const routeStore = useRouteStore()
+const { currentRoute, currentModule } = useRouterHelper()
 
-const state = reactive<ReactiveTypes>({
-  breadCrumbList: []
+const breadCrumbList = computed(() => {
+  const current = unref(currentRoute)
+  const module = unref(currentModule)
+
+  if (!current.name) return []
+
+  const mapping = routeStore.routeMapping[module.name as string]
+
+  const relation = mapping.originRoutesRelation
+
+  function traverse(name: string, matched: BreadcrumbItem[]) {
+    const cur = relation[name]
+    if (!cur || !cur.name) return matched
+
+    matched?.unshift({
+      name: cur.name,
+      meta: cur.meta
+    })
+    if (cur.parentName) {
+      traverse(cur.parentName, matched)
+    }
+
+    return matched
+  }
+
+  return traverse(current.name as string, [])
 })
-
-const { breadCrumbList } = toRefs(state)
-
-onMounted(() => {
-  getRouteBread(route?.matched)
-})
-
-onBeforeRouteUpdate(to => {
-  getRouteBread(to?.matched)
-})
-
-const getRouteBread = (matched: RouteLocationMatched[]) => {
-  state.breadCrumbList = matched
-    .filter(item => !item.meta.hideInBreadcrumb)
-    .map(item => ({
-      path: item.path as string,
-      name: item.name as string,
-      meta: item.meta
-    }))
-}
 </script>
 
 <style scoped>

@@ -1,11 +1,12 @@
 import type { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 
+export type BaseAxiosResponse = AxiosResponse<ResponseData<unknown>>
+
 export type RequestInterceptorsType = (config: AxiosRequestConfig) => AxiosRequestConfig
-export type CustomAxiosResponse = AxiosResponse<ResponseData<unknown>>
 
 export type RequestInterceptorsCatchType = (error: CatchError) => CatchError
 
-export type ResponseInterceptorsType = (response: CustomAxiosResponse) => CustomAxiosResponse
+export type ResponseInterceptorsType = (response: BaseAxiosResponse) => BaseAxiosResponse
 
 export type ResponseInterceptorsCatchType = (error: CatchError) => CatchError
 
@@ -18,14 +19,20 @@ export interface InterceptorsType {
   responseInterceptorsCatch?: ResponseInterceptorsCatchType
 }
 
-export interface CustomRequestConfig extends AxiosRequestConfig {
+export interface ResponseData<T = any> {
+  data?: T
+  code?: number
+  message?: string
+}
+
+export type BaseAxiosRequestConfig = AxiosRequestConfig & RequestConfigEx
+interface RequestConfigEx {
   interceptorsHooks?: InterceptorsType
+  transform?: AxiosTransform
 }
 
-export interface ResponseData<T = unknown> {
-  data: T
-  code: number
-  msg: string
-}
+export type RequestMethodConfig = AxiosRequestConfig
 
-// export type ResponseData<T = unknown> = T
+export interface AxiosTransform {
+  transformResponse: (response: AxiosResponse<ResponseData<any>>) => any
+}

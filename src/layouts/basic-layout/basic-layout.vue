@@ -30,22 +30,20 @@
     </template>
 
     <template #tabs>
-      <global-router-bar v-bind="routerBarAttrs" />
+      <basic-router-bar v-bind="routerBarAttrs" />
     </template>
 
-    <div class="layout-main_wapper">
-      <component :is="createBlankContainer('BasicLayout')"></component>
+    <div class="basic-layout-main__wrapper">
+      <component :is="container"></component>
     </div>
 
     <template #footer>
-      <div class="layout-footer_wapper">
-        <global-footer></global-footer>
-      </div>
+      <basic-footer />
     </template>
   </Layout>
 
   <!-- 设置 -->
-  <global-setting></global-setting>
+  <basic-setting />
 </template>
 
 <script setup lang="ts">
@@ -61,15 +59,17 @@ import { createBlankContainer } from '@/layouts'
 import {
   BasicHeader,
   BasicSidebar,
-  GlobalSetting,
-  GlobalFooter,
-  GlobalRouterBar,
+  BasicSetting,
+  BasicRouterBar,
+  BasicFooter,
   BasicMixSidebar
 } from './components'
 
 import { Logo, LogoProps } from './components/logo'
 
 import type { BasicLayoutProps, LayoutModeMap, LogoModeMap } from './basic-layout'
+
+const container = createBlankContainer('BasicLayout')
 
 const { layoutConfig, mixMenuLayoutConfig } = storeToRefs(useLayoutStore())
 
@@ -82,7 +82,15 @@ const routerBarAttrs = computed(() => {
 
 // layout props
 const layoutAttrs = computed<BasicLayoutProps>(() => {
-  const { layoutMode, asideWidth, collapsed, headerHeight } = unref(layoutConfig)
+  console.log('layoutConfig', layoutConfig)
+
+  const {
+    layoutMode,
+    asideWidth = 220,
+    collapsed,
+    headerHeight,
+    tabBarHeight
+  } = unref(layoutConfig)
 
   const { fixedMenu, showChildren } = unref(mixMenuLayoutConfig)
   const layoutModeMap: LayoutModeMap = {
@@ -90,6 +98,7 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       const _asideWidth = collapsed ? 65 : asideWidth
       return {
         headerHeight,
+        tabHeight: tabBarHeight,
         asideWidth: _asideWidth,
         headerPaddingLeft: _asideWidth,
         headerZIndex: 1001
@@ -99,6 +108,7 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       const _asideWidth = collapsed ? 65 : asideWidth
       return {
         headerHeight,
+        tabHeight: tabBarHeight,
         asideWidth: _asideWidth,
         asidePaddingTop: headerHeight,
         headerZIndex: 1003,
@@ -106,14 +116,15 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       }
     },
     [LayoutMode.Top]: () => ({
+      tabHeight: tabBarHeight,
       asideWidth: 0,
       headerPaddingLeft: 0
     }),
     [LayoutMode.SideMix]: () => {
-      const _asideWidth = fixedMenu && showChildren ? 75 + 220 : 75
-      // const _asideWidth = 75 + 220
+      const _asideWidth = fixedMenu && showChildren ? 75 + asideWidth : 75
       return {
         headerHeight,
+        tabHeight: tabBarHeight,
         asideWidth: _asideWidth,
         headerPaddingLeft: _asideWidth
       }
