@@ -1,4 +1,4 @@
-import { baseService } from '@/service'
+import { mockService } from '@/service'
 
 export type Root = Root2[]
 
@@ -10,7 +10,7 @@ export interface Root2 {
 }
 
 export function getTodos(params: Record<string, any>) {
-  return baseService.request<Root>({
+  return mockService.request<Root>({
     url: '/todos',
     params
   })
