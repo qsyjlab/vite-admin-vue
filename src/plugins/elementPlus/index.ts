@@ -1,4 +1,4 @@
-import './source'
+import './css'
 import * as components from './el'
 
 import { defineAppPlugin } from '@/utils'
