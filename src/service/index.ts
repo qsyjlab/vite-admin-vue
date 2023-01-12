@@ -1,6 +1,6 @@
-import BaseAxios from './base-axios-request/axios-request'
+import BaseAxios from './axios-request/axios-request'
 
-import { interceptorsHooks, transformResponse } from './interceptors'
+import { interceptorsHooks, transformResponse } from './axios-request-impl'
 
 export const mockService = new BaseAxios({
   interceptorsHooks,
@@ -11,4 +11,6 @@ export const mockService = new BaseAxios({
 })
 
 // 暴露出所有类型
-export * from './base-axios-request/interface'
+export * from './axios-request/interface'
+
+export * from './types'

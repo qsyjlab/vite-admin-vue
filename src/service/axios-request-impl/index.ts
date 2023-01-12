@@ -1,11 +1,12 @@
-import type {
+import {
   RequestInterceptorsType,
   RequestInterceptorsCatchType,
   ResponseInterceptorsType,
   ResponseInterceptorsCatchType,
   InterceptorsType,
-  AxiosTransform
-} from '@/service/base-axios-request/interface'
+  RequestTransform,
+  ResultEnum
+} from '../axios-request'
 import { logRequestError } from '@/utils'
 
 const requestInterceptorsImpl: RequestInterceptorsType = config => {
@@ -24,30 +25,30 @@ const responseInterceptorsCatchImpl: ResponseInterceptorsCatchType = error => {
   return Promise.reject(error)
 }
 
-export const transformResponse: AxiosTransform['transformResponse'] = response => {
+export const transformResponse: RequestTransform['transformResponse'] = response => {
   const { data: _data } = response
   const { code, message = '' } = _data || {}
 
-  // 这里逻辑可以根据项目进行修改
-  const hasSuccess = _data && Reflect.has(_data, 'code') && code !== 0
+  switch (code) {
+    case ResultEnum.SUCCESS:
+      return _data
 
-  if (hasSuccess) {
-    return _data
+    default: {
+      // 自定义 code 信息
+      logRequestError({
+        message,
+        code,
+        method: response?.config?.method,
+        fullpath: response?.request?.responseURL
+      })
+
+      const errorJson = {
+        message,
+        code
+      }
+      throw new Error(`${JSON.stringify(errorJson) || 'apiRequestFailed'}`)
+    }
   }
-
-  // 自定义 code 信息
-  logRequestError({
-    message,
-    code,
-    method: response?.config?.method,
-    fullpath: response?.request?.responseURL
-  })
-
-  const errorJson = {
-    message,
-    code
-  }
-  throw new Error(`${JSON.stringify(errorJson) || 'apiRequestFailed'}`)
 }
 
 export const interceptorsHooks: InterceptorsType = {
@@ -57,6 +58,6 @@ export const interceptorsHooks: InterceptorsType = {
   responseInterceptorsCatch: responseInterceptorsCatchImpl
 }
 
-export const transformImpl: AxiosTransform = {
+export const transformImpl: RequestTransform = {
   transformResponse
 }

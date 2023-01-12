@@ -12,7 +12,7 @@ export function resultError(message = 'faild') {
 export function responseFormatter(
   data: Record<string, any> | null,
   message?: string | null,
-  code = 1
+  code = 200
 ) {
   return {
     code,

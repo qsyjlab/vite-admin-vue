@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 
-export type BaseAxiosResponse = AxiosResponse<ResponseData<unknown>>
+export type BaseAxiosResponse = AxiosResponse<any>
 
 export type RequestInterceptorsType = (config: AxiosRequestConfig) => AxiosRequestConfig
 
@@ -19,16 +19,10 @@ export interface InterceptorsType {
   responseInterceptorsCatch?: ResponseInterceptorsCatchType
 }
 
-export interface ResponseData<T = any> {
-  data?: T
-  code?: number
-  message?: string
-}
-
 export type BaseAxiosRequestConfig = AxiosRequestConfig & RequestConfigEx
 interface RequestConfigEx {
   interceptorsHooks?: InterceptorsType
-  transform?: AxiosTransform
+  transform?: RequestTransform
 }
 
 export type RequestMethodConfig = AxiosRequestConfig
@@ -38,6 +32,8 @@ export interface RequestOptionsEx {
   isTransformResponse?: boolean
 }
 
-export interface AxiosTransform {
-  transformResponse: (response: AxiosResponse<ResponseData<any>>) => any
+export type TransformResponse<T = any> = (response: AxiosResponse<T>) => AxiosResponse<T>['data']
+
+export interface RequestTransform {
+  transformResponse: TransformResponse
 }

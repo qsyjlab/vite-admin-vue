@@ -4,7 +4,6 @@ import type { AxiosInstance } from 'axios'
 
 import type {
   BaseAxiosRequestConfig,
-  ResponseData,
   CatchError,
   RequestMethodConfig,
   RequestOptionsEx
@@ -29,12 +28,12 @@ class AxiosRequest {
   request<T = any>(
     options: RequestMethodConfig = {},
     requestOptions: RequestOptionsEx = {}
-  ): Promise<ResponseData<T>> {
+  ): Promise<T> {
     return new Promise((resolve, reject) => {
       const { isTransformResponse = true } = requestOptions
 
       this.instance
-        .request<ResponseData<T>>(extend(this.instanceConfig, options))
+        .request<T>(extend(this.instanceConfig, options))
         .then(response => {
           const transformResponse = this.instanceConfig.transform?.transformResponse
           if (isTransformResponse && transformResponse && isFunction(transformResponse)) {

@@ -7,9 +7,9 @@ interface LogRequestError {
 
 export function logRequestError(options: LogRequestError = {}) {
   const { method, fullpath, message, code } = options
-  defaultOnError(`${method} ${fullpath} ${code} (${message})`)
+  defaultOnError('AxiosRequest error:', `${method?.toUpperCase()} ${fullpath} ${code} (${message})`)
 }
 
-export function defaultOnError(msg: string) {
-  console.error(`[Vue error] ${msg}`)
+export function defaultOnError(name: string, msg: string) {
+  console.error(`[${name}] ${msg}`)
 }
