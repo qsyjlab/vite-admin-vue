@@ -1,4 +1,7 @@
-import { loadRoutes, defineExposeRoutes } from '@/utils'
+import { loadRoutes } from '@/utils'
+
+import { defineExposeRoutes } from '../helper'
+
 import { createBlankContainer } from '@/layouts'
 // import { loadRouterModules } from '../helper'
 import { RouteRecordRaw } from 'vue-router'

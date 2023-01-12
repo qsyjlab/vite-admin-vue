@@ -20,7 +20,3 @@ export const loadRoutes = (files: RFiles): RouteRecordRaw[] => {
     return arr
   }, [])
 }
-
-export function defineExposeRoutes(routes: RouteRecordRaw[]): RouteRecordRaw[] {
-  return routes
-}

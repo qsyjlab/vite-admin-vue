@@ -1,4 +1,4 @@
-import { defineExposeRoutes } from '@/utils'
+import { defineExposeRoutes } from '@/router'
 import { createBlankContainer } from '@/layouts'
 
 export default defineExposeRoutes([
