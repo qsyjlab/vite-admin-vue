@@ -4,11 +4,11 @@ export type BaseAxiosResponse = AxiosResponse<ResponseData<unknown>>
 
 export type RequestInterceptorsType = (config: AxiosRequestConfig) => AxiosRequestConfig
 
-export type RequestInterceptorsCatchType = (error: CatchError) => CatchError
+export type RequestInterceptorsCatchType = (error: CatchError) => Promise<CatchError>
 
 export type ResponseInterceptorsType = (response: BaseAxiosResponse) => BaseAxiosResponse
 
-export type ResponseInterceptorsCatchType = (error: CatchError) => CatchError
+export type ResponseInterceptorsCatchType = (error: CatchError) => Promise<CatchError>
 
 export type CatchError = AxiosError
 
@@ -32,6 +32,11 @@ interface RequestConfigEx {
 }
 
 export type RequestMethodConfig = AxiosRequestConfig
+
+export interface RequestOptionsEx {
+  isTransformRequest?: boolean
+  isTransformResponse?: boolean
+}
 
 export interface AxiosTransform {
   transformResponse: (response: AxiosResponse<ResponseData<any>>) => any

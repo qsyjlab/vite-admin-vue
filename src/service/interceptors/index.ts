@@ -5,15 +5,15 @@ import type {
   ResponseInterceptorsCatchType,
   InterceptorsType,
   AxiosTransform
-} from '@/service/base-axios-request/base-axios'
-import { customStatusCodeError } from './log'
+} from '@/service/base-axios-request/interface'
+import { logRequestError } from '@/utils'
 
 const requestInterceptorsImpl: RequestInterceptorsType = config => {
   return config
 }
 
 const requestInterceptorsCatchImpl: RequestInterceptorsCatchType = error => {
-  return error
+  return Promise.reject(error)
 }
 
 const responseInterceptorsImpl: ResponseInterceptorsType = response => {
@@ -21,14 +21,9 @@ const responseInterceptorsImpl: ResponseInterceptorsType = response => {
 }
 
 const responseInterceptorsCatchImpl: ResponseInterceptorsCatchType = error => {
-  return error
+  return Promise.reject(error)
 }
 
-/**
- * 对最终结果进行处理,在拦截器之后执行，可以被 内置transformRespons属性覆盖
- * 在这里处理自定义的错误，和自定义结果返回
- *
- */
 export const transformResponse: AxiosTransform['transformResponse'] = response => {
   const { data: _data } = response
   const { code, message = '' } = _data || {}
@@ -41,7 +36,7 @@ export const transformResponse: AxiosTransform['transformResponse'] = response =
   }
 
   // 自定义 code 信息
-  customStatusCodeError({
+  logRequestError({
     message,
     code,
     method: response?.config?.method,

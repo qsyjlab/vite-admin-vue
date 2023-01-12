@@ -47,13 +47,13 @@ const router = useRouter()
 
 const loginAdmin = () => {
   loginSystem(loginForm)
-    .then(() => {
+    .then(res => {
       ElMessage.success('登录成功')
 
       router.push({ name: 'Home' })
     })
     .catch(err => {
-      // console.log('err', err)
+      console.log('login page err', err)
 
       ElMessage.error(err.message)
     })

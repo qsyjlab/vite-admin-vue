@@ -19,3 +19,5 @@ export const isFunction = (value: unknown) => toTypeString(value) === '[object F
 export const isBoolean = (value: unknown) => toTypeString(value) === '[object Boolean]'
 export const isRegExp = (value: unknown) => toTypeString(value) === '[object RegExp]'
 export const toString = (value: unknown) => toTypeString(value)
+
+export const extend = Object.assign

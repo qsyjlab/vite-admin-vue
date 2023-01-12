@@ -38,6 +38,7 @@ const user: MockMethod[] = [
     url: '/basic-api/login',
     method: 'post',
     timeout: 200,
+    statusCode: 200,
     response: response => {
       const { body } = response
       const { username, password } = body as any
@@ -45,8 +46,6 @@ const user: MockMethod[] = [
       const _user = userList.find(item => item.password === password && item.username === username)
 
       if (!_user) return resultError('Incorrect account or password')
-
-      console.log('_user', _user)
 
       return resultSuccess(_user)
     }
