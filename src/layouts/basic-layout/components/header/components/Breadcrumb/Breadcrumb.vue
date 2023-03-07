@@ -1,12 +1,12 @@
 <template>
   <el-breadcrumb :separator="'/'">
     <transition-group name="breadcrumb" appear>
-      <el-breadcrumb-item
+      <!-- <el-breadcrumb-item
         v-for="(item, index) in breadCrumbList"
         :key="index"
         :to="{ name: item.name }"
         >{{ item?.meta?.title }}</el-breadcrumb-item
-      >
+      > -->
     </transition-group>
   </el-breadcrumb>
 </template>
@@ -50,7 +50,7 @@ const breadCrumbList = computed(() => {
     return matched
   }
 
-  return traverse(current.name as string, [])
+  return []
 })
 </script>
 

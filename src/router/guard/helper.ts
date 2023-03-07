@@ -4,6 +4,8 @@ import { useStorageHelper } from '@/hooks'
 import { hasAuth } from '@/auth'
 import { useRouteStore } from '@/store'
 import { buildRoutes, resolveRouteTreeToList, transformRoutes } from '../helper'
+import { cloneDeep } from 'lodash-es'
+import routes from '../routes'
 
 export async function handlePermissionRouter(
   to: RouteLocationNormalized,
@@ -33,32 +35,42 @@ export async function handlePermissionRouter(
 
   if (!auth) return next({ name: 'Error403' })
 
-  const module = to.matched[0]
+  // console.log('to.matched', to.matched[0].children)
 
-  if (!module.name) {
-    console.error('Route name Missing')
-    return
-  }
-
-  // 路由拍平重新注册规则
-  if (
-    !routeStore.routeMapping[module.name as string] ||
-    !routeStore.routeMapping[module.name as string].isFlat
-  ) {
-    const menus = transformRoutes(module.children, [])
+  if (routeStore.isFristEntry) {
+    const module = to.matched[0]
+    const menus = transformRoutes(routes, [])
+    routeStore.saveMenus(cloneDeep(menus))
     const _buildRoutes = await buildRoutes([module])
 
-    const { relationObj: relation } = resolveRouteTreeToList([module])
-
-    routeStore.saveRoutesRelation(module.name as string, {
-      menus,
-      relation
-    })
+    console.log('_buildRoutes', _buildRoutes)
 
     _buildRoutes.forEach(r => {
       router.addRoute(r)
     })
   }
+
+  // if (!module.name) {
+  //   console.error('Route name Missing')
+  //   return
+  // }
+
+  // 路由拍平重新注册规则
+  // if (
+  //   !routeStore.routeMapping[module.name as string] ||
+  //   !routeStore.routeMapping[module.name as string].isFlat
+  // ) {
+  //   const menus = transformRoutes(module.children, [])
+  //   const _buildRoutes = await buildRoutes([module])
+
+  //   const { relationObj: relation } = resolveRouteTreeToList([module])
+
+  //   routeStore.saveRoutesRelation(module.name as string, {
+  //     menus,
+  //     relation
+  //   })
+
+  // }
 
   return next()
 }

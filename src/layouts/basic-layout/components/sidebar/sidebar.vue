@@ -21,10 +21,10 @@ const props = withDefaults(defineProps<IProps>(), {
 })
 const routeStore = useRouteStore()
 
-const router = useRouter()
+// const router = useRouter()
 
 const menus = computed(() => {
-  const matched = router.currentRoute.value.matched[0]
-  return (matched.name && routeStore.routeMapping[matched.name as string].menus) || []
+  // const matched = router.currentRoute.value.matched[0]
+  return routeStore.menuList
 })
 </script>

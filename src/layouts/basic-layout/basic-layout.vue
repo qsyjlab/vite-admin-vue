@@ -82,7 +82,7 @@ const routerBarAttrs = computed(() => {
 
 // layout props
 const layoutAttrs = computed<BasicLayoutProps>(() => {
-  console.log('layoutConfig', layoutConfig)
+  // console.log('layoutConfig', layoutConfig)
 
   const {
     layoutMode,

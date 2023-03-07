@@ -106,8 +106,10 @@ const showChildren = ref(false)
 const activeChildren = ref<MenuItemType[]>([])
 
 const menus = computed(() => {
-  const matched = router.currentRoute.value.matched[0]
-  return (matched.name && routeStore.routeMapping[matched.name as string].menus) || []
+  // const matched = router.currentRoute.value.matched[0]
+  // return (matched.name && routeStore.routeMapping[matched.name as string].menus) || []
+
+  return routeStore.menuList
 })
 
 watch([showChildren], () => {
