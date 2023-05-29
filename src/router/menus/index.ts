@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
+import { transformRoutes as menuFilter } from '@/router/helper'
 
 export type RouteModules = Record<
   string,
@@ -23,17 +24,6 @@ export function loadRouterModules() {
   })
 
   return routeModuleList
-}
-
-//递归过滤所有隐藏的菜单
-function menuFilter(items: RouteRecordRaw[]) {
-  return items.filter(item => {
-    const show = !item.meta?.hideInMenu
-    if (show && item.children) {
-      item.children = menuFilter(item.children)
-    }
-    return show
-  })
 }
 
 export function getAsyncMenus() {

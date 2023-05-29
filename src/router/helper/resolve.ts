@@ -132,7 +132,7 @@ export async function buildRoutes(asyncRoutes: RouteRecordRaw[]) {
 }
 
 // 根据路由源信息转换
-export function transformRoutes(routes: RouteRecordRaw[], treeMap: any[]): any[] {
+export function transformRoutes(routes: RouteRecordRaw[], treeMap?: any[]): any[] {
   if (routes && routes?.length === 0) return []
 
   return routes
@@ -145,7 +145,7 @@ export function transformRoutes(routes: RouteRecordRaw[], treeMap: any[]): any[]
         })
       }
       return acc
-    }, treeMap)
+    }, treeMap || [])
     .reverse()
     .sort((last, next) => (last.meta?.sort || 0) - (next.meta?.sort || 0))
 }

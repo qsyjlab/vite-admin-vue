@@ -1,12 +1,9 @@
 <template>
   <Layout v-bind="layoutAttrs">
     <template #aside>
-      <template
-        v-if="
-          layoutConfig.layoutMode &&
-          ![LayoutMode.Top, LayoutMode.SideMix].includes(layoutConfig.layoutMode)
-        "
-      >
+      <template v-if="layoutConfig.layoutMode &&
+        ![LayoutMode.Top, LayoutMode.SideMix].includes(layoutConfig.layoutMode)
+        ">
         <basic-sidebar :collapsed="layoutConfig.collapsed">
           <template #logo v-if="LayoutMode.Side === layoutConfig.layoutMode">
             <logo v-bind="logoAttrs" />
@@ -14,9 +11,7 @@
         </basic-sidebar>
       </template>
 
-      <template
-        v-if="layoutConfig.layoutMode && [LayoutMode.SideMix].includes(layoutConfig.layoutMode)"
-      >
+      <template v-if="layoutConfig.layoutMode && [LayoutMode.SideMix].includes(layoutConfig.layoutMode)">
         <basic-mix-sidebar />
       </template>
     </template>
@@ -135,10 +130,11 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
 })
 
 const logoAttrs = computed<LogoProps>(() => {
-  const { layoutMode, asideWidth, collapsed } = unref(layoutConfig)
+  const { layoutMode, asideWidth, collapsed, headerHeight } = unref(layoutConfig)
   const logoModeMap: LogoModeMap = {
     [LayoutMode.Side]: () => {
       return {
+        height: headerHeight,
         width: asideWidth,
         showTitle: !collapsed
       }
