@@ -11,6 +11,7 @@ import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { AsideMenu } from './menu'
+import { getMenus } from '@/router/menus'
 
 interface IProps {
   collapsed?: boolean
@@ -19,12 +20,12 @@ interface IProps {
 const props = withDefaults(defineProps<IProps>(), {
   collapsed: false
 })
-const routeStore = useRouteStore()
+// const routeStore = useRouteStore()
 
 // const router = useRouter()
 
 const menus = computed(() => {
   // const matched = router.currentRoute.value.matched[0]
-  return routeStore.menuList
+  return getMenus()
 })
 </script>

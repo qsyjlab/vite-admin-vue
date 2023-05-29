@@ -3,7 +3,6 @@ import { loadRoutes } from '@/utils'
 import { defineExposeRoutes } from '../helper'
 
 import { createBlankContainer } from '@/layouts'
-// import { loadRouterModules } from '../helper'
 import { RouteRecordRaw } from 'vue-router'
 
 export type RouteModules = Record<
@@ -13,10 +12,12 @@ export type RouteModules = Record<
   }
 >
 
+const modules: RouteModules = import.meta.glob('./modules/**/*.ts', { eager: true })
+
+console.log('modules', modules)
+
 // 加载路由模块
 export function loadRouterModules() {
-  const modules: RouteModules = import.meta.glob('../routes/**/*.ts', { eager: true })
-
   const routeModuleList: RouteRecordRaw[] = []
 
   Object.keys(modules).forEach(key => {
@@ -31,6 +32,8 @@ export function loadRouterModules() {
 }
 
 export const asyncRoutes = loadRouterModules()
+
+console.log('asyncroutes', asyncRoutes)
 
 export const routes = defineExposeRoutes([
   {
@@ -50,19 +53,8 @@ export const routes = defineExposeRoutes([
       hideInBreadcrumb: true
     },
     component: () => import('@/layouts/basic-layout/basic-layout.vue'),
-    children: loadRoutes(import.meta.glob('./system/*.ts', { eager: true }))
+    children: loadRoutes(import.meta.glob('./modules/system/*.ts', { eager: true }))
   },
-  // {
-  //   path: '/system-branch',
-  //   name: 'SystemBranch',
-  //   redirect: { name: 'icon1' },
-  //   meta: {
-  //     title: 'SystemBranch',
-  //     hideInBreadcrumb: true
-  //   },
-  //   component: () => import('@/layouts/basic-layout/basic-layout.vue'),
-  //   children: loadRoutes(import.meta.glob('./system-2/*.ts', { eager: true }))
-  // },
   {
     path: '/user',
     name: 'User',
