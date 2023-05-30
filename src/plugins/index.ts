@@ -3,6 +3,7 @@ import setupElIcon from './elementPlusIcon'
 import setUpDayJs from './dayJs'
 import setupPinia from './pinia'
 import setupProgress from './nprogress'
+import setupWindicss from './windicss'
 
 import registerGlobalComponents from '@/components/register'
 import { defineAppPlugin } from '@/utils'
@@ -20,4 +21,7 @@ export default defineAppPlugin(app => {
   setupElIcon(app)
   // custom global components
   registerGlobalComponents(app)
+
+  // windicss
+  setupWindicss(app)
 })

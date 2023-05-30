@@ -4,7 +4,7 @@
       {{ $route.meta.title }}
     </template>
 
-    <el-button type="primary">asdas</el-button>
+    <el-button type="primary" class="w-[166px]">asdas</el-button>
 
     <el-button type="danger">asdas</el-button>
     <el-button type="danger">asdas</el-button>
