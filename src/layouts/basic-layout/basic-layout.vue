@@ -135,10 +135,11 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
 })
 
 const logoAttrs = computed<LogoProps>(() => {
-  const { layoutMode, asideWidth, collapsed } = unref(layoutConfig)
+  const { layoutMode, asideWidth, collapsed, headerHeight } = unref(layoutConfig)
   const logoModeMap: LogoModeMap = {
     [LayoutMode.Side]: () => {
       return {
+        height: headerHeight,
         width: asideWidth,
         showTitle: !collapsed
       }
