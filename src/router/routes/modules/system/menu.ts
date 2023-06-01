@@ -9,7 +9,7 @@ export default defineExposeRoutes([
       title: '一级菜单',
       icon: 'icon-list'
     },
-    component: createBlankContainer('Menu1'),
+    component: () => import('@/layouts/basic-layout/basic-layout.vue'),
     children: [
       {
         name: 'Menu2',

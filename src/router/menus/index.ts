@@ -9,7 +9,7 @@ export type RouteModules = Record<
 >
 
 const modules: RouteModules = import.meta.glob('../routes/modules/**/*.ts', { eager: true })
-export const asyncRoutes = loadRouterModules()
+const asyncRoutes = loadRouterModules()
 
 // 加载路由模块
 export function loadRouterModules() {

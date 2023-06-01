@@ -12,7 +12,7 @@ export default defineExposeRoutes([
       isNotAuth: true
     },
     redirect: { name: 'DayJs' },
-    component: createBlankContainer('Plugins'),
+    component: () => import('@/layouts/basic-layout/basic-layout.vue'),
     children: [
       {
         name: 'DayJs',

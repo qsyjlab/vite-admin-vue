@@ -1,7 +1,7 @@
 import { h, defineComponent, KeepAlive } from 'vue'
 
 import type { Component, VNode } from 'vue'
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
@@ -18,6 +18,7 @@ export default (name: string, alive = true): Component => {
     name,
     setup() {
       const routeStore = useRouteStore()
+      // const route = useRoute()
       return () =>
         h(
           RouterView,

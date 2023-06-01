@@ -1,3 +1,4 @@
+import BasicLayout from '@/layouts/basic-layout/basic-layout.vue'
 import { defineExposeRoutes } from '@/router'
 
 export default defineExposeRoutes([
@@ -8,7 +9,7 @@ export default defineExposeRoutes([
       title: 'Card',
       sort: 5
     },
-    component: () => import('@/views/system/WelcomeTo.vue'),
+    component: () => import('@/layouts/basic-layout/basic-layout.vue'),
     children: [
       {
         path: '/card-m',
@@ -19,7 +20,7 @@ export default defineExposeRoutes([
         component: () => import('@/views/system/WelcomeTo.vue'),
         children: [
           {
-            path: '/card1',
+            path: 'card1',
             name: 'Card1',
             meta: {
               title: 'Card1'
@@ -28,8 +29,8 @@ export default defineExposeRoutes([
             children: []
           },
           {
-            path: '/Menu1',
-            name: 'Menu1',
+            path: 'Menu12',
+            name: 'Menu12',
             meta: {
               title: 'Menu1'
             },
@@ -37,7 +38,7 @@ export default defineExposeRoutes([
             children: []
           },
           {
-            path: '/Avatar1',
+            path: 'Avatar1',
             name: 'Avatar1',
             meta: {
               title: 'Avatar1'

@@ -38,23 +38,24 @@ console.log('asyncroutes', asyncRoutes)
 export const routes = defineExposeRoutes([
   {
     path: '/',
-    redirect: { name: 'Home' },
+    redirect: { name: 'Welcome' },
     meta: {
       title: '主系统',
       hideInBreadcrumb: true
     }
   },
-  {
-    path: '/',
-    name: 'Home',
-    redirect: { name: 'Welcome' },
-    meta: {
-      title: '主系统',
-      hideInBreadcrumb: true
-    },
-    component: () => import('@/layouts/basic-layout/basic-layout.vue'),
-    children: loadRoutes(import.meta.glob('./modules/system/*.ts', { eager: true }))
-  },
+  // {
+  //   path: '/',
+  //   name: 'Home',
+
+  //   meta: {
+  //     title: '主系统',
+  //     hideInBreadcrumb: true
+  //   },
+  //   component: () => import('@/layouts/basic-layout/basic-layout.vue'),
+  //   children: loadRoutes(import.meta.glob('./modules/system/*.ts', { eager: true }))
+  // },
+  ...asyncRoutes,
   {
     path: '/user',
     name: 'User',
@@ -81,5 +82,7 @@ export const routes = defineExposeRoutes([
     redirect: { name: 'Error404' }
   }
 ])
+
+console.log('routes', routes)
 
 export { routes as default }
