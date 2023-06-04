@@ -5,7 +5,7 @@ import { hasAuth } from '@/auth'
 import { useRouteStore } from '@/store'
 import { buildRoutes, resolveRouteTreeToList, transformRoutes } from '../helper'
 import { cloneDeep } from 'lodash-es'
-import routes from '../routes'
+import { asyncRoutes } from '../routes'
 
 export async function handlePermissionRouter(
   to: RouteLocationNormalized,
@@ -35,15 +35,9 @@ export async function handlePermissionRouter(
 
   if (!auth) return next({ name: 'Error403' })
 
-  // console.log('to.matched', to.matched[0].children)
-
   if (routeStore.isFristEntry) {
-    const module = to.matched[0]
-    const menus = transformRoutes(routes, [])
-    routeStore.saveMenus(cloneDeep(menus))
-    const _buildRoutes = await buildRoutes([module])
-
-    console.log('_buildRoutes', _buildRoutes)
+    routeStore.saveMenus([])
+    const _buildRoutes = await buildRoutes(asyncRoutes)
 
     _buildRoutes.forEach(r => {
       router.addRoute(r)

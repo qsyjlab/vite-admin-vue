@@ -33,8 +33,6 @@ export function loadRouterModules() {
 
 export const asyncRoutes = loadRouterModules()
 
-console.log('asyncroutes', asyncRoutes)
-
 export const routes = defineExposeRoutes([
   {
     path: '/',
