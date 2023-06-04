@@ -8,7 +8,8 @@ export default defineExposeRoutes([
     meta: {
       title: 'Welcome',
       sort: 1,
-      icon: 'icon-home-filled'
+      icon: 'icon-home-filled',
+      hideChildrenInMenu: true
     },
     redirect: {
       name: 'WelcomeIndex'
@@ -16,7 +17,7 @@ export default defineExposeRoutes([
     component: () => import('@/layouts/basic-layout/basic-layout.vue'),
     children: [
       {
-        path: '/welcome',
+        path: '/index',
         name: 'WelcomeIndex',
         meta: {
           title: 'Welcome',

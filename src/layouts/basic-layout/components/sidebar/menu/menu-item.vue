@@ -1,6 +1,6 @@
 <template>
   <el-menu-item
-    v-if="!menuItem.children?.length"
+    v-if="!hasChildrenMenu(menuItem)"
     :index="menuItem.name"
     :route="{ name: menuItem.name }"
   >
@@ -47,4 +47,8 @@ interface IProps {
 }
 
 defineProps<IProps>()
+
+const hasChildrenMenu = (item: MenuItemType) => {
+  return !item.meta?.hideChildrenInMenu && !!item.children?.length
+}
 </script>

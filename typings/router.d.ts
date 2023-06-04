@@ -17,6 +17,8 @@ interface ExtraRouteMeta {
   sort?: number
   // 外链
   href?: string
+  // 隐藏子菜单
+  hideChildrenInMenu?: boolean
 }
 
 declare module 'vue-router' {
