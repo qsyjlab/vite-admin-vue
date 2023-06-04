@@ -131,6 +131,35 @@ export async function buildRoutes(asyncRoutes: RouteRecordRaw[]) {
   return flatMultiLevelRoutes(routes)
 }
 
+// 路径处理
+function joinParentPath(menus: any[], parentPath = '') {
+  for (let index = 0; index < menus.length; index++) {
+    const menu = menus[index]
+    // https://next.router.vuejs.org/guide/essentials/nested-routes.html
+    // Note that nested paths that start with / will be treated as a root path.
+    // 请注意，以 / 开头的嵌套路径将被视为根路径。
+    // This allows you to leverage the component nesting without having to use a nested URL.
+    // 这允许你利用组件嵌套，而无需使用嵌套 URL。
+    if (!menu.path.startsWith('/')) {
+      // path doesn't start with /, nor is it a url, join parent path
+      // 路径不以 / 开头，也不是 url，加入父路径
+      menu.path = `${parentPath}/${menu.path}`
+    }
+    if (menu?.children?.length) {
+      joinParentPath(menu.children, menu.meta?.hidePathForChildren ? parentPath : menu.path)
+    }
+  }
+}
+
+// Parsing the menu module
+export function transformMenuModule(module: any): any {
+  // const { menu } = menuModule
+
+  const menuList = [module]
+
+  joinParentPath(menuList)
+  return menuList[0]
+}
 // 根据路由源信息转换
 export function transformRoutes(routes: RouteRecordRaw[], treeMap?: any[]): any[] {
   if (routes && routes?.length === 0) return []
@@ -140,6 +169,7 @@ export function transformRoutes(routes: RouteRecordRaw[], treeMap?: any[]): any[
       if (cur.meta?.isNotAuth || hasAuth(cur.name as string)) {
         acc.push({
           name: cur.name as string,
+          path: cur.path,
           meta: cur.meta,
           children: transformRoutes(cur.children || [], [])
         })
