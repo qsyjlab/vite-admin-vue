@@ -3,7 +3,7 @@
     <transition-group name="breadcrumb" appear>
       <el-breadcrumb-item
         v-for="item in breadCrumbList"
-        :key="item.name"
+        :key="item.path"
         :to="{ name: item.name }"
         >{{ item?.meta?.title }}</el-breadcrumb-item
       >
@@ -16,29 +16,19 @@ import { computed, unref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { RouteMeta } from 'vue-router'
 import { useRouteStore } from '@/store'
-import { useRouterHelper } from '@/hooks'
+
 import { getMenus } from '@/router/menus'
 
-interface BreadcrumbItem {
-  name: string
-  meta?: RouteMeta
-}
-
-const routeStore = useRouteStore()
 const { currentRoute } = useRouter()
-// const { currentRoute, currentModule } = useRouterHelper()
-
 const breadCrumbList = computed(() => {
-  const current = unref(currentRoute)
+  // const current = unref(currentRoute)
 
   const menus = getMenus()
 
   // console.log('menus', menus)
   const routeMatched = currentRoute.value.matched
-  const currentMatched = routeMatched?.[routeMatched.length - 1]
+  // const currentMatched = routeMatched?.[routeMatched.length - 1]
   let path = currentRoute.value.path
-
-  console.log('menus', menus)
 
   const parent = getAllParentPath(menus, path)
 
@@ -65,8 +55,6 @@ const breadCrumbList = computed(() => {
 function getAllParentPath<T = any>(treeData: T[], path: string) {
   const menuList = findPath(treeData, n => n.path === path)
 
-  console.log('menuList', menuList)
-
   return (menuList || []).map(item => item.path)
 }
 
@@ -80,9 +68,6 @@ function findPath<T = any>(tree: any, func: any): T | T[] | null {
   const { children } = config
   while (list.length) {
     const node = list[0]
-
-    console.log('node', node)
-
     if (visitedSet.has(node)) {
       path.pop()
       list.shift()
