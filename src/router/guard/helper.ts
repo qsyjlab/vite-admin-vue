@@ -27,13 +27,22 @@ export async function handlePermissionRouter(
 
   const isLogin = !!token
 
+  console.log('to', to)
+
   if (['Error403', 'Error404', 'Login'].includes(to.name?.toString() || '')) return next()
 
   if (!isLogin) return next({ name: 'Login' })
 
-  const auth = to.matched?.slice(1)?.every(r => r.meta.isNotAuth || hasAuth(r.name?.toString()))
+  const auth =
+    true || to.matched?.slice(1)?.every(r => r.meta.isNotAuth || hasAuth(r.name?.toString()))
 
   if (!auth) return next({ name: 'Error403' })
+
+  // if (to.path === '/welcome') {
+  //   next(to)
+
+  //   // return
+  // }
 
   if (routeStore.isFristEntry) {
     routeStore.saveMenus([])

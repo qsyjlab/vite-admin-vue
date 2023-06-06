@@ -19,8 +19,8 @@ export default defineExposeRoutes([
         path: 'dayjs',
         meta: {
           title: 'DayJs',
-          icon: 'icon-timer',
-          isNotAuth: true
+          icon: 'icon-timer'
+          // isNotAuth: true
         },
         component: () => import('@/views/system/plugins/DayJs.vue')
       },
@@ -29,8 +29,8 @@ export default defineExposeRoutes([
         path: 'canvs-to-pdf',
         meta: {
           title: 'CanvsToPdf',
-          icon: 'icon-camera-filled',
-          isNotAuth: true
+          icon: 'icon-camera-filled'
+          // isNotAuth: true
         },
         component: () => import('@/views/system/plugins/CanvsToPdf.vue')
       }

@@ -4,6 +4,7 @@ import { defineExposeRoutes } from '../helper'
 
 import { createBlankContainer } from '@/layouts'
 import { RouteRecordRaw } from 'vue-router'
+import basicLayoutVue from '@/layouts/basic-layout/basic-layout.vue'
 
 export type RouteModules = Record<
   string,
