@@ -36,7 +36,7 @@ export const asyncRoutes = loadRouterModules()
 export const routes = defineExposeRoutes([
   {
     path: '/',
-    redirect: { name: 'Welcome' },
+    redirect: '/welcome',
     meta: {
       title: '主系统',
       hideInBreadcrumb: true
@@ -53,7 +53,7 @@ export const routes = defineExposeRoutes([
   //   component: () => import('@/layouts/basic-layout/basic-layout.vue'),
   //   children: loadRoutes(import.meta.glob('./modules/system/*.ts', { eager: true }))
   // },
-  ...asyncRoutes,
+  // ...asyncRoutes,
   {
     path: '/user',
     name: 'User',
@@ -77,7 +77,9 @@ export const routes = defineExposeRoutes([
   },
   {
     path: '/:pathMatch(.*)',
-    redirect: { name: 'Error404' }
+    name: 'PageNotFound',
+    component: createBlankContainer('Error')
+    // redirect: { name: 'Error404' }
   }
 ])
 

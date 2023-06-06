@@ -9,7 +9,8 @@ export default defineExposeRoutes([
       title: 'Welcome',
       sort: 1,
       icon: 'icon-home-filled',
-      hideChildrenInMenu: true
+      hideChildrenInMenu: true,
+      isNotAuth: true
     },
     redirect: {
       name: 'WelcomeIndex'
@@ -17,12 +18,13 @@ export default defineExposeRoutes([
     component: () => import('@/layouts/basic-layout/basic-layout.vue'),
     children: [
       {
-        path: '/index',
+        path: 'index',
         name: 'WelcomeIndex',
         meta: {
           title: 'Welcome',
           sort: 1,
-          icon: 'icon-home-filled'
+          icon: 'icon-home-filled',
+          isNotAuth: true
         },
         component: () => import(/* webpackChunkName: "Welcome" */ '@/views/system/WelcomeTo.vue'),
         children: []
@@ -38,15 +40,19 @@ export default defineExposeRoutes([
       sort: 2,
       icon: 'icon-stopwatch'
     },
+    redirect: {
+      name: 'DashboardIndex'
+    },
     component: () => import('@/layouts/basic-layout/basic-layout.vue'),
     children: [
       {
-        path: '/',
+        path: 'index',
         name: 'DashboardIndex',
         meta: {
           title: 'Dashboard',
           sort: 2,
-          icon: 'icon-stopwatch'
+          icon: 'icon-stopwatch',
+          isNotAuth: true
         },
         component: () => import('@/views/system/WelcomeTo.vue'),
         children: []

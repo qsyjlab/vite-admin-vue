@@ -42,6 +42,10 @@ export async function handlePermissionRouter(
     _buildRoutes.forEach(r => {
       router.addRoute(r)
     })
+
+    next({ path: to.fullPath, replace: true, query: to.query })
+
+    return
   }
 
   // if (!module.name) {

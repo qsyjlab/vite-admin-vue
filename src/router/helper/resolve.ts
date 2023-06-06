@@ -60,7 +60,7 @@ export function resolveRouteTreeToList(routes: RouteRecordRaw[]) {
 }
 
 export async function buildRoutes(asyncRoutes: RouteRecordRaw[]) {
-  const routes = asyncRoutes
+  const routes = transformRoutes(asyncRoutes)
 
   function isMultipleRoute(route: RouteRecordRaw): boolean {
     if (!route || !Reflect.has(route, 'children') || !route.children?.length) return false
@@ -168,6 +168,7 @@ export function transformRoutes(routes: RouteRecordRaw[], treeMap?: any[]): any[
     .reduce((acc, cur) => {
       if (cur.meta?.isNotAuth || hasAuth(cur.name as string)) {
         acc.push({
+          ...cur,
           name: cur.name as string,
           path: cur.path,
           meta: cur.meta,
