@@ -9,7 +9,8 @@ export default defineExposeRoutes([
       title: 'Welcome',
       sort: 1,
       icon: 'icon-home-filled',
-      hideChildrenInMenu: true
+      hideChildrenInMenu: true,
+      isNotAuth: true
     },
     redirect: {
       name: 'WelcomeIndex'
@@ -17,11 +18,12 @@ export default defineExposeRoutes([
     component: () => import('@/layouts/basic-layout/basic-layout.vue'),
     children: [
       {
-        path: '/index',
+        path: 'index',
         name: 'WelcomeIndex',
         meta: {
           title: 'Welcome',
           sort: 1,
+          isNotAuth: true,
           icon: 'icon-home-filled'
         },
         component: () => import(/* webpackChunkName: "Welcome" */ '@/views/system/WelcomeTo.vue'),

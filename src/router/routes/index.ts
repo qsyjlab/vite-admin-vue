@@ -4,6 +4,7 @@ import { defineExposeRoutes } from '../helper'
 
 import { createBlankContainer } from '@/layouts'
 import { RouteRecordRaw } from 'vue-router'
+import basicLayoutVue from '@/layouts/basic-layout/basic-layout.vue'
 
 export type RouteModules = Record<
   string,
@@ -36,7 +37,7 @@ export const asyncRoutes = loadRouterModules()
 export const routes = defineExposeRoutes([
   {
     path: '/',
-    redirect: { name: 'Welcome' },
+    redirect: '/welcome',
     meta: {
       title: '主系统',
       hideInBreadcrumb: true
@@ -53,7 +54,7 @@ export const routes = defineExposeRoutes([
   //   component: () => import('@/layouts/basic-layout/basic-layout.vue'),
   //   children: loadRoutes(import.meta.glob('./modules/system/*.ts', { eager: true }))
   // },
-  ...asyncRoutes,
+  // ...asyncRoutes,
   {
     path: '/user',
     name: 'User',
@@ -77,7 +78,10 @@ export const routes = defineExposeRoutes([
   },
   {
     path: '/:pathMatch(.*)',
-    redirect: { name: 'Error404' }
+    // redirect: { name: 'Error404' }
+    name: 'NoMatchPage',
+    components: basicLayoutVue
+    // redirect: { name: 'Error404' }
   }
 ])
 
