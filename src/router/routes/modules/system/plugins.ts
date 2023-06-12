@@ -9,7 +9,8 @@ export default defineExposeRoutes([
       title: '插件',
       sort: 3,
       icon: 'icon-files',
-      isNotAuth: true
+      isNotAuth: true,
+      hideChildrenInMenu: true
     },
     redirect: { name: 'DayJs' },
     component: () => import('@/layouts/basic-layout/basic-layout.vue'),
@@ -19,8 +20,8 @@ export default defineExposeRoutes([
         path: 'dayjs',
         meta: {
           title: 'DayJs',
-          icon: 'icon-timer'
-          // isNotAuth: true
+          icon: 'icon-timer',
+          isNotAuth: false
         },
         component: () => import('@/views/system/plugins/DayJs.vue')
       },

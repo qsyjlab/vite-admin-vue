@@ -3,9 +3,8 @@ import type { RouteLocationNormalized, Router, NavigationGuardNext } from 'vue-r
 import { useStorageHelper } from '@/hooks'
 import { hasAuth } from '@/auth'
 import { useRouteStore } from '@/store'
-import { buildRoutes, resolveRouteTreeToList, transformRoutes } from '../helper'
-import { cloneDeep } from 'lodash-es'
-import { asyncRoutes } from '../routes'
+import { buildRoutes } from '../helper'
+import { asyncRoutes, pageError } from '../routes'
 
 export async function handlePermissionRouter(
   to: RouteLocationNormalized,
@@ -27,8 +26,6 @@ export async function handlePermissionRouter(
 
   const isLogin = !!token
 
-  console.log('to', to)
-
   if (['Error403', 'Error404', 'Login'].includes(to.name?.toString() || '')) return next()
 
   if (!isLogin) return next({ name: 'Login' })
@@ -37,13 +34,6 @@ export async function handlePermissionRouter(
     true || to.matched?.slice(1)?.every(r => r.meta.isNotAuth || hasAuth(r.name?.toString()))
 
   if (!auth) return next({ name: 'Error403' })
-
-  // if (to.path === '/welcome') {
-  //   next(to)
-
-  //   // return
-  // }
-
   if (routeStore.isFristEntry) {
     routeStore.saveMenus([])
     const _buildRoutes = await buildRoutes(asyncRoutes)
@@ -52,32 +42,17 @@ export async function handlePermissionRouter(
       router.addRoute(r)
     })
 
-    next({ path: to.fullPath, replace: true, query: to.query })
+    router.addRoute(pageError)
 
-    return
+    if (to.name === 'PageNotFound') {
+      // 动态添加路由后，此处应当重定向到fullPath，否则会加载404页面内容
+      next({ path: to.fullPath, replace: true, query: to.query })
+    } else {
+      const redirectPath = (from.query.redirect || to.path) as string
+      const redirect = decodeURIComponent(redirectPath)
+      const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect }
+      next(nextData)
+    }
   }
-
-  // if (!module.name) {
-  //   console.error('Route name Missing')
-  //   return
-  // }
-
-  // 路由拍平重新注册规则
-  // if (
-  //   !routeStore.routeMapping[module.name as string] ||
-  //   !routeStore.routeMapping[module.name as string].isFlat
-  // ) {
-  //   const menus = transformRoutes(module.children, [])
-  //   const _buildRoutes = await buildRoutes([module])
-
-  //   const { relationObj: relation } = resolveRouteTreeToList([module])
-
-  //   routeStore.saveRoutesRelation(module.name as string, {
-  //     menus,
-  //     relation
-  //   })
-
-  // }
-
-  return next()
+  next()
 }

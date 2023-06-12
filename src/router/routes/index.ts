@@ -4,7 +4,12 @@ import { defineExposeRoutes } from '../helper'
 
 import { createBlankContainer } from '@/layouts'
 import { RouteRecordRaw } from 'vue-router'
-import basicLayoutVue from '@/layouts/basic-layout/basic-layout.vue'
+
+export const pageError = {
+  path: '/:pathMatch(.*)',
+  name: 'PageNotFound',
+  component: () => import('@/views/error/error-404.vue')
+}
 
 export type RouteModules = Record<
   string,
@@ -76,12 +81,7 @@ export const routes = defineExposeRoutes([
     component: createBlankContainer('Error'),
     children: loadRoutes(import.meta.glob('./error/*.ts', { eager: true }))
   },
-  {
-    path: '/:pathMatch(.*)',
-    name: 'PageNotFound',
-    component: createBlankContainer('Error')
-    // redirect: { name: 'Error404' }
-  }
+  pageError
 ])
 
 console.log('routes', routes)
