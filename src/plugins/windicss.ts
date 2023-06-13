@@ -1,4 +1,4 @@
 import { defineAppPlugin } from '@/utils'
-import 'virtual:windi.css'
+// import 'virtual:windi.css'
 
 export default defineAppPlugin(() => {})
