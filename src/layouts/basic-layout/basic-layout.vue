@@ -76,7 +76,7 @@ const { layoutConfig, mixMenuLayoutConfig } = storeToRefs(useLayoutStore())
 const routerBarAttrs = computed(() => {
   return {
     activeBgColor: 'var(--el-color-primary)',
-    biddenRouter: ['Welcome']
+    biddenRouter: ['WelcomeIndex']
   }
 })
 

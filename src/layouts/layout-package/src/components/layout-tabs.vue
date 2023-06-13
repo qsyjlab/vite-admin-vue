@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<Props>(), {
   fixed: true,
   top: 56,
   zIndex: 999,
-  minWidth: 1200,
+  minWidth: 0,
   height: 56,
   paddingLeft: 0,
   transitionDuration: 300,

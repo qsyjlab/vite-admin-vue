@@ -37,6 +37,7 @@ module.exports = {
     ],
     // 禁用每个选择器之前插入空行
     'rule-empty-line-before': null,
-    'declaration-block-no-duplicate-properties': null
+    'declaration-block-no-duplicate-properties': null,
+    'selector-anb-no-unmatchable': null
   }
 }

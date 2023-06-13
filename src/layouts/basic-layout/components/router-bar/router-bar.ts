@@ -14,9 +14,9 @@ export interface RouterType {
  * @param item
  * @returns
  */
-export const tranformRouterInfo = (
+export function tranformRouterInfo(
   item: RouteRecordNormalized | RouteLocationNormalizedLoaded
-): RouterType => {
+): RouterType {
   return {
     fullPath: item.path,
     path: item?.path,
