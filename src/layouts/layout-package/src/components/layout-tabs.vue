@@ -49,6 +49,6 @@ const style = computed(() => {
     transitionTimingFunction
   } = props
   const position = fixed ? 'fixed' : 'static'
-  return `position: ${position};top: ${top}px;z-index: ${zIndex};min-width: ${minWidth}px;height: ${height}px;padding-left: ${paddingLeft}px;transition-duration: ${transitionDuration}ms;transition-timing-function: ${transitionTimingFunction};`
+  return `position: ${position};top: ${top}px;z-index: ${zIndex};min-width: ${minWidth}px;height: ${height}px;padding-left: ${paddingLeft}px;transition-duration: ${transitionDuration}ms;transition-timing-function: ${transitionTimingFunction};box-sizing: border-box;`
 })
 </script>

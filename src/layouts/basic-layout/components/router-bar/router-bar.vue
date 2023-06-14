@@ -1,6 +1,6 @@
 <template>
   <div class="basic-layout-tabs__wrapper">
-    <div id="tabs-bar-container" class="tabs-bar-container">
+    <div class="tabs-bar-container">
       <el-tabs
         v-model="tabActive"
         type="card"
@@ -17,18 +17,20 @@
         ></el-tab-pane>
       </el-tabs>
 
-      <el-dropdown>
-        <span> 更多操作 </span>
+      <div class="tabs-bar__operate">
+        <el-dropdown>
+          <span> 更多操作 </span>
 
-        <template #dropdown>
-          <el-dropdown-menu class="tabs-more">
-            <el-dropdown-item command="closeOtherstabs"> 关闭其他 </el-dropdown-item>
-            <el-dropdown-item command="closeLefttabs"> 关闭左侧 </el-dropdown-item>
-            <el-dropdown-item command="closeRighttabs"> 关闭右侧 </el-dropdown-item>
-            <el-dropdown-item command="closeAlltabs"> 关闭全部 </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+          <template #dropdown>
+            <el-dropdown-menu class="tabs-more">
+              <el-dropdown-item command="closeOtherstabs"> 关闭其他 </el-dropdown-item>
+              <el-dropdown-item command="closeLefttabs"> 关闭左侧 </el-dropdown-item>
+              <el-dropdown-item command="closeRighttabs"> 关闭右侧 </el-dropdown-item>
+              <el-dropdown-item command="closeAlltabs"> 关闭全部 </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
     </div>
   </div>
 </template>
@@ -250,6 +252,13 @@ $base-color-blue: $base-color-default;
     cursor: pointer;
   }
 }
+
+.tabs-bar {
+  &__operate {
+    flex-shrink: 0;
+  }
+}
+
 .router-container {
   min-width: 600px;
   display: flex;
