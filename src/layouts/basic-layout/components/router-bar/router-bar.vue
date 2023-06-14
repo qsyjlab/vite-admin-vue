@@ -19,14 +19,22 @@
 
       <div class="tabs-bar__operate">
         <el-dropdown>
-          <span> 更多操作 </span>
+          <span style="cursor: pointer"> 更多操作 </span>
 
           <template #dropdown>
             <el-dropdown-menu class="tabs-more">
-              <el-dropdown-item command="closeOtherstabs"> 关闭其他 </el-dropdown-item>
-              <el-dropdown-item command="closeLefttabs"> 关闭左侧 </el-dropdown-item>
-              <el-dropdown-item command="closeRighttabs"> 关闭右侧 </el-dropdown-item>
-              <el-dropdown-item command="closeAlltabs"> 关闭全部 </el-dropdown-item>
+              <el-dropdown-item command="closeOtherstabs" @click="removeOtherRouterBar">
+                关闭其他
+              </el-dropdown-item>
+              <el-dropdown-item command="closeLefttabs" @click="removeLeftAllRouterBar">
+                关闭左侧
+              </el-dropdown-item>
+              <el-dropdown-item command="closeRighttabs" @click="removeRightAllRouterBar">
+                关闭右侧
+              </el-dropdown-item>
+              <el-dropdown-item command="closeAlltabs" @click="removeAllRouterBar">
+                关闭全部
+              </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -34,15 +42,10 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-export default {
-  name: 'QsRouterBar'
-}
-</script>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { onBeforeRouteUpdate, RouteLocationNormalized, useRouter } from 'vue-router'
+import { RouteLocationNormalized, useRouter } from 'vue-router'
 
 import { tranformRouterInfo } from './router-bar'
 import type { RouteRecordNormalized } from 'vue-router'
@@ -115,8 +118,6 @@ const routerChangeUpdate = (_router: RouteLocationNormalized) => {
 watch(
   () => route,
   to => {
-    console.log('to', to)
-
     routerChangeUpdate(to)
   },
   {
@@ -127,6 +128,7 @@ watch(
 
 //初始化路由数组
 const initRouterList = (): void => {
+  routerList.value = []
   const routes: RouteRecordNormalized[] = router.getRoutes()
 
   for (const item of routes) {
@@ -136,6 +138,7 @@ const initRouterList = (): void => {
   }
 
   currentRouter.value = tranformRouterInfo(router.currentRoute.value)
+
   tabActive.value = currentRouter.value.fullPath || ''
 }
 
@@ -160,7 +163,57 @@ const goRouter = (curPath: RouterType): void => {
     params: Object.keys(curPath.params).length ? curPath.params : {}
   })
 }
-// 监听路由变化
+
+const isAffixTab = (name: string) => {
+  return props.biddenRouter.includes(name)
+}
+
+// 移除全部
+const removeAllRouterBar = () => {
+  initRouterList()
+
+  if (props.biddenRouter.length) {
+    goRouter(routerList.value[0])
+  }
+}
+
+// 移除其他
+const removeOtherRouterBar = () => {
+  initRouterList()
+
+  if (currentRouter.value) {
+    routerList.value.push(currentRouter.value)
+  }
+}
+
+// 移除左侧
+const removeLeftAllRouterBar = () => {
+  let atIndex = routerList.value.findIndex(i => i.fullPath === currentRouter.value?.fullPath)
+
+  if (atIndex === -1) return
+
+  for (let i = 0; i < atIndex; i++) {
+    const item = routerList.value[i]
+
+    if (isAffixTab(item.name)) continue
+
+    routerList.value.splice(i, 1)
+    i--
+    atIndex--
+  }
+}
+
+// 移除右侧
+const removeRightAllRouterBar = () => {
+  if (!routerList.value.length) return
+  let atIndex = routerList.value.findIndex(i => i.fullPath === currentRouter.value?.fullPath)
+
+  if (atIndex === -1) return
+
+  for (let i = routerList.value.length - 1; i > atIndex; i--) {
+    routerList.value.splice(i, 1)
+  }
+}
 
 const handleTabClick = (context: TabsPaneContext) => {
   if (!context.index) return
@@ -178,16 +231,15 @@ const handleTabRemove = (name: string) => {
 </script>
 
 <style lang="scss" scoped>
-$base-tabs-bar-height: 55px;
-$base-padding: 20px;
+$base-padding: 7px;
 $base-color-white: #fff;
 //顶部多标签页tabs-bar的高度
-$base-tabs-bar-height: 55px;
+$base-tabs-bar-height: px;
 //顶部多标签页tabs-bar中每一个item的高度
-$base-tag-item-height: 34px;
+$base-tag-item-height: 29px;
 
 $base-border-color: #dcdfe6;
-$base-border-radius: 4px;
+$base-border-radius: 2px;
 $base-color-default: #409eff;
 $base-color-blue: $base-color-default;
 .tabs-bar-container {
@@ -197,54 +249,51 @@ $base-color-blue: $base-color-default;
   align-content: center;
   align-items: center;
   justify-content: space-between;
-  height: $base-tabs-bar-height;
+  // height: $base-tabs-bar-height;
   padding-right: $base-padding;
   padding-left: $base-padding;
   user-select: none;
   background: $base-color-white;
-  border-top: 1px solid #f6f6f6;
+  // border-top: 1px solid #f6f6f6;
 
-  ::v-deep {
-    .fold-unfold {
-      margin-right: $base-padding;
-    }
-  }
+  // ::v-deep {
+  //   .fold-unfold {
+  //     margin-right: $base-padding;
+  //   }
+  // }
 
-  .tabs-content {
+  :deep(.tabs-content) {
     width: calc(100% - 90px);
     height: $base-tag-item-height;
 
-    ::v-deep {
-      .el-tabs__nav-next,
-      .el-tabs__nav-prev {
-        height: $base-tag-item-height;
-        line-height: $base-tag-item-height;
+    .el-tabs__nav-next,
+    .el-tabs__nav-prev {
+      height: $base-tag-item-height;
+      line-height: $base-tag-item-height;
+    }
+
+    .el-tabs__header {
+      border-bottom: 0;
+
+      .el-tabs__nav {
+        border: 0;
       }
 
-      .el-tabs__header {
-        border-bottom: 0;
-
-        .el-tabs__nav {
-          border: 0;
-        }
-
-        .el-tabs__item {
-          box-sizing: border-box;
-          height: $base-tag-item-height;
-          margin-right: 5px;
-          line-height: $base-tag-item-height;
-          border: 1px solid $base-border-color;
-          border-radius: $base-border-radius;
-          transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
-
-          &.is-active {
-            border: 1px solid $base-color-blue;
-          }
+      .el-tabs__item {
+        box-sizing: border-box;
+        height: $base-tag-item-height;
+        margin-right: 5px;
+        line-height: $base-tag-item-height;
+        border: 1px solid $base-border-color;
+        border-radius: $base-border-radius;
+        transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
+        padding: 0 7px;
+        &.is-active {
+          border: 1px solid $base-color-blue;
         }
       }
     }
   }
-
   .more {
     display: flex;
     align-content: center;
@@ -256,6 +305,9 @@ $base-color-blue: $base-color-default;
 .tabs-bar {
   &__operate {
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
