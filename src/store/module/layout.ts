@@ -33,7 +33,7 @@ export const useLayoutStore = defineStore<string, LayoutState, LayoutGetter, Lay
           layoutMode: LayoutMode.Side,
           collapsed: false,
           asideWidth: 220,
-          tabBarHeight: 32,
+          tabBarHeight: 42,
           headerHeight: 48,
           theme: 'light',
           themeColor: '#409eff'
