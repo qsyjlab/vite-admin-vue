@@ -80,6 +80,7 @@ import { AsideMenu } from '../../sidebar/menu'
 
 import Pushpin from '../pushpin.vue'
 import { storeToRefs } from 'pinia'
+import { getMenus } from '@/router/menus'
 
 interface IProps {
   menuWidth?: number
@@ -109,7 +110,7 @@ const menus = computed(() => {
   // const matched = router.currentRoute.value.matched[0]
   // return (matched.name && routeStore.routeMapping[matched.name as string].menus) || []
 
-  return routeStore.menuList
+  return getMenus()
 })
 
 watch([showChildren], () => {
