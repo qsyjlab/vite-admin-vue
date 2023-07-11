@@ -13,9 +13,11 @@ const layoutStore = useLayoutStore()
 
 const { layoutConfig } = storeToRefs(layoutStore)
 
-const { collapseMenu } = layoutStore
+const { setLayoutConfig } = layoutStore
 
 const folderMenu = () => {
-  // collapseMenu()
+  setLayoutConfig({
+    collapsed: !layoutConfig.value.collapsed
+  })
 }
 </script>
