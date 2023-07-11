@@ -1,21 +1,23 @@
 <template>
   <div class="basic-layout-tabs__wrapper">
     <div class="tabs-bar-container">
-      <el-tabs
-        v-model="tabActive"
-        type="card"
-        class="tabs-content"
-        @tab-click="handleTabClick"
-        @tab-remove="handleTabRemove"
-      >
-        <el-tab-pane
-          v-for="item in routerList"
-          :key="item.fullPath"
-          :label="item.meta.title"
-          :name="item.fullPath"
-          :closable="!biddenRouter.includes(item.name)"
-        ></el-tab-pane>
-      </el-tabs>
+      <div class="tab-scroll">
+        <el-tabs
+          v-model="tabActive"
+          type="card"
+          class="tabs-content"
+          @tab-click="handleTabClick"
+          @tab-remove="handleTabRemove"
+        >
+          <el-tab-pane
+            v-for="item in routerList"
+            :key="item.fullPath"
+            :label="item.meta.title"
+            :name="item.fullPath"
+            :closable="!biddenRouter.includes(item.name)"
+          ></el-tab-pane>
+        </el-tabs>
+      </div>
 
       <div class="tabs-bar__operate">
         <el-dropdown>
@@ -223,7 +225,7 @@ const handleTabClick = (context: TabsPaneContext) => {
   goRouter(route)
 }
 
-const handleTabRemove = (name: string) => {
+const handleTabRemove = (name: any) => {
   const atIndex = routerList.value.findIndex(item => item.fullPath === name)
 
   removeRouterBar(atIndex)
@@ -243,6 +245,7 @@ $base-border-radius: 2px;
 $base-color-default: #409eff;
 $base-color-blue: $base-color-default;
 .tabs-bar-container {
+  width: 100%;
   position: relative;
   box-sizing: border-box;
   display: flex;
@@ -262,9 +265,20 @@ $base-color-blue: $base-color-default;
   //   }
   // }
 
+  // :deep(.el-tabs__nav-wrap) {
+  //   min-width: 100%;
+  //   max-width: 100%;
+  // }
+
+  .tab-scroll {
+    max-width: calc(100% - 90px);
+    min-width: calc(100% - 90px);
+    overflow: hidden;
+  }
+
   :deep(.tabs-content) {
-    width: calc(100% - 90px);
     height: $base-tag-item-height;
+    overflow: hidden;
 
     .el-tabs__nav-next,
     .el-tabs__nav-prev {
