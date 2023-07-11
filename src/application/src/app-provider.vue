@@ -10,7 +10,7 @@ export default defineComponent({
     const isMobile = ref(false)
 
     createBreakpointListener(({ screenMap, sizeEnum, width }) => {
-      const lgWidth = screenMap.get(sizeEnum.LG)
+      const lgWidth = screenMap.get(sizeEnum.MD)
       if (lgWidth) {
         isMobile.value = width.value - 1 < lgWidth
       }
