@@ -1,7 +1,11 @@
 <template>
-  <router-view></router-view>
+  <app-provider>
+    <router-view></router-view>
+  </app-provider>
 </template>
 <script setup lang="ts">
+import { AppProvider } from '@/application'
+
 import { useStorageHelper, useLayoutConfigHandler } from './hooks'
 
 function initAppConfig() {
@@ -13,6 +17,5 @@ function initAppConfig() {
 initAppConfig()
 </script>
 <style>
-/* 公共样式 */
 @import './styles/css/global';
 </style>
