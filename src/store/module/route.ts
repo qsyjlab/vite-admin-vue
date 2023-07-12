@@ -21,7 +21,7 @@ export interface RouteState {
 }
 
 export interface RouteAction {
-  addAlive: (names: string[]) => void
+  addAlive: (names: string) => void
   saveMenus: (menus: MenuItem[]) => void
   // TODO: 优化类型
   saveRoutesRelation: (
@@ -55,16 +55,13 @@ export const useRouteStore = defineStore<string, RouteState, RouteGetters, Route
       }
     },
     actions: {
-      addAlive(names) {
-        for (let i = 0; i < names.length; i++) {
-          this.keepAliveCache.add(names[i])
-        }
+      addAlive(name) {
+        this.keepAliveCache.add(name)
       },
       saveMenus(menus) {
         this.isFristEntry = false
 
         this.menuList = menus
-        console.log('this.menuList', this.menuList)
       },
 
       // 保存拍平后的路由状态

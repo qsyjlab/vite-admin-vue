@@ -26,6 +26,7 @@ export default defineExposeRoutes([
         name: 'Iframe',
         path: 'iframe',
         meta: {
+          isKeepAlive: true,
           isNotAuth: true,
           title: 'iframe'
         },

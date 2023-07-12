@@ -10,6 +10,13 @@
     </VProForm>
   </el-card>
 </template>
+
+<script lang="ts">
+export default {
+  name: 'ProForm'
+}
+</script>
+
 <script setup lang="ts">
 import { VProForm } from '@/components/pro-form'
 
@@ -25,9 +32,6 @@ const fields = [
     col: {
       span: 8
     }
-    // layoutCol: {
-    //   span: 8
-    // }
   },
   {
     label: 'zone',

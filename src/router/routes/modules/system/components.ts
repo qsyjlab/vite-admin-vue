@@ -63,6 +63,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'ProForm',
           isNotAuth: true,
+          isKeepAlive: true,
           icon: 'icon-upload'
         },
         component: () => import('@/views/system/components/pro-form/pro-form.vue')

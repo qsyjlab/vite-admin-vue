@@ -8,10 +8,11 @@
     ></iframe>
   </div>
 </template>
+
 <script lang="ts" setup>
 import type { CSSProperties, IframeHTMLAttributes } from 'vue'
 import { PropType } from 'vue'
-import { ref, unref, computed } from 'vue'
+import { ref, computed } from 'vue'
 
 const props = defineProps({
   frameSrc: {
@@ -25,8 +26,8 @@ const props = defineProps({
 })
 
 const loading = ref(true)
-const topRef = ref(50)
-const heightRef = ref(window.innerHeight)
+// const topRef = ref(50)
+// const heightRef = ref(window.innerHeight)
 const frameRef = ref<IframeHTMLAttributes>()
 // const { headerHeightRef } = useLayoutHeight()
 
