@@ -98,7 +98,8 @@ const mobileDrawer = ref(false)
 watch(
   isMobile,
   () => {
-    mobileDrawer.value = isMobile.value
+    if (layoutConfig.value.layoutMode && ![LayoutMode.Top].includes(layoutConfig.value.layoutMode))
+      mobileDrawer.value = isMobile.value
   },
   {
     immediate: true
