@@ -20,7 +20,7 @@ export type RouteModules = Record<
 
 const modules: RouteModules = import.meta.glob('./modules/**/*.ts', { eager: true })
 
-console.log('modules', modules)
+// console.log('modules', modules)
 
 // 加载路由模块
 export function loadRouterModules() {
@@ -48,18 +48,6 @@ export const routes = defineExposeRoutes([
       hideInBreadcrumb: true
     }
   },
-  // {
-  //   path: '/',
-  //   name: 'Home',
-
-  //   meta: {
-  //     title: '主系统',
-  //     hideInBreadcrumb: true
-  //   },
-  //   component: () => import('@/layouts/basic-layout/basic-layout.vue'),
-  //   children: loadRoutes(import.meta.glob('./modules/system/*.ts', { eager: true }))
-  // },
-  // ...asyncRoutes,
   {
     path: '/user',
     name: 'User',
@@ -83,7 +71,5 @@ export const routes = defineExposeRoutes([
   },
   pageError
 ])
-
-console.log('routes', routes)
 
 export { routes as default }
