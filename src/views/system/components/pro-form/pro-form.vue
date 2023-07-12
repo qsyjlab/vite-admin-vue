@@ -1,7 +1,7 @@
 <template>
   <el-card>
     <template #header>{{ $route.meta.title }}</template>
-    <VProForm :fields="fields" @submit="submit" @reset="reset">
+    <VProForm :fields="fields" :label-width="150" @submit="submit" @reset="reset">
       <template #extra> 测试 </template>
     </VProForm>
 
@@ -21,7 +21,10 @@ const fields = [
     rules: [
       { required: true, message: 'Please input Activity name', trigger: 'blur' },
       { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
-    ]
+    ],
+    col: {
+      span: 8
+    }
     // layoutCol: {
     //   span: 8
     // }
@@ -29,7 +32,11 @@ const fields = [
   {
     label: 'zone',
     el: 'el-input',
-    key: 'zone'
+    key: 'zone',
+    col: {
+      span: 8
+    }
+
     // layoutCol: {
     //   span: 8
     // }
@@ -37,7 +44,10 @@ const fields = [
   {
     label: 'time',
     el: 'el-input',
-    key: 'time'
+    key: 'time',
+    col: {
+      span: 8
+    }
     // layoutCol: {
     //   span: 8
     // }
@@ -46,8 +56,8 @@ const fields = [
     label: 'delivery',
     key: 'delivery',
     el: 'el-input',
-    layoutCol: {
-      // span: 8
+    col: {
+      span: 8
     }
   },
   // {
@@ -66,9 +76,9 @@ const fields = [
     label: 'el-date-picker',
     key: 'el-date-picker',
     el: 'el-date-picker',
-    // layoutCol: {
-    //   span: 8
-    // },
+    col: {
+      span: 8
+    },
     attrs: {
       type: 'daterange',
       'is-range': true,

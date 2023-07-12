@@ -1,8 +1,7 @@
 import type { SetupContext } from 'vue'
 import { reactive, onBeforeMount, ref, watch } from 'vue'
 import { FormProps, FormItem, formEmits, emitsEnums } from './form-props'
-
-import type { FormInstance } from 'element-plus'
+import { ElFormInstance } from './types'
 
 type UseFormParameter = {
   props: FormProps
@@ -13,7 +12,8 @@ export const useForm = (parameter: UseFormParameter) => {
   const { props, emits } = parameter
   const { fields = [], inline } = props
 
-  const formRef = ref<FormInstance | null>(null)
+  const formRef = ref<ElFormInstance | null>(null)
+
   const formModel = reactive<Record<string, any>>({})
 
   const formRules = reactive<Record<string, FormItem['rules']>>({})
@@ -23,14 +23,14 @@ export const useForm = (parameter: UseFormParameter) => {
   })
 
   watch(
-    () => props.value,
+    () => props.model,
     () => {
       changeModelValue()
     }
   )
 
   const validate = (handle?: () => void) => {
-    formRef.value?.validate((valid, fields) => {
+    formRef.value?.validate(valid => {
       if (!valid) return
 
       handle?.()
@@ -38,6 +38,8 @@ export const useForm = (parameter: UseFormParameter) => {
   }
 
   const reset = (handle?: () => void) => {
+    formRef.value?.resetFields()
+
     formRef.value?.resetFields()
 
     handle?.()
@@ -55,8 +57,8 @@ export const useForm = (parameter: UseFormParameter) => {
   }
 
   const changeModelValue = () => {
-    Object.keys(props.value).forEach(key => {
-      formModel[key] = props.value[key]
+    Object.keys(props.model).forEach(key => {
+      formModel[key] = props.model[key]
     })
   }
 

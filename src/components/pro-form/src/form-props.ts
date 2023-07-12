@@ -1,17 +1,15 @@
 import { definePropType } from '@/utils'
-import type { FormInstance, FormItemRule, ColProps } from 'element-plus'
-import type { Component, ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes } from 'vue'
+import { FormSchema } from './types/form'
+import { ElFormInstance } from './types'
 
-export interface FormItem {
-  label?: string
-  el?: Component | string
-  key: string
-  attrs?: Record<string, any>
-  rules?: FormItemRule[]
-  layoutCol?: Partial<ColProps>
-}
+export type FormItem = FormSchema
 
 export const formProps = {
+  grid: {
+    type: Boolean,
+    default: false
+  },
   fields: {
     type: definePropType<FormItem[]>(Array),
     default: () => []
@@ -20,7 +18,7 @@ export const formProps = {
     type: Boolean,
     default: true
   },
-  value: {
+  model: {
     type: definePropType<Record<string, any>>(Object),
     default: () => ({})
   }
@@ -35,7 +33,7 @@ export const emitsEnums = {
 // [Vue warn]:  Invalid event arguments: event validation failed for event
 // so, A value must be returned
 export const formEmits = {
-  [emitsEnums.GET_INSTANCE]: (instance: FormInstance | null): boolean => true,
+  [emitsEnums.GET_INSTANCE]: (instance: ElFormInstance | null): boolean => true,
   [emitsEnums.SUBMIT]: (values: Record<string, any>): boolean => true,
   [emitsEnums.RESET]: (values: Record<string, any>): boolean => true
 }

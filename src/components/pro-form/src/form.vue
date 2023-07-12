@@ -1,37 +1,48 @@
 <template>
-  <div>
-    <el-form
-      v-bind="{ ...$attrs }"
-      :inline="inline"
-      :model="formModel"
-      :rules="formRules"
-      :ref="ref => setFormRef(ref)"
-      @submit.prevent
-    >
-      <template v-for="(item, index) in fields" :key="`${item.key}-${index}`">
+  <el-form
+    v-bind="{ ...$attrs }"
+    :inline="inline"
+    :model="formModel"
+    :rules="formRules"
+    :ref="ref => setFormRef(ref)"
+    @submit.prevent
+  >
+    <template v-if="grid">
+      <el-row>
+        <el-col v-for="(item, index) in fields" v-bind="item.col" :key="`${item.key}`">
+          <el-form-item :label="item.label" :prop="item.key || String(index)">
+            <component :is="item.el" v-model="formModel[item.key]" v-bind="handleElAttrs(item)" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </template>
+
+    <template v-else>
+      <template v-for="(item, index) in fields" :key="`${item.key}`">
         <el-form-item :label="item.label" :prop="item.key || String(index)">
           <component :is="item.el" v-model="formModel[item.key]" v-bind="handleElAttrs(item)" />
         </el-form-item>
       </template>
+    </template>
 
-      <template v-if="inline">
+    <template v-if="inline">
+      <div style="display: flex; justify-content: flex-end; width: 100%">
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
           <el-button @click="onReset">重置</el-button>
         </el-form-item>
-      </template>
+      </div>
+    </template>
 
-      <template v-if="!inline">
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">确定</el-button>
+    <template v-if="!inline">
+      <el-form-item>
+        <div style="display: flex; justify-content: center; width: 100%">
           <el-button @click="onReset">取消</el-button>
-        </el-form-item>
-      </template>
-      <template v-if="inline && $slots.extra">
-        <el-form-item> <slot name="extra" /> </el-form-item
-      ></template>
-    </el-form>
-  </div>
+          <el-button type="primary" @click="onSubmit">确定</el-button>
+        </div>
+      </el-form-item>
+    </template>
+  </el-form>
 </template>
 
 <script lang="tsx">
