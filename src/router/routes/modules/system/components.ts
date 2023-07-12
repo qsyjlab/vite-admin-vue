@@ -43,6 +43,7 @@ export default defineExposeRoutes([
           isNotAuth: true
         },
         component: createBlankContainer('Editor'),
+        redirect: { name: 'RichEditor' },
         children: [
           {
             name: 'RichEditor',

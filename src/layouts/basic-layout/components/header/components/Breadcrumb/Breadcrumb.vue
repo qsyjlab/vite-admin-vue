@@ -1,61 +1,33 @@
 <template>
   <el-breadcrumb :separator="'/'">
-    <transition-group name="breadcrumb" appear>
-      <el-breadcrumb-item
-        v-for="item in breadCrumbList"
-        :key="item.path"
-        :to="{ name: item.name }"
-        >{{ item?.meta?.title }}</el-breadcrumb-item
-      >
-    </transition-group>
+    <el-breadcrumb-item v-for="item in breadCrumbList" :key="item.path" :to="{ name: item.name }">{{
+      item?.meta?.title
+    }}</el-breadcrumb-item>
   </el-breadcrumb>
 </template>
 
 <script setup lang="ts">
-import { computed, unref } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import type { RouteMeta } from 'vue-router'
-import { useRouteStore } from '@/store'
-
 import { getMenus } from '@/router/menus'
 
 const { currentRoute } = useRouter()
 const breadCrumbList = computed(() => {
-  // const current = unref(currentRoute)
-
   const menus = getMenus()
 
-  // console.log('menus', menus)
-  const routeMatched = currentRoute.value.matched
-  // const currentMatched = routeMatched?.[routeMatched.length - 1]
   let path = currentRoute.value.path
 
   const parent = getAllParentPath(menus, path)
 
   const filterMenus = menus.filter(item => item.path === parent[0])
   const matched = getMatched(filterMenus, parent) as any
-
-  return matched.filter(i => !i.meta.hideBreadcrumb)
+  return matched.filter((i: any) => !i.meta.hideBreadcrumb)
 })
 
-// function filterItem(list: RouteLocationMatched[]) {
-//   return filter(list, item => {
-//     const { meta, name } = item
-//     if (!meta) {
-//       return !!name
-//     }
-//     const { title, hideBreadcrumb, hideMenu } = meta
-//     if (!title || hideBreadcrumb || hideMenu) {
-//       return false
-//     }
-//     return true
-//   }).filter(item => !item.meta?.hideBreadcrumb)
-// }
-
 function getAllParentPath<T = any>(treeData: T[], path: string) {
-  const menuList = findPath(treeData, n => n.path === path)
+  const menuList = findPath(treeData, (n: any) => n.path === path)
 
-  return (menuList || []).map(item => item.path)
+  return (menuList || []).map((item: any) => item.path)
 }
 
 function findPath<T = any>(tree: any, func: any): T | T[] | null {
@@ -90,7 +62,7 @@ function getMatched(menus: any[], parent: string[]) {
     if (parent.includes(item.path)) {
       metched.push({
         ...item,
-        name: item.meta?.title || item.name
+        name: item.name
       })
     }
     if (item.children?.length) {

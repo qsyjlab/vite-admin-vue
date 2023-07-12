@@ -8,7 +8,7 @@
         <el-icon><Operation /></el-icon>
       </hover-card>
 
-      <Breadcrumb style="margin-left: 10px"></Breadcrumb>
+      <Breadcrumb v-if="!isMobile" style="margin-left: 10px"></Breadcrumb>
     </div>
     <div class="basic-layout-header__right">
       <user-menu style="margin-right: 10px"></user-menu>
