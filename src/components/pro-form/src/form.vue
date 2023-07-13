@@ -9,7 +9,12 @@
   >
     <template v-if="grid">
       <el-row>
-        <el-col v-for="(item, index) in fields" v-bind="item.col" :key="`${item.key}`">
+        <el-col
+          v-for="(item, index) in fields"
+          v-bind="item.col"
+          :key="`${item.key}`"
+          v-show="fieldsIsAdvancedMap[item.key]"
+        >
           <el-form-item :label="item.label" :prop="item.key || String(index)">
             <component :is="item.el" v-model="formModel[item.key]" v-bind="handleElAttrs(item)" />
           </el-form-item>
@@ -30,6 +35,8 @@
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
           <el-button @click="onReset">重置</el-button>
+
+          <el-button @click="toggleCollapse">折叠</el-button>
         </el-form-item>
       </div>
     </template>
@@ -61,7 +68,16 @@ const props = defineProps(formProps)
 
 const emits = defineEmits(formEmits)
 
-const { formModel, formRules, handleElAttrs, setFormRef, validate, reset } = useForm({
+const {
+  fieldsIsAdvancedMap,
+  formModel,
+  formRules,
+  handleElAttrs,
+  setFormRef,
+  validate,
+  reset,
+  toggleCollapse
+} = useForm({
   props,
   emits
 })

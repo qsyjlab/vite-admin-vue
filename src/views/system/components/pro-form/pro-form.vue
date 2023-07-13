@@ -1,11 +1,18 @@
 <template>
   <el-card>
     <template #header>{{ $route.meta.title }}</template>
-    <VProForm :fields="fields" :label-width="150" @submit="submit" @reset="reset">
+    <VProForm grid :fields="fields" @submit="submit" @reset="reset">
       <template #extra> 测试 </template>
     </VProForm>
 
-    <VProForm :inline="false" :fields="fields" @submit="submit" @reset="reset" label-width="150px">
+    <VProForm
+      :grid="true"
+      :inline="false"
+      :fields="fields"
+      @submit="submit"
+      @reset="reset"
+      label-width="150px"
+    >
       <template #extra> 测试 </template>
     </VProForm>
   </el-card>
