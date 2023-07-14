@@ -13,7 +13,7 @@
           v-for="(item, index) in fields"
           v-bind="item.col"
           :key="`${item.key}`"
-          v-show="fieldsIsAdvancedMap[item.key]"
+          v-show="fieldsIsCollapsedMap[item.key]"
         >
           <el-form-item :label="item.label" :prop="item.key || String(index)">
             <component :is="item.el" v-model="formModel[item.key]" v-bind="handleElAttrs(item)" />
@@ -32,12 +32,11 @@
 
     <template v-if="inline">
       <div style="display: flex; justify-content: flex-end; width: 100%">
-        <el-form-item>
+        <el-space>
           <el-button type="primary" @click="onSubmit">查询</el-button>
           <el-button @click="onReset">重置</el-button>
-
-          <el-button @click="toggleCollapse">折叠</el-button>
-        </el-form-item>
+          <toggle-arrow :expand="advanceState.isAdvanced" @click="toggleCollapse"></toggle-arrow>
+        </el-space>
       </div>
     </template>
 
@@ -61,22 +60,23 @@ export default {
 <script setup lang="tsx">
 import { formProps, formEmits, emitsEnums } from './form-props'
 import { useForm } from './form'
-
 import { ElForm, ElFormItem } from 'element-plus'
+import ToggleArrow from './components/toggle-arrow.vue'
 
 const props = defineProps(formProps)
 
 const emits = defineEmits(formEmits)
 
 const {
-  fieldsIsAdvancedMap,
+  advanceState,
   formModel,
   formRules,
   handleElAttrs,
   setFormRef,
   validate,
   reset,
-  toggleCollapse
+  toggleCollapse,
+  fieldsIsCollapsedMap
 } = useForm({
   props,
   emits
