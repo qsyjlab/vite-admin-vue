@@ -5,7 +5,7 @@
       <template #extra> 测试 </template>
     </VProForm>
 
-    <VProForm
+    <!-- <VProForm
       :grid="true"
       :inline="false"
       :fields="fields"
@@ -14,7 +14,7 @@
       label-width="150px"
     >
       <template #extra> 测试 </template>
-    </VProForm>
+    </VProForm> -->
   </el-card>
 </template>
 
@@ -37,7 +37,7 @@ const fields = [
       { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
     ],
     col: {
-      span: 8
+      span: 4
     }
   },
   {
@@ -45,60 +45,78 @@ const fields = [
     el: 'el-input',
     key: 'zone',
     col: {
-      span: 8
+      span: 4
     }
-
-    // layoutCol: {
-    //   span: 8
-    // }
   },
   {
     label: 'time',
     el: 'el-input',
-    key: 'time',
+    key: 'time123',
     col: {
-      span: 8
+      span: 4
     }
-    // layoutCol: {
-    //   span: 8
-    // }
   },
   {
-    label: 'delivery',
-    key: 'delivery',
+    label: 'time',
     el: 'el-input',
+    key: 'time23',
+    col: {
+      span: 4
+    }
+  },
+  {
+    label: 'time',
+    el: 'el-input',
+    key: 'time2323',
     col: {
       span: 8
     }
   },
+
+  {
+    label: 'time',
+    el: 'el-input',
+    key: 'time23232',
+    col: {
+      span: 8
+    }
+  }
   // {
-  //   label: 'time-picker-is-range',
-  //   key: 'time-picker-is-range',
-  //   el: 'el-time-picker',
+  //   label: 'delivery',
+  //   key: 'delivery',
+  //   el: 'el-input',
+  //   col: {
+  //     span: 8
+  //   }
+  // },
+  // // {
+  // //   label: 'time-picker-is-range',
+  // //   key: 'time-picker-is-range',
+  // //   el: 'el-time-picker',
+  // //   attrs: {
+  // //     'is-range': true,
+  // //     'arrow-control': true,
+  // //     'range-separator': 'To',
+  // //     'start-placeholder': 'Start time',
+  // //     'end-placeholder': 'End time'
+  // //   }
+  // // },
+  // {
+  //   label: 'el-date-picker',
+  //   key: 'el-date-picker',
+  //   el: 'el-date-picker',
+  //   col: {
+  //     span: 8
+  //   },
   //   attrs: {
+  //     type: 'daterange',
   //     'is-range': true,
   //     'arrow-control': true,
   //     'range-separator': 'To',
-  //     'start-placeholder': 'Start time',
-  //     'end-placeholder': 'End time'
+  //     'start-placeholder': 'Start date',
+  //     'end-placeholder': 'End date'
   //   }
-  // },
-  {
-    label: 'el-date-picker',
-    key: 'el-date-picker',
-    el: 'el-date-picker',
-    col: {
-      span: 8
-    },
-    attrs: {
-      type: 'daterange',
-      'is-range': true,
-      'arrow-control': true,
-      'range-separator': 'To',
-      'start-placeholder': 'Start date',
-      'end-placeholder': 'End date'
-    }
-  }
+  // }
 ]
 
 const submit = (values: any) => {

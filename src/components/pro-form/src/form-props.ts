@@ -8,7 +8,7 @@ export type FormItem = FormSchema
 export const formProps = {
   grid: {
     type: Boolean,
-    default: false
+    default: true
   },
   fields: {
     type: definePropType<FormItem[]>(Array),

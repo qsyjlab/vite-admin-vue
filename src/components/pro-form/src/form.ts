@@ -3,6 +3,7 @@ import { reactive, onBeforeMount, ref, watch, unref, computed } from 'vue'
 import { FormProps, FormItem, formEmits, emitsEnums } from './form-props'
 import { ElFormInstance } from './types'
 import { useCollapse } from './use-collapse'
+import { FormMethodsType, NOOP } from './types/form'
 
 type UseFormParameter = {
   props: FormProps
@@ -28,7 +29,7 @@ export const useForm = (parameter: UseFormParameter) => {
   watch(
     () => props.model,
     () => {
-      changeModelValue()
+      forceUpdateModel()
     }
   )
 
@@ -40,12 +41,13 @@ export const useForm = (parameter: UseFormParameter) => {
     })
   }
 
-  const reset = (handle?: () => void) => {
+  const resetFields = (handle?: NOOP) => {
     formRef.value?.resetFields()
-
-    formRef.value?.resetFields()
-
     handle?.()
+  }
+
+  const clearValidate: FormMethodsType['clearValidate'] = (...rest) => {
+    formRef.value?.clearValidate(...rest)
   }
 
   const initializeForm = () => {
@@ -59,9 +61,10 @@ export const useForm = (parameter: UseFormParameter) => {
     })
   }
 
-  const changeModelValue = () => {
-    Object.keys(props.model).forEach(key => {
-      formModel[key] = props.model[key]
+  const forceUpdateModel = (model?: Record<string, any>) => {
+    const _model = Object.assign(props.model, model || [])
+    Object.keys(_model).forEach(key => {
+      formModel[key] = _model[key]
     })
   }
 
@@ -73,19 +76,34 @@ export const useForm = (parameter: UseFormParameter) => {
     }
   }
 
+  const handleSubmit = () => {
+    validate(() => {})
+  }
+
   const setFormRef = (ref: any) => {
     formRef.value = ref
 
     emits(emitsEnums.GET_INSTANCE, formRef.value)
   }
 
+  const formExposeMethods: FormMethodsType = {
+    forceUpdateModel,
+    resetFields,
+    clearValidate,
+    submit: handleSubmit,
+    validate: () => {},
+    validateField: () => {},
+    scrollToField: () => {}
+  }
+
   return {
+    formExposeMethods,
     advanceState: computed(() => advanceState),
     formModel,
     formRules,
     handleElAttrs,
     setFormRef,
-    reset,
+    resetFields,
     validate,
     fieldsIsCollapsedMap,
     toggleCollapse

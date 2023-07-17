@@ -8,14 +8,15 @@
     @submit.prevent
   >
     <template v-if="grid">
-      <el-row>
+      {{ fieldsIsCollapsedMap }}
+      <el-row :gutter="20">
         <el-col
           v-for="(item, index) in fields"
           v-bind="item.col"
           :key="`${item.key}`"
           v-show="fieldsIsCollapsedMap[item.key]"
         >
-          <el-form-item :label="item.label" :prop="item.key || String(index)">
+          <el-form-item style="width: 100%" :label="item.label" :prop="item.key || String(index)">
             <component :is="item.el" v-model="formModel[item.key]" v-bind="handleElAttrs(item)" />
           </el-form-item>
         </el-col>
@@ -35,7 +36,11 @@
         <el-space>
           <el-button type="primary" @click="onSubmit">查询</el-button>
           <el-button @click="onReset">重置</el-button>
-          <toggle-arrow :expand="advanceState.isAdvanced" @click="toggleCollapse"></toggle-arrow>
+          <toggle-arrow
+            v-if="!advanceState.hideAdvanceBtn"
+            :expand="advanceState.isAdvanced"
+            @click="toggleCollapse"
+          ></toggle-arrow>
         </el-space>
       </div>
     </template>
@@ -74,7 +79,7 @@ const {
   handleElAttrs,
   setFormRef,
   validate,
-  reset,
+  resetFields,
   toggleCollapse,
   fieldsIsCollapsedMap
 } = useForm({
@@ -93,7 +98,7 @@ const getValues = () => {
 }
 
 const onReset = () => {
-  reset(() => {
+  resetFields(() => {
     emits(emitsEnums.RESET, formModel)
   })
 }

@@ -4,10 +4,12 @@ import { FormSchema } from './types/form'
 
 interface CollapseOption {
   fields: FormSchema[]
+  alwaysShowLines?: number
+  autoAdvancedLine?: number
 }
 
 export function useCollapse(option: CollapseOption) {
-  const { fields } = option
+  const { fields, alwaysShowLines = 1, autoAdvancedLine = 3 } = option
 
   const { widthRef, screenEnum } = useBreakpoint()
 
@@ -15,22 +17,22 @@ export function useCollapse(option: CollapseOption) {
 
   const BASIC_COL_LEN = 24
 
-  const realItemColSum = 0
+  let realItemColSum = 0
 
   const advanceState = reactive<{
     isAdvanced: boolean
     hideAdvanceBtn: boolean
+    span: number
   }>({
     isAdvanced: true,
-    hideAdvanceBtn: false
+    hideAdvanceBtn: false,
+    span: 8
   })
 
   watch(
     [() => fields, () => widthRef, () => advanceState.isAdvanced],
     () => {
       updateCollapce()
-
-      console.log('执行')
     },
     {
       immediate: true
@@ -43,15 +45,17 @@ export function useCollapse(option: CollapseOption) {
 
   function updateCollapce() {
     let _itemColSum = 0
-
     fields.forEach(item => {
       const { isAdvanced, itemColSum } = getCollapsed(item.col, _itemColSum)
       _itemColSum = itemColSum
-      // if (isAdvanced) {
-      //   realItemColSum = itemColSum
-      // }
+      if (isAdvanced) {
+        realItemColSum = itemColSum
+      }
       fieldsIsCollapsedMap[item.key] = isAdvanced
     })
+
+    advanceState.span = realItemColSum % BASIC_COL_LEN
+    getCollapsed({ span: BASIC_COL_LEN }, _itemColSum, true)
   }
 
   function getCollapsed(itemCol: any, itemColSum = 0, isLastAction = false) {
@@ -77,28 +81,24 @@ export function useCollapse(option: CollapseOption) {
       itemColSum += xxlWidth
     }
 
-    // if (isLastAction) {
-    //   advanceState.hideAdvanceBtn = false
-    //   if (itemColSum <= BASIC_COL_LEN * 2) {
-    //     // When less than or equal to 2 lines, the collapse and expand buttons are not displayed
-    //     advanceState.hideAdvanceBtn = true
-    //     advanceState.isAdvanced = true
-    //   } else if (itemColSum > BASIC_COL_LEN * 2 && itemColSum <= BASIC_COL_LEN * 3) {
-    //     advanceState.hideAdvanceBtn = false
+    if (isLastAction) {
+      advanceState.hideAdvanceBtn = false
+      if (itemColSum <= BASIC_COL_LEN * 2) {
+        // When less than or equal to 2 lines, the collapse and expand buttons are not displayed
+        advanceState.hideAdvanceBtn = true
+        advanceState.isAdvanced = true
+      } else if (itemColSum > BASIC_COL_LEN * 2 && itemColSum <= BASIC_COL_LEN * autoAdvancedLine) {
+        advanceState.hideAdvanceBtn = false
 
-    //     // More than 3 lines collapsed by default
-    //   } else if (!advanceState.isLoad) {
-    //     advanceState.isLoad = true
-    //     advanceState.isAdvanced = !advanceState.isAdvanced
-    //   }
-    //   return { isAdvanced: advanceState.isAdvanced, itemColSum }
-    // }
+        // More than 3 lines collapsed by default
+      }
+      return { isAdvanced: advanceState.isAdvanced, itemColSum }
+    }
 
-    const alwaysShowLines = 1
     if (itemColSum > BASIC_COL_LEN * (alwaysShowLines || 1)) {
       return { isAdvanced: advanceState.isAdvanced, itemColSum }
     }
-    // The first line is always displayed
+
     return { isAdvanced: true, itemColSum }
   }
 
