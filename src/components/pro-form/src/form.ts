@@ -1,6 +1,6 @@
 import type { SetupContext } from 'vue'
 import { reactive, onBeforeMount, ref, watch, unref, computed } from 'vue'
-import { FormProps, FormItem, formEmits, emitsEnums } from './form-props'
+import { FormProps, FormSchema, formEmits, emitsEnums } from './form-props'
 import { ElFormInstance } from './types'
 import { useCollapse } from './use-collapse'
 import { FormMethodsType, NOOP } from './types/form'
@@ -18,9 +18,11 @@ export const useForm = (parameter: UseFormParameter) => {
 
   const formModel = reactive<Record<string, any>>({})
 
-  const formRules = reactive<Record<string, FormItem['rules']>>({})
+  const formRules = reactive<Record<string, FormSchema['rules']>>({})
 
-  const { fieldsIsCollapsedMap, toggleCollapse, advanceState } = useCollapse({ fields })
+  const { fieldsIsCollapsedMap, toggleCollapse, advanceState, advancedSpanColAttrs } = useCollapse({
+    fields
+  })
 
   onBeforeMount(() => {
     initializeForm()
@@ -50,6 +52,8 @@ export const useForm = (parameter: UseFormParameter) => {
     formRef.value?.clearValidate(...rest)
   }
 
+  const validateField = () => {}
+
   const initializeForm = () => {
     if (fields.length === 0) return
     fields.forEach(item => {
@@ -68,7 +72,7 @@ export const useForm = (parameter: UseFormParameter) => {
     })
   }
 
-  const handleElAttrs = (item: FormItem) => {
+  const handleElAttrs = (item: FormSchema) => {
     const { attrs } = item
     return {
       placeholder: item.label,
@@ -90,8 +94,9 @@ export const useForm = (parameter: UseFormParameter) => {
     forceUpdateModel,
     resetFields,
     clearValidate,
+    validate,
     submit: handleSubmit,
-    validate: () => {},
+
     validateField: () => {},
     scrollToField: () => {}
   }
@@ -106,6 +111,7 @@ export const useForm = (parameter: UseFormParameter) => {
     resetFields,
     validate,
     fieldsIsCollapsedMap,
-    toggleCollapse
+    toggleCollapse,
+    advancedSpanColAttrs
   }
 }

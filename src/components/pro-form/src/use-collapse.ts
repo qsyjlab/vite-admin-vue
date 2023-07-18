@@ -1,5 +1,5 @@
 import { useBreakpoint } from '@/hooks/event/use-breakpoint'
-import { reactive, unref, watch } from 'vue'
+import { computed, reactive, unref, watch } from 'vue'
 import { FormSchema } from './types/form'
 
 interface CollapseOption {
@@ -38,6 +38,21 @@ export function useCollapse(option: CollapseOption) {
       immediate: true
     }
   )
+
+  const advancedSpanColAttrs = computed(() => {
+    const actionSpan = 24 - advanceState.span
+
+    const showAdvancedButton = !advanceState.hideAdvanceBtn
+    const advancedSpanObj = !advanceState.hideAdvanceBtn
+      ? { span: actionSpan < 6 ? 24 : actionSpan }
+      : {}
+    const actionColOpt = {
+      // style: { textAlign: 'right' },
+      span: showAdvancedButton ? 6 : 4,
+      ...advancedSpanObj
+    }
+    return actionColOpt
+  })
 
   function toggleCollapse() {
     advanceState.isAdvanced = !advanceState.isAdvanced
@@ -102,5 +117,11 @@ export function useCollapse(option: CollapseOption) {
     return { isAdvanced: true, itemColSum }
   }
 
-  return { fieldsIsCollapsedMap, toggleCollapse, updateCollapce, advanceState }
+  return {
+    fieldsIsCollapsedMap,
+    toggleCollapse,
+    updateCollapce,
+    advanceState,
+    advancedSpanColAttrs
+  }
 }

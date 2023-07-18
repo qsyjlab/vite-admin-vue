@@ -5,13 +5,11 @@ import { ElFormInstance } from './types'
 
 export type FormItem = FormSchema
 
+export type { FormSchema }
+
 export const formProps = {
-  grid: {
-    type: Boolean,
-    default: true
-  },
   fields: {
-    type: definePropType<FormItem[]>(Array),
+    type: definePropType<FormSchema[]>(Array),
     default: () => []
   },
   inline: {

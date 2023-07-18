@@ -7,62 +7,45 @@
     :ref="ref => setFormRef(ref)"
     @submit.prevent
   >
-    <template v-if="grid">
-      {{ fieldsIsCollapsedMap }}
-      <el-row :gutter="20">
-        <el-col
-          v-for="(item, index) in fields"
-          v-bind="item.col"
-          :key="`${item.key}`"
-          v-show="fieldsIsCollapsedMap[item.key]"
-        >
-          <el-form-item style="width: 100%" :label="item.label" :prop="item.key || String(index)">
-            <component :is="item.el" v-model="formModel[item.key]" v-bind="handleElAttrs(item)" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </template>
-
-    <template v-else>
-      <template v-for="(item, index) in fields" :key="`${item.key}`">
-        <el-form-item :label="item.label" :prop="item.key || String(index)">
+    <el-row :gutter="20">
+      <el-col
+        v-for="(item, index) in fields"
+        v-bind="item.col"
+        :key="`${item.key}`"
+        v-show="fieldsIsCollapsedMap[item.key]"
+      >
+        <el-form-item style="width: 100%" :label="item.label" :prop="item.key || String(index)">
           <component :is="item.el" v-model="formModel[item.key]" v-bind="handleElAttrs(item)" />
         </el-form-item>
-      </template>
-    </template>
+      </el-col>
+      <el-col v-bind="advancedSpanColAttrs">
+        <template v-if="inline">
+          <div style="display: flex; justify-content: flex-end; width: 100%">
+            <el-space>
+              <el-button type="primary" @click="onSubmit">查询</el-button>
+              <el-button @click="onReset">重置</el-button>
+              <toggle-arrow
+                v-if="!advanceState.hideAdvanceBtn"
+                :expand="advanceState.isAdvanced"
+                @click="toggleCollapse"
+              ></toggle-arrow>
+            </el-space>
+          </div>
+        </template>
+      </el-col>
+    </el-row>
 
-    <template v-if="inline">
-      <div style="display: flex; justify-content: flex-end; width: 100%">
-        <el-space>
-          <el-button type="primary" @click="onSubmit">查询</el-button>
-          <el-button @click="onReset">重置</el-button>
-          <toggle-arrow
-            v-if="!advanceState.hideAdvanceBtn"
-            :expand="advanceState.isAdvanced"
-            @click="toggleCollapse"
-          ></toggle-arrow>
-        </el-space>
-      </div>
-    </template>
-
-    <template v-if="!inline">
-      <el-form-item>
-        <div style="display: flex; justify-content: center; width: 100%">
-          <el-button @click="onReset">取消</el-button>
-          <el-button type="primary" @click="onSubmit">确定</el-button>
-        </div>
-      </el-form-item>
-    </template>
+    <!-- 只提供 inline 模式下的操作按钮 -->
   </el-form>
 </template>
 
-<script lang="tsx">
+<script lang="ts">
 export default {
   name: 'VProForm'
 }
 </script>
 
-<script setup lang="tsx">
+<script setup lang="ts">
 import { formProps, formEmits, emitsEnums } from './form-props'
 import { useForm } from './form'
 import { ElForm, ElFormItem } from 'element-plus'
@@ -81,7 +64,9 @@ const {
   validate,
   resetFields,
   toggleCollapse,
-  fieldsIsCollapsedMap
+  formExposeMethods,
+  fieldsIsCollapsedMap,
+  advancedSpanColAttrs
 } = useForm({
   props,
   emits
@@ -103,10 +88,5 @@ const onReset = () => {
   })
 }
 
-defineExpose({
-  submit: onSubmit,
-  reset: onReset,
-  getValues,
-  validate
-})
+defineExpose(formExposeMethods)
 </script>
