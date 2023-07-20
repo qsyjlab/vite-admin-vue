@@ -1,15 +1,15 @@
 import BaseStorage from './BaseStorage'
-
-import config from '@/config'
 import { StorageKeys } from '@/enum'
 
 import type { ProjectLayoutConfig } from '@/layouts'
 
-/**
- * TODO: 站定在目前位置
- */
+const expires: number = StorageKeys.Expires
+const prefix: string = StorageKeys.Prefix
 
-const $storage = new BaseStorage(window.localStorage, config.storage)
+const $storage = new BaseStorage(window.localStorage, {
+  expires,
+  prefix
+})
 interface UserInfo {
   userId: string | number
   userName: string

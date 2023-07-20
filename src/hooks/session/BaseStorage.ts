@@ -1,5 +1,3 @@
-type BaseLocalStorageType = Storage
-
 interface OptionsType {
   expires: number
   prefix: string
@@ -16,19 +14,17 @@ interface SetOptionsType {
   isForever: boolean
 }
 
-export { BaseLocalStorageType }
-
 export default class BaseStorage {
-  localStorage: BaseLocalStorageType
+  localStorage: Storage
   prefix: string
   expires: number
 
   /**
    *
-   * @param { BaseLocalStorageType } storage
+   * @param { Storage } storage
    * @param {OptionsType}  options
    */
-  constructor(storage: BaseLocalStorageType = window.localStorage, options: OptionsType) {
+  constructor(storage: Storage = window.localStorage, options: OptionsType) {
     const { prefix, expires } = options
 
     this.localStorage = storage
