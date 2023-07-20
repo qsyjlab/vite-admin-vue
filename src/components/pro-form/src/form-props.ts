@@ -23,7 +23,7 @@ export const formProps = {
 }
 
 export const emitsEnums = {
-  GET_INSTANCE: 'get-instance',
+  REGISTER: 'register',
   SUBMIT: 'submit',
   RESET: 'reset'
 } as const
@@ -31,7 +31,7 @@ export const emitsEnums = {
 // [Vue warn]:  Invalid event arguments: event validation failed for event
 // so, A value must be returned
 export const formEmits = {
-  [emitsEnums.GET_INSTANCE]: (instance: ElFormInstance | null): boolean => true,
+  [emitsEnums.REGISTER]: (instance: ElFormInstance | null): boolean => true,
   [emitsEnums.SUBMIT]: (values: Record<string, any>): boolean => true,
   [emitsEnums.RESET]: (values: Record<string, any>): boolean => true
 }

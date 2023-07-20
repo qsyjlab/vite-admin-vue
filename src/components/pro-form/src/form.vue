@@ -78,10 +78,6 @@ const onSubmit = () => {
   })
 }
 
-const getValues = () => {
-  return formModel
-}
-
 const onReset = () => {
   resetFields(() => {
     emits(emitsEnums.RESET, formModel)

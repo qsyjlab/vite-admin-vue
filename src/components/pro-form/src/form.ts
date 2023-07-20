@@ -1,5 +1,5 @@
 import type { SetupContext } from 'vue'
-import { reactive, onBeforeMount, ref, watch, unref, computed } from 'vue'
+import { reactive, onBeforeMount, ref, watch, unref, computed, toRefs } from 'vue'
 import { FormProps, FormSchema, formEmits, emitsEnums } from './form-props'
 import { ElFormInstance } from './types'
 import { useCollapse } from './use-collapse'
@@ -35,11 +35,11 @@ export const useForm = (parameter: UseFormParameter) => {
     }
   )
 
-  const validate = (handle?: () => void) => {
+  const validate: FormMethodsType['validate'] = handle => {
     formRef.value?.validate(valid => {
       if (!valid) return
 
-      handle?.()
+      handle?.(toRefs(formModel))
     })
   }
 
@@ -87,7 +87,7 @@ export const useForm = (parameter: UseFormParameter) => {
   const setFormRef = (ref: any) => {
     formRef.value = ref
 
-    emits(emitsEnums.GET_INSTANCE, formRef.value)
+    emits(emitsEnums.REGISTER, formRef.value)
   }
 
   const formExposeMethods: FormMethodsType = {
@@ -95,8 +95,6 @@ export const useForm = (parameter: UseFormParameter) => {
     resetFields,
     clearValidate,
     validate,
-    submit: handleSubmit,
-
     validateField: () => {},
     scrollToField: () => {}
   }

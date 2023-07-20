@@ -1,7 +1,7 @@
 <template>
   <el-card>
     <template #header>{{ $route.meta.title }}</template>
-    <VProForm grid :fields="fields" @submit="submit" @reset="reset">
+    <VProForm :fields="fields" @submit="submit" @reset="reset">
       <template #extra> 测试 </template>
     </VProForm>
 
