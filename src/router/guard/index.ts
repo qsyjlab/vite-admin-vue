@@ -32,8 +32,6 @@ export function createProgressGuard(router: Router) {
 // components cahce
 export function createKeepAliveGuard(router: Router) {
   router.afterEach(to => {
-    console.log('after cache', to)
-
     const { addAlive } = useRouteStore()
 
     if (to.meta.isKeepAlive && to.name) {

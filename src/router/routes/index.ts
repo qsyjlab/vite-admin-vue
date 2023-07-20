@@ -1,8 +1,5 @@
-import { loadRoutes } from '@/utils'
-
 import { defineExposeRoutes } from '../helper'
 
-import { createBlankContainer } from '@/layouts'
 import { RouteRecordRaw } from 'vue-router'
 
 export const pageError = {
@@ -19,8 +16,6 @@ export type RouteModules = Record<
 >
 
 const modules: RouteModules = import.meta.glob('./modules/**/*.ts', { eager: true })
-
-// console.log('modules', modules)
 
 // 加载路由模块
 export function loadRouterModules() {
@@ -39,6 +34,34 @@ export function loadRouterModules() {
 
 export const asyncRoutes = loadRouterModules()
 
+const loginRoute: RouteRecordRaw = {
+  path: '/login',
+  name: 'Login',
+  meta: {
+    title: '登录',
+    isAuth: false
+  },
+  component: () => import('@/views/Login/Login.vue')
+}
+
+const error403: RouteRecordRaw = {
+  path: '/error403',
+  name: 'Error403',
+  meta: {
+    title: '403'
+  },
+  component: () => import('@/views/error/error-403.vue')
+}
+
+const error404: RouteRecordRaw = {
+  path: '/error404',
+  name: 'Error404',
+  meta: {
+    title: '404'
+  },
+  component: () => import('@/views/error/error-404.vue')
+}
+
 export const routes = defineExposeRoutes([
   {
     path: '/',
@@ -48,27 +71,9 @@ export const routes = defineExposeRoutes([
       hideInBreadcrumb: true
     }
   },
-  {
-    path: '/user',
-    name: 'User',
-    redirect: { name: 'Login' },
-    meta: {
-      hideInBreadcrumb: true,
-      isAuth: false
-    },
-    component: createBlankContainer('User'),
-    children: loadRoutes(import.meta.glob('./user/*.ts', { eager: true }))
-  },
-  {
-    path: '/error',
-    name: 'Error',
-    meta: {
-      hideInMenu: true,
-      hideInBreadcrumb: true
-    },
-    component: createBlankContainer('Error'),
-    children: loadRoutes(import.meta.glob('./error/*.ts', { eager: true }))
-  },
+  loginRoute,
+  error403,
+  error404,
   pageError
 ])
 

@@ -80,7 +80,7 @@ import { AsideMenu } from '../../sidebar/menu'
 
 import Pushpin from '../pushpin.vue'
 import { storeToRefs } from 'pinia'
-import { getMenus } from '@/router/menus'
+import { getMenus } from '@/router/helper/menus'
 
 interface IProps {
   menuWidth?: number

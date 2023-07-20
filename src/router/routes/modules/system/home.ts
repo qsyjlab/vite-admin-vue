@@ -1,5 +1,5 @@
-import BasicLayout from '@/layouts/basic-layout/basic-layout.vue'
 import { defineExposeRoutes } from '@/router'
+import { Layout } from '@/router/constant'
 
 export default defineExposeRoutes([
   {
@@ -15,7 +15,7 @@ export default defineExposeRoutes([
     redirect: {
       name: 'WelcomeIndex'
     },
-    component: () => import('@/layouts/basic-layout/basic-layout.vue'),
+    component: Layout,
     children: [
       {
         path: 'index',

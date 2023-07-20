@@ -1,5 +1,5 @@
-import BasicLayout from '@/layouts/basic-layout/basic-layout.vue'
 import { defineExposeRoutes } from '@/router'
+import { Layout } from '@/router/constant'
 
 export default defineExposeRoutes([
   {
@@ -9,7 +9,7 @@ export default defineExposeRoutes([
       title: 'Card',
       sort: 5
     },
-    component: () => import('@/layouts/basic-layout/basic-layout.vue'),
+    component: Layout,
     children: [
       {
         path: '/card-m',

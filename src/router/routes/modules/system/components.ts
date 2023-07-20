@@ -1,6 +1,6 @@
 import { defineExposeRoutes } from '@/router'
 import { createBlankContainer } from '@/layouts'
-import BasicLayout from '@/layouts/basic-layout/basic-layout.vue'
+import { Layout } from '@/router/constant'
 
 export default defineExposeRoutes([
   {
@@ -12,7 +12,7 @@ export default defineExposeRoutes([
       icon: 'icon-document'
     },
     redirect: { name: 'Form' },
-    component: () => import('@/layouts/basic-layout/basic-layout.vue'),
+    component: Layout,
     children: [
       {
         name: 'ProTable',

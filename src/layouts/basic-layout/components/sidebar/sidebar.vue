@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { AsideMenu } from './menu'
-import { getMenus } from '@/router/menus'
+import { getMenus } from '@/router/helper/menus'
 import { storeToRefs } from 'pinia'
 import { useLayoutStore } from '@/store'
 
@@ -33,3 +33,4 @@ const menus = computed(() => {
   return getMenus()
 })
 </script>
+@/router/helper/menus

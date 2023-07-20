@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { getMenus } from '@/router/menus'
+import { getMenus } from '@/router/helper/menus'
 
 const { currentRoute } = useRouter()
 const breadCrumbList = computed(() => {
