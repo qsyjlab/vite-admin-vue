@@ -10,7 +10,7 @@
     "check": "vue-tsc --noEmit --skipLibCheck",
     "preview": "vite preview",
     "prettier": "prettier --write .",
-    "lint:code-recyle": "dpdm ./src/main.js",
+    "lint:code-recyle": "dpdm ./src/main.ts",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
     "lint:stylelint": "stylelint --cache --fix \"**/*.{css,less,vue,html}\" --cache --cache-location node_modules/.cache/stylelint/",
     "prepare": "husky install",

@@ -20,4 +20,10 @@ export interface FormMethodsType {
   scrollToField: NOOP
   // 强制更新 数据
   forceUpdateModel: (model: Record<string, any>) => void
+  updateSchemas: (schemas: FormSchema | FormSchema[]) => void
+  appendSchemaByField: (
+    schemas: FormSchema | FormSchema[],
+    referKey: string,
+    position?: 'before' | 'after'
+  ) => void
 }

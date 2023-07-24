@@ -35,7 +35,8 @@ export function useCollapse(option: CollapseOption) {
       updateCollapce()
     },
     {
-      immediate: true
+      immediate: true,
+      deep: true
     }
   )
 

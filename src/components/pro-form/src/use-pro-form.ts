@@ -2,13 +2,13 @@ import { nextTick, ref, unref } from 'vue'
 import { FormMethodsType } from './types/form'
 
 interface UseProForm extends FormMethodsType {
-  register: (instance: FormMethodsType) => void
+  register: (instance: FormMethodsType | null) => void
   getForm: () => Promise<FormMethodsType>
 }
 
 export function useProForm(): UseProForm {
   const formRef = ref<FormMethodsType | null>(null)
-  function register(instance: FormMethodsType) {
+  function register(instance: FormMethodsType | null) {
     formRef.value = instance
   }
 
@@ -52,6 +52,16 @@ export function useProForm(): UseProForm {
     instance.scrollToField()
   }
 
+  const updateSchemas: FormMethodsType['updateSchemas'] = async schemas => {
+    const instance = await getForm()
+    instance.updateSchemas(schemas)
+  }
+
+  const appendSchemaByField: FormMethodsType['appendSchemaByField'] = async (...rest) => {
+    const instance = await getForm()
+    instance.appendSchemaByField(...rest)
+  }
+
   return {
     register,
     getForm,
@@ -60,6 +70,8 @@ export function useProForm(): UseProForm {
     resetFields,
     clearValidate,
     validateField,
-    forceUpdateModel
+    forceUpdateModel,
+    updateSchemas,
+    appendSchemaByField
   }
 }

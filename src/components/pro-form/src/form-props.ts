@@ -1,8 +1,6 @@
 import { definePropType } from '@/utils'
 import type { ExtractPropTypes } from 'vue'
-import { FormSchema } from './types/form'
-import { ElFormInstance } from './types'
-
+import { FormMethodsType, FormSchema } from './types/form'
 export type FormItem = FormSchema
 
 export type { FormSchema }
@@ -14,7 +12,7 @@ export const formProps = {
   },
   inline: {
     type: Boolean,
-    default: true
+    default: false
   },
   model: {
     type: definePropType<Record<string, any>>(Object),
@@ -31,7 +29,7 @@ export const emitsEnums = {
 // [Vue warn]:  Invalid event arguments: event validation failed for event
 // so, A value must be returned
 export const formEmits = {
-  [emitsEnums.REGISTER]: (instance: ElFormInstance | null): boolean => true,
+  [emitsEnums.REGISTER]: (instance: FormMethodsType | null): boolean => true,
   [emitsEnums.SUBMIT]: (values: Record<string, any>): boolean => true,
   [emitsEnums.RESET]: (values: Record<string, any>): boolean => true
 }

@@ -1,20 +1,15 @@
 <template>
   <el-card>
     <template #header>{{ $route.meta.title }}</template>
-    <VProForm :fields="fields" @submit="submit" @reset="reset">
-      <template #extra> 测试 </template>
-    </VProForm>
+    <VProForm inline :fields="fields" @submit="submit" @reset="reset"> </VProForm>
 
-    <!-- <VProForm
-      :grid="true"
-      :inline="false"
-      :fields="fields"
-      @submit="submit"
-      @reset="reset"
-      label-width="150px"
-    >
-      <template #extra> 测试 </template>
-    </VProForm> -->
+    <template v-if="true">
+      表单
+      <VProForm :fields="fields" @register="register"> </VProForm>
+      <el-button @click="customSubmit">自定义提交按钮</el-button>
+      <el-button @click="updateFormConfig">更新表单配置</el-button>
+      <el-button @click="insertFormConfig">插入新的配置</el-button>
+    </template>
   </el-card>
 </template>
 
@@ -26,6 +21,9 @@ export default {
 
 <script setup lang="ts">
 import { VProForm } from '@/components/pro-form'
+import { useProForm } from '@/hooks'
+
+const { register, validate, updateSchemas, appendSchemaByField } = useProForm()
 
 const fields = [
   {
@@ -44,8 +42,17 @@ const fields = [
     label: 'zone',
     el: 'el-input',
     key: 'zone',
+
     col: {
       span: 4
+    },
+    attrs: {
+      options: [
+        {
+          label: '测试地区1',
+          value: 1
+        }
+      ]
     }
   },
   {
@@ -81,43 +88,66 @@ const fields = [
       span: 8
     }
   }
-  // {
-  //   label: 'delivery',
-  //   key: 'delivery',
-  //   el: 'el-input',
-  //   col: {
-  //     span: 8
-  //   }
-  // },
-  // // {
-  // //   label: 'time-picker-is-range',
-  // //   key: 'time-picker-is-range',
-  // //   el: 'el-time-picker',
-  // //   attrs: {
-  // //     'is-range': true,
-  // //     'arrow-control': true,
-  // //     'range-separator': 'To',
-  // //     'start-placeholder': 'Start time',
-  // //     'end-placeholder': 'End time'
-  // //   }
-  // // },
-  // {
-  //   label: 'el-date-picker',
-  //   key: 'el-date-picker',
-  //   el: 'el-date-picker',
-  //   col: {
-  //     span: 8
-  //   },
-  //   attrs: {
-  //     type: 'daterange',
-  //     'is-range': true,
-  //     'arrow-control': true,
-  //     'range-separator': 'To',
-  //     'start-placeholder': 'Start date',
-  //     'end-placeholder': 'End date'
-  //   }
-  // }
 ]
+
+const updateFormConfig = () => {
+  updateSchemas({
+    label: '更新地区',
+    key: 'zone',
+    el: 'el-select',
+    attrs: {
+      options: [
+        {
+          label: '测试地区1',
+          value: 1
+        }
+      ]
+    }
+  })
+
+  updateSchemas([
+    {
+      label: '更新地区2',
+      key: 'zone',
+
+      attrs: {
+        options: [
+          {
+            label: '测试地区1',
+            value: 1
+          }
+        ]
+      }
+    },
+    {
+      label: '更新时间',
+      key: 'time23',
+      col: {
+        span: 4
+      }
+    }
+  ])
+}
+
+const insertFormConfig = () => {
+  appendSchemaByField(
+    {
+      label: '新增项',
+      el: 'el-input',
+      key: 'name1',
+      col: {
+        span: 4
+      }
+    },
+    'name'
+  )
+}
+
+const customSubmit = () => {
+  validate(values => {
+    console.log('values', values)
+  })
+}
 
 const submit = (values: any) => {
   console.log('values', values)

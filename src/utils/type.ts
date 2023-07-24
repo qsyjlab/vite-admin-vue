@@ -7,7 +7,7 @@ export const isObject = (val: unknown): val is Record<any, any> =>
   val !== null && typeof val === 'object'
 
 export const isPlainObject = (value: unknown) => toTypeString(value) === '[object Object]'
-export const isArray = (value: unknown) => toTypeString(value) === '[object Array]'
+export const isArray = Array.isArray
 export const isDate = (value: unknown) => toTypeString(value) === '[object Date]'
 export const isString = (value: unknown) => toTypeString(value) === '[object String]'
 export const isUndefined = (value: unknown) => toTypeString(value) === '[object Undefined]'

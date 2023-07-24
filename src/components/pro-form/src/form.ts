@@ -1,8 +1,9 @@
-import type { SetupContext } from 'vue'
-import { reactive, onBeforeMount, ref, watch, unref, computed, toRefs } from 'vue'
+import { SetupContext, toRaw } from 'vue'
+import { reactive, onBeforeMount, ref, watch, computed } from 'vue'
 import { FormProps, FormSchema, formEmits, emitsEnums } from './form-props'
 import { ElFormInstance } from './types'
 import { useCollapse } from './use-collapse'
+import { useSchema } from './use-schema'
 import { FormMethodsType, NOOP } from './types/form'
 
 type UseFormParameter = {
@@ -19,14 +20,25 @@ export const useForm = (parameter: UseFormParameter) => {
   const formModel = reactive<Record<string, any>>({})
 
   const formRules = reactive<Record<string, FormSchema['rules']>>({})
+  const { schemaRef, updateSchemas, appendSchemaByField } = useSchema(fields)
 
   const { fieldsIsCollapsedMap, toggleCollapse, advanceState, advancedSpanColAttrs } = useCollapse({
-    fields
+    fields: schemaRef.value
   })
 
   onBeforeMount(() => {
     initializeForm()
   })
+
+  watch(
+    schemaRef,
+    () => {
+      console.log('watcb ref', schemaRef.value)
+
+      // initializeForm()
+    },
+    { deep: true }
+  )
 
   watch(
     () => props.model,
@@ -39,7 +51,7 @@ export const useForm = (parameter: UseFormParameter) => {
     formRef.value?.validate(valid => {
       if (!valid) return
 
-      handle?.(toRefs(formModel))
+      handle?.(toRaw(formModel))
     })
   }
 
@@ -87,7 +99,7 @@ export const useForm = (parameter: UseFormParameter) => {
   const setFormRef = (ref: any) => {
     formRef.value = ref
 
-    emits(emitsEnums.REGISTER, formRef.value)
+    emits(emitsEnums.REGISTER, formExposeMethods)
   }
 
   const formExposeMethods: FormMethodsType = {
@@ -95,11 +107,14 @@ export const useForm = (parameter: UseFormParameter) => {
     resetFields,
     clearValidate,
     validate,
+    updateSchemas,
+    appendSchemaByField,
     validateField: () => {},
     scrollToField: () => {}
   }
 
   return {
+    schemaRef,
     formExposeMethods,
     advanceState: computed(() => advanceState),
     formModel,
