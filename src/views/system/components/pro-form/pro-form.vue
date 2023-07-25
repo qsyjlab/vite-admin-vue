@@ -9,6 +9,7 @@
       <el-button @click="customSubmit">自定义提交按钮</el-button>
       <el-button @click="updateFormConfig">更新表单配置</el-button>
       <el-button @click="insertFormConfig">插入新的配置</el-button>
+      <el-button @click="removeFormConfig">移除配置</el-button>
     </template>
   </el-card>
 </template>
@@ -23,7 +24,7 @@ export default {
 import { VProForm } from '@/components/pro-form'
 import { useProForm } from '@/hooks'
 
-const { register, validate, updateSchemas, appendSchemaByField } = useProForm()
+const { register, validate, updateSchemas, appendSchemaByField, removeSchemaByField } = useProForm()
 
 const fields = [
   {
@@ -127,6 +128,10 @@ const updateFormConfig = () => {
       }
     }
   ])
+}
+
+const removeFormConfig = () => {
+  removeSchemaByField(['zone', 'name'])
 }
 
 const insertFormConfig = () => {

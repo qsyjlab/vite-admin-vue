@@ -20,7 +20,8 @@ export const useForm = (parameter: UseFormParameter) => {
   const formModel = reactive<Record<string, any>>({})
 
   const formRules = reactive<Record<string, FormSchema['rules']>>({})
-  const { formSchemaes, updateSchemas, appendSchemaByField } = useSchema(fields)
+  const { formSchemaes, updateSchemas, appendSchemaByField, removeSchemaByField } =
+    useSchema(fields)
 
   const { fieldsIsCollapsedMap, toggleCollapse, advanceState, advancedSpanColAttrs } = useCollapse({
     fields: formSchemaes.value,
@@ -100,6 +101,7 @@ export const useForm = (parameter: UseFormParameter) => {
     validate,
     updateSchemas,
     appendSchemaByField,
+    removeSchemaByField,
     validateField: () => {},
     scrollToField: () => {}
   }

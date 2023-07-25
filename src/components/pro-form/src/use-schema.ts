@@ -1,7 +1,7 @@
 import type { FormSchema } from './types'
 
 import { cloneDeep } from 'lodash-es'
-import { computed, ref, unref } from 'vue'
+import { computed, ref, toRaw, unref } from 'vue'
 import { deepMerge, isArray } from '@/utils'
 
 export function useSchema(schemas: FormSchema[]) {
@@ -54,13 +54,8 @@ export function useSchema(schemas: FormSchema[]) {
   }
 
   const removeSchemaByField = (key: string | string[]) => {
-    const _keys = isArray(key) ? key : [key]
-
-    _keys.forEach(key => {
-      const atIndex = schemaRef.value.findIndex(sc => sc.key === key)
-      if (atIndex !== -1) {
-        schemaRef.value.splice(atIndex, 1)
-      }
+    schemaRef.value = toRaw(schemaRef.value).filter(sc => {
+      return !(isArray(key) ? key : [key]).includes(sc.key)
     })
   }
 

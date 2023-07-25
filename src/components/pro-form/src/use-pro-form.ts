@@ -62,6 +62,11 @@ export function useProForm(): UseProForm {
     instance.appendSchemaByField(...rest)
   }
 
+  const removeSchemaByField: FormMethodsType['removeSchemaByField'] = async (...rest) => {
+    const instance = await getForm()
+    instance.removeSchemaByField(...rest)
+  }
+
   return {
     register,
     getForm,
@@ -72,6 +77,7 @@ export function useProForm(): UseProForm {
     validateField,
     forceUpdateModel,
     updateSchemas,
-    appendSchemaByField
+    appendSchemaByField,
+    removeSchemaByField
   }
 }
