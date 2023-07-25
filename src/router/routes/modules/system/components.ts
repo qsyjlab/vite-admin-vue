@@ -66,7 +66,30 @@ export default defineExposeRoutes([
           isKeepAlive: true,
           icon: 'icon-upload'
         },
-        component: () => import('@/views/system/components/pro-form/pro-form.vue')
+        children: [
+          {
+            name: 'ProFormBase',
+            path: 'base',
+            meta: {
+              title: '基础表单',
+              isNotAuth: true,
+              isKeepAlive: true,
+              icon: 'icon-upload'
+            },
+            component: () => import('@/views/system/components/pro-form/pro-form.vue')
+          },
+          {
+            name: 'ProFormModal',
+            path: 'modal',
+            meta: {
+              title: 'Modal 表单',
+              isNotAuth: true,
+              isKeepAlive: true,
+              icon: 'icon-upload'
+            },
+            component: () => import('@/views/system/components/pro-form/modal-form.vue')
+          }
+        ]
       },
       {
         name: 'Upload',
