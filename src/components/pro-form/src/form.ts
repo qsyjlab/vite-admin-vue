@@ -20,25 +20,16 @@ export const useForm = (parameter: UseFormParameter) => {
   const formModel = reactive<Record<string, any>>({})
 
   const formRules = reactive<Record<string, FormSchema['rules']>>({})
-  const { schemaRef, updateSchemas, appendSchemaByField } = useSchema(fields)
+  const { formSchemaes, updateSchemas, appendSchemaByField } = useSchema(fields)
 
   const { fieldsIsCollapsedMap, toggleCollapse, advanceState, advancedSpanColAttrs } = useCollapse({
-    fields: schemaRef.value
+    fields: formSchemaes.value,
+    isWatch: inline
   })
 
   onBeforeMount(() => {
     initializeForm()
   })
-
-  watch(
-    schemaRef,
-    () => {
-      console.log('watcb ref', schemaRef.value)
-
-      // initializeForm()
-    },
-    { deep: true }
-  )
 
   watch(
     () => props.model,
@@ -114,7 +105,7 @@ export const useForm = (parameter: UseFormParameter) => {
   }
 
   return {
-    schemaRef,
+    formSchemaes,
     formExposeMethods,
     advanceState: computed(() => advanceState),
     formModel,

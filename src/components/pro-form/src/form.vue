@@ -9,10 +9,10 @@
   >
     <el-row :gutter="20">
       <el-col
-        v-for="(item, index) in schemaRef"
+        v-for="(item, index) in formSchemaes"
         v-bind="item.col"
         :key="`${item.key}`"
-        v-show="fieldsIsCollapsedMap[item.key]"
+        v-show="!inline ? true : fieldsIsCollapsedMap[item.key]"
       >
         <el-form-item style="width: 100%" :label="item.label" :prop="item.key || String(index)">
           <component :is="item.el" v-model="formModel[item.key]" v-bind="handleElAttrs(item)" />
@@ -56,7 +56,7 @@ const props = defineProps(formProps)
 const emits = defineEmits(formEmits)
 
 const {
-  schemaRef,
+  formSchemaes,
   advanceState,
   formModel,
   formRules,

@@ -3,13 +3,14 @@ import { computed, reactive, unref, watch } from 'vue'
 import { FormSchema } from './types/form'
 
 interface CollapseOption {
+  isWatch: boolean
   fields: FormSchema[]
   alwaysShowLines?: number
   autoAdvancedLine?: number
 }
 
 export function useCollapse(option: CollapseOption) {
-  const { fields, alwaysShowLines = 1, autoAdvancedLine = 3 } = option
+  const { fields, alwaysShowLines = 1, autoAdvancedLine = 3, isWatch } = option
 
   const { widthRef, screenEnum } = useBreakpoint()
 
@@ -29,16 +30,18 @@ export function useCollapse(option: CollapseOption) {
     span: 8
   })
 
-  watch(
-    [() => fields, () => widthRef, () => advanceState.isAdvanced],
-    () => {
-      updateCollapce()
-    },
-    {
-      immediate: true,
-      deep: true
-    }
-  )
+  if (isWatch) {
+    watch(
+      [() => fields, () => widthRef, () => advanceState.isAdvanced],
+      () => {
+        updateCollapce()
+      },
+      {
+        immediate: true,
+        deep: true
+      }
+    )
+  }
 
   const advancedSpanColAttrs = computed(() => {
     const actionSpan = 24 - advanceState.span
