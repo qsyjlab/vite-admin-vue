@@ -16,7 +16,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
-import BaseForm from '../../form.vue'
+import BaseForm from '../../base-form.vue'
 import { useProForm } from '../../use-pro-form'
 import drawerModalProps from './props'
 

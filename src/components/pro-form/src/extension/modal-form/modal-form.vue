@@ -29,7 +29,7 @@ export default { name: 'VModalForm' }
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import BaseForm from '../../form.vue'
+import BaseForm from '../../base-form.vue'
 import { useProForm } from '../../use-pro-form'
 import { modalProps } from './modal-form'
 
