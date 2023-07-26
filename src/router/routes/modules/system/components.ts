@@ -88,6 +88,17 @@ export default defineExposeRoutes([
               icon: 'icon-upload'
             },
             component: () => import('@/views/system/components/pro-form/modal-form.vue')
+          },
+          {
+            name: 'ProFormDrawer',
+            path: 'drawer',
+            meta: {
+              title: 'Drawer 表单',
+              isNotAuth: true,
+              isKeepAlive: true,
+              icon: 'icon-upload'
+            },
+            component: () => import('@/views/system/components/pro-form/drawer-form.vue')
           }
         ]
       },
