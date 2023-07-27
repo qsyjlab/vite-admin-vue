@@ -15,7 +15,7 @@ export const useProTable = (options: UseTableOptions) => {
   const { columns, data, request, params = {}, isPagination } = toRefs(props)
 
   const dataSource = ref<any[]>([])
-  const tableColums = computed(() => columns.value)
+  const tableColums = ref(columns.value)
   const total = ref(0)
 
   const pageQuery = reactive({

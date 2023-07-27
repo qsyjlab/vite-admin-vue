@@ -17,7 +17,7 @@
               ><el-icon :size="18"><RefreshRight /></el-icon
             ></span>
           </el-tooltip>
-          <SettingColumns :columns="tableColums" />
+          <SettingColumns :columns="tableColums" @change="tableColumsSettingChange" />
         </el-space>
       </div>
     </div>
@@ -59,9 +59,9 @@
 </template>
 <script setup lang="ts">
 import { useProTable } from './pro-table'
-import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
+import { proTableProps, proTableEmits, proTableHeaderProps, ProTableColumnItem } from './props'
 import { RefreshRight } from '@element-plus/icons-vue'
-import SettingColumns from './setting.vue'
+import SettingColumns from './components/column-setting.vue'
 import './style.scss'
 
 import ProTableColumn from './pro-table-column.vue'
@@ -85,6 +85,23 @@ const {
   props,
   emits
 })
+
+// TODO: 类型补全
+const tableColumsSettingChange = (columns: any) => {
+  const columnsMap: Record<string, ProTableColumnItem> = {}
+
+  const _newCols: any[] = []
+
+  tableColums.value.forEach((col, index) => {
+    columnsMap[`${col.key}-${index}`] = col
+  })
+
+  columns.forEach((col: any) => {
+    _newCols.push(columnsMap[col._rowKey])
+  })
+
+  tableColums.value = _newCols
+}
 
 defineExpose({
   reload

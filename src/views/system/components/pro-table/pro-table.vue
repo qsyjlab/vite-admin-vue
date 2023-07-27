@@ -29,7 +29,8 @@ import { onMounted, ref, watch } from 'vue'
 const columns = [
   {
     title: '名称',
-    key: 'name'
+    key: 'name',
+    fixed: 'left'
     // renderHeader: () => {
     //   return <>测试 tsx</>
     // }
@@ -37,6 +38,7 @@ const columns = [
   {
     title: '年龄',
     key: 'age',
+    fixed: 'left',
     children: [
       {
         title: '年龄2',
@@ -69,6 +71,14 @@ const columns = [
   {
     title: '状态',
     key: 'email'
+  },
+  {
+    title: '地址',
+    key: 'address'
+  },
+  {
+    title: '地址2',
+    key: 'address2'
   },
   {
     title: '操作',
