@@ -99,6 +99,17 @@ export default defineExposeRoutes([
               icon: 'icon-upload'
             },
             component: () => import('@/views/system/components/pro-form/drawer-form.vue')
+          },
+          {
+            name: 'ProFormSteps',
+            path: 'steps',
+            meta: {
+              title: 'StepsForm 表单',
+              isNotAuth: true,
+              isKeepAlive: true,
+              icon: 'icon-upload'
+            },
+            component: () => import('@/views/system/components/pro-form/steps-form.vue')
           }
         ]
       },
