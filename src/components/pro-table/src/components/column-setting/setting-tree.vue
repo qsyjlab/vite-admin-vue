@@ -13,20 +13,38 @@
         label: 'title',
         children: 'children'
       }"
+      :expand-on-click-node="false"
       @node-drag-end="handleDragEnd"
     >
       <template #default="{ node }">
-        <div
-          style="width: 100%; display: flex; align-items: center; justify-content: space-between"
-        >
+        <div class="setting-tree__node">
           <span>{{ node.label }}</span>
-          <span>
+          <span class="tools" v-if="node.level === 1">
             <el-space>
-              <el-tooltip effect="dark" content="固定在列首" placement="top-start">
+              <el-tooltip
+                v-if="fixed !== 'auto'"
+                effect="dark"
+                content="不固定"
+                placement="top-start"
+              >
+                <el-icon @click="moveToAuto(node)"><Sort /></el-icon>
+              </el-tooltip>
+
+              <el-tooltip
+                v-if="fixed !== 'left'"
+                effect="dark"
+                content="固定在列首"
+                placement="top-start"
+              >
                 <el-icon @click="moveToLeft(node)"><Upload /></el-icon>
               </el-tooltip>
 
-              <el-tooltip effect="dark" content="固定在列尾" placement="top-start">
+              <el-tooltip
+                v-if="fixed !== 'right'"
+                effect="dark"
+                content="固定在列尾"
+                placement="top-start"
+              >
                 <el-icon @click="moveToRight(node)"><Download /></el-icon>
               </el-tooltip>
             </el-space>
@@ -37,12 +55,15 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Download, Upload } from '@element-plus/icons-vue'
+import { definePropType } from '@/utils'
+import { Download, Upload, Sort } from '@element-plus/icons-vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import { inject } from 'vue'
 
 const emits = defineEmits({
-  change: (columns: any[]) => columns
+  change: (fixed: 'auto' | 'left' | 'right', columns: any[]) => columns,
+  move: (from: 'auto' | 'left' | 'right', to: 'auto' | 'left' | 'right', node: any) =>
+    from && to && node
 })
 
 const state = inject('state')
@@ -57,17 +78,33 @@ const props = defineProps({
   },
   // left | auto |  right
   fixed: {
-    type: String,
+    type: definePropType<'auto' | 'left' | 'right'>(String),
     default: 'auto'
   }
 })
 
-const changeFixed = () => {}
-const moveToLeft = (node: any) => {}
-const moveToRight = (node: any) => {}
+const change = () => {
+  emits('change', props.fixed, props.columns)
+}
+const moveToLeft = (node: any) => {
+  emits('move', props.fixed, 'left', node)
 
-const handleDragEnd = () => {
-  // emits('change', props.columns)
+  // emits()
+}
+
+const moveToAuto = (node: any) => {
+  emits('move', props.fixed, 'auto', node)
+}
+
+const moveToRight = (node: any) => {
+  emits('move', props.fixed, 'right', node)
+}
+
+const handleDragEnd = (draggingNode: Node, dropNode: Node) => {
+  console.log('draggingNode', draggingNode)
+  console.log('dropNode', dropNode)
+
+  change()
 }
 
 const allowDrop = (draggingNode: Node, dropNode: Node, type: 'next' | 'prev') => {
@@ -77,6 +114,7 @@ const allowDrop = (draggingNode: Node, dropNode: Node, type: 'next' | 'prev') =>
   return false
 }
 const allowDrag = (draggingNode: Node) => {
+  if (draggingNode.level > 1) return false
   return true
 }
 </script>
@@ -85,6 +123,21 @@ const allowDrag = (draggingNode: Node) => {
   &__header {
     padding-left: 18px;
     margin-bottom: 10px;
+  }
+
+  &__node {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .tools {
+      display: none;
+    }
+    &:hover {
+      .tools {
+        display: block;
+      }
+    }
   }
 }
 </style>

@@ -93,11 +93,11 @@ const tableColumsSettingChange = (columns: any) => {
   const _newCols: any[] = []
 
   tableColums.value.forEach((col, index) => {
-    columnsMap[`${col.key}-${index}`] = col
+    columnsMap[col.key] = col
   })
 
   columns.forEach((col: any) => {
-    _newCols.push(columnsMap[col._rowKey])
+    _newCols.push(columnsMap[col.key])
   })
 
   tableColums.value = _newCols

@@ -38,16 +38,16 @@ const columns = [
   {
     title: '年龄',
     key: 'age',
-    fixed: 'left',
+    // fixed: 'left',
     children: [
       {
         title: '年龄2',
-        key: 'age',
+        key: 'age-c',
         children: []
       },
       {
         title: '年龄3',
-        key: 'age',
+        key: 'age-c2',
         children: []
       }
     ]
@@ -58,23 +58,24 @@ const columns = [
   },
   {
     title: '邮箱',
-    key: 'email'
+    key: 'email',
+    fixed: 'left'
   },
   {
     title: '年份',
-    key: 'email'
+    key: 'year'
   },
   {
     title: '身份证',
-    key: 'email'
+    key: 'idcard'
   },
   {
     title: '状态',
-    key: 'email'
+    key: 'status'
   },
   {
-    title: '地址',
-    key: 'address'
+    title: '地址1',
+    key: 'address1'
   },
   {
     title: '地址2',

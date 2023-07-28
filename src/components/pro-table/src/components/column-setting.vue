@@ -16,19 +16,31 @@
       trigger="click"
     >
       <setting-tree
+        v-if="columnsStore.leftColumns.length"
         style="margin-bottom: 20px"
         title="固定在左侧"
-        :columns="columnsState.leftColumns"
+        fixed="left"
+        :columns="columnsStore.leftColumns"
+        @move="moveNode"
+        @change="changeColumns"
       ></setting-tree>
       <setting-tree
+        v-if="columnsStore.autoColumns.length"
         style="margin-bottom: 20px"
         title="不固定"
-        :columns="columnsState.autoColumns"
+        fixed="auto"
+        :columns="columnsStore.autoColumns"
+        @move="moveNode"
+        @change="changeColumns"
       ></setting-tree>
       <setting-tree
+        v-if="columnsStore.rightColumns.length"
         style="margin-bottom: 20px"
         title="固定在右侧"
-        :columns="columnsState.rightColumns"
+        fixed="right"
+        :columns="columnsStore.rightColumns"
+        @move="moveNode"
+        @change="changeColumns"
       ></setting-tree>
     </el-popover>
   </div>
@@ -37,8 +49,8 @@
 <script lang="ts" setup>
 // import type { DragEvents } from 'element-plus/es/components/tree/src/model/useDragNode'
 // import type { NodeDropType } from 'element-plus/es/components/tree/src/tree.type'
-import { Setting, Download, Upload } from '@element-plus/icons-vue'
-import { computed, ref, toRaw, watch, reactive, provide } from 'vue'
+import { Setting } from '@element-plus/icons-vue'
+import { computed, ref, watch, reactive } from 'vue'
 
 import SettingTree from './column-setting/setting-tree.vue'
 
@@ -47,13 +59,12 @@ const emits = defineEmits({
 })
 
 const props = defineProps<{
-  columns?: any[]
+  columns: any[]
 }>()
 
 const triggerRef = ref<HTMLDivElement>()
 const popoverRef = ref()
-
-const columnsState = reactive<{
+const columnsStore = reactive<{
   leftColumns: any[]
   autoColumns: any[]
   rightColumns: any[]
@@ -63,17 +74,69 @@ const columnsState = reactive<{
   rightColumns: []
 })
 
+let sortKeyColumns: string[] = []
+
+function setSortKeyColumns(keys: string[]) {
+  sortKeyColumns = keys
+  return
+}
+
+const columnsState = reactive<{ value: Record<string, any>; defaultValue: Record<string, any> }>({
+  value: {},
+  defaultValue: {}
+})
+
 watch(
   () => props.columns,
   () => {
-    columnsState.leftColumns = buildColumns(props.columns?.filter(i => i?.fixed === 'left') || [])
-    columnsState.autoColumns = buildColumns(props.columns?.filter(i => !i.fixed) || [])
-    columnsState.rightColumns = buildColumns(props.columns?.filter(i => i?.fixed === 'right') || [])
+    const arr = buildColumns(props.columns)
+
+    columnsStore.leftColumns = arr.filter(i => i?.fixed === 'left')
+    columnsStore.autoColumns = arr.filter(i => !i.fixed)
+    columnsStore.rightColumns = arr.filter(i => i?.fixed === 'right')
+
+    props.columns.forEach((col, index) => {
+      columnsState.defaultValue[col.key] = {
+        order: index,
+        show: true,
+        fixed: col.fixed,
+        disabled: false
+      }
+    })
+    columnsState.value = { ...columnsState.defaultValue }
+
+    setSortKeyColumns(props.columns.map(c => c.key))
   },
   {
     immediate: true
   }
 )
+
+const moveNode = (from: any, to: any, node: any) => {
+  console.log('from ,to', from, to)
+
+  const storeMap: any = {
+    auto: columnsStore.autoColumns,
+    left: columnsStore.leftColumns,
+    right: columnsStore.rightColumns
+  }
+
+  const col = storeMap[from].splice(
+    storeMap[from].findIndex((l: any) => l.key === node.data.key),
+    1
+  )
+  storeMap[to].push(...col)
+
+  // changeColumns()
+}
+
+function changeColumns() {
+  emits('change', [
+    ...columnsStore.leftColumns,
+    ...columnsStore.autoColumns,
+    ...columnsStore.rightColumns
+  ])
+}
 
 function buildColumns(cols: any[]) {
   return cols.map((item, index) => {
@@ -81,8 +144,9 @@ function buildColumns(cols: any[]) {
       title: item.title,
       key: item.key,
       fixed: item.fixed,
-      _rowKey: `${item.key}-${index}`
+      _rowKey: item.key
     }
+
     if (Array.isArray(item.children) && item.children.length) {
       _col.children = buildColumns(item.children)
     }
