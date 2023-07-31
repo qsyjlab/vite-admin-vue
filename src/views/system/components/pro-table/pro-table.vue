@@ -94,13 +94,12 @@ const data = ref<any[]>()
 onMounted(() => {
   setTimeout(() => {
     data.value = createData()
-  }, 1000)
+  }, 0)
 })
 
 watch(data, newVal => {
-  console.log('mewVal', newVal)
+  // console.log('mewVal', newVal)
 })
-console.log('change layout')
 
 const params = ref({
   page: 1

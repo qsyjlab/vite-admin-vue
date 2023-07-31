@@ -6,9 +6,9 @@
       :allow-drop="allowDrop"
       :allow-drag="allowDrag"
       :data="columns"
+      :defaultCheckedKeys="defaultCheckedKeys"
       show-checkbox
       draggable
-      :defaultCheckedKeys="defaultCheckedKeys"
       node-key="_rowKey"
       :props="{
         label: 'title',
@@ -16,7 +16,7 @@
       }"
       :expand-on-click-node="false"
       @node-drag-end="handleDragEnd"
-      @check-change="checkChange"
+      @check="check"
     >
       <template #default="{ node }">
         <div class="setting-tree__node">
@@ -61,7 +61,9 @@ import { definePropType } from '@/utils'
 import { Download, Upload, Sort } from '@element-plus/icons-vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import type { TreeInstance } from './column-setting'
-import { ref } from 'vue'
+import { ref, reactive, watch } from 'vue'
+import { nextTick } from 'vue'
+import { inject } from 'vue'
 
 const emits = defineEmits({
   change: (fixed: 'auto' | 'left' | 'right', columns: any[]) => columns && fixed,
@@ -92,10 +94,100 @@ const props = defineProps({
   }
 })
 
-const checkChange = () => {
-  const childKeys = treeRef.value?.getCheckedKeys() || []
-  const halfKeys = treeRef.value?.getHalfCheckedKeys() || []
-  emits('check', childKeys as string[], halfKeys as string[])
+const columnsState = reactive<{
+  map: any
+  columns: any[]
+  checkedKeys: string[]
+}>({
+  map: new Map(),
+  columns: [],
+  checkedKeys: []
+})
+const { mergeColumnsMap, columnsMap } = inject<any>('store')
+watch(
+  [() => props.columns, columnsMap],
+  () => {
+    const map = new Map()
+    const checkedKeys: string[] = []
+
+    console.log('columnsMap_', columnsMap)
+
+    const loopColumnsMap = (columns: any) => {
+      columns.forEach((item: any) => {
+        map.set(item.key, item)
+        if (item.children) {
+          loopColumnsMap(item.children)
+        }
+      })
+    }
+
+    function loopColumns(cols: any[]) {
+      return cols.map(item => {
+        const _col: any = {
+          title: item.title,
+          key: item.key,
+          fixed: item.fixed,
+          _rowKey: item.key
+        }
+
+        const config = columnsMap.value[item.key]
+
+        // if (!item.children && config?.show !== false) {
+        //   checkedKeys.push(item.key)
+        // }
+
+        if (item.children) {
+          _col.children = loopColumns(item.children)
+
+          if (_col.children.every((c: any) => checkedKeys.includes(c.key))) {
+            checkedKeys.push(_col.key)
+          }
+        }
+
+        console.log('checkedKeys', checkedKeys)
+        console.log('item', item, config)
+
+        return _col
+      })
+    }
+
+    loopColumnsMap([...props.columns])
+
+    columnsState.map = map
+    columnsState.columns = loopColumns([...props.columns])
+    columnsState.checkedKeys = checkedKeys
+
+    console.log('checkedKeys', checkedKeys)
+
+    console.log('columnsMap', columnsMap)
+    debugger
+
+    // treeRef.value?.setCheckedKeys(columnsState.checkedKeys)
+  },
+  {
+    immediate: true
+  }
+)
+
+const check = (data: any, checkedObj: any) => {
+  // console.log('data', data, checkedObj
+  const { checkedKeys = [] } = checkedObj || {}
+  const checked = checkedKeys.includes(data.key)
+
+  const newColumnMap = { ...columnsMap.value }
+
+  const loopSetShow = (key: string | number) => {
+    const newSetting = { ...newColumnMap[key] }
+    newSetting.show = checked
+
+    // 如果含有子节点，也要选中
+    if (columnsState.map?.get(key)?.children) {
+      columnsState.map.get(key)?.children?.forEach((item: any) => loopSetShow(item.key))
+    }
+    newColumnMap[key] = newSetting
+  }
+  loopSetShow(data.key)
+  mergeColumnsMap({ ...newColumnMap })
 }
 
 const change = () => {
@@ -114,6 +206,8 @@ const moveToRight = (node: any) => {
 }
 
 const handleDragEnd = (draggingNode: Node, dropNode: Node) => {
+  // // 保持选中状态
+  treeRef.value?.setCheckedKeys(columnsState.checkedKeys)
   change()
 }
 

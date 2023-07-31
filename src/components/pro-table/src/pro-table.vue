@@ -17,11 +17,11 @@
               ><el-icon :size="18"><RefreshRight /></el-icon
             ></span>
           </el-tooltip>
-          <SettingColumns :columns="tableColums" @change="tableColumsSettingChange" />
         </el-space>
       </div>
     </div>
 
+    <SettingColumns :columns="tableColums" @change="tableColumsSettingChange" />
     <!-- table -->
     <el-table
       :data="dataSource"
