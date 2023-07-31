@@ -17,29 +17,35 @@
     >
       <setting-tree
         v-if="columnsStore.leftColumns.length"
+        :default-checked-keys="defaultCheckedKeys"
         style="margin-bottom: 20px"
         title="固定在左侧"
         fixed="left"
         :columns="columnsStore.leftColumns"
         @move="moveNode"
+        @check="checkChange"
         @change="changeColumns"
       ></setting-tree>
       <setting-tree
         v-if="columnsStore.autoColumns.length"
+        :default-checked-keys="defaultCheckedKeys"
         style="margin-bottom: 20px"
         title="不固定"
         fixed="auto"
         :columns="columnsStore.autoColumns"
         @move="moveNode"
+        @check="checkChange"
         @change="changeColumns"
       ></setting-tree>
       <setting-tree
         v-if="columnsStore.rightColumns.length"
+        :default-checked-keys="defaultCheckedKeys"
         style="margin-bottom: 20px"
         title="固定在右侧"
         fixed="right"
         :columns="columnsStore.rightColumns"
         @move="moveNode"
+        @check="checkChange"
         @change="changeColumns"
       ></setting-tree>
     </el-popover>
@@ -55,7 +61,7 @@ import { computed, ref, watch, reactive } from 'vue'
 import SettingTree from './column-setting/setting-tree.vue'
 
 const emits = defineEmits({
-  change: (columns: any) => columns
+  change: (columnsMap: any, orderKeys: string[]) => columnsMap && orderKeys
 })
 
 const props = defineProps<{
@@ -68,11 +74,15 @@ const columnsStore = reactive<{
   leftColumns: any[]
   autoColumns: any[]
   rightColumns: any[]
+  allColumnKeys: Set<string>
 }>({
   leftColumns: [],
   autoColumns: [],
-  rightColumns: []
+  rightColumns: [],
+  allColumnKeys: new Set()
 })
+
+const treeMap = new Map<string, any>()
 
 let sortKeyColumns: string[] = []
 
@@ -86,25 +96,25 @@ const columnsState = reactive<{ value: Record<string, any>; defaultValue: Record
   defaultValue: {}
 })
 
+const defaultCheckedKeys = computed(() => Array.from(columnsStore.allColumnKeys))
+
 watch(
   () => props.columns,
   () => {
-    const arr = buildColumns(props.columns)
-
-    columnsStore.leftColumns = arr.filter(i => i?.fixed === 'left')
-    columnsStore.autoColumns = arr.filter(i => !i.fixed)
-    columnsStore.rightColumns = arr.filter(i => i?.fixed === 'right')
-
     props.columns.forEach((col, index) => {
       columnsState.defaultValue[col.key] = {
         order: index,
-        show: true,
-        fixed: col.fixed,
-        disabled: false
+        show: columnsState.value?.[col.key]?.show === false ? false : true,
+        fixed: col.fixed
       }
     })
-    columnsState.value = { ...columnsState.defaultValue }
+    const arr = loopColumns([...props.columns])
 
+    columnsStore.leftColumns = [...arr.filter(i => i?.fixed === 'left')]
+    columnsStore.autoColumns = [...arr.filter(i => !i.fixed)]
+    columnsStore.rightColumns = [...arr.filter(i => i?.fixed === 'right')]
+
+    columnsState.value = { ...columnsState.defaultValue }
     setSortKeyColumns(props.columns.map(c => c.key))
   },
   {
@@ -112,9 +122,24 @@ watch(
   }
 )
 
-const moveNode = (from: any, to: any, node: any) => {
-  console.log('from ,to', from, to)
+const checkChange = (keys: string[] | number[], halfKeys: string[] | number[]) => {
+  Object.keys(columnsState.value).forEach(key => {
+    const item = columnsState.value[key]
 
+    const shouldShowKeys = [...keys, ...halfKeys]
+
+    if (shouldShowKeys.includes(key)) {
+      item.show = true
+    } else {
+      item.show = false
+    }
+
+    columnsState.value[key] = item
+  })
+  changeColumns()
+}
+
+const moveNode = (from: any, to: any, node: any) => {
   const storeMap: any = {
     auto: columnsStore.autoColumns,
     left: columnsStore.leftColumns,
@@ -125,21 +150,40 @@ const moveNode = (from: any, to: any, node: any) => {
     storeMap[from].findIndex((l: any) => l.key === node.data.key),
     1
   )
+
+  if (to === 'left') {
+    col[0].fixed = 'left'
+  } else if (to === 'right') {
+    col[0].fixed = 'right'
+  } else {
+    col[0].fixed = undefined
+  }
+
   storeMap[to].push(...col)
 
-  // changeColumns()
+  changeColumns()
 }
 
 function changeColumns() {
-  emits('change', [
-    ...columnsStore.leftColumns,
-    ...columnsStore.autoColumns,
-    ...columnsStore.rightColumns
-  ])
+  const orderKeys: string[] = []
+  ;[...columnsStore.leftColumns, ...columnsStore.autoColumns, ...columnsStore.rightColumns].forEach(
+    (col, index) => {
+      orderKeys.push(col.key)
+      columnsState.value[col.key] = {
+        order: index,
+        show: columnsState.value[col.key].show === false ? false : true,
+        fixed: col.fixed
+      }
+    }
+  )
+
+  console.log('columnsState.value', columnsState.value)
+
+  emits('change', { ...columnsState.value }, orderKeys)
 }
 
-function buildColumns(cols: any[]) {
-  return cols.map((item, index) => {
+function loopColumns(cols: any[]) {
+  return cols.map(item => {
     const _col: any = {
       title: item.title,
       key: item.key,
@@ -147,17 +191,24 @@ function buildColumns(cols: any[]) {
       _rowKey: item.key
     }
 
-    if (Array.isArray(item.children) && item.children.length) {
-      _col.children = buildColumns(item.children)
+    // 如果没有 children
+    if (!item.children && columnsState.value[item.key]?.show !== false) {
+      columnsStore.allColumnKeys.add(_col.key)
     }
+
+    if (item.children) {
+      _col.children = loopColumns(item.children)
+
+      if (!_col.children.every((c: any) => columnsStore.allColumnKeys.has(c.key))) {
+        columnsStore.allColumnKeys.add(_col.key)
+      }
+    }
+
+    treeMap.set(item.key, item)
 
     return _col
   })
 }
-
-const _columns = computed(() => {
-  return buildColumns(props.columns || [])
-})
 
 const changeFixed = (type: string) => {}
 </script>

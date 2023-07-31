@@ -1,10 +1,11 @@
 import { definePropType } from '@/utils'
 import type { ExtractPropTypes } from 'vue'
+import type { TableColumnCtx } from 'element-plus'
 
-export interface ProTableColumnItem {
+export interface ProTableColumnItem<T = any> extends Omit<TableColumnCtx<T>, 'children'> {
   title: number | string
   key: number | string
-  children?: ProTableColumnItem[]
+  children: ProTableColumnItem<T>[]
 }
 
 export type ProTableColumns = ProTableColumnItem[]

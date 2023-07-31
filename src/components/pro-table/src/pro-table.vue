@@ -87,17 +87,21 @@ const {
 })
 
 // TODO: 类型补全
-const tableColumsSettingChange = (columns: any) => {
+const tableColumsSettingChange = (columnSettingMap: any, orderKeys: string[]) => {
   const columnsMap: Record<string, ProTableColumnItem> = {}
 
   const _newCols: any[] = []
 
-  tableColums.value.forEach((col, index) => {
+  tableColums.value.forEach(col => {
     columnsMap[col.key] = col
   })
 
-  columns.forEach((col: any) => {
-    _newCols.push(columnsMap[col.key])
+  // 暂时假定不会出现 空key值
+  orderKeys.forEach(key => {
+    const col = columnsMap[key]
+
+    col.fixed = columnSettingMap[key].fixed
+    _newCols.push(col)
   })
 
   tableColums.value = _newCols

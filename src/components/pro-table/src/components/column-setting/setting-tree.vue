@@ -2,12 +2,13 @@
   <div class="setting-tree">
     <div class="setting-tree__header">{{ title }}</div>
     <el-tree
+      ref="treeRef"
       :allow-drop="allowDrop"
       :allow-drag="allowDrag"
       :data="columns"
       show-checkbox
       draggable
-      default-expand-all
+      :defaultCheckedKeys="defaultCheckedKeys"
       node-key="_rowKey"
       :props="{
         label: 'title',
@@ -15,6 +16,7 @@
       }"
       :expand-on-click-node="false"
       @node-drag-end="handleDragEnd"
+      @check-change="checkChange"
     >
       <template #default="{ node }">
         <div class="setting-tree__node">
@@ -58,15 +60,18 @@
 import { definePropType } from '@/utils'
 import { Download, Upload, Sort } from '@element-plus/icons-vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
-import { inject } from 'vue'
+import type { TreeInstance } from './column-setting'
+import { ref } from 'vue'
 
 const emits = defineEmits({
-  change: (fixed: 'auto' | 'left' | 'right', columns: any[]) => columns,
+  change: (fixed: 'auto' | 'left' | 'right', columns: any[]) => columns && fixed,
+  check: (childKeys: string[] | number[], halfKeys: string[] | number[]) => childKeys && halfKeys,
   move: (from: 'auto' | 'left' | 'right', to: 'auto' | 'left' | 'right', node: any) =>
     from && to && node
 })
 
-const state = inject('state')
+const treeRef = ref<TreeInstance>()
+
 const props = defineProps({
   title: {
     type: String,
@@ -80,16 +85,24 @@ const props = defineProps({
   fixed: {
     type: definePropType<'auto' | 'left' | 'right'>(String),
     default: 'auto'
+  },
+  defaultCheckedKeys: {
+    type: definePropType<string[] | number[]>(Array),
+    default: () => []
   }
 })
+
+const checkChange = () => {
+  const childKeys = treeRef.value?.getCheckedKeys() || []
+  const halfKeys = treeRef.value?.getHalfCheckedKeys() || []
+  emits('check', childKeys as string[], halfKeys as string[])
+}
 
 const change = () => {
   emits('change', props.fixed, props.columns)
 }
 const moveToLeft = (node: any) => {
   emits('move', props.fixed, 'left', node)
-
-  // emits()
 }
 
 const moveToAuto = (node: any) => {
@@ -101,9 +114,6 @@ const moveToRight = (node: any) => {
 }
 
 const handleDragEnd = (draggingNode: Node, dropNode: Node) => {
-  console.log('draggingNode', draggingNode)
-  console.log('dropNode', dropNode)
-
   change()
 }
 
