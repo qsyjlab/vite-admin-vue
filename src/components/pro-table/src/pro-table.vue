@@ -17,11 +17,12 @@
               ><el-icon :size="18"><RefreshRight /></el-icon
             ></span>
           </el-tooltip>
+
+          <SettingColumns :columns="tableColums" @change="tableColumsSettingChange" />
         </el-space>
       </div>
     </div>
 
-    <SettingColumns :columns="tableColums" @change="tableColumsSettingChange" />
     <!-- table -->
     <el-table
       :data="dataSource"
@@ -88,6 +89,8 @@ const {
 
 // TODO: 类型补全
 const tableColumsSettingChange = (columnSettingMap: any, orderKeys: string[]) => {
+  console.log('columnSettingMap', columnSettingMap)
+
   const columnsMap: Record<string, ProTableColumnItem> = {}
 
   const _newCols: any[] = []

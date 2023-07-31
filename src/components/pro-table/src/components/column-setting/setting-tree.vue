@@ -67,7 +67,7 @@ import { inject } from 'vue'
 
 const emits = defineEmits({
   change: (fixed: 'auto' | 'left' | 'right', columns: any[]) => columns && fixed,
-  check: (childKeys: string[] | number[], halfKeys: string[] | number[]) => childKeys && halfKeys,
+  check: () => true,
   move: (from: 'auto' | 'left' | 'right', to: 'auto' | 'left' | 'right', node: any) =>
     from && to && node
 })
@@ -107,10 +107,9 @@ const { mergeColumnsMap, columnsMap } = inject<any>('store')
 watch(
   [() => props.columns, columnsMap],
   () => {
+    if (props.columns.length === 0) return
     const map = new Map()
     const checkedKeys: string[] = []
-
-    console.log('columnsMap_', columnsMap)
 
     const loopColumnsMap = (columns: any) => {
       columns.forEach((item: any) => {
@@ -121,6 +120,7 @@ watch(
       })
     }
 
+    // TODO: 待排查 children 默认是空数组而不是 undefined
     function loopColumns(cols: any[]) {
       return cols.map(item => {
         const _col: any = {
@@ -130,22 +130,18 @@ watch(
           _rowKey: item.key
         }
 
-        const config = columnsMap.value[item.key]
+        const config = columnsMap.value[item.key] || { show: true }
 
-        // if (!item.children && config?.show !== false) {
-        //   checkedKeys.push(item.key)
-        // }
+        if (!item.children?.length && config?.show !== false) {
+          checkedKeys.push(item.key)
+        }
 
-        if (item.children) {
+        if (item.children?.length) {
           _col.children = loopColumns(item.children)
-
           if (_col.children.every((c: any) => checkedKeys.includes(c.key))) {
             checkedKeys.push(_col.key)
           }
         }
-
-        console.log('checkedKeys', checkedKeys)
-        console.log('item', item, config)
 
         return _col
       })
@@ -157,20 +153,18 @@ watch(
     columnsState.columns = loopColumns([...props.columns])
     columnsState.checkedKeys = checkedKeys
 
-    console.log('checkedKeys', checkedKeys)
+    // console.log('newColumnMap', checkedKeys)
+    // debugger
 
-    console.log('columnsMap', columnsMap)
-    debugger
-
-    // treeRef.value?.setCheckedKeys(columnsState.checkedKeys)
+    setCheckedKeys(checkedKeys)
   },
   {
+    deep: true,
     immediate: true
   }
 )
 
 const check = (data: any, checkedObj: any) => {
-  // console.log('data', data, checkedObj
   const { checkedKeys = [] } = checkedObj || {}
   const checked = checkedKeys.includes(data.key)
 
@@ -186,8 +180,15 @@ const check = (data: any, checkedObj: any) => {
     }
     newColumnMap[key] = newSetting
   }
+
   loopSetShow(data.key)
+
+  console.log('newColumnMap', newColumnMap)
+
+  // debugger
+
   mergeColumnsMap({ ...newColumnMap })
+  emits('check')
 }
 
 const change = () => {
@@ -207,8 +208,14 @@ const moveToRight = (node: any) => {
 
 const handleDragEnd = (draggingNode: Node, dropNode: Node) => {
   // // 保持选中状态
-  treeRef.value?.setCheckedKeys(columnsState.checkedKeys)
+  // treeRef.value?.setCheckedKeys(columnsState.checkedKeys)
   change()
+}
+
+function setCheckedKeys(keys: string[]) {
+  nextTick(() => {
+    treeRef.value?.setCheckedKeys(keys)
+  })
 }
 
 const allowDrop = (draggingNode: Node, dropNode: Node, type: 'next' | 'prev') => {
