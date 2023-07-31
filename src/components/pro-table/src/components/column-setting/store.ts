@@ -19,6 +19,10 @@ export function useSettingStore() {
     columnsMap.value = Object.assign({}, columnsMap.value, map)
   }
 
+  function resetColumnsMap() {
+    columnsMap.value = { ...defaultColumnsMap.value }
+  }
+
   function getColumnMapConfig(key: string) {
     return columnsMap.value[key] || { show: true }
   }
@@ -29,6 +33,7 @@ export function useSettingStore() {
     setDefaultColumnsMap,
     columnsMap,
     mergeColumnsMap,
+    resetColumnsMap,
     setSortColumnKeys,
     getColumnMapConfig
   }

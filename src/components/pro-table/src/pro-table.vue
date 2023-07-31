@@ -22,6 +22,9 @@
         </el-space>
       </div>
     </div>
+    <pre>
+      {{ tableColums }}
+    </pre>
 
     <!-- table -->
     <el-table
@@ -88,26 +91,27 @@ const {
 })
 
 // TODO: 类型补全
-const tableColumsSettingChange = (columnSettingMap: any, orderKeys: string[]) => {
+const tableColumsSettingChange = (columnSettingMap: any) => {
   console.log('columnSettingMap', columnSettingMap)
 
   const columnsMap: Record<string, ProTableColumnItem> = {}
 
   const _newCols: any[] = []
 
-  tableColums.value.forEach(col => {
-    columnsMap[col.key] = col
-  })
+  // TODO: 用这个配置去做配置过滤 不应直接修改原有变量会导致回不到原来的值
+  // tableColums.value.forEach(col => {
+  //   columnsMap[col.key] = col
+  // })
 
-  // 暂时假定不会出现 空key值
-  orderKeys.forEach(key => {
-    const col = columnsMap[key]
+  // // 暂时假定不会出现 空key值
+  // orderKeys.forEach(key => {
+  //   const col = columnsMap[key]
 
-    col.fixed = columnSettingMap[key].fixed
-    _newCols.push(col)
-  })
+  //   col.fixed = columnSettingMap[key].fixed
+  //   _newCols.push(col)
+  // })
 
-  tableColums.value = _newCols
+  // tableColums.value = _newCols
 }
 
 defineExpose({

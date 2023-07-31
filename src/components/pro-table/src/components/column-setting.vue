@@ -26,7 +26,7 @@
             />
           </span>
           <span>
-            <el-button link type="primary">重置</el-button>
+            <el-button link type="primary" @click="reset">重置</el-button>
           </span>
         </div>
 
@@ -85,7 +85,8 @@ const props = defineProps<{
 
 const store = useSettingStore()
 
-const { mergeColumnsMap, columnsMap, getColumnMapConfig, setDefaultColumnsMap } = store
+const { mergeColumnsMap, columnsMap, getColumnMapConfig, setDefaultColumnsMap, resetColumnsMap } =
+  store
 
 provide('store', store)
 
@@ -109,19 +110,8 @@ const columnsStore = reactive<{
 
 const unInitWatch = watch(
   () => props.columns,
-  (newVals, oldVolds, onCleanup) => {
-    const _columnsMap: Record<string, any> = {}
-    props.columns.forEach((col, index) => {
-      _columnsMap[col.key] = {
-        order: index,
-        show: _columnsMap[col.key]?.show === false ? false : true,
-        fixed: col.fixed
-      }
-    })
-
-    setDefaultColumnsMap(_columnsMap)
-    mergeColumnsMap(_columnsMap)
-
+  () => {
+    initColumnsMap()
     nextTick(() => {
       unInitWatch()
     })
@@ -134,26 +124,54 @@ const unInitWatch = watch(
 watch(
   () => props.columns,
   () => {
-    const newColumns = loopColumns([...props.columns])
-
-    columnsStore.autoColumns = []
-    columnsStore.leftColumns = []
-    columnsStore.rightColumns = []
-
-    newColumns.forEach(col => {
-      if (col.fixed === 'left') {
-        columnsStore.leftColumns.push(col)
-      } else if (col.fixed === 'right') {
-        columnsStore.rightColumns.push(col)
-      } else {
-        columnsStore.autoColumns.push(col)
-      }
-    })
+    initColumnsStore()
   },
   {
     immediate: true
   }
 )
+
+function initColumnsMap() {
+  const _columnsMap: Record<string, any> = {}
+  props.columns.forEach((col, index) => {
+    _columnsMap[col.key] = {
+      order: index,
+      show: _columnsMap[col.key]?.show === false ? false : true,
+      fixed: col.fixed
+    }
+  })
+
+  setDefaultColumnsMap(_columnsMap)
+  mergeColumnsMap(_columnsMap)
+}
+
+function initColumnsStore() {
+  const newColumns = loopColumns([...props.columns])
+
+  columnsStore.autoColumns = []
+  columnsStore.leftColumns = []
+  columnsStore.rightColumns = []
+
+  newColumns.forEach(col => {
+    if (col.fixed === 'left') {
+      columnsStore.leftColumns.push(col)
+    } else if (col.fixed === 'right') {
+      columnsStore.rightColumns.push(col)
+    } else {
+      columnsStore.autoColumns.push(col)
+    }
+  })
+}
+
+const reset = () => {
+  // TODO: 列配置未恢复
+  // TODO: 全选/全不选
+
+  resetColumnsMap()
+  initColumnsMap()
+  initColumnsStore()
+  changeColumns()
+}
 
 const checkChange = () => {
   changeColumns()
