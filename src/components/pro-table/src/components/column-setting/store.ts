@@ -17,6 +17,8 @@ export function useSettingStore() {
 
   function mergeColumnsMap(map: Record<string, any>) {
     columnsMap.value = Object.assign({}, columnsMap.value, map)
+
+    console.log(' columnsMap.value', columnsMap.value)
   }
 
   function resetColumnsMap() {

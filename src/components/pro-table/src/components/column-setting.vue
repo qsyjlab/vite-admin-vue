@@ -19,10 +19,11 @@
         <div style="display: flex; align-items: center; justify-content: space-between">
           <span>
             <el-checkbox
-              v-model="colSettingChecked.checked"
+              :model-value="colSettingChecked.checked"
               label="列设置"
               size="large"
               :indeterminate="colSettingChecked.indeterminate"
+              @change="colSettingCheckChange"
             />
           </span>
           <span>
@@ -130,6 +131,58 @@ watch(
     immediate: true
   }
 )
+
+watch(
+  columnsMap,
+  () => {
+    // TODO: 似乎还存在问题
+    const unChecked = Object.values(columnsMap.value).filter(
+      value => !value || value.show === false
+    )
+
+    const rootUnChecked = props.columns.filter(col => {
+      const config = columnsMap.value[col.key]
+      return !config || config.show === false
+    })
+
+    colSettingChecked.indeterminate =
+      unChecked.length !== 0 && rootUnChecked.length !== props.columns.length
+    colSettingChecked.checked = unChecked.length === 0 && props.columns.length !== unChecked.length
+
+    changeColumns()
+  },
+  {
+    flush: 'post',
+    immediate: true
+  }
+)
+
+const colSettingCheckChange = (val: any) => {
+  setAllSelectAction(val)
+}
+
+const setAllSelectAction = (show = true) => {
+  const columnKeyMap: Record<string, any> = {}
+  const loopColumns = (columns: any) => {
+    columns.forEach(({ key, fixed, index, children }: any) => {
+      const columnKey: string = key
+      if (columnKey) {
+        columnKeyMap[columnKey] = {
+          // 子节点 disable 时，不修改节点显示状态
+          // : disable ? columnsMap[columnKey]?.show : show,
+          show,
+          fixed,
+          order: columnsMap.value[columnKey]?.order
+        }
+      }
+      if (children) {
+        loopColumns(children)
+      }
+    })
+  }
+  loopColumns(props.columns)
+  mergeColumnsMap(columnKeyMap)
+}
 
 function initColumnsMap() {
   const _columnsMap: Record<string, any> = {}

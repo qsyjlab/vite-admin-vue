@@ -22,9 +22,9 @@
         </el-space>
       </div>
     </div>
-    <pre>
+    <!-- <pre>
       {{ tableColums }}
-    </pre>
+    </pre> -->
 
     <!-- table -->
     <el-table
