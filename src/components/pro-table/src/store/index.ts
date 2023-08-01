@@ -1,6 +1,9 @@
 import { ref } from 'vue'
 
-export function useSettingStore() {
+import type { InjectionKey } from 'vue'
+import { createContext, useContext } from '@/hooks/core/use-context'
+
+function useTableStore() {
   const sortColumnKeys: string[] = []
 
   const columnsMap = ref<Record<string, any>>({})
@@ -17,8 +20,6 @@ export function useSettingStore() {
 
   function mergeColumnsMap(map: Record<string, any>) {
     columnsMap.value = Object.assign({}, columnsMap.value, map)
-
-    console.log(' columnsMap.value', columnsMap.value)
   }
 
   function resetColumnsMap() {
@@ -39,4 +40,16 @@ export function useSettingStore() {
     setSortColumnKeys,
     getColumnMapConfig
   }
+}
+
+export const store = useTableStore()
+
+const contextKey: InjectionKey<ReturnType<typeof useTableStore>> = Symbol()
+
+export function createTableStoreContext() {
+  return createContext(store, contextKey, { readonly: false, native: true })
+}
+
+export function useTableStoreContext() {
+  return useContext(contextKey)
 }

@@ -63,7 +63,7 @@ import type Node from 'element-plus/es/components/tree/src/model/node'
 import type { TreeInstance } from './column-setting'
 import { ref, reactive, watch } from 'vue'
 import { nextTick } from 'vue'
-import { inject } from 'vue'
+import { useTableStoreContext } from '../../store'
 
 const emits = defineEmits({
   change: (fixed: 'auto' | 'left' | 'right', columns: any[]) => columns && fixed,
@@ -103,7 +103,7 @@ const columnsState = reactive<{
   columns: [],
   checkedKeys: []
 })
-const { mergeColumnsMap, columnsMap } = inject<any>('store')
+const { mergeColumnsMap, columnsMap } = useTableStoreContext()
 watch(
   [() => props.columns, columnsMap],
   () => {

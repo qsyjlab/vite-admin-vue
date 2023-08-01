@@ -67,11 +67,9 @@
 </template>
 
 <script lang="ts" setup>
-// import type { DragEvents } from 'element-plus/es/components/tree/src/model/useDragNode'
-// import type { NodeDropType } from 'element-plus/es/components/tree/src/tree.type'
 import { Setting } from '@element-plus/icons-vue'
 import { ref, watch, reactive, nextTick } from 'vue'
-import { useSettingStore } from './column-setting/store'
+import { useTableStoreContext } from '../store'
 
 import SettingTree from './column-setting/setting-tree.vue'
 import { provide } from 'vue'
@@ -84,12 +82,8 @@ const props = defineProps<{
   columns: any[]
 }>()
 
-const store = useSettingStore()
-
 const { mergeColumnsMap, columnsMap, getColumnMapConfig, setDefaultColumnsMap, resetColumnsMap } =
-  store
-
-provide('store', store)
+  useTableStoreContext()
 
 const triggerRef = ref<HTMLDivElement>()
 const popoverRef = ref()
@@ -217,9 +211,6 @@ function initColumnsStore() {
 }
 
 const reset = () => {
-  // TODO: 列配置未恢复
-  // TODO: 全选/全不选
-
   resetColumnsMap()
   initColumnsMap()
   initColumnsStore()
