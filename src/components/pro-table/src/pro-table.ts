@@ -1,18 +1,27 @@
-import { computed, reactive, ref, toRefs, watch } from 'vue'
+import { computed, nextTick, onMounted, reactive, ref, toRefs, watch } from 'vue'
 import { sliceData } from './utils'
 import type { SetupContext } from 'vue'
 import { proTableEmits, ProTableProps, emitsEnums } from './props'
 import { useLoading } from './hooks'
+import { ElTable } from 'element-plus'
 
 type UseTableOptions = {
   props: ProTableProps
   emits: SetupContext<typeof proTableEmits>['emit']
 }
 
+type TableInstance = InstanceType<typeof ElTable>
+
+interface TableMethods {
+  doLayout: TableInstance['doLayout']
+}
+
 export const useProTable = (options: UseTableOptions) => {
   const { props, emits } = options
 
   const { columns, data, request, params = {}, isPagination } = toRefs(props)
+
+  const tableRef = ref<TableInstance | null>(null)
 
   const dataSource = ref<any[]>([])
   const tableColums = ref(columns.value)
@@ -89,7 +98,19 @@ export const useProTable = (options: UseTableOptions) => {
     emits(emitsEnums.PAGE_CHANGE, pageQuery.pageNum, pageQuery.pageSize)
   }
 
+  function doLayout() {
+    nextTick(() => {
+      tableRef.value?.doLayout()
+    })
+  }
+
+  const tableMethods: TableMethods = {
+    doLayout
+  }
+
   return {
+    tableRef,
+    tableMethods,
     total,
     loading,
     tableColums,

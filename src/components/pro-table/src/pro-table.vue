@@ -22,12 +22,9 @@
         </el-space>
       </div>
     </div>
-    <!-- <pre>
-      {{ tableColums }}
-    </pre> -->
-
     <!-- table -->
     <el-table
+      ref="tableRef"
       :data="dataSource"
       v-bind="$attrs"
       v-loading="loading"
@@ -36,6 +33,7 @@
       :table-layout="tableLayout"
     >
       <el-table-column v-if="checkable" type="selection" width="55" :reserve-selection="true" />
+
       <template v-for="(item, idx) in getColumns" :key="`${item.key}-${idx}`">
         <pro-table-column :column="item">
           <template v-for="slot in Object.keys($slots)" #[slot]="scope">
@@ -68,7 +66,7 @@ import { RefreshRight } from '@element-plus/icons-vue'
 import SettingColumns from './components/column-setting.vue'
 import ProTableColumn from './pro-table-column.vue'
 import { createTableStoreContext, store } from './store'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 
 import './style.scss'
 
@@ -80,6 +78,7 @@ createTableStoreContext()
 const { columnsMap } = store
 
 const {
+  tableRef,
   tableColums,
   dataSource,
   pageQuery,
@@ -88,7 +87,8 @@ const {
   total,
   loading,
   reload,
-  refresh
+  refresh,
+  tableMethods
 } = useProTable({
   props,
   emits
@@ -103,7 +103,11 @@ const getColumns = computed(() => {
   })
 })
 
-// 格式化列
+watch(getColumns, () => {
+  tableMethods.doLayout()
+})
+
+// TODO: 当列由二级转变为一级表头布局错乱
 function proColumnsFilter(columns: any[]) {
   return columns
     .map(column => {
@@ -117,36 +121,21 @@ function proColumnsFilter(columns: any[]) {
       const tempColumn: any = {
         ...column,
         fixed: config.fixed,
-        children: column.children ? proColumnsFilter(column.children) : undefined
+        children: undefined
+        // children:
+        //   column.children && column.children?.length ? proColumnsFilter(column.children) : undefined
       }
 
+      if (column.children && column.children?.length) {
+        const children = proColumnsFilter(column.children)
+
+        if (children.length) {
+          tempColumn.children = children
+        }
+      }
       return tempColumn
     })
     .filter(Boolean)
-}
-
-// TODO: 类型补全
-const tableColumsSettingChange = (columnSettingMap: any) => {
-  console.log('columnSettingMap', columnSettingMap)
-
-  // const columnsMap: Record<string, ProTableColumnItem> = {}
-
-  // const _newCols: any[] = []
-
-  // TODO: 用这个配置去做配置过滤 不应直接修改原有变量会导致回不到原来的值
-  // tableColums.value.forEach(col => {
-  //   columnsMap[col.key] = col
-  // })
-
-  // // 暂时假定不会出现 空key值
-  // orderKeys.forEach(key => {
-  //   const col = columnsMap[key]
-
-  //   col.fixed = columnSettingMap[key].fixed
-  //   _newCols.push(col)
-  // })
-
-  // tableColums.value = _newCols
 }
 
 defineExpose({

@@ -72,7 +72,6 @@ import { ref, watch, reactive, nextTick } from 'vue'
 import { useTableStoreContext } from '../store'
 
 import SettingTree from './column-setting/setting-tree.vue'
-import { provide } from 'vue'
 
 const emits = defineEmits({
   change: (columnsMap: any, orderKeys: string[]) => columnsMap && orderKeys
@@ -146,7 +145,6 @@ watch(
     changeColumns()
   },
   {
-    flush: 'post',
     immediate: true
   }
 )
