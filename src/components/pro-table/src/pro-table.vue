@@ -32,7 +32,7 @@
       :row-key="rowKey"
       :table-layout="tableLayout"
     >
-      <el-table-column v-if="checkable" type="selection" width="55" :reserve-selection="true" />
+      <el-table-column v-if="checkable" type="selection" width="40" :reserve-selection="true" />
 
       <template v-for="(item, idx) in getColumns" :key="`${item.key}-${idx}`">
         <pro-table-column :column="item">
