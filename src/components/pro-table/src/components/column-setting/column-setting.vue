@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip effect="dark" content="刷新" placement="top">
+  <el-tooltip effect="dark" content="列设置" placement="top">
     <span ref="triggerRef" style="cursor: pointer"
       ><el-icon :size="18"><Setting /></el-icon
     ></span>
@@ -69,20 +69,26 @@
 <script lang="ts" setup>
 import { Setting } from '@element-plus/icons-vue'
 import { ref, watch, reactive, nextTick } from 'vue'
-import { useTableStoreContext } from '../store'
+import { useTableStoreContext } from '../../store'
 
-import SettingTree from './column-setting/setting-tree.vue'
+import SettingTree from './setting-tree.vue'
 
 const emits = defineEmits({
-  change: (columnsMap: any, orderKeys: string[]) => columnsMap && orderKeys
+  change: (columnsMap: any) => columnsMap
 })
 
 const props = defineProps<{
   columns: any[]
 }>()
 
-const { mergeColumnsMap, columnsMap, getColumnMapConfig, setDefaultColumnsMap, resetColumnsMap } =
-  useTableStoreContext()
+const {
+  mergeColumnsMap,
+  columnsMap,
+  getColumnMapConfig,
+  setDefaultColumnsMap,
+  resetColumnsMap,
+  initLocalStorageOrDynamicMap
+} = useTableStoreContext()
 
 const triggerRef = ref<HTMLDivElement>()
 const popoverRef = ref()
@@ -141,8 +147,6 @@ watch(
     colSettingChecked.indeterminate =
       unChecked.length !== 0 && rootUnChecked.length !== props.columns.length
     colSettingChecked.checked = unChecked.length === 0 && props.columns.length !== unChecked.length
-
-    changeColumns()
   },
   {
     immediate: true
@@ -186,8 +190,9 @@ function initColumnsMap() {
     }
   })
 
-  setDefaultColumnsMap(_columnsMap)
-  mergeColumnsMap(_columnsMap)
+  initLocalStorageOrDynamicMap({ ..._columnsMap })
+
+  setDefaultColumnsMap({ ..._columnsMap })
 }
 
 function initColumnsStore() {
@@ -248,11 +253,10 @@ const moveNode = (from: any, to: any, node: any) => {
 }
 
 function changeColumns() {
-  const orderKeys: string[] = []
+  const newColumnsMap: any = {}
   ;[...columnsStore.leftColumns, ...columnsStore.autoColumns, ...columnsStore.rightColumns].forEach(
     (col, index) => {
-      orderKeys.push(col.key)
-      columnsMap.value[col.key] = {
+      newColumnsMap[col.key] = {
         ...(columnsMap.value[col.key] || {}),
         fixed: col.fixed,
         order: index
@@ -260,7 +264,9 @@ function changeColumns() {
     }
   )
 
-  emits('change', { ...columnsMap.value }, orderKeys)
+  mergeColumnsMap(newColumnsMap)
+
+  emits('change', { ...columnsMap.value })
 }
 
 function loopColumns(cols: any[]) {

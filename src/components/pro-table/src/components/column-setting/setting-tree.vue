@@ -182,11 +182,6 @@ const check = (data: any, checkedObj: any) => {
   }
 
   loopSetShow(data.key)
-
-  console.log('newColumnMap', newColumnMap)
-
-  // debugger
-
   mergeColumnsMap({ ...newColumnMap })
   emits('check')
 }

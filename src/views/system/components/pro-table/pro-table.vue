@@ -3,6 +3,9 @@
     <VProTable
       header-title="pro table"
       :columns="columns"
+      :columns-state="{
+        persistenceKey: 'test-demo'
+      }"
       :data="data"
       :params="params"
       checkable

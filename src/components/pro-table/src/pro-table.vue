@@ -63,9 +63,9 @@
 import { useProTable } from './pro-table'
 import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
 import { RefreshRight } from '@element-plus/icons-vue'
-import SettingColumns from './components/column-setting.vue'
+import SettingColumns from './components/column-setting/column-setting.vue'
 import ProTableColumn from './pro-table-column.vue'
-import { createTableStoreContext, store } from './store'
+import { createTableStoreContext, useTableStore } from './store'
 import { computed, watch } from 'vue'
 
 import './style.scss'
@@ -73,7 +73,8 @@ import './style.scss'
 const props = defineProps(Object.assign({}, proTableProps, proTableHeaderProps))
 const emits = defineEmits(proTableEmits)
 
-createTableStoreContext()
+const store = useTableStore({ columnsState: props.columnsState })
+createTableStoreContext(store)
 
 const { columnsMap } = store
 
