@@ -47,7 +47,7 @@ import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
 import ProTableColumn from './pro-table-column.vue'
 import { createTableStoreContext, createTableAction, useTableStore } from './store'
 import Toolbar from './components/toolbar/toolbar.vue'
-
+import { columnsSort } from './utils'
 import './style.scss'
 
 const props = defineProps(Object.assign({}, proTableProps, proTableHeaderProps))
@@ -74,12 +74,9 @@ createTableStoreContext(store)
 createTableAction(tableMethods)
 
 const getColumns = computed(() => {
-  return proColumnsFilter(tableColums.value).sort((a, b) => {
-    const aOrder = columnsMap.value[a.key]?.order || 0
-    const bOrder = columnsMap.value[b.key]?.order || 0
+  const newColumns = proColumnsFilter(tableColums.value).sort(columnsSort(columnsMap.value))
 
-    return aOrder - bOrder
-  })
+  return newColumns
 })
 
 watch(getColumns, () => {

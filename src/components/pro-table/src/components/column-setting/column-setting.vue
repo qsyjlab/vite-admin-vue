@@ -70,8 +70,8 @@
 import { Setting } from '@element-plus/icons-vue'
 import { ref, watch, reactive, nextTick } from 'vue'
 import { useTableStoreContext } from '../../store'
-
 import SettingTree from './setting-tree.vue'
+import { columnsSort } from '../../utils'
 
 const emits = defineEmits({
   change: (columnsMap: any) => columnsMap
@@ -112,6 +112,7 @@ const unInitWatch = watch(
   () => props.columns,
   () => {
     initColumnsMap()
+
     nextTick(() => {
       unInitWatch()
     })
@@ -121,15 +122,16 @@ const unInitWatch = watch(
   }
 )
 
-watch(
-  () => props.columns,
-  () => {
-    initColumnsStore()
-  },
-  {
-    immediate: true
-  }
-)
+// watch(
+//   () => props.columns,
+//   () => {
+//     initColumnsStore()
+//   },
+//   {
+//     immediate: true,
+//     deep: true
+//   }
+// )
 
 watch(
   columnsMap,
@@ -193,10 +195,11 @@ function initColumnsMap() {
   initLocalStorageOrDynamicMap({ ..._columnsMap })
 
   setDefaultColumnsMap({ ..._columnsMap })
+  initColumnsStore()
 }
 
 function initColumnsStore() {
-  const newColumns = loopColumns([...props.columns])
+  const newColumns = loopColumns([...props.columns]).sort(columnsSort(columnsMap.value))
 
   columnsStore.autoColumns = []
   columnsStore.leftColumns = []
