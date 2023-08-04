@@ -1,27 +1,8 @@
 <template>
   <div class="pro-table">
     <!-- header -->
-    <div class="pro-table-header">
-      <div class="pro-table-header__left">
-        <slot name="title">
-          <span class="pro-table-header__title" v-if="headerTitle">
-            {{ headerTitle }}
-          </span>
-        </slot>
-        <slot></slot>
-      </div>
-      <div class="pro-table-header__right">
-        <el-space>
-          <el-tooltip effect="dark" content="刷新" placement="top">
-            <span style="cursor: pointer" @click="refresh"
-              ><el-icon :size="18"> <RefreshRight /> </el-icon
-            ></span>
-          </el-tooltip>
+    <toolbar :header-title="headerTitle" :columns="tableColums" />
 
-          <SettingColumns :columns="tableColums" />
-        </el-space>
-      </div>
-    </div>
     <!-- table -->
     <el-table
       ref="tableRef"
@@ -60,13 +41,12 @@
   </div>
 </template>
 <script setup lang="ts">
+import { computed, watch } from 'vue'
 import { useProTable } from './pro-table'
 import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
-import { RefreshRight } from '@element-plus/icons-vue'
-import SettingColumns from './components/column-setting/column-setting.vue'
 import ProTableColumn from './pro-table-column.vue'
-import { createTableStoreContext, useTableStore } from './store'
-import { computed, watch } from 'vue'
+import { createTableStoreContext, createTableAction, useTableStore } from './store'
+import Toolbar from './components/toolbar/toolbar.vue'
 
 import './style.scss'
 
@@ -74,10 +54,6 @@ const props = defineProps(Object.assign({}, proTableProps, proTableHeaderProps))
 const emits = defineEmits(proTableEmits)
 
 const store = useTableStore({ columnsState: props.columnsState })
-createTableStoreContext(store)
-
-const { columnsMap } = store
-
 const {
   tableRef,
   tableColums,
@@ -87,13 +63,15 @@ const {
   handleSizeChange,
   total,
   loading,
-  reload,
-  refresh,
   tableMethods
 } = useProTable({
   props,
   emits
 })
+const { columnsMap } = store
+
+createTableStoreContext(store)
+createTableAction(tableMethods)
 
 const getColumns = computed(() => {
   return proColumnsFilter(tableColums.value).sort((a, b) => {
@@ -139,7 +117,5 @@ function proColumnsFilter(columns: any[]) {
     .filter(Boolean)
 }
 
-defineExpose({
-  reload
-})
+defineExpose(tableMethods)
 </script>

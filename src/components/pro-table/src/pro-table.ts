@@ -3,17 +3,11 @@ import { sliceData } from './utils'
 import type { SetupContext } from 'vue'
 import { proTableEmits, ProTableProps, emitsEnums } from './props'
 import { useLoading } from './hooks'
-import { ElTable } from 'element-plus'
+import type { TableInstance, TableMethods } from './types'
 
 type UseTableOptions = {
   props: ProTableProps
   emits: SetupContext<typeof proTableEmits>['emit']
-}
-
-type TableInstance = InstanceType<typeof ElTable>
-
-interface TableMethods {
-  doLayout: TableInstance['doLayout']
 }
 
 export const useProTable = (options: UseTableOptions) => {
@@ -105,7 +99,8 @@ export const useProTable = (options: UseTableOptions) => {
   }
 
   const tableMethods: TableMethods = {
-    doLayout
+    doLayout,
+    reload
   }
 
   return {

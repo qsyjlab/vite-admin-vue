@@ -1,8 +1,8 @@
-import { defineComponent, Fragment, h, nextTick, provide, ref, toRaw, watch } from 'vue'
+import { ref, toRaw, watch } from 'vue'
 
 import type { InjectionKey } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
-import { ColumnsState, ColumnsMap } from '../types'
+import { ColumnsState, ColumnsMap, TableMethods } from '../types'
 
 interface IProps {
   columnsState: ColumnsState
@@ -120,4 +120,16 @@ export function createTableStoreContext(context: TableStore) {
 
 export function useTableStoreContext() {
   return useContext(contextKey)
+}
+
+// 共享 table 实例到子集
+export const tableActionKey: InjectionKey<TableMethods> = Symbol()
+
+// 共享 action
+export function createTableAction(actions: TableMethods) {
+  return createContext(actions, tableActionKey, { readonly: true })
+}
+
+export function useTableActionContext() {
+  return useContext(tableActionKey)
 }
