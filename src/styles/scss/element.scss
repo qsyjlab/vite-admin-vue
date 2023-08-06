@@ -27,9 +27,9 @@
   padding: 0;
 }
 
-:deep(.el-popper) {
-  --el-popper-border-radius: var(--el-popover-border-radius, 0) !important;
-}
+// :deep(.el-popper) {
+//   --el-popper-border-radius: var(--el-popover-border-radius, 0) !important;
+// }
 
 .el-menu {
   border-right: unset !important;
