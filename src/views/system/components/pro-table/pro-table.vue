@@ -33,6 +33,7 @@ const columns = [
   {
     title: '名称',
     key: 'name',
+    tip: '测试tip提示',
     fixed: 'left'
     // renderHeader: () => {
     //   return <>测试 tsx</>

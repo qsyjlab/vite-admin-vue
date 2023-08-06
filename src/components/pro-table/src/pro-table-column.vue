@@ -5,7 +5,7 @@
 import { ElTableColumn } from 'element-plus'
 import { proTableColumnProps, ProTableColumnItem } from './props'
 import { useSlots } from 'vue'
-
+import { Tips } from '../../tips'
 const props = defineProps(proTableColumnProps)
 
 const slots = useSlots()
@@ -33,7 +33,12 @@ const renderColumns = (item: ProTableColumnItem) => {
                 ...scope,
                 info: item
               })
-            return item.title
+            return (
+              <span class="column-header">
+                <span class="column-header-title">{item.title}</span>
+                {item.tip ? <Tips text={item.tip} /> : null}
+              </span>
+            )
           }
         }}
       </ElTableColumn>
@@ -45,3 +50,14 @@ const render = () => {
   return renderColumns(props.column)
 }
 </script>
+
+<style scoped>
+.column-header {
+  display: flex;
+  align-items: center;
+}
+
+.column-header-title {
+  margin-right: 5px;
+}
+</style>

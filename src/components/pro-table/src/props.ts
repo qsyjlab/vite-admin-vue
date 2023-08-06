@@ -6,6 +6,8 @@ import { ColumnsState } from './types'
 export interface ProTableColumnItem<T = any> extends Omit<TableColumnCtx<T>, 'children'> {
   title: number | string
   key: number | string
+  /** 创建一个提示图标 */
+  tip?: string
   children: ProTableColumnItem<T>[]
 }
 

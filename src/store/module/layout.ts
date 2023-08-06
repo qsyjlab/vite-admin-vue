@@ -36,7 +36,7 @@ export const useLayoutStore = defineStore<string, LayoutState, LayoutGetter, Lay
           tabBarHeight: 42,
           headerHeight: 48,
           theme: 'light',
-          themeColor: '#409eff'
+          themeColor: '#1677FF'
         },
         mixMenuLayoutConfig: {
           fixedMenu: false,
