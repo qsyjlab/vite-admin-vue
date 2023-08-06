@@ -1,4 +1,5 @@
 import { ElTable } from 'element-plus'
+
 import { NOOP } from './utils'
 
 export type ColumnsMap = Record<string, any>

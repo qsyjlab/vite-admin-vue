@@ -12,6 +12,7 @@
       :border="border"
       :row-key="rowKey"
       :table-layout="tableLayout"
+      :size="tableProps.size"
     >
       <el-table-column v-if="checkable" type="selection" width="40" :reserve-selection="true" />
 
@@ -68,7 +69,7 @@ const {
   props,
   emits
 })
-const { columnsMap } = store
+const { columnsMap, tableProps } = store
 
 createTableStoreContext(store)
 createTableAction(tableMethods)

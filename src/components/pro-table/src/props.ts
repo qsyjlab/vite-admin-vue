@@ -1,7 +1,6 @@
 import { definePropType } from '@/utils'
 import type { ExtractPropTypes } from 'vue'
-import type { TableColumnCtx } from 'element-plus'
-
+import type { TableColumnCtx, TableProps } from 'element-plus'
 import { ColumnsState } from './types'
 
 export interface ProTableColumnItem<T = any> extends Omit<TableColumnCtx<T>, 'children'> {
@@ -17,6 +16,9 @@ export const proTableHeaderProps = {
 }
 
 export const proTableProps = {
+  size: {
+    type: definePropType<TableProps<any>['size']>(String)
+  },
   columnsState: {
     type: definePropType<ColumnsState>(Object),
     default: () => ({})

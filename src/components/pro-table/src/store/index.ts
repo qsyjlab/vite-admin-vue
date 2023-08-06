@@ -1,12 +1,14 @@
-import { ref, toRaw, watch } from 'vue'
+import { reactive, ref, toRaw, watch } from 'vue'
 
 import type { InjectionKey } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
-import { ColumnsState, ColumnsMap, TableMethods } from '../types'
-
+import type { ColumnsState, ColumnsMap, TableMethods } from '../types'
+import { ProTableProps } from '../props'
 interface IProps {
   columnsState: ColumnsState
 }
+
+type ITableProps = Pick<ProTableProps, 'size'>
 
 export function useTableStore(props: IProps) {
   const sortColumnKeys: string[] = []
@@ -14,6 +16,10 @@ export function useTableStore(props: IProps) {
   const columnsMap = ref<Record<string, any>>({})
 
   const defaultColumnsMap = ref<Record<string, any> | null>(null)
+
+  const tableProps = reactive<ITableProps>({
+    size: 'default'
+  })
 
   watch(
     [() => props.columnsState],
@@ -75,6 +81,10 @@ export function useTableStore(props: IProps) {
     }
   }
 
+  function mergeTableProps(props: ITableProps) {
+    Object.assign(tableProps, props)
+  }
+
   function setSortColumnKeys(keys: string[]) {
     return []
   }
@@ -98,11 +108,13 @@ export function useTableStore(props: IProps) {
   }
 
   return {
+    tableProps,
     sortColumnKeys,
     defaultColumnsMap,
     setDefaultColumnsMap,
     columnsMap,
     mergeColumnsMap,
+    mergeTableProps,
     resetColumnsMap,
     setSortColumnKeys,
     getColumnMapConfig,
