@@ -35,6 +35,7 @@
         :background="true"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
+        :small="tableProps.size === 'small'"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
