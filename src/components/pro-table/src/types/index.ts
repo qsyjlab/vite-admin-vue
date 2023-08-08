@@ -14,8 +14,9 @@ export interface ProTableColumnItem<T = any>
   /** 当前数值类型 default: text */
   valueType?: ValueType
   /** 数值枚举 */
-  valueEnum?: valueEnum
+  valueEnum?: ValueEnum
   children?: ProTableColumnItem<T>[]
+  /** 函数式渲染器 优先级小于 slotffrrffcffvfrfcc   vvfvrfre */
   render?: (row: T, column: any) => string | undefined | null | VNode | Component
 }
 
@@ -37,10 +38,14 @@ export interface TableMethods {
 
 export type ValueType = 'text' | 'enum'
 
-export type valueEnum =
-  | Record<string, valueEnumValue>
-  | ((rowData: any) => Record<string, valueEnumValue>)
-export type valueEnumValue = {
+export type ValueEnum =
+  | ValueEnumRecord
+  | ((rowData: any) => Record<string, ValueEnumRecord> | ValueEnumMap)
+
+export type ValueEnumMap = Map<string | number | boolean, ValueEnumRecord>
+export type ValueEnumRecord = Record<string, ValueEnumValue>
+
+export type ValueEnumValue = {
   text?: string
   color?: string
 }
