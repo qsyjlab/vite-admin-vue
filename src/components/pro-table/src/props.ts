@@ -1,17 +1,7 @@
 import { definePropType } from '@/utils'
 import type { ExtractPropTypes } from 'vue'
-import type { TableColumnCtx, TableProps } from 'element-plus'
-import { ColumnsState } from './types'
-
-export interface ProTableColumnItem<T = any> extends Omit<TableColumnCtx<T>, 'children'> {
-  title: number | string
-  key: number | string
-  /** 创建一个提示图标 */
-  tip?: string
-  children: ProTableColumnItem<T>[]
-}
-
-export type ProTableColumns = ProTableColumnItem[]
+import type { TableProps } from 'element-plus'
+import { ColumnsState, ProTableColumns, ProTableColumnItem } from './types'
 
 export const proTableHeaderProps = {
   headerTitle: String

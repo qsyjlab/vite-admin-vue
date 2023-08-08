@@ -1,5 +1,5 @@
 <template>
-  <el-card :header="$route.meta.title">
+  <el-card>
     <VProTable
       header-title="pro table"
       :columns="columns"
@@ -23,13 +23,14 @@
 </template>
 <script setup lang="ts">
 import { VProTable } from '@/components/pro-table'
+import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
 
 // function getScope(sc) {
 //   console.log('sc', sc)
 // }
 
-const columns = [
+const columns: ProTableColumns = [
   {
     title: '名称',
     key: 'name',
@@ -74,8 +75,47 @@ const columns = [
     key: 'idcard'
   },
   {
+    title: '函数式返回 enum',
+    key: 'fnE',
+    valueType: 'enum',
+    valueEnum: () => {
+      return {
+        all: { text: '全部', color: 'blue' },
+        open: {
+          text: '未解决',
+          color: 'green'
+        },
+        closed: {
+          text: '已解决',
+          color: 'red'
+        },
+        processing: {
+          text: '解决中',
+          color: 'blue'
+        }
+      }
+    }
+  },
+  {
     title: '状态',
-    key: 'status'
+    key: 'status',
+    valueType: 'enum',
+
+    valueEnum: {
+      all: { text: '全部', color: 'blue' },
+      open: {
+        text: '未解决',
+        color: 'green'
+      },
+      closed: {
+        text: '已解决',
+        color: 'red'
+      },
+      processing: {
+        text: '解决中',
+        color: 'blue'
+      }
+    }
   },
   {
     title: '地址1',
@@ -123,18 +163,22 @@ function createData() {
       name: `name-${index}`,
       age: 18,
       address: `address-${index}`,
+      status: 'all',
+      fnE: 'open',
       children: [
         {
           id: i++,
           name: `name-${index}`,
           age: 18,
-          address: `address-${index}`
+          address: `address-${index}`,
+          status: 'processing'
         },
         {
           id: i++,
           name: `name-${index}`,
           age: 18,
-          address: `address-${index}`
+          address: `address-${index}`,
+          status: 'processing'
         }
       ]
     }
