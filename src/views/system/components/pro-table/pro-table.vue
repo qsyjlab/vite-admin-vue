@@ -71,8 +71,11 @@ const columns: ProTableColumns = [
     key: 'year'
   },
   {
-    title: '身份证',
-    key: 'idcard'
+    title: '进度条',
+    key: 'progress',
+    valueType: () => {
+      return { type: 'progress' }
+    }
   },
   {
     title: '函数式返回 enum',
@@ -165,6 +168,7 @@ function createData() {
       address: `address-${index}`,
       status: 'all',
       fnE: 'open',
+      progress: 80,
       children: [
         {
           id: i++,

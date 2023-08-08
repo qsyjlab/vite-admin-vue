@@ -2,7 +2,7 @@
   <component :is="render()" />
 </template>
 <script setup lang="tsx">
-import { ElTableColumn } from 'element-plus'
+import { ElTableColumn, ElProgress } from 'element-plus'
 import { proTableColumnProps } from './props'
 import { useSlots } from 'vue'
 import { Tips } from '../../tips'
@@ -19,6 +19,11 @@ function runValueEnumFn<T extends any[]>(valueEnum: any, ...rest: T[]) {
   return valueEnum
 }
 
+function runValueTypeFn<T extends any[]>(valueType: any, ...rest: T[]) {
+  if (typeof valueType === 'function') return valueType(...rest)
+  return valueType
+}
+
 // TODO: 考虑后期 key 替换回 prop
 function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
   const { row, column } = scope || {}
@@ -32,7 +37,9 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
 
   if (typeof _render === 'function') return _render(row, column)
 
-  const valueTypeRendererMap = {
+  const _valueType: any = runValueTypeFn(valueType, row)
+  // TODO: 优化类型
+  const valueTypeRendererMap: Record<string, any> = {
     text: () => row[columnConfig.key],
 
     // 枚举类型
@@ -42,9 +49,20 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
       if (!enumVal) return ''
 
       return <Badge color={enumVal.color} text={enumVal.text} />
+    },
+    progress: () => {
+      return (
+        <ElProgress percentage={value} status={_valueType.status} color={_valueType.color}>
+          {{
+            default: ({ percentage }: { percentage: number }) => `${percentage || 0}%`
+          }}
+        </ElProgress>
+      )
     }
   }
-  const renderer = valueTypeRendererMap[valueType]
+
+  const renderer =
+    valueTypeRendererMap[typeof _valueType === 'string' ? _valueType : _valueType.type]
   return renderer && renderer()
 }
 
