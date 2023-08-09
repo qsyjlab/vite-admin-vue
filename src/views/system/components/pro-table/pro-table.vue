@@ -25,10 +25,14 @@
 import { VProTable } from '@/components/pro-table'
 import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
+import { useWatermark } from '@/hooks'
 
 // function getScope(sc) {
 //   console.log('sc', sc)
 // }
+
+const { setWatermark } = useWatermark()
+setWatermark('水印')
 
 const columns: ProTableColumns = [
   {
