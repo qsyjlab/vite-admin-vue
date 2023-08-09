@@ -34,52 +34,49 @@ interface WaterMarkFnReturn {
 
 export function useWaterMark(
   to: Ref<HTMLElement | null> | HTMLElement,
-  props?: WatermarkProps
+  defaultProps?: WatermarkProps
 ): WaterMarkFnReturn {
-  const target = unref(to)
-  const {
-    zIndex = 1000,
-    rotate = -22,
-    width,
-    height,
-    image,
-    content,
-    font,
-    style,
-    gap = [50, 100],
-    offset
-  } = props || {}
-  const {
-    color = 'rgba(0, 0, 0, 0.15)',
-    fontSize = 14,
-    fontWeight = 'normal',
-    fontStyle = 'normal',
-    fontFamily = 'sans-serif'
-  } = font || {}
-
-  const [gapX, gapY] = gap
-  const gapXCenter = gapX / 2
-  const gapYCenter = gapY / 2
-  const offsetLeft = offset?.[0] ?? gapXCenter
-  const offsetTop = offset?.[1] ?? gapYCenter
+  const target = getTarget()
 
   let watermarkRef: HTMLElement | null = null
 
-  if (waterMarkMap && target && waterMarkMap.has(target))
-    return (
-      waterMarkMap.get(target) || {
-        render: () => {},
-        destroy: () => {}
-      }
-    )
+  if (waterMarkMap && target && waterMarkMap.has(target)) return waterMarkMap.get(target)
   return {
     render,
     destroy
   }
 
   function render() {
+    const target = getTarget()
+
     if (!target) return
     if (target && waterMarkMap.has(target)) return
+
+    const {
+      zIndex = 1000,
+      rotate = -22,
+      width,
+      height,
+      image,
+      content,
+      font,
+      style,
+      gap = [50, 100],
+      offset = [0]
+    } = defaultProps || {}
+    const {
+      color = 'rgba(0, 0, 0, 0.15)',
+      fontSize = 14,
+      fontWeight = 'normal',
+      fontStyle = 'normal',
+      fontFamily = 'sans-serif'
+    } = font || {}
+
+    const [gapX, gapY] = gap
+    const gapXCenter = gapX / 2
+    const gapYCenter = gapY / 2
+    const offsetLeft = offset?.[0] ?? gapXCenter
+    const offsetTop = offset?.[1] ?? gapYCenter
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')
 
@@ -122,6 +119,106 @@ export function useWaterMark(
     )
 
     waterMarkMap.set(target, { render, destroy })
+
+    function drawText(
+      canvas: HTMLCanvasElement,
+      ctx: CanvasRenderingContext2D,
+      drawX: number,
+      drawY: number,
+      drawWidth: number,
+      drawHeight: number,
+      alternateRotateX: number,
+      alternateRotateY: number,
+      alternateDrawX: number,
+      alternateDrawY: number,
+      markWidth: number
+    ) {
+      fillTexts(ctx, drawX, drawY, drawWidth, drawHeight)
+      /** Fill the interleaved text after rotation */
+      ctx.restore()
+      rotateWatermark(ctx, alternateRotateX, alternateRotateY, rotate)
+      fillTexts(ctx, alternateDrawX, alternateDrawY, drawWidth, drawHeight)
+      appendWatermark(canvas.toDataURL(), markWidth)
+    }
+
+    function fillTexts(
+      ctx: CanvasRenderingContext2D,
+      drawX: number,
+      drawY: number,
+      drawWidth: number,
+      drawHeight: number
+    ) {
+      const ratio = getPixelRatio()
+      const mergedFontSize = Number(fontSize) * ratio
+      ctx.font = `${fontStyle} normal ${fontWeight} ${mergedFontSize}px/${drawHeight}px ${fontFamily}`
+      ctx.fillStyle = color
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'top'
+      ctx.translate(drawWidth / 2, 0)
+      const contents = Array.isArray(content) ? content : [content]
+      contents?.forEach((item, index) => {
+        ctx.fillText(item ?? '', drawX, drawY + index * (mergedFontSize + FontGap * ratio))
+      })
+    }
+
+    function getMarkSize(ctx: CanvasRenderingContext2D) {
+      let defaultWidth = 120
+      let defaultHeight = 64
+      if (!image && ctx.measureText) {
+        ctx.font = `${Number(fontSize)}px ${fontFamily}`
+        const contents = Array.isArray(content) ? content : [content]
+        const widths = contents.map(item => ctx.measureText(item || '').width)
+        defaultWidth = Math.ceil(Math.max(...widths))
+        defaultHeight = Number(fontSize) * contents.length + (contents.length - 1) * FontGap
+      }
+      return [width ?? defaultWidth, height ?? defaultHeight] as const
+    }
+
+    function getMarkStyle() {
+      const markStyle: CSSProperties = {
+        zIndex,
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+        backgroundRepeat: 'repeat'
+      }
+
+      /** Calculate the style of the offset */
+      let positionLeft = offsetLeft - gapXCenter
+      let positionTop = offsetTop - gapYCenter
+      if (positionLeft > 0) {
+        markStyle.left = `${positionLeft}px`
+        markStyle.width = `calc(100% - ${positionLeft}px)`
+        positionLeft = 0
+      }
+      if (positionTop > 0) {
+        markStyle.top = `${positionTop}px`
+        markStyle.height = `calc(100% - ${positionTop}px)`
+        positionTop = 0
+      }
+      markStyle.backgroundPosition = `${positionLeft}px ${positionTop}px`
+
+      return markStyle
+    }
+
+    function appendWatermark(base64Url: string, markWidth: number) {
+      watermarkRef &&
+        watermarkRef.setAttribute(
+          'style',
+          getStyleStr({
+            ...getMarkStyle(),
+            backgroundImage: `url('${base64Url}')`,
+            backgroundSize: `${(gapX + markWidth) * BaseSize}px`
+          })
+        )
+
+      if (watermarkRef) {
+        target && target.append(watermarkRef)
+      }
+    }
   }
 
   function destroy() {
@@ -131,104 +228,8 @@ export function useWaterMark(
     }
   }
 
-  function drawText(
-    canvas: HTMLCanvasElement,
-    ctx: CanvasRenderingContext2D,
-    drawX: number,
-    drawY: number,
-    drawWidth: number,
-    drawHeight: number,
-    alternateRotateX: number,
-    alternateRotateY: number,
-    alternateDrawX: number,
-    alternateDrawY: number,
-    markWidth: number
-  ) {
-    fillTexts(ctx, drawX, drawY, drawWidth, drawHeight)
-    /** Fill the interleaved text after rotation */
-    ctx.restore()
-    rotateWatermark(ctx, alternateRotateX, alternateRotateY, rotate)
-    fillTexts(ctx, alternateDrawX, alternateDrawY, drawWidth, drawHeight)
-    appendWatermark(canvas.toDataURL(), markWidth)
-  }
-
-  function fillTexts(
-    ctx: CanvasRenderingContext2D,
-    drawX: number,
-    drawY: number,
-    drawWidth: number,
-    drawHeight: number
-  ) {
-    const ratio = getPixelRatio()
-    const mergedFontSize = Number(fontSize) * ratio
-    ctx.font = `${fontStyle} normal ${fontWeight} ${mergedFontSize}px/${drawHeight}px ${fontFamily}`
-    ctx.fillStyle = color
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'top'
-    ctx.translate(drawWidth / 2, 0)
-    const contents = Array.isArray(content) ? content : [content]
-    contents?.forEach((item, index) => {
-      ctx.fillText(item ?? '', drawX, drawY + index * (mergedFontSize + FontGap * ratio))
-    })
-  }
-
-  function getMarkSize(ctx: CanvasRenderingContext2D) {
-    let defaultWidth = 120
-    let defaultHeight = 64
-    if (!image && ctx.measureText) {
-      ctx.font = `${Number(fontSize)}px ${fontFamily}`
-      const contents = Array.isArray(content) ? content : [content]
-      const widths = contents.map(item => ctx.measureText(item || '').width)
-      defaultWidth = Math.ceil(Math.max(...widths))
-      defaultHeight = Number(fontSize) * contents.length + (contents.length - 1) * FontGap
-    }
-    return [width ?? defaultWidth, height ?? defaultHeight] as const
-  }
-
-  function getMarkStyle() {
-    const markStyle: CSSProperties = {
-      zIndex,
-      position: 'absolute',
-      left: 0,
-      top: 0,
-      width: '100%',
-      height: '100%',
-      pointerEvents: 'none',
-      backgroundRepeat: 'repeat'
-    }
-
-    /** Calculate the style of the offset */
-    let positionLeft = offsetLeft - gapXCenter
-    let positionTop = offsetTop - gapYCenter
-    if (positionLeft > 0) {
-      markStyle.left = `${positionLeft}px`
-      markStyle.width = `calc(100% - ${positionLeft}px)`
-      positionLeft = 0
-    }
-    if (positionTop > 0) {
-      markStyle.top = `${positionTop}px`
-      markStyle.height = `calc(100% - ${positionTop}px)`
-      positionTop = 0
-    }
-    markStyle.backgroundPosition = `${positionLeft}px ${positionTop}px`
-
-    return markStyle
-  }
-
-  function appendWatermark(base64Url: string, markWidth: number) {
-    watermarkRef &&
-      watermarkRef.setAttribute(
-        'style',
-        getStyleStr({
-          ...getMarkStyle(),
-          backgroundImage: `url('${base64Url}')`,
-          backgroundSize: `${(gapX + markWidth) * BaseSize}px`
-        })
-      )
-
-    if (watermarkRef) {
-      target && target.append(watermarkRef)
-    }
+  function getTarget() {
+    return unref(to)
   }
 }
 
