@@ -20,6 +20,14 @@ export default defineExposeRoutes([
           title: '水印'
         },
         component: () => import('@/views/system/feature/watermark/watermark.vue')
+      },
+      {
+        name: 'Qrcode',
+        path: 'qrcode',
+        meta: {
+          title: '二维码'
+        },
+        component: () => import('@/views/system/feature/qrcode/qrcode.vue')
       }
     ]
   }
