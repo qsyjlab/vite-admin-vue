@@ -11,11 +11,9 @@ const watermarkContainerRef = ref<HTMLElement | null>(null)
 
 const props = defineProps<WatermarkProps>()
 
-const { render, destroy } = useWaterMark(watermarkContainerRef, { ...props })
+const { render, destroy } = useWaterMark(watermarkContainerRef, ref(props))
 
 onMounted(() => {
-  console.log('watermarkContainerRef', watermarkContainerRef.value)
-
   if (watermarkContainerRef.value) {
     render()
   }
@@ -25,7 +23,11 @@ watch(
   () => props,
   () => {
     destroy()
+
     render()
+  },
+  {
+    deep: true
   }
 )
 

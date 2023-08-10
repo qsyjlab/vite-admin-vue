@@ -25,22 +25,23 @@ export interface WatermarkProps {
   offset?: [number, number]
 }
 
-const waterMarkMap = new WeakMap<HTMLElement>()
+// 存
+const waterMarkMap = new WeakMap<HTMLElement, HTMLElement>()
 
 interface WaterMarkFnReturn {
   render: () => void
   destroy: () => void
 }
 
+// TODO: 似乎副作用太多了 起作用的其实只有 render 部分
 export function useWaterMark(
   to: Ref<HTMLElement | null> | HTMLElement,
-  defaultProps?: WatermarkProps
+  props?: Ref<WatermarkProps>
 ): WaterMarkFnReturn {
-  const target = getTarget()
+  // const target = getTarget()
 
   let watermarkRef: HTMLElement | null = null
 
-  if (waterMarkMap && target && waterMarkMap.has(target)) return waterMarkMap.get(target)
   return {
     render,
     destroy
@@ -50,7 +51,6 @@ export function useWaterMark(
     const target = getTarget()
 
     if (!target) return
-    if (target && waterMarkMap.has(target)) return
 
     const {
       zIndex = 1000,
@@ -63,7 +63,8 @@ export function useWaterMark(
       style,
       gap = [50, 100],
       offset = [0]
-    } = defaultProps || {}
+    } = props?.value || {}
+
     const {
       color = 'rgba(0, 0, 0, 0.15)',
       fontSize = 14,
@@ -82,10 +83,14 @@ export function useWaterMark(
 
     if (!ctx) return
 
-    if (!watermarkRef) {
+    if (waterMarkMap.has(target)) {
+      const _ref = waterMarkMap.get(target)
+      if (_ref) {
+        watermarkRef = _ref
+      }
+    } else {
       watermarkRef = document.createElement('div')
     }
-
     const ratio = getPixelRatio()
     const [markWidth, markHeight] = getMarkSize(ctx)
     const canvasWidth = (gapX + markWidth) * ratio
@@ -118,7 +123,9 @@ export function useWaterMark(
       markWidth
     )
 
-    waterMarkMap.set(target, { render, destroy })
+    if (watermarkRef) {
+      waterMarkMap.set(target, watermarkRef)
+    }
 
     function drawText(
       canvas: HTMLCanvasElement,
@@ -225,6 +232,12 @@ export function useWaterMark(
     if (watermarkRef) {
       watermarkRef.remove()
       watermarkRef = null
+
+      const target = getTarget()
+
+      if (target) {
+        waterMarkMap.delete(target)
+      }
     }
   }
 
