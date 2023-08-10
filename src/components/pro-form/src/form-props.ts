@@ -23,7 +23,8 @@ export const formProps = {
 export const emitsEnums = {
   REGISTER: 'register',
   SUBMIT: 'submit',
-  RESET: 'reset'
+  RESET: 'reset',
+  EFFECT: 'effect'
 } as const
 
 // [Vue warn]:  Invalid event arguments: event validation failed for event
@@ -31,7 +32,8 @@ export const emitsEnums = {
 export const formEmits = {
   [emitsEnums.REGISTER]: (instance: FormMethodsType | null): boolean => true,
   [emitsEnums.SUBMIT]: (values: Record<string, any>): boolean => true,
-  [emitsEnums.RESET]: (values: Record<string, any>): boolean => true
+  [emitsEnums.RESET]: (values: Record<string, any>): boolean => true,
+  [emitsEnums.EFFECT]: (values: Record<string, any>): boolean => !!values
 }
 
 export type FormProps = ExtractPropTypes<typeof formProps>

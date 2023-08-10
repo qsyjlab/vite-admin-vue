@@ -61,15 +61,18 @@ export const useForm = (parameter: UseFormParameter) => {
   const initializeForm = () => {
     if (fields.length === 0) return
     fields.forEach(item => {
-      formModel[item.key] = undefined
+      formModel[item.key] = props.model[item.key]
 
       if (!inline) {
         formRules[item.key] = item.rules
       }
     })
+    watch(formModel, () => {
+      emits('effect', toRaw(formModel))
+    })
   }
 
-  const forceUpdateModel = (model?: Record<string, any>) => {
+  function forceUpdateModel(model?: Record<string, any>) {
     const _model = Object.assign(props.model, model || [])
     Object.keys(_model).forEach(key => {
       formModel[key] = _model[key]
