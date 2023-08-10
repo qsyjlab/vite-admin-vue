@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { useStorageHelper } from '@/hooks'
-import { generateThemeCluster } from '@/utils'
 
 export interface LayoutType {
   // 是否折叠 菜单栏

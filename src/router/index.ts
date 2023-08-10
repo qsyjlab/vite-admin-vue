@@ -1,4 +1,4 @@
-import { createWebHistoryRouter } from './helper'
+import { createWebHistoryRouter } from './helper/resolve'
 
 import { setupRouterGuard } from './guard'
 import routes from './routes'

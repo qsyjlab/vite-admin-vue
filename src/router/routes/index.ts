@@ -1,4 +1,4 @@
-import { defineExposeRoutes } from '../helper'
+import { defineExposeRoutes } from '../helper/utils'
 
 import { RouteRecordRaw } from 'vue-router'
 

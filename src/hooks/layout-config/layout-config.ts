@@ -10,8 +10,6 @@ import { useDark, useToggle } from '@vueuse/core'
 type SetLayoutConfig = (eventKey: EventKeys, value: any) => void
 type EventKeys = (typeof LayoutConfigHandlerEnum)[keyof typeof LayoutConfigHandlerEnum]
 
-// type LayoutConfigHandlerEnumKeys = keyof typeof LayoutConfigHandlerEnum
-
 export const LayoutConfigHandlerEnum = {
   // 布局模式
   LAYOUT_MODE: 'layoutMode',

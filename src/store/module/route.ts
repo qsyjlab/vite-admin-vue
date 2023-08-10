@@ -1,7 +1,6 @@
-import type { RouteTreeRelation } from '@/router'
 import { defineStore } from 'pinia'
 
-import type { RouteMeta, RouteRecordName } from 'vue-router'
+import type { RouteMeta } from 'vue-router'
 
 export interface MenuItem {
   name: string
@@ -10,12 +9,6 @@ export interface MenuItem {
 }
 
 export interface RouteState {
-  menuList: MenuItem[]
-  routeMapping: Record<
-    string,
-    // TODO: 添加限制类型
-    { isFlat: boolean; originRoutesRelation: Record<string, RouteTreeRelation>; menus: any[] }
-  >
   isFristEntry: boolean
   keepAliveCache: Set<string>
 }
@@ -23,14 +16,6 @@ export interface RouteState {
 export interface RouteAction {
   addAlive: (names: string) => void
   saveMenus: (menus: MenuItem[]) => void
-  // TODO: 优化类型
-  saveRoutesRelation: (
-    moduleName: string,
-    parameters: {
-      relation: Record<string, RouteTreeRelation>
-      menus: any[]
-    }
-  ) => void
 }
 
 export interface RouteGetters {
@@ -60,23 +45,6 @@ export const useRouteStore = defineStore<string, RouteState, RouteGetters, Route
       },
       saveMenus(menus) {
         this.isFristEntry = false
-
-        this.menuList = menus
-      },
-
-      // 保存拍平后的路由状态
-      saveRoutesRelation(moduleName, parameters) {
-        const module = this.routeMapping[moduleName]
-        // 如果已经拍平了 跳过
-        if (module && module.isFlat) return
-
-        const { menus, relation: originRoutesRelation } = parameters
-
-        this.routeMapping[moduleName] = {
-          originRoutesRelation,
-          menus,
-          isFlat: true
-        }
       }
     },
     getters: {

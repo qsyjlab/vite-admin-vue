@@ -3,7 +3,7 @@ import type { RouteLocationNormalized, Router, NavigationGuardNext } from 'vue-r
 import { useStorageHelper } from '@/hooks'
 import { hasAuth } from '@/auth'
 import { useRouteStore } from '@/store'
-import { buildRoutes } from '../helper'
+import { buildRoutes } from '../helper/resolve'
 import { asyncRoutes, pageError } from '../routes'
 
 export async function handlePermissionRouter(

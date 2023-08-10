@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { buildRoutes } from '@/router'
+import { buildRoutes } from '@/router/helper/resolve'
 import { asyncRoutes } from '@/router/routes'
 import { useRouteStore, useUserStore } from '@/store'
 import { ElMessage } from 'element-plus'
