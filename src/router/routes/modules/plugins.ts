@@ -9,8 +9,8 @@ export default defineExposeRoutes([
       title: '插件',
       sort: 3,
       icon: 'icon-files',
-      isNotAuth: true,
-      hideChildrenInMenu: true
+      isNotAuth: true
+      // hideChildrenInMenu: true
     },
     redirect: { name: 'DayJs' },
     component: () => import('@/layouts/basic-layout/basic-layout.vue'),
@@ -30,8 +30,8 @@ export default defineExposeRoutes([
         path: 'canvs-to-pdf',
         meta: {
           title: 'CanvsToPdf',
-          icon: 'icon-camera-filled'
-          // isNotAuth: true
+          icon: 'icon-camera-filled',
+          isNotAuth: true
         },
         component: () => import('@/views/system/plugins/CanvsToPdf.vue')
       }

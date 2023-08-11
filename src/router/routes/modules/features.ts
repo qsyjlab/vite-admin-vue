@@ -10,7 +10,7 @@ export default defineExposeRoutes([
       title: '功能',
       icon: 'icon-document'
     },
-    redirect: { name: 'watermark' },
+    redirect: '/feature/watermark2',
     component: Layout,
     children: [
       {

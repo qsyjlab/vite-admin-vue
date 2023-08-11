@@ -142,16 +142,6 @@ export default defineExposeRoutes([
           icon: 'icon-cellphone'
         },
         component: () => import('@/views/system/components/Table.vue')
-      },
-      {
-        name: 'grid',
-        path: 'grid',
-        meta: {
-          title: '响应栅格',
-          isNotAuth: true,
-          icon: 'icon-upload'
-        },
-        component: () => import('@/views/system/components/grid.vue')
       }
     ]
   }

@@ -2,12 +2,6 @@ import { defineExposeRoutes } from '../helper/utils'
 
 import { RouteRecordRaw } from 'vue-router'
 
-export const pageError = {
-  path: '/:pathMatch(.*)',
-  name: 'PageNotFound',
-  component: () => import('@/views/error/error-404.vue')
-}
-
 export type RouteModules = Record<
   string,
   {
@@ -33,6 +27,12 @@ export function loadRouterModules() {
 }
 
 export const asyncRoutes = loadRouterModules()
+
+export const pageError = {
+  path: '/:pathMatch(.*)',
+  name: 'PageNotFound',
+  component: () => import('@/views/error/error-404.vue')
+}
 
 const loginRoute: RouteRecordRaw = {
   path: '/login',
