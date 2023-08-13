@@ -142,6 +142,16 @@ export default defineExposeRoutes([
           icon: 'icon-cellphone'
         },
         component: () => import('@/views/system/components/Table.vue')
+      },
+      {
+        name: 'Anchor',
+        path: 'anchor',
+        meta: {
+          title: '锚点',
+          isNotAuth: true,
+          icon: 'icon-cellphone'
+        },
+        component: () => import('@/views/system/components/anchor/anchor-demo.vue')
       }
     ]
   }
