@@ -16,7 +16,7 @@ import { getScroll, scrollTo } from '@/utils'
 import { ref, getCurrentInstance, reactive, nextTick, watch, onMounted } from 'vue'
 import AnchorLink from './anchor-link.vue'
 import type { AnchorContainer, AnchorItem } from './anchor'
-import { onUnmounted } from 'vue'
+import { onUnmounted, onBeforeUnmount } from 'vue'
 import './anchor.scss'
 // import type { Router } from 'vue-router'
 /**
@@ -67,41 +67,43 @@ const state = reactive<{
   links: []
 })
 
-watch(
-  () => props.modelValue,
-  (newVal, oldVal) => {
-    if (newVal === oldVal || state.active === newVal) return
-    nextTick(() => {
-      props.modelValue && triggerAnchor(props.modelValue)
-    })
-  },
-  {
-    immediate: true
-  }
-)
-
-watch(
-  [() => props],
-  () => {
-    loopSetLinks(getAnchors())
-    const scrollContainer = getCurrentContainer()
-    handleScroll()
-    scrollContainer?.addEventListener('scroll', handleScroll)
-  },
-  {
-    deep: true,
-    flush: 'post'
-  }
-)
-
 onMounted(() => {
   loopSetLinks(getAnchors())
   const scrollContainer = getCurrentContainer()
+
   handleScroll()
   scrollContainer?.addEventListener('scroll', handleScroll)
+
+  watch(
+    [() => props],
+    () => {
+      loopSetLinks(getAnchors())
+      const scrollContainer = getCurrentContainer()
+      handleScroll()
+      scrollContainer?.addEventListener('scroll', handleScroll)
+    },
+    {
+      deep: true,
+      flush: 'post'
+    }
+  )
+  watch(
+    () => props.modelValue,
+    (newVal, oldVal) => {
+      console.log('modelValue', props.modelValue)
+
+      if (newVal === oldVal || state.active === newVal) return
+      nextTick(() => {
+        props.modelValue && triggerAnchor(props.modelValue)
+      })
+    },
+    {
+      immediate: true
+    }
+  )
 })
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   const scrollContainer = getCurrentContainer()
   scrollContainer?.removeEventListener('scroll', handleScroll)
 })
@@ -153,13 +155,15 @@ function handleScrollTo(link: string) {
   y -= getOffset()
 
   state.animating = true
-  scrollTo(y, {
-    getContainer: getCurrentContainer,
 
-    callback() {
-      state.animating = false
-    }
-  })
+  container &&
+    scrollTo(y, {
+      getContainer: () => container,
+
+      callback() {
+        state.animating = false
+      }
+    })
 }
 
 function handleScroll() {
@@ -223,7 +227,6 @@ function getCurrentContainer() {
     container = props.container()
   }
   if (!container) return window
-
   return container
 }
 
