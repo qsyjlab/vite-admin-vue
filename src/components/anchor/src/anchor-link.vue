@@ -1,5 +1,5 @@
 <template>
-  <div class="anchor__link" @click.stop="e => anchorClickHandler(e, anchor)">
+  <div class="anchor__link" @click="e => anchorClickHandler(e, anchor)">
     <div :class="['anchor__title', activeKey === anchor.link ? 'active' : '']">
       {{ anchor.title }}
     </div>
@@ -9,7 +9,7 @@
         <AnchorLink
           :anchor="child"
           :active-key="activeKey"
-          @click.stop="e => anchorClickHandler(e, child)"
+          @click="e => anchorClickHandler(e, child)"
         />
       </template>
     </div>
@@ -33,8 +33,6 @@ const emits = defineEmits<{
 }>()
 
 const anchorClickHandler = (event: MouseEvent, anchor: AnchorItem) => {
-  console.log('click')
-
   emits('click', event, anchor)
 }
 </script>

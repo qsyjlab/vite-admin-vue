@@ -3,7 +3,14 @@
     <el-card style="margin-bottom: 20px">
       <div>锚点</div>
 
-      <Anchor :container="() => containerRef!" :anchors="anchors" />
+      {{ activeAnchor }}
+      <Anchor
+        v-model="activeAnchor"
+        :container="() => containerRef!"
+        :anchors="anchors"
+        :bounds="bounds"
+        @change="anchorChangeHandler"
+      />
 
       <div ref="containerRef" style="height: 500px; overflow: auto">
         <div id="part-1" class="ac-container" style="background-color: rgba(255, 0, 0, 0.02)">
@@ -56,6 +63,13 @@ import { Anchor } from '@/components/anchor'
 
 const containerRef = ref<HTMLElement>()
 const container2Ref = ref<HTMLElement>()
+const activeAnchor = ref<string>('part-4')
+const bounds = ref<number>(40)
+
+setTimeout(() => {
+  activeAnchor.value = 'part-3'
+  bounds.value = 30
+}, 1000)
 
 const anchors = [
   {
@@ -106,6 +120,10 @@ const horizontalAnchors = [
     link: 'part-32'
   }
 ]
+
+const anchorChangeHandler = (link: string) => {
+  console.log('link anchorChangeHandler', link)
+}
 
 console.log('Anchor', Anchor)
 </script>

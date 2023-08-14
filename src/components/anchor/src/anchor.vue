@@ -7,7 +7,7 @@
       :key="item.link"
       :anchor="item"
       :active-key="state.active"
-      @click.stop="(e, anc) => triggerAnchor(anc.link)"
+      @click="(e, anc) => triggerAnchor(anc.link)"
     />
   </div>
 </template>
@@ -28,6 +28,7 @@ import './anchor.scss'
  */
 
 interface IProps {
+  modelValue?: AnchorItem['link']
   container?: string | (() => AnchorContainer)
   anchors: AnchorItem[]
   targetOffset?: number
@@ -35,6 +36,11 @@ interface IProps {
   direction?: 'vertical' | 'horizontal'
   bounds?: number
 }
+
+const emits = defineEmits<{
+  'update:model-value': [activeLink: AnchorItem['link']]
+  change: [activeLink: AnchorItem['link']]
+}>()
 
 const props = withDefaults(defineProps<IProps>(), {
   container: () => window,
@@ -62,6 +68,19 @@ const state = reactive<{
 })
 
 watch(
+  () => props.modelValue,
+  (newVal, oldVal) => {
+    if (newVal === oldVal || state.active === newVal) return
+    nextTick(() => {
+      props.modelValue && triggerAnchor(props.modelValue)
+    })
+  },
+  {
+    immediate: true
+  }
+)
+
+watch(
   [() => props],
   () => {
     loopSetLinks(getAnchors())
@@ -70,6 +89,7 @@ watch(
     scrollContainer?.addEventListener('scroll', handleScroll)
   },
   {
+    deep: true,
     flush: 'post'
   }
 )
@@ -92,7 +112,7 @@ const triggerAnchor = (link: string) => {
 }
 
 function toggleActiveTab(link: string) {
-  if (state.animating) return
+  if (state.animating || state.active === link) return
   state.active = link
 
   nextTick(() => {
@@ -114,6 +134,7 @@ function toggleActiveTab(link: string) {
       indicatorStyle.top = `${offsetTop + clientHeight / 2}px`
       indicatorStyle.height = `${clientHeight}px`
     }
+    anchorChange()
   })
 }
 
@@ -136,9 +157,7 @@ function handleScrollTo(link: string) {
     getContainer: getCurrentContainer,
 
     callback() {
-      requestAnimationFrame(() => {
-        state.animating = false
-      })
+      state.animating = false
     }
   })
 }
@@ -227,5 +246,10 @@ function getAnchors() {
 function getOffset() {
   const { targetOffset, offsetTop } = props
   return targetOffset !== undefined ? targetOffset : offsetTop || 0
+}
+
+function anchorChange() {
+  emits('change', state.active)
+  emits('update:model-value', state.active)
 }
 </script>
