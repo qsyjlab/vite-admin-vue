@@ -1,9 +1,9 @@
 <template>
-  <div class="anchor" ref="anchorRef">
+  <div :class="['anchor', direction === 'horizontal' ? 'is-horizontal' : '']" ref="anchorRef">
     <span class="anchor-indicator" ref="indicatorRef"></span>
 
     <AnchorLink
-      v-for="item in anchors"
+      v-for="item in getAnchors()"
       :key="item.link"
       :anchor="item"
       :active-key="state.active"
@@ -23,7 +23,7 @@ import './anchor.scss'
  * TODO:
  *
  * 1.路由模式
- * 2.子集嵌套锚点
+ * 2.子集嵌套锚点 (解决)
  * 3.自定义样式内容 （插槽等）
  */
 
@@ -64,7 +64,7 @@ const state = reactive<{
 watch(
   [() => props],
   () => {
-    loopSetLinks(props.anchors)
+    loopSetLinks(getAnchors())
     const scrollContainer = getCurrentContainer()
     handleScroll()
     scrollContainer?.addEventListener('scroll', handleScroll)
@@ -75,7 +75,7 @@ watch(
 )
 
 onMounted(() => {
-  loopSetLinks(props.anchors)
+  loopSetLinks(getAnchors())
   const scrollContainer = getCurrentContainer()
   handleScroll()
   scrollContainer?.addEventListener('scroll', handleScroll)
@@ -105,8 +105,15 @@ function toggleActiveTab(link: string) {
     const offsetTop = curActiveNode?.offsetTop
     const clientHeight = curActiveNode.clientHeight
 
-    indicatorRef.value.style.top = `${offsetTop + clientHeight / 2}px`
-    indicatorRef.value.style.height = `${clientHeight}px`
+    const indicatorStyle = indicatorRef.value.style
+
+    if (props.direction === 'horizontal') {
+      indicatorStyle.left = `${curActiveNode.offsetLeft}px`
+      indicatorStyle.width = `${curActiveNode.clientWidth}px`
+    } else {
+      indicatorStyle.top = `${offsetTop + clientHeight / 2}px`
+      indicatorStyle.height = `${clientHeight}px`
+    }
   })
 }
 
@@ -208,6 +215,13 @@ function loopSetLinks(anchors: AnchorItem[]) {
       loopSetLinks(anchor.children)
     }
   })
+}
+
+function getAnchors() {
+  if (props.direction === 'horizontal')
+    return props.anchors.map(i => ({ ...i, children: undefined }))
+
+  return props.anchors
 }
 
 function getOffset() {
