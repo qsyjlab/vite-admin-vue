@@ -59,7 +59,7 @@ export function scrollTo(y: number, options: ScrollToOptions = {}) {
     const time = timestamp - startTime
     const nextScrollTop = easeInOutCubic(time > duration ? duration : time, scrollTop, y, duration)
     if (isWindow(container)) {
-      ;(container as Window).scrollTo(window.pageXOffset, nextScrollTop)
+      ;(container as Window).scrollTo(window.scrollX, nextScrollTop)
     } else if (container instanceof Document || container.constructor.name === 'HTMLDocument') {
       ;(container as Document).documentElement.scrollTop = nextScrollTop
     } else {
@@ -68,7 +68,7 @@ export function scrollTo(y: number, options: ScrollToOptions = {}) {
     if (time < duration) {
       requestAnimationFrame(frameFunc)
     } else if (typeof callback === 'function') {
-      callback()
+      requestAnimationFrame(callback)
     }
   }
   requestAnimationFrame(frameFunc)

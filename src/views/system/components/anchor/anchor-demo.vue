@@ -9,6 +9,12 @@
         <div id="part-1" class="ac-container" style="background-color: rgba(255, 0, 0, 0.02)">
           part-1
         </div>
+        <div id="part-4" class="ac-container" style="background-color: rgba(0, 0, 255, 0.02)">
+          part-4
+        </div>
+        <div id="part-5" class="ac-container" style="background-color: rgba(0, 0, 255, 0.02)">
+          part-5
+        </div>
         <div id="part-2" class="ac-container" style="background-color: rgba(0, 255, 0, 0.02)">
           part-2
         </div>
@@ -32,7 +38,17 @@ const containerRef = ref<HTMLElement>()
 const anchors = [
   {
     title: 'part-1',
-    link: 'part-1'
+    link: 'part-1',
+    children: [
+      {
+        title: 'part-4',
+        link: 'part-4'
+      },
+      {
+        title: 'part-5',
+        link: 'part-5'
+      }
+    ]
   },
   {
     title: 'part-2',

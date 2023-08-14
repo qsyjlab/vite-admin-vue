@@ -2,19 +2,22 @@
   <div class="anchor" ref="anchorRef">
     <span class="anchor-indicator" ref="indicatorRef"></span>
 
-    <div
-      :class="['anchor__link', item.link === state.active ? 'active' : '']"
-      v-for="(item, index) in anchors"
-      :key="index"
-      @click="() => triggerAnchor(item.link)"
-    >
-      {{ item.title }}
-    </div>
+    <AnchorLink
+      v-for="item in anchors"
+      :key="item.link"
+      :anchor="item"
+      :active-key="state.active"
+      @click.stop="(e, anc) => triggerAnchor(anc.link)"
+    />
   </div>
 </template>
 <script setup lang="ts">
 import { getScroll, scrollTo } from '@/utils'
 import { ref, getCurrentInstance, reactive, nextTick, watch, onMounted } from 'vue'
+import AnchorLink from './anchor-link.vue'
+import type { AnchorContainer, AnchorItem } from './anchor'
+import { onUnmounted } from 'vue'
+import './anchor.scss'
 // import type { Router } from 'vue-router'
 /**
  * TODO:
@@ -24,23 +27,21 @@ import { ref, getCurrentInstance, reactive, nextTick, watch, onMounted } from 'v
  * 3.自定义样式内容 （插槽等）
  */
 
-type AnchorContainer = HTMLElement | Window
-
-interface AnchorItem {
-  title: string
-  link: string
+interface IProps {
+  container?: string | (() => AnchorContainer)
+  anchors: AnchorItem[]
+  targetOffset?: number
+  offsetTop?: number
+  direction?: 'vertical' | 'horizontal'
+  bounds?: number
 }
 
-const props = withDefaults(
-  defineProps<{
-    container?: string | (() => HTMLElement | Window)
-    anchors: AnchorItem[]
-  }>(),
-  {
-    container: () => window,
-    anchors: () => []
-  }
-)
+const props = withDefaults(defineProps<IProps>(), {
+  container: () => window,
+  anchors: () => [],
+  direction: 'vertical',
+  bounds: 5
+})
 
 const instance = getCurrentInstance()
 // TODO: 路由模式
@@ -53,21 +54,36 @@ const indicatorRef = ref<HTMLSpanElement | null>(null)
 const state = reactive<{
   active: string
   animating: boolean
+  links: string[]
 }>({
   active: '',
-  animating: false
+  animating: false,
+  links: []
 })
 
-onMounted(() => {
-  const scrollContainer = getCurrentContainer()
-  scrollContainer?.addEventListener('scroll', () => {
-    if (state.animating) return
+watch(
+  [() => props],
+  () => {
+    loopSetLinks(props.anchors)
+    const scrollContainer = getCurrentContainer()
+    handleScroll()
+    scrollContainer?.addEventListener('scroll', handleScroll)
+  },
+  {
+    flush: 'post'
+  }
+)
 
-    const currentActiveLink = getInternalCurrentAnchor(props.anchors.map(i => i.link))
-    if (currentActiveLink) {
-      toggleActiveTab(currentActiveLink)
-    }
-  })
+onMounted(() => {
+  loopSetLinks(props.anchors)
+  const scrollContainer = getCurrentContainer()
+  handleScroll()
+  scrollContainer?.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  const scrollContainer = getCurrentContainer()
+  scrollContainer?.removeEventListener('scroll', handleScroll)
 })
 
 const triggerAnchor = (link: string) => {
@@ -76,10 +92,11 @@ const triggerAnchor = (link: string) => {
 }
 
 function toggleActiveTab(link: string) {
+  if (state.animating) return
   state.active = link
 
   nextTick(() => {
-    const curActiveNode = anchorRef.value?.querySelector<HTMLDivElement>('.anchor__link.active')
+    const curActiveNode = anchorRef.value?.querySelector<HTMLDivElement>('.anchor__title.active')
 
     if (!curActiveNode) return
 
@@ -94,6 +111,7 @@ function toggleActiveTab(link: string) {
 }
 
 function handleScrollTo(link: string) {
+  if (state.animating) return
   const targetElement = document.getElementById(link)
   if (!targetElement) {
     return
@@ -104,18 +122,27 @@ function handleScrollTo(link: string) {
   const scrollTop = getScroll(container, true)
   const eleOffsetTop = getOffsetTop(targetElement, container)
   let y = scrollTop + eleOffsetTop
-  y -= 0
+  y -= getOffset()
 
   state.animating = true
   scrollTo(y, {
-    // TODO: 优化掉类型
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     getContainer: getCurrentContainer,
 
     callback() {
-      state.animating = false
+      requestAnimationFrame(() => {
+        state.animating = false
+      })
     }
   })
+}
+
+function handleScroll() {
+  if (state.animating) return
+
+  const currentActiveLink = getInternalCurrentAnchor(state.links, getOffset(), props.bounds)
+  if (currentActiveLink) {
+    toggleActiveTab(currentActiveLink)
+  }
 }
 
 const getInternalCurrentAnchor = (_links: string[], _offsetTop = 0, _bounds = 5): string => {
@@ -163,43 +190,28 @@ function getOffsetTop(element: HTMLElement, container: AnchorContainer): number 
 }
 
 function getCurrentContainer() {
+  let container = null
   if (typeof props.container === 'string') {
-    return document.querySelector<HTMLElement>(props.container)
+    container = document.querySelector<HTMLElement>(props.container)
+  } else {
+    container = props.container()
   }
-  return props.container()
+  if (!container) return window
+
+  return container
+}
+
+function loopSetLinks(anchors: AnchorItem[]) {
+  anchors.forEach(anchor => {
+    state.links.push(anchor.link)
+    if (anchor.children) {
+      loopSetLinks(anchor.children)
+    }
+  })
+}
+
+function getOffset() {
+  const { targetOffset, offsetTop } = props
+  return targetOffset !== undefined ? targetOffset : offsetTop || 0
 }
 </script>
-
-<style lang="scss" scoped>
-.anchor {
-  position: relative;
-
-  &:before {
-    position: absolute;
-    inset-inline-start: 0;
-    top: 0;
-    height: 100%;
-    border-inline-start: 2px sollink rgba(5, 5, 5, 0.06);
-    content: ' ';
-  }
-
-  &-indicator {
-    position: absolute;
-    display: inline-block;
-    width: 2px;
-    transform: translateY(-50%);
-    transition: top 0.1s ease-in-out;
-    top: 0;
-    left: 0;
-    // height: 28px;
-    background-color: #1677ff;
-  }
-  &__link {
-    padding: 3px 5px;
-    cursor: pointer;
-    &.active {
-      color: #1677ff;
-    }
-  }
-}
-</style>
