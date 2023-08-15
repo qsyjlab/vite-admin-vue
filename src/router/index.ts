@@ -14,10 +14,14 @@ export const router = createWebHistoryRouter(routes, {
 })
 
 export async function setupRouter(app: App) {
-  app.use(router)
+  debugger
+  // app.use(router)
+
   setupRouterGuard(router)
 
   await router.isReady()
 }
+
+export default router
 
 export * from './helper'

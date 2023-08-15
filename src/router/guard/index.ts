@@ -1,11 +1,11 @@
 import type { Router, RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
 
 import NProgress from 'nprogress'
-import { useRouteStore } from '@/store'
-import { useStorageHelper } from '@/hooks'
+import { useRouteStore, useUserStore } from '@/store'
+import { getTokenCahce } from '@/store/local'
 import { hasAuth } from '@/auth'
-import { buildRoutes } from '../helper/resolve'
-import { asyncRoutes, pageError } from '../routes'
+// import { buildRoutes } from '../helper/resolve'
+import { pageError } from '../routes'
 
 export function setupRouterGuard(router: Router) {
   createProgressGuard(router)
@@ -25,7 +25,13 @@ export async function handlePermissionRouter(
 
     return next({ path: from.fullPath, replace: true, query: from.query })
   }
-  const { getTokenCahce } = useStorageHelper()
+
+  const { initialized, setInitialized } = useUserStore()
+
+  if (!initialized) {
+    initUserStore()
+  }
+  // const { getTokenCahce } = useStorageHelper()
 
   const routeStore = useRouteStore()
 
@@ -41,15 +47,13 @@ export async function handlePermissionRouter(
     true || to.matched?.slice(1)?.every(r => r.meta.isNotAuth || hasAuth(r.name?.toString()))
 
   if (!auth) return next({ name: 'Error403' })
-  if (routeStore.isFristEntry) {
-    routeStore.saveMenus([])
-    const _buildRoutes = await buildRoutes(asyncRoutes)
 
-    _buildRoutes.forEach(r => {
-      router.addRoute(r)
-    })
+  if (!initialized) {
+    const dynamicRoutes = await routeStore.buildRoutes()
+    routeStore.addRouteBatch(dynamicRoutes)
 
     router.addRoute(pageError)
+    setInitialized(true)
 
     if (to.name === 'PageNotFound') {
       // 动态添加路由后，此处应当重定向到fullPath，否则会加载404页面内容
@@ -93,3 +97,5 @@ export function createKeepAliveGuard(router: Router) {
     }
   })
 }
+
+function initUserStore() {}

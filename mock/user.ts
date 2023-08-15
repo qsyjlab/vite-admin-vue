@@ -7,7 +7,7 @@ const userList = [
   {
     userId: 1,
     username: 'admin',
-    realName: 'admin',
+    realName: '超级管理员',
     desc: 'manager',
     password: '123456',
     token: 'fakeToken1',
@@ -20,9 +20,9 @@ const userList = [
   },
   {
     userId: 2,
-    username: 'test',
+    username: 'testuser',
     password: '123456',
-    realName: 'test user',
+    realName: '权限测试账号',
     desc: 'tester',
     token: 'fakeToken2',
     roles: [

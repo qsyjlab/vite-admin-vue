@@ -1,21 +1,18 @@
 import { defineStore } from 'pinia'
 
-import type { RouteMeta } from 'vue-router'
-
-export interface MenuItem {
-  name: string
-  meta?: RouteMeta
-  children?: MenuItem[]
-}
+import type { RouteMeta, RouteRecordRaw } from 'vue-router'
+import { asyncRoutes } from '@/router/routes'
+import { buildRoutes } from '@/router/helper/resolve'
+import { router } from '@/router'
 
 export interface RouteState {
-  isFristEntry: boolean
   keepAliveCache: Set<string>
 }
 
 export interface RouteAction {
   addAlive: (names: string) => void
-  saveMenus: (menus: MenuItem[]) => void
+  buildRoutes: () => Promise<RouteRecordRaw[]>
+  addRouteBatch: (routes: RouteRecordRaw[]) => void
 }
 
 export interface RouteGetters {
@@ -29,13 +26,6 @@ export const useRouteStore = defineStore<string, RouteState, RouteGetters, Route
   {
     state() {
       return {
-        currentModule: '',
-        // 菜单栏数组
-        menuList: [],
-        routeMapping: {},
-        // 是否第一次经过路由
-        isFristEntry: true,
-        // 缓存列表
         keepAliveCache: new Set()
       }
     },
@@ -43,8 +33,13 @@ export const useRouteStore = defineStore<string, RouteState, RouteGetters, Route
       addAlive(name) {
         this.keepAliveCache.add(name)
       },
-      saveMenus(menus) {
-        this.isFristEntry = false
+      async buildRoutes() {
+        return await buildRoutes(asyncRoutes)
+      },
+      addRouteBatch(routes) {
+        routes.forEach(r => {
+          router.addRoute(r)
+        })
       }
     },
     getters: {

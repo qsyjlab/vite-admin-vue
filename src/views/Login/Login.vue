@@ -32,9 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { buildRoutes } from '@/router/helper/resolve'
-import { asyncRoutes } from '@/router/routes'
-import { useRouteStore, useUserStore } from '@/store'
+import { useUserStore } from '@/store'
 import { ElMessage } from 'element-plus'
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
@@ -48,15 +46,8 @@ const loginForm = reactive({
 const router = useRouter()
 
 const loginAdmin = () => {
-  const routeStore = useRouteStore()
   loginSystem(loginForm)
-    .then(async res => {
-      routeStore.saveMenus([])
-      const _buildRoutes = await buildRoutes(asyncRoutes)
-
-      _buildRoutes.forEach(r => {
-        router.addRoute(r)
-      })
+    .then(() => {
       ElMessage.success('登录成功')
 
       router.push({ name: 'Welcome' })
