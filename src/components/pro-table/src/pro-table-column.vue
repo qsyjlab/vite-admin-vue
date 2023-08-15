@@ -5,6 +5,7 @@
 import { ElTableColumn, ElProgress } from 'element-plus'
 import { proTableColumnProps } from './props'
 import { useSlots } from 'vue'
+import { toDisplayString } from '@/utils'
 import { Tips } from '../../tips'
 import Badge from './components/badge.vue'
 import type { ProTableColumnItem } from './types'
@@ -40,7 +41,12 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
   const _valueType: any = runValueTypeFn(valueType, row)
   // TODO: 优化类型
   const valueTypeRendererMap: Record<string, any> = {
-    text: () => row[columnConfig.key],
+    // tsx 返回值不能是对象
+    text: () => {
+      const value = row[columnConfig.key]
+
+      return toDisplayString(value || '')
+    },
 
     // 枚举类型
     enum: () => {
