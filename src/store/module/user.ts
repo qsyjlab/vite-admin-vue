@@ -1,8 +1,7 @@
 import router from '@/router'
 
-import useAppStore from './app'
 import { defineStore } from 'pinia'
-import { setTokenCahce, setUserInfoCache, clearCache, setLayoutCache } from '../local'
+import { setTokenCahce, setUserInfoCache, clearCache } from '../local'
 import { login as loginHttp } from '@/api/user'
 import useRouteStore from './route'
 import { pageError } from '@/router/routes'
@@ -42,7 +41,7 @@ export const useUserStore = defineStore<string, UserStoreState, UserStoreGetter,
         },
         token: '',
         // 权限
-        permissions: ['Home', 'Welcome', 'Dashboard', 'Components']
+        permissions: []
       }
     },
     actions: {
@@ -84,8 +83,6 @@ export const useUserStore = defineStore<string, UserStoreState, UserStoreGetter,
       // 退出登录
       loginOutSystem() {
         clearCache()
-        const appStore = useAppStore()
-        setLayoutCache(appStore.layoutConfig)
         router.push({ name: 'Login' })
       }
     }
