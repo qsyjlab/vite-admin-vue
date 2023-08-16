@@ -131,6 +131,5 @@ export function transformRoutes(routes: RouteRecordRaw[], treeMap?: RouteRecordR
       })
       return acc
     }, treeMap || [])
-    .reverse()
     .sort((last, next) => (last.meta?.order || 0) - (next.meta?.order || 0))
 }
