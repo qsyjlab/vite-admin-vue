@@ -1,7 +1,7 @@
 // import type { MockMethod } from 'vite-plugin-mock'
 
 import { MockPluginMethod as MockMethod, resultError, resultSuccess } from './_utils'
-import { allRouteModules } from './permission'
+import { allRouteModules, allPermissionStringKeys } from './permission'
 
 const userList = [
   {
@@ -17,7 +17,7 @@ const userList = [
         value: 'super'
       }
     ],
-    permissions: []
+    permissions: allPermissionStringKeys
   },
   {
     userId: 2,

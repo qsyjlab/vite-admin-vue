@@ -290,6 +290,19 @@ export const permissionsMap = {
   fakeToken2: []
 }
 
+function getStringKeysDeep(routes: any[], keys: string[] = []) {
+  routes.forEach((route: any) => {
+    keys.push(route.name)
+    if (route.children) {
+      getStringKeysDeep(route.children, keys)
+    }
+  })
+
+  return keys
+}
+
+export const allPermissionStringKeys = getStringKeysDeep(allRouteModules)
+
 export interface RouteModule {
   name?: string
   path?: string
