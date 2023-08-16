@@ -4,7 +4,6 @@ import NProgress from 'nprogress'
 import { useRouteStore, useUserStore } from '@/store'
 import { getTokenCahce } from '@/store/local'
 import { hasAuth } from '@/auth'
-// import { buildRoutes } from '../helper/resolve'
 import { pageError } from '../routes'
 
 export function setupRouterGuard(router: Router) {
@@ -31,8 +30,6 @@ export async function handlePermissionRouter(
   if (!initialized) {
     initUserStore()
   }
-  // const { getTokenCahce } = useStorageHelper()
-
   const routeStore = useRouteStore()
 
   const token = getTokenCahce()

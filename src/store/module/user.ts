@@ -1,5 +1,4 @@
 import router from '@/router'
-// import { useStorageHelper } from '@/hooks'
 
 import useAppStore from './app'
 import { defineStore } from 'pinia'
@@ -71,12 +70,10 @@ export const useUserStore = defineStore<string, UserStoreState, UserStoreGetter,
               userId: res.data.userId,
               userName: res.data.username
             })
-
             const routeStore = useRouteStore()
             const dynamicRoutes = await routeStore.buildRoutes()
             routeStore.addRouteBatch(dynamicRoutes)
             router.addRoute(pageError)
-
             this.setInitialized(true)
           }
 

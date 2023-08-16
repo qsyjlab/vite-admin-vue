@@ -2,32 +2,6 @@ import { defineExposeRoutes } from '../helper/utils'
 
 import { RouteRecordRaw } from 'vue-router'
 
-export type RouteModules = Record<
-  string,
-  {
-    default: RouteRecordRaw | RouteRecordRaw[]
-  }
->
-
-const modules: RouteModules = import.meta.glob('./modules/**/*.ts', { eager: true })
-
-// 加载路由模块
-export function loadRouterModules() {
-  const routeModuleList: RouteRecordRaw[] = []
-
-  Object.keys(modules).forEach(key => {
-    const m = modules[key].default
-
-    const ml = Array.isArray(m) ? [...m] : [m]
-
-    routeModuleList.push(...ml)
-  })
-
-  return routeModuleList
-}
-
-export const asyncRoutes = loadRouterModules()
-
 export const pageError = {
   path: '/:pathMatch(.*)',
   name: 'PageNotFound',
@@ -77,8 +51,6 @@ export const routes = defineExposeRoutes([
   pageError
 ])
 
-console.log('rotues', routes)
+export default routes
 
-debugger
-
-export { routes as default }
+export * from './async'

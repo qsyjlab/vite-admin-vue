@@ -1,5 +1,5 @@
 import { transformRoutes as menuFilter, transformMenuModule } from './resolve'
-import { asyncRoutes } from '../routes'
+import { asyncRoutes } from '../routes/async'
 
 export function getAsyncMenus() {
   const routes = menuFilter(asyncRoutes)
