@@ -1,7 +1,7 @@
 <template>
   <el-dropdown style="height: 100%">
     <hover-card style="height: 100%">
-      <span class="el-dropdown-link"> USUERMENU </span>
+      <span class="el-dropdown-link"> {{ userInfo.userName }} </span>
     </hover-card>
 
     <template #dropdown>
@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { useUserStore } from '@/store'
 
-const { loginOutSystem } = useUserStore()
+const { loginOutSystem, userInfo } = useUserStore()
 
 const logout = () => {
   loginOutSystem()

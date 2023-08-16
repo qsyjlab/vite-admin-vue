@@ -2,7 +2,7 @@ import type { Router, RouteLocationNormalized, NavigationGuardNext } from 'vue-r
 
 import NProgress from 'nprogress'
 import { useRouteStore, useUserStore } from '@/store'
-import { getTokenCahce } from '@/store/local'
+import { getTokenCahce, getUserInfoCache } from '@/store/local'
 import { hasAuth } from '@/auth'
 import { pageError } from '../routes'
 
@@ -95,4 +95,18 @@ export function createKeepAliveGuard(router: Router) {
   })
 }
 
-function initUserStore() {}
+// 初始化 store 从 local
+function initUserStore() {
+  const { setUserInfo, setToken } = useUserStore()
+
+  const userInfo = getUserInfoCache()
+  const token = getTokenCahce()
+
+  if (userInfo) {
+    setUserInfo(userInfo)
+  }
+
+  if (token) {
+    setToken(token)
+  }
+}
