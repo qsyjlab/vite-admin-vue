@@ -104,9 +104,12 @@ export function useLayoutConfigHandler() {
 
   const initLayout = (config: ProjectLayoutConfig) => {
     layoutStore.setLayoutConfig(config)
-    config.themeColor && setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, config.themeColor)
 
-    config.theme && setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_THEME, config.theme)
+    const themeColor = config.themeColor || layoutConfig.value.themeColor
+    themeColor && setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, themeColor)
+
+    const themeMode = config.theme || layoutConfig.value.theme
+    setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_THEME, themeMode)
   }
 
   return {
