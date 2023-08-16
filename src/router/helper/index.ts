@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router'
 
-// export * from './resolve'
+export * from './resolve'
 export * from './utils'
 export * from './menus'
 

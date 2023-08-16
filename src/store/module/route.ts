@@ -1,9 +1,11 @@
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
 
 import type { RouteRecordRaw } from 'vue-router'
 import { asyncRoutes } from '@/router/routes/async'
-import { buildRoutes } from '@/router/helper/resolve'
+import { flatRoutesLevel } from '@/router/helper/resolve'
 import { router } from '@/router'
+import useUserStore from './user'
+import { filter } from '@/utils'
 
 export interface RouteState {
   keepAliveCache: Set<string>
@@ -34,7 +36,22 @@ export const useRouteStore = defineStore<string, RouteState, RouteGetters, Route
         this.keepAliveCache.add(name)
       },
       async buildRoutes() {
-        return await buildRoutes(asyncRoutes)
+        const { permissions } = storeToRefs(useUserStore())
+
+        let routes = []
+
+        function routerFilter(route: RouteRecordRaw) {
+          const name = route.name
+
+          if (!name) return true
+          return permissions.value.includes(name as string)
+        }
+
+        routes = filter(asyncRoutes, routerFilter, { id: 'name' })
+
+        // TODO: 在这里拿到菜单
+
+        return await flatRoutesLevel(routes)
       },
       addRouteBatch(routes) {
         routes.forEach(r => {

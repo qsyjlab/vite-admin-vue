@@ -2,7 +2,7 @@ import type { Router, RouteLocationNormalized, NavigationGuardNext } from 'vue-r
 
 import NProgress from 'nprogress'
 import { useRouteStore, useUserStore } from '@/store'
-import { getTokenCahce, getUserInfoCache } from '@/store/local'
+import { getPermissionsCache, getTokenCahce, getUserInfoCache } from '@/store/local'
 import { hasAuth } from '@/auth'
 import { pageError } from '../routes'
 
@@ -97,10 +97,11 @@ export function createKeepAliveGuard(router: Router) {
 
 // 初始化 store 从 local
 function initUserStore() {
-  const { setUserInfo, setToken } = useUserStore()
+  const { setUserInfo, setToken, setPermissions } = useUserStore()
 
   const userInfo = getUserInfoCache()
   const token = getTokenCahce()
+  const permissions = getPermissionsCache()
 
   if (userInfo) {
     setUserInfo(userInfo)
@@ -108,5 +109,9 @@ function initUserStore() {
 
   if (token) {
     setToken(token)
+  }
+
+  if (permissions) {
+    setPermissions(permissions)
   }
 }

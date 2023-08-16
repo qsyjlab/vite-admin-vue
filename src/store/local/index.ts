@@ -45,6 +45,13 @@ export function getTokenCahce() {
   return $storage.get<string>(StorageKeys.Token)
 }
 
+export function setPermissionsCache(permissions: string[]) {
+  $storage.set('_PERMISSIONS_', permissions)
+}
+
+export function getPermissionsCache() {
+  return $storage.get<string[]>('_PERMISSIONS_')
+}
 /**
  * 获取配置
  * @param {ProjectLayoutConfig} layout

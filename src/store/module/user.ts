@@ -1,7 +1,7 @@
 import router from '@/router'
 
 import { defineStore } from 'pinia'
-import { setTokenCahce, setUserInfoCache, clearCache } from '../local'
+import { setTokenCahce, setUserInfoCache, clearCache, setPermissionsCache } from '../local'
 import { login as loginHttp } from '@/api/user'
 import useRouteStore from './route'
 import { pageError } from '@/router/routes'
@@ -54,6 +54,7 @@ export const useUserStore = defineStore<string, UserStoreState, UserStoreGetter,
       },
       setPermissions(permissions: string[]) {
         this.permissions = permissions
+        setPermissionsCache(permissions)
       },
       setToken(token) {
         if (token) {
@@ -69,6 +70,7 @@ export const useUserStore = defineStore<string, UserStoreState, UserStoreGetter,
               userId: res.data.userId,
               userName: res.data.username
             })
+            this.setPermissions(res.data.permissions)
             const routeStore = useRouteStore()
             const dynamicRoutes = await routeStore.buildRoutes()
             routeStore.addRouteBatch(dynamicRoutes)

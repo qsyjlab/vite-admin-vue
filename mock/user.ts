@@ -16,7 +16,8 @@ const userList = [
         roleName: 'Super Admin',
         value: 'super'
       }
-    ]
+    ],
+    permissions: []
   },
   {
     userId: 2,
@@ -30,6 +31,15 @@ const userList = [
         roleName: 'Tester',
         value: 'test'
       }
+    ],
+    permissions: [
+      'Welcome',
+      'WelcomeIndex',
+      'Dashboard',
+      'DashboardIndex',
+      'Components',
+      'ProTable',
+      'ProTableBasic'
     ]
   }
 ]
@@ -76,6 +86,7 @@ export interface UserModel {
   desc: string
   password: string
   token: string
+  permissions: string[]
 }
 
 export default user

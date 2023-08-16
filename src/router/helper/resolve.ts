@@ -1,4 +1,3 @@
-import { hasAuth } from '@/auth'
 import { cloneDeep, omit } from 'lodash-es'
 import { createRouter, createWebHistory, RouteMeta } from 'vue-router'
 
@@ -17,49 +16,8 @@ export function createWebHistoryRouter(
   })
 }
 
-// 生成关系图
-export function resolveRouteTreeToList(routes: RouteRecordRaw[]) {
-  const relationObj: Record<string, RouteTreeRelation> = {}
-
-  traverseData(routes)
-  return { relationObj }
-  function traverseData(
-    tree: RouteRecordRaw[],
-    pName?: string,
-    pNames?: string[],
-    pLevels?: string[]
-  ): string[] {
-    const parentName = pName || ''
-    const parentNames = pNames || []
-    const levels = pLevels || []
-
-    return tree.map((info, i) => {
-      const _obj: RouteTreeRelation = {}
-
-      const levs: string[] = [...levels]
-
-      info.name = info.name as string
-      levs.push(info.name)
-      _obj.name = info.name
-      _obj.meta = info.meta
-      _obj.parentNames = parentNames
-      _obj.parentName = parentName
-
-      relationObj[info.name as string] = _obj
-
-      if (info.children && info.children.length) {
-        const newParentNames = parentNames.slice()
-        newParentNames.push(info.name)
-
-        _obj.childrenNames = traverseData(info.children, info.name, newParentNames, levs)
-      }
-
-      return _obj.name
-    })
-  }
-}
-
-export async function buildRoutes(asyncRoutes: RouteRecordRaw[]) {
+/** 扁平路由 最大路由级别 2 级 */
+export async function flatRoutesLevel(asyncRoutes: RouteRecordRaw[]) {
   const routes = transformRoutes(asyncRoutes)
 
   function isMultipleRoute(route: RouteRecordRaw): boolean {
@@ -153,38 +111,26 @@ function joinParentPath(menus: any[], parentPath = '') {
 
 // Parsing the menu module
 export function transformMenuModule(module: any): any {
-  // const { menu } = menuModule
-
   const menuList = [module]
 
   joinParentPath(menuList)
   return menuList[0]
 }
 // 根据路由源信息转换
-export function transformRoutes(routes: RouteRecordRaw[], treeMap?: any[]): any[] {
+export function transformRoutes(routes: RouteRecordRaw[], treeMap?: RouteRecordRaw[]) {
   if (routes && routes?.length === 0) return []
 
   return routes
     .reduce((acc, cur) => {
-      if (cur.meta?.isNotAuth || hasAuth(cur.name as string)) {
-        acc.push({
-          ...cur,
-          name: cur.name as string,
-          path: cur.path,
-          meta: cur.meta,
-          children: transformRoutes(cur.children || [], [])
-        })
-      }
+      acc.push({
+        ...cur,
+        name: cur.name as string,
+        path: cur.path,
+        meta: cur.meta,
+        children: transformRoutes(cur.children || [], [])
+      })
       return acc
     }, treeMap || [])
     .reverse()
-    .sort((last, next) => (last.meta?.sort || 0) - (next.meta?.sort || 0))
-}
-
-export interface RouteTreeRelation {
-  name?: string
-  parentName?: string | null
-  parentNames?: string[]
-  childrenNames?: string[]
-  meta?: RouteMeta
+    .sort((last, next) => (last.meta?.order || 0) - (next.meta?.order || 0))
 }

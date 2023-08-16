@@ -6,9 +6,9 @@ import { useUserStore } from '@/store'
  * @returns  {Boolean}
  */
 export function hasAuth(permission: string | undefined): boolean {
-  const userStore = useUserStore()
   if (!permission) return false
-  return true || userStore.permissions.includes(permission || '')
+  const userStore = useUserStore()
+  return userStore.permissions.includes(permission)
 }
 
 /**
