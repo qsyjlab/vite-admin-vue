@@ -77,4 +77,8 @@ export const routes = defineExposeRoutes([
   pageError
 ])
 
+console.log('rotues', routes)
+
+debugger
+
 export { routes as default }

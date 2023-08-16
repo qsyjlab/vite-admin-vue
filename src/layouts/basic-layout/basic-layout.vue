@@ -71,7 +71,7 @@ import { useLayoutStore } from '@/store'
 
 import { LayoutMode } from './enum'
 import { Layout } from '@/layouts/layout-package'
-import { createBlankContainer } from '@/layouts'
+import createBlankContainer from '@/layouts/container/createBlankContainer'
 
 import {
   BasicHeader,

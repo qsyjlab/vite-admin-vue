@@ -1,6 +1,5 @@
 import { defineExposeRoutes } from '@/router'
-import { createBlankContainer } from '@/layouts'
-import { Layout } from '@/router/constant'
+import { Layout, BlankContainer } from '@/router/constant'
 
 export default defineExposeRoutes([
   {
@@ -21,7 +20,7 @@ export default defineExposeRoutes([
           title: 'ProTable',
           isNotAuth: true
         },
-        component: createBlankContainer('ProTable'),
+        component: BlankContainer,
         children: [
           {
             name: 'ProTableBasic',
@@ -42,7 +41,7 @@ export default defineExposeRoutes([
           title: '编辑器',
           isNotAuth: true
         },
-        component: createBlankContainer('Editor'),
+        component: BlankContainer,
         redirect: { name: 'RichEditor' },
         children: [
           {

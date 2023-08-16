@@ -1,5 +1,5 @@
-import { createBlankContainer } from '@/layouts'
 import { defineExposeRoutes } from '@/router'
+import { Layout, BlankContainer } from '@/router/constant'
 
 export default defineExposeRoutes([
   {
@@ -10,7 +10,7 @@ export default defineExposeRoutes([
       sort: 7,
       title: '外部页面'
     },
-    component: () => import('@/layouts/basic-layout/basic-layout.vue'),
+    component: Layout,
     children: [
       {
         name: 'OutLink',
@@ -20,7 +20,7 @@ export default defineExposeRoutes([
           title: '外链',
           href: 'https://qsyjlab.club'
         },
-        component: createBlankContainer('OutLink')
+        component: BlankContainer
       },
       {
         name: 'Iframe',

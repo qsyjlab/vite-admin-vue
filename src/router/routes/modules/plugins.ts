@@ -1,5 +1,5 @@
 import { defineExposeRoutes } from '@/router'
-import { createBlankContainer } from '@/layouts'
+import { Layout } from '@/router/constant'
 
 export default defineExposeRoutes([
   {
@@ -13,7 +13,7 @@ export default defineExposeRoutes([
       // hideChildrenInMenu: true
     },
     redirect: { name: 'DayJs' },
-    component: () => import('@/layouts/basic-layout/basic-layout.vue'),
+    component: Layout,
     children: [
       {
         name: 'DayJs',
