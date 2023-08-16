@@ -6,6 +6,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import { viteMockPlugin } from './plugins/mock'
 import { viteAutoImportPlugin, viteComponentsPlugin } from './plugins/element-plus'
 import WindiCSS from 'vite-plugin-windicss'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 export function createVitePlugin(configEnv: ConfigEnv) {
   const { command } = configEnv
@@ -15,7 +16,14 @@ export function createVitePlugin(configEnv: ConfigEnv) {
     vueJsx(),
     viteAutoImportPlugin(),
     viteComponentsPlugin(),
-    WindiCSS()
+    WindiCSS(),
+    visualizer({
+      gzipSize: true,
+      brotliSize: true,
+      emitFile: false,
+      filename: 'test.html', //分析图生成的文件名
+      open: true //如果存在本地服务端口，将在打包后自动展示
+    })
   ]
 
   const useMock = true
