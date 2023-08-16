@@ -94,7 +94,7 @@ const steps = [
   {
     title: '创建实验',
     form: fields,
-    beforeNext: (values, next) => {
+    beforeNext: (values: any, next: NOOP) => {
       setTimeout(() => {
         next()
       }, 2000)
@@ -110,7 +110,7 @@ const steps = [
   }
 ]
 
-const submit = (values: Record<string, any>, allValues: Record<string, any>, done) => {
+const submit = (values: Record<string, any>, allValues: Record<string, any>, done: NOOP) => {
   console.log('values', values, allValues)
 
   setTimeout(() => {

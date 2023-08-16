@@ -73,7 +73,7 @@
 import { ref, unref, watch, computed, CSSProperties } from 'vue'
 import { useLayoutStore, useRouteStore } from '@/store'
 // TODO: 待优化类型
-import type { MenuItem as MenuItemType } from '@/store'
+// import type { MenuItem as MenuItemType } from '@/store'
 import { MapLocation } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { AsideMenu } from '../../sidebar/menu'
@@ -85,7 +85,7 @@ import { getMenus } from '@/router/helper/menus'
 interface IProps {
   menuWidth?: number
   headerHeight?: number
-  routes?: MenuItemType[]
+  routes?: any[]
 }
 
 defineProps<IProps>()
@@ -104,7 +104,7 @@ const router = useRouter()
 const activeKey = ref(route.name)
 
 const showChildren = ref(false)
-const activeChildren = ref<MenuItemType[]>([])
+const activeChildren = ref<any[]>([])
 
 const menus = computed(() => {
   // const matched = router.currentRoute.value.matched[0]
@@ -134,7 +134,7 @@ const maskStyle = computed<CSSProperties>(() => {
   }
 })
 
-const clickMenuModuleHandler = (item: MenuItemType) => {
+const clickMenuModuleHandler = (item: any) => {
   if (!item.name) return
 
   showChildren.value = false

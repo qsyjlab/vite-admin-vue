@@ -18,7 +18,7 @@ export const hasAuthDirective: Directive<HTMLElement, string> = {
 export const hasRoleDirective: Directive<HTMLElement, string> = {
   // 指令绑定元素挂载后
   mounted(el, binding) {
-    const userStore = useUserStore()
-    if (!(userStore.userInfo.userRole === binding.value)) el.parentNode?.removeChild(el)
+    // const userStore = useUserStore()
+    // if (!(userStore.userInfo.userRole === binding.value)) el.parentNode?.removeChild(el)
   }
 }

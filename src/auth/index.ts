@@ -16,7 +16,7 @@ export function hasAuth(permission: string | undefined): boolean {
  * @param role
  * @returns
  */
-export function hasRole(role: string): boolean {
+export function hasRole(role: string) {
   const userStore = useUserStore()
-  return userStore.userInfo.userRole === role
+  // return userStore.userInfo.userRole === role
 }

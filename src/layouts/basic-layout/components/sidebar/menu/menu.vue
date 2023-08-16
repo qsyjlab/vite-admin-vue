@@ -10,11 +10,11 @@
 import MenuItem from './menu-item.vue'
 
 // TODO: 待优化类型
-import { MenuItem as MenuItemType } from '@/store'
+// import { MenuItem as MenuItemType } from '@/store'
 
 interface IProps {
   collapsed?: boolean
-  menuList: MenuItemType[]
+  menuList: any[]
 }
 
 withDefaults(defineProps<IProps>(), {

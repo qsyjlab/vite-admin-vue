@@ -64,13 +64,15 @@ const proFormFields: FormSchema[] = [
 
 const hookWaterRef = ref<HTMLElement | null>(null)
 
-const state = reactive<{
+interface StateValue {
   content: string
   fontSize: number
   color: string
   zIndex: number
   rotate: number
-}>({
+}
+
+const state = reactive<StateValue>({
   content: '测试水印',
   fontSize: 14,
   color: 'rgba(0, 0, 0, 0.15)',
@@ -96,9 +98,11 @@ onMounted(() => {
   render()
 })
 
-const formEffect = (values: any) => {
+const formEffect = (values: Record<string, any>) => {
   Object.keys(values).forEach(key => {
-    state[key as unknown as keyof WatermarkProps] = values[key as unknown as keyof WatermarkProps]
+    const _key = key as unknown as keyof StateValue
+    //@ts-ignore
+    state[_key] = values[_key]
   })
   destroy()
   nextTick(() => {

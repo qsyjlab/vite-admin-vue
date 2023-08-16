@@ -3,7 +3,7 @@ import { StorageKeys } from '@/enum'
 
 import type { ProjectLayoutConfig } from '@/layouts'
 
-const expires: number = StorageKeys.Expires
+const expires: number = StorageKeys.Expire
 const prefix: string = StorageKeys.Prefix
 
 const $storage = new BaseStorage(window.localStorage, {

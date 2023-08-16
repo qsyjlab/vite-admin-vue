@@ -40,15 +40,15 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { MenuItem as MenuItemType } from '@/store'
+// import { MenuItem as MenuItemType } from '@/store'
 
 interface IProps {
-  menuItem: MenuItemType
+  menuItem: any
 }
 
 defineProps<IProps>()
 
-const hasChildrenMenu = (item: MenuItemType) => {
+const hasChildrenMenu = (item: any) => {
   return !item.meta?.hideChildrenInMenu && !!item.children?.length
 }
 </script>
