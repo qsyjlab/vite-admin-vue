@@ -5,12 +5,14 @@
 </template>
 <script setup lang="ts">
 import { AppProvider } from '@/application'
+import { getLayoutCache } from '@/store/local'
 
-import { useStorageHelper, useLayoutConfigHandler } from './hooks'
+import { useLayoutConfigHandler } from './hooks'
 
 function initAppConfig() {
-  const { getLayoutCache } = useStorageHelper()
   const { initLayout } = useLayoutConfigHandler()
+
+  console.log('getLayoutCache()', getLayoutCache())
 
   initLayout(getLayoutCache() || {})
 }
