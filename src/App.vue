@@ -11,9 +11,6 @@ import { useLayoutConfigHandler } from './hooks'
 
 function initAppConfig() {
   const { initLayout } = useLayoutConfigHandler()
-
-  console.log('getLayoutCache()', getLayoutCache())
-
   initLayout(getLayoutCache() || {})
 }
 initAppConfig()
