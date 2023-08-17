@@ -30,6 +30,8 @@ export type RequestMethodConfig = AxiosRequestConfig
 export interface RequestOptionsEx {
   ignoreTransformRequest?: boolean
   ignoreTransformResponse?: boolean
+  ignoreCancelRequest?: boolean
+
 }
 
 export type TransformResponse<T = any> = (response: AxiosResponse<T>) => AxiosResponse<T>['data']

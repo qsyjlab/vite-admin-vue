@@ -5,9 +5,11 @@ import { useRouteStore, useUserStore } from '@/store'
 import { getTokenCahce, getUserInfoCache } from '@/store/local'
 import { hasAuth } from '@/auth'
 import { usePermissionStore } from '@/store/module/permissions'
+import { AxiosCanceler } from '@/service/axios-request/axios-canceler'
 
 export function setupRouterGuard(router: Router) {
   createProgressGuard(router)
+  createHttpGuard(router)
   createKeepAliveGuard(router)
   createRouterGuard(router)
 }
@@ -65,8 +67,8 @@ export async function handlePermissionRouter(
 }
 
 export function createRouterGuard(router: Router) {
-  router.beforeEach(async (to, from, next) => {
-    await handlePermissionRouter(to, from, next, router)
+  router.beforeEach((to, from, next) => {
+    handlePermissionRouter(to, from, next, router)
   })
 }
 
@@ -92,6 +94,14 @@ export function createKeepAliveGuard(router: Router) {
   })
 }
 
+
+function createHttpGuard(router: Router) {
+  let axiosCanceler = new AxiosCanceler
+
+  router.beforeEach(() => {
+    axiosCanceler?.removeAllPending();
+  });
+}
 // 初始化 store 从 local
 function initUserStore() {
   const { setUserInfo, setToken } = useUserStore()
