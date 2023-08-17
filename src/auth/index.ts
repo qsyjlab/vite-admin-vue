@@ -1,14 +1,15 @@
 import { useUserStore } from '@/store'
+import { usePermissionStore } from '@/store/module/permissions'
 
 /**
  *  是否有权限验证权限
  * @param permission 权限名称
  * @returns  {Boolean}
  */
-export function hasAuth(permission: string | undefined): boolean {
+export function hasAuth(permission?: string) {
   if (!permission) return false
-  const userStore = useUserStore()
-  return userStore.permissions.includes(permission)
+  const { hasPermission } = usePermissionStore()
+  return hasPermission(permission)
 }
 
 /**

@@ -10,9 +10,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { AsideMenu } from './menu'
-import { getMenus } from '@/router/helper/menus'
 import { storeToRefs } from 'pinia'
-import { useLayoutStore } from '@/store'
+import { useLayoutStore, usePermissionStore } from '@/store'
 
 interface IProps {
   collapsed?: boolean
@@ -22,6 +21,7 @@ const props = withDefaults(defineProps<IProps>(), {
   collapsed: false
 })
 
+const { getMenus } = usePermissionStore()
 const { layoutConfig } = storeToRefs(useLayoutStore())
 
 const sidebarHeight = computed(() => {
@@ -29,7 +29,6 @@ const sidebarHeight = computed(() => {
 })
 
 const menus = computed(() => {
-  // const matched = router.currentRoute.value.matched[0]
   return getMenus()
 })
 </script>

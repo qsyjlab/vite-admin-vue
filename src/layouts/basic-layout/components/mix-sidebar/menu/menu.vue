@@ -71,7 +71,7 @@
 </template>
 <script setup lang="ts">
 import { ref, unref, watch, computed, CSSProperties } from 'vue'
-import { useLayoutStore, useRouteStore } from '@/store'
+import { useLayoutStore, usePermissionStore, useRouteStore } from '@/store'
 // TODO: 待优化类型
 // import type { MenuItem as MenuItemType } from '@/store'
 import { MapLocation } from '@element-plus/icons-vue'
@@ -80,7 +80,6 @@ import { AsideMenu } from '../../sidebar/menu'
 
 import Pushpin from '../pushpin.vue'
 import { storeToRefs } from 'pinia'
-import { getMenus } from '@/router/helper/menus'
 
 interface IProps {
   menuWidth?: number
@@ -90,14 +89,12 @@ interface IProps {
 
 defineProps<IProps>()
 
-const routeStore = useRouteStore()
-
 const layoutStore = useLayoutStore()
 
 const { setMixMenuFixed, setMixMenuLayoutConfig } = layoutStore
 
 const { mixMenuLayoutConfig } = storeToRefs(layoutStore)
-
+const { getMenus } = usePermissionStore()
 const route = useRoute()
 const router = useRouter()
 
@@ -107,9 +104,6 @@ const showChildren = ref(false)
 const activeChildren = ref<any[]>([])
 
 const menus = computed(() => {
-  // const matched = router.currentRoute.value.matched[0]
-  // return (matched.name && routeStore.routeMapping[matched.name as string].menus) || []
-
   return getMenus()
 })
 
@@ -155,7 +149,7 @@ const clickMenuModuleHandler = (item: any) => {
 //  鼠标移除 子菜单处理
 const leaveChildrenMenuHandler = (e: MouseEvent) => {
   e.preventDefault()
-  e.cancelBubble = true
+  e.stopPropagation()
 
   showChildren.value = false
 }

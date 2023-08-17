@@ -5,6 +5,7 @@ import { setTokenCahce, setUserInfoCache, clearCache, setPermissionsCache } from
 import { login as loginHttp } from '@/api/user'
 import useRouteStore from './route'
 import { pageError } from '@/router/routes'
+import { usePermissionStore } from './permissions'
 
 export const userStoreKey = 'userStoreKey'
 
@@ -70,11 +71,10 @@ export const useUserStore = defineStore<string, UserStoreState, UserStoreGetter,
               userId: res.data.userId,
               userName: res.data.username
             })
-            this.setPermissions(res.data.permissions)
-            const routeStore = useRouteStore()
-            const dynamicRoutes = await routeStore.buildRoutes()
-            routeStore.addRouteBatch(dynamicRoutes)
-            router.addRoute(pageError)
+
+            const permission = usePermissionStore()
+            permission.setPermissions(res.data.permissions)
+            await permission.loadDynamicRoutes()
             this.setInitialized(true)
           }
 

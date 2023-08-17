@@ -2,9 +2,9 @@ import type { Router, RouteLocationNormalized, NavigationGuardNext } from 'vue-r
 
 import NProgress from 'nprogress'
 import { useRouteStore, useUserStore } from '@/store'
-import { getPermissionsCache, getTokenCahce, getUserInfoCache } from '@/store/local'
+import { getTokenCahce, getUserInfoCache } from '@/store/local'
 import { hasAuth } from '@/auth'
-import { pageError } from '../routes'
+import { usePermissionStore } from '@/store/module/permissions'
 
 export function setupRouterGuard(router: Router) {
   createProgressGuard(router)
@@ -30,7 +30,7 @@ export async function handlePermissionRouter(
   if (!initialized) {
     initUserStore()
   }
-  const routeStore = useRouteStore()
+  const permissionStore = usePermissionStore()
 
   const token = getTokenCahce()
 
@@ -46,10 +46,7 @@ export async function handlePermissionRouter(
   if (!auth) return next({ name: 'Error403' })
 
   if (!initialized) {
-    const dynamicRoutes = await routeStore.buildRoutes()
-    routeStore.addRouteBatch(dynamicRoutes)
-
-    router.addRoute(pageError)
+    await permissionStore.loadDynamicRoutes()
     setInitialized(true)
 
     if (to.name === 'PageNotFound') {
@@ -97,11 +94,9 @@ export function createKeepAliveGuard(router: Router) {
 
 // 初始化 store 从 local
 function initUserStore() {
-  const { setUserInfo, setToken, setPermissions } = useUserStore()
-
+  const { setUserInfo, setToken } = useUserStore()
   const userInfo = getUserInfoCache()
   const token = getTokenCahce()
-  const permissions = getPermissionsCache()
 
   if (userInfo) {
     setUserInfo(userInfo)
@@ -109,9 +104,5 @@ function initUserStore() {
 
   if (token) {
     setToken(token)
-  }
-
-  if (permissions) {
-    setPermissions(permissions)
   }
 }

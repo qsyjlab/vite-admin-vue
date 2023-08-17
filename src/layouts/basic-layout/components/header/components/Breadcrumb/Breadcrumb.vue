@@ -7,11 +7,13 @@
 </template>
 
 <script setup lang="ts">
+import { usePermissionStore } from '@/store'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { getMenus } from '@/router/helper/menus'
 
 const { currentRoute } = useRouter()
+const { getMenus } = usePermissionStore()
+
 const breadCrumbList = computed(() => {
   const menus = getMenus()
 

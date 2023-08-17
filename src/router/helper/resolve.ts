@@ -1,9 +1,7 @@
 import { cloneDeep, omit } from 'lodash-es'
-import { createRouter, createWebHistory, RouteMeta } from 'vue-router'
-
-import type { RouteRecordNormalized } from 'vue-router'
-
-import { RouteRecordRaw, RouterOptions } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+import { treeMap } from '@/utils'
+import type { RouteRecordNormalized, RouteRecordRaw, RouterOptions } from 'vue-router'
 
 export function createWebHistoryRouter(
   routes: RouteRecordRaw[],
@@ -18,7 +16,7 @@ export function createWebHistoryRouter(
 
 /** 扁平路由 最大路由级别 2 级 */
 export async function flatRoutesLevel(asyncRoutes: RouteRecordRaw[]) {
-  const routes = transformRoutes(asyncRoutes)
+  const routes = asyncRoutes
 
   function isMultipleRoute(route: RouteRecordRaw): boolean {
     if (!route || !Reflect.has(route, 'children') || !route.children?.length) return false
@@ -109,27 +107,39 @@ function joinParentPath(menus: any[], parentPath = '') {
   }
 }
 
-// Parsing the menu module
-export function transformMenuModule(module: any): any {
-  const menuList = [module]
+// 将路由转换成菜单
+export function transformRouteToMenu(routeModList: RouteRecordRaw[]) {
+  const cloneRouteModList = cloneDeep(routeModList)
+  // const routeList: RouteRecordRaw[] = []
 
-  joinParentPath(menuList)
-  return menuList[0]
-}
-// 根据路由源信息转换
-export function transformRoutes(routes: RouteRecordRaw[], treeMap?: RouteRecordRaw[]) {
-  if (routes && routes?.length === 0) return []
+  // // 对路由项进行修改
+  // cloneRouteModList.forEach(item => {
+  //   if (routerMapping && item?.meta?.hideChildrenInMenu && typeof item.redirect === 'string') {
+  //     item.path = item.redirect
+  //   }
 
-  return routes
-    .reduce((acc, cur) => {
-      acc.push({
-        ...cur,
-        name: cur.name as string,
-        path: cur.path,
-        meta: cur.meta,
-        children: transformRoutes(cur.children || [], [])
-      })
-      return acc
-    }, treeMap || [])
-    .sort((last, next) => (last.meta?.order || 0) - (next.meta?.order || 0))
+  //   // if (item.meta?.single) {
+  //   //   const realItem = item?.children?.[0]
+  //   //   realItem && routeList.push(realItem)
+  //   // } else {
+  //   //   routeList.push(item)
+  //   // }
+  //   routeList.push(item)
+  // })
+  // 提取树指定结构
+  const list = treeMap(cloneRouteModList, {
+    conversion: (node: RouteRecordRaw) => {
+      const { meta = {}, name } = node
+
+      return {
+        meta: node.meta,
+        name: name,
+        path: node.path
+      }
+    }
+  })
+
+  // 路径处理
+  joinParentPath(list)
+  return cloneDeep(list)
 }
