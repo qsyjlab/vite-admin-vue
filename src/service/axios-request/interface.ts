@@ -28,12 +28,14 @@ interface RequestConfigEx {
 export type RequestMethodConfig = AxiosRequestConfig
 
 export interface RequestOptionsEx {
-  isTransformRequest?: boolean
-  isTransformResponse?: boolean
+  ignoreTransformRequest?: boolean
+  ignoreTransformResponse?: boolean
 }
 
 export type TransformResponse<T = any> = (response: AxiosResponse<T>) => AxiosResponse<T>['data']
+export type TransformRequest<T = any> = (request: AxiosRequestConfig<T>) => AxiosRequestConfig<T>
 
 export interface RequestTransform {
-  transformResponse: TransformResponse
+  transformResponse?: TransformResponse
+  transformRequest?: TransformRequest
 }

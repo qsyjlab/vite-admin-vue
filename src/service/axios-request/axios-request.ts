@@ -10,6 +10,7 @@ import type {
 } from './interface'
 
 import { isFunction, extend } from '@/utils'
+import { omit } from 'lodash-es'
 
 class AxiosRequest {
   private instanceConfig: BaseAxiosRequestConfig = {}
@@ -30,13 +31,21 @@ class AxiosRequest {
     requestOptions: RequestOptionsEx = {}
   ): Promise<T> {
     return new Promise((resolve, reject) => {
-      const { isTransformResponse = true } = requestOptions
+      const { ignoreTransformResponse = false, ignoreTransformRequest = false } = requestOptions
+      const { transformResponse, transformRequest } = this.instanceConfig.transform || {}
+
+      let requestConfig = extend(
+        omit(this.instanceConfig, ['transform', 'interceptorsHooks']),
+        options
+      )
+      if (!ignoreTransformRequest && transformRequest && isFunction(transformRequest)) {
+        requestConfig = transformRequest(requestConfig)
+      }
 
       this.instance
-        .request<T>(extend(this.instanceConfig, options))
+        .request<T>(requestConfig)
         .then(response => {
-          const transformResponse = this.instanceConfig.transform?.transformResponse
-          if (isTransformResponse && transformResponse && isFunction(transformResponse)) {
+          if (!ignoreTransformResponse && transformResponse && isFunction(transformResponse)) {
             try {
               const result = transformResponse(response)
               resolve(result)

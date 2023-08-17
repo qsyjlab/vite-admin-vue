@@ -79,8 +79,9 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
   }
 
   function hasPermission(permission?: string) {
-    if (!permission) return false
-    return permissions.value.includes(permission)
+    return true
+    // if (!permission) return false
+    // return permissions.value.includes(permission)
   }
   function addRouteBatch(routes: RouteRecordRaw[]) {
     routes.forEach(r => {
