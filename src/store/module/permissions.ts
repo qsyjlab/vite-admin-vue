@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { setPermissionsCache, getPermissionsCache } from '../local'
-import type { RouteRecordRaw } from 'vue-router'
 import { filter } from '@/utils'
 import { asyncRoutes } from '@/router/routes/async'
 import { flatRoutesLevel, transformRouteToMenu } from '@/router/helper'
 import router from '@/router'
 import { pageError } from '@/router/routes'
 import { cloneDeep } from 'lodash-es'
+import type { RouteRecordRaw } from 'vue-router'
 
 type RouteMenu = Pick<RouteRecordRaw, 'meta' | 'name' | 'path' | 'redirect'>
 

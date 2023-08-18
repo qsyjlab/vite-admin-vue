@@ -1,6 +1,7 @@
 import { defineExposeRoutes } from '../helper/utils'
+import { LOGIN_NAME, LOGIN_PATH } from '../constant'
 
-import { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 
 export const pageError = {
   path: '/:pathMatch(.*)',
@@ -9,8 +10,8 @@ export const pageError = {
 }
 
 const loginRoute: RouteRecordRaw = {
-  path: '/login',
-  name: 'Login',
+  path: LOGIN_PATH,
+  name: LOGIN_NAME,
   meta: {
     title: '登录',
     isAuth: false
