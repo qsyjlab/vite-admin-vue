@@ -36,8 +36,6 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
   }
 
   function setFrontedMenuList(menus: Menu[]) {
-    console.log('menus', menus)
-
     frontedMenuList.value = menus
   }
 
@@ -78,10 +76,15 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
     return flatRoutesLevel(routes)
   }
 
-  function hasPermission(permission?: string) {
-    return true
-    // if (!permission) return false
-    // return permissions.value.includes(permission)
+  /**
+   * 这里权限可传入字符串或者数组 数组 权限满足一个 则 为 true
+   */
+  function hasPermission(permission?: string | string[]) {
+    if (!permission) return false
+
+    if (Array.isArray(permission))
+      return !!permission.map(p => permissions.value.includes(p)).find(i => i)
+    return permissions.value.includes(permission)
   }
   function addRouteBatch(routes: RouteRecordRaw[]) {
     routes.forEach(r => {
