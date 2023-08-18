@@ -36,20 +36,27 @@ const error404: RouteRecordRaw = {
   component: () => import('@/views/error/error-404.vue')
 }
 
-export const routes = defineExposeRoutes([
-  {
-    path: '/',
-    redirect: '/welcome',
-    meta: {
-      title: '主系统',
-      hideInBreadcrumb: true
-    }
-  },
-  loginRoute,
-  error403,
-  error404,
-  pageError
-])
+const root: RouteRecordRaw = {
+  path: '/',
+  redirect: '/welcome',
+  meta: {
+    title: '主系统',
+    hideInBreadcrumb: true
+  }
+}
+
+export const routes = defineExposeRoutes([root, loginRoute, error403, error404, pageError])
+
+function getRouteNames(routes: RouteRecordRaw[], names: string[] = []) {
+  routes.forEach(item => {
+    names.push(item.name as string)
+    getRouteNames(item.children || [])
+  })
+
+  return names
+}
+
+export const WHITE_NAME_LIST = getRouteNames(routes)
 
 export default routes
 

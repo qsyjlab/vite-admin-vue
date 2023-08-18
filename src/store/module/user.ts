@@ -1,10 +1,8 @@
-import router from '@/router'
+import { resetRouter } from '@/router'
 
 import { defineStore } from 'pinia'
 import { setTokenCahce, setUserInfoCache, clearCache, setPermissionsCache } from '../local'
 import { login as loginHttp } from '@/api/user'
-import useRouteStore from './route'
-import { pageError } from '@/router/routes'
 import { usePermissionStore } from './permissions'
 
 export const userStoreKey = 'userStoreKey'
@@ -85,7 +83,9 @@ export const useUserStore = defineStore<string, UserStoreState, UserStoreGetter,
       // 退出登录
       loginOutSystem() {
         clearCache()
-        router.push({ name: 'Login' })
+        resetRouter()
+        this.setInitialized(false)
+        // router.push({ name: 'Login' })
       }
     }
   }

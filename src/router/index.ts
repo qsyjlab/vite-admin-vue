@@ -1,7 +1,7 @@
 import { createWebHistoryRouter } from './helper'
 
 import { setupRouterGuard } from './guard'
-import { routes } from './routes'
+import { routes, WHITE_NAME_LIST } from './routes'
 
 import type { App } from 'vue'
 
@@ -19,6 +19,16 @@ export async function setupRouter(app: App) {
   setupRouterGuard(router)
 
   await router.isReady()
+}
+
+// 重置路由
+export function resetRouter() {
+  router.getRoutes().forEach(route => {
+    const { name } = route
+    if (name && !WHITE_NAME_LIST.includes(name as string)) {
+      router.hasRoute(name) && router.removeRoute(name)
+    }
+  })
 }
 
 export default router

@@ -14,10 +14,15 @@
 </template>
 <script setup lang="ts">
 import { useUserStore } from '@/store'
+import { useRouter } from 'vue-router'
 
 const { loginOutSystem, userInfo } = useUserStore()
+const router = useRouter()
 
 const logout = () => {
   loginOutSystem()
+
+  // 需要做登录后的从定向操作
+  router.push({ name: 'Login' })
 }
 </script>
