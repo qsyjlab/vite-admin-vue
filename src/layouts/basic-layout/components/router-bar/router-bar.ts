@@ -1,4 +1,4 @@
-import type { RouteRecordNormalized, RouteLocationNormalizedLoaded, RouteMeta } from 'vue-router'
+import type { RouteLocationNormalized, RouteMeta } from 'vue-router'
 
 export interface RouterType {
   fullPath: string
@@ -14,15 +14,13 @@ export interface RouterType {
  * @param item
  * @returns
  */
-export function tranformRouterInfo(
-  item: RouteRecordNormalized | RouteLocationNormalizedLoaded
-): RouterType {
+export function tranformRouterInfo(item: RouteLocationNormalized): RouterType {
   return {
-    fullPath: item.path,
+    fullPath: item.fullPath,
     path: item?.path,
     name: item.name as string,
     meta: item.meta,
-    params: {},
-    query: {}
+    params: item.query,
+    query: item.query
   }
 }

@@ -47,10 +47,10 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { RouteLocationNormalized, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 import { tranformRouterInfo } from './router-bar'
-import type { RouteRecordNormalized } from 'vue-router'
+import type { RouteLocationNormalized } from 'vue-router'
 import type { RouterType } from './router-bar'
 
 import type { TabsPaneContext } from 'element-plus'
@@ -98,7 +98,17 @@ onMounted(() => {
   // 开始初始化一次
   initRouterList()
 
-  routerChangeUpdate(router.currentRoute.value)
+  watch(
+    () => route,
+    to => {
+      routerChangeUpdate(to)
+    },
+    {
+      deep: true,
+      immediate: true
+    }
+  )
+  // routerChangeUpdate(router.currentRoute.value)
 })
 
 const routerChangeUpdate = (_router: RouteLocationNormalized) => {
@@ -117,25 +127,21 @@ const routerChangeUpdate = (_router: RouteLocationNormalized) => {
   tabActive.value = currentRouter.value.fullPath
 }
 
-watch(
-  () => route,
-  to => {
-    routerChangeUpdate(to)
-  },
-  {
-    deep: true
-    // immediate: true
-  }
-)
-
 //初始化路由数组
 const initRouterList = (): void => {
   routerList.value = []
-  const routes: RouteRecordNormalized[] = router.getRoutes()
+  const routes = router.getRoutes()
 
   for (const item of routes) {
     if (biddenRouter.value.includes(item?.name as string)) {
-      routerList.value.push(tranformRouterInfo(item))
+      routerList.value.push({
+        fullPath: item.path,
+        path: item?.path,
+        name: item.name as string,
+        meta: item.meta,
+        params: {},
+        query: {}
+      })
     }
   }
 
@@ -159,11 +165,7 @@ const goRouter = (curPath: RouterType): void => {
 
   currentRouter.value = curPath
 
-  router.push({
-    name: curPath.name,
-    query: Object.keys(curPath.query).length ? curPath.query : {},
-    params: Object.keys(curPath.params).length ? curPath.params : {}
-  })
+  router.push({ path: curPath.fullPath })
 }
 
 const isAffixTab = (name: string) => {
