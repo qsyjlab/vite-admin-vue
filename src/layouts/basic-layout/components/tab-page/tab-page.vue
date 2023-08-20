@@ -78,6 +78,7 @@ const props = withDefaults(defineProps<Props>(), {
 const tabPageStore = useTabPageStore()
 
 const { getTabPages, getCurrentActivityTabPage } = storeToRefs(tabPageStore)
+
 const {
   addTabPage,
   goTabPage,
@@ -92,8 +93,6 @@ const route = useRoute()
 
 //禁止删除的 router tag name
 const biddenRouter = ref<string[]>(props.biddenRouter)
-
-const tabActive = ref<string>('')
 
 onMounted(() => {
   // 开始初始化一次

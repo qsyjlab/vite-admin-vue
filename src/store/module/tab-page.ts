@@ -54,6 +54,18 @@ export const useTabPageStore = defineStore('tab-page', () => {
     goTabPage(_route)
   }
 
+  function updateTabPage(newTab: TabPage, tab?: TabPage) {
+    const targetTab = tab || currentTabPage.value
+
+    if (!targetTab) return
+
+    const findTab = getTabPages.value.find(item => targetTab.fullPath === item.fullPath)
+    if (findTab) {
+      findTab.meta.title = newTab.meta.title
+      updateTabCache()
+    }
+  }
+
   function removeTabPage(index: number) {
     tabsList.value.splice(index, 1)
     updateTabCache()
@@ -130,6 +142,7 @@ export const useTabPageStore = defineStore('tab-page', () => {
     removeOhterTabPages,
     removeLeftAllTabPages,
     removeRightAllTabPages,
+    updateTabPage,
     goTabPage,
     getTabPages,
     getKeepAliveCache,
