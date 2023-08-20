@@ -56,6 +56,8 @@ import type { RouterType } from './router-bar'
 import type { TabsPaneContext } from 'element-plus'
 import { useRoute } from 'vue-router'
 import { watch } from 'vue'
+import { useTabPageStore } from '@/store'
+import { storeToRefs } from 'pinia'
 
 interface Props {
   biddenRouter?: string[]
@@ -77,6 +79,11 @@ const props = withDefaults(defineProps<Props>(), {
   dotColor: 'white',
   borderColor: '#d8dce5'
 })
+
+const tabPageStore = useTabPageStore()
+
+const { getTabPages, getCurrentActivityTabPage } = storeToRefs(tabPageStore)
+const { addTabPage } = tabPageStore
 
 const router = useRouter()
 const route = useRoute()

@@ -47,7 +47,7 @@
     </template>
 
     <template #tabs>
-      <basic-router-bar v-bind="routerBarAttrs" />
+      <basic-tab-page v-bind="routerBarAttrs" />
     </template>
 
     <div class="basic-layout-main__wrapper">
@@ -77,7 +77,7 @@ import {
   BasicHeader,
   BasicSidebar,
   BasicSetting,
-  BasicRouterBar,
+  BasicTabPage,
   BasicFooter,
   BasicMixSidebar
 } from './components'
