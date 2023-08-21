@@ -23,7 +23,8 @@ const breadCrumbList = computed(() => {
 
   const filterMenus = menus.filter(item => item.path === parent[0])
   const matched = getMatched(filterMenus, parent) as any
-  return matched.filter((i: any) => !i.meta.hideBreadcrumb)
+
+  return matched.filter((i: any) => !i.meta.hideInBreadcrumb)
 })
 
 function getAllParentPath<T = any>(treeData: T[], path: string) {
