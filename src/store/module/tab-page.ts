@@ -11,6 +11,11 @@ export interface TabPage {
   params?: Record<string, any>
 }
 
+// 是否是需要固定的 tab 栏
+function isAffixTab(tab: TabPage) {
+  return tab.meta.affixTab
+}
+
 function getRouteToTab(route: TabPage): TabPage {
   return {
     name: route.name as string,
@@ -146,10 +151,6 @@ export const useTabPageStore = defineStore('tab-page', () => {
     cacheNames.forEach(name => {
       keepAliveCache.value.add(name)
     })
-  }
-
-  function isAffixTab(tab: TabPage) {
-    return tab.meta.affixTab
   }
 
   // 跳转到最后一个 tab
