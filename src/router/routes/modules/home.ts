@@ -10,7 +10,9 @@ export default defineExposeRoutes([
       sort: 1,
       icon: 'icon-home-filled',
       hideChildrenInMenu: true,
-      isNotAuth: true
+      hideInBreadcrumb: true,
+      isNotAuth: true,
+      hideInTab: true
     },
     redirect: {
       name: 'WelcomeIndex'
@@ -24,10 +26,10 @@ export default defineExposeRoutes([
           title: 'Welcome',
           sort: 1,
           icon: 'icon-home-filled',
-          isNotAuth: true
+          isNotAuth: true,
+          affixTab: true
         },
-        component: () => import(/* webpackChunkName: "Welcome" */ '@/views/system/WelcomeTo.vue'),
-        children: []
+        component: () => import(/* webpackChunkName: "Welcome" */ '@/views/system/WelcomeTo.vue')
       }
     ]
   },

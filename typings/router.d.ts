@@ -21,6 +21,9 @@ interface ExtraRouteMeta {
   hideInBreadcrumb?: boolean
   // tab 栏标签隐藏
   hideInTab?: boolean
+  // 固定在标签栏的路由
+  affixTab?: boolean
+
   // 隐藏子菜单
   hideChildrenInMenu?: boolean
 }

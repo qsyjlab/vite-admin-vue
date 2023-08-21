@@ -1,7 +1,7 @@
 import router from '@/router'
 import { defineStore } from 'pinia'
 import { computed, ref, unref } from 'vue'
-import type { RouteLocationNormalized, RouteMeta } from 'vue-router'
+import type { RouteMeta } from 'vue-router'
 
 export interface TabPage {
   name: string
@@ -11,7 +11,7 @@ export interface TabPage {
   params?: Record<string, any>
 }
 
-function getRouteToTab(route: RouteLocationNormalized): TabPage {
+function getRouteToTab(route: TabPage): TabPage {
   return {
     name: route.name as string,
     fullPath: route.fullPath,
@@ -28,13 +28,20 @@ export const useTabPageStore = defineStore('tab-page', () => {
 
   const currentTabPage = ref<TabPage | null>(null)
 
+  const affixTabsList = ref<string[]>([])
+
   const getKeepAliveCache = computed(() => Array.from(keepAliveCache.value))
 
   const getTabPages = computed(() => tabsList.value)
 
   const getCurrentActivityTabPage = computed(() => currentTabPage.value)
 
-  function addTabPage(route: RouteLocationNormalized) {
+  const getAffixTabsList = computed(() => affixTabsList.value)
+
+  function addTabPage(route: TabPage) {
+    // 如果 隐藏项 则不添加
+    if (route.meta.hideInTab) return
+
     const _route = getRouteToTab(route)
 
     const tabsRaw = unref(tabsList)
@@ -51,9 +58,17 @@ export const useTabPageStore = defineStore('tab-page', () => {
     }
 
     updateTabCache()
-    goTabPage(_route)
+    currentTabPage.value = _route
+    // goTabPage(_route)
   }
 
+  /**
+   * 更新 tab-page 成员信息 不要外部暴露使用
+   * 外部 hook 抽离并包装成 外部方法
+   * @example
+   * 更新 tab 标题 setTitle: (title, tartget?: = currentTab) =>  updateTabPage({meta:title, target})
+   *
+   */
   function updateTabPage(newTab: TabPage, tab?: TabPage) {
     const targetTab = tab || currentTabPage.value
 
@@ -67,20 +82,20 @@ export const useTabPageStore = defineStore('tab-page', () => {
   }
 
   function removeTabPage(index: number) {
+    const waitRemoveItem = tabsList.value[index]
+
+    if (waitRemoveItem.meta.affixTab) return
+
     tabsList.value.splice(index, 1)
     updateTabCache()
-
-    const lastIndex = tabsList.value.length - 1
-    if (lastIndex < 0) return
-
-    currentTabPage.value = tabsList.value[lastIndex]
-    goTabPage(currentTabPage.value)
+    goLastTabRoute()
   }
 
   function removeAllTabPage() {
     resetTabPages()
     currentTabPage.value = null
     updateTabCache()
+    goLastTabRoute()
   }
 
   function removeOhterTabPages() {
@@ -97,9 +112,7 @@ export const useTabPageStore = defineStore('tab-page', () => {
     if (atIndex === -1) return
 
     for (let i = 0; i < atIndex; i++) {
-      // const item = tabsList.value[i]
-
-      // if (isAffixTab(item.name)) continue
+      if (isAffixTab(tabsList.value[i])) continue
       tabsList.value.splice(i, 1)
       i--
       atIndex--
@@ -113,12 +126,12 @@ export const useTabPageStore = defineStore('tab-page', () => {
     if (atIndex === -1) return
 
     for (let i = tabsList.value.length - 1; i > atIndex; i--) {
+      if (isAffixTab(tabsList.value[i])) continue
       tabsList.value.splice(i, 1)
     }
   }
   function resetTabPages() {
-    // TODO: 后续需要处理 固定的标签页
-    tabsList.value = []
+    tabsList.value = tabsList.value.filter(i => i.meta.affixTab)
   }
 
   function goTabPage(tab: TabPage) {
@@ -135,6 +148,19 @@ export const useTabPageStore = defineStore('tab-page', () => {
     })
   }
 
+  function isAffixTab(tab: TabPage) {
+    return tab.meta.affixTab
+  }
+
+  // 跳转到最后一个 tab
+  function goLastTabRoute() {
+    const lastIndex = tabsList.value.length - 1
+    if (lastIndex < 0) return
+
+    currentTabPage.value = tabsList.value[lastIndex]
+    goTabPage(currentTabPage.value)
+  }
+
   return {
     addTabPage,
     removeTabPage,
@@ -145,6 +171,7 @@ export const useTabPageStore = defineStore('tab-page', () => {
     updateTabPage,
     goTabPage,
     getTabPages,
+    getAffixTabsList,
     getKeepAliveCache,
     getCurrentActivityTabPage
   }

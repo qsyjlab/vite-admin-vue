@@ -14,7 +14,7 @@
             :key="item.fullPath"
             :label="item.meta.title"
             :name="item.fullPath"
-            :closable="!biddenRouter.includes(item.name)"
+            :closable="!affixTabsList.includes(item.fullPath)"
           ></el-tab-pane>
         </el-tabs>
       </div>
@@ -53,9 +53,9 @@ import { useRoute } from 'vue-router'
 import { watch } from 'vue'
 import { useTabPageStore } from '@/store'
 import { storeToRefs } from 'pinia'
+import router from '@/router'
 
 interface Props {
-  biddenRouter?: string[]
   bgColor?: string
   textColor?: string
   activeTextColor?: string
@@ -66,7 +66,6 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   // 禁止删除的路由
-  biddenRouter: () => [],
   bgColor: 'white',
   textColor: '#495060',
   activeTextColor: 'white',
@@ -92,16 +91,21 @@ const {
 const route = useRoute()
 
 //禁止删除的 router tag name
-const biddenRouter = ref<string[]>(props.biddenRouter)
+const affixTabsList = ref<string[]>([])
 
 onMounted(() => {
-  // 开始初始化一次
-  // initRouterList()
+  initAffixTabs()
 
   watch(
     () => route,
     to => {
-      addTabPage(to)
+      addTabPage({
+        name: to.name as string,
+        fullPath: to.fullPath,
+        query: to.query,
+        params: to.params,
+        meta: to.meta
+      })
     },
     {
       deep: true,
@@ -110,6 +114,24 @@ onMounted(() => {
   )
 })
 
+function initAffixTabs() {
+  function filterAffixTab() {
+    return router.getRoutes().filter(route => route.meta.affixTab)
+  }
+
+  affixTabsList.value = []
+
+  filterAffixTab().forEach(route => {
+    addTabPage({
+      name: route.name as string,
+      fullPath: route.path,
+      query: {},
+      params: {},
+      meta: route.meta
+    })
+    affixTabsList.value.push(route.path)
+  })
+}
 // //初始化路由数组
 // const initRouterList = (): void => {
 //   routerList.value = []
