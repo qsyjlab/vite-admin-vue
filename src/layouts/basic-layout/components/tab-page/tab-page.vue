@@ -12,30 +12,55 @@
           <el-tab-pane
             v-for="item in getTabPages"
             :key="item.fullPath"
-            :label="item.meta.title"
             :name="item.fullPath"
             :closable="!affixTabsList.includes(item.fullPath)"
-          ></el-tab-pane>
+          >
+            <template #label>
+              <span
+                :style="{
+                  fontSize: `${fontSize}px`
+                }"
+                >{{ item.meta.title }}</span
+              >
+            </template>
+          </el-tab-pane>
         </el-tabs>
       </div>
 
       <div class="tabs-bar__operate">
-        <el-dropdown>
-          <span style="cursor: pointer"> 更多操作 </span>
+        <el-dropdown style="height: 100%">
+          <span style="cursor: pointer" class="operate-btn">
+            <el-icon><ArrowDown /></el-icon>
+          </span>
 
           <template #dropdown>
             <el-dropdown-menu class="tabs-more">
+              <el-dropdown-item command="reload" @click="removeOhterTabPages">
+                <el-icon><Refresh /></el-icon> 重新加载
+              </el-dropdown-item>
               <el-dropdown-item command="closeOtherstabs" @click="removeOhterTabPages">
-                关闭其他
+                <el-icon><Close /></el-icon> 关闭其他
               </el-dropdown-item>
               <el-dropdown-item command="closeLefttabs" @click="removeLeftAllTabPages">
+                <el-icon
+                  :style="{
+                    transform: `rotate(-90deg)`
+                  }"
+                  ><Upload
+                /></el-icon>
                 关闭左侧
               </el-dropdown-item>
               <el-dropdown-item command="closeRighttabs" @click="removeRightAllTabPages">
+                <el-icon
+                  :style="{
+                    transform: `rotate(90deg)`
+                  }"
+                  ><Upload
+                /></el-icon>
                 关闭右侧
               </el-dropdown-item>
               <el-dropdown-item command="closeAlltabs" @click="removeAllTabPage">
-                关闭全部
+                <el-icon><CircleClose /></el-icon> 关闭全部
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -54,6 +79,7 @@ import { watch } from 'vue'
 import { useTabPageStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import router from '@/router'
+import { ArrowDown, Refresh, Close, Upload, CircleClose } from '@element-plus/icons-vue'
 
 interface Props {
   bgColor?: string
@@ -62,16 +88,18 @@ interface Props {
   activeBgColor?: string
   dotColor?: string
   borderColor?: string
+  fontSize?: number
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   // 禁止删除的路由
   bgColor: 'white',
   textColor: '#495060',
   activeTextColor: 'white',
   activeBgColor: '#42b983',
   dotColor: 'white',
-  borderColor: '#d8dce5'
+  borderColor: '#d8dce5',
+  fontSize: 14
 })
 
 const tabPageStore = useTabPageStore()
@@ -132,28 +160,6 @@ function initAffixTabs() {
     affixTabsList.value.push(route.path)
   })
 }
-// //初始化路由数组
-// const initRouterList = (): void => {
-//   routerList.value = []
-//   const routes = router.getRoutes()
-
-//   for (const item of routes) {
-//     if (biddenRouter.value.includes(item?.name as string)) {
-//       routerList.value.push({
-//         fullPath: item.path,
-//         path: item?.path,
-//         name: item.name as string,
-//         meta: item.meta,
-//         params: {},
-//         query: {}
-//       })
-//     }
-//   }
-
-//   currentRouter.value = tranformRouterInfo(router.currentRoute.value)
-
-//   tabActive.value = currentRouter.value.fullPath || ''
-// }
 
 const handleTabClick = (context: TabsPaneContext) => {
   if (!context.index) return
@@ -183,6 +189,8 @@ $base-color-default: #409eff;
 $base-color-blue: $base-color-default;
 .tabs-bar-container {
   width: 100%;
+  height: 100%;
+  box-sizing: border-box;
   position: relative;
   box-sizing: border-box;
   display: flex;
@@ -190,7 +198,8 @@ $base-color-blue: $base-color-default;
   align-items: center;
   justify-content: space-between;
   // height: $base-tabs-bar-height;
-  padding-right: $base-padding;
+  padding: 3px;
+  // padding-right: $base-padding;
   padding-left: $base-padding;
   user-select: none;
   background: $base-color-white;
@@ -202,20 +211,26 @@ $base-color-blue: $base-color-default;
   //   }
   // }
 
-  // :deep(.el-tabs__nav-wrap) {
-  //   min-width: 100%;
-  //   max-width: 100%;
-  // }
+  :deep(.el-tabs__nav-wrap) {
+    margin-bottom: 0px;
+    min-width: 100%;
+    max-width: 100%;
+    height: 100%;
+  }
 
   .tab-scroll {
     max-width: calc(100% - 90px);
     min-width: calc(100% - 90px);
+    height: 100%;
     overflow: hidden;
   }
 
   :deep(.tabs-content) {
-    height: $base-tag-item-height;
+    height: 100%;
     overflow: hidden;
+    // min-width: 0;
+    // display: flex;
+    // align-items: center;
 
     .el-tabs__nav-next,
     .el-tabs__nav-prev {
@@ -223,18 +238,25 @@ $base-color-blue: $base-color-default;
       line-height: $base-tag-item-height;
     }
 
+    .el-tabs__nav-scroll {
+      height: 100%;
+    }
+
     .el-tabs__header {
       border-bottom: 0;
+      margin-bottom: 0;
+      height: 100% !important;
 
       .el-tabs__nav {
         border: 0;
+        height: 100%;
       }
 
       .el-tabs__item {
         box-sizing: border-box;
-        height: $base-tag-item-height;
+        height: 100%;
         margin-right: 5px;
-        line-height: $base-tag-item-height;
+        // line-height: $base-tag-item-height;
         border: 1px solid $base-border-color;
         border-radius: $base-border-radius;
         transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
@@ -255,6 +277,8 @@ $base-color-blue: $base-color-default;
 
 .tabs-bar {
   &__operate {
+    height: 100%;
+    box-sizing: border-box;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -262,67 +286,82 @@ $base-color-blue: $base-color-default;
   }
 }
 
-.router-container {
-  min-width: 600px;
-  display: flex;
+.operate-btn {
+  // display: inline-block;
   height: 100%;
-  box-sizing: border-box;
-  padding: 3px;
-  // box-shadow: 0 2px 4px rgb(0 0 0 / 12%), 0 0 6px rgb(0 0 0 / 4%);
-  align-items: center;
-}
-
-.routerbar-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 5px 6px;
-  font-size: 13px;
-  margin-left: 7px;
+  border-left: 1px solid #d9d9d9;
+  color: rgba(0, 0, 0, 0.45);
+  // line-height: 30px;
+  text-align: center;
   cursor: pointer;
-  color: #495060;
-  border: 1px solid #d8dce5;
-  flex-shrink: 0;
-  transition: all 0.3s;
-  border-radius: 3px;
-}
-
-.active-dot {
-  width: 10px;
-  height: 10px;
+  padding: 10px;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  background-color: white;
-  border-radius: 50%;
-  margin-right: 6px;
-}
-
-.routerbar-item.active {
-  background-color: #42b983;
-  border-color: #42b983;
-  color: white;
-}
-
-.scrollbarClass {
-  display: flex;
   justify-content: center;
-  align-items: center;
 }
 
-.close-icon-style {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 5px;
-}
+// .router-container {
+//   min-width: 600px;
+//   display: flex;
+//   height: 100%;
+//   box-sizing: border-box;
+//   padding: 3px;
+//   // box-shadow: 0 2px 4px rgb(0 0 0 / 12%), 0 0 6px rgb(0 0 0 / 4%);
+//   align-items: center;
+// }
 
-:deep(.scroll-view-class) {
-  height: 100%;
-}
+// .routerbar-item {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   height: 100%;
+//   box-sizing: border-box;
+//   padding: 5px 6px;
+//   font-size: 13px;
+//   margin-left: 7px;
+//   cursor: pointer;
+//   color: #495060;
+//   border: 1px solid #d8dce5;
+//   flex-shrink: 0;
+//   transition: all 0.3s;
+//   border-radius: 3px;
+// }
 
-:deep(.scroll-wrap-class) {
-  height: 100%;
-}
+// .active-dot {
+//   width: 10px;
+//   height: 10px;
+//   display: flex;
+//   align-items: center;
+//   background-color: white;
+//   border-radius: 50%;
+//   margin-right: 6px;
+// }
+
+// .routerbar-item.active {
+//   background-color: #42b983;
+//   border-color: #42b983;
+//   color: white;
+// }
+
+// .scrollbarClass {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .close-icon-style {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin-left: 5px;
+// }
+
+// :deep(.scroll-view-class) {
+//   height: 100%;
+// }
+
+// :deep(.scroll-wrap-class) {
+//   height: 100%;
+// }
 </style>

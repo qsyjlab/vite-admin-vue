@@ -149,10 +149,25 @@ const featureModuleRoute = {
     },
     {
       name: 'Qrcode',
-      path: 'qrcode',
+
       meta: {
         title: '二维码'
       }
+    },
+    {
+      name: 'TabPage',
+      path: 'tab-page',
+      meta: {
+        title: '标签栏'
+      },
+      children: [
+        {
+          name: 'TabPageDetail',
+          meta: {
+            title: '标签栏详情'
+          }
+        }
+      ]
     }
   ]
 }

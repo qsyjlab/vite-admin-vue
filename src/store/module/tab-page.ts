@@ -74,14 +74,14 @@ export const useTabPageStore = defineStore('tab-page', () => {
    * 更新 tab 标题 setTitle: (title, tartget?: = currentTab) =>  updateTabPage({meta:title, target})
    *
    */
-  function updateTabPage(newTab: TabPage, tab?: TabPage) {
+  function updateTabPage(newTab: Partial<TabPage>, tab?: TabPage) {
     const targetTab = tab || currentTabPage.value
 
     if (!targetTab) return
 
     const findTab = getTabPages.value.find(item => targetTab.fullPath === item.fullPath)
     if (findTab) {
-      findTab.meta.title = newTab.meta.title
+      findTab.meta.title = newTab.meta?.title
       updateTabCache()
     }
   }

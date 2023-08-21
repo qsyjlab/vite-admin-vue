@@ -27,6 +27,25 @@ export default defineExposeRoutes([
           title: '二维码'
         },
         component: () => import('@/views/system/feature/qrcode/qrcode.vue')
+      },
+      {
+        name: 'TabPage',
+        path: 'tab-page',
+        meta: {
+          title: '标签栏'
+        },
+        component: () => import('@/views/system/feature/tab-page/tab-page.vue'),
+        children: [
+          {
+            name: 'TabPageDetail',
+            path: 'detail',
+            meta: {
+              title: '标签栏详情',
+              hideInMenu: true
+            },
+            component: () => import('@/views/system/feature/tab-page/detail.vue')
+          }
+        ]
       }
     ]
   }

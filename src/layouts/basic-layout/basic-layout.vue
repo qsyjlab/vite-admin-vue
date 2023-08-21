@@ -113,7 +113,7 @@ const mobileDrawerHandler = () => {
 const routerBarAttrs = computed(() => {
   return {
     activeBgColor: 'var(--el-color-primary)',
-    biddenRouter: ['WelcomeIndex']
+    fontSize: !layoutConfig.value.tabBarHeight ? 14 : layoutConfig.value.tabBarHeight * 0.3
   }
 })
 
