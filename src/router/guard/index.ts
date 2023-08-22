@@ -1,13 +1,14 @@
-import type { Router, RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
-
 import NProgress from 'nprogress'
 import { useRouteStore, useUserStore } from '@/store'
 import { getTokenCahce, getUserInfoCache } from '@/store/local'
 import { usePermissionStore } from '@/store/module/permissions'
 import { AxiosCanceler } from '@/service/axios-request/axios-canceler'
 import { LOGIN_NAME, LOGIN_PATH } from '../constant'
+import type { Router } from 'vue-router'
+import { emitRoute } from '../listener'
 
 export function setupRouterGuard(router: Router) {
+  createListenerGuard(router)
   createProgressGuard(router)
   createHttpGuard(router)
   createKeepAliveGuard(router)
@@ -117,6 +118,13 @@ function createHttpGuard(router: Router) {
     axiosCanceler?.removeAllPending()
   })
 }
+
+function createListenerGuard(router: Router) {
+  router.beforeEach((to, from) => {
+    emitRoute(to, from)
+  })
+}
+
 // 初始化 store 从 local
 function initUserStore() {
   const { setUserInfo, setToken } = useUserStore()

@@ -34,3 +34,6 @@ export function resetRouter() {
 export default router
 
 export * from './helper'
+
+export { routeChangeListener } from './listener'
+export { resolveMatched } from './matched'

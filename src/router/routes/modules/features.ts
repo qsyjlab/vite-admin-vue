@@ -38,7 +38,7 @@ export default defineExposeRoutes([
         children: [
           {
             name: 'TabPageDetail',
-            path: 'detail',
+            path: 'detail/:id',
             meta: {
               title: '标签栏详情',
               hideInMenu: true
