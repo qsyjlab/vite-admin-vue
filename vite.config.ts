@@ -24,7 +24,8 @@ export default defineConfig(configEnv => ({
     // css预处理器
     preprocessorOptions: {
       scss: {
-        additionalData: '@use "./src/styles/scss/index.scss" as *;'
+        additionalData:
+          '@use "./src/styles/scss/index.scss" as *;@use "./src/styles/index.scss" as *;'
       }
     }
   },
