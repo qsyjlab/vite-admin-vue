@@ -44,14 +44,14 @@
 
 ##### pro-table
 
-- 基本表格的渲染
-- request 请求数组 | 本地化静态数据
-- 可自定义列内容
-- 可自定义表头
-- 表头 `tip` 提示
-- 操作栏 密度大小切换
-- 列设置 （隐藏,显示,拖拽排序, local 缓存功能）
-- 刷新按钮
+- ~~基本表格的渲染~~
+- ~~request 请求数组 | 本地化静态数据~~
+- ~~可自定义列内容~~
+- ~~可自定义表头~~
+- ~~表头 `tip` 提示~~
+- ~~操作栏 密度大小切换~~
+- ~~列设置 （隐藏,显示,拖拽排序, local 缓存功能）~~
+- ~~刷新按钮~~
 - 列内容 `valueType` | `valueEnum` 内容拓展
 
 ##### editableProTable
@@ -159,8 +159,8 @@ https://ant.design/components/segmented-cn
 
 对 详情页面需要特别设置
 
-- 提供 setTitle 方法来动态设置标题
-- 衍生出来的问题，因为是同一个组件 并且同时处于在 缓存状态 是否他可以通过 `onMountedOrActivated` 这个复合 hook 来解决
+- ~~提供 setTitle 方法来动态设置标题~~
+- ~~衍生出来的问题，因为是同一个组件 并且同时处于在 缓存状态 是否他可以通过 `onMountedOrActivated` 这个复合 hook 来解决~~
 
 ##### 关闭 router-bar
 
@@ -170,11 +170,15 @@ https://ant.design/components/segmented-cn
 
 #### nvm 相关
 
-​ 计划 加入 .nvmrc 相关 但是 windows 版本的 nvm 似乎不支持工作区的 nvm 切换
+ 计划 加入 .nvmrc 相关 但是 windows 版本的 nvm 似乎不支持工作区的 nvm 切换
 
-​ linux/unix 系统则支持
+ linux/unix 系统则支持
 
-​ 暂定解决方法
+ 暂定解决方法
+
+
+
+### 基础模块的生成 （长期任务）
 
 ### 自动化部署相关
 
