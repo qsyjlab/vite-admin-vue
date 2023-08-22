@@ -1,6 +1,6 @@
 <template>
   <span class="toggle" @click="toggle">
-    <span style="margin-right: 5px">{{ !expand ? '折叠' : '收起' }}</span>
+    <span style="margin-right: 5px">{{ !expand ? unExpandText : expandText }}</span>
     <el-icon :class="['toggle-arrow ', !expand ? 'active' : '']">
       <ArrowUp></ArrowUp>
     </el-icon>
@@ -11,12 +11,26 @@
 import { ArrowUp } from '@element-plus/icons-vue'
 import { ElIcon } from 'element-plus'
 
-defineProps({
-  expand: {
-    type: Boolean,
-    default: false
+withDefaults(
+  defineProps<{
+    expand: boolean
+    expandText?: string
+    unExpandText?: string
+  }>(),
+  {
+    expand: false,
+    expandText: '折叠',
+    unExpandText: '展开'
   }
-})
+)
+
+// defineProps({
+//   expand: {
+//     type: Boolean,
+//     default: false
+//   },
+
+// })
 
 const emits = defineEmits({
   click: () => true
