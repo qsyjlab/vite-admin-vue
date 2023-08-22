@@ -1,12 +1,17 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 
 import { createBreakpointListener } from '@/hooks/event/use-breakpoint'
 import { createAppProviderContext } from './context'
+import { useTitle } from '@vueuse/core'
+import { useRoute } from 'vue-router'
+
 export default defineComponent({
   name: 'AppProvider',
   inheritAttrs: false,
   setup(props, { slots }) {
+    const route = useRoute()
+
     const isMobile = ref(false)
 
     createBreakpointListener(({ screenMap, sizeEnum, width }) => {
@@ -17,6 +22,15 @@ export default defineComponent({
     })
 
     createAppProviderContext({ isMobile })
+
+    /**
+     * 自动改变浏览器 document.title
+     */
+    useTitle(
+      computed(() => {
+        return route?.meta.title
+      })
+    )
 
     return () => slots.default?.()
   }
