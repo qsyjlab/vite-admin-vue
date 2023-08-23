@@ -5,7 +5,7 @@ module.exports = {
   semi: false,
   singleQuote: true,
   trailingComma: 'none',
-  // endOfLine: 'auto',
+  endOfLine: 'auto',
   // 行宽度
   printWidth: 100,
   // 缩进宽度 =》editorconfig
@@ -14,6 +14,7 @@ module.exports = {
   // 单个参数取消空格
   arrowParens: 'avoid',
   bracketSpacing: true,
+
   // proseWrap: 'preserve',
   // "proseWrap": "never"
   // 关闭 prettier tslint 格式校验
