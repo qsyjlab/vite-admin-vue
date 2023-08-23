@@ -111,6 +111,10 @@ const stopRouteListener = routeChangeListener((to, from, matched) => {
   const moduleRoute = matched[0]
   activeKey.value = moduleRoute.name
   activeChildren.value = getActiveChildrenMenus()
+
+  if (activeChildren.value.length === 0) {
+    showChildren.value = false
+  }
 })
 
 onUnmounted(() => {
