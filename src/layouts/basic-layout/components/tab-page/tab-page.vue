@@ -185,7 +185,7 @@ const handleTabRemove = (fullPath: any) => {
 $base-padding: 7px;
 $base-color-white: #fff;
 //顶部多标签页tabs-bar的高度
-$base-tabs-bar-height: px;
+
 //顶部多标签页tabs-bar中每一个item的高度
 $base-tag-item-height: 29px;
 
@@ -203,9 +203,8 @@ $base-color-blue: $base-color-default;
   align-content: center;
   align-items: center;
   justify-content: space-between;
-  // height: $base-tabs-bar-height;
   padding: 3px;
-  // padding-right: $base-padding;
+
   padding-left: $base-padding;
   user-select: none;
   background: $base-color-white;
@@ -264,11 +263,14 @@ $base-color-blue: $base-color-default;
         margin-right: 5px;
         // line-height: $base-tag-item-height;
         border: 1px solid $base-border-color;
-        border-radius: $base-border-radius;
+        // border-radius: $base-border-radius;
         transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
         padding: 0 7px;
         &.is-active {
-          border: 1px solid $base-color-blue;
+          background-color: var(--el-color-primary);
+          color: white;
+          border-width: 0;
+          // border: 1px solid $base-color-blue;
         }
       }
     }
