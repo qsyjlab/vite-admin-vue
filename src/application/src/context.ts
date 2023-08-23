@@ -1,8 +1,9 @@
 import { InjectionKey, Ref } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
-
+import { ProjectConfig } from '@/config/project-setting'
 export interface AppProviderContextProps {
   isMobile: Ref<boolean>
+  projectConfig: ProjectConfig
 }
 
 const key: InjectionKey<AppProviderContextProps> = Symbol()

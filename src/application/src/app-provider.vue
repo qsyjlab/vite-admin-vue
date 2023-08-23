@@ -1,10 +1,12 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, readonly } from 'vue'
+import { useTitle } from '@vueuse/core'
+import { useRoute } from 'vue-router'
 
 import { createBreakpointListener } from '@/hooks/event/use-breakpoint'
 import { createAppProviderContext } from './context'
-import { useTitle } from '@vueuse/core'
-import { useRoute } from 'vue-router'
+
+import projectConfig from '@/config/project-setting'
 
 export default defineComponent({
   name: 'AppProvider',
@@ -21,7 +23,7 @@ export default defineComponent({
       }
     })
 
-    createAppProviderContext({ isMobile })
+    createAppProviderContext({ isMobile, projectConfig: readonly(projectConfig) })
 
     /**
      * 自动改变浏览器 document.title

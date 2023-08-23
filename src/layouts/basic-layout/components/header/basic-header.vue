@@ -8,7 +8,9 @@
         <el-icon><Operation /></el-icon>
       </hover-card>
 
-      <Breadcrumb v-if="!isMobile" style="margin-left: 10px"></Breadcrumb>
+      <template v-if="projectConfig.showBreadCrumb">
+        <Breadcrumb v-if="!isMobile" style="margin-left: 10px"></Breadcrumb>
+      </template>
     </div>
     <div class="basic-layout-header__right">
       <user-menu style="margin-right: 10px"></user-menu>
@@ -18,8 +20,8 @@
 <script setup lang="ts">
 import { useAppInject } from '@/application'
 import { Operation } from '@element-plus/icons-vue'
-
 import { MenuCollapse, Breadcrumb, UserMenu } from './components'
+import {} from '@/config/project-setting'
 
-const { isMobile } = useAppInject()
+const { isMobile, projectConfig } = useAppInject()
 </script>

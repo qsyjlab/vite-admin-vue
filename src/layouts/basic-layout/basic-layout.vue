@@ -59,8 +59,11 @@
     </template>
   </Layout>
 
+  <!-- 回到顶部 -->
+  <el-backtop v-if="projectSetting.showBackTop" />
+
   <!-- 设置 -->
-  <basic-setting />
+  <basic-setting v-if="projectSetting.showSettingButton" />
 </template>
 
 <script setup lang="ts">
@@ -72,6 +75,7 @@ import { useLayoutStore } from '@/store'
 import { LayoutMode } from './enum'
 import { Layout } from '@/layouts/layout-package'
 import createBlankContainer from '@/layouts/container/createBlankContainer'
+import projectSetting from '@/config/project-setting'
 
 import {
   BasicHeader,
