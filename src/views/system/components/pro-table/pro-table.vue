@@ -25,14 +25,6 @@
 import { VProTable } from '@/components/pro-table'
 import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
-import { useWatermark } from '@/hooks'
-
-// function getScope(sc) {
-//   console.log('sc', sc)
-// }
-
-const { setWatermark } = useWatermark()
-setWatermark('水印')
 
 const columns: ProTableColumns = [
   {
@@ -40,9 +32,6 @@ const columns: ProTableColumns = [
     key: 'name',
     tip: '测试tip提示',
     fixed: 'left'
-    // renderHeader: () => {
-    //   return <>测试 tsx</>
-    // }
   },
   {
     title: '年龄',

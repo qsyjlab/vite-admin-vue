@@ -34,4 +34,3 @@ const menus = computed(() => {
   return getMenus()
 })
 </script>
-@/router/helper/menus

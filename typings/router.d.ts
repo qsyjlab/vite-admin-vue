@@ -24,6 +24,8 @@ interface ExtraRouteMeta {
   // 固定在标签栏的路由
   affixTab?: boolean
 
+  // 当前激活的菜单 （如果是详情页面不存在 menu 中可以指定 激活的菜单）
+  currentActiveMenu?: string
   // 隐藏子菜单
   hideChildrenInMenu?: boolean
 }

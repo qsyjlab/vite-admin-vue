@@ -1,63 +1,65 @@
 <template>
-  <Layout v-bind="layoutAttrs">
-    <template #aside>
-      <template v-if="isMobile">
-        <div class="mobile-menu">
-          <el-drawer v-model="mobileDrawer" direction="ltr" :with-header="false" size="70%">
-            <basic-sidebar :collapsed="layoutConfig.collapsed">
-              <template #logo v-if="LayoutMode.Side === layoutConfig.layoutMode">
-                <logo v-bind="logoAttrs" />
-              </template>
-            </basic-sidebar>
-          </el-drawer>
-        </div>
-      </template>
-
-      <template
-        v-if="
-          !isMobile &&
-          layoutConfig.layoutMode &&
-          ![LayoutMode.Top, LayoutMode.SideMix].includes(layoutConfig.layoutMode)
-        "
-      >
-        <basic-sidebar :collapsed="layoutConfig.collapsed">
-          <template #logo v-if="LayoutMode.Side === layoutConfig.layoutMode">
-            <logo v-bind="logoAttrs" />
-          </template>
-        </basic-sidebar>
-      </template>
-
-      <template
-        v-if="
-          !isMobile &&
-          layoutConfig.layoutMode &&
-          [LayoutMode.SideMix].includes(layoutConfig.layoutMode)
-        "
-      >
-        <basic-mix-sidebar />
-      </template>
-    </template>
-
-    <template #header>
-      <basic-header @mobile-drawer="mobileDrawerHandler">
-        <template #logo v-if="LayoutMode.TopMix === layoutConfig.layoutMode">
-          <logo :width="layoutConfig.asideWidth" />
+  <div class="container">
+    <Layout v-bind="layoutAttrs">
+      <template #aside>
+        <template v-if="isMobile">
+          <div class="mobile-menu">
+            <el-drawer v-model="mobileDrawer" direction="ltr" :with-header="false" size="70%">
+              <basic-sidebar :collapsed="layoutConfig.collapsed">
+                <template #logo v-if="LayoutMode.Side === layoutConfig.layoutMode">
+                  <logo v-bind="logoAttrs" />
+                </template>
+              </basic-sidebar>
+            </el-drawer>
+          </div>
         </template>
-      </basic-header>
-    </template>
 
-    <template #tabs>
-      <basic-tab-page v-bind="routerBarAttrs" />
-    </template>
+        <template
+          v-if="
+            !isMobile &&
+            layoutConfig.layoutMode &&
+            ![LayoutMode.Top, LayoutMode.SideMix].includes(layoutConfig.layoutMode)
+          "
+        >
+          <basic-sidebar :collapsed="layoutConfig.collapsed">
+            <template #logo v-if="LayoutMode.Side === layoutConfig.layoutMode">
+              <logo v-bind="logoAttrs" />
+            </template>
+          </basic-sidebar>
+        </template>
 
-    <div class="basic-layout-main__wrapper">
-      <component :is="container"></component>
-    </div>
+        <template
+          v-if="
+            !isMobile &&
+            layoutConfig.layoutMode &&
+            [LayoutMode.SideMix].includes(layoutConfig.layoutMode)
+          "
+        >
+          <basic-mix-sidebar />
+        </template>
+      </template>
 
-    <template #footer>
-      <basic-footer />
-    </template>
-  </Layout>
+      <template #header>
+        <basic-header @mobile-drawer="mobileDrawerHandler">
+          <template #logo v-if="LayoutMode.TopMix === layoutConfig.layoutMode">
+            <logo :width="layoutConfig.asideWidth" />
+          </template>
+        </basic-header>
+      </template>
+
+      <template #tabs>
+        <basic-tab-page v-bind="routerBarAttrs" />
+      </template>
+
+      <div class="basic-layout-main__wrapper">
+        <component :is="container"></component>
+      </div>
+
+      <template #footer>
+        <basic-footer />
+      </template>
+    </Layout>
+  </div>
 
   <!-- 回到顶部 -->
   <el-backtop v-if="projectSetting.showBackTop" />
@@ -160,7 +162,7 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       headerPaddingLeft: 0
     }),
     [LayoutMode.SideMix]: () => {
-      const _asideWidth = isMobile.value ? 0 : fixedMenu && showChildren ? 75 + asideWidth : 75
+      const _asideWidth = isMobile.value ? 0 : fixedMenu && showChildren ? 90 + asideWidth : 90
       return {
         headerHeight,
         tabHeight: tabBarHeight,

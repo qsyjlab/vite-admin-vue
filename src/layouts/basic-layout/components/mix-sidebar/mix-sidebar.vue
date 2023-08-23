@@ -1,6 +1,6 @@
 <template>
-  <div class="mix-sidebar basic-layout-aside_wrapper">
-    <logo :show-title="false" :logo-width="75" :height="layoutConfig.headerHeight" />
+  <div class="mix-sidebar basic-layout-aside__wrapper">
+    <logo :show-title="false" :logo-width="90" :height="layoutConfig.headerHeight" />
     <mix-menu :header-height="layoutConfig.headerHeight" :menu-width="layoutConfig.asideWidth" />
   </div>
 </template>

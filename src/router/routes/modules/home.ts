@@ -27,7 +27,8 @@ export default defineExposeRoutes([
           sort: 1,
           icon: 'icon-home-filled',
           isNotAuth: true,
-          affixTab: true
+          affixTab: true,
+          currentActiveMenu: 'Welcome'
         },
         component: () => import(/* webpackChunkName: "Welcome" */ '@/views/system/WelcomeTo.vue')
       }

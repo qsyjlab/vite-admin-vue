@@ -1,15 +1,16 @@
 <template>
   <div class="basic-layout-mix-menu">
+    <!---->
     <div
       class="basic-layout-mix-menu-module"
       :style="{
-        width: 75 + 'px'
+        width: 90 + 'px'
       }"
     >
       <div
         v-for="(item, index) in menus"
         :key="index"
-        class="basic-layout-mix-menu-module__item"
+        :class="['basic-layout-mix-menu-module__item', item.name === activeKey ? 'is-active' : '']"
         @click="clickMenuModuleHandler(item)"
       >
         <div
@@ -41,7 +42,7 @@
       @mousemove="leaveChildrenMenuHandler"
     />
     <div
-      class="basic-layout-mix-menu-children"
+      :class="['basic-layout-mix-menu-children', showChildren ? 'is-show' : '']"
       :style="{
         width: showChildren ? `${menuWidth}px` : '0px'
       }"
@@ -70,13 +71,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, unref, watch, computed, CSSProperties } from 'vue'
-import { useLayoutStore, usePermissionStore, useRouteStore } from '@/store'
+import { ref, unref, watch, computed, CSSProperties, onUnmounted } from 'vue'
+import { useLayoutStore, usePermissionStore } from '@/store'
 // TODO: 待优化类型
-// import type { MenuItem as MenuItemType } from '@/store'
 import { MapLocation } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { AsideMenu } from '../../sidebar/menu'
+import { routeChangeListener } from '@/router'
 
 import Pushpin from '../pushpin.vue'
 import { storeToRefs } from 'pinia'
@@ -92,7 +93,6 @@ defineProps<IProps>()
 const layoutStore = useLayoutStore()
 
 const { setMixMenuFixed, setMixMenuLayoutConfig } = layoutStore
-
 const { mixMenuLayoutConfig } = storeToRefs(layoutStore)
 const { getMenus } = usePermissionStore()
 const route = useRoute()
@@ -105,6 +105,16 @@ const activeChildren = ref<any[]>([])
 
 const menus = computed(() => {
   return getMenus()
+})
+
+const stopRouteListener = routeChangeListener((to, from, matched) => {
+  const moduleRoute = matched[0]
+  activeKey.value = moduleRoute.name
+  activeChildren.value = getActiveChildrenMenus()
+})
+
+onUnmounted(() => {
+  stopRouteListener()
 })
 
 watch([showChildren], () => {
@@ -144,6 +154,10 @@ const clickMenuModuleHandler = (item: any) => {
 
   activeChildren.value = item.children
   showChildren.value = true
+}
+
+function getActiveChildrenMenus() {
+  return menus.value.find(i => i.name === activeKey.value)?.children || []
 }
 
 //  鼠标移除 子菜单处理
