@@ -8,7 +8,7 @@ export default defineExposeRoutes([
     meta: {
       title: 'Icon 图标',
       sort: 6,
-      isNotAuth: true,
+
       icon: 'icon-folder'
     },
     component: Layout,
@@ -19,7 +19,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'Icon 图标',
           sort: 6,
-          isNotAuth: true,
+
           icon: 'icon-folder'
         },
         component: () => import(/* webpackChunkName: "Welcome" */ '@/views/system/icon/Icon.vue')

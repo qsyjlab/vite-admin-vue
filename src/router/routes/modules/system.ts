@@ -8,8 +8,8 @@ export default defineExposeRoutes([
     meta: {
       title: '系统管理',
       sort: 3,
-      icon: 'icon-setting',
-      isNotAuth: true
+      icon: 'icon-setting'
+
       // hideChildrenInMenu: true
     },
     redirect: { name: 'SystemMenu' },
@@ -20,8 +20,7 @@ export default defineExposeRoutes([
         path: 'menu',
         meta: {
           title: '菜单管理',
-          icon: 'icon-timer',
-          isNotAuth: false
+          icon: 'icon-timer'
         },
         component: () => import('@/views/system/system/menu/menu.vue')
       }

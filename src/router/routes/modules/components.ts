@@ -17,8 +17,7 @@ export default defineExposeRoutes([
         name: 'ProTable',
         path: 'pro-table',
         meta: {
-          title: 'ProTable',
-          isNotAuth: true
+          title: 'ProTable'
         },
         component: BlankContainer,
         children: [
@@ -26,8 +25,7 @@ export default defineExposeRoutes([
             name: 'ProTableBasic',
             path: 'pro-table-basic',
             meta: {
-              title: 'ProTable 基本使用',
-              isNotAuth: true
+              title: 'ProTable 基本使用'
             },
             component: () => import('@/views/system/components/pro-table/pro-table.vue')
           }
@@ -38,8 +36,7 @@ export default defineExposeRoutes([
         name: 'Editor',
         path: 'editor',
         meta: {
-          title: '编辑器',
-          isNotAuth: true
+          title: '编辑器'
         },
         component: BlankContainer,
         redirect: { name: 'RichEditor' },
@@ -48,8 +45,7 @@ export default defineExposeRoutes([
             name: 'RichEditor',
             path: 'rich-editor',
             meta: {
-              title: 'tinymce富文本',
-              isNotAuth: true
+              title: 'tinymce富文本'
             },
             component: () => import('@/views/system/components/rich-editor/rich-editor.vue')
           }
@@ -61,7 +57,7 @@ export default defineExposeRoutes([
         path: 'pro-form',
         meta: {
           title: 'ProForm',
-          isNotAuth: true,
+
           isKeepAlive: true,
           icon: 'icon-upload'
         },
@@ -71,7 +67,7 @@ export default defineExposeRoutes([
             path: 'base',
             meta: {
               title: '基础表单',
-              isNotAuth: true,
+
               isKeepAlive: true,
               icon: 'icon-upload'
             },
@@ -82,7 +78,7 @@ export default defineExposeRoutes([
             path: 'modal',
             meta: {
               title: 'Modal 表单',
-              isNotAuth: true,
+
               isKeepAlive: true,
               icon: 'icon-upload'
             },
@@ -93,7 +89,7 @@ export default defineExposeRoutes([
             path: 'drawer',
             meta: {
               title: 'Drawer 表单',
-              isNotAuth: true,
+
               isKeepAlive: true,
               icon: 'icon-upload'
             },
@@ -104,7 +100,7 @@ export default defineExposeRoutes([
             path: 'steps',
             meta: {
               title: 'StepsForm 表单',
-              isNotAuth: true,
+
               isKeepAlive: true,
               icon: 'icon-upload'
             },
@@ -117,7 +113,7 @@ export default defineExposeRoutes([
         path: 'upload',
         meta: {
           title: '上传',
-          isNotAuth: true,
+
           icon: 'icon-list'
         },
         component: () => import('@/views/system/components/Upload.vue')
@@ -127,7 +123,7 @@ export default defineExposeRoutes([
         path: 'drag-sort',
         meta: {
           title: '拖拽排序',
-          isNotAuth: true,
+
           icon: 'icon-cellphone'
         },
         component: () => import('@/views/system/components/drag-sort/drag-sort.vue')
@@ -137,7 +133,7 @@ export default defineExposeRoutes([
         path: 'table',
         meta: {
           title: '表格',
-          isNotAuth: true,
+
           icon: 'icon-cellphone'
         },
         component: () => import('@/views/system/components/Table.vue')
@@ -147,7 +143,7 @@ export default defineExposeRoutes([
         path: 'anchor',
         meta: {
           title: '锚点',
-          isNotAuth: true,
+
           icon: 'icon-cellphone'
         },
         component: () => import('@/views/system/components/anchor/anchor-demo.vue')

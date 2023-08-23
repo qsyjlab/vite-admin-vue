@@ -6,7 +6,6 @@ export default defineExposeRoutes([
     name: 'OutPage',
     path: '/out-page',
     meta: {
-      isNotAuth: true,
       sort: 7,
       title: '外部页面'
     },
@@ -16,7 +15,6 @@ export default defineExposeRoutes([
         name: 'OutLink',
         path: 'out-link',
         meta: {
-          isNotAuth: true,
           title: '外链',
           href: 'https://qsyjlab.club'
         },
@@ -27,7 +25,7 @@ export default defineExposeRoutes([
         path: 'iframe',
         meta: {
           isKeepAlive: true,
-          isNotAuth: true,
+
           title: 'iframe'
         },
         component: () => import('@/views/system/out/iframe/iframe.vue')

@@ -13,16 +13,14 @@ const componentsModuleRoute = {
       name: 'ProTable',
       path: 'pro-table',
       meta: {
-        title: 'ProTable',
-        isNotAuth: true
+        title: 'ProTable'
       },
       children: [
         {
           name: 'ProTableBasic',
           path: 'pro-table-basic',
           meta: {
-            title: 'ProTable 基本使用',
-            isNotAuth: true
+            title: 'ProTable 基本使用'
           }
         }
       ]
@@ -32,8 +30,7 @@ const componentsModuleRoute = {
       name: 'Editor',
       path: 'editor',
       meta: {
-        title: '编辑器',
-        isNotAuth: true
+        title: '编辑器'
       },
       redirect: { name: 'RichEditor' },
       children: [
@@ -41,8 +38,7 @@ const componentsModuleRoute = {
           name: 'RichEditor',
           path: 'rich-editor',
           meta: {
-            title: 'tinymce富文本',
-            isNotAuth: true
+            title: 'tinymce富文本'
           }
         }
       ]
@@ -53,7 +49,7 @@ const componentsModuleRoute = {
       path: 'pro-form',
       meta: {
         title: 'ProForm',
-        isNotAuth: true,
+
         isKeepAlive: true,
         icon: 'icon-upload'
       },
@@ -63,7 +59,7 @@ const componentsModuleRoute = {
           path: 'base',
           meta: {
             title: '基础表单',
-            isNotAuth: true,
+
             isKeepAlive: true,
             icon: 'icon-upload'
           }
@@ -73,7 +69,7 @@ const componentsModuleRoute = {
           path: 'modal',
           meta: {
             title: 'Modal 表单',
-            isNotAuth: true,
+
             isKeepAlive: true,
             icon: 'icon-upload'
           }
@@ -83,7 +79,7 @@ const componentsModuleRoute = {
           path: 'drawer',
           meta: {
             title: 'Drawer 表单',
-            isNotAuth: true,
+
             isKeepAlive: true,
             icon: 'icon-upload'
           }
@@ -93,7 +89,7 @@ const componentsModuleRoute = {
           path: 'steps',
           meta: {
             title: 'StepsForm 表单',
-            isNotAuth: true,
+
             isKeepAlive: true,
             icon: 'icon-upload'
           }
@@ -105,7 +101,7 @@ const componentsModuleRoute = {
       path: 'upload',
       meta: {
         title: '上传',
-        isNotAuth: true,
+
         icon: 'icon-list'
       }
     },
@@ -114,7 +110,7 @@ const componentsModuleRoute = {
       path: 'drag-sort',
       meta: {
         title: '拖拽排序',
-        isNotAuth: true,
+
         icon: 'icon-cellphone'
       }
     },
@@ -123,7 +119,7 @@ const componentsModuleRoute = {
       path: 'table',
       meta: {
         title: '表格',
-        isNotAuth: true,
+
         icon: 'icon-cellphone'
       }
     }
@@ -180,8 +176,7 @@ const welcomeModuleRoute = {
     title: 'Welcome',
     sort: 1,
     icon: 'icon-home-filled',
-    hideChildrenInMenu: true,
-    isNotAuth: true
+    hideChildrenInMenu: true
   },
   redirect: {
     name: 'WelcomeIndex'
@@ -193,8 +188,7 @@ const welcomeModuleRoute = {
       meta: {
         title: 'Welcome',
         sort: 1,
-        icon: 'icon-home-filled',
-        isNotAuth: true
+        icon: 'icon-home-filled'
       }
     }
   ]
@@ -219,8 +213,7 @@ const dashboardModuleRoute = {
       meta: {
         title: 'Dashboard',
         sort: 2,
-        icon: 'icon-stopwatch',
-        isNotAuth: true
+        icon: 'icon-stopwatch'
       }
     }
   ]
@@ -231,7 +224,6 @@ const outPageModuleRoute = {
   name: 'OutPage',
   path: '/out-page',
   meta: {
-    isNotAuth: true,
     sort: 7,
     title: '外部页面'
   },
@@ -240,7 +232,6 @@ const outPageModuleRoute = {
       name: 'OutLink',
       path: 'out-link',
       meta: {
-        isNotAuth: true,
         title: '外链'
       }
     },
@@ -249,7 +240,7 @@ const outPageModuleRoute = {
       path: 'iframe',
       meta: {
         isKeepAlive: true,
-        isNotAuth: true,
+
         title: 'iframe'
       }
     }
@@ -264,8 +255,8 @@ const pluginModuleRoute = {
   meta: {
     title: '插件',
     sort: 3,
-    icon: 'icon-files',
-    isNotAuth: true
+    icon: 'icon-files'
+
     // hideChildrenInMenu: true
   },
   redirect: { name: 'DayJs' },
@@ -275,8 +266,7 @@ const pluginModuleRoute = {
       path: 'dayjs',
       meta: {
         title: 'DayJs',
-        icon: 'icon-timer',
-        isNotAuth: false
+        icon: 'icon-timer'
       }
     },
     {
@@ -284,8 +274,7 @@ const pluginModuleRoute = {
       path: 'canvs-to-pdf',
       meta: {
         title: 'CanvsToPdf',
-        icon: 'icon-camera-filled',
-        isNotAuth: true
+        icon: 'icon-camera-filled'
       }
     }
   ]

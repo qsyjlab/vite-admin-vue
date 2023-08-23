@@ -11,7 +11,7 @@ export default defineExposeRoutes([
       icon: 'icon-home-filled',
       hideChildrenInMenu: true,
       hideInBreadcrumb: true,
-      isNotAuth: true,
+
       hideInTab: true
     },
     redirect: {
@@ -26,7 +26,7 @@ export default defineExposeRoutes([
           title: 'Welcome',
           sort: 1,
           icon: 'icon-home-filled',
-          isNotAuth: true,
+
           affixTab: true,
           currentActiveMenu: 'Welcome'
         },
@@ -54,8 +54,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'Dashboard',
           sort: 2,
-          icon: 'icon-stopwatch',
-          isNotAuth: true
+          icon: 'icon-stopwatch'
         },
         component: () => import('@/views/system/WelcomeTo.vue'),
         children: []
