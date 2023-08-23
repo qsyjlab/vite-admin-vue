@@ -10,10 +10,12 @@
 import { ref, onUnmounted } from 'vue'
 import { RouteRecordNormalized } from 'vue-router'
 import { routeChangeListener } from '@/router'
+import { REDIRECT_NAME } from '@/router/constant'
 
 const matched = ref<RouteRecordNormalized[]>([])
 
 const stopListener = routeChangeListener((to, from, _matched) => {
+  if (to.name === REDIRECT_NAME) return
   matched.value = _matched
 })
 

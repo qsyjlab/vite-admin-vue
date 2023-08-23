@@ -9,3 +9,5 @@ export const ROUTE_ENUM = {
 
 export const LOGIN_NAME = 'Login'
 export const LOGIN_PATH = '/login'
+
+export const REDIRECT_NAME = 'Redirect'

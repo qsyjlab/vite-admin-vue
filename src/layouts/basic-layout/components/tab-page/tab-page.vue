@@ -35,7 +35,7 @@
 
           <template #dropdown>
             <el-dropdown-menu class="tabs-more">
-              <el-dropdown-item command="reload" @click="removeOhterTabPages">
+              <el-dropdown-item command="reload" @click="reload">
                 <el-icon><Refresh /></el-icon> 重新加载
               </el-dropdown-item>
               <el-dropdown-item command="closeOtherstabs" @click="removeOhterTabPages">
@@ -80,6 +80,8 @@ import { useTabPageStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import router from '@/router'
 import { ArrowDown, Refresh, Close, Upload, CircleClose } from '@element-plus/icons-vue'
+import { useReloadPage } from '@/hooks'
+import { REDIRECT_NAME } from '@/router/constant'
 
 interface Props {
   bgColor?: string
@@ -104,6 +106,8 @@ withDefaults(defineProps<Props>(), {
 
 const tabPageStore = useTabPageStore()
 
+const { reload } = useReloadPage()
+
 const { getTabPages, getCurrentActivityTabPage } = storeToRefs(tabPageStore)
 
 const {
@@ -127,6 +131,8 @@ onMounted(() => {
   watch(
     () => route,
     to => {
+      if (to.name === REDIRECT_NAME) return
+
       addTabPage({
         name: to.name as string,
         fullPath: to.fullPath,
@@ -300,68 +306,4 @@ $base-color-blue: $base-color-default;
   align-items: center;
   justify-content: center;
 }
-
-// .router-container {
-//   min-width: 600px;
-//   display: flex;
-//   height: 100%;
-//   box-sizing: border-box;
-//   padding: 3px;
-//   // box-shadow: 0 2px 4px rgb(0 0 0 / 12%), 0 0 6px rgb(0 0 0 / 4%);
-//   align-items: center;
-// }
-
-// .routerbar-item {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   height: 100%;
-//   box-sizing: border-box;
-//   padding: 5px 6px;
-//   font-size: 13px;
-//   margin-left: 7px;
-//   cursor: pointer;
-//   color: #495060;
-//   border: 1px solid #d8dce5;
-//   flex-shrink: 0;
-//   transition: all 0.3s;
-//   border-radius: 3px;
-// }
-
-// .active-dot {
-//   width: 10px;
-//   height: 10px;
-//   display: flex;
-//   align-items: center;
-//   background-color: white;
-//   border-radius: 50%;
-//   margin-right: 6px;
-// }
-
-// .routerbar-item.active {
-//   background-color: #42b983;
-//   border-color: #42b983;
-//   color: white;
-// }
-
-// .scrollbarClass {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
-
-// .close-icon-style {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   margin-left: 5px;
-// }
-
-// :deep(.scroll-view-class) {
-//   height: 100%;
-// }
-
-// :deep(.scroll-wrap-class) {
-//   height: 100%;
-// }
 </style>

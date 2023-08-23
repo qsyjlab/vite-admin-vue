@@ -1,5 +1,5 @@
 import { defineExposeRoutes } from '../helper/utils'
-import { LOGIN_NAME, LOGIN_PATH } from '../constant'
+import { LOGIN_NAME, LOGIN_PATH, REDIRECT_NAME, Layout } from '../constant'
 
 import type { RouteRecordRaw } from 'vue-router'
 
@@ -46,7 +46,36 @@ const root: RouteRecordRaw = {
   }
 }
 
-export const routes = defineExposeRoutes([root, loginRoute, error403, error404, pageError])
+export const redirectRoute: RouteRecordRaw = {
+  path: '/redirect',
+  component: Layout,
+  name: 'RedirectTo',
+  meta: {
+    title: REDIRECT_NAME,
+    hideBreadcrumb: true,
+    hideMenu: true
+  },
+  children: [
+    {
+      path: '/redirect/:path(.*)/:_redirect_type(.*)/:_origin_params(.*)?',
+      name: REDIRECT_NAME,
+      component: () => import('@/views/redirect/redirect.vue'),
+      meta: {
+        title: REDIRECT_NAME,
+        hideBreadcrumb: true
+      }
+    }
+  ]
+}
+
+export const routes = defineExposeRoutes([
+  root,
+  loginRoute,
+  error403,
+  error404,
+  pageError,
+  redirectRoute
+])
 
 function getRouteNames(routes: RouteRecordRaw[], names: string[] = []) {
   routes.forEach(item => {
