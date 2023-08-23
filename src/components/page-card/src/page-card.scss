@@ -1,0 +1,24 @@
+// TODO: dark mode
+.page-card {
+  --page-card-padding: 14px;
+  --page-card-border-color: #e4e7ed;
+  background-color: white;
+
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    padding: var(--page-card-padding);
+    border-bottom: 1px solid var(--page-card-border-color);
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  &__body {
+    flex: 1;
+    padding: var(--page-card-padding);
+  }
+}
