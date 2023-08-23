@@ -5,9 +5,8 @@ import { useRouter } from 'vue-router'
 export function useReloadPage() {
   const { replace, currentRoute } = useRouter()
 
-  const { query, params = {}, fullPath, name } = unref(currentRoute)
-
   function reload() {
+    const { query, params = {}, fullPath, name } = unref(currentRoute)
     if (name === REDIRECT_NAME) {
       return Promise.resolve(false)
     }
