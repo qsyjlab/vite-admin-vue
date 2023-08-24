@@ -124,6 +124,14 @@ export default defineExposeRoutes([
           title: '锚点'
         },
         component: () => import('@/views/system/components/anchor/anchor-demo.vue')
+      },
+      {
+        name: 'Segmented',
+        path: 'segmented',
+        meta: {
+          title: 'segmented 分段器'
+        },
+        component: () => import('@/views/system/components/segmented/segmented.vue')
       }
     ]
   }

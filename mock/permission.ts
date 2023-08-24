@@ -10,6 +10,13 @@ const componentsModuleRoute = {
   redirect: { name: 'Form' },
   children: [
     {
+      name: 'Segmented',
+      path: 'segmented',
+      meta: {
+        title: 'segmented 分段器'
+      }
+    },
+    {
       name: 'ProTable',
       path: 'pro-table',
       meta: {

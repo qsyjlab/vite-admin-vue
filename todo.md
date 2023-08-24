@@ -188,7 +188,7 @@ tab-page 图标相关
 
 - icon 图标 添加
 
-##### reload 页面
+##### ~~reload 页面~~
 
 ### docs 文档
 
