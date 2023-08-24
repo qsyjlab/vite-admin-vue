@@ -68,8 +68,11 @@ export default defineConfig(configEnv => ({
             'tinymce/plugins/visualblocks',
             'tinymce/plugins/visualchars',
             'tinymce/plugins/wordcount',
-            'tinymce/plugins/image'
-          ]
+            'tinymce/plugins/image',
+            'tinymce/themes/silver',
+            'tinymce/themes/mobile'
+          ],
+          echarts: ['echarts']
         }
       }
     }
