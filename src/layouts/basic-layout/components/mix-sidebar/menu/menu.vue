@@ -111,6 +111,10 @@ const stopRouteListener = routeChangeListener((to, from, matched) => {
   const moduleRoute = matched[0]
   activeKey.value = moduleRoute.name
   activeChildren.value = getActiveChildrenMenus()
+
+  if (activeChildren.value.length === 0) {
+    showChildren.value = false
+  }
 })
 
 onUnmounted(() => {
@@ -144,20 +148,25 @@ const clickMenuModuleHandler = (item: any) => {
   showChildren.value = false
 
   activeKey.value = item.name
+
+  activeChildren.value = getActiveChildrenMenus()
   // 无下级则直接跳转路由
-  if (!item.children || !Array.isArray(item.children) || item.children.length === 0) {
+  if (activeChildren.value.length === 0) {
     showChildren.value = false
     router.push({ name: item.name, query: {} })
 
     return
   }
 
-  activeChildren.value = item.children
   showChildren.value = true
 }
 
 function getActiveChildrenMenus() {
-  return menus.value.find(i => i.name === activeKey.value)?.children || []
+  const activeMainRoute = menus.value.find(i => i.name === activeKey.value)
+
+  if (!activeMainRoute) return []
+  const { children = [], meta } = activeMainRoute
+  return meta?.hideChildrenInMenu && children?.length && children?.length <= 1 ? [] : children
 }
 
 //  鼠标移除 子菜单处理
