@@ -8,7 +8,7 @@ export default defineExposeRoutes([
     meta: {
       title: '插件',
       sort: 3,
-      icon: 'icon-files'
+      icon: 'ep.files'
 
       // hideChildrenInMenu: true
     },
@@ -20,7 +20,7 @@ export default defineExposeRoutes([
         path: 'dayjs',
         meta: {
           title: 'DayJs',
-          icon: 'icon-timer'
+          icon: 'ep.timer'
         },
         component: () => import('@/views/system/plugins/DayJs.vue')
       },
@@ -29,7 +29,7 @@ export default defineExposeRoutes([
         path: 'canvs-to-pdf',
         meta: {
           title: 'CanvsToPdf',
-          icon: 'icon-camera-filled'
+          icon: 'ep.camera-filled'
         },
         component: () => import('@/views/system/plugins/CanvsToPdf.vue')
       }

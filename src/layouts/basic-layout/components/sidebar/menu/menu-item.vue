@@ -4,7 +4,9 @@
     :index="menuItem.name"
     :route="{ name: menuItem.name }"
   >
-    <component :is="menuItem?.meta?.icon" :size="14"></component>
+    <div v-if="menuItem.meta?.icon" class="icon">
+      <IconSelector :size="16" :icon="menuItem.meta?.icon" />
+    </div>
     <template #title>
       <span>{{ menuItem?.meta?.title }}</span></template
     >
@@ -12,7 +14,9 @@
 
   <el-sub-menu v-else :index="menuItem.name">
     <template #title>
-      <component :is="menuItem?.meta?.icon" :size="14"></component>
+      <div v-if="menuItem.meta?.icon" class="icon">
+        <IconSelector :size="16" :icon="menuItem.meta?.icon" />
+      </div>
       <span>{{ menuItem?.meta?.title }}</span>
     </template>
 
@@ -22,7 +26,10 @@
         :index="childMenu.name"
         :route="{ name: childMenu.name }"
       >
-        <component :is="childMenu?.meta?.icon" :size="14"></component>
+        <div v-if="childMenu.meta?.icon" class="icon">
+          <IconSelector :size="16" :icon="childMenu.meta?.icon" />
+        </div>
+
         <template #title>
           {{ childMenu?.meta?.title }}
         </template>
@@ -40,8 +47,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-// import { MenuItem as MenuItemType } from '@/store'
-
+import { IconSelector } from '@/components/icon'
 interface IProps {
   menuItem: any
 }
@@ -52,3 +58,13 @@ const hasChildrenMenu = (item: any) => {
   return !item.meta?.hideChildrenInMenu && !!item.children?.length
 }
 </script>
+
+<style lang="scss" scoped>
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  margin-right: 5px;
+}
+</style>

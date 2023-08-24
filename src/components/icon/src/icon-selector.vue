@@ -1,5 +1,12 @@
 <template>
-  <Icon v-if="iconType === 'ify'" :icon="iconName" :color="color" :width="size" :height="size" />
+  <span
+    class="icon-selector"
+    :style="{
+      width: `${size}px`
+    }"
+  >
+    <Icon v-if="iconType === 'ify'" :icon="iconName" :color="color" :width="size" :height="size" />
+  </span>
 </template>
 <script lang="ts">
 export default { name: 'IconSelector' }
@@ -34,3 +41,12 @@ watch(
   }
 )
 </script>
+
+<style lang="scss" scoped>
+.icon-selector {
+  display: inline-block;
+  > * {
+    vertical-align: middle;
+  }
+}
+</style>

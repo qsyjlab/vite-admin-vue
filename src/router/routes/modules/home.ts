@@ -8,7 +8,7 @@ export default defineExposeRoutes([
     meta: {
       title: 'Welcome',
       sort: 1,
-      icon: 'icon-home-filled',
+      icon: 'ep.home-filled',
       hideChildrenInMenu: true,
       hideInBreadcrumb: true,
 
@@ -25,7 +25,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'Welcome',
           sort: 1,
-          icon: 'icon-home-filled',
+          icon: 'ep.home-filled',
 
           affixTab: true,
           currentActiveMenu: 'Welcome'
@@ -41,7 +41,7 @@ export default defineExposeRoutes([
     meta: {
       title: 'Dashboard',
       sort: 2,
-      icon: 'icon-stopwatch'
+      icon: 'ep.stopwatch'
     },
     redirect: {
       name: 'DashboardIndex'
@@ -54,7 +54,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'Dashboard',
           sort: 2,
-          icon: 'icon-stopwatch'
+          icon: 'ep.stopwatch'
         },
         component: () => import('@/views/system/WelcomeTo.vue'),
         children: []

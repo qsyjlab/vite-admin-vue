@@ -7,10 +7,10 @@
         @click="toggleSettingDrawer"
       >
         <el-icon v-if="!isOpenSettig">
-          <icon-setting />
+          <setting />
         </el-icon>
         <el-icon v-else>
-          <icon-close />
+          <close />
         </el-icon>
       </div>
     </div>
@@ -103,6 +103,7 @@ import { storeToRefs } from 'pinia'
 import { LayoutMode } from '../../enum'
 import CheckButtonGroup from './check-button-group.vue'
 import { LeftSideMix, NavTop, SideTopMix, LeftSide } from './icon'
+import { Setting, Close } from '@element-plus/icons-vue'
 
 import { useLayoutConfigHandler, LayoutConfigHandlerEnum } from '@/hooks'
 

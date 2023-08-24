@@ -8,7 +8,7 @@ export default defineExposeRoutes([
     meta: {
       title: '组件',
       sort: 4,
-      icon: 'icon-document'
+      icon: 'ify.bxs:component'
     },
     redirect: { name: 'Form' },
     component: Layout,
@@ -56,20 +56,14 @@ export default defineExposeRoutes([
         name: 'ProForm',
         path: 'pro-form',
         meta: {
-          title: 'ProForm',
-
-          isKeepAlive: true,
-          icon: 'icon-upload'
+          title: 'ProForm'
         },
         children: [
           {
             name: 'ProFormBase',
             path: 'base',
             meta: {
-              title: '基础表单',
-
-              isKeepAlive: true,
-              icon: 'icon-upload'
+              title: '基础表单'
             },
             component: () => import('@/views/system/components/pro-form/pro-form.vue')
           },
@@ -77,10 +71,7 @@ export default defineExposeRoutes([
             name: 'ProFormModal',
             path: 'modal',
             meta: {
-              title: 'Modal 表单',
-
-              isKeepAlive: true,
-              icon: 'icon-upload'
+              title: 'Modal 表单'
             },
             component: () => import('@/views/system/components/pro-form/modal-form.vue')
           },
@@ -88,10 +79,7 @@ export default defineExposeRoutes([
             name: 'ProFormDrawer',
             path: 'drawer',
             meta: {
-              title: 'Drawer 表单',
-
-              isKeepAlive: true,
-              icon: 'icon-upload'
+              title: 'Drawer 表单'
             },
             component: () => import('@/views/system/components/pro-form/drawer-form.vue')
           },
@@ -99,10 +87,7 @@ export default defineExposeRoutes([
             name: 'ProFormSteps',
             path: 'steps',
             meta: {
-              title: 'StepsForm 表单',
-
-              isKeepAlive: true,
-              icon: 'icon-upload'
+              title: 'StepsForm 表单'
             },
             component: () => import('@/views/system/components/pro-form/steps-form.vue')
           }
@@ -112,9 +97,7 @@ export default defineExposeRoutes([
         name: 'Upload',
         path: 'upload',
         meta: {
-          title: '上传',
-
-          icon: 'icon-list'
+          title: '上传'
         },
         component: () => import('@/views/system/components/Upload.vue')
       },
@@ -122,9 +105,7 @@ export default defineExposeRoutes([
         name: 'DargSort',
         path: 'drag-sort',
         meta: {
-          title: '拖拽排序',
-
-          icon: 'icon-cellphone'
+          title: '拖拽排序'
         },
         component: () => import('@/views/system/components/drag-sort/drag-sort.vue')
       },
@@ -132,9 +113,7 @@ export default defineExposeRoutes([
         name: 'Table',
         path: 'table',
         meta: {
-          title: '表格',
-
-          icon: 'icon-cellphone'
+          title: '表格'
         },
         component: () => import('@/views/system/components/Table.vue')
       },
@@ -142,9 +121,7 @@ export default defineExposeRoutes([
         name: 'Anchor',
         path: 'anchor',
         meta: {
-          title: '锚点',
-
-          icon: 'icon-cellphone'
+          title: '锚点'
         },
         component: () => import('@/views/system/components/anchor/anchor-demo.vue')
       }

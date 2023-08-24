@@ -8,7 +8,7 @@ export default defineExposeRoutes([
     meta: {
       title: '系统管理',
       sort: 3,
-      icon: 'icon-setting'
+      icon: 'ep.setting'
 
       // hideChildrenInMenu: true
     },
@@ -20,7 +20,7 @@ export default defineExposeRoutes([
         path: 'menu',
         meta: {
           title: '菜单管理',
-          icon: 'icon-timer'
+          icon: 'ep.timer'
         },
         component: () => import('@/views/system/system/menu/menu.vue')
       }

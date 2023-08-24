@@ -133,10 +133,12 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
     tabBarHeight
   } = unref(layoutConfig)
 
+  const collapseWidth = 14 + 24 + 20 * 2
+
   const { fixedMenu, showChildren } = unref(mixMenuLayoutConfig)
   const layoutModeMap: LayoutModeMap = {
     [LayoutMode.Side]: () => {
-      const _asideWidth = isMobile.value ? 0 : collapsed ? 65 : asideWidth
+      const _asideWidth = isMobile.value ? 0 : collapsed ? collapseWidth : asideWidth
       return {
         headerHeight,
         tabHeight: tabBarHeight,
@@ -146,7 +148,7 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       }
     },
     [LayoutMode.TopMix]: () => {
-      const _asideWidth = isMobile.value ? 0 : collapsed ? 65 : asideWidth
+      const _asideWidth = isMobile.value ? 0 : collapsed ? collapseWidth : asideWidth
       return {
         headerHeight,
         tabHeight: tabBarHeight,

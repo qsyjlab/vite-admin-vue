@@ -9,7 +9,7 @@ export default defineExposeRoutes([
       title: 'Icon 图标',
       sort: 6,
 
-      icon: 'icon-folder'
+      icon: 'ep.folder'
     },
     component: Layout,
     children: [
@@ -20,7 +20,7 @@ export default defineExposeRoutes([
           title: 'Icon 图标',
           sort: 6,
 
-          icon: 'icon-folder'
+          icon: 'ep.folder'
         },
         component: () => import(/* webpackChunkName: "Welcome" */ '@/views/system/icon/Icon.vue')
       }
