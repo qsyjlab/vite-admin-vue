@@ -10,6 +10,13 @@ const componentsModuleRoute = {
   redirect: { name: 'Form' },
   children: [
     {
+      name: 'Anchor',
+      path: 'anchor',
+      meta: {
+        title: '锚点'
+      }
+    },
+    {
       name: 'Segmented',
       path: 'segmented',
       meta: {
