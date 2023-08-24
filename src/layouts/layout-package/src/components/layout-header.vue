@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<IProps>(), {
   minWidth: 1200,
   height: 56,
   paddingLeft: 200,
-  transitionDuration: 300,
+  transitionDuration: 200,
   transitionTimingFunction: 'ease-in-out'
 })
 
