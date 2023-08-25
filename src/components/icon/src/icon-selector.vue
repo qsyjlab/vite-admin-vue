@@ -13,7 +13,9 @@ export default { name: 'IconSelector' }
 </script>
 <script setup lang="ts">
 import { watch, ref } from 'vue'
-import { Icon } from '@iconify/vue'
+import { Icon, disableCache } from '@iconify/vue'
+
+disableCache('all')
 
 const props = withDefaults(
   defineProps<{
