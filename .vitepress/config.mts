@@ -29,9 +29,18 @@ export default defineConfig({
           { text: '配置', link: '/route/setting' },
           { text: '菜单', link: '/route/menu' },
           { text: '路由刷新', link: '/route/reload' },
-          { text: '多标签页', link: '/route/tab' },
-          
+          { text: '多标签页', link: '/route/tab' }, 
         ]
+      },
+      {
+        text: '权限',
+        link: '/permission/index.md'
+        // items: [
+        //   { text: '配置', link: '/route/setting' },
+        //   { text: '菜单', link: '/route/menu' },
+        //   { text: '路由刷新', link: '/route/reload' },
+        //   { text: '多标签页', link: '/route/tab' }, 
+        // ]
       },
       
     ],
