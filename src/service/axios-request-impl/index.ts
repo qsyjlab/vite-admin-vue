@@ -7,8 +7,6 @@ import {
   RequestTransform,
   ResultEnum
 } from '../axios-request'
-import { logRequestError } from '@/utils'
-
 const requestInterceptorsImpl: RequestInterceptorsType = config => {
   return config
 }
@@ -34,19 +32,20 @@ export const transformResponse: RequestTransform['transformResponse'] = response
       return _data
 
     default: {
-      // 自定义 code 信息
-      logRequestError({
-        message,
-        code,
-        method: response?.config?.method,
-        fullpath: response?.request?.responseURL
-      })
-
+      // 根据具体业务来确定默认值
       const errorJson = {
-        message,
-        code
+        message: message || '_',
+        code: code || -1,
+        data: null
       }
-      throw new Error(`${JSON.stringify(errorJson) || 'apiRequestFailed'}`)
+      console.error(
+        '[AxiosRequest error]:',
+        `${response?.config?.method?.toUpperCase()} ${response?.request?.responseURL} ${
+          errorJson.code
+        } (${errorJson.message})`
+      )
+
+      throw new Error(`${JSON.stringify(errorJson)}`)
     }
   }
 }

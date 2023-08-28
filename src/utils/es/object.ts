@@ -1,5 +1,5 @@
-import { mergeWith, cloneDeep, unionWith, isEqual } from 'lodash-es'
-import { isArray, isObject } from '../type'
+import { mergeWith, cloneDeep } from 'lodash-es'
+import { isObject } from '../type'
 
 export function deepMerge<T extends object | null | undefined, U extends object | null | undefined>(
   target: T,
@@ -11,8 +11,3 @@ export function deepMerge<T extends object | null | undefined, U extends object 
     }
   })
 }
-
-// , (prevValue, nextValue) => {
-//   // 如果是数组，合并数组(去重) If it is an array, merge the array (remove duplicates)
-//   return isArray(prevValue) ? unionWith(prevValue, nextValue, isEqual) : undefined
-// }
