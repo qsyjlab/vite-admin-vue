@@ -1,3 +1,5 @@
+import { readonly } from 'vue'
+
 export interface ProjectConfig {
   /** 是否显示设置按钮 */
   showSettingButton: boolean
@@ -15,7 +17,7 @@ export interface ProjectConfig {
   openLeavePagePrompt: boolean
 }
 
-const setting: ProjectConfig = {
+const setting: ProjectConfig = readonly({
   showSettingButton: true,
   showFooter: true,
   showTagPage: true,
@@ -23,6 +25,6 @@ const setting: ProjectConfig = {
   showBreadCrumbIcon: true,
   showBackTop: true,
   openLeavePagePrompt: true
-}
+})
 
 export default setting
