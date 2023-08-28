@@ -15,11 +15,11 @@ type RouterListenderCallback = (
   matched: RouteRecordNormalized[]
 ) => void
 
+const routeListenerChangeKey = Symbol('Route Listener')
+
 type EmitterEvents = {
   [routeListenerChangeKey]: RouteListenerParameter
 }
-
-const routeListenerChangeKey = Symbol('Route Listener')
 
 const lastCache: Partial<RouteListenerParameter> = {
   to: undefined,
