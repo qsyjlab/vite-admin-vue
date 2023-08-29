@@ -1,26 +1,22 @@
 <template>
-  <el-menu-item
-    v-if="!hasChildrenMenu(menuItem)"
-    :index="menuItem.name"
-    :route="{ name: menuItem.name }"
-  >
-    <div v-if="menuItem.meta?.icon" class="icon">
-      <IconSelector :size="16" :icon="menuItem.meta?.icon" />
+  <el-menu-item v-if="!hasChildrenMenu(item)" :index="item.name" :route="{ name: item.name }">
+    <div v-if="item.meta?.icon" class="icon">
+      <IconSelector :size="16" :icon="item.meta?.icon" />
     </div>
     <template #title>
-      <span>{{ menuItem?.meta?.title }}</span></template
+      <span>{{ item?.meta?.title }}</span></template
     >
   </el-menu-item>
 
-  <el-sub-menu v-else :index="menuItem.name">
+  <el-sub-menu v-else :index="item.name">
     <template #title>
-      <div v-if="menuItem.meta?.icon" class="icon">
-        <IconSelector :size="16" :icon="menuItem.meta?.icon" />
+      <div v-if="item.meta?.icon" class="icon">
+        <IconSelector :size="16" :icon="item.meta?.icon" />
       </div>
-      <span>{{ menuItem?.meta?.title }}</span>
+      <span>{{ item?.meta?.title }}</span>
     </template>
 
-    <template v-for="childMenu in menuItem.children" :key="childMenu.name">
+    <template v-for="childMenu in item.children" :key="childMenu.name">
       <el-menu-item
         v-if="!childMenu.children?.length"
         :index="childMenu.name"
@@ -35,7 +31,7 @@
         </template>
       </el-menu-item>
 
-      <menu-item v-else :menu-item="childMenu"></menu-item>
+      <menu-item v-else :item="childMenu"></menu-item>
     </template>
   </el-sub-menu>
 </template>
@@ -48,13 +44,15 @@ export default {
 
 <script setup lang="ts">
 import { IconSelector } from '@/components/icon'
+import type { Menu } from '@/router/types'
+
 interface IProps {
-  menuItem: any
+  item: Menu
 }
 
 defineProps<IProps>()
 
-const hasChildrenMenu = (item: any) => {
+const hasChildrenMenu = (item: Menu) => {
   return !item.meta?.hideChildrenInMenu && !!item.children?.length
 }
 </script>

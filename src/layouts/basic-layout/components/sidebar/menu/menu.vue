@@ -5,8 +5,8 @@
     :collapse-transition="false"
     router
   >
-    <template v-for="menu in menuList" :key="menu.name">
-      <menu-item :menu-item="menu" />
+    <template v-for="menu in menus" :key="menu.name">
+      <menu-item :item="menu" />
     </template>
   </el-menu>
 </template>
@@ -16,14 +16,16 @@ import { computed, unref } from 'vue'
 import { useRouter } from 'vue-router'
 import MenuItem from './menu-item.vue'
 
+import { Menu } from '@/router/types'
+
 interface IProps {
   collapsed?: boolean
-  menuList: any[]
+  menus: Menu[]
 }
 
 withDefaults(defineProps<IProps>(), {
   collapsed: false,
-  menuList: () => []
+  menus: () => []
 })
 
 const { currentRoute } = useRouter()

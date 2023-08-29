@@ -73,7 +73,6 @@
 <script setup lang="ts">
 import { ref, unref, watch, computed, CSSProperties, onUnmounted } from 'vue'
 import { useLayoutStore, usePermissionStore } from '@/store'
-// TODO: 待优化类型
 import { MapLocation } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { AsideMenu } from '../../sidebar/menu'
@@ -81,11 +80,11 @@ import { routeChangeListener } from '@/router'
 
 import Pushpin from '../pushpin.vue'
 import { storeToRefs } from 'pinia'
+import type { Menu } from '@/router/types'
 
 interface IProps {
   menuWidth?: number
   headerHeight?: number
-  routes?: any[]
 }
 
 defineProps<IProps>()
@@ -101,7 +100,7 @@ const router = useRouter()
 const activeKey = ref(route.name)
 
 const showChildren = ref(false)
-const activeChildren = ref<any[]>([])
+const activeChildren = ref<Menu[]>([])
 
 const menus = computed(() => {
   return getMenus()
@@ -142,7 +141,7 @@ const maskStyle = computed<CSSProperties>(() => {
   }
 })
 
-const clickMenuModuleHandler = (item: any) => {
+const clickMenuModuleHandler = (item: Menu) => {
   if (!item.name) return
 
   showChildren.value = false

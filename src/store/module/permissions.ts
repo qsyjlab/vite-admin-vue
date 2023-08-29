@@ -8,12 +8,7 @@ import router from '@/router'
 import { pageError } from '@/router/routes'
 import { cloneDeep } from 'lodash-es'
 import type { RouteRecordRaw } from 'vue-router'
-
-type RouteMenu = Pick<RouteRecordRaw, 'meta' | 'name' | 'path' | 'redirect'>
-
-interface Menu extends RouteMenu {
-  children?: Menu[]
-}
+import type { Menu } from '@/router/types'
 
 export const usePermissionStore = defineStore('permissionStoreKey', () => {
   const permissions = ref<string[]>([])

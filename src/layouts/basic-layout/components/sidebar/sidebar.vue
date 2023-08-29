@@ -4,7 +4,7 @@
 
     <el-scrollbar :max-height="sidebarHeight">
       <div class="basic-layout-aside__menus">
-        <aside-menu :collapsed="props.collapsed" :menu-list="menus"></aside-menu>
+        <aside-menu :collapsed="props.collapsed" :menus="menus"></aside-menu>
       </div>
     </el-scrollbar>
   </div>
