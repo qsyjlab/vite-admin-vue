@@ -64,6 +64,17 @@
         </div>
 
         <div class="setting-item">
+          <div class="setting-item__label">是否分割菜单</div>
+          <div class="setting-item__content">
+            <el-switch
+              v-model="layoutConfig.splitMenu"
+              :disabled="LayoutMode.TopMix !== layoutConfig.layoutMode"
+              @change="(value:any) =>  setLayoutConfig(LayoutConfigHandlerEnum.SPLIT_MENU, value)"
+            />
+          </div>
+        </div>
+
+        <div class="setting-item">
           <div class="setting-item__label">菜单展开宽度</div>
           <div class="setting-item__content">
             <el-input-number

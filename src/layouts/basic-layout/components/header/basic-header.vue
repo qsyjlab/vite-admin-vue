@@ -8,16 +8,25 @@
         <el-icon><Operation /></el-icon>
       </hover-card>
 
+      <!-- 面包屑导航 -->
       <template
         v-if="
-          projectConfig.showBreadCrumb && !isMobile && layoutConfig.layoutMode !== LayoutMode.Top
+          projectConfig.showBreadCrumb &&
+          !isMobile &&
+          [LayoutMode.Side, LayoutMode.SideMix].includes(layoutConfig.layoutMode)
         "
       >
         <Breadcrumb></Breadcrumb>
       </template>
 
-      <div class="horizontal-menu" v-if="layoutConfig.layoutMode === LayoutMode.Top">
-        <aside-menu :menus="getMenus()" mode="horizontal"></aside-menu>
+      <div
+        class="horizontal-menu"
+        v-if="
+          [LayoutMode.Top].includes(layoutConfig.layoutMode) ||
+          (LayoutMode.TopMix === layoutConfig.layoutMode && layoutConfig.splitMenu)
+        "
+      >
+        <aside-menu :menus="getCurrentMenus" mode="horizontal"></aside-menu>
       </div>
     </div>
     <div class="basic-layout-header__right">
@@ -26,6 +35,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useAppInject } from '@/application'
 import { useLayoutStore, usePermissionStore } from '@/store'
 import { Operation } from '@element-plus/icons-vue'
@@ -58,4 +68,13 @@ const { layoutConfig } = storeToRefs(useLayoutStore())
 const { getMenus } = usePermissionStore()
 
 const { isMobile, projectConfig } = useAppInject()
+
+const getCurrentMenus = computed(() => {
+  const menus = getMenus()
+
+  if (layoutConfig.value.splitMenu && layoutConfig.value.layoutMode === LayoutMode.TopMix)
+    return menus.map(i => ({ ...i, children: [] }))
+
+  return menus
+})
 </script>

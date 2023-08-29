@@ -165,7 +165,7 @@ https://ant.design/components/segmented-cn
 
 #### 独立出 setting 模块 来提供部分预设
 
-#### router-bar 缓存
+#### ~~router-bar 缓存~~
 
 ##### 开启 router-bar
 

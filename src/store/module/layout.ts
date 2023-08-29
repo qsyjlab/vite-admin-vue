@@ -13,7 +13,7 @@ interface LayoutState {
 }
 
 interface LayoutAction {
-  setLayoutConfig: (config: LayoutState['layoutConfig']) => void
+  setLayoutConfig: (config: Partial<LayoutState['layoutConfig']>) => void
   toggleSettingDrawer: () => void
   setMixMenuFixed: (val: boolean) => void
   setMixMenuLayoutConfig: (config: Partial<LayoutState['mixMenuLayoutConfig']>) => void
@@ -35,7 +35,8 @@ export const useLayoutStore = defineStore<string, LayoutState, LayoutGetter, Lay
           tabBarHeight: 30,
           headerHeight: 48,
           theme: 'light',
-          themeColor: '#1677FF'
+          themeColor: '#1677FF',
+          splitMenu: true
         },
         mixMenuLayoutConfig: {
           fixedMenu: false,
