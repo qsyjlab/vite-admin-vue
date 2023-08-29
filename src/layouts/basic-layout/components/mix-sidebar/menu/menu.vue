@@ -65,7 +65,7 @@
           </div>
         </div>
 
-        <aside-menu :menuList="activeChildren" />
+        <aside-menu :menus="activeChildren" />
       </div>
     </div>
   </div>
@@ -75,7 +75,7 @@ import { ref, unref, watch, computed, CSSProperties, onUnmounted } from 'vue'
 import { useLayoutStore, usePermissionStore } from '@/store'
 import { MapLocation } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
-import { AsideMenu } from '../../sidebar/menu'
+import { AsideMenu } from '../../menu'
 import { routeChangeListener } from '@/router'
 
 import Pushpin from '../pushpin.vue'
@@ -184,3 +184,4 @@ const onClickFixedEventHandler = () => {
 <style lang="scss" scoped>
 @import '../mix-sidebar';
 </style>
+../../menu

@@ -11,7 +11,7 @@
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
-import { AsideMenu } from './menu'
+import { AsideMenu } from '../menu'
 import { storeToRefs } from 'pinia'
 import { useLayoutStore, usePermissionStore } from '@/store'
 
@@ -34,3 +34,4 @@ const menus = computed(() => {
   return getMenus()
 })
 </script>
+../menu

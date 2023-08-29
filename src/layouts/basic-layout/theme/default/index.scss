@@ -29,6 +29,14 @@
       display: flex;
       align-items: center;
     }
+
+    &__left {
+      flex: auto;
+
+      .horizontal-menu {
+        flex: auto;
+      }
+    }
   }
 
   &-tabs {

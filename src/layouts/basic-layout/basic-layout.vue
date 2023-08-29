@@ -4,7 +4,12 @@
       <template #aside>
         <template v-if="isMobile">
           <div class="mobile-menu">
-            <el-drawer v-model="mobileDrawer" direction="ltr" :with-header="false" size="70%">
+            <el-drawer
+              v-model="mobileDrawer"
+              direction="ltr"
+              :with-header="false"
+              :size="layoutConfig.asideWidth || 250"
+            >
               <basic-sidebar :collapsed="layoutConfig.collapsed">
                 <template #logo v-if="LayoutMode.Side === layoutConfig.layoutMode">
                   <logo v-bind="logoAttrs" />
@@ -14,28 +19,25 @@
           </div>
         </template>
 
-        <template
-          v-if="
-            !isMobile &&
-            layoutConfig.layoutMode &&
-            ![LayoutMode.Top, LayoutMode.SideMix].includes(layoutConfig.layoutMode)
-          "
-        >
-          <basic-sidebar :collapsed="layoutConfig.collapsed">
-            <template #logo v-if="LayoutMode.Side === layoutConfig.layoutMode">
-              <logo v-bind="logoAttrs" />
-            </template>
-          </basic-sidebar>
-        </template>
+        <template v-else>
+          <template
+            v-if="
+              layoutConfig.layoutMode &&
+              ![LayoutMode.Top, LayoutMode.SideMix].includes(layoutConfig.layoutMode)
+            "
+          >
+            <basic-sidebar :collapsed="layoutConfig.collapsed">
+              <template #logo v-if="LayoutMode.Side === layoutConfig.layoutMode">
+                <logo v-bind="logoAttrs" />
+              </template>
+            </basic-sidebar>
+          </template>
 
-        <template
-          v-if="
-            !isMobile &&
-            layoutConfig.layoutMode &&
-            [LayoutMode.SideMix].includes(layoutConfig.layoutMode)
-          "
-        >
-          <basic-mix-sidebar />
+          <template
+            v-if="layoutConfig.layoutMode && [LayoutMode.SideMix].includes(layoutConfig.layoutMode)"
+          >
+            <basic-mix-sidebar />
+          </template>
         </template>
       </template>
 
