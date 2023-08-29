@@ -32,9 +32,11 @@
 
     &__left {
       flex: auto;
+      min-width: 0;
 
       .horizontal-menu {
         flex: auto;
+        min-width: 0;
       }
     }
   }
