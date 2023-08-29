@@ -53,7 +53,8 @@ export const redirectRoute: RouteRecordRaw = {
   meta: {
     title: REDIRECT_NAME,
     hideBreadcrumb: true,
-    hideMenu: true
+    hideMenu: true,
+    ignoreKeepAlive: true
   },
   children: [
     {
@@ -62,6 +63,7 @@ export const redirectRoute: RouteRecordRaw = {
       component: () => import('@/views/redirect/redirect.vue'),
       meta: {
         title: REDIRECT_NAME,
+        ignoreKeepAlive: true,
         hideBreadcrumb: true
       }
     }
