@@ -1,6 +1,8 @@
 import router from '@/router'
 import { defineStore } from 'pinia'
 import { computed, ref, unref } from 'vue'
+import projectSetting from '@/config/project-setting'
+
 import type { RouteMeta } from 'vue-router'
 
 export interface TabPage {
@@ -145,12 +147,17 @@ export const useTabPageStore = defineStore('tab-page', () => {
   }
 
   function updateTabCache() {
+    if (projectSetting.keepAliveCachePolicy !== 'tab') return
     const cacheNames = tabsList.value.filter(i => i.meta.ignoreKeepAlive).map(i => i.name)
 
     keepAliveCache.value.clear()
     cacheNames.forEach(name => {
-      keepAliveCache.value.add(name)
+      addKeepAlive(name)
     })
+  }
+
+  function addKeepAlive(name: string) {
+    keepAliveCache.value.add(name)
   }
 
   // 跳转到最后一个 tab
@@ -170,6 +177,7 @@ export const useTabPageStore = defineStore('tab-page', () => {
     removeLeftAllTabPages,
     removeRightAllTabPages,
     updateTabPage,
+    addKeepAlive,
     goTabPage,
     getTabPages,
     getAffixTabsList,

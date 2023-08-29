@@ -6,6 +6,7 @@ import { AxiosCanceler } from '@/service/axios-request/axios-canceler'
 import { LOGIN_NAME, LOGIN_PATH } from '../constant'
 import type { Router } from 'vue-router'
 import { emitRoute } from '../listener'
+import projectSetting from '@/config/project-setting'
 
 export function setupRouterGuard(router: Router) {
   createListenerGuard(router)
@@ -102,13 +103,14 @@ export function createProgressGuard(router: Router) {
 
 // components cahce
 export function createKeepAliveGuard(router: Router) {
-  router.afterEach(to => {
-    const { addAlive } = useRouteStore()
+  if (projectSetting.keepAliveCachePolicy === 'normal') {
+    router.afterEach(to => {
+      const { addAlive } = useRouteStore()
 
-    if (to.meta.isKeepAlive && to.name) {
+      if (to.meta.ignoreKeepAlive) return
       addAlive(to.name as string)
-    }
-  })
+    })
+  }
 }
 
 function createHttpGuard(router: Router) {

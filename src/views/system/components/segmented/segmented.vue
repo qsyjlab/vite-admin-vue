@@ -57,6 +57,10 @@ import { Segmented } from '@/components/segmented'
 import { PageCard } from '@/components/page-card'
 import { PageWrapper } from '@/components/page-wrapper'
 
+defineOptions({
+  name: 'Segmented'
+})
+
 const active = ref<string>('Map')
 
 const options = [
