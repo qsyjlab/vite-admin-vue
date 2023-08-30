@@ -4,9 +4,6 @@
       <slot name="logo">
         <logo v-if="layoutConfig.layoutMode === LayoutMode.Top" />
       </slot>
-      <hover-card style="height: 100%" @click="toggleOperate">
-        <el-icon><Operation /></el-icon>
-      </hover-card>
 
       <!-- 面包屑导航 -->
       <template
@@ -38,7 +35,6 @@
 import { computed } from 'vue'
 import { useAppInject } from '@/application'
 import { useLayoutStore, usePermissionStore } from '@/store'
-import { Operation } from '@element-plus/icons-vue'
 import { storeToRefs } from 'pinia'
 import { Breadcrumb, UserMenu } from './components'
 import { AsideMenu } from '../menu'
