@@ -1,31 +1,33 @@
 <template>
   <div class="login-container">
     <div class="login-layout-body">
-      <div class="body-header">
-        <div class="header-title">Basic Admin</div>
-        <div class="header-desc">BasicAdmin是一个中后台管理系统模版</div>
+      <div class="login-exhibit">
+        <div class="header-title">{{ config.projectTitle }}</div>
+        <div class="header-desc">{{ config.projectDesc }}</div>
       </div>
       <div class="form-content">
-        <el-form :model="loginForm" size="large">
-          <el-form-item>
-            <el-input v-model="loginForm.username" prefix-icon="icon-user" />
-          </el-form-item>
-          <el-form-item>
-            <el-input
-              v-model="loginForm.password"
-              prefix-icon="icon-lock"
-              show-password
-              type="password"
-            />
-          </el-form-item>
-        </el-form>
-        <el-button
-          size="large"
-          style="width: 100%; margin-top: 15px"
-          type="primary"
-          @click="loginAdmin"
-          >登录</el-button
-        >
+        <div class="form-content-wrapper">
+          <div class="form-title">登录 {{ config.projectTitle }}</div>
+
+          <el-form :model="loginForm" size="large">
+            <el-form-item>
+              <el-input v-model="loginForm.username" :prefix-icon="User" />
+            </el-form-item>
+            <el-form-item>
+              <el-input
+                v-model="loginForm.password"
+                :prefix-icon="Lock"
+                show-password
+                type="password"
+              />
+            </el-form-item>
+            <el-form-item>
+              <el-button style="width: 100%; margin-top: 15px" type="primary" @click="loginAdmin"
+                >登录</el-button
+              >
+            </el-form-item>
+          </el-form>
+        </div>
       </div>
     </div>
   </div>
@@ -36,6 +38,8 @@ import { useUserStore } from '@/store'
 import { ElMessage } from 'element-plus'
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import config from '@/config'
+import { Lock, User } from '@element-plus/icons-vue'
 
 const { loginSystem } = useUserStore()
 
@@ -68,20 +72,29 @@ const loginAdmin = () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #f0f2f5;
+  overflow: hidden;
+  background-color: #e9edf1;
 }
 
 .login-layout-body {
+  display: flex;
+  width: 60vw;
+  height: 70vh;
   box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
   box-sizing: border-box;
   background-color: white;
-  border-radius: 10px;
-  width: 600px;
-  padding: 25px;
-
-  .body-header {
-    text-align: center;
-    margin-bottom: 40px;
+  border-radius: 7px;
+  overflow: hidden;
+  .login-exhibit {
+    width: 48%;
+    height: 100%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    // background: linear-gradient(163.85deg, #1d2129 0%, #00308f 100%);
+    background: linear-gradient(163.85deg, #1d2129 0%, var(--el-color-primary) 100%);
   }
 
   .header-title {
@@ -96,8 +109,25 @@ const loginAdmin = () => {
   }
 
   .form-content {
-    padding: 0 50px;
-    padding-bottom: 50px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .form-title {
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 32px;
+      color: rgb(29, 33, 41);
+      padding-bottom: 30px;
+    }
+
+    &-wrapper {
+      width: 100%;
+      padding: 0 19%;
+      box-sizing: border-box;
+    }
   }
 }
 </style>
