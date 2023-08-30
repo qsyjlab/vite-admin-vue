@@ -28,6 +28,14 @@
     </div>
     <div class="basic-layout-header__right">
       <el-space>
+        <el-tooltip effect="dark" content="消息通知" placement="bottom">
+          <notification>
+            <el-button :icon="NotificationIcon" circle />
+          </notification>
+        </el-tooltip>
+        <el-tooltip effect="dark" :content="isFullscreen ? '退出全屏' : '全屏'" placement="bottom">
+          <el-button :icon="FullScreen" circle @click="toggle" />
+        </el-tooltip>
         <el-tooltip effect="dark" content="页面配置" placement="bottom">
           <el-button :icon="Setting" circle @click="toggleSettingDrawer" />
         </el-tooltip>
@@ -38,16 +46,18 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
+import { Setting, FullScreen, Notification as NotificationIcon } from '@element-plus/icons-vue'
 import { useAppInject } from '@/application'
 import { useLayoutStore, usePermissionStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import { Breadcrumb, UserMenu } from './components'
 import { AsideMenu } from '../menu'
 import { Logo } from '../../components/logo'
-import { Setting } from '@element-plus/icons-vue'
-
+import { useFullscreen } from '@vueuse/core'
 import { LayoutMode } from '../../enum'
+import { isFullScreen as fullScreenStatus } from '@/utils'
+import Notification from './components/notification.vue'
 
 const emits = defineEmits<{
   'mobile-drawer': []
@@ -56,6 +66,12 @@ const emits = defineEmits<{
 const layoutStore = useLayoutStore()
 
 const { toggleSettingDrawer } = layoutStore
+
+const { isFullscreen, toggle } = useFullscreen()
+
+onMounted(() => {
+  isFullscreen.value = fullScreenStatus()
+})
 
 // const toggleOperate = () => {
 //   if (isMobile.value) {
