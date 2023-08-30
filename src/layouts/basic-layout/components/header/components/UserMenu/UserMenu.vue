@@ -1,8 +1,14 @@
 <template>
   <el-dropdown style="height: 100%">
-    <hover-card style="height: 100%">
-      <span class="el-dropdown-link"> {{ userInfo.userName }} </span>
-    </hover-card>
+    <el-space>
+      <el-avatar
+        :size="32"
+        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+      />
+      <hover-card style="height: 100%">
+        <span class="el-dropdown-link"> {{ userInfo.userName }} </span>
+      </hover-card>
+    </el-space>
 
     <template #dropdown>
       <el-dropdown-menu>

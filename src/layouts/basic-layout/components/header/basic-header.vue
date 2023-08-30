@@ -27,7 +27,13 @@
       </div>
     </div>
     <div class="basic-layout-header__right">
-      <user-menu></user-menu>
+      <el-space>
+        <el-tooltip effect="dark" content="页面配置" placement="bottom">
+          <el-button :icon="Setting" circle @click="toggleSettingDrawer" />
+        </el-tooltip>
+
+        <user-menu></user-menu>
+      </el-space>
     </div>
   </div>
 </template>
@@ -39,6 +45,7 @@ import { storeToRefs } from 'pinia'
 import { Breadcrumb, UserMenu } from './components'
 import { AsideMenu } from '../menu'
 import { Logo } from '../../components/logo'
+import { Setting } from '@element-plus/icons-vue'
 
 import { LayoutMode } from '../../enum'
 
@@ -48,17 +55,17 @@ const emits = defineEmits<{
 
 const layoutStore = useLayoutStore()
 
-const { setLayoutConfig } = layoutStore
+const { toggleSettingDrawer } = layoutStore
 
-const toggleOperate = () => {
-  if (isMobile.value) {
-    emits('mobile-drawer')
-  } else {
-    setLayoutConfig({
-      collapsed: !layoutConfig.value.collapsed
-    })
-  }
-}
+// const toggleOperate = () => {
+//   if (isMobile.value) {
+//     emits('mobile-drawer')
+//   } else {
+//     setLayoutConfig({
+//       collapsed: !layoutConfig.value.collapsed
+//     })
+//   }
+// }
 
 const { layoutConfig } = storeToRefs(useLayoutStore())
 const { getMenus } = usePermissionStore()
