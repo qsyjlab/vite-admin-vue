@@ -12,7 +12,6 @@ import type {
 import { isFunction, extend } from '@/utils'
 import { omit } from 'lodash-es'
 import { AxiosCanceler } from './axios-canceler'
-
 class AxiosRequest {
   private instanceConfig: BaseAxiosRequestConfig = {}
 
@@ -44,7 +43,8 @@ class AxiosRequest {
         ignoreTransformRequest = false,
         ignoreCancelRequest = false
       } = requestOptions
-      const { transformResponse, transformRequest } = this.instanceConfig.transform || {}
+      const { transformResponse, transformRequest, requestCatch } =
+        this.instanceConfig.transform || {}
 
       let requestConfig = extend(
         omit(this.instanceConfig, ['transform', 'interceptorsHooks']),
@@ -63,7 +63,7 @@ class AxiosRequest {
         .then(response => {
           if (!ignoreTransformResponse && transformResponse && isFunction(transformResponse)) {
             try {
-              const result = transformResponse(response)
+              const result = transformResponse(response, requestOptions)
               resolve(result)
             } catch (error: any) {
               reject(JSON.parse(error.message))
@@ -72,10 +72,9 @@ class AxiosRequest {
           resolve(response.data)
         })
         .catch((error: Error | CatchError) => {
-          /**
-           * TODO: 是否需要提取出 一个独立于拦截器的错误处理
-           * 拦截器无法做到的细粒度
-           *  */
+          if (requestCatch && isFunction(requestCatch)) {
+            return reject(requestCatch(error, requestOptions))
+          }
           reject(error)
         })
     })

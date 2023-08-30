@@ -7,6 +7,7 @@ import {
   RequestTransform,
   ResultEnum
 } from '../axios-request'
+import { showErrorMessage } from './helper'
 const requestInterceptorsImpl: RequestInterceptorsType = config => {
   return config
 }
@@ -23,7 +24,12 @@ const responseInterceptorsCatchImpl: ResponseInterceptorsCatchType = error => {
   return Promise.reject(error)
 }
 
-export const transformResponse: RequestTransform['transformResponse'] = response => {
+export const transformResponse: RequestTransform['transformResponse'] = (
+  response,
+  requestConfigEx
+) => {
+  const { ignoreResponseErrorMessage = false } = requestConfigEx
+
   const { data: _data } = response
   const { code, message = '' } = _data || {}
 
@@ -34,10 +40,13 @@ export const transformResponse: RequestTransform['transformResponse'] = response
     default: {
       // 根据具体业务来确定默认值
       const errorJson = {
-        message: message || '_',
+        message: message || '服务器错误',
         code: code || -1,
         data: null
       }
+
+      !ignoreResponseErrorMessage && showErrorMessage(errorJson.message)
+
       console.error(
         '[AxiosRequest error]:',
         `${response?.config?.method?.toUpperCase()} ${response?.request?.responseURL} ${
@@ -50,13 +59,16 @@ export const transformResponse: RequestTransform['transformResponse'] = response
   }
 }
 
+export const requestCatch: RequestTransform['requestCatch'] = (error, requestOptionsEx) => {
+  const { ignoreErrorMessage = false } = requestOptionsEx
+
+  !ignoreErrorMessage && showErrorMessage(error.message)
+  return error
+}
+
 export const interceptorsHooks: InterceptorsType = {
   requestInterceptors: requestInterceptorsImpl,
   requestInterceptorsCatch: requestInterceptorsCatchImpl,
   responseInterceptors: responseInterceptorsImpl,
   responseInterceptorsCatch: responseInterceptorsCatchImpl
-}
-
-export const transformImpl: RequestTransform = {
-  transformResponse
 }

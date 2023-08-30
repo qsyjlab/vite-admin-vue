@@ -28,15 +28,28 @@ interface RequestConfigEx {
 export type RequestMethodConfig = AxiosRequestConfig
 
 export interface RequestOptionsEx {
+  /** 忽略 transformRequest 不执行 */
   ignoreTransformRequest?: boolean
+  /** 忽略 transformResponse 不执行 */
   ignoreTransformResponse?: boolean
+  /** 忽略 cancel */
   ignoreCancelRequest?: boolean
+  /** 忽略 错误提示 弹出 */
+  ignoreErrorMessage?: boolean
+  /** 忽略 业务状态错误提示 弹出 */
+  ignoreResponseErrorMessage?: boolean
 }
 
-export type TransformResponse<T = any> = (response: AxiosResponse<T>) => AxiosResponse<T>['data']
+export type TransformResponse<T = any> = (
+  response: AxiosResponse<T>,
+  requestOptionsEx: RequestOptionsEx
+) => AxiosResponse<T>['data']
 export type TransformRequest<T = any> = (request: AxiosRequestConfig<T>) => AxiosRequestConfig<T>
+
+export type RequestCatch<T = any> = (error: Error, requestOptionsEx: RequestOptionsEx) => Error
 
 export interface RequestTransform {
   transformResponse?: TransformResponse
   transformRequest?: TransformRequest
+  requestCatch?: RequestCatch
 }

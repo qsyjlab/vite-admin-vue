@@ -50,17 +50,11 @@ const loginForm = reactive({
 const router = useRouter()
 
 const loginAdmin = () => {
-  loginSystem(loginForm)
-    .then(() => {
-      ElMessage.success('登录成功')
+  loginSystem(loginForm).then(() => {
+    ElMessage.success('登录成功')
 
-      router.push({ name: 'Welcome' })
-    })
-    .catch(err => {
-      console.log('login page err', err)
-
-      ElMessage.error(err.message)
-    })
+    router.push({ name: 'Welcome' })
+  })
 }
 </script>
 
