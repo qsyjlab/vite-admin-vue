@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
   zIndex: 1002,
   width: 200,
   paddingTop: 0,
-  transitionDuration: 300,
+  transitionDuration: 200,
   transitionTimingFunction: 'ease-in-out'
 })
 

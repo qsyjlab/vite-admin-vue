@@ -1,19 +1,20 @@
 import { definePropType } from '@/utils'
 import type { ExtractPropTypes } from 'vue'
-
-export interface ProTableColumnItem {
-  title: number | string
-  key: number | string
-  children?: ProTableColumnItem[]
-}
-
-export type ProTableColumns = ProTableColumnItem[]
+import type { TableProps } from 'element-plus'
+import { ColumnsState, ProTableColumns, ProTableColumnItem } from './types'
 
 export const proTableHeaderProps = {
   headerTitle: String
 }
 
 export const proTableProps = {
+  size: {
+    type: definePropType<TableProps<any>['size']>(String)
+  },
+  columnsState: {
+    type: definePropType<ColumnsState>(Object),
+    default: () => ({})
+  },
   columns: {
     type: definePropType<ProTableColumns>(Array),
     default: () => []

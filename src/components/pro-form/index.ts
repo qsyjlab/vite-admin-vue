@@ -1,4 +1,8 @@
 import { withInstall } from '@/utils'
-import ProForm from './src/form.vue'
+import ProForm from './src/base-form.vue'
 
 export const VProForm = withInstall(ProForm)
+
+export * from './src/extension'
+
+export * from './src/types'

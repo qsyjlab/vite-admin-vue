@@ -1,7 +1,3 @@
-export enum ResultEnum {
-  SUCCESS = 200
-}
-
 export enum RequestEnum {
   GET = 'GET',
   POST = 'POST',

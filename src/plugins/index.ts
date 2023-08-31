@@ -1,5 +1,4 @@
 import setupElementPlus from './elementPlus'
-import setupElIcon from './elementPlusIcon'
 import setUpDayJs from './dayJs'
 import setupPinia from './pinia'
 import setupProgress from './nprogress'
@@ -17,8 +16,6 @@ export default defineAppPlugin(app => {
   setUpDayJs(app)
   // elementPlus
   setupElementPlus(app)
-  // el-icon
-  setupElIcon(app)
   // custom global components
   registerGlobalComponents(app)
 

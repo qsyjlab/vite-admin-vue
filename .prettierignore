@@ -11,3 +11,5 @@
 
 
 /public/*
+*-lock.*
+pnpm-lock.yaml

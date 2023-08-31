@@ -1,15 +1,16 @@
 <template>
   <div class="basic-layout-mix-menu">
+    <!---->
     <div
       class="basic-layout-mix-menu-module"
       :style="{
-        width: 75 + 'px'
+        width: 90 + 'px'
       }"
     >
       <div
         v-for="(item, index) in menus"
         :key="index"
-        class="basic-layout-mix-menu-module__item"
+        :class="['basic-layout-mix-menu-module__item', item.name === activeKey ? 'is-active' : '']"
         @click="clickMenuModuleHandler(item)"
       >
         <div
@@ -41,7 +42,7 @@
       @mousemove="leaveChildrenMenuHandler"
     />
     <div
-      class="basic-layout-mix-menu-children"
+      :class="['basic-layout-mix-menu-children', showChildren ? 'is-show' : '']"
       :style="{
         width: showChildren ? `${menuWidth}px` : '0px'
       }"
@@ -64,53 +65,59 @@
           </div>
         </div>
 
-        <aside-menu :menuList="activeChildren" />
+        <aside-menu :menus="activeChildren" />
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { ref, unref, watch, computed, CSSProperties } from 'vue'
-import { useLayoutStore, useRouteStore } from '@/store'
-// TODO: 待优化类型
-import type { MenuItem as MenuItemType } from '@/store'
+import { ref, unref, watch, computed, CSSProperties, onUnmounted } from 'vue'
+import { useLayoutStore, usePermissionStore } from '@/store'
 import { MapLocation } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
-import { AsideMenu } from '../../sidebar/menu'
+import { AsideMenu } from '../../menu'
+import { routeChangeListener } from '@/router'
 
 import Pushpin from '../pushpin.vue'
 import { storeToRefs } from 'pinia'
-import { getMenus } from '@/router/menus'
+import type { Menu } from '@/router/types'
 
 interface IProps {
   menuWidth?: number
   headerHeight?: number
-  routes?: MenuItemType[]
 }
 
 defineProps<IProps>()
 
-const routeStore = useRouteStore()
-
 const layoutStore = useLayoutStore()
 
 const { setMixMenuFixed, setMixMenuLayoutConfig } = layoutStore
-
 const { mixMenuLayoutConfig } = storeToRefs(layoutStore)
-
+const { getMenus } = usePermissionStore()
 const route = useRoute()
 const router = useRouter()
 
 const activeKey = ref(route.name)
 
 const showChildren = ref(false)
-const activeChildren = ref<MenuItemType[]>([])
+const activeChildren = ref<Menu[]>([])
 
 const menus = computed(() => {
-  // const matched = router.currentRoute.value.matched[0]
-  // return (matched.name && routeStore.routeMapping[matched.name as string].menus) || []
-
   return getMenus()
+})
+
+const stopRouteListener = routeChangeListener((to, from, matched) => {
+  const moduleRoute = matched[0]
+  activeKey.value = moduleRoute.name
+  activeChildren.value = getActiveChildrenMenus()
+
+  if (activeChildren.value.length === 0) {
+    showChildren.value = false
+  }
+})
+
+onUnmounted(() => {
+  stopRouteListener()
 })
 
 watch([showChildren], () => {
@@ -134,28 +141,37 @@ const maskStyle = computed<CSSProperties>(() => {
   }
 })
 
-const clickMenuModuleHandler = (item: MenuItemType) => {
+const clickMenuModuleHandler = (item: Menu) => {
   if (!item.name) return
 
   showChildren.value = false
 
   activeKey.value = item.name
+
+  activeChildren.value = getActiveChildrenMenus()
   // 无下级则直接跳转路由
-  if (!item.children || !Array.isArray(item.children) || item.children.length === 0) {
+  if (activeChildren.value.length === 0) {
     showChildren.value = false
     router.push({ name: item.name, query: {} })
 
     return
   }
 
-  activeChildren.value = item.children
   showChildren.value = true
+}
+
+function getActiveChildrenMenus() {
+  const activeMainRoute = menus.value.find(i => i.name === activeKey.value)
+
+  if (!activeMainRoute) return []
+  const { children = [], meta } = activeMainRoute
+  return meta?.hideChildrenInMenu && children?.length && children?.length <= 1 ? [] : children
 }
 
 //  鼠标移除 子菜单处理
 const leaveChildrenMenuHandler = (e: MouseEvent) => {
   e.preventDefault()
-  e.cancelBubble = true
+  e.stopPropagation()
 
   showChildren.value = false
 }
@@ -168,3 +184,4 @@ const onClickFixedEventHandler = () => {
 <style lang="scss" scoped>
 @import '../mix-sidebar';
 </style>
+../../menu

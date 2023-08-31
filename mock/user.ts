@@ -1,12 +1,13 @@
 // import type { MockMethod } from 'vite-plugin-mock'
 
 import { MockPluginMethod as MockMethod, resultError, resultSuccess } from './_utils'
+import { allRouteModules, allPermissionStringKeys } from './permission'
 
 const userList = [
   {
     userId: 1,
     username: 'admin',
-    realName: 'admin',
+    realName: '超级管理员',
     desc: 'manager',
     password: '123456',
     token: 'fakeToken1',
@@ -15,13 +16,14 @@ const userList = [
         roleName: 'Super Admin',
         value: 'super'
       }
-    ]
+    ],
+    permissions: allPermissionStringKeys
   },
   {
     userId: 2,
-    username: 'test',
+    username: 'testuser',
     password: '123456',
-    realName: 'test user',
+    realName: '权限测试账号',
     desc: 'tester',
     token: 'fakeToken2',
     roles: [
@@ -29,6 +31,15 @@ const userList = [
         roleName: 'Tester',
         value: 'test'
       }
+    ],
+    permissions: [
+      'Welcome',
+      'WelcomeIndex',
+      'Dashboard',
+      'DashboardIndex',
+      'Components',
+      'ProTable',
+      'ProTableBasic'
     ]
   }
 ]
@@ -49,6 +60,22 @@ const user: MockMethod[] = [
 
       return resultSuccess(_user)
     }
+  },
+  {
+    url: '/basic-api/getMenuList',
+    method: 'get',
+    timeout: 200,
+    statusCode: 200,
+    response: response => {
+      // const { body } = response
+      // const { username, password } = body as any
+
+      // const _user = userList.find(item => item.password === password && item.username === username)
+
+      // if (!_user) return resultError('Incorrect account or password')
+
+      return resultSuccess(allRouteModules)
+    }
   }
 ]
 
@@ -59,6 +86,7 @@ export interface UserModel {
   desc: string
   password: string
   token: string
+  permissions: string[]
 }
 
 export default user

@@ -1,9 +1,7 @@
-import { loadRoutes } from '@/utils'
+import { defineExposeRoutes } from '../helper/utils'
+import { LOGIN_NAME, LOGIN_PATH, REDIRECT_NAME, Layout } from '../constant'
 
-import { defineExposeRoutes } from '../helper'
-
-import { createBlankContainer } from '@/layouts'
-import { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 
 export const pageError = {
   path: '/:pathMatch(.*)',
@@ -11,79 +9,87 @@ export const pageError = {
   component: () => import('@/views/error/error-404.vue')
 }
 
-export type RouteModules = Record<
-  string,
-  {
-    default: RouteRecordRaw | RouteRecordRaw[]
-  }
->
-
-const modules: RouteModules = import.meta.glob('./modules/**/*.ts', { eager: true })
-
-console.log('modules', modules)
-
-// 加载路由模块
-export function loadRouterModules() {
-  const routeModuleList: RouteRecordRaw[] = []
-
-  Object.keys(modules).forEach(key => {
-    const m = modules[key].default
-
-    const ml = Array.isArray(m) ? [...m] : [m]
-
-    routeModuleList.push(...ml)
-  })
-
-  return routeModuleList
+const loginRoute: RouteRecordRaw = {
+  path: LOGIN_PATH,
+  name: LOGIN_NAME,
+  meta: {
+    title: '登录',
+    isAuth: false
+  },
+  component: () => import('@/views/Login/Login.vue')
 }
 
-export const asyncRoutes = loadRouterModules()
+const error403: RouteRecordRaw = {
+  path: '/error403',
+  name: 'Error403',
+  meta: {
+    title: '403'
+  },
+  component: () => import('@/views/error/error-403.vue')
+}
+
+const error404: RouteRecordRaw = {
+  path: '/error404',
+  name: 'Error404',
+  meta: {
+    title: '404'
+  },
+  component: () => import('@/views/error/error-404.vue')
+}
+
+const root: RouteRecordRaw = {
+  path: '/',
+  redirect: '/welcome',
+  meta: {
+    title: '主系统',
+    hideInBreadcrumb: true
+  }
+}
+
+export const redirectRoute: RouteRecordRaw = {
+  path: '/redirect',
+  component: Layout,
+  name: 'RedirectTo',
+  meta: {
+    title: REDIRECT_NAME,
+    hideBreadcrumb: true,
+    hideMenu: true,
+    ignoreKeepAlive: true
+  },
+  children: [
+    {
+      path: '/redirect/:path(.*)/:_redirect_type(.*)/:_origin_params(.*)?',
+      name: REDIRECT_NAME,
+      component: () => import('@/views/redirect/redirect.vue'),
+      meta: {
+        title: REDIRECT_NAME,
+        ignoreKeepAlive: true,
+        hideBreadcrumb: true
+      }
+    }
+  ]
+}
 
 export const routes = defineExposeRoutes([
-  {
-    path: '/',
-    redirect: '/welcome',
-    meta: {
-      title: '主系统',
-      hideInBreadcrumb: true
-    }
-  },
-  // {
-  //   path: '/',
-  //   name: 'Home',
-
-  //   meta: {
-  //     title: '主系统',
-  //     hideInBreadcrumb: true
-  //   },
-  //   component: () => import('@/layouts/basic-layout/basic-layout.vue'),
-  //   children: loadRoutes(import.meta.glob('./modules/system/*.ts', { eager: true }))
-  // },
-  // ...asyncRoutes,
-  {
-    path: '/user',
-    name: 'User',
-    redirect: { name: 'Login' },
-    meta: {
-      hideInBreadcrumb: true,
-      isAuth: false
-    },
-    component: createBlankContainer('User'),
-    children: loadRoutes(import.meta.glob('./user/*.ts', { eager: true }))
-  },
-  {
-    path: '/error',
-    name: 'Error',
-    meta: {
-      hideInMenu: true,
-      hideInBreadcrumb: true
-    },
-    component: createBlankContainer('Error'),
-    children: loadRoutes(import.meta.glob('./error/*.ts', { eager: true }))
-  },
-  pageError
+  root,
+  loginRoute,
+  error403,
+  error404,
+  pageError,
+  redirectRoute
 ])
 
-console.log('routes', routes)
+function getRouteNames(routes: RouteRecordRaw[], names: string[] = []) {
+  routes.forEach(item => {
+    names.push(item.name as string)
+    getRouteNames(item.children || [])
+  })
 
-export { routes as default }
+  return names
+}
+
+export const WHITE_NAME_LIST = getRouteNames(routes)
+
+export default routes
+
+export * from './async'

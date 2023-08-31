@@ -1,16 +1,14 @@
 import { useLayoutStore } from '@/store'
 import { storeToRefs } from 'pinia'
 
-import type { ProjectLayoutConfig } from '@/layouts'
+import { LayoutMode, ProjectLayoutConfig } from '@/layouts'
 
 import { useElementCssVar } from './use-theme-color'
 
 import { useDark, useToggle } from '@vueuse/core'
 
 type SetLayoutConfig = (eventKey: EventKeys, value: any) => void
-type EventKeys = typeof LayoutConfigHandlerEnum[keyof typeof LayoutConfigHandlerEnum]
-
-// type LayoutConfigHandlerEnumKeys = keyof typeof LayoutConfigHandlerEnum
+type EventKeys = (typeof LayoutConfigHandlerEnum)[keyof typeof LayoutConfigHandlerEnum]
 
 export const LayoutConfigHandlerEnum = {
   // 布局模式
@@ -26,7 +24,9 @@ export const LayoutConfigHandlerEnum = {
   // themeColor
   THEME_COLOR: 'themeColor',
   // tabbar
-  TAB_BAR_HEIGHT: 'tabBarHeight'
+  TAB_BAR_HEIGHT: 'tabBarHeight',
+  // split menu
+  SPLIT_MENU: 'splitMenu'
 } as const
 
 export function useLayoutConfigHandler() {
@@ -42,8 +42,13 @@ export function useLayoutConfigHandler() {
 
   const toggleDark = useToggle(isDark)
 
-  function handler(eventKey: EventKeys, value: any): ProjectLayoutConfig | null {
+  function handler(eventKey: EventKeys, value: any): Partial<ProjectLayoutConfig> | null {
     switch (eventKey) {
+      case LayoutConfigHandlerEnum.SPLIT_MENU: {
+        return {
+          splitMenu: value
+        }
+      }
       case LayoutConfigHandlerEnum.COLLAPSED: {
         return {
           collapsed: value
@@ -61,6 +66,11 @@ export function useLayoutConfigHandler() {
       }
 
       case LayoutConfigHandlerEnum.LAYOUT_MODE: {
+        if (value !== LayoutMode.TopMix)
+          return {
+            splitMenu: undefined,
+            layoutMode: value
+          }
         return {
           layoutMode: value
         }
@@ -104,11 +114,14 @@ export function useLayoutConfigHandler() {
     config && layoutStore.setLayoutConfig(config)
   }
 
-  const initLayout = (config: ProjectLayoutConfig) => {
+  const initLayout = (config: Partial<ProjectLayoutConfig>) => {
     layoutStore.setLayoutConfig(config)
-    config.themeColor && setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, config.themeColor)
 
-    config.theme && setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_THEME, config.theme)
+    const themeColor = config.themeColor || layoutConfig.value.themeColor
+    themeColor && setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, themeColor)
+
+    const themeMode = config.theme || layoutConfig.value.theme
+    setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_THEME, themeMode)
   }
 
   return {

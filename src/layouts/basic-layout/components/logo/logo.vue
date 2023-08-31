@@ -1,7 +1,7 @@
 <template>
   <div class="basic-layout-logo" :style="styles">
     <div class="basic-layout-logo__img" :style="logoImageStyle">
-      <img src="/vite.svg" alt="/" />
+      <img src="/logo.png" alt="/" />
     </div>
     <div
       class="basic-layout-logo__title"

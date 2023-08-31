@@ -1,14 +1,16 @@
-import {
+import type {
   RequestInterceptorsType,
   RequestInterceptorsCatchType,
   ResponseInterceptorsType,
   ResponseInterceptorsCatchType,
   InterceptorsType,
-  RequestTransform,
-  ResultEnum
+  RequestTransform
 } from '../axios-request'
-import { logRequestError } from '@/utils'
 
+import { isAxiosError, isCancelError } from '../axios-request'
+import { checkStatus } from './check-status'
+
+import { ResultEnum, showErrorMessage } from './helper'
 const requestInterceptorsImpl: RequestInterceptorsType = config => {
   return config
 }
@@ -25,7 +27,12 @@ const responseInterceptorsCatchImpl: ResponseInterceptorsCatchType = error => {
   return Promise.reject(error)
 }
 
-export const transformResponse: RequestTransform['transformResponse'] = response => {
+export const transformResponse: RequestTransform['transformResponse'] = (
+  response,
+  requestConfigEx
+) => {
+  const { ignoreResponseErrorMessage = false } = requestConfigEx
+
   const { data: _data } = response
   const { code, message = '' } = _data || {}
 
@@ -34,21 +41,39 @@ export const transformResponse: RequestTransform['transformResponse'] = response
       return _data
 
     default: {
-      // 自定义 code 信息
-      logRequestError({
-        message,
-        code,
-        method: response?.config?.method,
-        fullpath: response?.request?.responseURL
-      })
-
+      // 根据具体业务来确定默认值
       const errorJson = {
-        message,
-        code
+        message: message || '服务器错误',
+        code: code || -1,
+        data: null
       }
-      throw new Error(`${JSON.stringify(errorJson) || 'apiRequestFailed'}`)
+
+      !ignoreResponseErrorMessage && showErrorMessage(errorJson.message)
+
+      console.error(
+        '[AxiosRequest error]:',
+        `${response?.config?.method?.toUpperCase()} ${response?.request?.responseURL} ${
+          errorJson.code
+        } (${errorJson.message})`
+      )
+
+      throw new Error(`${JSON.stringify(errorJson)}`)
     }
   }
+}
+
+export const requestCatch: RequestTransform['requestCatch'] = (error, requestOptionsEx) => {
+  const { ignoreErrorMessage = false } = requestOptionsEx
+
+  if (!isAxiosError(error)) {
+    !ignoreErrorMessage && !isCancelError(error) && showErrorMessage(error.message)
+
+    return error
+  }
+
+  checkStatus(Number(error.response?.status))
+
+  return error
 }
 
 export const interceptorsHooks: InterceptorsType = {
@@ -56,8 +81,4 @@ export const interceptorsHooks: InterceptorsType = {
   requestInterceptorsCatch: requestInterceptorsCatchImpl,
   responseInterceptors: responseInterceptorsImpl,
   responseInterceptorsCatch: responseInterceptorsCatchImpl
-}
-
-export const transformImpl: RequestTransform = {
-  transformResponse
 }

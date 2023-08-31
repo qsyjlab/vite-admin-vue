@@ -1,43 +1,39 @@
 import { definePropType } from '@/utils'
-import type { FormInstance, FormItemRule, ColProps } from 'element-plus'
-import type { Component, ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes } from 'vue'
+import { FormMethodsType, FormSchema } from './types/form'
+export type FormItem = FormSchema
 
-export interface FormItem {
-  label?: string
-  el?: Component | string
-  key: string
-  attrs?: Record<string, any>
-  rules?: FormItemRule[]
-  layoutCol?: Partial<ColProps>
-}
+export type { FormSchema }
 
 export const formProps = {
   fields: {
-    type: definePropType<FormItem[]>(Array),
+    type: definePropType<FormSchema[]>(Array),
     default: () => []
   },
   inline: {
     type: Boolean,
-    default: true
+    default: false
   },
-  value: {
+  model: {
     type: definePropType<Record<string, any>>(Object),
     default: () => ({})
   }
 }
 
 export const emitsEnums = {
-  GET_INSTANCE: 'get-instance',
+  REGISTER: 'register',
   SUBMIT: 'submit',
-  RESET: 'reset'
+  RESET: 'reset',
+  EFFECT: 'effect'
 } as const
 
 // [Vue warn]:  Invalid event arguments: event validation failed for event
 // so, A value must be returned
 export const formEmits = {
-  [emitsEnums.GET_INSTANCE]: (instance: FormInstance | null): boolean => true,
+  [emitsEnums.REGISTER]: (instance: FormMethodsType | null): boolean => true,
   [emitsEnums.SUBMIT]: (values: Record<string, any>): boolean => true,
-  [emitsEnums.RESET]: (values: Record<string, any>): boolean => true
+  [emitsEnums.RESET]: (values: Record<string, any>): boolean => true,
+  [emitsEnums.EFFECT]: (values: Record<string, any>): boolean => !!values
 }
 
 export type FormProps = ExtractPropTypes<typeof formProps>

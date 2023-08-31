@@ -1,18 +1,17 @@
 <template>
-  <router-view></router-view>
+  <app-provider>
+    <router-view></router-view>
+  </app-provider>
 </template>
 <script setup lang="ts">
-import { useStorageHelper, useLayoutConfigHandler } from './hooks'
+import { AppProvider } from '@/application'
+import { getLayoutCache } from '@/store/local'
+
+import { useLayoutConfigHandler } from './hooks'
 
 function initAppConfig() {
-  const { getLayoutCache } = useStorageHelper()
   const { initLayout } = useLayoutConfigHandler()
-
   initLayout(getLayoutCache() || {})
 }
 initAppConfig()
 </script>
-<style>
-/* 公共样式 */
-@import './styles/css/global';
-</style>

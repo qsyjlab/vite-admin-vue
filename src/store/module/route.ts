@@ -1,36 +1,10 @@
-import type { RouteTreeRelation } from '@/router'
 import { defineStore } from 'pinia'
-
-import type { RouteMeta, RouteRecordName } from 'vue-router'
-
-export interface MenuItem {
-  name: string
-  meta?: RouteMeta
-  children?: MenuItem[]
-}
-
 export interface RouteState {
-  menuList: MenuItem[]
-  routeMapping: Record<
-    string,
-    // TODO: 添加限制类型
-    { isFlat: boolean; originRoutesRelation: Record<string, RouteTreeRelation>; menus: any[] }
-  >
-  isFristEntry: boolean
   keepAliveCache: Set<string>
 }
 
 export interface RouteAction {
-  addAlive: (names: string[]) => void
-  saveMenus: (menus: MenuItem[]) => void
-  // TODO: 优化类型
-  saveRoutesRelation: (
-    moduleName: string,
-    parameters: {
-      relation: Record<string, RouteTreeRelation>
-      menus: any[]
-    }
-  ) => void
+  addAlive: (names: string) => void
 }
 
 export interface RouteGetters {
@@ -44,42 +18,12 @@ export const useRouteStore = defineStore<string, RouteState, RouteGetters, Route
   {
     state() {
       return {
-        currentModule: '',
-        // 菜单栏数组
-        menuList: [],
-        routeMapping: {},
-        // 是否第一次经过路由
-        isFristEntry: true,
-        // 缓存列表
         keepAliveCache: new Set()
       }
     },
     actions: {
-      addAlive(names) {
-        for (let i = 0; i < names.length; i++) {
-          this.keepAliveCache.add(names[i])
-        }
-      },
-      saveMenus(menus) {
-        this.isFristEntry = false
-
-        this.menuList = menus
-        console.log('this.menuList', this.menuList)
-      },
-
-      // 保存拍平后的路由状态
-      saveRoutesRelation(moduleName, parameters) {
-        const module = this.routeMapping[moduleName]
-        // 如果已经拍平了 跳过
-        if (module && module.isFlat) return
-
-        const { menus, relation: originRoutesRelation } = parameters
-
-        this.routeMapping[moduleName] = {
-          originRoutesRelation,
-          menus,
-          isFlat: true
-        }
+      addAlive(name) {
+        this.keepAliveCache.add(name)
       }
     },
     getters: {

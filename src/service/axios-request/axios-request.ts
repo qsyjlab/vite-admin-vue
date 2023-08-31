@@ -10,11 +10,14 @@ import type {
 } from './interface'
 
 import { isFunction, extend } from '@/utils'
-
+import { omit } from 'lodash-es'
+import { AxiosCanceler } from './axios-canceler'
 class AxiosRequest {
   private instanceConfig: BaseAxiosRequestConfig = {}
 
   private instance: AxiosInstance
+
+  private canceler = new AxiosCanceler()
 
   // 初始化设置
   constructor(config: BaseAxiosRequestConfig) {
@@ -22,6 +25,11 @@ class AxiosRequest {
 
     this.instance = axios.create(this.instanceConfig)
 
+    Object.defineProperties(this, {
+      instanceConfig: { writable: false },
+      instance: { writable: false, enumerable: false },
+      canceler: { writable: false, enumerable: false, configurable: false }
+    })
     this.registerInterceptors()
   }
 
@@ -30,15 +38,32 @@ class AxiosRequest {
     requestOptions: RequestOptionsEx = {}
   ): Promise<T> {
     return new Promise((resolve, reject) => {
-      const { isTransformResponse = true } = requestOptions
+      const {
+        ignoreTransformResponse = false,
+        ignoreTransformRequest = false,
+        ignoreCancelRequest = false
+      } = requestOptions
+      const { transformResponse, transformRequest, requestCatch } =
+        this.instanceConfig.transform || {}
+
+      let requestConfig = extend(
+        omit(this.instanceConfig, ['transform', 'interceptorsHooks']),
+        options
+      )
+      if (!ignoreTransformRequest && transformRequest && isFunction(transformRequest)) {
+        requestConfig = transformRequest(requestConfig)
+      }
+
+      if (!ignoreCancelRequest) {
+        this.canceler.addPending(requestConfig)
+      }
 
       this.instance
-        .request<T>(extend(this.instanceConfig, options))
+        .request<T>(requestConfig)
         .then(response => {
-          const transformResponse = this.instanceConfig.transform?.transformResponse
-          if (isTransformResponse && transformResponse && isFunction(transformResponse)) {
+          if (!ignoreTransformResponse && transformResponse && isFunction(transformResponse)) {
             try {
-              const result = transformResponse(response)
+              const result = transformResponse(response, requestOptions)
               resolve(result)
             } catch (error: any) {
               reject(JSON.parse(error.message))
@@ -47,6 +72,9 @@ class AxiosRequest {
           resolve(response.data)
         })
         .catch((error: Error | CatchError) => {
+          if (requestCatch && isFunction(requestCatch)) {
+            return reject(requestCatch(error, requestOptions))
+          }
           reject(error)
         })
     })

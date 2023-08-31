@@ -1,104 +1,27 @@
 <template>
   <el-breadcrumb :separator="'/'">
-    <transition-group name="breadcrumb" appear>
-      <el-breadcrumb-item
-        v-for="item in breadCrumbList"
-        :key="item.path"
-        :to="{ name: item.name }"
-        >{{ item?.meta?.title }}</el-breadcrumb-item
-      >
-    </transition-group>
+    <el-breadcrumb-item v-for="item in matched" :key="item.path" :to="{ name: item.name }">{{
+      item?.meta?.title
+    }}</el-breadcrumb-item>
   </el-breadcrumb>
 </template>
 
 <script setup lang="ts">
-import { computed, unref } from 'vue'
-import { useRouter } from 'vue-router'
-import type { RouteMeta } from 'vue-router'
-import { useRouteStore } from '@/store'
+import { ref, onUnmounted } from 'vue'
+import { RouteRecordNormalized } from 'vue-router'
+import { routeChangeListener } from '@/router'
+import { REDIRECT_NAME } from '@/router/constant'
 
-import { getMenus } from '@/router/menus'
+const matched = ref<RouteRecordNormalized[]>([])
 
-const { currentRoute } = useRouter()
-const breadCrumbList = computed(() => {
-  // const current = unref(currentRoute)
-
-  const menus = getMenus()
-
-  // console.log('menus', menus)
-  const routeMatched = currentRoute.value.matched
-  // const currentMatched = routeMatched?.[routeMatched.length - 1]
-  let path = currentRoute.value.path
-
-  const parent = getAllParentPath(menus, path)
-
-  const filterMenus = menus.filter(item => item.path === parent[0])
-  const matched = getMatched(filterMenus, parent) as any
-
-  return matched.filter(i => !i.meta.hideBreadcrumb)
+const stopListener = routeChangeListener((to, from, _matched) => {
+  if (to.name === REDIRECT_NAME) return
+  matched.value = _matched
 })
 
-// function filterItem(list: RouteLocationMatched[]) {
-//   return filter(list, item => {
-//     const { meta, name } = item
-//     if (!meta) {
-//       return !!name
-//     }
-//     const { title, hideBreadcrumb, hideMenu } = meta
-//     if (!title || hideBreadcrumb || hideMenu) {
-//       return false
-//     }
-//     return true
-//   }).filter(item => !item.meta?.hideBreadcrumb)
-// }
-
-function getAllParentPath<T = any>(treeData: T[], path: string) {
-  const menuList = findPath(treeData, n => n.path === path)
-
-  return (menuList || []).map(item => item.path)
-}
-
-function findPath<T = any>(tree: any, func: any): T | T[] | null {
-  const config = {
-    children: 'children'
-  }
-  const path: T[] = []
-  const list = [...tree]
-  const visitedSet = new Set()
-  const { children } = config
-  while (list.length) {
-    const node = list[0]
-    if (visitedSet.has(node)) {
-      path.pop()
-      list.shift()
-    } else {
-      visitedSet.add(node)
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      node[children!] && list.unshift(...node[children!])
-      path.push(node)
-      if (func(node)) {
-        return path
-      }
-    }
-  }
-  return null
-}
-
-function getMatched(menus: any[], parent: string[]) {
-  const metched: any[] = []
-  menus.forEach(item => {
-    if (parent.includes(item.path)) {
-      metched.push({
-        ...item,
-        name: item.meta?.title || item.name
-      })
-    }
-    if (item.children?.length) {
-      metched.push(...getMatched(item.children, parent))
-    }
-  })
-  return metched
-}
+onUnmounted(() => {
+  stopListener()
+})
 </script>
 
 <style lang="scss" scoped>

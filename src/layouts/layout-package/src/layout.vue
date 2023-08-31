@@ -1,22 +1,22 @@
 <template>
   <layout-config-provider>
     <layout-container>
-      <layout-aside v-bind="asideAttrs">
+      <layout-aside v-if="config.aside" v-bind="asideAttrs">
         <slot name="aside"> </slot>
       </layout-aside>
 
-      <layout-header v-bind="headerAttrs">
+      <layout-header v-if="config.header" v-bind="headerAttrs">
         <slot name="header"></slot>
       </layout-header>
 
-      <layout-tabs v-bind="tabAttrs">
+      <layout-tabs v-if="config.tab" v-bind="tabAttrs">
         <slot name="tabs"> </slot>
       </layout-tabs>
 
-      <layout-main v-bind="mainAttrs">
+      <layout-main v-if="config.main" v-bind="mainAttrs">
         <slot></slot>
       </layout-main>
-      <layout-footer v-bind="footerAttrs">
+      <layout-footer v-if="config.footer" v-bind="footerAttrs">
         <slot name="footer"></slot>
       </layout-footer>
     </layout-container>
@@ -47,6 +47,13 @@ interface Layout {
   headerPaddingLeft?: LayoutProps['headerPaddingLeft']
   headerZIndex?: LayoutProps['headerZIndex']
   tabHeight?: LayoutProps['tabHeight']
+  config?: {
+    header: boolean
+    tab: boolean
+    aside: boolean
+    footer: boolean
+    main: boolean
+  }
 }
 
 const props = withDefaults(defineProps<Layout>(), {
@@ -56,7 +63,14 @@ const props = withDefaults(defineProps<Layout>(), {
   headerHeight: 48,
   tabHeight: 32,
   headerZIndex: 1001,
-  mainPaddingLeft: 220
+  mainPaddingLeft: 220,
+  config: () => ({
+    header: true,
+    tab: true,
+    aside: true,
+    main: true,
+    footer: true
+  })
 })
 
 // 侧边栏属性

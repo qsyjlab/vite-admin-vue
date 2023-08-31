@@ -1,8 +1,11 @@
 <template>
-  <el-card :header="$route.meta.title">
+  <el-card>
     <VProTable
       header-title="pro table"
       :columns="columns"
+      :columns-state="{
+        persistenceKey: 'test-demo'
+      }"
       :data="data"
       :params="params"
       checkable
@@ -20,32 +23,29 @@
 </template>
 <script setup lang="ts">
 import { VProTable } from '@/components/pro-table'
+import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
 
-// function getScope(sc) {
-//   console.log('sc', sc)
-// }
-
-const columns = [
+const columns: ProTableColumns = [
   {
     title: '名称',
-    key: 'name'
-    // renderHeader: () => {
-    //   return <>测试 tsx</>
-    // }
+    key: 'name',
+    tip: '测试tip提示',
+    fixed: 'left'
   },
   {
     title: '年龄',
     key: 'age',
+    // fixed: 'left',
     children: [
       {
         title: '年龄2',
-        key: 'age',
+        key: 'age-c',
         children: []
       },
       {
         title: '年龄3',
-        key: 'age',
+        key: 'age-c2',
         children: []
       }
     ]
@@ -56,19 +56,70 @@ const columns = [
   },
   {
     title: '邮箱',
-    key: 'email'
+    key: 'email',
+    fixed: 'left'
   },
   {
     title: '年份',
-    key: 'email'
+    key: 'year'
   },
   {
-    title: '身份证',
-    key: 'email'
+    title: '进度条',
+    key: 'progress',
+    valueType: () => {
+      return { type: 'progress' }
+    }
+  },
+  {
+    title: '函数式返回 enum',
+    key: 'fnE',
+    valueType: 'enum',
+    valueEnum: () => {
+      return {
+        all: { text: '全部', color: 'blue' },
+        open: {
+          text: '未解决',
+          color: 'green'
+        },
+        closed: {
+          text: '已解决',
+          color: 'red'
+        },
+        processing: {
+          text: '解决中',
+          color: 'blue'
+        }
+      }
+    }
   },
   {
     title: '状态',
-    key: 'email'
+    key: 'status',
+    valueType: 'enum',
+
+    valueEnum: {
+      all: { text: '全部', color: 'blue' },
+      open: {
+        text: '未解决',
+        color: 'green'
+      },
+      closed: {
+        text: '已解决',
+        color: 'red'
+      },
+      processing: {
+        text: '解决中',
+        color: 'blue'
+      }
+    }
+  },
+  {
+    title: '地址1',
+    key: 'address1'
+  },
+  {
+    title: '地址2',
+    key: 'address2'
   },
   {
     title: '操作',
@@ -83,13 +134,12 @@ const data = ref<any[]>()
 onMounted(() => {
   setTimeout(() => {
     data.value = createData()
-  }, 1000)
+  }, 0)
 })
 
 watch(data, newVal => {
-  console.log('mewVal', newVal)
+  // console.log('mewVal', newVal)
 })
-console.log('change layout')
 
 const params = ref({
   page: 1
@@ -109,18 +159,23 @@ function createData() {
       name: `name-${index}`,
       age: 18,
       address: `address-${index}`,
+      status: 'all',
+      fnE: 'open',
+      progress: 80,
       children: [
         {
           id: i++,
           name: `name-${index}`,
           age: 18,
-          address: `address-${index}`
+          address: `address-${index}`,
+          status: 'processing'
         },
         {
           id: i++,
           name: `name-${index}`,
           age: 18,
-          address: `address-${index}`
+          address: `address-${index}`,
+          status: 'processing'
         }
       ]
     }

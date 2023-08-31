@@ -1,10 +1,7 @@
-import { hasAuth } from '@/auth'
 import { cloneDeep, omit } from 'lodash-es'
-import { createRouter, createWebHistory, RouteMeta } from 'vue-router'
-
-import type { RouteRecordNormalized } from 'vue-router'
-
-import { RouteRecordRaw, RouterOptions } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+import { treeMap } from '@/utils'
+import type { RouteRecordNormalized, RouteRecordRaw, RouterOptions } from 'vue-router'
 
 export function createWebHistoryRouter(
   routes: RouteRecordRaw[],
@@ -17,50 +14,9 @@ export function createWebHistoryRouter(
   })
 }
 
-// 生成关系图
-export function resolveRouteTreeToList(routes: RouteRecordRaw[]) {
-  const relationObj: Record<string, RouteTreeRelation> = {}
-
-  traverseData(routes)
-  return { relationObj }
-  function traverseData(
-    tree: RouteRecordRaw[],
-    pName?: string,
-    pNames?: string[],
-    pLevels?: string[]
-  ): string[] {
-    const parentName = pName || ''
-    const parentNames = pNames || []
-    const levels = pLevels || []
-
-    return tree.map((info, i) => {
-      const _obj: RouteTreeRelation = {}
-
-      const levs: string[] = [...levels]
-
-      info.name = info.name as string
-      levs.push(info.name)
-      _obj.name = info.name
-      _obj.meta = info.meta
-      _obj.parentNames = parentNames
-      _obj.parentName = parentName
-
-      relationObj[info.name as string] = _obj
-
-      if (info.children && info.children.length) {
-        const newParentNames = parentNames.slice()
-        newParentNames.push(info.name)
-
-        _obj.childrenNames = traverseData(info.children, info.name, newParentNames, levs)
-      }
-
-      return _obj.name
-    })
-  }
-}
-
-export async function buildRoutes(asyncRoutes: RouteRecordRaw[]) {
-  const routes = transformRoutes(asyncRoutes)
+/** 扁平路由 最大路由级别 2 级 */
+export async function flatRoutesLevel(asyncRoutes: RouteRecordRaw[]) {
+  const routes = asyncRoutes
 
   function isMultipleRoute(route: RouteRecordRaw): boolean {
     if (!route || !Reflect.has(route, 'children') || !route.children?.length) return false
@@ -151,40 +107,39 @@ function joinParentPath(menus: any[], parentPath = '') {
   }
 }
 
-// Parsing the menu module
-export function transformMenuModule(module: any): any {
-  // const { menu } = menuModule
+// 将路由转换成菜单
+export function transformRouteToMenu(routeModList: RouteRecordRaw[]) {
+  const cloneRouteModList = cloneDeep(routeModList)
+  // const routeList: RouteRecordRaw[] = []
 
-  const menuList = [module]
+  // // 对路由项进行修改
+  // cloneRouteModList.forEach(item => {
+  //   if (routerMapping && item?.meta?.hideChildrenInMenu && typeof item.redirect === 'string') {
+  //     item.path = item.redirect
+  //   }
 
-  joinParentPath(menuList)
-  return menuList[0]
-}
-// 根据路由源信息转换
-export function transformRoutes(routes: RouteRecordRaw[], treeMap?: any[]): any[] {
-  if (routes && routes?.length === 0) return []
+  //   // if (item.meta?.single) {
+  //   //   const realItem = item?.children?.[0]
+  //   //   realItem && routeList.push(realItem)
+  //   // } else {
+  //   //   routeList.push(item)
+  //   // }
+  //   routeList.push(item)
+  // })
+  // 提取树指定结构
+  const list = treeMap(cloneRouteModList, {
+    conversion: (node: RouteRecordRaw) => {
+      const { meta = {}, name } = node
 
-  return routes
-    .reduce((acc, cur) => {
-      if (cur.meta?.isNotAuth || hasAuth(cur.name as string)) {
-        acc.push({
-          ...cur,
-          name: cur.name as string,
-          path: cur.path,
-          meta: cur.meta,
-          children: transformRoutes(cur.children || [], [])
-        })
+      return {
+        meta: node.meta,
+        name: name,
+        path: node.path
       }
-      return acc
-    }, treeMap || [])
-    .reverse()
-    .sort((last, next) => (last.meta?.sort || 0) - (next.meta?.sort || 0))
-}
+    }
+  })
 
-export interface RouteTreeRelation {
-  name?: string
-  parentName?: string | null
-  parentNames?: string[]
-  childrenNames?: string[]
-  meta?: RouteMeta
+  // 路径处理
+  joinParentPath(list)
+  return cloneDeep(list)
 }

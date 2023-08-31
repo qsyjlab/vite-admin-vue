@@ -1,21 +1,12 @@
-export interface UrlType {
-  baseUrl: {
-    system: string
-  }
-  fileUrl: {
-    file: string
-  }
+import { readonly } from '@/utils'
+
+interface GlobalConfig {
+  baseApiUrl: string
+  projectTitle: string
+  projectDesc: string
+  storagePrefix: string
 }
 
-export interface ReadOnlyConfig {
-  readonly storage: {
-    prefix: string
-    expires: number
-  }
-  readonly axios: {
-    headers: {
-      Authorization: string
-    }
-  }
-  readonly url: UrlType
+export function defineConfig(config: GlobalConfig) {
+  return readonly(config)
 }

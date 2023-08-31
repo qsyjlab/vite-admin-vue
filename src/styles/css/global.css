@@ -1,6 +1,0 @@
-@import './variable.css';
-@import './document.css';
-
-#nprogress .bar {
-  background: var(--nprogress-bar-bg-color, var(--nprogress-bar-default-bg-color)) !important;
-}
