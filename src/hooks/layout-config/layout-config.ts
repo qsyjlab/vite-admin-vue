@@ -114,7 +114,7 @@ export function useLayoutConfigHandler() {
     config && layoutStore.setLayoutConfig(config)
   }
 
-  const initLayout = (config: ProjectLayoutConfig) => {
+  const initLayout = (config: Partial<ProjectLayoutConfig>) => {
     layoutStore.setLayoutConfig(config)
 
     const themeColor = config.themeColor || layoutConfig.value.themeColor

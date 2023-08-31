@@ -1,8 +1,15 @@
-import type { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
+import type {
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosError,
+  InternalAxiosRequestConfig
+} from 'axios'
 
 export type BaseAxiosResponse = AxiosResponse<any>
 
-export type RequestInterceptorsType = (config: AxiosRequestConfig) => AxiosRequestConfig
+export type RequestInterceptorsType = (
+  config: InternalAxiosRequestConfig
+) => InternalAxiosRequestConfig
 
 export type RequestInterceptorsCatchType = (error: CatchError) => Promise<CatchError>
 
