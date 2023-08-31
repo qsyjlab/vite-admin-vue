@@ -6,7 +6,7 @@
     "dev": "vite",
     "app:host": "vite --host",
     "app:prod": "pnpm run app:host --mode prod",
-    "build": "vue-tsc --noEmit --skipLibCheck && vite build",
+    "build": "vite build",
     "build:prod": "vite build --mode prod",
     "check": "vue-tsc --noEmit --skipLibCheck",
     "preview": "vite preview",
