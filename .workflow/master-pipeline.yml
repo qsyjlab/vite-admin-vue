@@ -13,7 +13,7 @@ stages:
         nodeVersion: 16.14.0
         # 构建命令：安装依赖 -> 清除上次打包产物残留 -> 执行构建 【请根据项目实际产出进行填写】
         commands:
-          - npm install pnpm -g
+          - npm install pnpm@7 -g
           - pnpm i && rm -rf ./dist && pnpm run build
         # 非必填字段，开启后表示将构建产物暂存，但不会上传到制品库中，7天后自动清除
         artifacts:
