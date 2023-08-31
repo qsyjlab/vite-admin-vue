@@ -7,6 +7,7 @@ import { createBreakpointListener } from '@/hooks/event/use-breakpoint'
 import { createAppProviderContext } from './context'
 
 import projectConfig from '@/config/project-setting'
+import config from '@/config'
 
 export default defineComponent({
   name: 'AppProvider',
@@ -30,7 +31,7 @@ export default defineComponent({
      */
     useTitle(
       computed(() => {
-        return route?.meta.title
+        return `${route?.meta.title} - ${config.projectTitle}`
       })
     )
 
