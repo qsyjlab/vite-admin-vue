@@ -1,12 +1,14 @@
-import {
+import type {
   RequestInterceptorsType,
   RequestInterceptorsCatchType,
   ResponseInterceptorsType,
   ResponseInterceptorsCatchType,
   InterceptorsType,
-  RequestTransform,
-  ResultEnum
+  RequestTransform
 } from '../axios-request'
+
+import { isCancelError, ResultEnum } from '../axios-request'
+
 import { showErrorMessage } from './helper'
 const requestInterceptorsImpl: RequestInterceptorsType = config => {
   return config
@@ -62,7 +64,7 @@ export const transformResponse: RequestTransform['transformResponse'] = (
 export const requestCatch: RequestTransform['requestCatch'] = (error, requestOptionsEx) => {
   const { ignoreErrorMessage = false } = requestOptionsEx
 
-  !ignoreErrorMessage && showErrorMessage(error.message)
+  !ignoreErrorMessage && !isCancelError(error) && showErrorMessage(error.message)
   return error
 }
 
