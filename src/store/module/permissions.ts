@@ -74,12 +74,11 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
   /**
    * 这里权限可传入字符串或者数组 数组 权限满足一个 则 为 true
    */
-  function hasPermission(permission?: string | string[]) {
-    if (!permission) return false
+  function hasPermission(auth?: string | string[]) {
+    if (!auth) return false
 
-    if (Array.isArray(permission))
-      return !!permission.map(p => permissions.value.includes(p)).find(i => i)
-    return permissions.value.includes(permission)
+    if (Array.isArray(auth)) return !!auth.map(p => permissions.value.includes(p)).find(i => i)
+    return permissions.value.includes(auth)
   }
   function addRouteBatch(routes: RouteRecordRaw[]) {
     routes.forEach(r => {

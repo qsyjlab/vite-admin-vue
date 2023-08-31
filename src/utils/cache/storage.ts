@@ -16,11 +16,10 @@ class BaseStorage {
   expire?: number
 
   constructor(storage: Storage = window.localStorage, options: BaseStorageOptions) {
-    const { prefix, expire } = options
+    const { prefix } = options
 
     this.localStorage = storage
     this.prefix = prefix
-    this.expire = expire
   }
 
   /**
@@ -99,7 +98,7 @@ class BaseStorage {
   }
 
   private getKey(key: string) {
-    return this.prefix || '' + key
+    return (this.prefix || '') + key
   }
 }
 
