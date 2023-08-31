@@ -17,3 +17,20 @@
     }
   }
 }
+
+.el-menu {
+  border-right: unset !important;
+}
+
+:deep(.el-menu-item.is-active) {
+  background-color: var(--el-menu-hover-bg-color);
+}
+
+:deep(.el-sub-menu__title:hover) {
+  // background-color: unset;
+  color: var(--el-menu-active-color);
+}
+
+:deep(.el-menu-item:hover) {
+  color: var(--el-menu-active-color);
+}

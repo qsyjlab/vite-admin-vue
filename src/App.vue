@@ -15,6 +15,3 @@ function initAppConfig() {
 }
 initAppConfig()
 </script>
-<style>
-@import './styles/css/global';
-</style>
