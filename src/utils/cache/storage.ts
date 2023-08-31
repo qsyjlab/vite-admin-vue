@@ -10,10 +10,6 @@ interface DataFormatterType {
   expire: Expire
 }
 
-interface SetOptionsType {
-  isForever: boolean
-}
-
 class BaseStorage {
   localStorage: Storage
   prefix: string
@@ -32,8 +28,8 @@ class BaseStorage {
    * @param {String} key 缓存key
    * @param {*} value 缓存数据
    */
-  set(key: string, value: any, options?: SetOptionsType) {
-    this.localStorage.setItem(this.getKey(key), this.dataFormatter(value))
+  set(key: string, value: any, expire?: number) {
+    this.localStorage.setItem(this.getKey(key), this.dataFormatter(value, expire))
   }
 
   /**
@@ -49,7 +45,10 @@ class BaseStorage {
     try {
       const data: DataFormatterType = JSON.parse(value)
 
-      if (this.isExpire(data.expire)) return null
+      if (this.isExpire(data.expire)) {
+        this.remove(this.getKey(key))
+        return null
+      }
       return data.value
     } catch (error) {
       return null

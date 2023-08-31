@@ -3,7 +3,6 @@ import { StorageKeys } from '@/enum'
 
 import type { ProjectLayoutConfig } from '@/layouts'
 
-const expire: number = StorageKeys.Expire
 const prefix: string = StorageKeys.Prefix
 
 interface UserInfo {
@@ -12,7 +11,9 @@ interface UserInfo {
   // userRole: string
 }
 
-const $storage = createStorage()
+const $storage = createStorage({
+  prefixKey: prefix
+})
 /**
  * 设置用户信息
  * @param {UserInfo} data 用户信息
@@ -58,7 +59,7 @@ export function getPermissionsCache() {
  * @returns
  */
 export function setLayoutCache(layout: ProjectLayoutConfig | undefined) {
-  return $storage.set(StorageKeys.Layout, layout, { isForever: true })
+  return $storage.set(StorageKeys.Layout, layout)
 }
 
 /**
