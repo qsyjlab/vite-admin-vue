@@ -16,12 +16,17 @@
             :closable="!affixTabsList.includes(item.fullPath)"
           >
             <template #label>
-              <span
-                :style="{
-                  fontSize: `${fontSize}px`
-                }"
-                >{{ item.meta.title }}</span
-              >
+              <div class="tab-item">
+                <span class="icon" v-if="item.meta.icon">
+                  <icon-selector :icon="item.meta.icon" :size="fontSize + 5" />
+                </span>
+                <span
+                  :style="{
+                    fontSize: `${fontSize}px`
+                  }"
+                  >{{ item.meta.title }}</span
+                >
+              </div>
             </template>
           </el-tab-pane>
         </el-tabs>
@@ -71,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watchEffect } from 'vue'
 
 import type { TabsPaneContext } from 'element-plus'
 import { useRoute } from 'vue-router'
@@ -82,6 +87,7 @@ import router from '@/router'
 import { ArrowDown, Refresh, Close, Upload, CircleClose } from '@element-plus/icons-vue'
 import { useReloadPage } from '@/hooks'
 import { REDIRECT_NAME } from '@/router/constant'
+import { IconSelector } from '@/components/icon'
 
 interface Props {
   bgColor?: string
@@ -110,6 +116,10 @@ const { reload } = useReloadPage()
 
 const { getTabPages, getCurrentActivityTabPage } = storeToRefs(tabPageStore)
 
+watchEffect(() => {
+  console.log('getTabPages', getTabPages.value)
+})
+
 const {
   addTabPage,
   goTabPage,
@@ -132,6 +142,9 @@ onMounted(() => {
     () => route,
     to => {
       if (to.name === REDIRECT_NAME) return
+
+      console.log('addTabPage', to)
+      debugger
 
       addTabPage({
         name: to.name as string,
@@ -307,5 +320,16 @@ $base-color-blue: $base-color-default;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.tab-item {
+  display: flex;
+  align-items: center;
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+  }
 }
 </style>

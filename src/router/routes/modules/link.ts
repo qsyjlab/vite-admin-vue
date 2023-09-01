@@ -1,13 +1,14 @@
 import { defineExposeRoutes } from '@/router'
 import { Layout, BlankContainer } from '@/router/constant'
+import icon from './icon'
 
 export default defineExposeRoutes([
   {
     name: 'OutPage',
     path: '/out-page',
     meta: {
-      sort: 7,
-      title: '外部页面'
+      title: '外部页面',
+      icon: 'ep.link'
     },
     component: Layout,
     children: [

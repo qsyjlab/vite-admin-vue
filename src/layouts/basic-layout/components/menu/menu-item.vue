@@ -1,7 +1,7 @@
 <template>
   <el-menu-item v-if="!hasChildrenMenu(item)" :index="item.name" :route="{ name: item.name }">
     <div v-if="item.meta?.icon" class="icon">
-      <IconSelector :size="16" :icon="item.meta?.icon" />
+      <IconSelector :size="18" :icon="item.meta?.icon" />
     </div>
     <template #title>
       <span>{{ item?.meta?.title }}</span></template
@@ -11,7 +11,7 @@
   <el-sub-menu v-else :index="item.name">
     <template #title>
       <div v-if="item.meta?.icon" class="icon">
-        <IconSelector :size="16" :icon="item.meta?.icon" />
+        <IconSelector :size="18" :icon="item.meta?.icon" />
       </div>
       <span>{{ item?.meta?.title }}</span>
     </template>
@@ -23,7 +23,7 @@
         :route="{ name: childMenu.name }"
       >
         <div v-if="childMenu.meta?.icon" class="icon">
-          <IconSelector :size="16" :icon="childMenu.meta?.icon" />
+          <IconSelector :size="18" :icon="childMenu.meta?.icon" />
         </div>
 
         <template #title>
@@ -62,7 +62,11 @@ const hasChildrenMenu = (item: Menu) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
   margin-right: 5px;
+  margin: 0;
+  vertical-align: middle;
+  width: var(--el-menu-icon-width);
+  text-align: center;
+  flex-shrink: 0;
 }
 </style>

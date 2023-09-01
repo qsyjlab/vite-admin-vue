@@ -6,7 +6,7 @@ settings:
 
 dependencies:
   '@element-plus/icons-vue':
-    specifier: ^2.0.9
+    specifier: ^2.1.0
     version: 2.1.0(vue@3.3.4)
   '@iconify/json':
     specifier: ^2.2.105
