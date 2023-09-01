@@ -1,21 +1,21 @@
 <template>
-  <span
-    class="icon-selector"
-    :style="{
-      width: `${size}px`
-    }"
-  >
-    <Icon v-if="iconType === 'ify'" :icon="iconName" :color="color" :width="size" :height="size" />
-  </span>
+  <!-- {{ iconType }} - {{ iconName }} -->
+  <!-- svg 精灵图 -->
+  <svg-icon v-if="iconType === 'svg'" :name="iconName" :size="size" :color="color" />
+
+  <!-- iconify -->
+  <iconify v-if="iconType === 'ify'" :icon="iconName" :size="size" :color="color" />
 </template>
-<script lang="ts">
-export default { name: 'IconSelector' }
-</script>
+
 <script setup lang="ts">
 import { watch, ref } from 'vue'
-import { Icon, disableCache } from '@iconify/vue'
 
-disableCache('all')
+import SvgIcon from './svg-icon.vue'
+import Iconify from './iconify.vue'
+
+defineOptions({
+  name: 'Icon'
+})
 
 const props = withDefaults(
   defineProps<{
@@ -43,12 +43,3 @@ watch(
   }
 )
 </script>
-
-<style lang="scss" scoped>
-.icon-selector {
-  display: inline-block;
-  > * {
-    vertical-align: middle;
-  }
-}
-</style>

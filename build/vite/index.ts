@@ -7,6 +7,7 @@ import { viteMockPlugin } from './plugins/mock'
 import { viteAutoImportPlugin, viteComponentsPlugin } from './plugins/element-plus'
 import WindiCSS from 'vite-plugin-windicss'
 import { visualizer } from 'rollup-plugin-visualizer'
+import { configSvgIconsPlugin } from './plugins/svg-icons'
 
 export function createVitePlugin(configEnv: ConfigEnv) {
   const { command } = configEnv
@@ -17,6 +18,7 @@ export function createVitePlugin(configEnv: ConfigEnv) {
     viteAutoImportPlugin(),
     viteComponentsPlugin(),
     WindiCSS(),
+    configSvgIconsPlugin({ isBuild }),
     visualizer({
       gzipSize: true,
       brotliSize: true,
