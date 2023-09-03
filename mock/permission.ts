@@ -178,6 +178,13 @@ const featureModuleRoute = {
           }
         }
       ]
+    },
+    {
+      name: 'ImageViewer',
+      path: 'image-viewer',
+      meta: {
+        title: '图片预览'
+      }
     }
   ]
 }

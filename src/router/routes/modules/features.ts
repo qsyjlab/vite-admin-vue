@@ -46,6 +46,14 @@ export default defineExposeRoutes([
             component: () => import('@/views/system/feature/tab-page/detail.vue')
           }
         ]
+      },
+      {
+        name: 'ImageViewer',
+        path: 'image-viewer',
+        meta: {
+          title: '图片预览'
+        },
+        component: () => import('@/views/system/feature/image-viwer/image-viwer.vue')
       }
     ]
   }
