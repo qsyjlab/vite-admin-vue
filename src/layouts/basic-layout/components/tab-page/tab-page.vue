@@ -116,10 +116,6 @@ const { reload } = useReloadPage()
 
 const { getTabPages, getCurrentActivityTabPage } = storeToRefs(tabPageStore)
 
-watchEffect(() => {
-  console.log('getTabPages', getTabPages.value)
-})
-
 const {
   addTabPage,
   goTabPage,
@@ -143,15 +139,15 @@ onMounted(() => {
     to => {
       if (to.name === REDIRECT_NAME) return
 
-      console.log('addTabPage', to)
-      debugger
+      // 子集的 meta 会继承 父级 meta, matched 中的 meta 保持原值
+      const _to = to.matched.find(i => i.name === to.name)
 
       addTabPage({
         name: to.name as string,
         fullPath: to.fullPath,
         query: to.query,
         params: to.params,
-        meta: to.meta
+        meta: _to?.meta || {}
       })
     },
     {
