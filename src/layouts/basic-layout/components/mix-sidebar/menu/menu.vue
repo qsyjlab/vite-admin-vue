@@ -19,9 +19,7 @@
             'basic-layout-mix-menu-module__icon'
           ]"
         >
-          <el-icon :size="22">
-            <MapLocation />
-          </el-icon>
+          <icon-selector :icon="item.meta?.icon" :size="20"></icon-selector>
         </div>
         <div
           :class="[
@@ -73,10 +71,11 @@
 <script setup lang="ts">
 import { ref, unref, watch, computed, CSSProperties, onUnmounted } from 'vue'
 import { useLayoutStore, usePermissionStore } from '@/store'
-import { MapLocation } from '@element-plus/icons-vue'
+// import { MapLocation } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { AsideMenu } from '../../menu'
 import { routeChangeListener } from '@/router'
+import { IconSelector } from '@/components/icon'
 
 import Pushpin from '../pushpin.vue'
 import { storeToRefs } from 'pinia'
