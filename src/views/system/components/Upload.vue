@@ -1,16 +1,17 @@
 <template>
   <page-wrapper>
-    <page-card>
-      <template #header>
-        {{ $route.meta.title }}
-      </template>
-      <upload>
+    <page-card style="margin-bottom: 20px" header="基础用法">
+      <upload :limit="3">
         <el-button>上传</el-button>
       </upload>
+    </page-card>
 
-      <!-- <qs-upload v-model="fileList"> </qs-upload>
-
-    <qs-upload v-model="fileList" :limit="2" list-type="picture-card"> </qs-upload> -->
+    <page-card header="照片墙">
+      <upload list-type="picture-card" :limit="3" multiple>
+        <el-icon>
+          <plus />
+        </el-icon>
+      </upload>
     </page-card>
   </page-wrapper>
 </template>
@@ -23,7 +24,12 @@ export default { name: 'Upload' }
 import { PageWrapper } from '@/components/page-wrapper'
 import { PageCard } from '@/components/page-card'
 import { Upload } from '@/components/upload'
+import { Plus } from '@element-plus/icons-vue'
 
 import { ref } from 'vue'
 const fileList = ref([])
+
+const fileChange = (file: File) => {
+  console.log('fileChange', file)
+}
 </script>
