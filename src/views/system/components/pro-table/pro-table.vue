@@ -31,12 +31,14 @@ const columns: ProTableColumns = [
     title: '名称',
     key: 'name',
     tip: '测试tip提示',
-    fixed: 'left'
+    fixed: 'left',
+    width: 200
   },
   {
     title: '年龄',
     key: 'age',
-    // fixed: 'left',
+    width: 200,
+    fixed: 'left',
     children: [
       {
         title: '年龄2',
@@ -52,20 +54,24 @@ const columns: ProTableColumns = [
   },
   {
     title: '地址',
-    key: 'address'
+    key: 'address',
+    width: 200
   },
   {
     title: '邮箱',
     key: 'email',
-    fixed: 'left'
+    fixed: 'left',
+    width: 200
   },
   {
     title: '年份',
-    key: 'year'
+    key: 'year',
+    width: 200
   },
   {
     title: '进度条',
     key: 'progress',
+    width: 200,
     valueType: () => {
       return { type: 'progress' }
     }
@@ -74,6 +80,7 @@ const columns: ProTableColumns = [
     title: '函数式返回 enum',
     key: 'fnE',
     valueType: 'enum',
+    width: 200,
     valueEnum: () => {
       return {
         all: { text: '全部', color: 'blue' },
@@ -96,6 +103,7 @@ const columns: ProTableColumns = [
     title: '状态',
     key: 'status',
     valueType: 'enum',
+    width: 200,
 
     valueEnum: {
       all: { text: '全部', color: 'blue' },
@@ -115,11 +123,13 @@ const columns: ProTableColumns = [
   },
   {
     title: '地址1',
-    key: 'address1'
+    key: 'address1',
+    width: 200
   },
   {
     title: '地址2',
-    key: 'address2'
+    key: 'address2',
+    width: 200
   },
   {
     title: '操作',
