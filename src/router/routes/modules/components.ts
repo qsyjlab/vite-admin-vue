@@ -132,6 +132,25 @@ export default defineExposeRoutes([
           title: 'segmented 分段器'
         },
         component: () => import('@/views/system/components/segmented/segmented.vue')
+      },
+      {
+        name: 'Tree',
+        path: 'tree',
+        meta: {
+          title: 'Tree'
+        },
+        component: BlankContainer,
+        children: [
+          {
+            name: 'BaseTree',
+            path: 'base',
+            meta: {
+              title: 'Tree',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/components/tree/tree/tree.vue')
+          }
+        ]
       }
     ]
   }
