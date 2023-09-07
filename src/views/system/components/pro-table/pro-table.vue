@@ -1,6 +1,6 @@
 <template>
   <page-wrapper>
-    <page-card>
+    <page-card :header="$route.meta.title">
       <VProTable
         header-title="pro table"
         :columns="columns"
@@ -40,10 +40,7 @@ const columns: ProTableColumns = [
     key: 'name',
     tip: '测试tip提示',
     fixed: 'left',
-    width: 200,
-    render(row, column) {
-      return row.id
-    }
+    width: 200
   },
   {
     title: '年龄',
@@ -170,13 +167,14 @@ function pageChange(page: number, size: number) {
   console.log('page', page, size)
 }
 
+let i = 0
 function createData() {
   let data = Array(100).fill(0)
 
   let i = 0
   data = data.map((item, index) => {
     return {
-      id: i++,
+      id: ++i,
       name: `name-${index}`,
       age: 18,
       address: `address-${index}`,
@@ -185,14 +183,14 @@ function createData() {
       progress: 80,
       children: [
         {
-          id: i++,
+          id: ++i,
           name: `name-${index}`,
           age: 18,
           address: `address-${index}`,
           status: 'processing'
         },
         {
-          id: i++,
+          id: ++i,
           name: `name-${index}`,
           age: 18,
           address: `address-${index}`,

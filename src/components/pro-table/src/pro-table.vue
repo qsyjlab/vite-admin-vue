@@ -10,6 +10,12 @@
       </template>
     </toolbar>
 
+    <el-alert v-if="selectedKeys.length" type="info" show-icon :closable="false">
+      <template #title
+        >当前已选择 {{ selectedKeys.length }} 项
+        <el-button type="primary" link @click="clearSelectedKeys">取消全部</el-button></template
+      >
+    </el-alert>
     <!-- table -->
     <el-table
       ref="tableRef"
@@ -20,6 +26,7 @@
       :row-key="rowKey"
       :table-layout="tableLayout"
       :size="tableProps.size"
+      @selection-change="selectChangeHandler"
     >
       <el-table-column v-if="checkable" type="selection" width="40" :reserve-selection="true" />
 
@@ -58,6 +65,7 @@ import { createTableStoreContext, createTableAction, useTableStore } from './sto
 import Toolbar from './components/toolbar/toolbar.vue'
 import { columnsSort } from './utils'
 import './style.scss'
+import type { TableInstance } from 'element-plus'
 
 defineSlots<{
   headerTitle: () => void
@@ -78,7 +86,10 @@ const {
   handleSizeChange,
   total,
   loading,
-  tableMethods
+  tableMethods,
+  setSelectedKeys,
+  selectedKeys,
+  clearSelectedKeys
 } = useProTable({
   props,
   emits
@@ -94,9 +105,11 @@ const getColumns = computed(() => {
   return newColumns
 })
 
-// watch(getColumns, () => {
-//   tableMethods.doLayout()
-// })
+const selectChangeHandler: TableInstance['onSelection-change'] = selection => {
+  if (Array.isArray(selection)) {
+    setSelectedKeys(selection.map(i => i[props.rowKey]).filter(Boolean))
+  }
+}
 
 // TODO: 当列由二级转变为一级表头布局错乱
 function proColumnsFilter(columns: any[]) {

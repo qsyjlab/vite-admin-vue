@@ -4,6 +4,7 @@ import type { SetupContext } from 'vue'
 import { proTableEmits, ProTableProps, emitsEnums } from './props'
 import { useLoading } from './hooks'
 import type { TableInstance, TableMethods } from './types'
+import { useSelection } from './hooks/use-selection'
 
 type UseTableOptions = {
   props: ProTableProps
@@ -27,6 +28,10 @@ export const useProTable = (options: UseTableOptions) => {
   })
 
   const { loading, setLoading } = useLoading()
+
+  const { selectedKeys, setSelectedKeys, clearSelectedKeys } = useSelection({
+    tableInstance: tableRef
+  })
 
   watch(
     [params, data],
@@ -114,6 +119,9 @@ export const useProTable = (options: UseTableOptions) => {
     refresh,
     reload,
     handleSizeChange,
-    handleCurrentChange
+    handleCurrentChange,
+    selectedKeys,
+    setSelectedKeys,
+    clearSelectedKeys
   }
 }
