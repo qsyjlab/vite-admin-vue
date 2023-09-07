@@ -1,7 +1,7 @@
 import { definePropType } from '@/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { TableProps } from 'element-plus'
-import { ColumnsState, ProTableColumns, ProTableColumnItem } from './types'
+import { ColumnsState, ProTableColumns, ProTableColumnItem, TableOptions } from './types'
 
 export const proTableHeaderProps = {
   headerTitle: String
@@ -52,6 +52,10 @@ export const proTableProps = {
   reserveSelection: {
     type: Boolean,
     default: false
+  },
+  options: {
+    type: definePropType<TableOptions>([Boolean, Object]),
+    default: () => ({})
   }
 }
 

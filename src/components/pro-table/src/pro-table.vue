@@ -1,7 +1,7 @@
 <template>
   <div class="pro-table">
     <!-- header -->
-    <toolbar :header-title="headerTitle" :columns="tableColums">
+    <toolbar :header-title="headerTitle" :columns="tableColums" :options="options">
       <template #headerTitle>
         <slot name="headerTitle"></slot>
       </template>

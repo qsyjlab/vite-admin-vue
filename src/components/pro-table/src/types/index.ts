@@ -49,3 +49,13 @@ export type ValueEnumValue = {
   text?: string
   color?: string
 }
+
+/** 表格默认工具栏开关 */
+interface ToolbarOptions {
+  fullScreen?: boolean
+  reload?: boolean
+  setting?: boolean
+  density?: boolean
+}
+
+export type TableOptions = boolean | ToolbarOptions

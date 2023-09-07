@@ -1,4 +1,4 @@
-import { computed, nextTick, onMounted, reactive, ref, toRefs, watch } from 'vue'
+import { nextTick, reactive, ref, toRefs, watch } from 'vue'
 import { sliceData } from './utils'
 import type { SetupContext } from 'vue'
 import { proTableEmits, ProTableProps, emitsEnums } from './props'
@@ -18,7 +18,7 @@ export const useProTable = (options: UseTableOptions) => {
   const tableRef = ref<TableInstance | null>(null)
 
   const dataSource = ref<any[]>([])
-  const tableColums = ref(columns.value)
+  const tableColums = ref(columns.value || [])
   const total = ref(0)
 
   const pageQuery = reactive({
