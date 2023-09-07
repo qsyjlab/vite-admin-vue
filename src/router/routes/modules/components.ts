@@ -132,6 +132,26 @@ export default defineExposeRoutes([
           title: 'segmented 分段器'
         },
         component: () => import('@/views/system/components/segmented/segmented.vue')
+      },
+      {
+        name: 'Tree',
+        path: 'tree',
+        meta: {
+          title: 'Tree',
+          ignoreAuth: true
+        },
+        component: BlankContainer,
+        children: [
+          {
+            name: 'TreeSelect',
+            path: 'tree-select',
+            meta: {
+              ignoreAuth: true,
+              title: 'TreeSelect'
+            },
+            component: () => import('@/views/system/components/tree/tree-select.vue')
+          }
+        ]
       }
     ]
   }
