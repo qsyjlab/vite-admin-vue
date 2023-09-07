@@ -150,6 +150,15 @@ export default defineExposeRoutes([
               title: 'TreeSelect'
             },
             component: () => import('@/views/system/components/tree/tree-select.vue')
+          },
+          {
+            name: 'BaseTree',
+            path: 'base',
+            meta: {
+              title: 'Tree',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/components/tree/tree/tree.vue')
           }
         ]
       }

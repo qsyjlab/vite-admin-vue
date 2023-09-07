@@ -102,6 +102,17 @@ watch(
   }
 )
 
+watch(
+  () => viewerState.visible,
+  newVal => {
+    if (newVal) {
+      document.body.classList.add('uplode-viewer--hidden')
+    } else {
+      document.body.classList.remove('uplode-viewer--hidden')
+    }
+  }
+)
+
 const getTipsString = () => {
   const tips = []
   if (props.accept) {
@@ -159,6 +170,12 @@ const isHideUploadTrigger = () => {
 }
 </script>
 <style lang="scss" scoped>
+// 避免在某些可能得情况错误的移除 el-popup-parent--hidden
+// 样式作用与提升至全局
+:global(.uplode-viewer--hidden) {
+  overflow: hidden;
+}
+
 // picture-card 模式下 limit 不隐藏上传按钮
 .hide-trigger {
   :deep(.el-upload--picture-card) {
