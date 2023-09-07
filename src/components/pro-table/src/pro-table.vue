@@ -1,7 +1,14 @@
 <template>
   <div class="pro-table">
     <!-- header -->
-    <toolbar :header-title="headerTitle" :columns="tableColums" />
+    <toolbar :header-title="headerTitle" :columns="tableColums">
+      <template #headerTitle>
+        <slot name="headerTitle"></slot>
+      </template>
+      <template #toolbar>
+        <slot name="toolbar"></slot>
+      </template>
+    </toolbar>
 
     <!-- table -->
     <el-table
@@ -43,7 +50,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 import { useProTable } from './pro-table'
 import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
 import ProTableColumn from './pro-table-column.vue'
@@ -51,6 +58,12 @@ import { createTableStoreContext, createTableAction, useTableStore } from './sto
 import Toolbar from './components/toolbar/toolbar.vue'
 import { columnsSort } from './utils'
 import './style.scss'
+
+defineSlots<{
+  headerTitle: () => void
+  toolbar: () => void
+  [key: string]: (scope: { row: any }) => void
+}>()
 
 const props = defineProps(Object.assign({}, proTableProps, proTableHeaderProps))
 const emits = defineEmits(proTableEmits)
@@ -81,9 +94,9 @@ const getColumns = computed(() => {
   return newColumns
 })
 
-watch(getColumns, () => {
-  tableMethods.doLayout()
-})
+// watch(getColumns, () => {
+//   tableMethods.doLayout()
+// })
 
 // TODO: 当列由二级转变为一级表头布局错乱
 function proColumnsFilter(columns: any[]) {

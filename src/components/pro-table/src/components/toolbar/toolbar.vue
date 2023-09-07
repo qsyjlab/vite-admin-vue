@@ -1,15 +1,16 @@
 <template>
   <div class="pro-table-header">
     <div class="pro-table-header__left">
-      <slot name="title">
+      <slot name="headerTitle">
         <span class="pro-table-header__title" v-if="headerTitle">
           {{ headerTitle }}
         </span>
       </slot>
-      <slot></slot>
     </div>
     <div class="pro-table-header__right">
       <el-space>
+        <slot name="toolbar"></slot>
+
         <el-tooltip effect="dark" content="刷新" placement="top">
           <span style="cursor: pointer" @click="tableActions.reload"
             ><el-icon :size="18"> <RefreshRight /> </el-icon
@@ -50,6 +51,11 @@ import { RefreshRight } from '@element-plus/icons-vue'
 import SettingColumns from '../column-setting/column-setting.vue'
 import { Density } from '../../../../icon'
 import { ProTableProps } from '../../props'
+
+defineSlots<{
+  headerTitle: () => void
+  toolbar: () => void
+}>()
 
 const sizeTypes: {
   title: string

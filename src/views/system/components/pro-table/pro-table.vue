@@ -1,28 +1,36 @@
 <template>
-  <el-card>
-    <VProTable
-      header-title="pro table"
-      :columns="columns"
-      :columns-state="{
-        persistenceKey: 'test-demo'
-      }"
-      :data="data"
-      :params="params"
-      checkable
-      :is-pagination="true"
-      @page-change="pageChange"
-    >
-      <!-- <template #name="scope"> {{ getScope(scope) }} </template> -->
-      <template #operation>
-        <el-button size="small" type="primary">编辑</el-button>
-        <el-button size="small" type="danger">删除</el-button>
-        <el-button size="small">查看</el-button>
-      </template>
-    </VProTable>
-  </el-card>
+  <page-wrapper>
+    <page-card>
+      <VProTable
+        header-title="pro table"
+        :columns="columns"
+        :columns-state="{
+          persistenceKey: 'test-demo'
+        }"
+        :data="data"
+        :params="params"
+        checkable
+        :is-pagination="true"
+        @page-change="pageChange"
+      >
+        <template #headerTitle> 自定义表头 </template>
+        <template #toolbar>
+          <el-button type="primary">新增</el-button>
+        </template>
+
+        <!-- <template #name="scope"> {{ getScope(scope) }} </template> -->
+        <template #operation="{}">
+          <el-button size="small" type="primary">编辑</el-button>
+          <el-button size="small" type="danger">删除</el-button>
+          <el-button size="small">查看</el-button>
+        </template>
+      </VProTable>
+    </page-card>
+  </page-wrapper>
 </template>
 <script setup lang="ts">
 import { VProTable } from '@/components/pro-table'
+import { PageCard, PageWrapper } from '@/components'
 import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
 
@@ -32,7 +40,10 @@ const columns: ProTableColumns = [
     key: 'name',
     tip: '测试tip提示',
     fixed: 'left',
-    width: 200
+    width: 200,
+    render(row, column) {
+      return row.id
+    }
   },
   {
     title: '年龄',
