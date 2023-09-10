@@ -23,6 +23,7 @@
     <!-- table -->
     <el-table
       ref="tableRef"
+      :key="new Date().getTime()"
       :data="dataSource"
       v-bind="$attrs"
       v-loading="loading"
@@ -66,7 +67,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, nextTick, watch } from 'vue'
 import { useProTable } from './pro-table'
 import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
 import ProTableColumn from './pro-table-column.vue'
@@ -115,13 +116,18 @@ const getColumns = computed(() => {
   return newColumns
 })
 
+watch(getColumns, () => {
+  nextTick(() => {
+    tableRef.value?.doLayout()
+  })
+})
+
 const selectChangeHandler: TableInstance['onSelection-change'] = selection => {
   if (Array.isArray(selection)) {
     setSelectedKeys(selection.map(i => i[props.rowKey]).filter(Boolean))
   }
 }
 
-// TODO: 当列由二级转变为一级表头布局错乱
 function proColumnsFilter(columns: any[]) {
   return columns
     .map(column => {
@@ -136,8 +142,6 @@ function proColumnsFilter(columns: any[]) {
         ...column,
         fixed: config.fixed,
         children: undefined
-        // children:
-        //   column.children && column.children?.length ? proColumnsFilter(column.children) : undefined
       }
 
       if (column.children && column.children?.length) {
