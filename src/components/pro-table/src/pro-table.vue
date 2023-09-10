@@ -23,7 +23,7 @@
     <!-- table -->
     <el-table
       ref="tableRef"
-      :key="new Date().getTime()"
+      :key="tableKey"
       :data="dataSource"
       v-bind="$attrs"
       v-loading="loading"
@@ -67,7 +67,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, nextTick, watch } from 'vue'
+import { computed, nextTick, watch, ref } from 'vue'
 import { useProTable } from './pro-table'
 import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
 import ProTableColumn from './pro-table-column.vue'
@@ -88,6 +88,8 @@ const props = defineProps(Object.assign({}, proTableProps, proTableHeaderProps))
 const emits = defineEmits(proTableEmits)
 
 const store = useTableStore({ columnsState: props.columnsState })
+const tableKey = ref(new Date().getTime())
+
 const {
   tableRef,
   tableColums,
@@ -117,6 +119,7 @@ const getColumns = computed(() => {
 })
 
 watch(getColumns, () => {
+  tableKey.value = new Date().getTime()
   nextTick(() => {
     tableRef.value?.doLayout()
   })
