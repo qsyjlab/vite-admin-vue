@@ -10,12 +10,16 @@
       </template>
     </toolbar>
 
-    <el-alert v-if="selectedKeys.length" type="info" show-icon :closable="false">
-      <template #title
-        >当前已选择 {{ selectedKeys.length }} 项
-        <el-button type="primary" link @click="clearSelectedKeys">取消全部</el-button></template
-      >
-    </el-alert>
+    <slot name="alert">
+      <div class="pro-table-alert">
+        <el-alert v-if="selectedKeys.length" type="info" show-icon :closable="false">
+          <template #title
+            >当前已选择 {{ selectedKeys.length }} 项
+            <el-button type="primary" link @click="clearSelectedKeys">取消全部</el-button></template
+          >
+        </el-alert>
+      </div>
+    </slot>
     <!-- table -->
     <el-table
       ref="tableRef"
@@ -28,7 +32,12 @@
       :size="tableProps.size"
       @selection-change="selectChangeHandler"
     >
-      <el-table-column v-if="checkable" type="selection" width="40" :reserve-selection="true" />
+      <el-table-column
+        v-if="checkable"
+        type="selection"
+        width="40"
+        :reserve-selection="reserveSelection"
+      />
 
       <template v-for="(item, idx) in getColumns" :key="`${item.key}-${idx}`">
         <pro-table-column :column="item">
@@ -70,6 +79,7 @@ import type { TableInstance } from 'element-plus'
 defineSlots<{
   headerTitle: () => void
   toolbar: () => void
+  alert: () => void
   [key: string]: (scope: { row: any }) => void
 }>()
 

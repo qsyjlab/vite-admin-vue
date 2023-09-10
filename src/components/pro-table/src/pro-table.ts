@@ -27,10 +27,11 @@ export const useProTable = (options: UseTableOptions) => {
     pageSize: 10
   })
 
-  const { loading, setLoading } = useLoading()
+  const { loading, setLoading } = useLoading(props, { emits })
 
-  const { selectedKeys, setSelectedKeys, clearSelectedKeys } = useSelection({
-    tableInstance: tableRef
+  const { selectedKeys, setSelectedKeys, clearSelectedKeys } = useSelection(props, {
+    tableInstance: tableRef,
+    emits
   })
 
   watch(

@@ -1,6 +1,8 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title">
+      <el-button :loading="loading">加载</el-button>
+
       <VProTable
         header-title="pro table"
         :columns="columns"
@@ -11,6 +13,8 @@
         :params="params"
         checkable
         :is-pagination="true"
+        v-model:loading="loading"
+        v-model:selected-keys="selectedKeys"
         @page-change="pageChange"
       >
         <template #headerTitle> 自定义表头 </template>
@@ -33,6 +37,21 @@ import { VProTable } from '@/components/pro-table'
 import { PageCard, PageWrapper } from '@/components'
 import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
+
+const loading = ref(false)
+const selectedKeys = ref<any[]>()
+
+watch(loading, () => {
+  console.log('v-model:loading', loading)
+})
+
+watch(selectedKeys, () => {
+  console.log('selectedKeys', selectedKeys.value)
+})
+
+setTimeout(() => {
+  selectedKeys.value = [5, 6]
+}, 3000)
 
 const columns: ProTableColumns = [
   {

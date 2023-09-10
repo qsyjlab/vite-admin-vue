@@ -6,6 +6,10 @@ body,
   padding: 0;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 #nprogress .bar {
   background: var(--nprogress-bar-bg-color, var(--nprogress-bar-default-bg-color)) !important;
 }
