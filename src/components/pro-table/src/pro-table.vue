@@ -23,7 +23,6 @@
     <!-- table -->
     <el-table
       ref="tableRef"
-      :key="tableKey"
       :data="dataSource"
       v-bind="$attrs"
       v-loading="loading"
