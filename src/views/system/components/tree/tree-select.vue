@@ -22,11 +22,11 @@ import { ref } from 'vue'
 
 const value = ref()
 
-const treeSelectChange = (...rest) => {
+const treeSelectChange = (...rest: any[]) => {
   // console.log('rest', rest)
 }
 
-const nodeClick = (...rest) => {
+const nodeClick = (...rest: any[]) => {
   console.log('rest nodeClick', rest)
 }
 
