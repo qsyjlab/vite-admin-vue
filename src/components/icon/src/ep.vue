@@ -4,8 +4,8 @@
   </el-icon>
 </template>
 <script setup lang="ts">
-import { computed, CSSProperties } from 'vue'
-import { HomeFilled, Stopwatch, Document, Timer, Link } from '@element-plus/icons-vue'
+import { computed } from 'vue'
+import { HomeFilled, Stopwatch, Document, Timer, Link, ArrowDown } from '@element-plus/icons-vue'
 
 const props = withDefaults(
   defineProps<{
@@ -23,7 +23,8 @@ const epIconMap: Record<string, any> = {
   stopwatch: Stopwatch,
   document: Document,
   timer: Timer,
-  link: Link
+  link: Link,
+  'arrow-down': ArrowDown
 }
 
 const getAttrs = computed(() => {

@@ -2,3 +2,10 @@
   --nprogress-bar-bg-color: var(--el-color-primary);
   --nprogress-bar-default-bg-color: '#29d';
 }
+
+html.dark {
+  --global-bg-color: #17171a;
+  --global-bg-color-2: #141414;
+  --global-border-color: #363637;
+  --global-text-color-regular: var(--el-text-color-regular, #cfd3dc);
+}

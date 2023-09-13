@@ -13,3 +13,9 @@ body {
 #nprogress .bar {
   background: var(--nprogress-bar-bg-color, var(--nprogress-bar-default-bg-color)) !important;
 }
+
+html.dark {
+  body {
+    background-color: var(--global-bg-color);
+  }
+}

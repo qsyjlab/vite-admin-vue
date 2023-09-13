@@ -1,5 +1,4 @@
 <template>
-  <!-- {{ iconType }} - {{ iconName }} -->
   <!-- svg 精灵图 -->
   <svg-icon v-if="iconType === 'svg'" :name="iconName" :size="size" :color="color" />
 
@@ -17,6 +16,8 @@ import { watch, ref } from 'vue'
 import SvgIcon from './svg-icon.vue'
 import Iconify from './iconify.vue'
 import EpIcon from './ep.vue'
+import { useLayoutStore } from '@/store'
+import { storeToRefs } from 'pinia'
 
 defineOptions({
   name: 'Icon'

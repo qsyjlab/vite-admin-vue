@@ -38,6 +38,11 @@
       .horizontal-menu {
         flex: auto;
         min-width: 0;
+        height: 100%;
+        .el-menu--horizontal {
+          border-bottom: unset;
+          height: 100%;
+        }
       }
     }
   }
@@ -76,6 +81,7 @@
     &__wrapper {
       box-sizing: border-box;
       height: 100%;
+
       // padding: 15px;
     }
   }

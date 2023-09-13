@@ -15,4 +15,7 @@
 
 <script setup lang="ts">
 import { IconSelector } from '@/components/icon'
+import { generate, getPresetColors } from '@arco-design/color'
+
+console.log('generate', generate('#1677FF', { index: 10, list: true, dark: true }))
 </script>

@@ -1,8 +1,23 @@
 // TODO: dark mode
+
+$base-border-color: #363637;
+
+$base-bg-color: #141414;
 .page-card {
   --page-card-padding: 14px;
   --page-card-border-color: #e4e7ed;
-  background-color: white;
+  --page-card-bg-color: white;
+}
+
+html.dark {
+  .page-card {
+    --page-card-bg-color: var(--global-bg-color-2, $base-bg-color);
+    --page-card-border-color: var(--global-border-color, $base-border-color);
+  }
+}
+
+.page-card {
+  background-color: var(--page-card-bg-color);
 
   display: flex;
   flex-direction: column;
