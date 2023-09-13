@@ -47,8 +47,8 @@
           placement="bottom"
         >
           <el-button circle @click="toggleTheme">
-            <icon-selector icon="svg.moon" v-if="layoutConfig.theme === 'light'" :size="14" />
-            <icon-selector icon="svg.sun" v-else :size="14" />
+            <icon-selector icon="svg.sun" v-if="layoutConfig.theme === 'light'" :size="14" />
+            <icon-selector icon="svg.moon" v-else :size="14" />
           </el-button>
         </el-tooltip>
         <el-tooltip effect="dark" content="页面配置" placement="bottom">
