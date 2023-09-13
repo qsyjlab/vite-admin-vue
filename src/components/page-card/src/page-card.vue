@@ -1,6 +1,6 @@
 <template>
-  <div class="page-card">
-    <div class="page-card__header">
+  <div :class="['page-card', full ? 'is-full' : '']">
+    <div class="page-card__header" v-if="header || slost.header">
       <div class="card-header">
         <slot name="header">{{ header }}</slot>
       </div>
@@ -15,12 +15,17 @@ import './page-card.scss'
 
 withDefaults(
   defineProps<{
+    /** 头部 */
     header?: string
+    /** 是否充满容器 */
+    full?: boolean
   }>(),
-  {}
+  {
+    full: true
+  }
 )
 
-defineSlots<{
+const slost = defineSlots<{
   header?: () => void
   default?: () => void
 }>()

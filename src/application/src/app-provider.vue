@@ -18,7 +18,7 @@ export default defineComponent({
     const isMobile = ref(false)
 
     createBreakpointListener(({ screenMap, sizeEnum, width }) => {
-      const lgWidth = screenMap.get(sizeEnum.MD)
+      const lgWidth = screenMap.get(sizeEnum.XS)
       if (lgWidth) {
         isMobile.value = width.value - 1 < lgWidth
       }
@@ -31,7 +31,7 @@ export default defineComponent({
      */
     useTitle(
       computed(() => {
-        return `${route?.meta.title} - ${config.projectTitle}`
+        return `${route?.meta.title ? route?.meta.title + ' -' : ''}${config.projectTitle}`
       })
     )
 

@@ -6,8 +6,11 @@ export default defineExposeRoutes([
     name: 'OutPage',
     path: '/out-page',
     meta: {
-      sort: 7,
-      title: '外部页面'
+      title: '外部页面',
+      icon: 'ep.link'
+    },
+    redirect: {
+      name: 'Iframe'
     },
     component: Layout,
     children: [

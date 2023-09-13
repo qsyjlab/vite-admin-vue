@@ -1,5 +1,5 @@
 <template>
-  <div class="basic-layout-mix-menu">
+  <div class="basic-layout-mix-menu" :tabindex="-1" @blur="leaveChildrenMenuHandler">
     <!---->
     <div
       class="basic-layout-mix-menu-module"
@@ -19,9 +19,7 @@
             'basic-layout-mix-menu-module__icon'
           ]"
         >
-          <el-icon :size="22">
-            <MapLocation />
-          </el-icon>
+          <icon-selector :icon="item.meta?.icon" :size="20"></icon-selector>
         </div>
         <div
           :class="[
@@ -35,12 +33,6 @@
       </div>
     </div>
 
-    <!-- 判定移出菜单蒙版 -->
-    <div
-      className="basic-layout-mix-menu__mask"
-      :style="maskStyle"
-      @mousemove="leaveChildrenMenuHandler"
-    />
     <div
       :class="['basic-layout-mix-menu-children', showChildren ? 'is-show' : '']"
       :style="{
@@ -73,10 +65,11 @@
 <script setup lang="ts">
 import { ref, unref, watch, computed, CSSProperties, onUnmounted } from 'vue'
 import { useLayoutStore, usePermissionStore } from '@/store'
-import { MapLocation } from '@element-plus/icons-vue'
+// import { MapLocation } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { AsideMenu } from '../../menu'
 import { routeChangeListener } from '@/router'
+import { IconSelector } from '@/components/icon'
 
 import Pushpin from '../pushpin.vue'
 import { storeToRefs } from 'pinia'
@@ -126,21 +119,6 @@ watch([showChildren], () => {
   })
 })
 
-const maskStyle = computed<CSSProperties>(() => {
-  const { fixedMenu, showChildren } = unref(mixMenuLayoutConfig)
-  let display = 'block'
-
-  if (!fixedMenu && showChildren) {
-    display = 'block'
-  } else {
-    display = 'none'
-  }
-
-  return {
-    display
-  }
-})
-
 const clickMenuModuleHandler = (item: Menu) => {
   if (!item.name) return
 
@@ -169,10 +147,10 @@ function getActiveChildrenMenus() {
 }
 
 //  鼠标移除 子菜单处理
-const leaveChildrenMenuHandler = (e: MouseEvent) => {
-  e.preventDefault()
-  e.stopPropagation()
+const leaveChildrenMenuHandler = () => {
+  const { fixedMenu } = unref(mixMenuLayoutConfig)
 
+  if (fixedMenu && showChildren.value) return
   showChildren.value = false
 }
 

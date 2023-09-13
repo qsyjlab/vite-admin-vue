@@ -1,7 +1,7 @@
 // layout mode
 export enum LayoutMode {
-  TopMix = 1,
-  Top = 2,
-  Side = 3,
-  SideMix = 4
+  TopMix = 'TOP_MIX',
+  Top = 'TOP',
+  Side = 'SIDE',
+  SideMix = 'SIDEMIX'
 }

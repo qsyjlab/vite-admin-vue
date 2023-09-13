@@ -33,6 +33,8 @@ import { AsideMenu } from '../menu'
 import { storeToRefs } from 'pinia'
 import { useLayoutStore, usePermissionStore } from '@/store'
 import { Fold, Expand } from '@element-plus/icons-vue'
+import { LayoutMode } from '../../enum'
+import { useRouter } from 'vue-router'
 
 interface IProps {
   collapsed?: boolean
@@ -47,8 +49,9 @@ const props = withDefaults(defineProps<IProps>(), {
   collapsed: false
 })
 
-const { getMenus } = usePermissionStore()
+const { currentRoute } = useRouter()
 
+const { getMenus } = usePermissionStore()
 const layoutStore = useLayoutStore()
 const { layoutConfig } = storeToRefs(layoutStore)
 
@@ -59,7 +62,12 @@ const scrollbarWrapperStyle = computed<CSSProperties>(() => {
 })
 
 const menus = computed(() => {
-  return getMenus()
+  const _menus = getMenus()
+  if (layoutConfig.value.splitMenu && layoutConfig.value.layoutMode === LayoutMode.TopMix) {
+    const matched = currentRoute.value.matched
+    return _menus.find(i => i.name === matched[0].name)?.children || []
+  }
+  return _menus
 })
 </script>
 

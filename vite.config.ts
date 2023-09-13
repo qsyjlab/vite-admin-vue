@@ -4,7 +4,6 @@ import { fileURLToPath } from 'url'
 
 import { envDir, projectRootPath } from './build'
 import { createVitePlugin } from './build/vite'
-
 // gzip 压缩
 // import viteCompression from 'vite-plugin-compression'
 
@@ -13,6 +12,7 @@ export default defineConfig(configEnv => ({
   root: projectRootPath,
   base: '/',
   envDir,
+
   plugins: createVitePlugin(configEnv),
   resolve: {
     alias: {
@@ -32,7 +32,6 @@ export default defineConfig(configEnv => ({
     assetsInlineLimit: 4096,
     minify: 'esbuild',
     rollupOptions: {
-      // external: ['tinymce'], // 指定 tinymce 为外部依赖
       output: {
         manualChunks: {
           tinymce: [

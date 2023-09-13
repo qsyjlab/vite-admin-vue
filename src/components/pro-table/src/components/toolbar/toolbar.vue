@@ -1,24 +1,25 @@
 <template>
   <div class="pro-table-header">
     <div class="pro-table-header__left">
-      <slot name="title">
+      <slot name="headerTitle">
         <span class="pro-table-header__title" v-if="headerTitle">
           {{ headerTitle }}
         </span>
       </slot>
-      <slot></slot>
     </div>
     <div class="pro-table-header__right">
       <el-space>
-        <el-tooltip effect="dark" content="刷新" placement="top">
+        <slot name="toolbar"></slot>
+
+        <el-tooltip v-if="optionsObj.reload" effect="dark" content="刷新" placement="top">
           <span style="cursor: pointer" @click="tableActions.reload"
             ><el-icon :size="18"> <RefreshRight /> </el-icon
           ></span>
         </el-tooltip>
 
-        <SettingColumns :columns="columns" />
+        <SettingColumns v-if="optionsObj.setting" :columns="columns" />
 
-        <el-tooltip effect="dark" content="密度" placement="top">
+        <el-tooltip v-if="optionsObj.density" effect="dark" content="密度" placement="top">
           <span style="cursor: pointer">
             <el-dropdown>
               <span>
@@ -50,6 +51,13 @@ import { RefreshRight } from '@element-plus/icons-vue'
 import SettingColumns from '../column-setting/column-setting.vue'
 import { Density } from '../../../../icon'
 import { ProTableProps } from '../../props'
+import { ProTableColumns, TableOptions } from '../../types'
+import { computed } from 'vue'
+
+defineSlots<{
+  headerTitle: () => void
+  toolbar: () => void
+}>()
 
 const sizeTypes: {
   title: string
@@ -60,18 +68,52 @@ const sizeTypes: {
   { title: '小', size: 'small' }
 ]
 
-defineProps({
-  columns: {
-    type: Array,
-    default: () => []
-  },
-  headerTitle: {
-    type: String,
-    default: ''
+/** TODO: 需要排查当禁用后是否还会进行的计算 */
+
+const DEFAULT_OPTIONS = {
+  reload: true,
+  density: true,
+  setting: true
+}
+
+const props = withDefaults(
+  defineProps<{
+    columns?: ProTableColumns
+    headerTitle?: string
+    options?: TableOptions
+  }>(),
+  {
+    headerTitle: '',
+    columns: () => [],
+    options: () => ({})
   }
-})
+)
 
 const tableActions = useTableActionContext()
 
 const { mergeTableProps } = useTableStoreContext()
+
+const optionsObj = computed(() => {
+  if (typeof props.options === 'boolean') {
+    if (props.options) {
+      return {
+        reload: true,
+        density: true,
+        setting: true
+      }
+    }
+
+    if (props.options === false)
+      return {
+        reload: false,
+        density: false,
+        setting: false
+      }
+  }
+
+  return {
+    ...DEFAULT_OPTIONS,
+    ...props.options
+  }
+})
 </script>

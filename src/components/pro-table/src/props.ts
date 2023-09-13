@@ -1,7 +1,7 @@
 import { definePropType } from '@/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { TableProps } from 'element-plus'
-import { ColumnsState, ProTableColumns, ProTableColumnItem } from './types'
+import { ColumnsState, ProTableColumns, ProTableColumnItem, TableOptions } from './types'
 
 export const proTableHeaderProps = {
   headerTitle: String
@@ -52,6 +52,18 @@ export const proTableProps = {
   reserveSelection: {
     type: Boolean,
     default: false
+  },
+  options: {
+    type: definePropType<TableOptions>([Boolean, Object]),
+    default: () => ({})
+  },
+  loading: {
+    type: Boolean,
+    default: false
+  },
+  selectedKeys: {
+    type: Array,
+    default: () => []
   }
 }
 
@@ -69,8 +81,12 @@ export const emitsEnums = {
 // [Vue warn]:  Invalid event arguments: event validation failed for event
 // so, A value must be returned
 export const proTableEmits = {
-  [emitsEnums.PAGE_CHANGE]: (page: number, size: number): boolean => !!size && !!page
+  [emitsEnums.PAGE_CHANGE]: (page: number, size: number) => !!size && !!page,
+  'update:loading': (loading: boolean) => true,
+  'update:selectedKeys': (keys: any[]) => !!keys
 }
+
+export type ProTableEmits = typeof proTableEmits
 
 export type ProTableProps = ExtractPropTypes<typeof proTableProps>
 

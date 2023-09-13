@@ -5,6 +5,11 @@
 
 html.dark {
   color-scheme: dark;
+
+  .container {
+    background-color: var(--global-bg-color);
+  }
+
   .basic-layout {
     &-header {
       &__wrapper {
@@ -17,12 +22,22 @@ html.dark {
     &-tabs {
       &__wrapper {
         border-bottom: 1px solid var(--basic-layout-border-color);
+        background-color: var(--basic-layout-dark-colo);
       }
     }
 
     &-aside {
       &__wrapper {
         border-right: 1px solid var(--basic-layout-border-color);
+      }
+    }
+
+    &-main {
+      &__wrapper {
+        box-sizing: border-box;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.08);
+        // padding: 15px;
       }
     }
 

@@ -21,4 +21,9 @@ export default defineAppPlugin(app => {
 
   // windicss
   setupWindicss(app)
+
+  /**
+   * vite-plugin-svg-icons 虚拟路径
+   */
+  import('./vite-plugin-svg-icons')
 })

@@ -7,7 +7,7 @@
  * @LastEditTime: 2022-07-21 09:41:38
  * @FilePath: \vite-admin-vue\src\components\common\index.ts
  */
-import HoverCard from './hover-card/hover-card.vue'
+
 import Form from './form/form.vue'
 import Select from './select/select.vue'
 import CheckboxGroup from './checkbox-group/checkbox-group.vue'
@@ -15,4 +15,4 @@ import Table from './table/table.vue'
 import Transition from './transition/transition.vue'
 import Upload from './upload/upload.vue'
 
-export { HoverCard, Form, Select, CheckboxGroup, Table, Transition, Upload }
+export { Form, Select, CheckboxGroup, Table, Transition, Upload }

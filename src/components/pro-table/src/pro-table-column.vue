@@ -73,31 +73,29 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
 }
 
 const renderColumns = (item: ProTableColumnItem) => {
-  const _item = { ...item }
+  const columnConfig = { ...item }
 
-  delete _item.children
+  delete columnConfig.children
 
   return (
-    <>
-      <ElTableColumn prop={String(item.key)} label={String(item.title)} {..._item}>
-        {{
-          default: (scope: any) => columnDefaultRender(item, scope),
-          header: (scope: any) => {
-            if (slots[`${item.key}Header`])
-              return slots[`${item.key}Header`]?.({
-                ...scope,
-                info: item
-              })
-            return (
-              <span class="column-header">
-                <span class="column-header-title">{item.title}</span>
-                {item.tip ? <Tips text={item.tip} /> : null}
-              </span>
-            )
-          }
-        }}
-      </ElTableColumn>
-    </>
+    <ElTableColumn prop={String(item.key)} label={String(item.title)} {...columnConfig}>
+      {{
+        default: (scope: any) => columnDefaultRender(item, scope),
+        header: (scope: any) => {
+          if (slots[`${item.key}Header`])
+            return slots[`${item.key}Header`]?.({
+              ...scope,
+              info: item
+            })
+          return (
+            <span class="column-header">
+              <span class="column-header-title">{item.title}</span>
+              {item.tip ? <Tips text={item.tip} /> : null}
+            </span>
+          )
+        }
+      }}
+    </ElTableColumn>
   )
 }
 

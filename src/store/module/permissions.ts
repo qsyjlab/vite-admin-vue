@@ -63,6 +63,9 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
       const name = route.name
 
       if (!name) return true
+
+      if (route.meta?.ignoreAuth) return true
+
       return hasPermission(name as string)
     }
 

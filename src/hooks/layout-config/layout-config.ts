@@ -77,7 +77,7 @@ export function useLayoutConfigHandler() {
       }
 
       case LayoutConfigHandlerEnum.THEME_COLOR: {
-        !isDark.value && setElementCssVar(value)
+        setElementCssVar(value)
         return {
           themeColor: value
         }
@@ -87,6 +87,8 @@ export function useLayoutConfigHandler() {
           toggleDark()
 
           removeElementCssVar()
+
+          layoutConfig.value.themeColor && setElementCssVar(layoutConfig.value.themeColor)
         } else if (value === 'light' && isDark.value) {
           toggleDark()
           layoutConfig.value.themeColor && setElementCssVar(layoutConfig.value.themeColor)

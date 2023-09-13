@@ -16,12 +16,17 @@
             :closable="!affixTabsList.includes(item.fullPath)"
           >
             <template #label>
-              <span
-                :style="{
-                  fontSize: `${fontSize}px`
-                }"
-                >{{ item.meta.title }}</span
-              >
+              <div class="tab-item">
+                <span class="icon" v-if="item.meta.icon">
+                  <icon-selector :icon="item.meta.icon" :size="fontSize + 5" />
+                </span>
+                <span
+                  :style="{
+                    fontSize: `${fontSize}px`
+                  }"
+                  >{{ item.meta.title }}</span
+                >
+              </div>
             </template>
           </el-tab-pane>
         </el-tabs>
@@ -29,8 +34,9 @@
 
       <div class="tabs-bar__operate">
         <el-dropdown style="height: 100%">
-          <span style="cursor: pointer" class="operate-btn">
-            <el-icon><ArrowDown /></el-icon>
+          <span class="operate-btn">
+            <!-- <el-icon><ArrowDown /></el-icon> -->
+            <icon-selector icon="ep.arrow-down" :size="16"></icon-selector>
           </span>
 
           <template #dropdown>
@@ -79,28 +85,16 @@ import { watch } from 'vue'
 import { useTabPageStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import router from '@/router'
-import { ArrowDown, Refresh, Close, Upload, CircleClose } from '@element-plus/icons-vue'
+import { Refresh, Close, Upload, CircleClose } from '@element-plus/icons-vue'
 import { useReloadPage } from '@/hooks'
 import { REDIRECT_NAME } from '@/router/constant'
+import { IconSelector } from '@/components/icon'
 
 interface Props {
-  bgColor?: string
-  textColor?: string
-  activeTextColor?: string
-  activeBgColor?: string
-  dotColor?: string
-  borderColor?: string
   fontSize?: number
 }
 
 withDefaults(defineProps<Props>(), {
-  // 禁止删除的路由
-  bgColor: 'white',
-  textColor: '#495060',
-  activeTextColor: 'white',
-  activeBgColor: '#42b983',
-  dotColor: 'white',
-  borderColor: '#d8dce5',
   fontSize: 14
 })
 
@@ -133,12 +127,15 @@ onMounted(() => {
     to => {
       if (to.name === REDIRECT_NAME) return
 
+      // 子集的 meta 会继承 父级 meta, matched 中的 meta 保持原值
+      const _to = to.matched.find(i => i.name === to.name)
+
       addTabPage({
         name: to.name as string,
         fullPath: to.fullPath,
         query: to.query,
         params: to.params,
-        meta: to.meta
+        meta: _to?.meta || {}
       })
     },
     {
@@ -182,17 +179,20 @@ const handleTabRemove = (fullPath: any) => {
 </script>
 
 <style lang="scss" scoped>
-$base-padding: 7px;
-$base-color-white: #fff;
-//顶部多标签页tabs-bar的高度
+.tabs-bar-container {
+  --base-padding: 7px;
+  --base-bg-color: #fff;
+  --base-border-color: #dcdfe6;
+  --base-item-height: 29px;
+}
 
-//顶部多标签页tabs-bar中每一个item的高度
-$base-tag-item-height: 29px;
+html.dark {
+  .tabs-bar-container {
+    --base-bg-color: transparent;
+    --base-border-color: var(--global-border-color);
+  }
+}
 
-$base-border-color: #dcdfe6;
-$base-border-radius: 2px;
-$base-color-default: #409eff;
-$base-color-blue: $base-color-default;
 .tabs-bar-container {
   width: 100%;
   height: 100%;
@@ -205,16 +205,9 @@ $base-color-blue: $base-color-default;
   justify-content: space-between;
   padding: 3px;
 
-  padding-left: $base-padding;
+  padding-left: var(--base-padding);
   user-select: none;
-  background: $base-color-white;
-  // border-top: 1px solid #f6f6f6;
-
-  // ::v-deep {
-  //   .fold-unfold {
-  //     margin-right: $base-padding;
-  //   }
-  // }
+  background: var(--base-bg-color);
 
   :deep(.el-tabs__nav-wrap) {
     margin-bottom: 0px;
@@ -233,14 +226,11 @@ $base-color-blue: $base-color-default;
   :deep(.tabs-content) {
     height: 100%;
     overflow: hidden;
-    // min-width: 0;
-    // display: flex;
-    // align-items: center;
 
     .el-tabs__nav-next,
     .el-tabs__nav-prev {
-      height: $base-tag-item-height;
-      line-height: $base-tag-item-height;
+      height: var(--base-item-heigh);
+      line-height: var(--base-item-heigh);
     }
 
     .el-tabs__nav-scroll {
@@ -261,11 +251,11 @@ $base-color-blue: $base-color-default;
         box-sizing: border-box;
         height: 100%;
         margin-right: 5px;
-        // line-height: $base-tag-item-height;
-        border: 1px solid $base-border-color;
-        // border-radius: $base-border-radius;
+        border: 1px solid var(--base-border-color);
+
         transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
         padding: 0 7px;
+        border-radius: 3px;
         &.is-active {
           background-color: var(--el-color-primary);
           color: white;
@@ -295,9 +285,9 @@ $base-color-blue: $base-color-default;
 }
 
 .operate-btn {
-  // display: inline-block;
+  cursor: pointer;
   height: 100%;
-  border-left: 1px solid #d9d9d9;
+  border-left: 1px solid var(--base-border-color);
   color: rgba(0, 0, 0, 0.45);
   // line-height: 30px;
   text-align: center;
@@ -307,5 +297,22 @@ $base-color-blue: $base-color-default;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.tab-item {
+  display: flex;
+  align-items: center;
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+  }
+}
+
+html.dark {
+  .operate-btn {
+    color: var(--global-text-color-regular);
+  }
 }
 </style>

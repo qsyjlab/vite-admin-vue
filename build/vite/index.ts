@@ -7,6 +7,8 @@ import { viteMockPlugin } from './plugins/mock'
 import { viteAutoImportPlugin, viteComponentsPlugin } from './plugins/element-plus'
 import WindiCSS from 'vite-plugin-windicss'
 import { visualizer } from 'rollup-plugin-visualizer'
+import { configSvgIconsPlugin } from './plugins/svg-icons'
+import legacy from '@vitejs/plugin-legacy'
 
 export function createVitePlugin(configEnv: ConfigEnv) {
   const { command } = configEnv
@@ -17,6 +19,11 @@ export function createVitePlugin(configEnv: ConfigEnv) {
     viteAutoImportPlugin(),
     viteComponentsPlugin(),
     WindiCSS(),
+    configSvgIconsPlugin({ isBuild }),
+    legacy({
+      renderLegacyChunks: false,
+      modernPolyfills: ['es.array.flat-map']
+    }),
     visualizer({
       gzipSize: true,
       brotliSize: true,

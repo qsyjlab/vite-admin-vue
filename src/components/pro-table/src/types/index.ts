@@ -16,11 +16,11 @@ export interface ProTableColumnItem<T = any>
   /** 数值枚举 */
   valueEnum?: ValueEnum
   children?: ProTableColumnItem<T>[]
-  /** 函数式渲染器 优先级小于 slotffrrffcffvfrfcc   vvfvrfre */
-  render?: (row: T, column: any) => string | undefined | null | VNode | Component
+  /** 函数式渲染器 优先级小于 slot */
+  render?: (row: T, column: any) => number | string | undefined | null | VNode | Component
 }
 
-export type ProTableColumns = ProTableColumnItem[]
+export type ProTableColumns<T = any> = ProTableColumnItem<T>[]
 
 export interface ColumnsState {
   persistenceKey?: string
@@ -49,3 +49,13 @@ export type ValueEnumValue = {
   text?: string
   color?: string
 }
+
+/** 表格默认工具栏开关 */
+interface ToolbarOptions {
+  fullScreen?: boolean
+  reload?: boolean
+  setting?: boolean
+  density?: boolean
+}
+
+export type TableOptions = boolean | ToolbarOptions

@@ -178,6 +178,13 @@ const featureModuleRoute = {
           }
         }
       ]
+    },
+    {
+      name: 'ImageViewer',
+      path: 'image-viewer',
+      meta: {
+        title: '图片预览'
+      }
     }
   ]
 }
@@ -261,6 +268,24 @@ const outPageModuleRoute = {
   ]
 }
 
+const echarts = {
+  name: 'Charts',
+  path: '/charts',
+  meta: {
+    title: '图表',
+    icon: 'ep.document'
+  },
+  children: [
+    {
+      name: 'Echarts',
+      path: '/echarts',
+      meta: {
+        title: 'echarts'
+      }
+    }
+  ]
+}
+
 // pluginModule
 
 const pluginModuleRoute = {
@@ -300,7 +325,8 @@ export const allRouteModules = [
   featureModuleRoute,
   componentsModuleRoute,
   pluginModuleRoute,
-  outPageModuleRoute
+  outPageModuleRoute,
+  echarts
 ]
 
 export const permissionsMap = {

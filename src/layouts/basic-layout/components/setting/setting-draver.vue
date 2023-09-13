@@ -5,18 +5,6 @@
       <div class="setting-title">系统布局配置</div>
 
       <div class="setting-item">
-        <div class="setting-item__label">整体风格</div>
-        <div class="setting-item__content">
-          <el-switch
-            v-model="layoutConfig.theme"
-            active-value="light"
-            inactive-value="dark"
-            @change="(value:any) => setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_THEME, value)"
-          />
-        </div>
-      </div>
-
-      <div class="setting-item">
         <div class="setting-item__label">主题色</div>
         <div class="setting-item__content">
           <el-color-picker

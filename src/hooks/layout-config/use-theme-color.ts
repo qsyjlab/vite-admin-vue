@@ -1,14 +1,28 @@
 import { generateThemeCluster } from '@/utils'
 
-export const useElementCssVar = () => {
+import { generate } from '@arco-design/color'
+
+console.log('generate')
+
+export const useElementCssVar = (mode?: 'light' | 'dark') => {
   const el = document.documentElement
 
   const style = el.style
 
-  const setElementCssVar = (color: string): void => {
+  mode = mode || 'light'
+
+  const setElementCssVar = (color: string, mode?: 'light' | 'dark'): void => {
     let colorList: string[] = []
 
-    colorList = generateThemeCluster(color)
+    if (mode === 'light') {
+      colorList = generateThemeCluster(color)
+    } else {
+      colorList = generate(color, { index: 10, list: true, dark: true })
+      colorList.unshift(color)
+    }
+
+    console.log('colorList', colorList)
+
     // set css var
     style.setProperty('--el-color-primary', colorList[0])
     style.setProperty('--el-button-bg-color', colorList[0])

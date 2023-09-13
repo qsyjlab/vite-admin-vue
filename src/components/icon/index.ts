@@ -3,8 +3,8 @@ import Density from './src/density.vue'
 
 export { Density }
 
-import IconSelectorComponent from './src/icon-selector.vue'
+import Icon from './src/icon.vue'
 
-export const IconSelector = withInstall(IconSelectorComponent)
+export const IconSelector = withInstall(Icon)
 
 export default IconSelector

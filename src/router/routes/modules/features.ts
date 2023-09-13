@@ -9,7 +9,7 @@ export default defineExposeRoutes([
       title: '功能',
       icon: 'ify.iconoir:git-fork'
     },
-    redirect: '/feature/watermark2',
+    redirect: '/feature/watermark',
     component: Layout,
     children: [
       {
@@ -46,6 +46,14 @@ export default defineExposeRoutes([
             component: () => import('@/views/system/feature/tab-page/detail.vue')
           }
         ]
+      },
+      {
+        name: 'ImageViewer',
+        path: 'image-viewer',
+        meta: {
+          title: '图片预览'
+        },
+        component: () => import('@/views/system/feature/image-viwer/image-viwer.vue')
       }
     ]
   }

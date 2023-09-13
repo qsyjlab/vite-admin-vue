@@ -10,7 +10,7 @@ export default defineExposeRoutes([
       sort: 4,
       icon: 'ify.bxs:component'
     },
-    redirect: { name: 'Form' },
+    redirect: { name: 'ProTable' },
     component: Layout,
     children: [
       {
@@ -20,6 +20,9 @@ export default defineExposeRoutes([
           title: 'ProTable'
         },
         component: BlankContainer,
+        redirect: {
+          name: 'ProTableBasic'
+        },
         children: [
           {
             name: 'ProTableBasic',
@@ -132,6 +135,35 @@ export default defineExposeRoutes([
           title: 'segmented 分段器'
         },
         component: () => import('@/views/system/components/segmented/segmented.vue')
+      },
+      {
+        name: 'Tree',
+        path: 'tree',
+        meta: {
+          title: 'Tree',
+          ignoreAuth: true
+        },
+        component: BlankContainer,
+        children: [
+          {
+            name: 'TreeSelect',
+            path: 'tree-select',
+            meta: {
+              ignoreAuth: true,
+              title: 'TreeSelect'
+            },
+            component: () => import('@/views/system/components/tree/tree-select.vue')
+          },
+          {
+            name: 'BaseTree',
+            path: 'base',
+            meta: {
+              title: 'Tree',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/components/tree/tree/tree.vue')
+          }
+        ]
       }
     ]
   }

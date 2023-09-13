@@ -1,9 +1,10 @@
-import { computed, nextTick, onMounted, reactive, ref, toRefs, watch } from 'vue'
+import { nextTick, reactive, ref, toRefs, watch } from 'vue'
 import { sliceData } from './utils'
 import type { SetupContext } from 'vue'
 import { proTableEmits, ProTableProps, emitsEnums } from './props'
 import { useLoading } from './hooks'
 import type { TableInstance, TableMethods } from './types'
+import { useSelection } from './hooks/use-selection'
 
 type UseTableOptions = {
   props: ProTableProps
@@ -18,7 +19,7 @@ export const useProTable = (options: UseTableOptions) => {
   const tableRef = ref<TableInstance | null>(null)
 
   const dataSource = ref<any[]>([])
-  const tableColums = ref(columns.value)
+  const tableColums = ref(columns.value || [])
   const total = ref(0)
 
   const pageQuery = reactive({
@@ -26,7 +27,12 @@ export const useProTable = (options: UseTableOptions) => {
     pageSize: 10
   })
 
-  const { loading, setLoading } = useLoading()
+  const { loading, setLoading } = useLoading(props, { emits })
+
+  const { selectedKeys, setSelectedKeys, clearSelectedKeys } = useSelection(props, {
+    tableInstance: tableRef,
+    emits
+  })
 
   watch(
     [params, data],
@@ -114,6 +120,9 @@ export const useProTable = (options: UseTableOptions) => {
     refresh,
     reload,
     handleSizeChange,
-    handleCurrentChange
+    handleCurrentChange,
+    selectedKeys,
+    setSelectedKeys,
+    clearSelectedKeys
   }
 }
