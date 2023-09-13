@@ -31,7 +31,7 @@ export default defineComponent({
      */
     useTitle(
       computed(() => {
-        return `${route?.meta.title} - ${config.projectTitle}`
+        return `${route?.meta.title ? route?.meta.title + ' -' : ''}${config.projectTitle}`
       })
     )
 
