@@ -38,7 +38,7 @@ const currentActiveMenu = computed(() => {
   const route = unref(currentRoute)
 
   if (props.isSplit && props.menuType === 'top') {
-    return route.matched[0]?.name || ''
+    return route.matched[0]?.name as string
   }
 
   return route.meta.currentActiveMenu || String(route.name)
