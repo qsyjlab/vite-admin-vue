@@ -10,7 +10,7 @@ export default defineExposeRoutes([
       sort: 4,
       icon: 'ify.bxs:component'
     },
-    redirect: { name: 'Form' },
+    redirect: { name: 'ProTable' },
     component: Layout,
     children: [
       {
@@ -20,6 +20,9 @@ export default defineExposeRoutes([
           title: 'ProTable'
         },
         component: BlankContainer,
+        redirect: {
+          name: 'ProTableBasic'
+        },
         children: [
           {
             name: 'ProTableBasic',

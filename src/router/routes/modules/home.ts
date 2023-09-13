@@ -55,7 +55,8 @@ export default defineExposeRoutes([
           sort: 2,
           icon: 'ep.stopwatch',
           currentActiveMenu: 'Dashboard',
-          hideInBreadcrumb: true
+          hideInBreadcrumb: true,
+          hideInMenu: true
         },
         component: () => import('@/views/system/WelcomeTo.vue'),
         children: []

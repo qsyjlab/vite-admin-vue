@@ -13,7 +13,7 @@
           [LayoutMode.Side, LayoutMode.SideMix].includes(layoutConfig.layoutMode)
         "
       >
-        <Breadcrumb></Breadcrumb>
+        <Breadcrumb style="padding-left: 15px"></Breadcrumb>
       </template>
 
       <div
@@ -23,7 +23,12 @@
           (LayoutMode.TopMix === layoutConfig.layoutMode && layoutConfig.splitMenu)
         "
       >
-        <aside-menu :menus="getCurrentMenus" mode="horizontal"></aside-menu>
+        <aside-menu
+          :menus="getCurrentMenus"
+          mode="horizontal"
+          menu-type="top"
+          :is-split="layoutConfig.splitMenu"
+        ></aside-menu>
       </div>
     </div>
     <div class="basic-layout-header__right">

@@ -9,7 +9,7 @@ export default defineExposeRoutes([
       title: '功能',
       icon: 'ify.iconoir:git-fork'
     },
-    redirect: '/feature/watermark2',
+    redirect: '/feature/watermark',
     component: Layout,
     children: [
       {

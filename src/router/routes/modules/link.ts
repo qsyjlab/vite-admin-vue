@@ -1,6 +1,5 @@
 import { defineExposeRoutes } from '@/router'
 import { Layout, BlankContainer } from '@/router/constant'
-import icon from './icon'
 
 export default defineExposeRoutes([
   {
@@ -9,6 +8,9 @@ export default defineExposeRoutes([
     meta: {
       title: '外部页面',
       icon: 'ep.link'
+    },
+    redirect: {
+      name: 'Iframe'
     },
     component: Layout,
     children: [
