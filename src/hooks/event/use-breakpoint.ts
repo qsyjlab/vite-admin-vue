@@ -1,26 +1,19 @@
 import { ref, computed, ComputedRef, unref, onUnmounted } from 'vue'
-// import { useEventListener } from '/@/hooks/event/useEventListener'
-
-// 可以用这个替换，优化项
-// import { Grid } from 'ant-design-vue';
-// const { useBreakpoint } = Grid;
 
 export enum sizeEnum {
   XS = 'XS',
   SM = 'SM',
   MD = 'MD',
   LG = 'LG',
-  XL = 'XL',
-  XXL = 'XXL'
+  XL = 'XL'
+  // XXL = 'XXL'
 }
 
 export enum screenEnum {
-  XS = 480,
-  SM = 576,
-  MD = 768,
-  LG = 992,
-  XL = 1200,
-  XXL = 1600
+  XS = 768,
+  SM = 992,
+  MD = 1200,
+  LG = 1920
 }
 
 const screenMap = new Map<sizeEnum, number>()
@@ -29,8 +22,6 @@ screenMap.set(sizeEnum.XS, screenEnum.XS)
 screenMap.set(sizeEnum.SM, screenEnum.SM)
 screenMap.set(sizeEnum.MD, screenEnum.MD)
 screenMap.set(sizeEnum.LG, screenEnum.LG)
-screenMap.set(sizeEnum.XL, screenEnum.XL)
-screenMap.set(sizeEnum.XXL, screenEnum.XXL)
 
 export { screenMap }
 
@@ -72,7 +63,7 @@ export function createBreakpointListener(fn?: (opt: CreateCallbackParams) => voi
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const lg = screenMap.get(sizeEnum.LG)!
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const xl = screenMap.get(sizeEnum.XL)!
+    // const xl = screenMap.get(sizeEnum.XL)!
     if (width < xs) {
       screenRef.value = sizeEnum.XS
     } else if (width < sm) {
@@ -81,10 +72,9 @@ export function createBreakpointListener(fn?: (opt: CreateCallbackParams) => voi
       screenRef.value = sizeEnum.MD
     } else if (width < lg) {
       screenRef.value = sizeEnum.LG
-    } else if (width < xl) {
-      screenRef.value = sizeEnum.XL
     } else {
-      screenRef.value = sizeEnum.XXL
+      screenRef.value = sizeEnum.XL
+      // screenRef.value = sizeEnum.XXL
     }
     realWidthRef.value = width
   }
@@ -99,17 +89,6 @@ export function createBreakpointListener(fn?: (opt: CreateCallbackParams) => voi
   }
 
   window.addEventListener('resize', resizeListener)
-
-  // useEventListener({
-  //   el: window,
-  //   name: 'resize',
-
-  //   listener: () => {
-  //     getWindowWidth()
-  //     resizeFn()
-  //   }
-  //   // wait: 100,
-  // })
 
   getWindowWidth()
   globalScreenRef = computed(() => unref(screenRef))

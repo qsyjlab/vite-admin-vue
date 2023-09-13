@@ -35,11 +35,21 @@
       <el-space>
         <el-tooltip effect="dark" content="消息通知" placement="bottom">
           <notification>
-            <el-button :icon="NotificationIcon" circle />
+            <el-button :icon="NotificationIcon" circle> </el-button>
           </notification>
         </el-tooltip>
         <el-tooltip effect="dark" :content="isFullscreen ? '退出全屏' : '全屏'" placement="bottom">
           <el-button :icon="FullScreen" circle @click="toggle" />
+        </el-tooltip>
+        <el-tooltip
+          effect="dark"
+          :content="layoutConfig.theme === 'light' ? '切换为暗黑模式' : '切换为亮色模式'"
+          placement="bottom"
+        >
+          <el-button circle @click="toggleTheme">
+            <icon-selector icon="svg.moon" v-if="layoutConfig.theme === 'light'" :size="14" />
+            <icon-selector icon="svg.sun" v-else :size="14" />
+          </el-button>
         </el-tooltip>
         <el-tooltip effect="dark" content="页面配置" placement="bottom">
           <el-button :icon="Setting" circle @click="toggleSettingDrawer" />
@@ -63,10 +73,8 @@ import { useFullscreen } from '@vueuse/core'
 import { LayoutMode } from '../../enum'
 import { isFullScreen as fullScreenStatus } from '@/utils'
 import Notification from './components/notification.vue'
-
-const emits = defineEmits<{
-  'mobile-drawer': []
-}>()
+import { IconSelector } from '@/components'
+import { useLayoutConfigHandler } from '@/hooks'
 
 const layoutStore = useLayoutStore()
 
@@ -74,24 +82,20 @@ const { toggleSettingDrawer } = layoutStore
 
 const { isFullscreen, toggle } = useFullscreen()
 
+const { layoutConfig } = storeToRefs(useLayoutStore())
+const { getMenus } = usePermissionStore()
+
+const { setLayoutConfig } = useLayoutConfigHandler()
+
+const { isMobile, projectConfig } = useAppInject()
+
 onMounted(() => {
   isFullscreen.value = fullScreenStatus()
 })
 
-// const toggleOperate = () => {
-//   if (isMobile.value) {
-//     emits('mobile-drawer')
-//   } else {
-//     setLayoutConfig({
-//       collapsed: !layoutConfig.value.collapsed
-//     })
-//   }
-// }
-
-const { layoutConfig } = storeToRefs(useLayoutStore())
-const { getMenus } = usePermissionStore()
-
-const { isMobile, projectConfig } = useAppInject()
+const toggleTheme = () => {
+  setLayoutConfig('theme', layoutConfig.value.theme === 'light' ? 'dark' : 'light')
+}
 
 const getCurrentMenus = computed(() => {
   const menus = getMenus()
