@@ -35,12 +35,18 @@ export default defineConfig({
       {
         text: '权限',
         link: '/permission/index.md'
-        // items: [
-        //   { text: '配置', link: '/route/setting' },
-        //   { text: '菜单', link: '/route/menu' },
-        //   { text: '路由刷新', link: '/route/reload' },
-        //   { text: '多标签页', link: '/route/tab' }, 
-        // ]
+      },
+      {
+        text: '外部模块引入',
+        link: '/other/out-module.md'
+      },
+      {
+        text: '其他',
+        items: [
+          { text: '图标', link: '/other/icon' },
+          { text: '暗黑主题', link: '/other/theme' },
+          { text: '目录说明', link: '/guide/contents' }
+        ]
       },
       
     ],
