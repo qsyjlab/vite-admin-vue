@@ -149,8 +149,14 @@ function proColumnsFilter(columns: any[]) {
       if (column.children && column.children?.length) {
         const children = proColumnsFilter(column.children)
 
+        /**
+         * 需要将父级列也移出去, 动态切换表头会出现列塌陷
+         * doLayout 无效 ,doLayout 并没有重置 table 内部配置只是 高度大小
+         */
         if (children.length) {
           tempColumn.children = children
+        } else {
+          return false
         }
       }
       return tempColumn
