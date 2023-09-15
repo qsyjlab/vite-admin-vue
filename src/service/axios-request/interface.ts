@@ -26,7 +26,11 @@ export interface InterceptorsType {
   responseInterceptorsCatch?: ResponseInterceptorsCatchType
 }
 
-export type BaseAxiosRequestConfig = AxiosRequestConfig & RequestConfigEx
+export type BaseAxiosRequestConfig = {
+  baseURL?: AxiosRequestConfig['baseURL']
+  timeout?: AxiosRequestConfig['timeout']
+  headers?: AxiosRequestConfig['headers']
+} & RequestConfigEx
 interface RequestConfigEx {
   interceptorsHooks?: InterceptorsType
   transform?: RequestTransform
@@ -60,3 +64,11 @@ export interface RequestTransform {
   transformRequest?: TransformRequest
   requestCatch?: RequestCatch
 }
+
+// webpack cli => 随时可以模版 => router => store
+
+// rollup => vite => plugin
+
+// webpack | rollup
+// vite => 打包
+// cli => 开发   create-vue
