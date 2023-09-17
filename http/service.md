@@ -97,3 +97,90 @@ export class RequestResultAdapter extends AxiosRequest {
   }
 }
 ```
+
+## transform 和 interceptorsHooks
+
+### interceptorsHooks 
+
+类型：
+
+
+``` ts
+
+
+export interface InterceptorsType {
+  requestInterceptors?: RequestInterceptorsType
+  requestInterceptorsCatch?: RequestInterceptorsCatchType
+  responseInterceptors?: ResponseInterceptorsType
+  responseInterceptorsCatch?: ResponseInterceptorsCatchType
+}
+
+
+export type RequestInterceptorsType = (
+  // 这里使用的是最新版本的 axios 1.x 以上 与 0.x 类型并不是同一个
+  config: InternalAxiosRequestConfig
+) => InternalAxiosRequestConfig
+
+export type RequestInterceptorsCatchType = (error: CatchError) => Promise<CatchError>
+
+export type ResponseInterceptorsType = (response: BaseAxiosResponse) => BaseAxiosResponse
+
+export type ResponseInterceptorsCatchType = (error: CatchError) => Promise<CatchError>
+
+export type CatchError = AxiosError
+
+
+
+```
+最终会被 `AxiosRequest` 注册
+
+``` ts
+private registerInterceptors(): void {
+    const {
+      requestInterceptors,
+      requestInterceptorsCatch,
+      responseInterceptors,
+      responseInterceptorsCatch
+    } = this.instanceConfig.interceptorsHooks || {}
+
+    this.instance.interceptors.request.use(requestInterceptors, requestInterceptorsCatch)
+    this.instance.interceptors.response.use(responseInterceptors, responseInterceptorsCatch)
+}
+```
+
+
+### transform
+
+这个属性是为了细化请求额外拓展出来的，你仍然可以使用拦截器来处理请求。
+
+
+类型：
+``` ts
+export interface RequestOptionsEx {
+  /** 忽略 transformRequest 不执行 */
+  ignoreTransformRequest?: boolean
+  /** 忽略 transformResponse 不执行 */
+  ignoreTransformResponse?: boolean
+  /** 忽略 cancel */
+  ignoreCancelRequest?: boolean
+  /** 忽略 错误提示 弹出 */
+  ignoreErrorMessage?: boolean
+  /** 忽略 业务状态错误提示 弹出 */
+  ignoreResponseErrorMessage?: boolean
+}
+
+export type TransformResponse<T = any> = (
+  response: AxiosResponse<T>,
+  requestOptionsEx: RequestOptionsEx
+) => AxiosResponse<T>['data']
+export type TransformRequest<T = any> = (request: AxiosRequestConfig<T>) => AxiosRequestConfig<T>
+
+export type RequestCatch = (error: Error, requestOptionsEx: RequestOptionsEx) => Error
+
+export interface RequestTransform {
+  transformResponse?: TransformResponse
+  transformRequest?: TransformRequest
+  requestCatch?: RequestCatch
+}
+
+```
