@@ -57,18 +57,10 @@ export type TransformResponse<T = any> = (
 ) => AxiosResponse<T>['data']
 export type TransformRequest<T = any> = (request: AxiosRequestConfig<T>) => AxiosRequestConfig<T>
 
-export type RequestCatch<T = any> = (error: Error, requestOptionsEx: RequestOptionsEx) => Error
+export type RequestCatch = (error: Error, requestOptionsEx: RequestOptionsEx) => Error
 
 export interface RequestTransform {
   transformResponse?: TransformResponse
   transformRequest?: TransformRequest
   requestCatch?: RequestCatch
 }
-
-// webpack cli => 随时可以模版 => router => store
-
-// rollup => vite => plugin
-
-// webpack | rollup
-// vite => 打包
-// cli => 开发   create-vue
