@@ -77,6 +77,10 @@ export const proTableColumnProps = {
   column: {
     type: definePropType<ProTableColumnItem>(Object),
     default: () => ({})
+  },
+  rowKey: {
+    type: String,
+    default: 'id'
   }
 }
 

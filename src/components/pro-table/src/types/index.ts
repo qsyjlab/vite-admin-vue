@@ -36,6 +36,9 @@ export type TableInstance = InstanceType<typeof ElTable>
 export interface TableExpose {
   doLayout: TableInstance['doLayout']
   reload: NOOP
+  startEditable: (rowKey: string) => void
+  cancelEditable: (rowKey: string) => void
+  saveEditRow: (rowKey: string) => void
 }
 
 export type ValueType = ValueTypeVal | (() => ValueTypeVal)

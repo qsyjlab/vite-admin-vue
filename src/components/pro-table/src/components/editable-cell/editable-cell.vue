@@ -4,22 +4,27 @@
 <script setup lang="tsx">
 import { ElInput } from 'element-plus'
 import { ProTableColumnItem } from '../../types'
-import { ref } from 'vue'
 
 const props = withDefaults(
   defineProps<{
     column?: ProTableColumnItem<any>
     value?: any
+    row?: any
   }>(),
   {}
 )
-
-const value2 = ref('策划四编辑')
+const emits = defineEmits<{
+  change: [value: any]
+}>()
 
 function onChangeValue(value: any) {
-  console.log('value')
+  emits('change', value)
+}
 
-  value2.value = value
+function getValue() {
+  if (!props.column?.key) return undefined
+
+  return props.row[props.column?.key]
 }
 
 function render() {
@@ -29,7 +34,7 @@ function render() {
         display: 'inline-block'
       }}
     >
-      <ElInput modelValue={value2.value} onUpdate:modelValue={onChangeValue} />
+      <ElInput modelValue={getValue()} onUpdate:modelValue={onChangeValue} />
     </span>
   )
 }

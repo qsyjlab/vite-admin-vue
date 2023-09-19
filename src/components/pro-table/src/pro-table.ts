@@ -98,20 +98,16 @@ export const useProTable = (options: UseTableOptions) => {
     emits(emitsEnums.PAGE_CHANGE, pageQuery.pageNum, pageQuery.pageSize)
   }
 
+  function startEditable(rowKey: string) {}
+
   function doLayout() {
     nextTick(() => {
       tableRef.value?.doLayout()
     })
   }
 
-  const tableExpose: TableExpose = {
-    doLayout,
-    reload
-  }
-
   return {
     tableRef,
-    tableExpose,
     total,
     loading,
     tableColums,
@@ -119,6 +115,7 @@ export const useProTable = (options: UseTableOptions) => {
     pageQuery,
     refresh,
     reload,
+    doLayout,
     handleSizeChange,
     handleCurrentChange,
     selectedKeys,

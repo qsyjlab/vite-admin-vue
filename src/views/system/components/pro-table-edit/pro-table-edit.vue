@@ -1,19 +1,41 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title">
-      <VProTable header-title="pro table" :columns="columns" :data="data" :params="params">
-        <template #operation="{ row }">
-          <el-button>编辑</el-button>
+      <VProTable
+        header-title="pro table"
+        :columns="columns"
+        :data="data"
+        :params="params"
+        row-key="id"
+        @register="register"
+      >
+        <template #operation="{ row, editableState }">
+          <!-- {{ editableState }} -->
+          <el-button
+            type="primary"
+            v-if="!(editableState && editableState.isEdit)"
+            @click="startEditable(row.id)"
+            >编辑</el-button
+          >
+
+          <template v-else>
+            <el-space>
+              <el-button @click="saveEditRow(row.id)" type="primary">保存</el-button>
+              <el-button @click="cancelEditable(row.id)" type="danger">取消</el-button>
+            </el-space>
+          </template>
         </template>
       </VProTable>
     </page-card>
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { VProTable } from '@/components/pro-table'
+import { VProTable, useProTable } from '@/components/pro-table'
 import { PageCard, PageWrapper } from '@/components'
 import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref } from 'vue'
+
+const { startEditable, cancelEditable, saveEditRow, register } = useProTable()
 
 const columns: ProTableColumns = [
   {

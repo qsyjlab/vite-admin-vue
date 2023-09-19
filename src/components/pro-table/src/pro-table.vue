@@ -74,6 +74,7 @@ import Toolbar from './components/toolbar/toolbar.vue'
 import { columnsSort } from './utils'
 import './style.scss'
 import type { TableInstance } from 'element-plus'
+import { TableExpose } from './types'
 
 defineSlots<{
   headerTitle: () => void
@@ -85,9 +86,6 @@ defineSlots<{
 const props = defineProps(Object.assign({}, proTableProps, proTableHeaderProps))
 const emits = defineEmits(proTableEmits)
 
-const store = useTableStore({ columnsState: props.columnsState })
-const tableKey = ref(new Date().getTime())
-
 const {
   tableRef,
   tableColums,
@@ -97,15 +95,28 @@ const {
   handleSizeChange,
   total,
   loading,
-  tableExpose,
+  doLayout,
   setSelectedKeys,
   selectedKeys,
-  clearSelectedKeys
+  clearSelectedKeys,
+  reload
 } = useProTable({
   props,
   emits
 })
-const { columnsMap, tableProps } = store
+
+const store = useTableStore({ columnsState: props.columnsState, dataSource, rowKey: props.rowKey })
+const tableKey = ref(new Date().getTime())
+
+const { columnsMap, tableProps, editableCellUtils } = store
+
+const tableExpose: TableExpose = {
+  doLayout,
+  reload,
+  startEditable: editableCellUtils.startEditable,
+  cancelEditable: editableCellUtils.cancelEditable,
+  saveEditRow: editableCellUtils.saveEditRow
+}
 
 createTableStoreContext(store)
 createTableAction(tableExpose)

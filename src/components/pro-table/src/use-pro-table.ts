@@ -6,13 +6,24 @@ export function useProTable() {
   const tableRef = ref<TableExpose | null>(null)
   function register(instance: TableExpose | null) {
     tableRef.value = instance
-
-    console.log('tableRef.value', tableRef.value)
   }
 
-  function startEditable() {}
+  function startEditable(rowKey: string) {
+    tableRef.value?.startEditable(rowKey)
+  }
+
+  function cancelEditable(rowKey: string) {
+    tableRef.value?.cancelEditable(rowKey)
+  }
+
+  function saveEditRow(rowKey: string) {
+    tableRef.value?.saveEditRow(rowKey)
+  }
 
   return {
-    register
+    register,
+    startEditable,
+    cancelEditable,
+    saveEditRow
   }
 }
