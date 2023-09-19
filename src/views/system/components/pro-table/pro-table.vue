@@ -15,6 +15,7 @@
         :is-pagination="true"
         v-model:loading="loading"
         v-model:selected-keys="selectedKeys"
+        @register="register"
         @page-change="pageChange"
       >
         <template #headerTitle> 自定义表头 </template>
@@ -33,13 +34,15 @@
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { VProTable } from '@/components/pro-table'
+import { VProTable, useProTable } from '@/components/pro-table'
 import { PageCard, PageWrapper } from '@/components'
 import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
 
 const loading = ref(false)
 const selectedKeys = ref<any[]>()
+
+const { register } = useProTable()
 
 watch(loading, () => {
   console.log('v-model:loading', loading)
@@ -59,7 +62,8 @@ const columns: ProTableColumns = [
     key: 'name',
     tip: '测试tip提示',
     fixed: 'left',
-    width: 200
+    width: 200,
+    editable: true
   },
   {
     title: '年龄',

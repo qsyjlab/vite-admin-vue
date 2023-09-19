@@ -3,7 +3,7 @@ import { sliceData } from './utils'
 import type { SetupContext } from 'vue'
 import { proTableEmits, ProTableProps, emitsEnums } from './props'
 import { useLoading } from './hooks'
-import type { TableInstance, TableMethods } from './types'
+import type { TableInstance, TableExpose } from './types'
 import { useSelection } from './hooks/use-selection'
 
 type UseTableOptions = {
@@ -104,14 +104,14 @@ export const useProTable = (options: UseTableOptions) => {
     })
   }
 
-  const tableMethods: TableMethods = {
+  const tableExpose: TableExpose = {
     doLayout,
     reload
   }
 
   return {
     tableRef,
-    tableMethods,
+    tableExpose,
     total,
     loading,
     tableColums,

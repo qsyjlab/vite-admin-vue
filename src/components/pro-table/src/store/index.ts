@@ -2,7 +2,7 @@ import { reactive, ref, toRaw, watch } from 'vue'
 
 import type { InjectionKey } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
-import type { ColumnsState, ColumnsMap, TableMethods } from '../types'
+import type { ColumnsState, ColumnsMap, TableExpose } from '../types'
 import { ProTableProps } from '../props'
 interface IProps {
   columnsState: ColumnsState
@@ -135,10 +135,10 @@ export function useTableStoreContext() {
 }
 
 // 共享 table 实例到子集
-export const tableActionKey: InjectionKey<TableMethods> = Symbol()
+export const tableActionKey: InjectionKey<TableExpose> = Symbol()
 
 // 共享 action
-export function createTableAction(actions: TableMethods) {
+export function createTableAction(actions: TableExpose) {
   return createContext(actions, tableActionKey, { readonly: true })
 }
 

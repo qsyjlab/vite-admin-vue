@@ -42,7 +42,6 @@
       <template v-for="(item, idx) in getColumns" :key="`${item.key}-${idx}`">
         <pro-table-column :column="item">
           <template v-for="slot in Object.keys($slots)" #[slot]="scope">
-            <!-- {{ scope }} -->
             <slot :name="slot" v-bind="scope"></slot>
           </template>
         </pro-table-column>
@@ -66,7 +65,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, nextTick, watch, ref } from 'vue'
+import { computed, nextTick, watch, ref, onMounted } from 'vue'
 import { useProTable } from './pro-table'
 import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
 import ProTableColumn from './pro-table-column.vue'
@@ -98,7 +97,7 @@ const {
   handleSizeChange,
   total,
   loading,
-  tableMethods,
+  tableExpose,
   setSelectedKeys,
   selectedKeys,
   clearSelectedKeys
@@ -109,7 +108,11 @@ const {
 const { columnsMap, tableProps } = store
 
 createTableStoreContext(store)
-createTableAction(tableMethods)
+createTableAction(tableExpose)
+
+onMounted(() => {
+  emits('register', tableExpose)
+})
 
 const getColumns = computed(() => {
   const newColumns = proColumnsFilter(tableColums.value).sort(columnsSort(columnsMap.value))
@@ -164,5 +167,5 @@ function proColumnsFilter(columns: any[]) {
     .filter(Boolean)
 }
 
-defineExpose(tableMethods)
+defineExpose(tableExpose)
 </script>

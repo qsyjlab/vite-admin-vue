@@ -1,7 +1,13 @@
 import { definePropType } from '@/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { TableProps } from 'element-plus'
-import { ColumnsState, ProTableColumns, ProTableColumnItem, TableOptions } from './types'
+import {
+  ColumnsState,
+  ProTableColumns,
+  ProTableColumnItem,
+  TableOptions,
+  TableExpose
+} from './types'
 
 export const proTableHeaderProps = {
   headerTitle: String
@@ -83,7 +89,8 @@ export const emitsEnums = {
 export const proTableEmits = {
   [emitsEnums.PAGE_CHANGE]: (page: number, size: number) => !!size && !!page,
   'update:loading': (loading: boolean) => true,
-  'update:selectedKeys': (keys: any[]) => !!keys
+  'update:selectedKeys': (keys: any[]) => !!keys,
+  register: (instance: TableExpose) => !!instance
 }
 
 export type ProTableEmits = typeof proTableEmits

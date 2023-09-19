@@ -8,6 +8,7 @@ import { useSlots } from 'vue'
 import { toDisplayString } from '@/utils'
 import { Tips } from '../../tips'
 import Badge from './components/badge.vue'
+import { EditableCell } from './components/editable-cell'
 import type { ProTableColumnItem } from './types'
 
 const props = defineProps(proTableColumnProps)
@@ -33,6 +34,10 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
   if (columnConfig.children && columnConfig.children.length)
     return columnConfig.children.map(child => renderColumns(child))
   if (slots[columnConfig.key]) return slots[columnConfig.key]?.({ ...scope, info: columnConfig })
+
+  if (columnConfig.editable) {
+    return <EditableCell />
+  }
 
   const value = row[columnConfig.key]
 

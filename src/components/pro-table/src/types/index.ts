@@ -15,6 +15,8 @@ export interface ProTableColumnItem<T = any>
   valueType?: ValueType
   /** 数值枚举 */
   valueEnum?: ValueEnum
+  /** 是否可编辑 */
+  editable?: boolean
   children?: ProTableColumnItem<T>[]
   /** 函数式渲染器 优先级小于 slot */
   render?: (row: T, column: any) => number | string | undefined | null | VNode | Component
@@ -31,7 +33,7 @@ export interface ColumnsState {
 
 export type TableInstance = InstanceType<typeof ElTable>
 
-export interface TableMethods {
+export interface TableExpose {
   doLayout: TableInstance['doLayout']
   reload: NOOP
 }
