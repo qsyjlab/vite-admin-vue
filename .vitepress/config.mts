@@ -42,6 +42,15 @@ export default defineConfig({
         ],
       },
       {
+        text: "组件",
+        items: [
+          { text: "简介", link: "/components/guide.md" },
+          { text: "锚点组件 anchor", link: "/components/anchor.md" },
+          { text: "二维码组件 qrcode", link: "/components/qrcode.md" },
+          { text: "分段器 segmented", link: "/components/segmented.md" },
+        ],
+      },
+      {
         text: "外部模块引入",
         link: "/other/out-module.md",
       },
