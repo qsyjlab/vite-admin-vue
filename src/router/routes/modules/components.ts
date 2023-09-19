@@ -31,6 +31,15 @@ export default defineExposeRoutes([
               title: 'ProTable 基本使用'
             },
             component: () => import('@/views/system/components/pro-table/pro-table.vue')
+          },
+          {
+            name: 'ProTableEdit',
+            path: 'pro-table-edit',
+            meta: {
+              title: 'ProTable edit 基本使用',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/components/pro-table-edit/pro-table-edit.vue')
           }
         ]
       },
