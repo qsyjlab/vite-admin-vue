@@ -1,12 +1,14 @@
 import { Ref, computed, ref } from 'vue'
+import { ProTableEditable } from '../types'
 
 interface IProps {
   dataSource: Ref<any[]>
   rowKey: string
+  editableConfig: ProTableEditable
 }
 
 export function useEditable(props: IProps) {
-  const { dataSource } = props
+  const { dataSource, editableConfig } = props
   /** 可编辑表格状态
    *
    * isEdit: 是否处于编辑状态
@@ -23,34 +25,67 @@ export function useEditable(props: IProps) {
   )
 
   function startEditable(rowKey: string) {
+    if (editableConfig.mode === 'single') {
+      clearEditRow()
+    }
     const data = dataSource.value.find(i => i[props.rowKey] === rowKey)
     editableCellMap.value.set(rowKey, { isEdit: true, data: { ...data } })
   }
 
-  function cancelEditable(rowKey: string | string[]) {
-    let rowKeys: string[] = []
+  function cancelEditable(rowKey: string) {
+    const atIndex = dataSource.value.findIndex(i => i[props.rowKey] === rowKey)
+    const data = editableCellMap.value.get(rowKey)?.data || {}
 
-    if (!Array.isArray(rowKey)) {
-      rowKeys = [rowKey]
-    } else {
-      rowKeys = rowKey
+    if (editableConfig.onCancel) {
+      editableConfig.onCancel(data, done)
     }
-    rowKeys.forEach(key => {
-      const atIndex = dataSource.value.findIndex(i => i[props.rowKey] === key)
-      const data = editableCellMap.value.get(key)?.data || {}
+
+    function done() {
       dataSource.value[atIndex] = { ...data }
-      editableCellMap.value.delete(key)
-    })
+      editableCellMap.value.delete(rowKey)
+    }
   }
 
   function saveEditRow(rowKey: string) {
-    editableCellMap.value.delete(rowKey)
+    if (editableConfig.onSave) {
+      editableConfig.onSave(editableCellMap.value.get(rowKey)?.data, done)
+
+      return
+    }
+    done()
+
+    function done() {
+      editableCellMap.value.delete(rowKey)
+    }
+  }
+
+  function deleteEditRow(rowKey: string) {
+    if (editableConfig.onDelete) {
+      editableConfig.onDelete(editableCellMap.value.get(rowKey)?.data, done)
+      return
+    }
+
+    done()
+
+    function done() {
+      const atIndex = dataSource.value.findIndex(i => i[props.rowKey] === rowKey)
+
+      if (atIndex !== -1) {
+        dataSource.value.splice(atIndex, 1)
+        editableCellMap.value.delete(rowKey)
+      }
+    }
+  }
+
+  function clearEditRow() {
+    editableCellMap.value.clear()
   }
 
   return {
     startEditable,
     cancelEditable,
     saveEditRow,
+    deleteEditRow,
     editableCellMap: computed(() => editableCellMap.value)
   }
 }

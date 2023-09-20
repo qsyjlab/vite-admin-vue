@@ -33,9 +33,10 @@ export interface ProTableEditRowComponent {
 }
 
 export interface ProTableEditable {
-  onSave?: (row: any, column: ProTableColumnItem<any>, next: () => void) => void
-  onCancel?: (row: any, column: ProTableColumnItem<any>, next: () => void) => void
-  onDelete?: (row: any, column: ProTableColumnItem<any>, next: () => void) => void
+  mode?: 'single' | 'multiple'
+  onSave?: (row: any, next: () => void) => void
+  onCancel?: (row: any, next: () => void) => void
+  onDelete?: (row: any, next: () => void) => void
   onChange?: (data: any[]) => void
 }
 
@@ -56,6 +57,7 @@ export interface TableExpose {
   startEditable: (rowKey: string) => void
   cancelEditable: (rowKey: string) => void
   saveEditRow: (rowKey: string) => void
+  deleteEditRow: (rowKey: string) => void
 }
 
 export type ValueType = ValueTypeVal | (() => ValueTypeVal)

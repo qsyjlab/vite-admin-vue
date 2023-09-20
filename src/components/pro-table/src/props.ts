@@ -6,7 +6,8 @@ import {
   ProTableColumns,
   ProTableColumnItem,
   TableOptions,
-  TableExpose
+  TableExpose,
+  ProTableEditable
 } from './types'
 
 export const proTableHeaderProps = {
@@ -72,7 +73,7 @@ export const proTableProps = {
     default: () => []
   },
   editable: {
-    type: Object,
+    type: definePropType<ProTableEditable>(Object),
     default: () => ({})
   }
 }

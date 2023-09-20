@@ -20,10 +20,15 @@ export function useProTable() {
     tableRef.value?.saveEditRow(rowKey)
   }
 
+  function deleteEditRow(rowKey: string) {
+    tableRef.value?.deleteEditRow(rowKey)
+  }
+
   return {
     register,
     startEditable,
     cancelEditable,
-    saveEditRow
+    saveEditRow,
+    deleteEditRow
   }
 }

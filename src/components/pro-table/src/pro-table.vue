@@ -105,7 +105,12 @@ const {
   emits
 })
 
-const store = useTableStore({ columnsState: props.columnsState, dataSource, rowKey: props.rowKey })
+const store = useTableStore({
+  columnsState: props.columnsState,
+  dataSource,
+  rowKey: props.rowKey,
+  editableConfig: props.editable
+})
 const tableKey = ref(new Date().getTime())
 
 const { columnsMap, tableProps, editableCellUtils } = store
@@ -115,7 +120,8 @@ const tableExpose: TableExpose = {
   reload,
   startEditable: editableCellUtils.startEditable,
   cancelEditable: editableCellUtils.cancelEditable,
-  saveEditRow: editableCellUtils.saveEditRow
+  saveEditRow: editableCellUtils.saveEditRow,
+  deleteEditRow: editableCellUtils.deleteEditRow
 }
 
 createTableStoreContext(store)

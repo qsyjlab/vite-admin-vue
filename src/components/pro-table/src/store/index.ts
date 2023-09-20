@@ -2,13 +2,14 @@ import { reactive, ref, toRaw, watch } from 'vue'
 
 import type { InjectionKey, Ref } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
-import type { ColumnsState, ColumnsMap, TableExpose } from '../types'
+import type { ColumnsState, ColumnsMap, TableExpose, ProTableEditable } from '../types'
 import { ProTableProps } from '../props'
 import { useEditable } from '../hooks/use-editable'
 interface IProps {
   columnsState: ColumnsState
   dataSource: Ref<any>
   rowKey: string
+  editableConfig: ProTableEditable
 }
 
 type ITableProps = Pick<ProTableProps, 'size'>
@@ -24,15 +25,18 @@ export function useTableStore(props: IProps) {
     size: 'default'
   })
 
-  const { startEditable, cancelEditable, saveEditRow, editableCellMap } = useEditable({
-    dataSource: props.dataSource,
-    rowKey: props.rowKey
-  })
+  const { startEditable, cancelEditable, saveEditRow, deleteEditRow, editableCellMap } =
+    useEditable({
+      dataSource: props.dataSource,
+      rowKey: props.rowKey,
+      editableConfig: props.editableConfig
+    })
 
   const editableCellUtils = {
     startEditable,
     cancelEditable,
-    saveEditRow
+    saveEditRow,
+    deleteEditRow
   }
 
   watch(
