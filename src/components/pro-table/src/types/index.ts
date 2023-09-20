@@ -1,5 +1,5 @@
 import { ElTable } from 'element-plus'
-import type { TableColumnCtx, TableProps } from 'element-plus'
+import type { FormItemRule, TableColumnCtx, TableProps } from 'element-plus'
 import { NOOP } from './utils'
 import { Component, VNode } from 'vue'
 
@@ -17,9 +17,26 @@ export interface ProTableColumnItem<T = any>
   valueEnum?: ValueEnum
   /** 是否可编辑 */
   editable?: boolean
+  /** 编辑列组件配置 */
+  rowComponent?: ProTableEditRowComponent
+  /** 子集表头 */
   children?: ProTableColumnItem<T>[]
   /** 函数式渲染器 优先级小于 slot */
   render?: (row: T, column: any) => number | string | undefined | null | VNode | Component
+}
+
+/** 编辑列表单属性 */
+export interface ProTableEditRowComponent {
+  el: Component | string
+  props?: Record<string, any>
+  rules?: FormItemRule
+}
+
+export interface ProTableEditable {
+  onSave?: (row: any, column: ProTableColumnItem<any>, next: () => void) => void
+  onCancel?: (row: any, column: ProTableColumnItem<any>, next: () => void) => void
+  onDelete?: (row: any, column: ProTableColumnItem<any>, next: () => void) => void
+  onChange?: (data: any[]) => void
 }
 
 export type ProTableColumns<T = any> = ProTableColumnItem<T>[]

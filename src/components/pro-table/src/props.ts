@@ -70,6 +70,10 @@ export const proTableProps = {
   selectedKeys: {
     type: Array,
     default: () => []
+  },
+  editable: {
+    type: Object,
+    default: () => ({})
   }
 }
 
