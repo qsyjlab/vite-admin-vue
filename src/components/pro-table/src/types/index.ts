@@ -1,7 +1,9 @@
 import { ElTable } from 'element-plus'
-import type { FormItemRule, TableColumnCtx, TableProps } from 'element-plus'
+import type { FormItemRule, TableColumnCtx } from 'element-plus'
 import { NOOP } from './utils'
-import { Component, VNode } from 'vue'
+import { Component, SetupContext, VNode } from 'vue'
+import { ProTableEmits } from '../props'
+import { UseColumnsMapReturn, UseEditableReturn } from '../hooks'
 
 export type ColumnsMap = Record<string, any>
 
@@ -83,3 +85,11 @@ interface ToolbarOptions {
 }
 
 export type TableOptions = boolean | ToolbarOptions
+
+export interface TableActionRef {
+  emits: SetupContext<ProTableEmits>['emit']
+  clearSelection: TableInstance['clearSelection']
+  toggleRowSelection: TableInstance['toggleRowSelection']
+  editableCellUtils: Omit<UseEditableReturn, 'editableCellMap'>
+  columnsSettingUtils: Omit<UseColumnsMapReturn, 'columnsMap' | 'defaultColumnsMap'>
+}

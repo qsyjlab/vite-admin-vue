@@ -89,3 +89,5 @@ export function useEditable(props: IProps) {
     editableCellMap: computed(() => editableCellMap.value)
   }
 }
+
+export type UseEditableReturn = ReturnType<typeof useEditable>

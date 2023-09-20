@@ -22,7 +22,7 @@
     </slot>
     <!-- table -->
     <el-table
-      ref="tableRef"
+      ref="tableInstanceRef"
       :data="dataSource"
       v-bind="$attrs"
       v-loading="loading"
@@ -65,8 +65,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, nextTick, watch, ref, onMounted } from 'vue'
-import { useProTable } from './pro-table'
+import { computed, onMounted, toRefs, reactive } from 'vue'
 import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
 import ProTableColumn from './pro-table-column.vue'
 import { createTableStoreContext, createTableAction, useTableStore } from './store'
@@ -86,37 +85,35 @@ defineSlots<{
 const props = defineProps(Object.assign({}, proTableProps, proTableHeaderProps))
 const emits = defineEmits(proTableEmits)
 
-const {
-  tableRef,
-  tableColums,
-  dataSource,
-  pageQuery,
-  handleCurrentChange,
-  handleSizeChange,
-  total,
-  loading,
-  doLayout,
-  setSelectedKeys,
-  selectedKeys,
-  clearSelectedKeys,
-  reload
-} = useProTable({
-  props,
-  emits
-})
-
-const store = useTableStore({
-  columnsState: props.columnsState,
-  dataSource,
+const proxyProps = reactive({
+  ...toRefs(props),
+  // dataSource,
   rowKey: props.rowKey,
   editableConfig: props.editable
 })
-const tableKey = ref(new Date().getTime())
 
-const { columnsMap, tableProps, editableCellUtils } = store
+const store = useTableStore(proxyProps, { emits })
+
+const {
+  tableInstanceRef,
+  total,
+  loading,
+  pageQuery,
+  columnsMap,
+  tableProps,
+  tableColums,
+  editableCellUtils,
+  dataSource,
+  handleCurrentChange,
+  handleSizeChange,
+  selectedKeys,
+  setSelectedKeys,
+  clearSelectedKeys,
+  reload
+} = store
 
 const tableExpose: TableExpose = {
-  doLayout,
+  doLayout: () => {},
   reload,
   startEditable: editableCellUtils.startEditable,
   cancelEditable: editableCellUtils.cancelEditable,
@@ -135,13 +132,6 @@ const getColumns = computed(() => {
   const newColumns = proColumnsFilter(tableColums.value).sort(columnsSort(columnsMap.value))
 
   return newColumns
-})
-
-watch(getColumns, () => {
-  tableKey.value = new Date().getTime()
-  nextTick(() => {
-    tableRef.value?.doLayout()
-  })
 })
 
 const selectChangeHandler: TableInstance['onSelection-change'] = selection => {
