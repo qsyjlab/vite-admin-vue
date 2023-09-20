@@ -7,10 +7,17 @@
         :data="data"
         :params="params"
         row-key="id"
+        :editable="{
+          mode: 'single',
+          onSave: saveRowHandler,
+          onCancel: cancelHandler,
+          onDelete(row, done) {
+            done()
+          }
+        }"
         @register="register"
       >
         <template #operation="{ row, editableState }">
-          <!-- {{ editableState }} -->
           <el-button
             type="primary"
             v-if="!(editableState && editableState.isEdit)"
@@ -20,8 +27,13 @@
 
           <template v-else>
             <el-space>
-              <el-button @click="saveEditRow(row.id)" type="primary">保存</el-button>
-              <el-button @click="cancelEditable(row.id)" type="danger">取消</el-button>
+              <el-button :loading="loading" @click="saveEditRow(row.id)" type="primary"
+                >保存</el-button
+              >
+              <el-button :loading="loading" @click="cancelEditable(row.id)">取消</el-button>
+              <el-button :loading="loading" @click="deleteEditRow(row.id)" type="danger"
+                >删除</el-button
+              >
             </el-space>
           </template>
         </template>
@@ -33,9 +45,34 @@
 import { VProTable, useProTable } from '@/components/pro-table'
 import { PageCard, PageWrapper } from '@/components'
 import type { ProTableColumns } from '@/components/pro-table'
+import { Select } from '@/components/common'
+
 import { onMounted, ref } from 'vue'
 
-const { startEditable, cancelEditable, saveEditRow, register } = useProTable()
+const { startEditable, cancelEditable, saveEditRow, register, deleteEditRow } = useProTable()
+
+const loading = ref(false)
+
+function cancelHandler(row: any, done: () => void) {
+  loading.value = true
+
+  setTimeout(() => {
+    done()
+    loading.value = false
+    console.log('cancelHandler')
+  }, 3000)
+}
+
+function saveRowHandler(row: any, done: () => void) {
+  console.log('save', row)
+  loading.value = true
+
+  setTimeout(() => {
+    done()
+    loading.value = false
+    console.log('saved')
+  }, 3000)
+}
 
 const columns: ProTableColumns = [
   {
@@ -43,28 +80,44 @@ const columns: ProTableColumns = [
     key: 'name',
     tip: '测试tip提示',
     fixed: 'left',
-    width: 200,
-    editable: true
+    // width: 200,
+    editable: true,
+    rowComponent: {
+      el: 'ElInput',
+      rules: [{ required: true, message: '名称必填' }]
+    }
   },
 
   {
     title: '地址',
     key: 'address',
     width: 200,
-    editable: true
+    editable: true,
+    rowComponent: {
+      el: 'ElInput',
+      rules: [{ required: true, message: '地址' }]
+    }
   },
   {
     title: '邮箱',
     key: 'email',
     fixed: 'left',
     width: 200,
-    editable: true
+    editable: true,
+    rowComponent: {
+      el: 'ElInput',
+      rules: [{ required: true, message: '邮箱' }]
+    }
   },
   {
     title: '年份',
     key: 'year',
     width: 200,
-    editable: true
+    editable: true,
+    rowComponent: {
+      el: 'ElInput',
+      rules: [{ required: true, message: '年份' }]
+    }
   },
   {
     title: '进度条',
@@ -80,6 +133,29 @@ const columns: ProTableColumns = [
     key: 'fnE',
     valueType: 'enum',
     width: 200,
+    rowComponent: {
+      el: Select,
+      props: {
+        options: [
+          {
+            label: '全部',
+            value: 'all'
+          },
+          {
+            label: '已解决',
+            value: 'closed'
+          },
+          {
+            label: '解决中',
+            value: 'processing'
+          },
+          {
+            label: '未解决',
+            value: 'open'
+          }
+        ]
+      }
+    },
     editable: true,
     valueEnum: () => {
       return {
@@ -131,7 +207,7 @@ const columns: ProTableColumns = [
   {
     title: '操作',
     key: 'operation',
-    width: 200,
+    width: 300,
     fixed: 'right'
   }
 ]

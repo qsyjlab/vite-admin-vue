@@ -31,9 +31,10 @@ export interface ProTableColumnItem<T = any>
 export interface ProTableEditRowComponent {
   el: Component | string
   props?: Record<string, any>
-  rules?: FormItemRule
+  rules?: Omit<FormItemRule, 'trigger'>[]
 }
 
+/** 编辑表格配置 */
 export interface ProTableEditable {
   mode?: 'single' | 'multiple'
   onSave?: (row: any, next: () => void) => void
@@ -44,6 +45,7 @@ export interface ProTableEditable {
 
 export type ProTableColumns<T = any> = ProTableColumnItem<T>[]
 
+/** 列设置配置 */
 export interface ColumnsState {
   persistenceKey?: string
   persistenceType?: 'localStorage' | 'sessionStorage'
@@ -53,6 +55,10 @@ export interface ColumnsState {
 
 export type TableInstance = InstanceType<typeof ElTable>
 
+/**
+ * 即将废弃 由 TableActionRef 来代替
+ * @deprecated
+ */
 export interface TableExpose {
   doLayout: TableInstance['doLayout']
   reload: NOOP

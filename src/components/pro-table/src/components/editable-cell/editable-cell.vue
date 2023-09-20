@@ -5,9 +5,13 @@
 import { ElPopover } from 'element-plus'
 import { ProTableColumnItem, ProTableEditRowComponent } from '../../types'
 import { h, toRaw, computed, resolveComponent } from 'vue'
+import { useTableStoreContext } from '../../store'
+
+const { editableCellMap } = useTableStoreContext()
+
 const props = withDefaults(
   defineProps<{
-    column?: ProTableColumnItem<any>
+    column: ProTableColumnItem<any>
     value?: any
     row?: any
   }>(),
@@ -26,9 +30,7 @@ function onChangeValue(value: any) {
 }
 
 function getValue() {
-  if (!props.column?.key) return undefined
-
-  return props.row[props.column?.key]
+  return props.row[props.column.key]
 }
 
 function getDynamicComponent(rowComponent: ProTableColumnItem['rowComponent']) {
@@ -43,22 +45,24 @@ function getDynamicComponent(rowComponent: ProTableColumnItem['rowComponent']) {
       return resolveComponent(el)
     }
 
-    console.log('toRaw(el)', toRaw(el))
-
     return toRaw(el)
   }
+
+  const editableCellState = editableCellMap.value.get(props.row['id'])
 
   return h(
     ElPopover,
     {
       placement: 'top',
-      popperStyle: {
-        // zIndex: 1
-      },
-      visible: false
+      visible: !!editableCellState?.errors[props.column.key]
     },
     {
-      default: () => '错误文本提示',
+      default: () =>
+        h(
+          'div',
+          { style: { color: 'red' } },
+          editableCellState?.errors[props.column.key]?.message || ''
+        ),
       reference: () =>
         h(
           'span',

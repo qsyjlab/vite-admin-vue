@@ -10,7 +10,6 @@ import { TableInstance } from 'element-plus'
 
 interface IProps {
   columnsState: ColumnsState
-  // dataSource: Ref<any[]>
   rowKey: string
   editableConfig: ProTableEditable
 }
@@ -48,12 +47,19 @@ export function useTableStore(
     clearSelectedKeys
   } = useProTable(props, { emits, tableInstanceRef })
 
-  const { startEditable, cancelEditable, saveEditRow, deleteEditRow, editableCellMap } =
-    useEditable({
-      dataSource,
-      rowKey: proTableProps.rowKey,
-      editableConfig: proTableProps.editableConfig
-    })
+  const {
+    startEditable,
+    cancelEditable,
+    saveEditRow,
+    deleteEditRow,
+    editableCellMap,
+    clearEditRow
+  } = useEditable({
+    dataSource,
+    rowKey: proTableProps.rowKey,
+    editableConfig: proTableProps.editableConfig,
+    columns: props.columns
+  })
 
   const {
     defaultColumnsMap,
@@ -72,7 +78,8 @@ export function useTableStore(
     startEditable,
     cancelEditable,
     saveEditRow,
-    deleteEditRow
+    deleteEditRow,
+    clearEditRow
   }
 
   /** 列设置相关 */
@@ -108,13 +115,17 @@ export function useTableStore(
     columnsSettingUtils
   }
 
-  console.log('tableActionRef', tableActionRef)
-
   return {
     loading,
     tableColums,
-    handleSizeChange,
-    handleCurrentChange,
+    handleSizeChange: (val: number) => {
+      clearEditRow()
+      handleSizeChange(val)
+    },
+    handleCurrentChange: (val: number) => {
+      clearEditRow()
+      handleCurrentChange(val)
+    },
     selectedKeys,
     setSelectedKeys,
     clearSelectedKeys,

@@ -4,6 +4,7 @@ import { proTableEmits, ProTableProps, emitsEnums } from '../props'
 import { useLoading } from './loading'
 import type { TableInstance, TableExpose } from '../types'
 import { useSelection } from './use-selection'
+import { useTableStoreContext } from '../store'
 
 export function sliceData(data: any, { pageNum = 1, pageSize = 10 }) {
   const start = (pageNum - 1) * pageSize
@@ -24,6 +25,7 @@ export const useProTable = (props: IProps, extra: Extra) => {
   const { emits, tableInstanceRef } = extra
 
   const { columns, data, request, params = {}, isPagination } = toRefs(props)
+  const { tableActionRef } = useTableStoreContext()
 
   const dataSource = ref<any[]>([])
   const tableColums = ref(columns.value || [])
@@ -52,8 +54,14 @@ export const useProTable = (props: IProps, extra: Extra) => {
     }
   )
 
+  /**
+   * TODO: 分页暂时放这里 后期迁移至外部，
+   * 独立出 数据处理部分，让外部的分页来驱动数据
+   */
+
   const handleCurrentChange = (val: number) => {
     pageQuery.pageNum = val
+
     updateTableList()
     emitPagination()
   }
