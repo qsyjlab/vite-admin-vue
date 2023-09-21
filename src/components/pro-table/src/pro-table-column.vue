@@ -18,7 +18,7 @@ const props = defineProps(proTableColumnProps)
 
 const slots = useSlots()
 
-const { editableCellMap, dataSource, tableInstanceRef } = useTableStoreContext()
+const { editableCellMap } = useTableStoreContext()
 
 // 获取 enumValue
 function runValueEnumFn<T extends any[]>(valueEnum: any, ...rest: T[]) {

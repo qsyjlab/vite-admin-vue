@@ -122,17 +122,6 @@ const unInitWatch = watch(
   }
 )
 
-// watch(
-//   () => props.columns,
-//   () => {
-//     initColumnsStore()
-//   },
-//   {
-//     immediate: true,
-//     deep: true
-//   }
-// )
-
 watch(
   columnsMap,
   () => {
