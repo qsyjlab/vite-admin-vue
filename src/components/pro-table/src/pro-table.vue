@@ -67,27 +67,30 @@
 <script setup lang="ts">
 import { computed, onMounted, toRefs, reactive } from 'vue'
 import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
-import ProTableColumn from './pro-table-column.vue'
 import { createTableStoreContext, createTableAction, useTableStore } from './store'
+import ProTableColumn from './pro-table-column.vue'
 import Toolbar from './components/toolbar/toolbar.vue'
-import { columnsSort } from './utils'
+import { columnsSort, columnsFilter } from './utils'
 import './style.scss'
 import type { TableInstance } from 'element-plus'
-import { TableExpose } from './types'
+import type { TableExpose, EditableCellState } from './types'
+
+type DefualtSlotFn = (scope: { row: any; editableState: EditableCellState }) => void
 
 defineSlots<{
   headerTitle: () => void
   toolbar: () => void
   alert: () => void
-  [key: string]: (scope: { row: any }) => void
+
+  [key: string]: DefualtSlotFn
 }>()
 
 const props = defineProps(Object.assign({}, proTableProps, proTableHeaderProps))
 const emits = defineEmits(proTableEmits)
 
+/** 可能有优化空间 */
 const proxyProps = reactive({
   ...toRefs(props),
-  // dataSource,
   rowKey: props.rowKey,
   editableConfig: props.editable
 })
@@ -129,7 +132,9 @@ onMounted(() => {
 })
 
 const getColumns = computed(() => {
-  const newColumns = proColumnsFilter(tableColums.value).sort(columnsSort(columnsMap.value))
+  const newColumns = columnsFilter(tableColums.value, columnsMap.value).sort(
+    columnsSort(columnsMap.value)
+  )
 
   return newColumns
 })
@@ -138,40 +143,6 @@ const selectChangeHandler: TableInstance['onSelection-change'] = selection => {
   if (Array.isArray(selection)) {
     setSelectedKeys(selection.map(i => i[props.rowKey]).filter(Boolean))
   }
-}
-
-function proColumnsFilter(columns: any[]) {
-  return columns
-    .map(column => {
-      const config = columnsMap.value[column.key] || {
-        fixed: column.fixed
-      }
-      if (config && config.show === false) {
-        return false
-      }
-
-      const tempColumn: any = {
-        ...column,
-        fixed: config.fixed,
-        children: undefined
-      }
-
-      if (column.children && column.children?.length) {
-        const children = proColumnsFilter(column.children)
-
-        /**
-         * 需要将父级列也移出去, 动态切换表头会出现列塌陷
-         * doLayout 无效 ,doLayout 并没有重置 table 内部配置只是 高度大小
-         */
-        if (children.length) {
-          tempColumn.children = children
-        } else {
-          return false
-        }
-      }
-      return tempColumn
-    })
-    .filter(Boolean)
 }
 
 defineExpose(tableExpose)

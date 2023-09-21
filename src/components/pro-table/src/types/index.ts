@@ -1,9 +1,11 @@
 import { ElTable } from 'element-plus'
-import type { FormItemRule, TableColumnCtx } from 'element-plus'
 import { NOOP } from './utils'
 import { Component, SetupContext, VNode } from 'vue'
 import { ProTableEmits } from '../props'
-import { UseColumnsMapReturn, UseEditableReturn } from '../hooks'
+import type { UseColumnsMapReturn, UseEditableReturn } from '../hooks'
+import type { EditRowRule, EditableCellValidError } from './editable'
+import type { TableColumnCtx } from 'element-plus'
+import type { ValueEnum, ValueType } from './renderer'
 
 export type ColumnsMap = Record<string, any>
 
@@ -31,7 +33,7 @@ export interface ProTableColumnItem<T = any>
 export interface ProTableEditRowComponent {
   el: Component | string
   props?: Record<string, any>
-  rules?: Omit<FormItemRule, 'trigger'>[]
+  rules?: EditRowRule[]
 }
 
 /** 编辑表格配置 */
@@ -41,6 +43,7 @@ export interface ProTableEditable {
   onCancel?: (row: any, next: () => void) => void
   onDelete?: (row: any, next: () => void) => void
   onChange?: (data: any[]) => void
+  onError?: (errors: EditableCellValidError | undefined) => void
 }
 
 export type ProTableColumns<T = any> = ProTableColumnItem<T>[]
@@ -68,20 +71,6 @@ export interface TableExpose {
   deleteEditRow: (rowKey: string) => void
 }
 
-export type ValueType = ValueTypeVal | (() => ValueTypeVal)
-
-export type ValueTypeVal = 'text' | 'enum' | { type?: string; status?: string }
-
-export type ValueEnum = ValueEnumRecord | ((rowData: any) => ValueEnumRecord | ValueEnumMap)
-
-export type ValueEnumMap = Map<string | number | boolean, ValueEnumRecord>
-export type ValueEnumRecord = Record<string, ValueEnumValue>
-
-export type ValueEnumValue = {
-  text?: string
-  color?: string
-}
-
 /** 表格默认工具栏开关 */
 interface ToolbarOptions {
   fullScreen?: boolean
@@ -99,3 +88,6 @@ export interface TableActionRef {
   editableCellUtils: Omit<UseEditableReturn, 'editableCellMap'>
   columnsSettingUtils: Omit<UseColumnsMapReturn, 'columnsMap' | 'defaultColumnsMap'>
 }
+
+export * from './editable'
+export * from './renderer'

@@ -10,10 +10,11 @@
         :editable="{
           mode: 'single',
           onSave: saveRowHandler,
-          onCancel: cancelHandler,
           onDelete(row, done) {
             done()
-          }
+          },
+          onChange: changeHandler,
+          onError: errorHandler
         }"
         @register="register"
       >
@@ -44,14 +45,26 @@
 <script setup lang="ts">
 import { VProTable, useProTable } from '@/components/pro-table'
 import { PageCard, PageWrapper } from '@/components'
-import type { ProTableColumns } from '@/components/pro-table'
+import type { ProTableColumns, ProTableEditable } from '@/components/pro-table'
 import { Select } from '@/components/common'
 
 import { onMounted, ref } from 'vue'
+import { ElMessage } from 'element-plus'
 
 const { startEditable, cancelEditable, saveEditRow, register, deleteEditRow } = useProTable()
 
 const loading = ref(false)
+
+function changeHandler(data: any) {
+  console.log('changeHandler', data)
+}
+
+const errorHandler: ProTableEditable['onError'] = errors => {
+  console.log('errors', errors)
+  if (errors) {
+    ElMessage.error('请填写正确数据')
+  }
+}
 
 function cancelHandler(row: any, done: () => void) {
   loading.value = true
@@ -59,7 +72,6 @@ function cancelHandler(row: any, done: () => void) {
   setTimeout(() => {
     done()
     loading.value = false
-    console.log('cancelHandler')
   }, 3000)
 }
 
@@ -70,8 +82,7 @@ function saveRowHandler(row: any, done: () => void) {
   setTimeout(() => {
     done()
     loading.value = false
-    console.log('saved')
-  }, 3000)
+  }, 200)
 }
 
 const columns: ProTableColumns = [
@@ -84,7 +95,16 @@ const columns: ProTableColumns = [
     editable: true,
     rowComponent: {
       el: 'ElInput',
-      rules: [{ required: true, message: '名称必填' }]
+      rules: [
+        {
+          required: true,
+          validator: (value, error, callback) => {
+            if (!value) return callback(new Error('错误提示有没有'))
+            callback()
+          },
+          message: '名称必填'
+        }
+      ]
     }
   },
 

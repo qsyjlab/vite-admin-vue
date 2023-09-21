@@ -1,6 +1,6 @@
-import { Ref, computed, ref, watchEffect } from 'vue'
+import { Ref, computed, ref } from 'vue'
 import { isEmpty } from 'lodash-es'
-import type { ProTableColumns, ProTableEditable, ProTableEditRowComponent } from '../types'
+import type { ProTableColumns, ProTableEditable, EditableCellState, EditRowRule } from '../types'
 
 interface IProps {
   dataSource: Ref<any[]>
@@ -17,26 +17,13 @@ export function useEditable(props: IProps) {
    * isEdit: 是否处于编辑状态
    * data: 原数据 取消则回滚原数据
    */
-  const editableCellMap = ref(
-    new Map<
-      string,
-      {
-        isEdit: boolean
-        data: any
-        errors: any
-      }
-    >()
-  )
-
-  watchEffect(() => {
-    console.log('editableCellMap.value', editableCellMap.value)
-  })
+  const editableCellMap = ref(new Map<string, EditableCellState>())
 
   function startEditable(rowKey: string) {
     if (editableConfig.mode === 'single') {
       clearEditRow()
     }
-    const data = dataSource.value.find(i => i[props.rowKey] === rowKey)
+    const data = dataSource.value.find(i => getRowKeyValue(i) === rowKey)
     editableCellMap.value.set(rowKey, { isEdit: true, data: { ...data }, errors: {} })
   }
 
@@ -46,6 +33,8 @@ export function useEditable(props: IProps) {
 
     if (editableConfig.onCancel) {
       editableConfig.onCancel(data, done)
+    } else {
+      done()
     }
 
     function done() {
@@ -53,16 +42,30 @@ export function useEditable(props: IProps) {
         const row = dataSource.value[atIndex]
         row[key] = data[key]
       })
+
+      editableCellMap.value.delete(rowKey)
     }
   }
 
   function saveEditRow(rowKey: string) {
-    validateRowFields(rowKey, () => {
-      done()
-    })
+    validateRowFields(
+      rowKey,
+      () => {
+        const row = dataSource.value.find(i => i[props.rowKey] === rowKey)
+        if (editableConfig.onSave) {
+          editableConfig.onSave(row, done)
+        } else {
+          done()
+        }
+      },
+      () => {
+        editableConfig.onError?.(editableCellMap.value.get(rowKey)?.errors)
+      }
+    )
 
     function done() {
       editableCellMap.value.delete(rowKey)
+      editChange()
     }
   }
 
@@ -80,12 +83,17 @@ export function useEditable(props: IProps) {
       if (atIndex !== -1) {
         dataSource.value.splice(atIndex, 1)
         editableCellMap.value.delete(rowKey)
+        editChange()
       }
     }
   }
 
   // 验证当前未闭合的数据
-  function validateRowFields(rowKeys: string[] | string, callback?: () => void) {
+  async function validateRowFields(
+    rowKeys: string[] | string,
+    callback?: () => void,
+    errorCallback?: () => void
+  ) {
     let needValidKeys = rowKeys
 
     if (!Array.isArray(rowKeys)) {
@@ -99,34 +107,90 @@ export function useEditable(props: IProps) {
     )
 
     let hasError = false
-    needValidRows.forEach(row => {
-      columns.forEach(column => {
+
+    for (const row of needValidRows) {
+      for (const column of columns) {
         const value = row[column.key]
 
-        const error = validate(value, column.rowComponent?.rules || [])
-        if (error) {
+        const validResult = await validate(value, row, column.rowComponent?.rules || [])
+        const cell = editableCellMap.value.get(getRowKeyValue(row))
+        if (validResult) {
           hasError = true
-          const cell = editableCellMap.value.get(getRowKeyValue(row))
 
-          cell && (cell.errors[column.key] = error)
+          cell && (cell.errors[column.key] = { message: validResult.message || '' })
+        } else {
+          cell && delete cell.errors[column.key]
         }
-      })
-    })
+      }
+    }
 
-    !hasError && callback?.()
+    if (!hasError) {
+      callback?.()
+    } else {
+      errorCallback?.()
+    }
   }
 
   // 验证器
-  function validate(value: any, rules: ProTableEditRowComponent['rules']) {
+  async function validate(
+    value: any,
+    row: any,
+    rules: EditRowRule[]
+  ): Promise<{ message: string } | null> {
     if (!rules) return null
     for (let i = 0; i < rules.length; i++) {
       const item = rules[i]
+
       if (item.required && isEmpty(value)) {
-        return item
+        return {
+          message: item.message || ''
+        }
+      }
+
+      if (item.validator) {
+        const { state, error } = await new Promise<{
+          state: boolean
+          error: null | string
+        }>(resolve => {
+          item.validator &&
+            item?.validator(value, row, error => {
+              if (!error)
+                resolve({
+                  state: true,
+                  error: null
+                })
+
+              if (typeof error === 'string') {
+                resolve({
+                  state: false,
+                  error
+                })
+              } else {
+                resolve({
+                  state: false,
+                  error: error?.message || ''
+                })
+              }
+            })
+        })
+
+        if (state) return null
+
+        return {
+          message: error || ''
+        }
       }
     }
 
     return null
+  }
+
+  function clearValidateErrors(rowKey: string) {
+    const cellState = editableCellMap.value.get(rowKey)
+
+    if (cellState && cellState.errors) {
+      cellState.errors = {}
+    }
   }
 
   function clearEditRow() {
@@ -162,16 +226,24 @@ export function useEditable(props: IProps) {
     return row[props.rowKey]
   }
 
+  function editChange() {
+    /**
+     * TODO:
+     * 存在着非原值问题 (reactive value)
+     * 非原值可能在 onChange 中意外修改，需要注意
+     */
+    editableConfig?.onChange?.(dataSource.value)
+  }
+
   return {
     startEditable,
     cancelEditable,
     saveEditRow,
     deleteEditRow,
     clearEditRow,
+    clearValidateErrors,
     editableCellMap: computed(() => editableCellMap.value)
   }
 }
-
-export function isNull() {}
 
 export type UseEditableReturn = ReturnType<typeof useEditable>
