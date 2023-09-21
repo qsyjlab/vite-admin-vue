@@ -1,27 +1,31 @@
 import { ref } from 'vue'
-import type { TableExpose } from './types'
+import type { TableActionRef } from './types'
 
 /** 外部暴露 */
 export function useProTable() {
-  const tableRef = ref<TableExpose | null>(null)
-  function register(instance: TableExpose | null) {
+  const tableRef = ref<TableActionRef | null>(null)
+  function register(instance: TableActionRef | null) {
     tableRef.value = instance
   }
 
+  function getEditableCellUtils() {
+    return tableRef.value?.editableCellUtils
+  }
+
   function startEditable(rowKey: string) {
-    tableRef.value?.startEditable(rowKey)
+    getEditableCellUtils()?.startEditable(rowKey)
   }
 
   function cancelEditable(rowKey: string) {
-    tableRef.value?.cancelEditable(rowKey)
+    getEditableCellUtils()?.cancelEditable(rowKey)
   }
 
   function saveEditRow(rowKey: string) {
-    tableRef.value?.saveEditRow(rowKey)
+    getEditableCellUtils()?.saveEditRow(rowKey)
   }
 
   function deleteEditRow(rowKey: string) {
-    tableRef.value?.deleteEditRow(rowKey)
+    getEditableCellUtils()?.deleteEditRow(rowKey)
   }
 
   return {

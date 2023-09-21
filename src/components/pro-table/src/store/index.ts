@@ -1,12 +1,11 @@
 import { reactive, ref, unref } from 'vue'
-
-import type { InjectionKey, SetupContext } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
-import type { ColumnsState, TableExpose, ProTableEditable, TableActionRef } from '../types'
-import { ProTableEmits, ProTableProps } from '../props'
-import { useEditable } from '../hooks/use-editable'
-import { useColumnsMap, useProTable } from '../hooks'
-import { TableInstance } from 'element-plus'
+import { useColumnsMap, useProTable, useEditable } from '../hooks'
+
+import type { TableInstance } from 'element-plus'
+import type { ProTableEmits, ProTableProps } from '../props'
+import type { ColumnsState, ProTableEditable, TableActionRef } from '../types'
+import type { InjectionKey, SetupContext } from 'vue'
 
 interface IProps {
   columnsState: ColumnsState
@@ -35,11 +34,13 @@ export function useTableStore(
 
   const {
     dataSource,
-    reload,
+
     total,
     pageQuery,
     loading,
     tableColums,
+    reload,
+    refresh,
     handleSizeChange,
     handleCurrentChange,
     selectedKeys,
@@ -53,7 +54,8 @@ export function useTableStore(
     saveEditRow,
     deleteEditRow,
     editableCellMap,
-    clearEditRow
+    clearEditRow,
+    clearValidateErrors
   } = useEditable({
     dataSource,
     rowKey: proTableProps.rowKey,
@@ -79,7 +81,8 @@ export function useTableStore(
     cancelEditable,
     saveEditRow,
     deleteEditRow,
-    clearEditRow
+    clearEditRow,
+    clearValidateErrors
   }
 
   /** 列设置相关 */
@@ -109,6 +112,8 @@ export function useTableStore(
    */
   const tableActionRef: TableActionRef = {
     emits,
+    reload,
+    refresh,
     clearSelection,
     toggleRowSelection,
     editableCellUtils,
@@ -161,16 +166,4 @@ export function createTableStoreContext(context: TableStore) {
 
 export function useTableStoreContext() {
   return useContext(contextKey)
-}
-
-// 共享 table 实例到子集
-export const tableActionKey: InjectionKey<TableExpose> = Symbol()
-
-// 共享 action
-export function createTableAction(actions: TableExpose) {
-  return createContext(actions, tableActionKey, { readonly: true })
-}
-
-export function useTableActionContext() {
-  return useContext(tableActionKey)
 }

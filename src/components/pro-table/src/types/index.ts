@@ -84,6 +84,10 @@ export type TableOptions = boolean | ToolbarOptions
 export interface TableActionRef {
   emits: SetupContext<ProTableEmits>['emit']
   clearSelection: TableInstance['clearSelection']
+  /** 重载列表 */
+  reload: () => void
+  /** 仅仅刷新 */
+  refresh: () => void
   toggleRowSelection: TableInstance['toggleRowSelection']
   editableCellUtils: Omit<UseEditableReturn, 'editableCellMap'>
   columnsSettingUtils: Omit<UseColumnsMapReturn, 'columnsMap' | 'defaultColumnsMap'>

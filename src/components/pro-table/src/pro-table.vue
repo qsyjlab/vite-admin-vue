@@ -49,7 +49,7 @@
     </el-table>
 
     <!-- pagination -->
-    <div class="pro-table__pagination" v-if="isPagination">
+    <div class="pro-table__pagination" v-if="pagination">
       <el-pagination
         v-model:current-page="pageQuery.pageNum"
         v-model:page-size="pageQuery.pageSize"
@@ -67,13 +67,13 @@
 <script setup lang="ts">
 import { computed, onMounted, toRefs, reactive } from 'vue'
 import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
-import { createTableStoreContext, createTableAction, useTableStore } from './store'
+import { createTableStoreContext, useTableStore } from './store'
 import ProTableColumn from './pro-table-column.vue'
 import Toolbar from './components/toolbar/toolbar.vue'
 import { columnsSort, columnsFilter } from './utils'
 import './style.scss'
 import type { TableInstance } from 'element-plus'
-import type { TableExpose, EditableCellState } from './types'
+import type { EditableCellState } from './types'
 
 type DefualtSlotFn = (scope: { row: any; editableState: EditableCellState }) => void
 
@@ -99,36 +99,25 @@ const store = useTableStore(proxyProps, { emits })
 
 const {
   tableInstanceRef,
+  tableActionRef,
   total,
   loading,
   pageQuery,
   columnsMap,
   tableProps,
   tableColums,
-  editableCellUtils,
   dataSource,
   handleCurrentChange,
   handleSizeChange,
   selectedKeys,
   setSelectedKeys,
-  clearSelectedKeys,
-  reload
+  clearSelectedKeys
 } = store
 
-const tableExpose: TableExpose = {
-  doLayout: () => {},
-  reload,
-  startEditable: editableCellUtils.startEditable,
-  cancelEditable: editableCellUtils.cancelEditable,
-  saveEditRow: editableCellUtils.saveEditRow,
-  deleteEditRow: editableCellUtils.deleteEditRow
-}
-
 createTableStoreContext(store)
-createTableAction(tableExpose)
 
 onMounted(() => {
-  emits('register', tableExpose)
+  emits('register', tableActionRef)
 })
 
 const getColumns = computed(() => {
@@ -145,5 +134,5 @@ const selectChangeHandler: TableInstance['onSelection-change'] = selection => {
   }
 }
 
-defineExpose(tableExpose)
+defineExpose(tableActionRef)
 </script>

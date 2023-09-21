@@ -13,7 +13,7 @@ export function sliceData(data: any, { pageNum = 1, pageSize = 10 }) {
 
 type IProps = Pick<
   ProTableProps,
-  'columns' | 'data' | 'request' | 'params' | 'isPagination' | 'loading' | 'rowKey' | 'selectedKeys'
+  'columns' | 'data' | 'request' | 'params' | 'pagination' | 'loading' | 'rowKey' | 'selectedKeys'
 >
 
 type Extra = {
@@ -24,8 +24,7 @@ type Extra = {
 export const useProTable = (props: IProps, extra: Extra) => {
   const { emits, tableInstanceRef } = extra
 
-  const { columns, data, request, params = {}, isPagination } = toRefs(props)
-  const { tableActionRef } = useTableStoreContext()
+  const { columns, data, request, params = {}, pagination } = toRefs(props)
 
   const dataSource = ref<any[]>([])
   const tableColums = ref(columns.value || [])
@@ -62,7 +61,7 @@ export const useProTable = (props: IProps, extra: Extra) => {
   const handleCurrentChange = (val: number) => {
     pageQuery.pageNum = val
 
-    updateTableList()
+    fetchData()
     emitPagination()
   }
 
@@ -71,25 +70,25 @@ export const useProTable = (props: IProps, extra: Extra) => {
     pageQuery.pageSize = val
 
     emitPagination()
-    updateTableList()
+    fetchData()
   }
 
   function reload() {
     pageQuery.pageNum = 1
-    updateTableList()
-    isPagination && emitPagination()
+    fetchData()
+    pagination && emitPagination()
   }
 
   function refresh() {
-    updateTableList()
+    fetchData()
   }
 
-  async function updateTableList() {
+  async function fetchData() {
     setLoading(true)
 
     try {
       if (!request?.value) {
-        dataSource.value = isPagination
+        dataSource.value = pagination
           ? sliceData(data.value, {
               pageNum: pageQuery.pageNum,
               pageSize: pageQuery.pageSize

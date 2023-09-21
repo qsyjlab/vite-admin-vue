@@ -6,8 +6,8 @@ import {
   ProTableColumns,
   ProTableColumnItem,
   TableOptions,
-  TableExpose,
-  ProTableEditable
+  ProTableEditable,
+  TableActionRef
 } from './types'
 
 export const proTableHeaderProps = {
@@ -40,7 +40,7 @@ export const proTableProps = {
   params: {
     type: definePropType<Record<string | number, any>>(Object)
   },
-  isPagination: {
+  pagination: {
     type: Boolean,
     default: true
   },
@@ -99,7 +99,7 @@ export const proTableEmits = {
   [emitsEnums.PAGE_CHANGE]: (page: number, size: number) => !!size && !!page,
   'update:loading': (loading: boolean) => true,
   'update:selectedKeys': (keys: any[]) => !!keys,
-  register: (instance: TableExpose) => !!instance
+  register: (instance: TableActionRef) => !!instance
 }
 
 export type ProTableEmits = typeof proTableEmits
