@@ -1,9 +1,13 @@
 import { ref, computed, watch, SetupContext } from 'vue'
 
-import { ProTableEmits } from '../props'
+import type { ProTableEmits } from '../props'
+
+interface IProps {
+  loading: boolean
+}
 
 export const useLoading = (
-  props: { loading: boolean },
+  props: IProps,
   { emits }: { emits: SetupContext<ProTableEmits>['emit'] }
 ) => {
   const loading = ref(false)

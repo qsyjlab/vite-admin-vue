@@ -81,14 +81,10 @@ const props = defineProps<{
   columns: any[]
 }>()
 
-const {
-  mergeColumnsMap,
-  columnsMap,
-  getColumnMapConfig,
-  setDefaultColumnsMap,
-  resetColumnsMap,
-  initLocalStorageOrDynamicMap
-} = useTableStoreContext()
+const { columnsSettingUtils, columnsMap } = useTableStoreContext()
+
+const { initLocalStorageOrDynamicMap, setDefaultColumnsMap, resetColumnsMap, getColumnMapConfig } =
+  columnsSettingUtils
 
 const triggerRef = ref<HTMLDivElement>()
 const popoverRef = ref()
@@ -121,17 +117,6 @@ const unInitWatch = watch(
     immediate: true
   }
 )
-
-// watch(
-//   () => props.columns,
-//   () => {
-//     initColumnsStore()
-//   },
-//   {
-//     immediate: true,
-//     deep: true
-//   }
-// )
 
 watch(
   columnsMap,
@@ -179,7 +164,7 @@ const setAllSelectAction = (show = true) => {
     })
   }
   loopColumns(props.columns)
-  mergeColumnsMap(columnKeyMap)
+  columnsSettingUtils.mergeColumnsMap(columnKeyMap)
 }
 
 function initColumnsMap() {
@@ -267,7 +252,7 @@ function changeColumns() {
     }
   )
 
-  mergeColumnsMap(newColumnsMap)
+  columnsSettingUtils.mergeColumnsMap(newColumnsMap)
 
   emits('change', { ...columnsMap.value })
 }

@@ -22,7 +22,7 @@
     </slot>
     <!-- table -->
     <el-table
-      ref="tableRef"
+      ref="tableInstanceRef"
       :data="dataSource"
       v-bind="$attrs"
       v-loading="loading"
@@ -42,7 +42,6 @@
       <template v-for="(item, idx) in getColumns" :key="`${item.key}-${idx}`">
         <pro-table-column :column="item">
           <template v-for="slot in Object.keys($slots)" #[slot]="scope">
-            <!-- {{ scope }} -->
             <slot :name="slot" v-bind="scope"></slot>
           </template>
         </pro-table-column>
@@ -50,14 +49,9 @@
     </el-table>
 
     <!-- pagination -->
-    <div class="pro-table__pagination" v-if="isPagination">
+    <div class="pro-table__pagination" v-if="pagination">
       <el-pagination
-        v-model:current-page="pageQuery.pageNum"
-        v-model:page-size="pageQuery.pageSize"
-        :page-sizes="[10, 20, 30, 40]"
-        :background="true"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
+        v-bind="paginationProps"
         :small="tableProps.size === 'small'"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -66,63 +60,82 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, nextTick, watch, ref } from 'vue'
-import { useProTable } from './pro-table'
+import { computed, reactive } from 'vue'
 import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
+import { createTableStoreContext, useTableStore } from './store'
 import ProTableColumn from './pro-table-column.vue'
-import { createTableStoreContext, createTableAction, useTableStore } from './store'
 import Toolbar from './components/toolbar/toolbar.vue'
-import { columnsSort } from './utils'
+import { columnsSort, columnsFilter } from './utils'
 import './style.scss'
 import type { TableInstance } from 'element-plus'
+import type { EditableCellState } from './types'
+
+type DefualtSlotFn = (scope: { row: any; editableState: EditableCellState }) => void
 
 defineSlots<{
   headerTitle: () => void
   toolbar: () => void
   alert: () => void
-  [key: string]: (scope: { row: any }) => void
+
+  [key: string]: DefualtSlotFn
 }>()
 
-const props = defineProps(Object.assign({}, proTableProps, proTableHeaderProps))
+const props = defineProps(Object.assign(proTableProps, proTableHeaderProps))
 const emits = defineEmits(proTableEmits)
 
-const store = useTableStore({ columnsState: props.columnsState })
-const tableKey = ref(new Date().getTime())
+/**
+ * 将 props 转为 响应式类型
+ * 如果非响应式透传 函数 props 将不在是响应式
+ */
+const reactiveProps = reactive(props)
+
+const store = useTableStore(reactiveProps, { emits })
 
 const {
-  tableRef,
+  tableInstanceRef,
+  tableActionRef,
+  paginationProps,
+  loading,
+  pageQuery,
+  columnsMap,
+  tableProps,
   tableColums,
   dataSource,
-  pageQuery,
-  handleCurrentChange,
-  handleSizeChange,
-  total,
-  loading,
-  tableMethods,
-  setSelectedKeys,
   selectedKeys,
-  clearSelectedKeys
-} = useProTable({
-  props,
-  emits
-})
-const { columnsMap, tableProps } = store
+  setSelectedKeys,
+  clearSelectedKeys,
+  editableCellUtils,
+  setQueryPage,
+  setQueryPageSize
+} = store
 
 createTableStoreContext(store)
-createTableAction(tableMethods)
 
-const getColumns = computed(() => {
-  const newColumns = proColumnsFilter(tableColums.value).sort(columnsSort(columnsMap.value))
+emits('register', tableActionRef)
 
-  return newColumns
-})
+const getColumns = computed(() =>
+  columnsFilter(tableColums.value, columnsMap.value).sort(columnsSort(columnsMap.value))
+)
 
-watch(getColumns, () => {
-  tableKey.value = new Date().getTime()
-  nextTick(() => {
-    tableRef.value?.doLayout()
-  })
-})
+function handleCurrentChange(page: number) {
+  clearEffect()
+  setQueryPage(page)
+  emitPageChange()
+}
+
+function handleSizeChange(size: number) {
+  clearEffect()
+  setQueryPageSize(size)
+  emitPageChange()
+}
+
+function clearEffect() {
+  editableCellUtils.clearEditRow()
+}
+
+function emitPageChange() {
+  emits('page-change', pageQuery.page, pageQuery.pageSize)
+}
 
 const selectChangeHandler: TableInstance['onSelection-change'] = selection => {
   if (Array.isArray(selection)) {
@@ -130,39 +143,5 @@ const selectChangeHandler: TableInstance['onSelection-change'] = selection => {
   }
 }
 
-function proColumnsFilter(columns: any[]) {
-  return columns
-    .map(column => {
-      const config = columnsMap.value[column.key] || {
-        fixed: column.fixed
-      }
-      if (config && config.show === false) {
-        return false
-      }
-
-      const tempColumn: any = {
-        ...column,
-        fixed: config.fixed,
-        children: undefined
-      }
-
-      if (column.children && column.children?.length) {
-        const children = proColumnsFilter(column.children)
-
-        /**
-         * 需要将父级列也移出去, 动态切换表头会出现列塌陷
-         * doLayout 无效 ,doLayout 并没有重置 table 内部配置只是 高度大小
-         */
-        if (children.length) {
-          tempColumn.children = children
-        } else {
-          return false
-        }
-      }
-      return tempColumn
-    })
-    .filter(Boolean)
-}
-
-defineExpose(tableMethods)
+defineExpose(tableActionRef)
 </script>

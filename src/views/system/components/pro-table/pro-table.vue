@@ -1,20 +1,23 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title">
-      <el-button :loading="loading">加载</el-button>
-
       <VProTable
         header-title="pro table"
         :columns="columns"
         :columns-state="{
           persistenceKey: 'test-demo'
         }"
-        :data="data"
+        :request="getTableMockList"
         :params="params"
         checkable
-        :is-pagination="true"
-        v-model:loading="loading"
+        :pagination="{
+          page: pageRef,
+          pageSize: 10,
+          pageSizes: [10, 20, 40],
+          background: true
+        }"
         v-model:selected-keys="selectedKeys"
+        @register="register"
         @page-change="pageChange"
       >
         <template #headerTitle> 自定义表头 </template>
@@ -33,13 +36,22 @@
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { VProTable } from '@/components/pro-table'
+import { VProTable, useProTable } from '@/components/pro-table'
 import { PageCard, PageWrapper } from '@/components'
 import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
 
+import { getTableMockList } from '@/api/todos'
+
 const loading = ref(false)
 const selectedKeys = ref<any[]>()
+
+const { register } = useProTable()
+
+// setTimeout(() => {
+//   loading.value = true
+//   console.log('loading', loading.value)
+// }, 2000)
 
 watch(loading, () => {
   console.log('v-model:loading', loading)
@@ -59,7 +71,8 @@ const columns: ProTableColumns = [
     key: 'name',
     tip: '测试tip提示',
     fixed: 'left',
-    width: 200
+    width: 200,
+    editable: true
   },
   {
     title: '年龄',
@@ -168,14 +181,12 @@ const columns: ProTableColumns = [
 
 const data = ref<any[]>()
 
+const pageRef = ref<number>(3)
+
 onMounted(() => {
   setTimeout(() => {
     data.value = createData()
   }, 0)
-})
-
-watch(data, newVal => {
-  // console.log('mewVal', newVal)
 })
 
 const params = ref({
@@ -183,7 +194,7 @@ const params = ref({
 })
 
 function pageChange(page: number, size: number) {
-  console.log('page', page, size)
+  pageRef.value = page
 }
 
 let i = 0

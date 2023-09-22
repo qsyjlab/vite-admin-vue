@@ -1,124 +1,139 @@
-import { reactive, ref, toRaw, watch } from 'vue'
-
-import type { InjectionKey } from 'vue'
+import { reactive, ref } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
-import type { ColumnsState, ColumnsMap, TableMethods } from '../types'
-import { ProTableProps } from '../props'
-interface IProps {
-  columnsState: ColumnsState
+import { useColumnsMap, useProTable, useEditable, useSelection } from '../hooks'
+
+import type { TableInstance } from 'element-plus'
+import type { ProTableEmits, ProTableProps } from '../props'
+import type { TableActionRef } from '../types'
+import type { InjectionKey, SetupContext } from 'vue'
+
+interface IExtraOptions {
+  emits: SetupContext<ProTableEmits>['emit']
 }
 
 type ITableProps = Pick<ProTableProps, 'size'>
 
-export function useTableStore(props: IProps) {
-  const sortColumnKeys: string[] = []
+export function useTableStore(props: ProTableProps, options: IExtraOptions) {
+  const { emits } = options
 
-  const columnsMap = ref<Record<string, any>>({})
-
-  const defaultColumnsMap = ref<Record<string, any> | null>(null)
+  const tableInstanceRef = ref<TableInstance | null>(null)
 
   const tableProps = reactive<ITableProps>({
     size: 'default'
   })
 
-  watch(
-    [() => props.columnsState],
-    () => {
-      mergeColumnsMap(props.columnsState.value || {})
-    },
-    {
-      deep: true,
-      immediate: true
-    }
-  )
+  const {
+    paginationProps,
+    dataSource,
+    total,
+    pageQuery,
+    loading,
+    tableColums,
+    reload,
+    refresh,
+    setQueryPage,
+    setQueryPageSize
+  } = useProTable(props, { emits })
 
-  watch(
+  const { selectedKeys, setSelectedKeys, clearSelectedKeys } = useSelection(props, {
+    tableInstance: tableInstanceRef,
+    emits
+  })
+
+  const {
+    startEditable,
+    cancelEditable,
+    saveEditRow,
+    deleteEditRow,
+    editableCellMap,
+    clearEditRow,
+    clearValidateErrors
+  } = useEditable({
+    dataSource,
+    rowKey: props.rowKey,
+    editableConfig: props.editable,
+    columns: props.columns
+  })
+
+  const {
+    defaultColumnsMap,
     columnsMap,
-    newVal => {
-      persistence().set(toRaw({ ...newVal }))
-    },
-    {
-      deep: true
-    }
-  )
+    setDefaultColumnsMap,
+    mergeColumnsMap,
+    resetColumnsMap,
+    getColumnMapConfig,
+    initLocalStorageOrDynamicMap
+  } = useColumnsMap({
+    columnsState: props.columnsState
+  })
 
-  function initLocalStorageOrDynamicMap(map: any) {
-    const localMap = persistence().get()
-    // 如果缓存中存在数据优先使用缓存数据
-    if (Object.keys(localMap).length) {
-      mergeColumnsMap(localMap)
-    } else {
-      mergeColumnsMap(map)
-    }
+  /** 编辑列相关函数 */
+  const editableCellUtils = {
+    startEditable,
+    cancelEditable,
+    saveEditRow,
+    deleteEditRow,
+    clearEditRow,
+    clearValidateErrors
   }
 
-  function persistence() {
-    const { persistenceKey, persistenceType = 'localStorage' } = props.columnsState
-    const storage = window[persistenceType]
+  /** 列设置相关 */
+  const columnsSettingUtils = {
+    setDefaultColumnsMap,
+    mergeColumnsMap,
+    resetColumnsMap,
+    getColumnMapConfig,
+    initLocalStorageOrDynamicMap
+  }
 
-    return {
-      set: (value: Record<string, any>) => {
-        if (persistenceKey && persistenceType) {
-          storage.setItem(persistenceKey, JSON.stringify(value))
-        }
-      },
-      remove: () => {
-        if (persistenceKey && persistenceType) {
-          storage.removeItem(persistenceKey)
-        }
-      },
-      get: (): ColumnsMap => {
-        try {
-          if (persistenceKey && persistenceType) {
-            return JSON.parse(storage.getItem(persistenceKey) || '')
-          }
+  function clearSelection() {
+    tableInstanceRef.value?.clearSelection()
+  }
 
-          return {}
-        } catch (error) {
-          return {}
-        }
-      }
-    }
+  function toggleRowSelection(row: any, selected: boolean) {
+    tableInstanceRef.value?.toggleRowSelection(row, selected)
   }
 
   function mergeTableProps(props: ITableProps) {
     Object.assign(tableProps, props)
   }
 
-  function setSortColumnKeys(keys: string[]) {
-    return []
-  }
-
-  function setDefaultColumnsMap(map: Record<string, any>) {
-    defaultColumnsMap.value = { ...map }
-  }
-
-  function mergeColumnsMap(map: Record<string, any>) {
-    columnsMap.value = Object.assign({}, columnsMap.value, map)
-  }
-
-  // reset 重置策略为 传入的配置加上默认的配置
-  function resetColumnsMap() {
-    columnsMap.value = { ...defaultColumnsMap.value }
-    persistence().remove()
-  }
-
-  function getColumnMapConfig(key: string) {
-    return columnsMap.value[key] || { show: true }
+  /**
+   * expose ref
+   *
+   */
+  const tableActionRef: TableActionRef = {
+    emits,
+    reload,
+    refresh,
+    clearSelection,
+    toggleRowSelection,
+    editableCellUtils,
+    columnsSettingUtils
   }
 
   return {
+    paginationProps,
     tableProps,
-    sortColumnKeys,
+    loading,
+    selectedKeys,
+    total,
+    pageQuery,
+    dataSource,
+    tableColums,
     defaultColumnsMap,
-    setDefaultColumnsMap,
     columnsMap,
-    mergeColumnsMap,
+    reload,
+    setQueryPage,
+    setQueryPageSize,
+    setSelectedKeys,
+    clearSelectedKeys,
+    tableActionRef,
+    tableInstanceRef,
     mergeTableProps,
-    resetColumnsMap,
-    setSortColumnKeys,
-    getColumnMapConfig,
-    initLocalStorageOrDynamicMap
+    editableCellMap,
+    editableCellUtils,
+    columnsSettingUtils
   }
 }
 
@@ -132,16 +147,4 @@ export function createTableStoreContext(context: TableStore) {
 
 export function useTableStoreContext() {
   return useContext(contextKey)
-}
-
-// 共享 table 实例到子集
-export const tableActionKey: InjectionKey<TableMethods> = Symbol()
-
-// 共享 action
-export function createTableAction(actions: TableMethods) {
-  return createContext(actions, tableActionKey, { readonly: true })
-}
-
-export function useTableActionContext() {
-  return useContext(tableActionKey)
 }

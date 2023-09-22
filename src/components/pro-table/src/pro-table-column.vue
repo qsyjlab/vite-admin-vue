@@ -5,14 +5,20 @@
 import { ElTableColumn, ElProgress } from 'element-plus'
 import { proTableColumnProps } from './props'
 import { useSlots } from 'vue'
+import { useTableStoreContext } from './store'
 import { toDisplayString } from '@/utils'
+
 import { Tips } from '../../tips'
 import Badge from './components/badge.vue'
+import { EditableCell } from './components/editable-cell'
+
 import type { ProTableColumnItem } from './types'
 
 const props = defineProps(proTableColumnProps)
 
 const slots = useSlots()
+
+const { editableCellMap } = useTableStoreContext()
 
 // 获取 enumValue
 function runValueEnumFn<T extends any[]>(valueEnum: any, ...rest: T[]) {
@@ -32,7 +38,22 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
 
   if (columnConfig.children && columnConfig.children.length)
     return columnConfig.children.map(child => renderColumns(child))
-  if (slots[columnConfig.key]) return slots[columnConfig.key]?.({ ...scope, info: columnConfig })
+  if (slots[columnConfig.key])
+    return slots[columnConfig.key]?.({
+      ...scope,
+      info: columnConfig,
+      editableState: editableCellMap.value.get(row[props.rowKey] as string)
+    })
+
+  const rowEditState = editableCellMap.value.get(row[props.rowKey] as string)
+
+  if (columnConfig.editable && rowEditState && rowEditState.isEdit) {
+    return <EditableCell row={row} column={columnConfig} onChange={onChangeEditValue} />
+  }
+
+  function onChangeEditValue(value: any) {
+    row[columnConfig.key] = value
+  }
 
   const value = row[columnConfig.key]
 
