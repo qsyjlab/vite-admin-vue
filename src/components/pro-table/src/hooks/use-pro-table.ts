@@ -103,14 +103,11 @@ export const useProTable = (props: IProps, extra: Extra) => {
   }
 
   function refresh() {
-    console.log('refresh')
-
     fetchData()
   }
 
   async function fetchData() {
     setLoading(true)
-    console.log('log')
 
     try {
       if (!request?.value) {
@@ -126,9 +123,6 @@ export const useProTable = (props: IProps, extra: Extra) => {
         const { data, total: _total = 0 } = await request.value(
           Object.assign({}, params?.value || {}, pageQuery)
         )
-
-        console.log('data, total', data, total)
-
         dataSource.value = data
         total.value = _total
       }
