@@ -12,7 +12,12 @@
         :data="data"
         :params="params"
         checkable
-        :is-pagination="true"
+        :pagination="{
+          page: pageRef,
+          pageSize: 10,
+          pageSizes: [10, 20, 40],
+          background: true
+        }"
         v-model:loading="loading"
         v-model:selected-keys="selectedKeys"
         @register="register"
@@ -43,6 +48,11 @@ const loading = ref(false)
 const selectedKeys = ref<any[]>()
 
 const { register } = useProTable()
+
+// setTimeout(() => {
+//   loading.value = true
+//   console.log('loading', loading.value)
+// }, 2000)
 
 watch(loading, () => {
   console.log('v-model:loading', loading)
@@ -172,14 +182,12 @@ const columns: ProTableColumns = [
 
 const data = ref<any[]>()
 
+const pageRef = ref<number>(3)
+
 onMounted(() => {
   setTimeout(() => {
     data.value = createData()
   }, 0)
-})
-
-watch(data, newVal => {
-  // console.log('mewVal', newVal)
 })
 
 const params = ref({
@@ -187,7 +195,7 @@ const params = ref({
 })
 
 function pageChange(page: number, size: number) {
-  console.log('page', page, size)
+  pageRef.value = page
 }
 
 let i = 0

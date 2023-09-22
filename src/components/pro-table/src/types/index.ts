@@ -1,11 +1,12 @@
 import { ElTable } from 'element-plus'
-import { NOOP } from './utils'
+
 import { Component, SetupContext, VNode } from 'vue'
 import { ProTableEmits } from '../props'
 import type { UseColumnsMapReturn, UseEditableReturn } from '../hooks'
 import type { EditRowRule, EditableCellValidError } from './editable'
 import type { TableColumnCtx } from 'element-plus'
 import type { ValueEnum, ValueType } from './renderer'
+import type { NOOP } from './utils'
 
 export type ColumnsMap = Record<string, any>
 
@@ -73,7 +74,6 @@ export interface TableExpose {
 
 /** 表格默认工具栏开关 */
 interface ToolbarOptions {
-  fullScreen?: boolean
   reload?: boolean
   setting?: boolean
   density?: boolean
@@ -91,6 +91,14 @@ export interface TableActionRef {
   toggleRowSelection: TableInstance['toggleRowSelection']
   editableCellUtils: Omit<UseEditableReturn, 'editableCellMap'>
   columnsSettingUtils: Omit<UseColumnsMapReturn, 'columnsMap' | 'defaultColumnsMap'>
+}
+
+export interface ProTablePaginationConfig {
+  page?: number
+  pageSize?: number
+  layout?: string[]
+  pageSizes?: number[]
+  background?: boolean
 }
 
 export * from './editable'

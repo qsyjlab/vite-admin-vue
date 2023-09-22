@@ -1,13 +1,14 @@
 import { definePropType } from '@/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, SetupContext } from 'vue'
 import type { TableProps } from 'element-plus'
-import {
+import type {
   ColumnsState,
   ProTableColumns,
   ProTableColumnItem,
   TableOptions,
   ProTableEditable,
-  TableActionRef
+  TableActionRef,
+  ProTablePaginationConfig
 } from './types'
 
 export const proTableHeaderProps = {
@@ -41,7 +42,7 @@ export const proTableProps = {
     type: definePropType<Record<string | number, any>>(Object)
   },
   pagination: {
-    type: Boolean,
+    type: definePropType<ProTablePaginationConfig | boolean>([Object, Boolean]),
     default: true
   },
   tableLayout: {
@@ -107,3 +108,7 @@ export type ProTableEmits = typeof proTableEmits
 export type ProTableProps = ExtractPropTypes<typeof proTableProps>
 
 export type ProTableHeaderProps = ExtractPropTypes<typeof proTableHeaderProps>
+
+type Emits = SetupContext<{
+  change: (id: number) => void
+}>['emit']

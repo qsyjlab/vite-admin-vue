@@ -51,12 +51,7 @@
     <!-- pagination -->
     <div class="pro-table__pagination" v-if="pagination">
       <el-pagination
-        v-model:current-page="pageQuery.pageNum"
-        v-model:page-size="pageQuery.pageSize"
-        :page-sizes="[10, 20, 30, 40]"
-        :background="true"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
+        v-bind="paginationProps"
         :small="tableProps.size === 'small'"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -65,7 +60,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted, toRefs, reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
 import { createTableStoreContext, useTableStore } from './store'
 import ProTableColumn from './pro-table-column.vue'
@@ -85,48 +80,62 @@ defineSlots<{
   [key: string]: DefualtSlotFn
 }>()
 
-const props = defineProps(Object.assign({}, proTableProps, proTableHeaderProps))
+const props = defineProps(Object.assign(proTableProps, proTableHeaderProps))
 const emits = defineEmits(proTableEmits)
 
-/** 可能有优化空间 */
-const proxyProps = reactive({
-  ...toRefs(props),
-  rowKey: props.rowKey,
-  editableConfig: props.editable
-})
+/**
+ * 将 props 转为 响应式类型
+ * 如果非响应式透传 函数 props 将不在是响应式
+ */
+const reactiveProps = reactive(props)
 
-const store = useTableStore(proxyProps, { emits })
+const store = useTableStore(reactiveProps, { emits })
 
 const {
   tableInstanceRef,
   tableActionRef,
-  total,
+  paginationProps,
   loading,
   pageQuery,
   columnsMap,
   tableProps,
   tableColums,
   dataSource,
-  handleCurrentChange,
-  handleSizeChange,
   selectedKeys,
   setSelectedKeys,
-  clearSelectedKeys
+  clearSelectedKeys,
+  editableCellUtils,
+  setQueryPage,
+  setQueryPageSize
 } = store
 
 createTableStoreContext(store)
 
-onMounted(() => {
-  emits('register', tableActionRef)
-})
+emits('register', tableActionRef)
 
-const getColumns = computed(() => {
-  const newColumns = columnsFilter(tableColums.value, columnsMap.value).sort(
-    columnsSort(columnsMap.value)
-  )
+const getColumns = computed(() =>
+  columnsFilter(tableColums.value, columnsMap.value).sort(columnsSort(columnsMap.value))
+)
 
-  return newColumns
-})
+function handleCurrentChange(page: number) {
+  clearEffect()
+  setQueryPage(page)
+  emitPageChange()
+}
+
+function handleSizeChange(size: number) {
+  clearEffect()
+  setQueryPageSize(size)
+  emitPageChange()
+}
+
+function clearEffect() {
+  editableCellUtils.clearEditRow()
+}
+
+function emitPageChange() {
+  emits('page-change', pageQuery.page, pageQuery.pageSize)
+}
 
 const selectChangeHandler: TableInstance['onSelection-change'] = selection => {
   if (Array.isArray(selection)) {

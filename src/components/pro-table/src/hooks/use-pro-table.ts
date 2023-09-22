@@ -1,85 +1,100 @@
-import { reactive, ref, toRefs, watch } from 'vue'
-import type { Ref, SetupContext } from 'vue'
-import { proTableEmits, ProTableProps, emitsEnums } from '../props'
+import { computed, reactive, ref, toRefs, watch, watchEffect } from 'vue'
+import { proTableEmits, ProTableProps } from '../props'
 import { useLoading } from './loading'
-import type { TableInstance, TableExpose } from '../types'
-import { useSelection } from './use-selection'
-import { useTableStoreContext } from '../store'
+import { sliceData } from '../utils'
 
-export function sliceData(data: any, { pageNum = 1, pageSize = 10 }) {
-  const start = (pageNum - 1) * pageSize
-  return data.slice(start, start + pageSize)
-}
+import type { SetupContext } from 'vue'
+import { watchOnce } from '@vueuse/core'
+import { PaginationProps } from 'element-plus'
 
 type IProps = Pick<
   ProTableProps,
-  'columns' | 'data' | 'request' | 'params' | 'pagination' | 'loading' | 'rowKey' | 'selectedKeys'
+  'columns' | 'data' | 'request' | 'params' | 'pagination' | 'loading' | 'rowKey'
 >
 
 type Extra = {
   emits: SetupContext<typeof proTableEmits>['emit']
-  tableInstanceRef: Ref<TableInstance | null>
+}
+
+const DEFAULT_PAGINATON_CONFIG = {
+  pageSizes: [10, 20, 30, 40],
+  background: true,
+  layout: ['total', 'sizes', 'prev', 'pager', 'next', 'jumper']
 }
 
 export const useProTable = (props: IProps, extra: Extra) => {
-  const { emits, tableInstanceRef } = extra
+  const { emits } = extra
 
   const { columns, data, request, params = {}, pagination } = toRefs(props)
 
   const dataSource = ref<any[]>([])
   const tableColums = ref(columns.value || [])
   const total = ref(0)
-
-  const pageQuery = reactive({
-    pageNum: 1,
+  const pageQuery = reactive<{
+    page: number
+    pageSize: number
+  }>({
+    page: 1,
     pageSize: 10
+  })
+
+  // 分页相关配置
+  const paginationProps = computed<Partial<PaginationProps>>(() => {
+    if (typeof pagination.value === 'boolean')
+      return {
+        ...DEFAULT_PAGINATON_CONFIG,
+        currentPage: pageQuery.page,
+        total: total.value,
+        layout: DEFAULT_PAGINATON_CONFIG.layout?.join(',')
+      }
+    return {
+      ...DEFAULT_PAGINATON_CONFIG,
+      ...pagination.value,
+      currentPage: pagination.value.page || pageQuery.page,
+      total: total.value,
+      layout: pagination.value.layout?.join(',') || DEFAULT_PAGINATON_CONFIG.layout?.join(',')
+    }
   })
 
   const { loading, setLoading } = useLoading(props, { emits })
 
-  const { selectedKeys, setSelectedKeys, clearSelectedKeys } = useSelection(props, {
-    tableInstance: tableInstanceRef,
-    emits
-  })
-
-  watch(
-    [params, data],
+  watchOnce(
+    () => props.pagination,
     () => {
-      reload()
-    },
-    {
-      deep: true,
-      immediate: true
+      if (typeof pagination.value === 'boolean') return
+      pageQuery.pageSize = pagination.value.pageSize || 10
+
+      if (pageQuery.page !== pagination.value.page) {
+        pageQuery.page = pagination.value.page || 1
+        refresh()
+      }
     }
   )
 
-  /**
-   * TODO: 分页暂时放这里 后期迁移至外部，
-   * 独立出 数据处理部分，让外部的分页来驱动数据
-   */
+  watch([params, data], () => {
+    refresh()
+  })
 
-  const handleCurrentChange = (val: number) => {
-    pageQuery.pageNum = val
-
+  const setQueryPage = (page: number) => {
+    pageQuery.page = page
     fetchData()
-    emitPagination()
   }
 
-  const handleSizeChange = (val: number) => {
-    pageQuery.pageNum = 1
-    pageQuery.pageSize = val
+  const setQueryPageSize = (size: number) => {
+    pageQuery.page = 1
+    pageQuery.pageSize = size
 
-    emitPagination()
     fetchData()
   }
 
   function reload() {
-    pageQuery.pageNum = 1
+    pageQuery.page = 1
     fetchData()
-    pagination && emitPagination()
   }
 
   function refresh() {
+    console.log('refresh')
+
     fetchData()
   }
 
@@ -90,7 +105,7 @@ export const useProTable = (props: IProps, extra: Extra) => {
       if (!request?.value) {
         dataSource.value = pagination
           ? sliceData(data.value, {
-              pageNum: pageQuery.pageNum,
+              page: pageQuery.page,
               pageSize: pageQuery.pageSize
             })
           : data.value
@@ -108,11 +123,8 @@ export const useProTable = (props: IProps, extra: Extra) => {
     }
   }
 
-  function emitPagination() {
-    emits(emitsEnums.PAGE_CHANGE, pageQuery.pageNum, pageQuery.pageSize)
-  }
-
   return {
+    paginationProps,
     total,
     loading,
     tableColums,
@@ -120,10 +132,7 @@ export const useProTable = (props: IProps, extra: Extra) => {
     pageQuery,
     refresh,
     reload,
-    handleSizeChange,
-    handleCurrentChange,
-    selectedKeys,
-    setSelectedKeys,
-    clearSelectedKeys
+    setQueryPageSize,
+    setQueryPage
   }
 }

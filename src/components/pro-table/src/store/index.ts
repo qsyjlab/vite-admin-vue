@@ -1,17 +1,11 @@
-import { reactive, ref, unref } from 'vue'
+import { reactive, ref } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
-import { useColumnsMap, useProTable, useEditable } from '../hooks'
+import { useColumnsMap, useProTable, useEditable, useSelection } from '../hooks'
 
 import type { TableInstance } from 'element-plus'
 import type { ProTableEmits, ProTableProps } from '../props'
-import type { ColumnsState, ProTableEditable, TableActionRef } from '../types'
+import type { TableActionRef } from '../types'
 import type { InjectionKey, SetupContext } from 'vue'
-
-interface IProps {
-  columnsState: ColumnsState
-  rowKey: string
-  editableConfig: ProTableEditable
-}
 
 interface IExtraOptions {
   emits: SetupContext<ProTableEmits>['emit']
@@ -19,12 +13,8 @@ interface IExtraOptions {
 
 type ITableProps = Pick<ProTableProps, 'size'>
 
-export function useTableStore(
-  props: IProps & Omit<ProTableProps, 'editable'>,
-  options: IExtraOptions
-) {
+export function useTableStore(props: ProTableProps, options: IExtraOptions) {
   const { emits } = options
-  const proTableProps = unref(props)
 
   const tableInstanceRef = ref<TableInstance | null>(null)
 
@@ -33,20 +23,22 @@ export function useTableStore(
   })
 
   const {
+    paginationProps,
     dataSource,
-
     total,
     pageQuery,
     loading,
     tableColums,
     reload,
     refresh,
-    handleSizeChange,
-    handleCurrentChange,
-    selectedKeys,
-    setSelectedKeys,
-    clearSelectedKeys
-  } = useProTable(props, { emits, tableInstanceRef })
+    setQueryPage,
+    setQueryPageSize
+  } = useProTable(props, { emits })
+
+  const { selectedKeys, setSelectedKeys, clearSelectedKeys } = useSelection(props, {
+    tableInstance: tableInstanceRef,
+    emits
+  })
 
   const {
     startEditable,
@@ -58,8 +50,8 @@ export function useTableStore(
     clearValidateErrors
   } = useEditable({
     dataSource,
-    rowKey: proTableProps.rowKey,
-    editableConfig: proTableProps.editableConfig,
+    rowKey: props.rowKey,
+    editableConfig: props.editable,
     columns: props.columns
   })
 
@@ -72,7 +64,7 @@ export function useTableStore(
     getColumnMapConfig,
     initLocalStorageOrDynamicMap
   } = useColumnsMap({
-    columnsState: proTableProps.columnsState
+    columnsState: props.columnsState
   })
 
   /** 编辑列相关函数 */
@@ -121,38 +113,27 @@ export function useTableStore(
   }
 
   return {
+    paginationProps,
+    tableProps,
     loading,
-    tableColums,
-    handleSizeChange: (val: number) => {
-      clearEditRow()
-      handleSizeChange(val)
-    },
-    handleCurrentChange: (val: number) => {
-      clearEditRow()
-      handleCurrentChange(val)
-    },
     selectedKeys,
-    setSelectedKeys,
-    clearSelectedKeys,
-    reload,
     total,
     pageQuery,
     dataSource,
+    tableColums,
+    defaultColumnsMap,
+    columnsMap,
+    reload,
+    setQueryPage,
+    setQueryPageSize,
+    setSelectedKeys,
+    clearSelectedKeys,
     tableActionRef,
     tableInstanceRef,
-    /** 一下方法可能都会被合并到  tableActionRef 中 统一控制 */
+    mergeTableProps,
     editableCellMap,
     editableCellUtils,
-    columnsSettingUtils,
-    tableProps,
-    defaultColumnsMap,
-    setDefaultColumnsMap,
-    columnsMap,
-    mergeColumnsMap,
-    mergeTableProps,
-    resetColumnsMap,
-    getColumnMapConfig,
-    initLocalStorageOrDynamicMap
+    columnsSettingUtils
   }
 }
 
