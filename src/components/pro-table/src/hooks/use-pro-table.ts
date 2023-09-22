@@ -61,13 +61,23 @@ export const useProTable = (props: IProps, extra: Extra) => {
   watchOnce(
     () => props.pagination,
     () => {
-      if (typeof pagination.value === 'boolean') return
+      if (typeof pagination.value === 'boolean') {
+        if (pagination.value) {
+          refresh()
+          return
+        }
+        return
+      }
       pageQuery.pageSize = pagination.value.pageSize || 10
 
       if (pageQuery.page !== pagination.value.page) {
         pageQuery.page = pagination.value.page || 1
+
         refresh()
       }
+    },
+    {
+      immediate: true
     }
   )
 
@@ -100,6 +110,7 @@ export const useProTable = (props: IProps, extra: Extra) => {
 
   async function fetchData() {
     setLoading(true)
+    console.log('log')
 
     try {
       if (!request?.value) {
