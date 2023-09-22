@@ -103,7 +103,7 @@ const columnsState = reactive<{
   columns: [],
   checkedKeys: []
 })
-const { mergeColumnsMap, columnsMap } = useTableStoreContext()
+const { columnsSettingUtils, columnsMap } = useTableStoreContext()
 watch(
   [() => props.columns, columnsMap],
   () => {
@@ -120,7 +120,6 @@ watch(
       })
     }
 
-    // TODO: 待排查 children 默认是空数组而不是 undefined
     function loopColumns(cols: any[]) {
       return cols.map(item => {
         const _col: any = {
@@ -152,10 +151,6 @@ watch(
     columnsState.map = map
     columnsState.columns = loopColumns([...props.columns])
     columnsState.checkedKeys = checkedKeys
-
-    // console.log('newColumnMap', checkedKeys)
-    // debugger
-
     setCheckedKeys(checkedKeys)
   },
   {
@@ -182,7 +177,7 @@ const check = (data: any, checkedObj: any) => {
   }
 
   loopSetShow(data.key)
-  mergeColumnsMap({ ...newColumnMap })
+  columnsSettingUtils.mergeColumnsMap({ ...newColumnMap })
   emits('check')
 }
 
@@ -202,8 +197,6 @@ const moveToRight = (node: any) => {
 }
 
 const handleDragEnd = (draggingNode: Node, dropNode: Node) => {
-  // // 保持选中状态
-  // treeRef.value?.setCheckedKeys(columnsState.checkedKeys)
   change()
 }
 

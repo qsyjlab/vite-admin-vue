@@ -76,6 +76,23 @@ const user: MockMethod[] = [
 
       return resultSuccess(allRouteModules)
     }
+  },
+  {
+    url: '/basic-api/mockList',
+    method: 'get',
+    response: response => {
+      const { query } = response
+
+      const { page = 1, pageSize = 10 } = query
+      return resultSuccess({
+        total: 1000,
+        data: Array(Number(pageSize))
+          .fill(0)
+          .map((item, index) => ({
+            name: 'name = i' + index * (page - 1) * pageSize
+          }))
+      })
+    }
   }
 ]
 

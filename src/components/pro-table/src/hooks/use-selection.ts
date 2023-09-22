@@ -2,8 +2,10 @@ import { TableInstance } from 'element-plus'
 import { computed, Ref, ref, SetupContext, watch } from 'vue'
 import { ProTableEmits, ProTableProps } from '../props'
 
+type IProps = Pick<ProTableProps, 'selectedKeys' | 'rowKey'>
+
 export function useSelection(
-  props: ProTableProps,
+  props: IProps,
   options: { tableInstance: Ref<TableInstance | null>; emits: SetupContext<ProTableEmits>['emit'] }
 ) {
   const selectedKeys = ref<any[]>([])

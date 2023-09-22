@@ -26,7 +26,11 @@ export interface InterceptorsType {
   responseInterceptorsCatch?: ResponseInterceptorsCatchType
 }
 
-export type BaseAxiosRequestConfig = AxiosRequestConfig & RequestConfigEx
+export type BaseAxiosRequestConfig = {
+  baseURL?: AxiosRequestConfig['baseURL']
+  timeout?: AxiosRequestConfig['timeout']
+  headers?: AxiosRequestConfig['headers']
+} & RequestConfigEx
 interface RequestConfigEx {
   interceptorsHooks?: InterceptorsType
   transform?: RequestTransform
@@ -53,7 +57,7 @@ export type TransformResponse<T = any> = (
 ) => AxiosResponse<T>['data']
 export type TransformRequest<T = any> = (request: AxiosRequestConfig<T>) => AxiosRequestConfig<T>
 
-export type RequestCatch<T = any> = (error: Error, requestOptionsEx: RequestOptionsEx) => Error
+export type RequestCatch = (error: Error, requestOptionsEx: RequestOptionsEx) => Error
 
 export interface RequestTransform {
   transformResponse?: TransformResponse

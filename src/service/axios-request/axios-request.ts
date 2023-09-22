@@ -9,9 +9,10 @@ import type {
   RequestOptionsEx
 } from './interface'
 
-import { isFunction, extend } from '@/utils'
+import { isFunction, extend, readonly } from '@/utils'
 import { omit } from 'lodash-es'
 import { AxiosCanceler } from './axios-canceler'
+
 class AxiosRequest {
   private instanceConfig: BaseAxiosRequestConfig = {}
 

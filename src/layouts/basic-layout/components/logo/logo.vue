@@ -1,7 +1,7 @@
 <template>
   <div class="basic-layout-logo" :style="styles">
     <div class="basic-layout-logo__img" :style="logoImageStyle">
-      <img src="/logo.png" alt="/" />
+      <img src="/logo.svg" alt="/" />
     </div>
     <div
       class="basic-layout-logo__title"
@@ -25,7 +25,7 @@ interface IProps {
 }
 
 const props = withDefaults(defineProps<IProps>(), {
-  logoWidth: 65,
+  logoWidth: 78,
   showTitle: true,
   width: 220,
   height: 48,

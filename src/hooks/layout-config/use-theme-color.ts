@@ -2,8 +2,6 @@ import { generateThemeCluster } from '@/utils'
 
 import { generate } from '@arco-design/color'
 
-console.log('generate')
-
 export const useElementCssVar = (mode?: 'light' | 'dark') => {
   const el = document.documentElement
 
@@ -20,8 +18,6 @@ export const useElementCssVar = (mode?: 'light' | 'dark') => {
       colorList = generate(color, { index: 10, list: true, dark: true })
       colorList.unshift(color)
     }
-
-    console.log('colorList', colorList)
 
     // set css var
     style.setProperty('--el-color-primary', colorList[0])

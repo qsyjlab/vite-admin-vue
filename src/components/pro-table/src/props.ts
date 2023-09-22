@@ -1,7 +1,15 @@
 import { definePropType } from '@/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, SetupContext } from 'vue'
 import type { TableProps } from 'element-plus'
-import { ColumnsState, ProTableColumns, ProTableColumnItem, TableOptions } from './types'
+import type {
+  ColumnsState,
+  ProTableColumns,
+  ProTableColumnItem,
+  TableOptions,
+  ProTableEditable,
+  TableActionRef,
+  ProTablePaginationConfig
+} from './types'
 
 export const proTableHeaderProps = {
   headerTitle: String
@@ -33,8 +41,8 @@ export const proTableProps = {
   params: {
     type: definePropType<Record<string | number, any>>(Object)
   },
-  isPagination: {
-    type: Boolean,
+  pagination: {
+    type: definePropType<ProTablePaginationConfig | boolean>([Object, Boolean]),
     default: true
   },
   tableLayout: {
@@ -64,6 +72,10 @@ export const proTableProps = {
   selectedKeys: {
     type: Array,
     default: () => []
+  },
+  editable: {
+    type: definePropType<ProTableEditable>(Object),
+    default: () => ({})
   }
 }
 
@@ -71,6 +83,10 @@ export const proTableColumnProps = {
   column: {
     type: definePropType<ProTableColumnItem>(Object),
     default: () => ({})
+  },
+  rowKey: {
+    type: String,
+    default: 'id'
   }
 }
 
@@ -83,7 +99,8 @@ export const emitsEnums = {
 export const proTableEmits = {
   [emitsEnums.PAGE_CHANGE]: (page: number, size: number) => !!size && !!page,
   'update:loading': (loading: boolean) => true,
-  'update:selectedKeys': (keys: any[]) => !!keys
+  'update:selectedKeys': (keys: any[]) => !!keys,
+  register: (instance: TableActionRef) => !!instance
 }
 
 export type ProTableEmits = typeof proTableEmits
@@ -91,3 +108,7 @@ export type ProTableEmits = typeof proTableEmits
 export type ProTableProps = ExtractPropTypes<typeof proTableProps>
 
 export type ProTableHeaderProps = ExtractPropTypes<typeof proTableHeaderProps>
+
+type Emits = SetupContext<{
+  change: (id: number) => void
+}>['emit']

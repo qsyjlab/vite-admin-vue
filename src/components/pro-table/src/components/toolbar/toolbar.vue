@@ -12,7 +12,7 @@
         <slot name="toolbar"></slot>
 
         <el-tooltip v-if="optionsObj.reload" effect="dark" content="刷新" placement="top">
-          <span style="cursor: pointer" @click="tableActions.reload"
+          <span class="cursor" @click="tableActionRef.refresh"
             ><el-icon :size="18"> <RefreshRight /> </el-icon
           ></span>
         </el-tooltip>
@@ -20,7 +20,7 @@
         <SettingColumns v-if="optionsObj.setting" :columns="columns" />
 
         <el-tooltip v-if="optionsObj.density" effect="dark" content="密度" placement="top">
-          <span style="cursor: pointer">
+          <span class="cursor">
             <el-dropdown>
               <span>
                 <el-icon :size="18">
@@ -46,13 +46,13 @@
 </template>
 
 <script setup lang="ts">
-import { useTableActionContext, useTableStoreContext } from '../../store'
+import { useTableStoreContext } from '../../store'
 import { RefreshRight } from '@element-plus/icons-vue'
-import SettingColumns from '../column-setting/column-setting.vue'
-import { Density } from '../../../../icon'
-import { ProTableProps } from '../../props'
-import { ProTableColumns, TableOptions } from '../../types'
 import { computed } from 'vue'
+import { Density } from '../../../../icon'
+import SettingColumns from '../column-setting/column-setting.vue'
+import type { ProTableProps } from '../../props'
+import type { ProTableColumns, TableOptions } from '../../types'
 
 defineSlots<{
   headerTitle: () => void
@@ -89,9 +89,7 @@ const props = withDefaults(
   }
 )
 
-const tableActions = useTableActionContext()
-
-const { mergeTableProps } = useTableStoreContext()
+const { mergeTableProps, tableActionRef } = useTableStoreContext()
 
 const optionsObj = computed(() => {
   if (typeof props.options === 'boolean') {
@@ -117,3 +115,9 @@ const optionsObj = computed(() => {
   }
 })
 </script>
+
+<style scoped>
+.cursor {
+  cursor: pointer;
+}
+</style>
