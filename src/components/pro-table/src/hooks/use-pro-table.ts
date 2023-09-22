@@ -25,7 +25,7 @@ const DEFAULT_PAGINATON_CONFIG = {
 export const useProTable = (props: IProps, extra: Extra) => {
   const { emits } = extra
 
-  const { columns, data, request, params = {}, pagination } = toRefs(props)
+  const { columns, data, request, params, pagination } = toRefs(props)
 
   const dataSource = ref<any[]>([])
   const tableColums = ref(columns.value || [])
@@ -112,10 +112,14 @@ export const useProTable = (props: IProps, extra: Extra) => {
 
         total.value = data.value.length
       } else {
-        const { data, total = 0 } = await request.value(Object.assign({}, params, pageQuery))
+        const { data, total: _total = 0 } = await request.value(
+          Object.assign({}, params?.value || {}, pageQuery)
+        )
+
+        console.log('data, total', data, total)
 
         dataSource.value = data
-        total.value = total
+        total.value = _total
       }
       setLoading(false)
     } catch (error) {

@@ -1,15 +1,13 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title">
-      <el-button :loading="loading">加载</el-button>
-
       <VProTable
         header-title="pro table"
         :columns="columns"
         :columns-state="{
           persistenceKey: 'test-demo'
         }"
-        :data="data"
+        :request="getTableMockList"
         :params="params"
         checkable
         :pagination="{
@@ -18,7 +16,6 @@
           pageSizes: [10, 20, 40],
           background: true
         }"
-        v-model:loading="loading"
         v-model:selected-keys="selectedKeys"
         @register="register"
         @page-change="pageChange"
@@ -43,6 +40,8 @@ import { VProTable, useProTable } from '@/components/pro-table'
 import { PageCard, PageWrapper } from '@/components'
 import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
+
+import { getTableMockList } from '@/api/todos'
 
 const loading = ref(false)
 const selectedKeys = ref<any[]>()

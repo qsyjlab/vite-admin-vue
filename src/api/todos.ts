@@ -15,3 +15,12 @@ export function getTodos(params: Record<string, any>) {
     params
   })
 }
+
+export function getTableMockList(params: Record<string, any>) {
+  return mockService
+    .request<any>({
+      url: '/mockList',
+      params
+    })
+    .then(res => ({ data: res.data.data, total: res.data.total }))
+}
