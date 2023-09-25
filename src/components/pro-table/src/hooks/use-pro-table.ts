@@ -1,4 +1,4 @@
-import { computed, reactive, ref, toRefs, watch, watchEffect } from 'vue'
+import { computed, reactive, ref, toRefs, watch } from 'vue'
 import { proTableEmits, ProTableProps } from '../props'
 import { useLoading } from './loading'
 import { sliceData } from '../utils'
@@ -62,10 +62,7 @@ export const useProTable = (props: IProps, extra: Extra) => {
     () => props.pagination,
     () => {
       if (typeof pagination.value === 'boolean') {
-        if (pagination.value) {
-          refresh()
-          return
-        }
+        refresh()
         return
       }
       pageQuery.pageSize = pagination.value.pageSize || 10
@@ -81,9 +78,13 @@ export const useProTable = (props: IProps, extra: Extra) => {
     }
   )
 
-  watch([params, data], () => {
-    refresh()
-  })
+  watch(
+    [params, data],
+    () => {
+      refresh()
+    },
+    { deep: true }
+  )
 
   const setQueryPage = (page: number) => {
     pageQuery.page = page

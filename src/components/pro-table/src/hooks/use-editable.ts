@@ -1,5 +1,5 @@
 import { Ref, computed, ref } from 'vue'
-import { isEmpty } from 'lodash-es'
+import { isDate, isEmpty } from 'lodash-es'
 import type { ProTableColumns, ProTableEditable, EditableCellState, EditRowRule } from '../types'
 
 interface IProps {
@@ -28,20 +28,15 @@ export function useEditable(props: IProps) {
   }
 
   function cancelEditable(rowKey: string) {
-    const atIndex = dataSource.value.findIndex(i => i[props.rowKey] === rowKey)
-    const data = editableCellMap.value.get(rowKey)?.data || {}
-
     if (editableConfig.onCancel) {
+      const data = editableCellMap.value.get(rowKey)?.data || {}
       editableConfig.onCancel(data, done)
     } else {
       done()
     }
 
     function done() {
-      Object.keys(data).forEach(key => {
-        const row = dataSource.value[atIndex]
-        row[key] = data[key]
-      })
+      rollbackRow(rowKey)
 
       editableCellMap.value.delete(rowKey)
     }
@@ -141,6 +136,7 @@ export function useEditable(props: IProps) {
     for (let i = 0; i < rules.length; i++) {
       const item = rules[i]
 
+      if (isDate(value) && value) return null
       if (item.required && isEmpty(value)) {
         return {
           message: item.message || ''
@@ -206,12 +202,29 @@ export function useEditable(props: IProps) {
 
   // 回滚某个行的数据
   function rollbackRow(rowKey: string) {
-    const atIndex = dataSource.value.findIndex(i => getRowKeyValue(i) === rowKey)
     const data = editableCellMap.value.get(rowKey)?.data || {}
 
-    Object.keys(data).forEach(key => {
-      const row = dataSource.value[atIndex]
-      row[key] = data[key]
+    if (Object.keys(data).length === 0) {
+      deleteEditRow(rowKey)
+      return
+    }
+    const atIndex = dataSource.value.findIndex(i => getRowKeyValue(i) === rowKey)
+
+    const row = dataSource.value[atIndex]
+    Object.keys(row).forEach(key => {
+      if (key === props.rowKey) return
+      const value = data[key]
+
+      if (isDate(value)) {
+        row[key] = data[key]
+        return
+      }
+
+      if (isEmpty(value)) {
+        row[key] = undefined
+      } else {
+        row[key] = data[key]
+      }
     })
 
     /**
