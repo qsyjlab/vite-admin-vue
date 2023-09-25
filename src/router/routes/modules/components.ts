@@ -40,6 +40,16 @@ export default defineExposeRoutes([
               ignoreAuth: true
             },
             component: () => import('@/views/system/components/pro-table-edit/pro-table-edit.vue')
+          },
+          {
+            name: 'EditableProTable',
+            path: 'editable-pro-table',
+            meta: {
+              title: 'EditableProTable',
+              ignoreAuth: true
+            },
+            component: () =>
+              import('@/views/system/components/editable-pro-table/editable-pro-table.vue')
           }
         ]
       },
