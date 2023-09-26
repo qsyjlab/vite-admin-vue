@@ -5,8 +5,8 @@
         :columns="columns"
         mode="multiple"
         :data="data"
-        @change="changeData"
-        @append-error="appendErrorHandler"
+        @drag-sort-end="changeData"
+        dragSortKey="name"
       >
       </drag-sort-table>
     </page-card>
@@ -18,15 +18,14 @@ import { PageWrapper } from '@/components/page-wrapper'
 import { PageCard } from '@/components/page-card'
 import { ProTableColumns } from '@/components/pro-table'
 import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
 
 const data = ref<any>([
   {
-    id: new Date().getTime(),
-    name: '活动名称1'
+    id: 2,
+    name: '活动名称112313123123123123123123123123123123123123123123'
   },
   {
-    id: new Date().getTime(),
+    id: 3,
     name: '活动名称'
   }
 ])
@@ -99,10 +98,6 @@ const columns: ProTableColumns = [
 
 const changeData = (_d: any) => {
   data.value = _d
-}
-
-const appendErrorHandler = ({ message }: { message: string }) => {
-  ElMessage.error(message)
 }
 </script>
 <style scoped></style>

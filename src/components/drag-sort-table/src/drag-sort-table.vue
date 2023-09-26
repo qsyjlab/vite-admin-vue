@@ -1,108 +1,91 @@
 <template>
-  <div>
-    <VProTable
-      :options="false"
-      :data="[]"
-      :pagination="false"
-      :columns="columns"
-      :row-key="'id'"
-      @register="register"
-    >
-      <template #drag> </template>
-    </VProTable>
-
-    <el-table ref="ttTableRef" :data="tabledata2" style="width: 100%">
-      <el-table-column prop="drag" label="Drag" width="180">
-        <div class="drag">
-          <el-icon><Rank /></el-icon>
-        </div>
-      </el-table-column>
-      <el-table-column prop="date" label="Date" width="180" />
-      <el-table-column prop="name" label="Name" width="180" />
-      <el-table-column prop="address" label="Address" />
-    </el-table>
-  </div>
+  <VProTable
+    v-bind="$attrs"
+    :options="false"
+    :data="dataSource"
+    :pagination="false"
+    :columns="proxyColumns"
+    @register="register"
+  >
+  </VProTable>
 </template>
 <script setup lang="ts">
-import { Rank } from '@element-plus/icons-vue'
-
 import { VProTable, useProTable } from '../../pro-table'
 import type { ProTableColumns } from '../../pro-table'
+import type { RowKey } from '../../pro-table/src/types'
 import Sortable from 'sortablejs'
-import { onMounted } from 'vue'
-import { toRefs } from 'vue'
-import { watchEffect } from 'vue'
-import { nextTick } from 'vue'
-import { ref } from 'vue'
-import { useAttrs } from 'vue'
-
-const ttTableRef = ref()
+import { onMounted, toRefs, computed, h, Fragment, useSlots } from 'vue'
+import DefaultHandle from './default-handle.vue'
 
 interface IProps {
-  data2?: any[]
+  data?: any[]
   columns?: ProTableColumns
+  dragSortKey?: RowKey
 }
 const props = withDefaults(defineProps<IProps>(), {
   columns: () => [],
-  data2: () => []
+  data: () => []
 })
 
-const attrs = useAttrs()
+const emits = defineEmits<{
+  dragSortEnd: [data: any[]]
+}>()
 
 const { register, getTableRef } = useProTable()
 
-const sortableInstance: Sortable | null = null
+const { data: dataSource } = toRefs(props)
+const slots = useSlots()
 
-// const { data2: data2Source } = toRefs(props)
+const handlePreix = 'drag-sort-table-handle'
 
-const tabledata2 = ref([
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles'
-  }
-])
+const proxyColumns = computed<ProTableColumns>(() => {
+  return props.columns.map(column => {
+    return {
+      ...column,
+      render(scope) {
+        const { row } = scope
+        const renderVNode = [slots[column.key] || column?.render?.(scope) || row[column.key]]
+
+        if (props.dragSortKey === column.key) {
+          renderVNode.unshift(
+            h(DefaultHandle, { style: { marginRight: '10px' }, class: getHandleClass(column.key) })
+          )
+        }
+
+        return h('div', { style: { display: 'flex', 'align-items': 'center' } }, renderVNode)
+      }
+    }
+  })
+})
 
 onMounted(async () => {
   const tableRef = await getTableRef()
-  if (ttTableRef.value) {
-    console.log('asdasdasd', ttTableRef.value.$el.querySelector('tbody'))
-    // const cloneddata2 = JSON.parse(JSON.stringify(data2Source.value))
-    new Sortable(ttTableRef.value.$el.querySelector('tbody'), {
-      handle: '.drag', // handle's class
-      animation: 50,
-      onEnd: () => {
-        tabledata2.value.push({
-          id: new Date().getTime()
-        })
+  if (tableRef) {
+    const tbody = tableRef.$el.querySelector('tbody') as HTMLElement
+
+    tbody.addEventListener('change', event => {
+      event.stopPropagation()
+    })
+
+    Sortable.create(tbody, {
+      handle: props.dragSortKey ? `.${getHandleClass(props.dragSortKey)}` : undefined,
+      animation: 200,
+      async onEnd(event) {
+        const { newIndex, oldIndex } = event
+
+        if (newIndex === undefined || oldIndex === undefined) return
+
+        const currRow = dataSource.value.splice(oldIndex, 1)[0]
+        dataSource.value.splice(newIndex, 0, currRow)
+
+        emits('dragSortEnd', dataSource.value)
       }
     })
   }
 })
 
-watchEffect(() => {
-  console.log('props', attrs)
-
-  console.log('data2', props.data2)
-
-  console.log('data2Source.value', ttTableRef.value)
-
-  console.log('tabledata2', tabledata2.value)
-})
+function getHandleClass(key: string | number) {
+  return `${handlePreix}_${key}`
+}
 </script>
 <style scoped></style>
