@@ -1,7 +1,13 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title">
-      <editable-pro-table :columns="columns" :data="data" @change="changeData"></editable-pro-table>
+      <editable-pro-table
+        :columns="columns"
+        mode="multiple"
+        :data="data"
+        @change="changeData"
+        @append-error="appendErrorHandler"
+      ></editable-pro-table>
     </page-card>
   </page-wrapper>
 </template>
@@ -11,6 +17,7 @@ import { PageWrapper } from '@/components/page-wrapper'
 import { PageCard } from '@/components/page-card'
 import { ProTableColumns } from '@/components/pro-table'
 import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
 
 const data = ref<any>([
   {
@@ -96,6 +103,10 @@ const columns: ProTableColumns = [
 
 const changeData = (_d: any) => {
   data.value = _d
+}
+
+const appendErrorHandler = ({ message }: { message: string }) => {
+  ElMessage.error(message)
 }
 </script>
 <style scoped></style>

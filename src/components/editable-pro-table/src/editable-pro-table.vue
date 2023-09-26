@@ -6,8 +6,12 @@
         :pagination="false"
         :data="dataSource"
         :editable="{
-          onChange: changeHandler,
-          onSave: onSaveHandler
+          mode,
+          onSave,
+          onError,
+          onCancel,
+          onDelete,
+          onChange: changeHandler
         }"
         :options="false"
         @register="register"
@@ -29,9 +33,14 @@
                 >取消</el-button
               >
             </template>
-            <el-button type="primary" link @click="deleteEditRow(getRowKeyValue(row))"
-              >删除</el-button
+            <el-popconfirm
+              title="确定删除当前行数据？"
+              @confirm="deleteEditRow(getRowKeyValue(row))"
             >
+              <template #reference>
+                <el-button type="danger" link>删除</el-button>
+              </template>
+            </el-popconfirm>
           </el-space>
         </template>
       </pro-table>
@@ -53,27 +62,43 @@ interface IProps {
   rowKey?: string
   columns?: ProTableColumns
   data: any[]
+  /**
+   * @description
+   * 新增位置 顶部| 底部
+   */
+  appendPosition?: 'top' | 'bottom'
+  /** 用于错误提示  appendError  */
+  appendErrorText?: string
+  mode?: ProTableEditable['mode']
+  onSave?: ProTableEditable['onSave']
+  onCancel?: ProTableEditable['onCancel']
+  onDelete?: ProTableEditable['onDelete']
+  onError?: ProTableEditable['onError']
 }
 
 const props = withDefaults(defineProps<IProps>(), {
+  mode: 'multiple',
   rowKey: 'id',
+  appendPosition: 'bottom',
   columns: () => [],
   data: () => []
 })
 
 const emits = defineEmits<{
   change: [data: any[]]
+  appendError: [error: { message: string }]
 }>()
 
 const dataSource = ref<any[]>([])
 
-const { register, startEditable, cancelEditable, deleteEditRow, saveEditRow } = useProTable()
+const { register, startEditable, cancelEditable, deleteEditRow, saveEditRow, hasEditingRow } =
+  useProTable()
 
 const presetColumns = computed(() => {
   return props.columns.map(column => {
     return {
-      ...column,
-      editable: true
+      editable: true,
+      ...column
     }
   })
 })
@@ -93,16 +118,26 @@ const changeHandler: ProTableEditable['onChange'] = data => {
   emits('change', dataSource.value)
 }
 
-const onSaveHandler: ProTableEditable['onSave'] = (row, done) => {
-  done()
-}
-
 const addRowHandler = () => {
+  if (props.mode === 'single' && hasEditingRow()) {
+    emits('appendError', { message: props.appendErrorText || '当前存在未保存行，请先保存！' })
+
+    return
+  }
+
   const id = new Date().getTime()
-  dataSource.value.push({
-    id: id + ''
-  })
-  startEditable(String(id))
+
+  const row = {
+    id
+  }
+
+  if (props.appendPosition === 'top') {
+    dataSource.value.unshift(row)
+  } else {
+    dataSource.value.push(row)
+  }
+
+  startEditable(id)
 }
 
 function getRowKeyValue(row: any) {
