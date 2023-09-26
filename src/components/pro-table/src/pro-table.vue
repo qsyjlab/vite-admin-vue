@@ -68,9 +68,9 @@ import Toolbar from './components/toolbar/toolbar.vue'
 import { columnsSort, columnsFilter } from './utils'
 import './style.scss'
 import type { TableInstance } from 'element-plus'
-import type { EditableCellState } from './types'
+import type { ProTableSlotScope } from './types'
 
-type DefualtSlotFn = (scope: { row: any; editableState: EditableCellState }) => void
+type DefualtSlotFn = (scope: ProTableSlotScope) => void
 
 defineSlots<{
   headerTitle: () => void

@@ -3,18 +3,18 @@ import { ElTable } from 'element-plus'
 import { Component, SetupContext, VNode } from 'vue'
 import { ProTableEmits } from '../props'
 import type { UseColumnsMapReturn, UseEditableReturn } from '../hooks'
-import type { EditRowRule, EditableCellValidError } from './editable'
-import type { TableColumnCtx } from 'element-plus'
+import type { EditRowRule, EditableCellState, EditableCellValidError } from './editable'
+import type { TableColumnCtx, RenderRowData } from 'element-plus'
 import type { ValueEnum, ValueType } from './renderer'
 import type { NOOP } from './utils'
-import { Ref } from 'vue'
+import type { Ref } from 'vue'
 
 export type ColumnsMap = Record<string, any>
 
 export interface ProTableColumnItem<T = any>
   extends Partial<Omit<TableColumnCtx<T>, 'children' | 'label' | 'prop'>> {
   title: number | string
-  key: number | string
+  key: ColumnKey
   /** 创建一个提示图标 */
   tip?: string
   /** 当前数值类型 default: text */
@@ -28,7 +28,11 @@ export interface ProTableColumnItem<T = any>
   /** 子集表头 */
   children?: ProTableColumnItem<T>[]
   /** 函数式渲染器 优先级小于 slot */
-  render?: (row: T, column: any) => number | string | undefined | null | VNode | Component
+  render?: (scope: ProTableSlotScope) => number | string | undefined | null | VNode | Component
+}
+
+export interface ProTableSlotScope<T = any> extends RenderRowData<T> {
+  editableState: EditableCellState
 }
 
 /** 编辑列表单属性 */
@@ -51,6 +55,8 @@ export interface ProTableEditable {
 export type ProTableColumns<T = any> = ProTableColumnItem<T>[]
 
 export type RowKey = number | string
+
+export type ColumnKey = number | string
 
 /** 列设置配置 */
 export interface ColumnsState {
