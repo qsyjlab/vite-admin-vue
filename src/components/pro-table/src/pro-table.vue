@@ -60,7 +60,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, reactive } from 'vue'
+import { computed, reactive, watchEffect } from 'vue'
 import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
 import { createTableStoreContext, useTableStore } from './store'
 import ProTableColumn from './pro-table-column.vue'
@@ -68,9 +68,9 @@ import Toolbar from './components/toolbar/toolbar.vue'
 import { columnsSort, columnsFilter } from './utils'
 import './style.scss'
 import type { TableInstance } from 'element-plus'
-import type { EditableCellState } from './types'
+import type { ProTableSlotScope } from './types'
 
-type DefualtSlotFn = (scope: { row: any; editableState: EditableCellState }) => void
+type DefualtSlotFn = (scope: ProTableSlotScope) => void
 
 defineSlots<{
   headerTitle: () => void
@@ -143,5 +143,8 @@ const selectChangeHandler: TableInstance['onSelection-change'] = selection => {
   }
 }
 
+watchEffect(() => {
+  console.log('tableActionRef', tableActionRef)
+})
 defineExpose(tableActionRef)
 </script>

@@ -89,7 +89,8 @@ const user: MockMethod[] = [
         data: Array(Number(pageSize))
           .fill(0)
           .map((item, index) => ({
-            name: 'name = i' + index * (page - 1) * pageSize
+            id: (page - 1) * pageSize + (index + 1),
+            name: 'name:' + ((page - 1) * pageSize + (index + 1))
           }))
       })
     }

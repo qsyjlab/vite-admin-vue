@@ -33,17 +33,18 @@ function runValueTypeFn<T extends any[]>(valueType: any, ...rest: T[]) {
 
 // TODO: 考虑后期 key 替换回 prop
 function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
-  const { row, column } = scope || {}
+  const { row } = scope || {}
+
   const { valueType = 'text', valueEnum, render: _render } = columnConfig
 
   if (columnConfig.children && columnConfig.children.length)
     return columnConfig.children.map(child => renderColumns(child))
-  if (slots[columnConfig.key])
-    return slots[columnConfig.key]?.({
-      ...scope,
-      info: columnConfig,
-      editableState: editableCellMap.value.get(row[props.rowKey] as string)
-    })
+
+  const renderParamters = {
+    ...scope,
+    editableState: editableCellMap.value.get(row[props.rowKey] as string)
+  }
+  if (slots[columnConfig.key]) return slots[columnConfig.key]?.(renderParamters)
 
   const rowEditState = editableCellMap.value.get(row[props.rowKey] as string)
 
@@ -57,7 +58,7 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
 
   const value = row[columnConfig.key]
 
-  if (typeof _render === 'function') return _render(row, column)
+  if (typeof _render === 'function') return _render(renderParamters)
 
   const _valueType: any = runValueTypeFn(valueType, row)
   // TODO: 优化类型

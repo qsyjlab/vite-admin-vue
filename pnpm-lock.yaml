@@ -53,6 +53,9 @@ dependencies:
   qrcode:
     specifier: ^1.5.3
     version: 1.5.3
+  sortablejs:
+    specifier: ^1.15.0
+    version: 1.15.0
   tinymce:
     specifier: 5.10.3
     version: 5.10.3
@@ -82,6 +85,9 @@ devDependencies:
   '@types/qrcode':
     specifier: ^1.5.1
     version: 1.5.1
+  '@types/sortablejs':
+    specifier: ^1.15.3
+    version: 1.15.3
   '@typescript-eslint/eslint-plugin':
     specifier: ^5.14.0
     version: 5.59.8(@typescript-eslint/parser@5.59.8)(eslint@8.41.0)(typescript@5.2.2)
@@ -92,8 +98,8 @@ devDependencies:
     specifier: ^4.1.1
     version: 4.1.1(terser@5.17.6)(vite@4.4.9)
   '@vitejs/plugin-vue':
-    specifier: ^2.3.3
-    version: 2.3.4(vite@4.4.9)(vue@3.3.4)
+    specifier: ^4.3.4
+    version: 4.3.4(vite@4.4.9)(vue@3.3.4)
   '@vitejs/plugin-vue-jsx':
     specifier: ^2.1.0
     version: 2.1.1(vite@4.4.9)(vue@3.3.4)
@@ -2309,6 +2315,10 @@ packages:
     resolution: {integrity: sha512-G8hZ6XJiHnuhQKR7ZmysCeJWE08o8T0AXtk5darsCaTVsYZhhgUrq53jizaR2FvsoeCwJhlmwTjkXBY5Pn/ZHw==}
     dev: true
 
+  /@types/sortablejs@1.15.3:
+    resolution: {integrity: sha512-v+zh6TZP/cLeMUK0MDx1onp8e7Jk2/4iTQ7sb/n80rTAvBm14yJkpOEfJdrTCkHiF7IZbPjxGX2NRJfogRoYIg==}
+    dev: true
+
   /@types/svgo@2.6.4:
     resolution: {integrity: sha512-l4cmyPEckf8moNYHdJ+4wkHvFxjyW6ulm9l4YGaOxeyBWPhBOT0gvni1InpFPdzx1dKf/2s62qGITwxNWnPQng==}
     dependencies:
@@ -2498,11 +2508,11 @@ packages:
       - supports-color
     dev: true
 
-  /@vitejs/plugin-vue@2.3.4(vite@4.4.9)(vue@3.3.4):
-    resolution: {integrity: sha512-IfFNbtkbIm36O9KB8QodlwwYvTEsJb4Lll4c2IwB3VHc2gie2mSPtSzL0eYay7X2jd/2WX02FjSGTWR6OPr/zg==}
-    engines: {node: '>=12.0.0'}
+  /@vitejs/plugin-vue@4.3.4(vite@4.4.9)(vue@3.3.4):
+    resolution: {integrity: sha512-ciXNIHKPriERBisHFBvnTbfKa6r9SAesOYXeGDzgegcvy9Q4xdScSHAmKbNT0M3O0S9LKhIf5/G+UYG4NnnzYw==}
+    engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
-      vite: ^2.5.10
+      vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
       vite: 4.4.9(@types/node@17.0.45)(sass@1.62.1)(terser@5.17.6)
@@ -6826,6 +6836,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /sortablejs@1.15.0:
+    resolution: {integrity: sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==}
+    dev: false
 
   /source-map-js@1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
