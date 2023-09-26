@@ -49,6 +49,8 @@ export interface ProTableEditable {
 
 export type ProTableColumns<T = any> = ProTableColumnItem<T>[]
 
+export type RowKey = number | string
+
 /** 列设置配置 */
 export interface ColumnsState {
   persistenceKey?: string

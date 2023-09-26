@@ -1,10 +1,16 @@
 import { Ref, computed, ref } from 'vue'
 import { isDate, isEmpty } from 'lodash-es'
-import type { ProTableColumns, ProTableEditable, EditableCellState, EditRowRule } from '../types'
+import type {
+  ProTableColumns,
+  ProTableEditable,
+  EditableCellState,
+  EditRowRule,
+  RowKey
+} from '../types'
 
 interface IProps {
   dataSource: Ref<any[]>
-  rowKey: string
+  rowKey: RowKey
   editableConfig: ProTableEditable
   columns: ProTableColumns
 }
@@ -17,9 +23,9 @@ export function useEditable(props: IProps) {
    * isEdit: 是否处于编辑状态
    * data: 原数据 取消则回滚原数据
    */
-  const editableCellMap = ref(new Map<string, EditableCellState>())
+  const editableCellMap = ref(new Map<RowKey, EditableCellState>())
 
-  function startEditable(rowKey: string) {
+  function startEditable(rowKey: RowKey) {
     if (editableConfig.mode === 'single') {
       clearEditRow()
     }
@@ -27,7 +33,7 @@ export function useEditable(props: IProps) {
     editableCellMap.value.set(rowKey, { isEdit: true, data: { ...data }, errors: {} })
   }
 
-  function cancelEditable(rowKey: string) {
+  function cancelEditable(rowKey: RowKey) {
     if (editableConfig.onCancel) {
       const data = editableCellMap.value.get(rowKey)?.data || {}
       editableConfig.onCancel(data, done)
@@ -42,7 +48,7 @@ export function useEditable(props: IProps) {
     }
   }
 
-  function saveEditRow(rowKey: string) {
+  function saveEditRow(rowKey: RowKey) {
     validateRowFields(
       rowKey,
       () => {
@@ -64,7 +70,7 @@ export function useEditable(props: IProps) {
     }
   }
 
-  function deleteEditRow(rowKey: string) {
+  function deleteEditRow(rowKey: RowKey) {
     if (editableConfig.onDelete) {
       editableConfig.onDelete(editableCellMap.value.get(rowKey)?.data, done)
       return
@@ -85,11 +91,11 @@ export function useEditable(props: IProps) {
 
   // 验证当前未闭合的数据
   async function validateRowFields(
-    rowKeys: string[] | string,
+    rowKeys: RowKey[] | RowKey,
     callback?: () => void,
     errorCallback?: () => void
   ) {
-    let needValidKeys = rowKeys
+    let needValidKeys = rowKeys as RowKey[]
 
     if (!Array.isArray(rowKeys)) {
       needValidKeys = [rowKeys]
@@ -181,7 +187,7 @@ export function useEditable(props: IProps) {
     return null
   }
 
-  function clearValidateErrors(rowKey: string) {
+  function clearValidateErrors(rowKey: RowKey) {
     const cellState = editableCellMap.value.get(rowKey)
 
     if (cellState && cellState.errors) {
@@ -201,7 +207,7 @@ export function useEditable(props: IProps) {
   }
 
   // 回滚某个行的数据
-  function rollbackRow(rowKey: string) {
+  function rollbackRow(rowKey: RowKey) {
     const data = editableCellMap.value.get(rowKey)?.data || {}
 
     if (Object.keys(data).length === 0) {
@@ -248,6 +254,13 @@ export function useEditable(props: IProps) {
     editableConfig?.onChange?.(dataSource.value)
   }
 
+  /**
+   * 用来判定是否当前是否有编辑行开启
+   */
+  function hasEditingRow() {
+    return editableCellMap.value.size > 0
+  }
+
   return {
     startEditable,
     cancelEditable,
@@ -255,6 +268,7 @@ export function useEditable(props: IProps) {
     deleteEditRow,
     clearEditRow,
     clearValidateErrors,
+    hasEditingRow,
     editableCellMap: computed(() => editableCellMap.value)
   }
 }

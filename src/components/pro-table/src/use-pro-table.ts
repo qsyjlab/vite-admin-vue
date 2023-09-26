@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import type { TableActionRef } from './types'
+import type { TableActionRef, RowKey } from './types'
 
 /** 外部暴露 */
 export function useProTable() {
@@ -12,27 +12,34 @@ export function useProTable() {
     return tableRef.value?.editableCellUtils
   }
 
-  function startEditable(rowKey: string) {
+  function startEditable(rowKey: RowKey) {
     getEditableCellUtils()?.startEditable(rowKey)
   }
 
-  function cancelEditable(rowKey: string) {
+  function cancelEditable(rowKey: RowKey) {
     getEditableCellUtils()?.cancelEditable(rowKey)
   }
 
-  function saveEditRow(rowKey: string) {
+  function saveEditRow(rowKey: RowKey) {
     getEditableCellUtils()?.saveEditRow(rowKey)
   }
 
-  function deleteEditRow(rowKey: string) {
+  function deleteEditRow(rowKey: RowKey) {
     getEditableCellUtils()?.deleteEditRow(rowKey)
+  }
+
+  function hasEditingRow() {
+    return getEditableCellUtils()?.hasEditingRow()
   }
 
   return {
     register,
+    /** editable start */
     startEditable,
     cancelEditable,
     saveEditRow,
-    deleteEditRow
+    deleteEditRow,
+    hasEditingRow
+    /** editable end */
   }
 }

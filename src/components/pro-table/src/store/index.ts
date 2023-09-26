@@ -47,7 +47,8 @@ export function useTableStore(props: ProTableProps, options: IExtraOptions) {
     deleteEditRow,
     editableCellMap,
     clearEditRow,
-    clearValidateErrors
+    clearValidateErrors,
+    hasEditingRow
   } = useEditable({
     dataSource,
     rowKey: props.rowKey,
@@ -74,6 +75,7 @@ export function useTableStore(props: ProTableProps, options: IExtraOptions) {
     saveEditRow,
     deleteEditRow,
     clearEditRow,
+    hasEditingRow,
     clearValidateErrors
   }
 
