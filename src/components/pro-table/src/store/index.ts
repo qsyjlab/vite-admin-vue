@@ -105,6 +105,7 @@ export function useTableStore(props: ProTableProps, options: IExtraOptions) {
    *
    */
   const tableActionRef: TableActionRef = {
+    tableRef: tableInstanceRef,
     emits,
     reload,
     refresh,

@@ -1,15 +1,29 @@
-import { ref } from 'vue'
+import { ref, isRef } from 'vue'
 import type { TableActionRef, RowKey } from './types'
+import { nextTick } from 'vue'
 
 /** 外部暴露 */
 export function useProTable() {
-  const tableRef = ref<TableActionRef | null>(null)
+  const tableActionRef = ref<TableActionRef>()
   function register(instance: TableActionRef | null) {
-    tableRef.value = instance
+    if (!instance) return
+    tableActionRef.value = instance
   }
 
+  async function getTableRef() {
+    await nextTick()
+
+    const tableRef = tableActionRef.value?.tableRef
+
+    if (isRef(tableRef)) return tableRef.value
+
+    return tableRef
+    // return tableActionRef.value?.tableRef.
+  }
+
+  /** editable */
   function getEditableCellUtils() {
-    return tableRef.value?.editableCellUtils
+    return tableActionRef.value?.editableCellUtils
   }
 
   function startEditable(rowKey: RowKey) {
@@ -31,9 +45,11 @@ export function useProTable() {
   function hasEditingRow() {
     return getEditableCellUtils()?.hasEditingRow()
   }
+  /** editable end */
 
   return {
     register,
+    getTableRef,
     /** editable start */
     startEditable,
     cancelEditable,

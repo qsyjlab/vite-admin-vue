@@ -50,6 +50,15 @@ export default defineExposeRoutes([
             },
             component: () =>
               import('@/views/system/components/editable-pro-table/editable-pro-table.vue')
+          },
+          {
+            name: 'DragSortTable',
+            path: 'drag-sort-table',
+            meta: {
+              title: 'DragSortTable',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/components/drag-sort-table/drag-sort-table.vue')
           }
         ]
       },

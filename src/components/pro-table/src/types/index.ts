@@ -7,6 +7,7 @@ import type { EditRowRule, EditableCellValidError } from './editable'
 import type { TableColumnCtx } from 'element-plus'
 import type { ValueEnum, ValueType } from './renderer'
 import type { NOOP } from './utils'
+import { Ref } from 'vue'
 
 export type ColumnsMap = Record<string, any>
 
@@ -84,6 +85,7 @@ interface ToolbarOptions {
 export type TableOptions = boolean | ToolbarOptions
 
 export interface TableActionRef {
+  tableRef: Ref<TableInstance | null>
   emits: SetupContext<ProTableEmits>['emit']
   clearSelection: TableInstance['clearSelection']
   /** 重载列表 */

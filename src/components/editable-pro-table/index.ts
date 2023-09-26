@@ -1,3 +1,6 @@
-import EditableProTable from './src/editable-pro-table.vue'
+import { withInstall } from '@/utils'
+import EditableProTableComponent from './src/editable-pro-table.vue'
 
-export { EditableProTable }
+export const EditableProTable = withInstall(EditableProTableComponent)
+
+export default EditableProTable

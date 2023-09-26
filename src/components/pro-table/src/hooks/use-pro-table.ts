@@ -112,7 +112,7 @@ export const useProTable = (props: IProps, extra: Extra) => {
 
     try {
       if (!request?.value) {
-        dataSource.value = pagination
+        dataSource.value = pagination.value
           ? sliceData(data.value, {
               page: pageQuery.page,
               pageSize: pageQuery.pageSize

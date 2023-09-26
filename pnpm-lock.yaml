@@ -53,6 +53,9 @@ dependencies:
   qrcode:
     specifier: ^1.5.3
     version: 1.5.3
+  sortablejs:
+    specifier: ^1.15.0
+    version: 1.15.0
   tinymce:
     specifier: 5.10.3
     version: 5.10.3
@@ -82,6 +85,9 @@ devDependencies:
   '@types/qrcode':
     specifier: ^1.5.1
     version: 1.5.1
+  '@types/sortablejs':
+    specifier: ^1.15.3
+    version: 1.15.3
   '@typescript-eslint/eslint-plugin':
     specifier: ^5.14.0
     version: 5.59.8(@typescript-eslint/parser@5.59.8)(eslint@8.41.0)(typescript@5.2.2)
@@ -2307,6 +2313,10 @@ packages:
 
   /@types/semver@7.5.0:
     resolution: {integrity: sha512-G8hZ6XJiHnuhQKR7ZmysCeJWE08o8T0AXtk5darsCaTVsYZhhgUrq53jizaR2FvsoeCwJhlmwTjkXBY5Pn/ZHw==}
+    dev: true
+
+  /@types/sortablejs@1.15.3:
+    resolution: {integrity: sha512-v+zh6TZP/cLeMUK0MDx1onp8e7Jk2/4iTQ7sb/n80rTAvBm14yJkpOEfJdrTCkHiF7IZbPjxGX2NRJfogRoYIg==}
     dev: true
 
   /@types/svgo@2.6.4:
@@ -6826,6 +6836,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /sortablejs@1.15.0:
+    resolution: {integrity: sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==}
+    dev: false
 
   /source-map-js@1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
