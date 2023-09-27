@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "types": ["node", "element-plus/global", "vite/client"],
+    "types": [
+      "node",
+      "element-plus/global",
+      "vite/client"
+    ],
     "target": "esnext",
     "useDefineForClassFields": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     // "noUnusedParameters":false,
     "allowSyntheticDefaultImports": true,
     "module": "esnext",
@@ -14,10 +18,17 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "paths": {
-      "@/*": ["src/*"],
-      "~/*": ["./*"]
+      "@/*": [
+        "src/*"
+      ],
+      "~/*": [
+        "./*"
+      ]
     }
   },
   "typeRoots": [

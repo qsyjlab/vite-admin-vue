@@ -16,7 +16,7 @@ import { getScroll, scrollTo } from '@/utils'
 import { ref, getCurrentInstance, reactive, nextTick, watch, onMounted } from 'vue'
 import AnchorLink from './anchor-link.vue'
 import type { AnchorContainer, AnchorItem } from './anchor'
-import { onUnmounted, onBeforeUnmount } from 'vue'
+import { onBeforeUnmount } from 'vue'
 import './anchor.scss'
 // import type { Router } from 'vue-router'
 /**
@@ -220,7 +220,7 @@ function getOffsetTop(element: HTMLElement, container: AnchorContainer): number 
 }
 
 function getCurrentContainer() {
-  let container = null
+  let container: AnchorContainer | null = null
   if (typeof props.container === 'string') {
     container = document.querySelector<HTMLElement>(props.container)
   } else {

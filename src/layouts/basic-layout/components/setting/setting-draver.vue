@@ -20,7 +20,7 @@
           <CheckButtonGroup
             :default-value="layoutConfig.layoutMode"
             :options="layoutModeOptions"
-            @change="value => setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_MODE, value)"
+            @change="(value:any) => setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_MODE, value)"
           />
         </div>
       </div>

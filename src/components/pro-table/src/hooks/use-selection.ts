@@ -1,6 +1,8 @@
 import { TableInstance } from 'element-plus'
 import { computed, Ref, ref, SetupContext, watch } from 'vue'
-import { ProTableEmits, ProTableProps } from '../props'
+import type { ProTableEmits } from '../props'
+import type { ProTableProps, RowKey } from '../types'
+import { getRowkey } from '../utils'
 
 type IProps = Pick<ProTableProps, 'selectedKeys' | 'rowKey'>
 
@@ -40,15 +42,17 @@ export function useSelection(
     tableInstance.value?.clearSelection()
   }
 
-  function getRowsByRowKey(data: any[], rowKey: string, keys: any[]) {
+  function getRowsByRowKey(data: any[], rowKey: RowKey, keys: any[]) {
     const rows: any[] = []
-    data.forEach(item => {
-      if (keys.includes(item[rowKey])) {
-        rows.push(item)
+
+    data.forEach(row => {
+      const realKey = getRowkey(row, rowKey)
+      if (keys.includes(realKey)) {
+        rows.push(row)
       }
 
-      if (item.children && item.children.length) {
-        rows.push(...getRowsByRowKey(item.children, rowKey, keys))
+      if (row.children && row.children.length) {
+        rows.push(...getRowsByRowKey(row.children, rowKey, keys))
       }
     })
 

@@ -114,7 +114,7 @@ watch(
 )
 
 const getTipsString = () => {
-  const tips = []
+  const tips: string[] = []
   if (props.accept) {
     tips.push(props.accept)
   }

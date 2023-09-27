@@ -57,7 +57,7 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
   function resetPermissionRoutes() {}
 
   function buildPermissionRoutes() {
-    let routes = []
+    let routes: RouteRecordRaw[] = []
 
     function routerFilter(route: RouteRecordRaw) {
       const name = route.name
