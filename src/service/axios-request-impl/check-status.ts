@@ -10,7 +10,7 @@ export function checkStatus(status: number): void {
         errMessage = '请求语法错误，服务器无法理解'
       }
       break
-    case ResultEnum.Unauthorized:
+    case ResultEnum.UNAUTHORIZED:
       {
         errMessage = '请求需要用户身份认证'
         const userStore = useUserStore()

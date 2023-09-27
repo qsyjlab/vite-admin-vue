@@ -65,6 +65,8 @@ export const transformResponse: RequestTransform['transformResponse'] = (
 export const requestCatch: RequestTransform['requestCatch'] = (error, requestOptionsEx) => {
   const { ignoreErrorMessage = false } = requestOptionsEx
 
+  if (isCancelError(error)) return error
+
   if (!isAxiosError(error)) {
     !ignoreErrorMessage && !isCancelError(error) && showErrorMessage(error.message)
 
