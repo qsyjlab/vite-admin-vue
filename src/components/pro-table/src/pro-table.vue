@@ -40,11 +40,7 @@
       />
 
       <template v-for="(item, idx) in getColumns" :key="`${item.key}-${idx}`">
-        <pro-table-column :column="item" :row-key="props.rowKey">
-          <template v-for="slot in Object.keys($slots)" #[slot]="scope">
-            <slot :name="slot" v-bind="scope"></slot>
-          </template>
-        </pro-table-column>
+        <pro-table-column :column="item" :row-key="props.rowKey"> </pro-table-column>
       </template>
     </el-table>
 
@@ -60,17 +56,21 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, reactive } from 'vue'
+import { computed, reactive, getCurrentInstance } from 'vue'
 import { proTableProps, proTableEmits } from './props'
-import { createTableStoreContext, useTableStore } from './store'
+import { createProtableInstanceContext, createTableStoreContext, useTableStore } from './store'
 import ProTableColumn from './pro-table-column.vue'
 import Toolbar from './components/toolbar/toolbar.vue'
 import { columnsSort, columnsFilter, getRowkey } from './utils'
 import './style.scss'
 import type { TableInstance } from 'element-plus'
-import type { ProTableSlotScope } from './types'
+import type { ProTableSlotScope, ProTableProps } from './types'
 
 type DefualtSlotFn = (scope: ProTableSlotScope) => void
+
+const instance = getCurrentInstance()
+
+instance && createProtableInstanceContext(instance)
 
 defineSlots<{
   headerTitle: () => void
@@ -89,7 +89,7 @@ const emits = defineEmits(proTableEmits)
  */
 const reactiveProps = reactive(props)
 
-const store = useTableStore(reactiveProps, { emits })
+const store = useTableStore(reactiveProps as ProTableProps, { emits })
 
 const {
   tableInstanceRef,

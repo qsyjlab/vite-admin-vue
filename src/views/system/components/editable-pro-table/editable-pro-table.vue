@@ -30,7 +30,7 @@ const columns: ProTableColumns = [
     title: '活动名称',
     key: 'name',
     tip: 'tip',
-    fixed: 'left',
+    // fixed: 'left',
     rowComponent: {
       el: 'ElInput',
       rules: [
@@ -95,9 +95,9 @@ const columns: ProTableColumns = [
   },
   {
     title: '操作',
-    key: 'operation',
+    key: 'operation'
     // width: 300,
-    fixed: 'right'
+    // fixed: 'right'
   }
 ]
 

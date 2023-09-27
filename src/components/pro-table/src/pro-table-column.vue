@@ -4,7 +4,7 @@
 <script setup lang="tsx">
 import { ElTableColumn, ElProgress } from 'element-plus'
 import { useSlots } from 'vue'
-import { useTableStoreContext } from './store'
+import { useProtableInstanceContext, useTableStoreContext } from './store'
 import { toDisplayString } from '@/utils'
 import { Tips } from '../../tips'
 import Badge from './components/badge.vue'
@@ -20,6 +20,8 @@ const props = withDefaults(
   }>(),
   {}
 )
+
+const rootInstance = useProtableInstanceContext()
 
 const slots = useSlots()
 
@@ -41,18 +43,21 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
 
   const { valueType = 'text', valueEnum, render: _render } = columnConfig
 
-  if (columnConfig.children && columnConfig.children.length)
-    return columnConfig.children.map(child => renderColumns(child))
+  const mergedSlots = {
+    ...slots,
+    ...rootInstance.slots
+  }
 
   const realRowKey = getRowkey(row, props.rowKey)
 
   const renderParamters = {
     ...scope,
-    editableState: props.rowKey ? editableCellMap.value.get(realRowKey) : undefined
+    editableState: realRowKey ? editableCellMap.value.get(realRowKey) : undefined
   }
-  if (slots[columnConfig.key]) return slots[columnConfig.key]?.(renderParamters)
 
-  const rowEditState = editableCellMap.value.get(realRowKey)
+  if (mergedSlots[columnConfig.key]) return mergedSlots[columnConfig.key]?.(renderParamters)
+
+  const rowEditState = realRowKey ? editableCellMap.value.get(realRowKey) : undefined
 
   if (columnConfig.editable && rowEditState && rowEditState.isEdit) {
     return <EditableCell row={row} column={columnConfig} onChange={onChangeEditValue} />
