@@ -1,4 +1,5 @@
 // 分组图标
+// @ts-nocheck
 export const SubIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -48,6 +49,7 @@ export const SubIcon = () => (
         </feMerge>
       </filter>
     </defs>
+    // @ts-nocheck
     <g fill="none" fillRule="evenodd" stroke="none" strokeWidth="1">
       <g>
         <use fill="#000" filter="url(#filter-2)" xlinkHref="#path-1" />
