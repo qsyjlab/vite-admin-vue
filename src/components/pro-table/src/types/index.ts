@@ -4,7 +4,7 @@ import { Component, SetupContext, VNode } from 'vue'
 import { ProTableEmits } from '../props'
 import type { UseColumnsMapReturn, UseEditableReturn } from '../hooks'
 import type { EditRowRule, EditableCellState, EditableCellValidError } from './editable'
-import type { TableColumnCtx, RenderRowData } from 'element-plus'
+import type { TableColumnCtx, RenderRowData, TableProps } from 'element-plus'
 import type { ValueEnum, ValueType } from './renderer'
 import type { NOOP } from './utils'
 import type { Ref } from 'vue'
@@ -54,7 +54,7 @@ export interface ProTableEditable {
 
 export type ProTableColumns<T = any> = ProTableColumnItem<T>[]
 
-export type RowKey = number | string
+export type RowKey = ProTableProps['rowKey']
 
 export type ColumnKey = number | string
 
@@ -75,10 +75,10 @@ export type TableInstance = InstanceType<typeof ElTable>
 export interface TableExpose {
   doLayout: TableInstance['doLayout']
   reload: NOOP
-  startEditable: (rowKey: string) => void
-  cancelEditable: (rowKey: string) => void
-  saveEditRow: (rowKey: string) => void
-  deleteEditRow: (rowKey: string) => void
+  startEditable: (rowKey: RowKey) => void
+  cancelEditable: (rowKey: RowKey) => void
+  saveEditRow: (rowKey: RowKey) => void
+  deleteEditRow: (rowKey: RowKey) => void
 }
 
 /** 表格默认工具栏开关 */
@@ -109,6 +109,36 @@ export interface ProTablePaginationConfig {
   layout?: string[]
   pageSizes?: number[]
   background?: boolean
+}
+
+/**
+ * vue3.3+ 仍然不支持复杂的 ts 类型查询
+ * export type ProTableProps = ExtractPropTypes<typeof proTableProps>
+ *
+ * 下面定义仅作用外部类型
+ */
+
+export interface ProTableProps<T = any> {
+  size: TableProps<T>['size']
+  columnsState: ColumnsState
+  columns: ProTableColumns
+  data: any[]
+  border: boolean
+  request: (...rest: any[]) => Promise<any>
+  params: Record<string | number, any>
+  pagination: ProTablePaginationConfig | boolean
+  tableLayout: TableProps<T>['tableLayout']
+  rowKey: TableProps<T>['rowKey']
+  checkable: boolean
+  reserveSelection: boolean
+  options: TableOptions
+  loading: boolean
+  selectedKeys: any[]
+  editable: ProTableEditable
+}
+
+export interface ProTableHeaderProps {
+  headerTitle: string
 }
 
 export * from './editable'

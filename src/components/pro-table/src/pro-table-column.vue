@@ -3,18 +3,23 @@
 </template>
 <script setup lang="tsx">
 import { ElTableColumn, ElProgress } from 'element-plus'
-import { proTableColumnProps } from './props'
 import { useSlots } from 'vue'
 import { useTableStoreContext } from './store'
 import { toDisplayString } from '@/utils'
-
 import { Tips } from '../../tips'
 import Badge from './components/badge.vue'
 import { EditableCell } from './components/editable-cell'
 
-import type { ProTableColumnItem } from './types'
+import type { ProTableColumnItem, ProTableProps } from './types'
+import { getRowkey } from './utils'
 
-const props = defineProps(proTableColumnProps)
+const props = withDefaults(
+  defineProps<{
+    column: ProTableColumnItem
+    rowKey: ProTableProps['rowKey']
+  }>(),
+  {}
+)
 
 const slots = useSlots()
 
@@ -31,7 +36,6 @@ function runValueTypeFn<T extends any[]>(valueType: any, ...rest: T[]) {
   return valueType
 }
 
-// TODO: 考虑后期 key 替换回 prop
 function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
   const { row } = scope || {}
 
@@ -40,13 +44,15 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
   if (columnConfig.children && columnConfig.children.length)
     return columnConfig.children.map(child => renderColumns(child))
 
+  const realRowKey = getRowkey(row, props.rowKey)
+
   const renderParamters = {
     ...scope,
-    editableState: editableCellMap.value.get(row[props.rowKey] as string)
+    editableState: props.rowKey ? editableCellMap.value.get(realRowKey) : undefined
   }
   if (slots[columnConfig.key]) return slots[columnConfig.key]?.(renderParamters)
 
-  const rowEditState = editableCellMap.value.get(row[props.rowKey] as string)
+  const rowEditState = editableCellMap.value.get(realRowKey)
 
   if (columnConfig.editable && rowEditState && rowEditState.isEdit) {
     return <EditableCell row={row} column={columnConfig} onChange={onChangeEditValue} />

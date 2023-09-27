@@ -40,7 +40,7 @@
       />
 
       <template v-for="(item, idx) in getColumns" :key="`${item.key}-${idx}`">
-        <pro-table-column :column="item">
+        <pro-table-column :column="item" :row-key="props.rowKey">
           <template v-for="slot in Object.keys($slots)" #[slot]="scope">
             <slot :name="slot" v-bind="scope"></slot>
           </template>
@@ -60,12 +60,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, reactive, watchEffect } from 'vue'
-import { proTableProps, proTableEmits, proTableHeaderProps } from './props'
+import { computed, reactive } from 'vue'
+import { proTableProps, proTableEmits } from './props'
 import { createTableStoreContext, useTableStore } from './store'
 import ProTableColumn from './pro-table-column.vue'
 import Toolbar from './components/toolbar/toolbar.vue'
-import { columnsSort, columnsFilter } from './utils'
+import { columnsSort, columnsFilter, getRowkey } from './utils'
 import './style.scss'
 import type { TableInstance } from 'element-plus'
 import type { ProTableSlotScope } from './types'
@@ -80,7 +80,7 @@ defineSlots<{
   [key: string]: DefualtSlotFn
 }>()
 
-const props = defineProps(Object.assign(proTableProps, proTableHeaderProps))
+const props = defineProps(proTableProps)
 const emits = defineEmits(proTableEmits)
 
 /**
@@ -139,12 +139,17 @@ function emitPageChange() {
 
 const selectChangeHandler: TableInstance['onSelection-change'] = selection => {
   if (Array.isArray(selection)) {
-    setSelectedKeys(selection.map(i => i[props.rowKey]).filter(Boolean))
+    setSelectedKeys(
+      selection
+        .map(row => {
+          const realRowKey = getRowkey(row, props.rowKey)
+          if (!realRowKey) return false
+          return row[realRowKey]
+        })
+        .filter(Boolean)
+    )
   }
 }
 
-watchEffect(() => {
-  console.log('tableActionRef', tableActionRef)
-})
 defineExpose(tableActionRef)
 </script>

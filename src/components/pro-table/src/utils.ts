@@ -1,4 +1,4 @@
-import { ColumnsMap } from './types'
+import type { ColumnsMap, ProTableProps } from './types'
 
 export function sliceData(data: any, { page = 1, pageSize = 10 }) {
   const start = (page - 1) * pageSize
@@ -50,4 +50,17 @@ export function columnsFilter(columns: any[], columnsMap: any) {
   }
 
   return filter(columns)
+}
+
+/** 获取到实际的 rowKey */
+export function getRowkey(row: any, rowKey: ProTableProps['rowKey']): string | undefined {
+  if (typeof rowKey === 'string') {
+    return row[rowKey]
+  }
+
+  if (typeof rowKey === 'function') {
+    return rowKey(row)
+  }
+
+  return void 0
 }
