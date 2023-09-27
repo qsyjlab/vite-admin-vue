@@ -1,10 +1,10 @@
 <template>
   <div>
-    <VProTable :columns="columns" :data="dataSource" :is-pagination="false" :row-key="'name'" />
+    <ProTable :columns="columns" :data="dataSource" :is-pagination="false" :row-key="'name'" />
   </div>
 </template>
 <script setup lang="ts">
-import { VProTable, ProTableColumns } from '@/components/pro-table'
+import { ProTable, ProTableColumns } from '@/components/pro-table'
 import { getMenuList } from '@/api/permission'
 import { ref } from 'vue'
 

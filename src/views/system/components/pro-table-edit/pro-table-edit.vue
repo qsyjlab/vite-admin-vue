@@ -1,7 +1,7 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title">
-      <VProTable
+      <ProTable
         header-title="pro table"
         :columns="columns"
         :data="data"
@@ -38,12 +38,12 @@
             </el-space>
           </template>
         </template>
-      </VProTable>
+      </ProTable>
     </page-card>
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { VProTable, useProTable } from '@/components/pro-table'
+import { ProTable, useProTable } from '@/components/pro-table'
 import { PageCard, PageWrapper } from '@/components'
 import type { ProTableColumns, ProTableEditable } from '@/components/pro-table'
 import { Select } from '@/components/common'

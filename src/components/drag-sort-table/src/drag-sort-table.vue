@@ -1,20 +1,13 @@
 <template>
-  <VProTable
-    v-bind="$attrs"
-    :options="false"
-    :data="dataSource"
-    :pagination="false"
-    :columns="proxyColumns"
-    @register="register"
-  >
-  </VProTable>
+  <ProTable v-bind="$attrs" :data="dataSource" :columns="proxyColumns" @register="register">
+  </ProTable>
 </template>
 <script setup lang="ts">
-import { VProTable, useProTable } from '../../pro-table'
+import { ProTable, useProTable } from '../../pro-table'
 import type { ProTableColumns } from '../../pro-table'
 import type { RowKey } from '../../pro-table/src/types'
 import Sortable from 'sortablejs'
-import { onMounted, toRefs, computed, h, Fragment, useSlots } from 'vue'
+import { onMounted, toRefs, computed, h, useSlots } from 'vue'
 import DefaultHandle from './default-handle.vue'
 
 interface IProps {

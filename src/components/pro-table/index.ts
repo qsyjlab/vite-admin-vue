@@ -1,8 +1,8 @@
 import { withInstall } from '@/utils'
 
-import ProTable from './src/pro-table.vue'
+import ProTableComponent from './src/pro-table.vue'
 
-export const VProTable = withInstall(ProTable)
+export const ProTable = withInstall(ProTableComponent)
 
 export type { ProTableColumns, ProTableEditable } from './src/types'
 
