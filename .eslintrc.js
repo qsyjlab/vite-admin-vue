@@ -1,62 +1,54 @@
 /**
  * @type { import('eslint').Linter.Config }
  */
+
 module.exports = {
   root: true,
   env: {
     node: true
   },
+
   parser: 'vue-eslint-parser',
   parserOptions: {
-    // package @typescript-eslint/parser
-    parser: '@typescript-eslint/parser', // ts解析器，vue解析器在遇到ts时使用ts解析器
-    // ecmaVersion: 'latest', // 最新的语法也不会报错
+    parser: '@typescript-eslint/parser',
     sourceType: 'module',
     ecmaVersion: 2020,
-    //  解析 tsx
     jsxPragma: 'React',
     ecmaFeatures: {
       jsx: true
     }
   },
   extends: [
-    'eslint:recommended',
     'plugin:vue/vue3-essential',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
     'prettier'
   ],
-  plugins: ['vue', '@typescript-eslint'],
+  plugins: ['@typescript-eslint'],
   rules: {
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
-    // 要求使用 === 和 !==
-    eqeqeq: 'warn',
-    // 禁止 if 语句中 return 语句之后有 else 块
-    'no-else-return': 'warn',
-    // 禁止多次声明同一变量
-    'no-redeclare': 'off',
-    // 禁止变量声明与外层作用域的变量同名
-    'no-shadow': 'off',
 
-    // 关闭缩进检测 使用  prettier
-    'no-undef': 0,
-    // 强制在圆括号内使用一致的空格
-    'space-in-parens': 'warn',
+    // 是否允许 Vue.js 模板中的注释指令
+    'vue/comment-directive': 'off',
+    // 是否显示声明返回值类型
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     // 要求操作符周围有空格
     'space-infix-ops': 'warn',
-    'vue/comment-directive': 'off',
-    // 'vue/setup-compiler-macros': true,
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    // 是否允许使用 require （esm项目不需要）
     '@typescript-eslint/no-var-requires': 0,
     // 'vue/html-self-closing': 'off',
     // 多单词关闭
     'vue/multi-word-component-names': 'off',
-
-    '@typescript-eslint/no-unused-vars': 'off',
+    // 未使用的变量
+    '@typescript-eslint/no-unused-vars': 'warn',
+    // 禁止使用any （不禁止 不可能不是用 any）
     '@typescript-eslint/no-explicit-any': ['off'],
-    '@typescript-eslint/no-empty-function': 'off',
+    // 是否有空函数体
+    '@typescript-eslint/no-empty-function': 'warn',
+    // 禁用 ts 注释
+    '@typescript-eslint/ban-ts-comment': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    '@typescript-eslint/ban-ts-comment': 'off'
+
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
   }
 }
