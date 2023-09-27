@@ -8,7 +8,7 @@
     ],
     "target": "esnext",
     "useDefineForClassFields": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     // "noUnusedParameters":false,
     "allowSyntheticDefaultImports": true,
     "module": "esnext",
