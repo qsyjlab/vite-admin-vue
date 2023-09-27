@@ -13,7 +13,7 @@
 </template>
 <script setup lang="ts">
 import { getScroll, scrollTo } from '@/utils'
-import { ref, getCurrentInstance, reactive, nextTick, watch, onMounted } from 'vue'
+import { ref, reactive, nextTick, watch, onMounted } from 'vue'
 import AnchorLink from './anchor-link.vue'
 import type { AnchorContainer, AnchorItem } from './anchor'
 import { onBeforeUnmount } from 'vue'
@@ -49,7 +49,6 @@ const props = withDefaults(defineProps<IProps>(), {
   bounds: 5
 })
 
-const instance = getCurrentInstance()
 // TODO: 路由模式
 // const router = instance?.appContext.config.globalProperties.$router as Router
 // const route = instance?.appContext.config.globalProperties.$route

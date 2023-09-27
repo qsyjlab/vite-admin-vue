@@ -60,6 +60,7 @@ import { computed, reactive, getCurrentInstance } from 'vue'
 import { proTableProps, proTableEmits } from './props'
 import { createProtableInstanceContext, createTableStoreContext, useTableStore } from './store'
 import ProTableColumn from './pro-table-column.vue'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Toolbar from './components/toolbar/toolbar.vue'
 import { columnsSort, columnsFilter, getRowkey } from './utils'
 import './style.scss'

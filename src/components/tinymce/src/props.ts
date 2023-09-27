@@ -28,7 +28,7 @@ export const tinymceProps = {
   // 基本配置
   options: {
     type: Object,
-    default: () => {}
+    default: () => ({})
   },
   // 工具栏
   toolbar: {

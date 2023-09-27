@@ -63,7 +63,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, unref, watch, computed, CSSProperties, onUnmounted } from 'vue'
+import { ref, unref, watch, computed, onUnmounted } from 'vue'
 import { useLayoutStore, usePermissionStore } from '@/store'
 // import { MapLocation } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'

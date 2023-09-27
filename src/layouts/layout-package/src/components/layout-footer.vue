@@ -36,15 +36,15 @@ const props = withDefaults(defineProps<Props>(), {
 
 const style = computed(() => {
   const {
-    fixed,
+    // fixed,
     zIndex,
-    minWidth,
+    // minWidth,
     height,
     paddingLeft,
     transitionDuration,
     transitionTimingFunction
   } = props
-  const position = fixed ? 'fixed' : 'static'
+  // const position = fixed ? 'fixed' : 'static'
   return ` z-index: ${zIndex};;height: ${height}px;padding-left: ${paddingLeft}px;transition-duration: ${transitionDuration}ms;transition-timing-function: ${transitionTimingFunction};box-sizing: border-box;`
 })
 </script>

@@ -66,15 +66,6 @@ const errorHandler: ProTableEditable['onError'] = errors => {
   }
 }
 
-function cancelHandler(row: any, done: () => void) {
-  loading.value = true
-
-  setTimeout(() => {
-    done()
-    loading.value = false
-  }, 3000)
-}
-
 function saveRowHandler(row: any, done: () => void) {
   console.log('save', row)
   loading.value = true
@@ -244,7 +235,6 @@ const params = ref({
   page: 1
 })
 
-let i = 0
 function createData() {
   let data = Array(100).fill(0)
 

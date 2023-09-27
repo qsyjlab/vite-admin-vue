@@ -38,7 +38,7 @@ const style = computed(() => {
   const {
     fixed,
     zIndex,
-    minWidth,
+    // minWidth,
     height,
     paddingLeft,
     transitionDuration,

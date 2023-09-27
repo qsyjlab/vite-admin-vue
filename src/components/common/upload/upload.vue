@@ -147,18 +147,18 @@ const handleProgress = (event: Event) => {
   return event
 }
 
-const update = async (fileList: any[]) => {
-  // console.log('upldate', fileList)
+// const update = async (fileList: any[]) => {
+//   // console.log('upldate', fileList)
 
-  if (!props.customRequest) {
-    await emit('change', fileList)
-    await emit('update:modelValue', fileList)
-    return
-  }
-  const emitsFile = fileList.map(item => item?.response)
-  await emit('change', emitsFile)
-  await emit('update:modelValue', emitsFile)
-}
+//   if (!props.customRequest) {
+//     await emit('change', fileList)
+//     await emit('update:modelValue', fileList)
+//     return
+//   }
+//   const emitsFile = fileList.map(item => item?.response)
+//   await emit('change', emitsFile)
+//   await emit('update:modelValue', emitsFile)
+// }
 
 // http自定义上传
 const httpRequest: QsUploadRequestHandler = info => {
@@ -187,12 +187,6 @@ const httpRequest: QsUploadRequestHandler = info => {
   }
 
   return Promise.resolve()
-}
-
-// 对外重置的方法
-const resetValue = () => {
-  state.fileList = []
-  update(state.fileList)
 }
 </script>
 

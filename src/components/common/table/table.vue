@@ -61,7 +61,7 @@ export default {
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, toRefs, watch } from 'vue'
-import type { TableRactiveType, SelectKeysType, TableEmits } from './table'
+import type { TableRactiveType, SelectKeysType } from './table'
 import { buildProps, indexDefaultConfig, paginationDefaultConfig } from './table'
 import { ElTable } from 'element-plus'
 
@@ -285,12 +285,6 @@ const updateSelectedKey = (ids: SelectKeysType) => {
 
 const updateIsReload = (val: boolean) => {
   emit('update:isReload', val)
-}
-
-const reload = async () => {
-  state.query.page_num = 1
-  await getHttp()
-  updateSelectedKey([])
 }
 </script>
 

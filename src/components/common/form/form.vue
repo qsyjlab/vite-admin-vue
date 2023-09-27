@@ -147,11 +147,6 @@ const handleReSet = async () => {
   emit('cancel', state.query)
 }
 
-// 强制拉出值 为 和 dialog 共用 强制获取
-const getValue = () => {
-  emit('submit', state.query)
-}
-
 // 处理不需要placeholder部分
 const handlePlaceholder = computed(() => (item: any) => {
   if (typeof item?.attrs?.placeholder === 'boolean' && item.attrs.placeholder === false)

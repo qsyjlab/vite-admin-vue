@@ -60,7 +60,7 @@ export function useWaterMark(
       image,
       content,
       font,
-      style,
+      // style,
       gap = [50, 100],
       offset = [0]
     } = props?.value || {}

@@ -193,11 +193,10 @@ const params = ref({
   page: 1
 })
 
-function pageChange(page: number, size: number) {
+function pageChange(page: number) {
   pageRef.value = page
 }
 
-let i = 0
 function createData() {
   let data = Array(100).fill(0)
 

@@ -83,6 +83,7 @@ export const emitsEnums = {
 // so, A value must be returned
 export const proTableEmits = {
   [emitsEnums.PAGE_CHANGE]: (page: number, size: number) => !!size && !!page,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   'update:loading': (loading: boolean) => true,
   'update:selectedKeys': (keys: any[]) => !!keys,
   register: (instance: TableActionRef) => !!instance

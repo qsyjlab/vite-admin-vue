@@ -1,4 +1,4 @@
-import { toCanvas, QRCodeRenderersOptions, toDataURL } from 'qrcode'
+import { toCanvas, QRCodeRenderersOptions } from 'qrcode'
 
 export interface LogoOptions {
   src: string

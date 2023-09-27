@@ -1,9 +1,7 @@
-import { computed, getCurrentInstance, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { paginationDefaultConfig } from './table'
 
 export const usePagination = () => {
-  const instance = getCurrentInstance()
-
   const pageNum = ref<number>(1)
   const pageSize = ref<number>(10)
   // 处理分页事件

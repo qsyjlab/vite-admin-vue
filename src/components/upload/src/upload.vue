@@ -2,7 +2,6 @@
   <el-upload
     v-model:file-list="fileList"
     :on-success="success"
-    :on-error="error"
     :http-request="httpRequest"
     :on-preview="preview"
     :on-exceed="exceed"
@@ -151,8 +150,6 @@ const success: UploadProps['onSuccess'] = (response, file, files) => {
     return
   }
 }
-
-const error: UploadProps['onError'] = () => {}
 
 const exceed: UploadProps['onExceed'] = (files, uploadFiles) => {
   if (props.onExceed) {
