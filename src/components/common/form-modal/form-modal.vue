@@ -33,7 +33,7 @@ import { computed, reactive, toRefs, ref } from 'vue'
 import { buildProps } from './props'
 
 import { ElMessage } from 'element-plus'
-import Form from '../form/Form.vue'
+import Form from '../form/form.vue'
 
 interface ReactiveType {
   dialogVisible: boolean
