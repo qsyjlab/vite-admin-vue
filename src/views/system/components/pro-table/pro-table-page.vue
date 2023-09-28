@@ -1,7 +1,7 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title">
-      <ProTable
+      <pro-table
         header-title="pro table"
         :columns="columns"
         :columns-state="{
@@ -31,17 +31,22 @@
           <el-button size="small" type="danger">删除</el-button>
           <el-button size="small">查看</el-button>
         </template>
-      </ProTable>
+      </pro-table>
     </page-card>
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { ProTable, useProTable } from '@/components/pro-table'
+import { useProTable } from '@/components/pro-table'
 import { PageCard, PageWrapper } from '@/components'
 import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
 
 import { getTableMockList } from '@/api/todos'
+import { getCurrentInstance } from 'vue'
+
+defineOptions({
+  name: 'ProTablePage'
+})
 
 const loading = ref(false)
 const selectedKeys = ref<any[]>()

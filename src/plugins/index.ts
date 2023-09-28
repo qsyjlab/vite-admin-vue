@@ -1,8 +1,8 @@
 import setupElementPlus from './elementPlus'
 import setUpDayJs from './dayJs'
 import setupPinia from './pinia'
+import registerGlobalComponents from './components'
 
-import registerGlobalComponents from '@/components/register'
 import { defineAppPlugin } from '@/utils'
 
 export default defineAppPlugin(app => {

@@ -1,7 +1,7 @@
 import { defineAppPlugin } from '@/utils'
 import * as components from './index'
 
-import componentsV2 from './components'
+// import componentsV2 from './components'
 
 export default defineAppPlugin(app => {
   Object.keys(components).forEach(item => {
@@ -9,7 +9,7 @@ export default defineAppPlugin(app => {
 
     app.component(components[key].name, components[key])
   })
-  componentsV2.forEach(c => {
-    app.use(c)
-  })
+  // componentsV2.forEach(c => {
+  //   app.use(c)
+  // })
 })

@@ -1,11 +1,11 @@
 <template>
   <el-card>
     <template #header>{{ $route.meta.title }}</template>
-    <VProForm inline :fields="fields" @submit="submit" @reset="reset"> </VProForm>
+    <ProForm inline :fields="fields" @submit="submit" @reset="reset"> </ProForm>
 
     <template v-if="true">
       表单
-      <VProForm :fields="fields" @register="register"> </VProForm>
+      <ProForm :fields="fields" @register="register"> </ProForm>
       <el-button @click="customSubmit">自定义提交按钮</el-button>
       <el-button @click="updateFormConfig">更新表单配置</el-button>
       <el-button @click="insertFormConfig">插入新的配置</el-button>
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { VProForm } from '@/components/pro-form'
+import { ProForm } from '@/components/pro-form'
 import { useProForm } from '@/hooks'
 
 const { register, validate, updateSchemas, appendSchemaByField, removeSchemaByField } = useProForm()

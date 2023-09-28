@@ -69,6 +69,10 @@ import type { ProTableSlotScope, ProTableProps } from './types'
 
 type DefualtSlotFn = (scope: ProTableSlotScope) => void
 
+defineOptions({
+  name: 'ProTable'
+})
+
 const instance = getCurrentInstance()
 
 instance && createProtableInstanceContext(instance)
