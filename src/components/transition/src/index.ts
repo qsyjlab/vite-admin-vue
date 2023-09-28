@@ -5,7 +5,7 @@ export function createTransition(name: string, attrs: Record<string, any>) {
   return defineComponent({
     name,
     setup(props, { slots }) {
-      return () => h(Transiton, { attrs }, () => slots.default?.())
+      return () => h(Transiton, attrs, () => slots.default?.())
     }
   })
 }
