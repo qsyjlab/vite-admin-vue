@@ -46,7 +46,6 @@
 import { useProTable } from '@/components/pro-table'
 import { PageCard, PageWrapper } from '@/components'
 import type { ProTableColumns, ProTableEditable } from '@/components/pro-table'
-import { Select } from '@/components/common'
 
 import { onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
@@ -144,29 +143,6 @@ const columns: ProTableColumns = [
     key: 'fnE',
     valueType: 'enum',
     width: 200,
-    rowComponent: {
-      el: Select,
-      props: {
-        options: [
-          {
-            label: '全部',
-            value: 'all'
-          },
-          {
-            label: '已解决',
-            value: 'closed'
-          },
-          {
-            label: '解决中',
-            value: 'processing'
-          },
-          {
-            label: '未解决',
-            value: 'open'
-          }
-        ]
-      }
-    },
     editable: true,
     valueEnum: () => {
       return {

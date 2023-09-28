@@ -1,13 +1,9 @@
 <template>
-  <transition name="fade-transform" mode="out-in">
+  <transition v-bind="$attrs">
     <slot></slot>
   </transition>
 </template>
-<script lang="ts">
-export default {
-  name: 'QsTransiton'
-}
-</script>
+
 <style scoped>
 /* fade */
 .fade-enter-active,
@@ -20,18 +16,18 @@ export default {
   opacity: 0;
 }
 
-/* fade-transform */
-.fade-transform-leave-active,
-.fade-transform-enter-active {
+/* fade-transition */
+.fade-transition-leave-active,
+.fade-transition-enter-active {
   transition: all 0.3s;
 }
 
-.fade-transform-enter {
+.fade-transition-enter {
   opacity: 0;
   transform: translateX(-30px);
 }
 
-.fade-transform-leave-to {
+.fade-transition-leave-to {
   opacity: 0;
   transform: translateX(30px);
 }
