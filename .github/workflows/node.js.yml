@@ -29,8 +29,8 @@ jobs:
 
       - name: Change directory to /docs
         run: cd docs # 切换到/docs目录
-        - name: Show current directory
-      run: |
+      - name: Show current directory
+        run: |
         pwd
         ls -la  # 列出当前目录的内容
 
