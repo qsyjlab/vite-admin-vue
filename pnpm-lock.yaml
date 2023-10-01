@@ -1,4 +1,4 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
 
 settings:
   autoInstallPeers: true
@@ -2211,7 +2211,6 @@ packages:
 
   /@types/raf@3.4.1:
     resolution: {integrity: sha512-1jJ3OO8FXHCcuVXCuO1EMC/MjDuT6/cxgsMw/UebkO9afnL99Y5QTpUjk7+flK4G5FzBVJEgDKL5eFtoxJs9MQ==}
-    requiresBuild: true
     dev: false
     optional: true
 
@@ -5519,7 +5518,6 @@ packages:
 
   /performance-now@2.1.0:
     resolution: {integrity: sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==}
-    requiresBuild: true
     dev: false
     optional: true
 
@@ -6046,7 +6044,6 @@ packages:
 
   /raf@3.4.1:
     resolution: {integrity: sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==}
-    requiresBuild: true
     dependencies:
       performance-now: 2.1.0
     dev: false
@@ -6229,7 +6226,6 @@ packages:
   /rgbcolor@1.0.1:
     resolution: {integrity: sha512-9aZLIrhRaD97sgVhtJOW6ckOEh6/GnvQtdVNfdZ6s67+3/XwLS9lBcQYzEEhYVeUowN7pRzMLsyGhK2i/xvWbw==}
     engines: {node: '>= 0.8.15'}
-    requiresBuild: true
     dev: false
     optional: true
 
@@ -6515,7 +6511,6 @@ packages:
   /stackblur-canvas@2.6.0:
     resolution: {integrity: sha512-8S1aIA+UoF6erJYnglGPug6MaHYGo1Ot7h5fuXx4fUPvcvQfcdw2o/ppCse63+eZf8PPidSu4v1JnmEVtEDnpg==}
     engines: {node: '>=0.1.14'}
-    requiresBuild: true
     dev: false
     optional: true
 
@@ -6667,7 +6662,6 @@ packages:
   /svg-pathdata@6.0.3:
     resolution: {integrity: sha512-qsjeeq5YjBZ5eMdFuUa4ZosMLxgr5RZ+F+Y1OrDhuOCEInRMA3x74XdBtggJcj9kOeInz0WE+LgCPDkZFlBYJw==}
     engines: {node: '>=12.0.0'}
-    requiresBuild: true
     dev: false
     optional: true
 
