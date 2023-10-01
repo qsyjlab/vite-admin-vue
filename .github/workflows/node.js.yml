@@ -44,4 +44,4 @@ jobs:
         with:
           TOKEN: ${{ secrets.QSYJ_BUIL_UPLOAD }}
           BRANCH: gh-pages
-          FOLDER: .vitepress/dist
+          FOLDER: docs/.vitepress/dist
