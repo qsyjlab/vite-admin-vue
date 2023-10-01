@@ -28,9 +28,12 @@ jobs:
           # cache: "pnpm"
 
       - name: Change directory to /docs
-        run: cd docs # 切换到/docs目录
-      - name: Show current directory
-        run: pwd
+        run: |
+          pwd
+          ls -la
+          cd docs
+          pwd
+          ls -la
 
       - name: Install PNPM
         run: npm i -g pnpm
