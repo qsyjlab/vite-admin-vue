@@ -4,6 +4,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "vite-admin-vue",
   description: " ",
+  base:'vite-admin-vue',
   markdown: {},
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
