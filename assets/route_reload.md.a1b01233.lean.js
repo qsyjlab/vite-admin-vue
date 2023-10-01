@@ -1,1 +1,0 @@
-import{_ as s,o as n,c as a,Q as p}from"./chunks/framework.51926b02.js";const u=JSON.parse('{"title":"路由刷新","description":"","frontmatter":{},"headers":[],"relativePath":"route/reload.md","filePath":"route/reload.md"}'),l={name:"route/reload.md"},o=p("",8),e=[o];function t(c,r,E,y,i,F){return n(),a("div",null,e)}const C=s(l,[["render",t]]);export{u as __pageData,C as default};
