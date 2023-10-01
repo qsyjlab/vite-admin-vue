@@ -9,7 +9,7 @@
         <div class="setting-item__content">
           <el-color-picker
             v-model="layoutConfig.themeColor"
-            @change="(value:any) => setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, value)"
+            @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, value)"
           />
         </div>
       </div>
@@ -20,7 +20,7 @@
           <CheckButtonGroup
             :default-value="layoutConfig.layoutMode"
             :options="layoutModeOptions"
-            @change="value => setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_MODE, value)"
+            @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_MODE, value)"
           />
         </div>
       </div>
@@ -30,7 +30,7 @@
         <div class="setting-item__content">
           <el-switch
             v-model="layoutConfig.collapsed"
-            @change="(value:any) =>  setLayoutConfig(LayoutConfigHandlerEnum.COLLAPSED, value)"
+            @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.COLLAPSED, value)"
           />
         </div>
       </div>
@@ -41,7 +41,7 @@
           <el-switch
             v-model="layoutConfig.splitMenu"
             :disabled="LayoutMode.TopMix !== layoutConfig.layoutMode"
-            @change="(value:any) =>  setLayoutConfig(LayoutConfigHandlerEnum.SPLIT_MENU, value)"
+            @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.SPLIT_MENU, value)"
           />
         </div>
       </div>
@@ -51,7 +51,7 @@
         <div class="setting-item__content">
           <el-input-number
             v-model="layoutConfig.asideWidth"
-            @change=" (value:any) => setLayoutConfig(LayoutConfigHandlerEnum.MENU_WIDTH, value)"
+            @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.MENU_WIDTH, value)"
           />
         </div>
       </div>
@@ -61,7 +61,7 @@
         <div class="setting-item__content">
           <el-input-number
             v-model="layoutConfig.headerHeight"
-            @change=" (value:any) => setLayoutConfig(LayoutConfigHandlerEnum.HEADER_HEIGHT, value)"
+            @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.HEADER_HEIGHT, value)"
           />
         </div>
       </div>
@@ -71,7 +71,7 @@
         <div class="setting-item__content">
           <el-input-number
             v-model="layoutConfig.tabBarHeight"
-            @change=" (value:any) => setLayoutConfig(LayoutConfigHandlerEnum.TAB_BAR_HEIGHT, value)"
+            @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.TAB_BAR_HEIGHT, value)"
           />
         </div>
       </div>
@@ -85,15 +85,12 @@ import { storeToRefs } from 'pinia'
 import { LayoutMode } from '../../enum'
 import CheckButtonGroup from './check-button-group.vue'
 import { LeftSideMix, NavTop, SideTopMix, LeftSide } from './icon'
-import { Setting, Close } from '@element-plus/icons-vue'
 
 import { useLayoutConfigHandler, LayoutConfigHandlerEnum } from '@/hooks'
 
 const layoutStore = useLayoutStore()
 const { layoutConfig, setLayoutConfig } = useLayoutConfigHandler()
 const { isOpenSettig } = storeToRefs(layoutStore)
-
-const { toggleSettingDrawer } = layoutStore
 
 // 导航模式选项
 const layoutModeOptions = [

@@ -66,7 +66,7 @@ const user: MockMethod[] = [
     method: 'get',
     timeout: 200,
     statusCode: 200,
-    response: response => {
+    response: () => {
       // const { body } = response
       // const { username, password } = body as any
 

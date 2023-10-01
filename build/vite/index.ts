@@ -9,6 +9,8 @@ import WindiCSS from 'vite-plugin-windicss'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { configSvgIconsPlugin } from './plugins/svg-icons'
 import legacy from '@vitejs/plugin-legacy'
+// @ts-nocheck
+import ElementPlus from 'unplugin-element-plus/vite'
 
 export function createVitePlugin(configEnv: ConfigEnv) {
   const { command } = configEnv
@@ -20,6 +22,9 @@ export function createVitePlugin(configEnv: ConfigEnv) {
     viteComponentsPlugin(),
     WindiCSS(),
     configSvgIconsPlugin({ isBuild }),
+    ElementPlus({
+      useSource: true
+    }),
     legacy({
       renderLegacyChunks: false,
       modernPolyfills: ['es.array.flat-map']

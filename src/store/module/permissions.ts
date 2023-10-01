@@ -54,10 +54,12 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
     router.addRoute(pageError)
   }
 
+  // TODO: 重置权限
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   function resetPermissionRoutes() {}
 
   function buildPermissionRoutes() {
-    let routes = []
+    let routes: RouteRecordRaw[] = []
 
     function routerFilter(route: RouteRecordRaw) {
       const name = route.name

@@ -6,7 +6,7 @@
         mode="multiple"
         :data="data"
         @drag-sort-end="changeData"
-        dragSortKey="name"
+        drag-sort-key="drag"
       >
       </drag-sort-table>
     </page-card>
@@ -19,16 +19,16 @@ import { PageCard } from '@/components/page-card'
 import { ProTableColumns } from '@/components/pro-table'
 import { ref } from 'vue'
 
-const data = ref<any>([
-  {
-    id: 2,
-    name: '活动名称112313123123123123123123123123123123123123123123'
-  },
-  {
-    id: 3,
-    name: '活动名称'
-  }
-])
+const data = ref<any>(
+  Array(100)
+    .fill(0)
+    .map((item, index) => {
+      return {
+        id: index,
+        name: index + 213123
+      }
+    })
+)
 
 const columns: ProTableColumns = [
   {

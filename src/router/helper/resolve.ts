@@ -129,7 +129,7 @@ export function transformRouteToMenu(routeModList: RouteRecordRaw[]) {
   // 提取树指定结构
   const list = treeMap(cloneRouteModList, {
     conversion: (node: RouteRecordRaw) => {
-      const { meta = {}, name } = node
+      const { name } = node
 
       return {
         meta: node.meta,

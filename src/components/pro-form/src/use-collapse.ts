@@ -90,11 +90,12 @@ export function useCollapse(option: CollapseOption) {
     const lgWidth = parseInt(itemCol.lg as string) || mdWidth
     const xlWidth = parseInt(itemCol.xl as string) || lgWidth
     const xxlWidth = parseInt(itemCol.xxl as string) || xlWidth
+
     if (width <= screenEnum.LG) {
       itemColSum += mdWidth
-    } else if (width < screenEnum.XL) {
+    } else if (width < screenEnum.SM) {
       itemColSum += lgWidth
-    } else if (width < screenEnum.XXL) {
+    } else if (width < screenEnum.MD) {
       itemColSum += xlWidth
     } else {
       itemColSum += xxlWidth

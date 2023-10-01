@@ -1,8 +1,9 @@
 import { h, defineComponent, KeepAlive } from 'vue'
 import { RouterView } from 'vue-router'
-import { Transition } from '@/components'
+import { FadeTransition } from '@/components'
 import { useRouteStore, useTabPageStore } from '@/store'
 import projectSetting from '@/config/project-setting'
+
 import type { Component, VNode } from 'vue'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
@@ -32,7 +33,7 @@ export default (name: string): Component => {
                     ? routeStore.getAliveCache
                     : tabPage.getKeepAliveCache
 
-                return h(Transition, {}, () =>
+                return h(FadeTransition, {}, () =>
                   h(
                     KeepAlive,
                     {
@@ -43,7 +44,7 @@ export default (name: string): Component => {
                 )
               }
 
-              return h(Transition, {}, h(props.Component, { key: props.route.fullPath }))
+              return h(FadeTransition, {}, h(props.Component, { key: props.route.fullPath }))
             }
           }
         )

@@ -13,6 +13,10 @@
 <script setup lang="ts">
 import './page-card.scss'
 
+defineOptions({
+  name: 'PageCard'
+})
+
 withDefaults(
   defineProps<{
     /** 头部 */

@@ -1,7 +1,7 @@
 import { withInstall } from '@/utils'
-import ProForm from './src/base-form.vue'
+import ProFormComponent from './src/base-form.vue'
 
-export const VProForm = withInstall(ProForm)
+export const ProForm = withInstall(ProFormComponent)
 
 export * from './src/extension'
 

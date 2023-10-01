@@ -3,9 +3,9 @@ import { createContext, useContext } from '@/hooks/core/use-context'
 import { useColumnsMap, useProTable, useEditable, useSelection } from '../hooks'
 
 import type { TableInstance } from 'element-plus'
-import type { ProTableEmits, ProTableProps } from '../props'
-import type { TableActionRef } from '../types'
-import type { InjectionKey, SetupContext } from 'vue'
+import type { ProTableEmits } from '../props'
+import type { TableActionRef, ProTableProps } from '../types'
+import type { ComponentInternalInstance, InjectionKey, SetupContext } from 'vue'
 
 interface IExtraOptions {
   emits: SetupContext<ProTableEmits>['emit']
@@ -13,7 +13,10 @@ interface IExtraOptions {
 
 type ITableProps = Pick<ProTableProps, 'size'>
 
-export function useTableStore(props: ProTableProps, options: IExtraOptions) {
+export function useTableStore(
+  props: ProTableProps & { size?: ITableProps['size'] },
+  options: IExtraOptions
+) {
   const { emits } = options
 
   const tableInstanceRef = ref<TableInstance | null>(null)
@@ -150,4 +153,14 @@ export function createTableStoreContext(context: TableStore) {
 
 export function useTableStoreContext() {
   return useContext(contextKey)
+}
+
+const proTableInstanceKey: InjectionKey<ComponentInternalInstance> = Symbol()
+
+export function createProtableInstanceContext(context: ComponentInternalInstance) {
+  return createContext(context, proTableInstanceKey, { readonly: false })
+}
+
+export function useProtableInstanceContext() {
+  return useContext(proTableInstanceKey)
 }

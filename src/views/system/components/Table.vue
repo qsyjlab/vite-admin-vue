@@ -12,9 +12,9 @@ export default { name: 'Table' }
 </script>
 
 <script setup lang="ts">
-import { defineColumns } from '@/components/utils'
+// import { defineColumns } from '@/components/utils'
 
-const columns = defineColumns([
+const columns = [
   {
     title: 'Date',
     key: 'date'
@@ -27,7 +27,7 @@ const columns = defineColumns([
     title: 'address',
     key: 'address'
   }
-])
+]
 
 const dataSource = [
   {

@@ -20,10 +20,6 @@ interface ITree {
 
 const keys = ref<any>([1, 4])
 
-const handleNodeClick = (data: ITree) => {
-  console.log(data)
-}
-
 const data: ITree[] = [
   {
     id: 1,

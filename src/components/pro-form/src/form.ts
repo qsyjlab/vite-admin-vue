@@ -56,8 +56,6 @@ export const useForm = (parameter: UseFormParameter) => {
     formRef.value?.clearValidate(...rest)
   }
 
-  const validateField = () => {}
-
   const initializeForm = () => {
     if (fields.length === 0) return
     fields.forEach(item => {
@@ -87,10 +85,6 @@ export const useForm = (parameter: UseFormParameter) => {
     }
   }
 
-  const handleSubmit = () => {
-    validate(() => {})
-  }
-
   const setFormRef = (ref: any) => {
     formRef.value = ref
 
@@ -105,7 +99,9 @@ export const useForm = (parameter: UseFormParameter) => {
     updateSchemas,
     appendSchemaByField,
     removeSchemaByField,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     validateField: () => {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     scrollToField: () => {}
   }
 

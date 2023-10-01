@@ -147,7 +147,7 @@ const colSettingCheckChange = (val: any) => {
 const setAllSelectAction = (show = true) => {
   const columnKeyMap: Record<string, any> = {}
   const loopColumns = (columns: any) => {
-    columns.forEach(({ key, fixed, index, children }: any) => {
+    columns.forEach(({ key, fixed, children }: any) => {
       const columnKey: string = key
       if (columnKey) {
         columnKeyMap[columnKey] = {

@@ -13,10 +13,10 @@
 </template>
 <script setup lang="ts">
 import { getScroll, scrollTo } from '@/utils'
-import { ref, getCurrentInstance, reactive, nextTick, watch, onMounted } from 'vue'
+import { ref, reactive, nextTick, watch, onMounted } from 'vue'
 import AnchorLink from './anchor-link.vue'
 import type { AnchorContainer, AnchorItem } from './anchor'
-import { onUnmounted, onBeforeUnmount } from 'vue'
+import { onBeforeUnmount } from 'vue'
 import './anchor.scss'
 // import type { Router } from 'vue-router'
 /**
@@ -49,7 +49,6 @@ const props = withDefaults(defineProps<IProps>(), {
   bounds: 5
 })
 
-const instance = getCurrentInstance()
 // TODO: 路由模式
 // const router = instance?.appContext.config.globalProperties.$router as Router
 // const route = instance?.appContext.config.globalProperties.$route
@@ -220,7 +219,7 @@ function getOffsetTop(element: HTMLElement, container: AnchorContainer): number 
 }
 
 function getCurrentContainer() {
-  let container = null
+  let container: AnchorContainer | null = null
   if (typeof props.container === 'string') {
     container = document.querySelector<HTMLElement>(props.container)
   } else {

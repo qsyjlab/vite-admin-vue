@@ -1,15 +1,11 @@
 import setupElementPlus from './elementPlus'
 import setUpDayJs from './dayJs'
 import setupPinia from './pinia'
-import setupProgress from './nprogress'
-import setupWindicss from './windicss'
+import registerGlobalComponents from './components'
 
-import registerGlobalComponents from '@/components/register'
 import { defineAppPlugin } from '@/utils'
 
 export default defineAppPlugin(app => {
-  // 进度条
-  setupProgress(app)
   // pinia
   setupPinia(app)
   // dayjs
@@ -19,11 +15,8 @@ export default defineAppPlugin(app => {
   // custom global components
   registerGlobalComponents(app)
 
-  // windicss
-  setupWindicss(app)
-
-  /**
-   * vite-plugin-svg-icons 虚拟路径
-   */
+  // vite-plugin-svg-icons 虚拟路径
   import('./vite-plugin-svg-icons')
+  // 进度条
+  import('./nprogress')
 })

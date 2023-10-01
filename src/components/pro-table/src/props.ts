@@ -1,23 +1,19 @@
 import { definePropType } from '@/utils'
-import type { ExtractPropTypes, SetupContext } from 'vue'
-import type { TableProps } from 'element-plus'
+
 import type {
   ColumnsState,
   ProTableColumns,
-  ProTableColumnItem,
   TableOptions,
   ProTableEditable,
   TableActionRef,
-  ProTablePaginationConfig
+  ProTablePaginationConfig,
+  ProTableProps
 } from './types'
 
-export const proTableHeaderProps = {
-  headerTitle: String
-}
-
 export const proTableProps = {
+  headerTitle: String,
   size: {
-    type: definePropType<TableProps<any>['size']>(String)
+    type: definePropType<ProTableProps['size']>(String)
   },
   columnsState: {
     type: definePropType<ColumnsState>(Object),
@@ -28,7 +24,7 @@ export const proTableProps = {
     default: () => []
   },
   data: {
-    type: Array,
+    type: definePropType<any[]>(Array),
     default: () => []
   },
   border: {
@@ -46,7 +42,7 @@ export const proTableProps = {
     default: true
   },
   tableLayout: {
-    type: definePropType<'auto' | 'fixed'>(String),
+    type: definePropType<ProTableProps['tableLayout']>(String),
     default: 'fixed'
   },
   rowKey: {
@@ -70,23 +66,12 @@ export const proTableProps = {
     default: false
   },
   selectedKeys: {
-    type: Array,
+    type: definePropType<any[]>(Array),
     default: () => []
   },
   editable: {
     type: definePropType<ProTableEditable>(Object),
     default: () => ({})
-  }
-}
-
-export const proTableColumnProps = {
-  column: {
-    type: definePropType<ProTableColumnItem>(Object),
-    default: () => ({})
-  },
-  rowKey: {
-    type: String,
-    default: 'id'
   }
 }
 
@@ -98,17 +83,10 @@ export const emitsEnums = {
 // so, A value must be returned
 export const proTableEmits = {
   [emitsEnums.PAGE_CHANGE]: (page: number, size: number) => !!size && !!page,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   'update:loading': (loading: boolean) => true,
   'update:selectedKeys': (keys: any[]) => !!keys,
   register: (instance: TableActionRef) => !!instance
 }
 
 export type ProTableEmits = typeof proTableEmits
-
-export type ProTableProps = ExtractPropTypes<typeof proTableProps>
-
-export type ProTableHeaderProps = ExtractPropTypes<typeof proTableHeaderProps>
-
-type Emits = SetupContext<{
-  change: (id: number) => void
-}>['emit']

@@ -6,6 +6,8 @@ export interface ProTableEditRowComponent {
   rules?: EditRowRule[]
 }
 
+export type EditableTableRowKey = string | number
+
 export interface EditRowRule {
   required?: boolean
   message?: string

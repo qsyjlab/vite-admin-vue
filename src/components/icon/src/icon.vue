@@ -16,8 +16,6 @@ import { watch, ref } from 'vue'
 import SvgIcon from './svg-icon.vue'
 import Iconify from './iconify.vue'
 import EpIcon from './ep.vue'
-import { useLayoutStore } from '@/store'
-import { storeToRefs } from 'pinia'
 
 defineOptions({
   name: 'Icon'

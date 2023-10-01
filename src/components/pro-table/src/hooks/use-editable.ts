@@ -5,8 +5,10 @@ import type {
   ProTableEditable,
   EditableCellState,
   EditRowRule,
-  RowKey
+  RowKey,
+  EditableTableRowKey
 } from '../types'
+import { getRowkey } from '../utils'
 
 interface IProps {
   dataSource: Ref<any[]>
@@ -23,17 +25,17 @@ export function useEditable(props: IProps) {
    * isEdit: 是否处于编辑状态
    * data: 原数据 取消则回滚原数据
    */
-  const editableCellMap = ref(new Map<RowKey, EditableCellState>())
+  const editableCellMap = ref(new Map<EditableTableRowKey, EditableCellState>())
 
-  function startEditable(rowKey: RowKey) {
+  function startEditable(rowKey: EditableTableRowKey) {
     if (editableConfig.mode === 'single') {
       clearEditRow()
     }
-    const data = dataSource.value.find(i => getRowKeyValue(i) === rowKey)
+    const data = findRow(rowKey)
     editableCellMap.value.set(rowKey, { isEdit: true, data: { ...data }, errors: {} })
   }
 
-  function cancelEditable(rowKey: RowKey) {
+  function cancelEditable(rowKey: EditableTableRowKey) {
     if (editableConfig.onCancel) {
       const data = editableCellMap.value.get(rowKey)?.data || {}
       editableConfig.onCancel(data, done)
@@ -48,11 +50,11 @@ export function useEditable(props: IProps) {
     }
   }
 
-  function saveEditRow(rowKey: RowKey) {
+  function saveEditRow(rowKey: EditableTableRowKey) {
     validateRowFields(
       rowKey,
       () => {
-        const row = dataSource.value.find(i => i[props.rowKey] === rowKey)
+        const row = findRow(rowKey)
         if (editableConfig.onSave) {
           editableConfig.onSave(row, done)
         } else {
@@ -70,7 +72,7 @@ export function useEditable(props: IProps) {
     }
   }
 
-  function deleteEditRow(rowKey: RowKey) {
+  function deleteEditRow(rowKey: EditableTableRowKey) {
     if (editableConfig.onDelete) {
       editableConfig.onDelete(editableCellMap.value.get(rowKey)?.data, done)
       return
@@ -79,7 +81,7 @@ export function useEditable(props: IProps) {
     done()
 
     function done() {
-      const atIndex = dataSource.value.findIndex(i => i[props.rowKey] === rowKey)
+      const atIndex = findRowIndex(rowKey)
 
       if (atIndex !== -1) {
         dataSource.value.splice(atIndex, 1)
@@ -91,11 +93,11 @@ export function useEditable(props: IProps) {
 
   // 验证当前未闭合的数据
   async function validateRowFields(
-    rowKeys: RowKey[] | RowKey,
+    rowKeys: EditableTableRowKey[] | EditableTableRowKey,
     callback?: () => void,
     errorCallback?: () => void
   ) {
-    let needValidKeys = rowKeys as RowKey[]
+    let needValidKeys = rowKeys as EditableTableRowKey[]
 
     if (!Array.isArray(rowKeys)) {
       needValidKeys = [rowKeys]
@@ -103,18 +105,24 @@ export function useEditable(props: IProps) {
 
     if (needValidKeys.length === 0) return
 
-    const needValidRows = dataSource.value.filter(row =>
-      needValidKeys.includes(getRowKeyValue(row))
-    )
+    const needValidRows = dataSource.value.filter(row => {
+      const realRowKey = getRowkey(row, props.rowKey)
+      if (!realRowKey) return false
+      return needValidKeys.includes(realRowKey)
+    })
 
     let hasError = false
 
     for (const row of needValidRows) {
+      const realRowKey = getRowkey(row, props.rowKey)
+      if (!realRowKey) continue
+
       for (const column of columns) {
         const value = row[column.key]
 
         const validResult = await validate(value, row, column.rowComponent?.rules || [])
-        const cell = editableCellMap.value.get(getRowKeyValue(row))
+
+        const cell = editableCellMap.value.get(realRowKey)
         if (validResult) {
           hasError = true
 
@@ -187,7 +195,7 @@ export function useEditable(props: IProps) {
     return null
   }
 
-  function clearValidateErrors(rowKey: RowKey) {
+  function clearValidateErrors(rowKey: EditableTableRowKey) {
     const cellState = editableCellMap.value.get(rowKey)
 
     if (cellState && cellState.errors) {
@@ -207,16 +215,22 @@ export function useEditable(props: IProps) {
   }
 
   // 回滚某个行的数据
-  function rollbackRow(rowKey: RowKey) {
+  function rollbackRow(rowKey: EditableTableRowKey) {
     const data = editableCellMap.value.get(rowKey)?.data || {}
 
     if (Object.keys(data).length === 0) {
       deleteEditRow(rowKey)
       return
     }
-    const atIndex = dataSource.value.findIndex(i => getRowKeyValue(i) === rowKey)
+    const atIndex = findRowIndex(rowKey)
 
     const row = dataSource.value[atIndex]
+
+    /**
+     * TODO: 不能直接赋值 会导致 table 中的 data 仍是编辑后的值，
+     * 导致输入其他的格子会回滚旧值。
+     * 暂时依次复制处理
+     */
     Object.keys(row).forEach(key => {
       if (key === props.rowKey) return
       const value = data[key]
@@ -232,17 +246,14 @@ export function useEditable(props: IProps) {
         row[key] = data[key]
       }
     })
-
-    /**
-     * TODO: 不能直接赋值 会导致 table 中的 data 仍是编辑后的值，
-     * 导致输入其他的格子会回滚旧值。
-     * 暂时依次复制处理
-     */
-    // dataSource.value[atIndex] = { ...data }
   }
 
-  function getRowKeyValue(row: any) {
-    return row[props.rowKey]
+  function findRow(rowKey: EditableTableRowKey) {
+    return dataSource.value.find(row => getRowkey(row, props.rowKey) === rowKey)
+  }
+
+  function findRowIndex(rowKey: EditableTableRowKey) {
+    return dataSource.value.findIndex(row => getRowkey(row, props.rowKey) === rowKey)
   }
 
   function editChange() {

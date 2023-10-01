@@ -51,8 +51,7 @@ import { RefreshRight } from '@element-plus/icons-vue'
 import { computed } from 'vue'
 import { Density } from '../../../../icon'
 import SettingColumns from '../column-setting/column-setting.vue'
-import type { ProTableProps } from '../../props'
-import type { ProTableColumns, TableOptions } from '../../types'
+import type { ProTableColumns, TableOptions, ProTableProps } from '../../types'
 
 defineSlots<{
   headerTitle: () => void

@@ -41,7 +41,7 @@
 
 <script lang="ts">
 export default {
-  name: 'VProForm'
+  name: 'ProForm'
 }
 </script>
 
@@ -50,6 +50,10 @@ import { formProps, formEmits, emitsEnums } from './form-props'
 import { useForm } from './form'
 import { ElForm, ElFormItem } from 'element-plus'
 import ToggleArrow from './components/toggle-arrow.vue'
+
+defineOptions({
+  name: 'ProForm'
+})
 
 const props = defineProps(formProps)
 

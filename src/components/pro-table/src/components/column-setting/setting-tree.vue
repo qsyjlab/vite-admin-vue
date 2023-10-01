@@ -196,7 +196,7 @@ const moveToRight = (node: any) => {
   emits('move', props.fixed, 'right', node)
 }
 
-const handleDragEnd = (draggingNode: Node, dropNode: Node) => {
+const handleDragEnd = () => {
   change()
 }
 

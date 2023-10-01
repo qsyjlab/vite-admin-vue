@@ -1,7 +1,7 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title">
-      <VProTable
+      <pro-table
         header-title="pro table"
         :columns="columns"
         :data="data"
@@ -38,15 +38,14 @@
             </el-space>
           </template>
         </template>
-      </VProTable>
+      </pro-table>
     </page-card>
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { VProTable, useProTable } from '@/components/pro-table'
+import { useProTable } from '@/components/pro-table'
 import { PageCard, PageWrapper } from '@/components'
 import type { ProTableColumns, ProTableEditable } from '@/components/pro-table'
-import { Select } from '@/components/common'
 
 import { onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
@@ -64,15 +63,6 @@ const errorHandler: ProTableEditable['onError'] = errors => {
   if (errors) {
     ElMessage.error('请填写正确数据')
   }
-}
-
-function cancelHandler(row: any, done: () => void) {
-  loading.value = true
-
-  setTimeout(() => {
-    done()
-    loading.value = false
-  }, 3000)
 }
 
 function saveRowHandler(row: any, done: () => void) {
@@ -153,29 +143,6 @@ const columns: ProTableColumns = [
     key: 'fnE',
     valueType: 'enum',
     width: 200,
-    rowComponent: {
-      el: Select,
-      props: {
-        options: [
-          {
-            label: '全部',
-            value: 'all'
-          },
-          {
-            label: '已解决',
-            value: 'closed'
-          },
-          {
-            label: '解决中',
-            value: 'processing'
-          },
-          {
-            label: '未解决',
-            value: 'open'
-          }
-        ]
-      }
-    },
     editable: true,
     valueEnum: () => {
       return {
@@ -244,7 +211,6 @@ const params = ref({
   page: 1
 })
 
-let i = 0
 function createData() {
   let data = Array(100).fill(0)
 

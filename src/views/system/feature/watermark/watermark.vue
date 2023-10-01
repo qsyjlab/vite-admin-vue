@@ -5,7 +5,7 @@
       <pre>
           {{ watermarkProps }}
       </pre>
-      <VProForm :fields="proFormFields" :model="state" label-position="top" @effect="formEffect" />
+      <ProForm :fields="proFormFields" :model="state" label-position="top" @effect="formEffect" />
     </el-card>
     <el-card style="margin-bottom: 20px">
       <Watermark v-bind="watermarkProps">
@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { useWaterMark, Watermark } from '@/components/watermark'
 import type { WatermarkProps } from '@/components/watermark'
-import { VProForm } from '@/components/pro-form'
+import { ProForm } from '@/components/pro-form'
 import type { FormSchema } from '@/components/pro-form'
 import { ref, onMounted, reactive, nextTick, computed } from 'vue'
 

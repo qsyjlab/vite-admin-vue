@@ -1,7 +1,7 @@
 import { useTabPageStore } from '@/store'
 
 export function useTabs() {
-  const { getTabPages, updateTabPage } = useTabPageStore()
+  const { updateTabPage } = useTabPageStore()
 
   function setTitle(title: string) {
     updateTabPage({
