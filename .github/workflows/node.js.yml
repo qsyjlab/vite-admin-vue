@@ -5,13 +5,12 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "docs" ]
+    branches: ['docs']
   pull_request:
-    branches: [ "docs" ]
+    branches: ['docs']
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,25 +19,29 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        registry-url: https://registry.npmjs.org/
-        # cache: "pnpm"
-    - name: Install PNPM
-      run: npm i -g pnpm
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://registry.npmjs.org/
+          # cache: "pnpm"
 
-    - name: Install deps
-      run: pnpm install
+      - name: cd docs
+        run: cd docs
 
-    - name: Build
-      run: pnpm run docs:build
+      - name: Install PNPM
+        run: npm i -g pnpm
 
-    - name: Upload Docs
-      uses: JamesIves/github-pages-deploy-action@releases/v3
-      with:
-        TOKEN: ${{ secrets.QSYJ_BUIL_UPLOAD }}
-        BRANCH: gh-pages
-        FOLDER: docs
+      - name: Install deps
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run docs:build
+
+      - name: Upload Docs
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          TOKEN: ${{ secrets.QSYJ_BUIL_UPLOAD }}
+          BRANCH: gh-pages
+          FOLDER: .vitepress/dist
