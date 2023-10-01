@@ -27,8 +27,12 @@ jobs:
           registry-url: https://registry.npmjs.org/
           # cache: "pnpm"
 
-      - name: cd docs
-        run: cd docs
+      - name: Change directory to /docs
+        run: cd docs # 切换到/docs目录
+        - name: Show current directory
+      run: |
+        pwd
+        ls -la  # 列出当前目录的内容
 
       - name: Install PNPM
         run: npm i -g pnpm
