@@ -60,6 +60,7 @@ export default defineConfig({
           { text: "图标", link: "/other/icon" },
           { text: "暗黑主题", link: "/other/theme" },
           { text: "目录说明", link: "/guide/contents" },
+          { text: "自动导入插件", link: "/other/auto-import" },
         ],
       },
     ],
