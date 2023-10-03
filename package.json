@@ -15,7 +15,8 @@
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
     "lint:stylelint": "stylelint --cache --fix \"**/*.{css,less,vue,html}\" --cache --cache-location node_modules/.cache/stylelint/",
     "prepare": "husky install",
-    "clean:lib": "rimraf node_modules"
+    "clean:lib": "rimraf node_modules",
+    "git-cz": "czg"
   },
   "dependencies": {
     "@arco-design/color": "^0.4.0",
@@ -52,6 +53,7 @@
     "@vitejs/plugin-legacy": "^4.1.1",
     "@vitejs/plugin-vue": "^4.3.4",
     "@vitejs/plugin-vue-jsx": "^2.1.0",
+    "czg": "^1.7.1",
     "dpdm": "^3.13.0",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.5.0",
