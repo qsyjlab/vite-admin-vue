@@ -15,7 +15,12 @@
         v-show="!inline ? true : fieldsIsCollapsedMap[item.key]"
       >
         <el-form-item style="width: 100%" :label="item.label" :prop="item.key || String(index)">
-          <component :is="item.el" v-model="formModel[item.key]" v-bind="handleElAttrs(item)" />
+          <component
+            :is="item.el"
+            v-model="formModel[item.key]"
+            v-bind="handleElAttrs(item)"
+            v-on="item.events || {}"
+          />
         </el-form-item>
       </el-col>
       <el-col v-bind="advancedSpanColAttrs">

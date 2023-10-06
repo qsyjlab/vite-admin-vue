@@ -6,6 +6,7 @@ export interface FormSchema {
   el?: Component | string
   key: string
   attrs?: Record<string, any>
+  events?: Record<string, any>
   rules?: FormItemRule[]
   col?: Partial<ColProps>
 }
