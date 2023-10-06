@@ -1,1 +1,1 @@
-export { ProTable, ProForm } from '@/components'
+export { ProTable, ProForm, ProSelect } from '@/components'
