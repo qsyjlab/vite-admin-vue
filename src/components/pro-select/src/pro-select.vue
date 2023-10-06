@@ -75,7 +75,7 @@ defineSlots<{
   default: (scope: ProSelectOption) => void
 }>()
 
-const props = withDefaults(defineProps<ProSelectProps>(), {
+withDefaults(defineProps<ProSelectProps>(), {
   options: () => [],
   clearable: true,
   group: false
@@ -83,13 +83,12 @@ const props = withDefaults(defineProps<ProSelectProps>(), {
 
 const emits = defineEmits<{
   'update:model-value': [...rest: any[]]
+  change: [...rest: any[]]
 }>()
 
 const changeHandler: SelectInstance['onChange'] = (...rest) => {
-  console.log('rest', rest)
-
   emits('update:model-value', rest[0])
-  props.onChange?.(...rest)
+  emits('change', ...rest)
 }
 </script>
 <style scoped></style>

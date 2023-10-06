@@ -111,6 +111,11 @@ const fields = [
         }
       ]
     },
+    events: {
+      change: (...rest: any[]) => {
+        console.log('rest change', rest)
+      }
+    },
     col: {
       span: 14
     }
