@@ -21,7 +21,6 @@
   "dependencies": {
     "@arco-design/color": "^0.4.0",
     "@element-plus/icons-vue": "^2.1.0",
-    "@iconify/json": "^2.2.105",
     "@iconify/vue": "^4.1.1",
     "@vueuse/core": "^10.4.1",
     "axios": "^1.5.0",

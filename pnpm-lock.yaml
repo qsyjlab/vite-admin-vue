@@ -14,9 +14,6 @@ importers:
       '@element-plus/icons-vue':
         specifier: ^2.1.0
         version: 2.1.0(vue@3.3.4)
-      '@iconify/json':
-        specifier: ^2.2.105
-        version: 2.2.105
       '@iconify/vue':
         specifier: ^4.1.1
         version: 4.1.1(vue@3.3.4)
@@ -123,9 +120,6 @@ importers:
       eslint-plugin-vue:
         specifier: ^8.5.0
         version: 8.5.0(eslint@8.10.0)
-      git-cz:
-        specifier: ^4.9.0
-        version: 4.9.0
       husky:
         specifier: ^7.0.4
         version: 7.0.4
@@ -2166,13 +2160,6 @@ packages:
   /@humanwhocodes/object-schema@1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
-
-  /@iconify/json@2.2.105:
-    resolution: {integrity: sha512-QXb4YggigIxyf2AC2BdqaQYxzzyNAf04qFonGjjKTveickp2heJ6Abz4xuQcqfOHF0Xqhny53N2vmB3F22ipJA==}
-    dependencies:
-      '@iconify/types': 2.0.0
-      pathe: 1.1.1
-    dev: false
 
   /@iconify/types@2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -4470,11 +4457,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /git-cz@4.9.0:
-    resolution: {integrity: sha512-cSRL8IIOXU7UFLdbziCYqg8f8InwLwqHezkiRHNSph7oZqGv0togId1kMTfKil6gzK0VaSXeVBb4oDl0fQCHiw==}
-    hasBin: true
-    dev: true
-
   /git-raw-commits@2.0.11:
     resolution: {integrity: sha512-VnctFhw+xfj8Va1xtfEqCUD2XDrbAPSJx+hSrE5K7fGdjZruW7XV+QOrN7LF/RJyvspRiD2I0asWsxFp0ya26A==}
     engines: {node: '>=10'}
@@ -5766,6 +5748,7 @@ packages:
 
   /pathe@1.1.1:
     resolution: {integrity: sha512-d+RQGp0MAYTIaDBIMmOfMwz3E+LOZnxx1HZd5R18mmCZY0QBlK0LDZfPc8FW8Ed2DlvsuE6PRjroDY+wg4+j/Q==}
+    dev: true
 
   /performance-now@2.1.0:
     resolution: {integrity: sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==}
