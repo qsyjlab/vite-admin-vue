@@ -23,20 +23,11 @@
           />
         </el-form-item>
       </el-col>
-      <el-col v-bind="advancedSpanColAttrs">
-        <template v-if="inline">
-          <div style="display: flex; justify-content: flex-end; width: 100%">
-            <el-space>
-              <el-button type="primary" @click="onSubmit">查询</el-button>
-              <el-button @click="onReset">重置</el-button>
-              <toggle-arrow
-                v-if="!advanceState.hideAdvanceBtn"
-                :expand="advanceState.isAdvanced"
-                @click="toggleCollapse"
-              ></toggle-arrow>
-            </el-space>
-          </div>
-        </template>
+      <el-col v-if="inline" v-bind="advancedSpanColAttrs">
+        <form-action
+          :collapsed="advanceState.isAdvanced"
+          :hidden-collapse-button="advanceState.hideAdvanceBtn"
+        ></form-action>
       </el-col>
     </el-row>
 
@@ -44,17 +35,14 @@
   </el-form>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'ProForm'
-}
-</script>
-
 <script setup lang="ts">
 import { formProps, formEmits, emitsEnums } from './form-props'
 import { useForm } from './form'
 import { ElForm, ElFormItem } from 'element-plus'
-import ToggleArrow from './components/toggle-arrow.vue'
+
+import { createFormActionContext } from './provider'
+
+import FormAction from './form-action.vue'
 
 defineOptions({
   name: 'ProForm'
@@ -82,17 +70,23 @@ const {
   emits
 })
 
-const onSubmit = () => {
+const submit = () => {
   validate(() => {
     emits(emitsEnums.SUBMIT, formModel)
   })
 }
 
-const onReset = () => {
+const reset = () => {
   resetFields(() => {
     emits(emitsEnums.RESET, formModel)
   })
 }
+
+createFormActionContext({
+  submit,
+  reset,
+  toggleCollapse
+})
 
 defineExpose(formExposeMethods)
 </script>
