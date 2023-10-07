@@ -13,7 +13,6 @@
     "prettier": "prettier --write .",
     "lint:code-recyle": "dpdm ./src/main.ts --no-warning",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
-    "lint:stylelint": "stylelint --cache --fix \"**/*.{css,less,vue,html}\" --cache --cache-location node_modules/.cache/stylelint/",
     "prepare": "husky install",
     "clean:lib": "rimraf node_modules",
     "git-cz": "czg"
