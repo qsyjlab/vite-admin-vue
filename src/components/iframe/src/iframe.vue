@@ -17,7 +17,7 @@ import { ref, computed } from 'vue'
 const props = defineProps({
   frameSrc: {
     type: String,
-    default: 'https://qsyjlab.club/'
+    default: ''
   },
   height: {
     type: [String, Number] as PropType<CSSProperties['height']>,
@@ -26,13 +26,8 @@ const props = defineProps({
 })
 
 const loading = ref(true)
-// const topRef = ref(50)
-// const heightRef = ref(window.innerHeight)
-const frameRef = ref<IframeHTMLAttributes>()
-// const { headerHeightRef } = useLayoutHeight()
 
-// const { prefixCls } = useDesign('iframe-page')
-// useWindowSizeFn(calcHeight, { wait: 150, immediate: true })
+const frameRef = ref<IframeHTMLAttributes>()
 
 const getWrapStyle = computed((): CSSProperties => {
   console.log('props', props)
@@ -42,36 +37,12 @@ const getWrapStyle = computed((): CSSProperties => {
   }
 })
 
-// function calcHeight() {
-//   const iframe = unref(frameRef)
-//   if (!iframe) {
-//     return
-//   }
-//   const top = 0
-//   topRef.value = top
-//   heightRef.value = window.innerHeight - top
-//   const clientHeight = document.documentElement.clientHeight - top
-
-//   iframe.style = {
-//     height: `${clientHeight}px`
-//   }
-// }
-
 function hideLoading() {
   loading.value = false
-  // calcHeight()
 }
 </script>
 <style lang="scss" scoped>
 .iframe-page {
-  // &__mask {
-  //   position: absolute;
-  //   top: 0;
-  //   left: 0;
-  //   width: 100%;
-  //   height: 100%;
-  // }
-
   &__main {
     box-sizing: border-box;
     width: 100%;
