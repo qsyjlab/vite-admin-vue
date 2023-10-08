@@ -1,6 +1,6 @@
 import { withInstall } from '@/utils'
-import ProChecboxkGruopComponent from './src/pro-checkbox-group.vue'
+import ProChecboxGruopComponent from './src/pro-checkbox-group.vue'
 
-export const ProCheckboxGruop = withInstall(ProChecboxkGruopComponent)
+export const ProCheckboxGruop = withInstall(ProChecboxGruopComponent)
 
 export default ProCheckboxGruop

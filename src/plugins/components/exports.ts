@@ -1,1 +1,1 @@
-export { ProTable, ProForm, ProSelect, ProCheckboxGruop } from '@/components'
+export { ProTable, ProForm, ProSelect, ProCheckboxGruop, ProRadioGruop } from '@/components'

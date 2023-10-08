@@ -230,6 +230,47 @@ const fields = [
     col: {
       span: 20
     }
+  },
+  {
+    label: 'ProRadioGruop',
+    el: 'ProRadioGruop',
+    key: 'ProRadioGruop',
+    attrs: {
+      options: [
+        {
+          value: 'Shanghai',
+          label: 'Shanghai'
+        },
+        {
+          value: 'Beijing',
+          label: 'Beijing'
+        }
+      ]
+    },
+    col: {
+      span: 20
+    }
+  },
+  {
+    label: 'ProRadioGruop 按钮模式',
+    el: 'ProRadioGruop',
+    key: 'ProRadioGruopButton',
+    attrs: {
+      tag: 'radio-button',
+      options: [
+        {
+          value: 'Shanghai',
+          label: 'Shanghai'
+        },
+        {
+          value: 'Beijing',
+          label: 'Beijing'
+        }
+      ]
+    },
+    col: {
+      span: 20
+    }
   }
 ]
 

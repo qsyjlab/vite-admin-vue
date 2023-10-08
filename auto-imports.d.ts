@@ -6,6 +6,7 @@
 export {}
 declare global {
   const ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
+  const ElCheckboxButton: typeof import('element-plus/es')['ElCheckboxButton']
   const ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
   const ElColorPicker: typeof import('element-plus/es')['ElColorPicker']
   const ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
