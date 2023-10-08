@@ -42,56 +42,6 @@ const fields = [
     }
   },
   {
-    label: 'zone',
-    el: 'el-input',
-    key: 'zone',
-
-    col: {
-      span: 4
-    },
-    attrs: {
-      options: [
-        {
-          label: '测试地区1',
-          value: 1
-        }
-      ]
-    }
-  },
-  {
-    label: 'time',
-    el: 'el-input',
-    key: 'time123',
-    col: {
-      span: 4
-    }
-  },
-  {
-    label: 'time',
-    el: 'el-input',
-    key: 'time23',
-    col: {
-      span: 4
-    }
-  },
-  {
-    label: 'time',
-    el: 'el-input',
-    key: 'time2323',
-    col: {
-      span: 8
-    }
-  },
-
-  {
-    label: 'time',
-    el: 'el-input',
-    key: 'time23232',
-    col: {
-      span: 8
-    }
-  },
-  {
     label: 'ProSelect',
     el: 'ProSelect',
     key: 'ProSelect',
@@ -238,6 +188,47 @@ const fields = [
     },
     col: {
       span: 6
+    }
+  },
+  {
+    label: 'ProCheckboxGruop',
+    el: 'ProCheckboxGruop',
+    key: 'ProCheckboxGruop',
+    attrs: {
+      options: [
+        {
+          value: 'Shanghai',
+          label: 'Shanghai'
+        },
+        {
+          value: 'Beijing',
+          label: 'Beijing'
+        }
+      ]
+    },
+    col: {
+      span: 20
+    }
+  },
+  {
+    label: 'ProCheckboxGruop 按钮模式',
+    el: 'ProCheckboxGruop',
+    key: 'ProCheckboxGruopButton',
+    attrs: {
+      tag: 'checkbox-button',
+      options: [
+        {
+          value: 'Shanghai',
+          label: 'Shanghai'
+        },
+        {
+          value: 'Beijing',
+          label: 'Beijing'
+        }
+      ]
+    },
+    col: {
+      span: 20
     }
   }
 ]
