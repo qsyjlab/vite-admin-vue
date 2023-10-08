@@ -1,28 +1,29 @@
 <template>
-  <el-card>
-    <template #header>{{ $route.meta.title }}</template>
-    <ProForm inline :fields="fields" @submit="submit" @reset="reset" @register="register">
-    </ProForm>
+  <page-wrapper>
+    <page-card :header="$route.meta.title">
+      <ProForm inline :fields="fields" @submit="submit" @reset="reset" @register="register">
+      </ProForm>
 
-    <template v-if="true">
-      表单
-      <ProForm :fields="fields"> </ProForm>
-      <el-button @click="customSubmit">自定义提交按钮</el-button>
-      <el-button @click="updateFormConfig">更新表单配置</el-button>
-      <el-button @click="insertFormConfig">插入新的配置</el-button>
-      <el-button @click="removeFormConfig">移除配置</el-button>
-    </template>
-  </el-card>
+      <template v-if="true">
+        表单
+        <ProForm :fields="fields"> </ProForm>
+        <el-button @click="customSubmit">自定义提交按钮</el-button>
+        <el-button @click="updateFormConfig">更新表单配置</el-button>
+        <el-button @click="insertFormConfig">插入新的配置</el-button>
+        <el-button @click="removeFormConfig">移除配置</el-button>
+      </template>
+    </page-card>
+  </page-wrapper>
 </template>
 
 <script lang="ts">
 export default {
-  name: 'ProForm'
+  name: 'ProFormPage'
 }
 </script>
 
 <script setup lang="ts">
-import { ProForm } from '@/components/pro-form'
+import { PageCard, PageWrapper } from '@/components'
 import { useProForm } from '@/hooks'
 
 const { register, validate, updateSchemas, appendSchemaByField, removeSchemaByField } = useProForm()
