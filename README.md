@@ -1,13 +1,50 @@
-# Basic Admin
+# Vite Admin Vue
 
-## Vue 3 + Typescript + Vite
+Vite Admin Vue 是一个使用 Vue3 ，Vite 和 Typescript 构建的快速现代管理后台模板。它提供了一个干净且可自定义的界面，用于构建 Web 管理后台。
 
-This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 特性
 
-## Recommended IDE Setup
+- 🚀 **快速**: 基于 Vite 构建，Vite Admin Vue 提供了极快的开发和构建速度。
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+- 🖼️ **Vue3**: 利用 Vue3 的强大功能创建动态和交互式用户界面。
 
-## Type Support For `.vue` Imports in TS
+- 🎨 **可自定义**: 轻松自定义模板以匹配项目的品牌和需求。
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's `.vue` type support plugin by running `Volar: Switch TS Plugin on/off` from VSCode command palette.
+- 📱 **响应式**: 该模板具备响应式设计，适用于各种屏幕尺寸和设备。
+
+- 🧩 **模块化**: 代码组织为可重用组件，便于维护。
+
+- 📱**TypeScript **: 强类型检查和智能代码提示。
+
+## 入门指南
+
+### docs 文档
+
+[文档](https://qsyjlab.github.io/vite-admin-vue/)
+
+### 环境准备
+
+要开始使用 Vite Admin Vue，您需要在系统上安装 Node.js 和 npm ，pnpm 。然后，按照以下步骤进行操作：
+
+关于 node 环境推荐 nvm 来管理。
+node.js 最低为 12.x 以上, pnpm 最低支持 5x node.js 12 版本，项目内推荐 pnpm 8 ,node.js 16x+。[详见](https://pnpm.io/installation)
+
+### 安装
+
+1. 📂 进入项目目录：
+
+```bash
+cd vite-admin-vue
+```
+
+2. ⚙️ 安装依赖项：
+
+```bash
+pnpm install
+```
+
+3. 🚀 启动开发服务器：
+
+```bash
+pnpm run dev
+```
