@@ -1,5 +1,3 @@
-import { generateThemeCluster } from '@/utils'
-
 import { generate } from '@arco-design/color'
 
 export const useElementCssVar = (mode?: 'light' | 'dark') => {
@@ -14,7 +12,7 @@ export const useElementCssVar = (mode?: 'light' | 'dark') => {
     let colorList: string[] = []
 
     if (mode === 'light') {
-      colorList = generateThemeCluster(color)
+      colorList = generate(color, { index: 10, list: true, dark: false })
     } else {
       colorList = generate(color, { index: 10, list: true, dark: true })
       colorList.unshift(color)

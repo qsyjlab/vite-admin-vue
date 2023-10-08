@@ -1,3 +1,3 @@
-import IFramePage from './src/iframe.vue'
+import IframePage from './src/iframe.vue'
 
-export { IFramePage }
+export { IframePage }

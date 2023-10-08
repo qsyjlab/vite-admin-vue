@@ -11,12 +11,7 @@
   },
   // 配置 ESLint 检查的文件类型
   "eslint.validate": ["javascript", "vue", "html", "typescript"],
-  "fileheader.configObj": {
-    "autoAdd": false
-  },
   "[dotenv]": {},
-  // stylelint 格式化工具
-  "stylelint.validate": ["css", "scss", "less", "vue", "html"],
   "typescript.tsdk": "node_modules/typescript/lib",
   "[xml]": {
     "editor.defaultFormatter": "redhat.vscode-xml"

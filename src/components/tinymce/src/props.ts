@@ -2,7 +2,7 @@ import { ExtractPropType } from 'element-plus/es/utils'
 import { PropType } from 'vue'
 import { THEME_MODE, LANGS, TOOLBAR, OUTPUT_FORMAT } from './editor'
 
-export type OutputFormat = (typeof OUTPUT_FORMAT)[number]
+export type OutputFormat = typeof OUTPUT_FORMAT[number]
 
 export const tinymceProps = {
   // 主题

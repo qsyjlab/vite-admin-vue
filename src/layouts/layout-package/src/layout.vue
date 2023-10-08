@@ -1,32 +1,29 @@
 <template>
-  <layout-config-provider>
-    <layout-container>
-      <layout-aside v-if="config.aside" v-bind="asideAttrs">
-        <slot name="aside"> </slot>
-      </layout-aside>
+  <layout-container>
+    <layout-aside v-if="config.aside" v-bind="asideAttrs">
+      <slot name="aside"> </slot>
+    </layout-aside>
 
-      <layout-header v-if="config.header" v-bind="headerAttrs">
-        <slot name="header"></slot>
-      </layout-header>
+    <layout-header v-if="config.header" v-bind="headerAttrs">
+      <slot name="header"></slot>
+    </layout-header>
 
-      <layout-tabs v-if="config.tab" v-bind="tabAttrs">
-        <slot name="tabs"> </slot>
-      </layout-tabs>
+    <layout-tabs v-if="config.tab" v-bind="tabAttrs">
+      <slot name="tabs"> </slot>
+    </layout-tabs>
 
-      <layout-main v-if="config.main" v-bind="mainAttrs">
-        <slot></slot>
-      </layout-main>
-      <layout-footer v-if="config.footer" v-bind="footerAttrs">
-        <slot name="footer"></slot>
-      </layout-footer>
-    </layout-container>
-  </layout-config-provider>
+    <layout-main v-if="config.main" v-bind="mainAttrs">
+      <slot></slot>
+    </layout-main>
+    <layout-footer v-if="config.footer" v-bind="footerAttrs">
+      <slot name="footer"></slot>
+    </layout-footer>
+  </layout-container>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import {
-  LayoutConfigProvider,
   LayoutContainer,
   LayoutAside,
   LayoutHeader,

@@ -14,9 +14,6 @@ importers:
       '@element-plus/icons-vue':
         specifier: ^2.1.0
         version: 2.1.0(vue@3.3.4)
-      '@iconify/json':
-        specifier: ^2.2.105
-        version: 2.2.105
       '@iconify/vue':
         specifier: ^4.1.1
         version: 4.1.1(vue@3.3.4)
@@ -103,8 +100,11 @@ importers:
         specifier: ^4.3.4
         version: 4.3.4(vite@4.4.9)(vue@3.3.4)
       '@vitejs/plugin-vue-jsx':
-        specifier: ^2.1.0
-        version: 2.1.0(vite@4.4.9)(vue@3.3.4)
+        specifier: ^3.0.2
+        version: 3.0.2(vite@4.4.9)(vue@3.3.4)
+      czg:
+        specifier: ^1.7.1
+        version: 1.7.1
       dpdm:
         specifier: ^3.13.0
         version: 3.13.0
@@ -2161,13 +2161,6 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@iconify/json@2.2.105:
-    resolution: {integrity: sha512-QXb4YggigIxyf2AC2BdqaQYxzzyNAf04qFonGjjKTveickp2heJ6Abz4xuQcqfOHF0Xqhny53N2vmB3F22ipJA==}
-    dependencies:
-      '@iconify/types': 2.0.0
-      pathe: 1.1.1
-    dev: false
-
   /@iconify/types@2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
     dev: false
@@ -2563,11 +2556,11 @@ packages:
       - supports-color
     dev: true
 
-  /@vitejs/plugin-vue-jsx@2.1.0(vite@4.4.9)(vue@3.3.4):
-    resolution: {integrity: sha512-vvL8MHKN0hUf5LE+/rCk1rduwzW6NihD6xEfM4s1gGCSWQFYd5zLdxBs++z3S7AV/ynr7Yig5Xp1Bm0wlB4IAA==}
+  /@vitejs/plugin-vue-jsx@3.0.2(vite@4.4.9)(vue@3.3.4):
+    resolution: {integrity: sha512-obF26P2Z4Ogy3cPp07B4VaW6rpiu0ue4OT2Y15UxT5BZZ76haUY9guOsZV3uWh/I6xc+VeiW+ZVabRE82FyzWw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
-      vite: ^3.0.0
+      vite: ^4.0.0
       vue: ^3.0.0
     dependencies:
       '@babel/core': 7.23.0
@@ -3282,7 +3275,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.1
       '@types/raf': 3.4.1
-      core-js: 3.32.2
+      core-js: 3.33.0
       raf: 3.4.1
       regenerator-runtime: 0.13.11
       rgbcolor: 1.0.1
@@ -3543,6 +3536,13 @@ packages:
   /core-js@3.32.2:
     resolution: {integrity: sha512-pxXSw1mYZPDGvTQqEc5vgIb83jGQKFGYWY76z4a7weZXUolw3G+OvpZqSRcfYOoOVUQJYEPsWeQK8pKEnUtWxQ==}
     requiresBuild: true
+    dev: true
+
+  /core-js@3.33.0:
+    resolution: {integrity: sha512-HoZr92+ZjFEKar5HS6MC776gYslNOKHt75mEBKWKnPeFDpZ6nH5OeF3S6HFT1mUAUZKrzkez05VboaX8myjSuw==}
+    requiresBuild: true
+    dev: false
+    optional: true
 
   /cors@2.8.5:
     resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
@@ -5009,7 +5009,7 @@ packages:
       fflate: 0.4.8
     optionalDependencies:
       canvg: 3.0.10
-      core-js: 3.32.2
+      core-js: 3.33.0
       dompurify: 2.4.7
       html2canvas: 1.4.1
     dev: false
@@ -5749,6 +5749,7 @@ packages:
 
   /pathe@1.1.1:
     resolution: {integrity: sha512-d+RQGp0MAYTIaDBIMmOfMwz3E+LOZnxx1HZd5R18mmCZY0QBlK0LDZfPc8FW8Ed2DlvsuE6PRjroDY+wg4+j/Q==}
+    dev: true
 
   /performance-now@2.1.0:
     resolution: {integrity: sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==}
