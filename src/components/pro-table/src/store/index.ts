@@ -1,4 +1,4 @@
-import { inject, reactive, ref } from 'vue'
+import { inject, reactive, ref, toRefs } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
 import { useColumnsMap, useProTable, useEditable, useSelection } from '../hooks'
 
@@ -47,7 +47,7 @@ export function useTableStore(
     setQueryPageSize
   } = useProTable(
     reactive({
-      ...props,
+      ...toRefs(props),
       transform: props.transform || proTableConfig?.transform,
       transformParams: props.transformParams || proTableConfig?.transformParams
     }),
