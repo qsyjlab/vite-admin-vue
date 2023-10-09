@@ -148,7 +148,7 @@ const selectChangeHandler: TableInstance['onSelection-change'] = selection => {
         .map(row => {
           const realRowKey = getRowkey(row, props.rowKey)
           if (!realRowKey) return false
-          return row[realRowKey]
+          return realRowKey
         })
         .filter(Boolean)
     )
