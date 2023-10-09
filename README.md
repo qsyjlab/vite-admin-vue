@@ -14,7 +14,7 @@ Vite Admin Vue 是一个使用 Vue3 ，Vite 和 Typescript 构建的快速现代
 
 - 🧩 **模块化**: 代码组织为可重用组件，便于维护。
 
-- 📱**TypeScript **: 强类型检查和智能代码提示。
+- 📱**TypeScript**: 强类型检查和智能代码提示。
 
 ## 入门指南
 
