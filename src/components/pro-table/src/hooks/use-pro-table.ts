@@ -10,7 +10,15 @@ import type { SetupContext } from 'vue'
 
 type IProps = Pick<
   ProTableProps,
-  'columns' | 'data' | 'request' | 'params' | 'pagination' | 'loading' | 'rowKey'
+  | 'columns'
+  | 'data'
+  | 'request'
+  | 'params'
+  | 'pagination'
+  | 'loading'
+  | 'rowKey'
+  | 'transform'
+  | 'transformParams'
 >
 
 type Extra = {
@@ -26,7 +34,9 @@ const DEFAULT_PAGINATON_CONFIG = {
 export const useProTable = (props: IProps, extra: Extra) => {
   const { emits } = extra
 
-  const { columns, data, request, params, pagination } = toRefs(props)
+  const { columns, data, params, pagination } = toRefs(props)
+
+  const { request } = props
 
   const dataSource = ref<any[]>([])
   const tableColums = ref(columns.value || [])
@@ -78,7 +88,7 @@ export const useProTable = (props: IProps, extra: Extra) => {
   watch(
     [params, data],
     () => {
-      refresh()
+      reload()
     },
     { deep: true }
   )
@@ -108,7 +118,7 @@ export const useProTable = (props: IProps, extra: Extra) => {
     setLoading(true)
 
     try {
-      if (!request?.value) {
+      if (!request) {
         dataSource.value = pagination.value
           ? sliceData(data.value, {
               page: pageQuery.page,
@@ -118,9 +128,16 @@ export const useProTable = (props: IProps, extra: Extra) => {
 
         total.value = data.value.length
       } else {
-        const { data, total: _total = 0 } = await request.value(
-          Object.assign({}, params?.value || {}, pageQuery)
+        const transform = props.transform
+        const transformParams = props.transformParams
+
+        const response = await request(
+          transformParams
+            ? transformParams(Object.assign({}, params?.value || {}, pageQuery))
+            : Object.assign({}, params?.value || {}, pageQuery)
         )
+        const { total: _total, data } = transform ? transform(response) : response
+
         dataSource.value = data
         total.value = _total
       }

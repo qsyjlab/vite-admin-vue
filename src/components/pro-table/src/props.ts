@@ -15,14 +15,17 @@ export const proTableProps = {
   size: {
     type: definePropType<ProTableProps['size']>(String)
   },
+  /** 列状态配置 */
   columnsState: {
     type: definePropType<ColumnsState>(Object),
     default: () => ({})
   },
+  /** 列配置 */
   columns: {
     type: definePropType<ProTableColumns>(Array),
     default: () => []
   },
+  /** 数据 同 el-table data */
   data: {
     type: definePropType<any[]>(Array),
     default: () => []
@@ -31,16 +34,28 @@ export const proTableProps = {
     type: definePropType<boolean>(Boolean),
     default: true
   },
+  /** 请求函数 */
   request: {
     type: definePropType<(...rest: any[]) => Promise<any>>(Function)
   },
+  /** 外部请求参数 */
   params: {
     type: definePropType<Record<string | number, any>>(Object)
   },
+  /** 最终请求结果处理 */
+  transform: {
+    type: definePropType<ProTableProps['transform']>(Function)
+  },
+  /** 最终请求参数处理 */
+  transformParams: {
+    type: definePropType<ProTableProps['transformParams']>(Function)
+  },
+  /** 分页组件相关 */
   pagination: {
     type: definePropType<ProTablePaginationConfig | boolean>([Object, Boolean]),
     default: true
   },
+  /** 表格布局相关 */
   tableLayout: {
     type: definePropType<ProTableProps['tableLayout']>(String),
     default: 'fixed'
@@ -49,6 +64,7 @@ export const proTableProps = {
     type: String,
     default: 'id'
   },
+  /** 是否是选择列 */
   checkable: {
     type: Boolean,
     default: false
@@ -57,6 +73,7 @@ export const proTableProps = {
     type: Boolean,
     default: false
   },
+  /** 工具栏选项 */
   options: {
     type: definePropType<TableOptions>([Boolean, Object]),
     default: () => ({})
@@ -69,6 +86,7 @@ export const proTableProps = {
     type: definePropType<any[]>(Array),
     default: () => []
   },
+  /** 编辑相关配置 */
   editable: {
     type: definePropType<ProTableEditable>(Object),
     default: () => ({})

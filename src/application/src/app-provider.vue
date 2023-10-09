@@ -11,7 +11,10 @@ import { getLayoutCache } from '@/store/local'
 import { useLayoutConfigHandler } from '@/hooks'
 
 import projectConfig from '@/config/project-setting'
+import proComponentSetting from '@/config/pro-component-setting'
 import config from '@/config'
+
+import ProConfigProvider from '@/components/pro-config-provider'
 
 export default defineComponent({
   name: 'AppProvider',
@@ -47,7 +50,14 @@ export default defineComponent({
       initLayout(getLayoutCache() || {})
     }
 
-    return () => h(ElConfigProvider, { locale: zhCn }, () => slots.default?.())
+    return () =>
+      h(
+        ElConfigProvider,
+        { locale: zhCn },
+        {
+          default: () => h(ProConfigProvider, { ...proComponentSetting }, () => slots.default?.())
+        }
+      )
   }
 })
 </script>

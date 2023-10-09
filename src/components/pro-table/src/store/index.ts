@@ -1,4 +1,4 @@
-import { reactive, ref } from 'vue'
+import { inject, reactive, ref } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
 import { useColumnsMap, useProTable, useEditable, useSelection } from '../hooks'
 
@@ -6,6 +6,8 @@ import type { TableInstance } from 'element-plus'
 import type { ProTableEmits } from '../props'
 import type { TableActionRef, ProTableProps } from '../types'
 import type { ComponentInternalInstance, InjectionKey, SetupContext } from 'vue'
+import { proConfigProviderContextKey } from '@/components/pro-config-provider/src/token'
+import { ProConfigProviderProps } from '@/components/pro-config-provider'
 
 interface IExtraOptions {
   emits: SetupContext<ProTableEmits>['emit']
@@ -25,6 +27,13 @@ export function useTableStore(
     size: 'default'
   })
 
+  let proTableConfig: ProConfigProviderProps['proTable'] | undefined
+
+  try {
+    const { proTable } = inject(proConfigProviderContextKey) || {}
+    proTableConfig = proTable
+  } catch (error) {}
+
   const {
     paginationProps,
     dataSource,
@@ -36,7 +45,14 @@ export function useTableStore(
     refresh,
     setQueryPage,
     setQueryPageSize
-  } = useProTable(props, { emits })
+  } = useProTable(
+    reactive({
+      ...props,
+      transform: props.transform || proTableConfig?.transform,
+      transformParams: props.transformParams || proTableConfig?.transformParams
+    }),
+    { emits }
+  )
 
   const { selectedKeys, setSelectedKeys, clearSelectedKeys } = useSelection(props, {
     tableInstance: tableInstanceRef,

@@ -1,14 +1,14 @@
 import { createStorage } from '@/utils'
 import { StorageKeys } from '@/enum'
+import config from '@/config'
 
 import type { ProjectLayoutConfig } from '@/layouts'
 
-const prefix: string = StorageKeys.Prefix
+const prefix = config.storage.prefix
 
 interface UserInfo {
   userId: string | number
   userName: string
-  // userRole: string
 }
 
 const $storage = createStorage({

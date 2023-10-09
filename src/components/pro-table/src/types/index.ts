@@ -135,6 +135,8 @@ export interface ProTableProps<T = any> {
   loading: boolean
   selectedKeys: any[]
   editable: ProTableEditable
+  transform: (response: any) => { data: any[]; total: number }
+  transformParams: (params: any) => any
 }
 
 export interface ProTableHeaderProps {
