@@ -228,7 +228,7 @@ const fields = [
       ]
     },
     col: {
-      span: 20
+      span: 12
     }
   },
   {
@@ -269,7 +269,7 @@ const fields = [
       ]
     },
     col: {
-      span: 20
+      span: 12
     }
   }
 ]
