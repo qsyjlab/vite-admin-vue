@@ -107,6 +107,13 @@ const columns: ProTableColumns = [
     }
   },
   {
+    title: '图片',
+    key: 'imageSrc',
+    valueType: 'image',
+    tip: '渲染图片',
+    width: 150
+  },
+  {
     title: '状态',
     key: 'status',
     valueType: 'enum',

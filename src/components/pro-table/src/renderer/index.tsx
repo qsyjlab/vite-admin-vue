@@ -1,7 +1,7 @@
 import { BaseValueType, ProTableColumnItem, ValueEnum, ValueType, ValueTypeVal } from '../types'
 
 import { toDisplayString } from 'vue'
-import { ElProgress } from 'element-plus'
+import { ElProgress, ElImage } from 'element-plus'
 import Badge from '.././components/badge.vue'
 
 interface ResolveRenderOptions<T = any> {
@@ -59,6 +59,20 @@ export function resolveRenderer<T = any>(options: ResolveRenderOptions<T>) {
       const { page, pageSize } = pagination
 
       return (page - 1) * pageSize + index + 1
+    },
+    // 渲染图片
+    image: () => {
+      return value ? (
+        <ElImage
+          src={value}
+          previewSrcList={[value]}
+          initialIndex={0}
+          previewTeleported
+          style={{
+            width: columnConfig.width || '100px'
+          }}
+        ></ElImage>
+      ) : null
     }
   }
 

@@ -92,7 +92,9 @@ const user: MockMethod[] = [
             id: (page - 1) * pageSize + (index + 1),
             name: 'name:' + ((page - 1) * pageSize + (index + 1)),
             status: ['all', 'open', 'closed', 'processing'][Math.floor(Math.random() * 4)],
-            fnE: ['all', 'open', 'closed', 'processing'][Math.floor(Math.random() * 4)]
+            fnE: ['all', 'open', 'closed', 'processing'][Math.floor(Math.random() * 4)],
+            imageSrc: 'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
+            progress: Number((Math.random() * 100).toFixed(2))
           }))
       })
     }
