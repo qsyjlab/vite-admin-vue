@@ -13,7 +13,7 @@ export type ColumnsMap = Record<string, any>
 
 export interface ProTableColumnItem<T = any>
   extends Partial<Omit<TableColumnCtx<T>, 'children' | 'label' | 'prop'>> {
-  title: number | string
+  title?: number | string
   key: ColumnKey
   /** 创建一个提示图标 */
   tip?: string

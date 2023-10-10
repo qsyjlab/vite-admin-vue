@@ -4,9 +4,6 @@
       <pro-table
         header-title="pro table"
         :columns="columns"
-        :columns-state="{
-          persistenceKey: 'test-demo'
-        }"
         :request="getTableMockList"
         :params="params"
         checkable
@@ -42,7 +39,6 @@ import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
 
 import { getTableMockList } from '@/api/todos'
-import { getCurrentInstance } from 'vue'
 
 defineOptions({
   name: 'ProTablePage'
@@ -52,11 +48,6 @@ const loading = ref(false)
 const selectedKeys = ref<any[]>()
 
 const { register } = useProTable()
-
-// setTimeout(() => {
-//   loading.value = true
-//   console.log('loading', loading.value)
-// }, 2000)
 
 watch(loading, () => {
   console.log('v-model:loading', loading)
@@ -72,51 +63,21 @@ setTimeout(() => {
 
 const columns: ProTableColumns = [
   {
+    key: 'indexBorder',
+    valueType: 'indexBorder',
+    fixed: 'left'
+  },
+  {
     title: '名称',
     key: 'name',
-    tip: '测试tip提示',
-    fixed: 'left',
-    width: 200,
+    tip: '名称的提示',
+
     editable: true
-  },
-  {
-    title: '年龄',
-    key: 'age',
-    width: 200,
-    fixed: 'left',
-    children: [
-      {
-        title: '年龄2',
-        key: 'age-c',
-        children: []
-      },
-      {
-        title: '年龄3',
-        key: 'age-c2',
-        children: []
-      }
-    ]
-  },
-  {
-    title: '地址',
-    key: 'address',
-    width: 200
-  },
-  {
-    title: '邮箱',
-    key: 'email',
-    fixed: 'left',
-    width: 200
-  },
-  {
-    title: '年份',
-    key: 'year',
-    width: 200
   },
   {
     title: '进度条',
     key: 'progress',
-    width: 200,
+
     valueType: () => {
       return { type: 'progress' }
     }
@@ -125,7 +86,8 @@ const columns: ProTableColumns = [
     title: '函数式返回 enum',
     key: 'fnE',
     valueType: 'enum',
-    width: 200,
+    tip: '使用函数式 enum',
+
     valueEnum: () => {
       return {
         all: { text: '全部', color: 'blue' },
@@ -148,8 +110,6 @@ const columns: ProTableColumns = [
     title: '状态',
     key: 'status',
     valueType: 'enum',
-    width: 200,
-
     valueEnum: {
       all: { text: '全部', color: 'blue' },
       open: {
@@ -165,16 +125,6 @@ const columns: ProTableColumns = [
         color: 'blue'
       }
     }
-  },
-  {
-    title: '地址1',
-    key: 'address1',
-    width: 200
-  },
-  {
-    title: '地址2',
-    key: 'address2',
-    width: 200
   },
   {
     title: '操作',

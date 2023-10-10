@@ -5,7 +5,7 @@ import { sliceData } from '../utils'
 import { watchOnce } from '@vueuse/core'
 import { PaginationProps } from 'element-plus'
 
-import type { ProTableProps } from '../types'
+import type { ProTableColumns, ProTableProps } from '../types'
 import type { SetupContext } from 'vue'
 
 type IProps = Pick<
@@ -151,7 +151,7 @@ export const useProTable = (props: IProps, extra: Extra) => {
     paginationProps,
     total,
     loading,
-    tableColums,
+    tableColums: computed(() => columnPreConfiguration(tableColums.value)),
     dataSource,
     pageQuery,
     refresh,
@@ -159,4 +159,15 @@ export const useProTable = (props: IProps, extra: Extra) => {
     setQueryPageSize,
     setQueryPage
   }
+}
+
+function columnPreConfiguration(columns: ProTableColumns) {
+  const indexBorderColumn = columns.find(col => col.valueType === 'indexBorder')
+
+  if (indexBorderColumn) {
+    indexBorderColumn!.title = '序号'
+    indexBorderColumn!.width = 60
+  }
+
+  return columns
 }

@@ -90,7 +90,9 @@ const user: MockMethod[] = [
           .fill(0)
           .map((item, index) => ({
             id: (page - 1) * pageSize + (index + 1),
-            name: 'name:' + ((page - 1) * pageSize + (index + 1))
+            name: 'name:' + ((page - 1) * pageSize + (index + 1)),
+            status: ['all', 'open', 'closed', 'processing'][Math.floor(Math.random() * 4)],
+            fnE: ['all', 'open', 'closed', 'processing'][Math.floor(Math.random() * 4)]
           }))
       })
     }

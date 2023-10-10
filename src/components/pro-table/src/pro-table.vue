@@ -91,9 +91,8 @@ const emits = defineEmits(proTableEmits)
  * 将 props 转为 响应式类型
  * 如果非响应式透传 函数 props 将不在是响应式
  */
-const reactiveProps = reactive(props)
 
-const store = useTableStore(reactiveProps as ProTableProps, { emits })
+const store = useTableStore(reactive(props) as ProTableProps, { emits })
 
 const {
   tableInstanceRef,

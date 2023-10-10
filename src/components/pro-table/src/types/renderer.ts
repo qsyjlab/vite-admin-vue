@@ -1,6 +1,8 @@
 export type ValueType = ValueTypeVal | (() => ValueTypeVal)
 
-export type ValueTypeVal = 'text' | 'enum' | { type?: string; status?: string }
+export type ValueTypeVal = BaseValueType | { type?: BaseValueType; status?: string; color?: string }
+
+export type BaseValueType = 'text' | 'enum' | 'indexBorder' | 'progress'
 
 export type ValueEnum = ValueEnumRecord | ((rowData: any) => ValueEnumRecord | ValueEnumMap)
 
