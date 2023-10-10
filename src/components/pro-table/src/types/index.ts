@@ -28,7 +28,7 @@ export interface ProTableColumnItem<T = any>
   /** 子集表头 */
   children?: ProTableColumnItem<T>[]
   /** 函数式渲染器 优先级小于 slot */
-  render?: (scope: ProTableSlotScope) => number | string | undefined | null | VNode | Component
+  render?: (scope: ProTableSlotScope<T>) => number | string | undefined | null | VNode | Component
 }
 
 export interface ProTableSlotScope<T = any> extends RenderRowData<T> {
