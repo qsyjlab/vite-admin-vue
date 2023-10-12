@@ -29,7 +29,8 @@ export function resolveRenderer<T = any>(options: ResolveRenderOptions<T>) {
   const valueTypeRendererMap: Record<BaseValueType, any> = {
     // tsx 返回值不能是对象
     text: () => {
-      return toDisplayString(value || '')
+      if (value === null || value === undefined) return ''
+      return toDisplayString(value)
     },
     // 枚举类型
     enum: () => {
