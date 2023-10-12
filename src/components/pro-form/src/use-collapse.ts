@@ -26,7 +26,7 @@ export function useCollapse(option: CollapseOption) {
   }>({
     isAdvanced: true,
     hideAdvanceBtn: false,
-    span: 8
+    span: 5
   })
 
   if (isWatch) {
@@ -48,14 +48,9 @@ export function useCollapse(option: CollapseOption) {
    */
   const advancedSpanColAttrs = computed<Partial<ColProps>>(() => {
     return {
-      span: !advanceState.isAdvanced
-        ? 24
-        : advanceState.span > lastRowSpaceSpan.value
-        ? BASIC_COL_LEN
-        : advanceState.span,
-      offset: !advanceState.isAdvanced
-        ? 0
-        : BASIC_COL_LEN - advanceState.span - lastRowSpaceSpan.value
+      span: advanceState.span > lastRowSpaceSpan.value ? BASIC_COL_LEN : advanceState.span,
+      offset:
+        advanceState.span > lastRowSpaceSpan.value ? 0 : lastRowSpaceSpan.value - advanceState.span
     }
   })
 
@@ -65,10 +60,15 @@ export function useCollapse(option: CollapseOption) {
 
   function updateCollapce() {
     lastRowSpaceSpan.value = 0
+
     let totalSpan = 0
 
-    let firstRowFull = false
-    fields.forEach((item, index) => {
+    if (!advanceState.isAdvanced) {
+      lastRowSpaceSpan.value += advanceState.span
+      totalSpan += advanceState.span
+    }
+
+    fields.forEach(item => {
       const colSpan = item.col?.span || BASIC_COL_LEN
       lastRowSpaceSpan.value += colSpan
 
@@ -78,15 +78,29 @@ export function useCollapse(option: CollapseOption) {
         lastRowSpaceSpan.value = 0
         lastRowSpaceSpan.value += colSpan
       }
-
-      if (index === 0 && colSpan === BASIC_COL_LEN) {
-        firstRowFull = true
-      }
-      const hidden = !advanceState.isAdvanced && (firstRowFull || (!!index && totalSpan >= 24))
+      const hidden =
+        !advanceState.isAdvanced && (totalSpan > 24 || curRowSpaceSpan + colSpan < colSpan)
 
       fieldsIsCollapsedMap[item.key] = !hidden
       totalSpan += colSpan
     })
+
+    if (!advanceState.isAdvanced) {
+      const shouldShowFields: { span: number }[] = fields
+        .filter(i => fieldsIsCollapsedMap[i.key])
+        .map(i => ({ span: i.col?.span || BASIC_COL_LEN }))
+
+      let tCols = 0
+      shouldShowFields.forEach(({ span }) => {
+        tCols += span
+      })
+
+      if (tCols >= BASIC_COL_LEN) {
+        lastRowSpaceSpan.value = 0
+      } else {
+        lastRowSpaceSpan.value = BASIC_COL_LEN - tCols
+      }
+    }
   }
 
   return {

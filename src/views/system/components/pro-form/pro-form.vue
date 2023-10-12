@@ -68,7 +68,7 @@ const fields = [
       }
     },
     col: {
-      span: 14
+      span: 12
     }
   },
   {
