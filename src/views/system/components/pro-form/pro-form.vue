@@ -1,12 +1,12 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title">
-      <ProForm inline :fields="fields" @submit="submit" @reset="reset" @register="register">
+      <ProForm inline :fields="schemaes" @submit="submit" @reset="reset" @register="register">
       </ProForm>
 
       <template v-if="true">
         表单
-        <ProForm :fields="fields"> </ProForm>
+        <ProForm :fields="schemaes"> </ProForm>
         <el-button @click="customSubmit">自定义提交按钮</el-button>
         <el-button @click="updateFormConfig">更新表单配置</el-button>
         <el-button @click="insertFormConfig">插入新的配置</el-button>
@@ -24,10 +24,7 @@ export default {
 
 <script setup lang="ts">
 import { PageCard, PageWrapper } from '@/components'
-import { useProForm } from '@/hooks'
-
-const { register, validate, updateSchemas, appendSchemaByField, removeSchemaByField } = useProForm()
-
+import { useProForm, useSchema } from '@/hooks'
 const fields = [
   {
     label: 'name',
@@ -274,6 +271,10 @@ const fields = [
   }
 ]
 
+const { register, validate } = useProForm()
+
+const { schemaes, updateSchemas, appendSchemaByField, removeSchemaByField } = useSchema(fields)
+
 const updateFormConfig = () => {
   updateSchemas({
     label: '更新地区',
@@ -283,7 +284,7 @@ const updateFormConfig = () => {
       options: [
         {
           label: '测试地区1',
-          value: 1
+          value: '1'
         }
       ]
     }
@@ -298,17 +299,17 @@ const updateFormConfig = () => {
         options: [
           {
             label: '测试地区1',
-            value: 1
+            value: '2'
           }
         ]
       }
     },
     {
       label: '更新时间',
-      key: 'time23',
-      col: {
-        span: 4
-      }
+      key: 'time23'
+      // col: {
+      //   span: '4'
+      // }
     }
   ])
 }
