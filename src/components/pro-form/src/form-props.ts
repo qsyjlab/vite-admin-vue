@@ -1,7 +1,6 @@
 import { definePropType } from '@/utils'
 import type { ExtractPropTypes } from 'vue'
 import { FormMethodsType, FormSchema } from './types/form'
-export type FormItem = FormSchema
 
 export type { FormSchema }
 
@@ -17,6 +16,11 @@ export const formProps = {
   model: {
     type: definePropType<Record<string, any>>(Object),
     default: () => ({})
+  },
+  /** 是否启用 effect emit */
+  enableEffect: {
+    type: Boolean,
+    default: false
   }
 }
 

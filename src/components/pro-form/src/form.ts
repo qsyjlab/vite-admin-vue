@@ -1,9 +1,8 @@
 import { SetupContext, toRaw } from 'vue'
-import { reactive, onBeforeMount, ref, watch, computed } from 'vue'
+import { reactive, ref, watch, computed } from 'vue'
 import { FormProps, FormSchema, formEmits, emitsEnums } from './form-props'
 import { ElFormInstance } from './types'
 import { useCollapse } from './use-collapse'
-import { useSchema } from './use-schema'
 import { FormMethodsType, NOOP } from './types/form'
 
 type UseFormParameter = {
@@ -13,24 +12,37 @@ type UseFormParameter = {
 
 export const useForm = (parameter: UseFormParameter) => {
   const { props, emits } = parameter
-  const { fields = [], inline } = props
+  const { inline } = props
+
+  const formSchemaes = computed(() => props.fields)
 
   const formRef = ref<ElFormInstance | null>(null)
 
   const formModel = reactive<Record<string, any>>({})
 
   const formRules = reactive<Record<string, FormSchema['rules']>>({})
-  const { formSchemaes, updateSchemas, appendSchemaByField, removeSchemaByField } =
-    useSchema(fields)
 
   const { fieldsIsCollapsedMap, toggleCollapse, advanceState, advancedSpanColAttrs } = useCollapse({
     fields: formSchemaes.value,
     isWatch: inline
   })
 
-  onBeforeMount(() => {
-    initializeForm()
-  })
+  watch(
+    () => props.fields,
+    () => {
+      initializeForm()
+    },
+    {
+      immediate: true
+    }
+  )
+
+  // 判定是否启用 effect change
+  if (props.enableEffect) {
+    watch(formModel, () => {
+      emits('effect', toRaw(formModel))
+    })
+  }
 
   watch(
     () => props.model,
@@ -56,17 +68,14 @@ export const useForm = (parameter: UseFormParameter) => {
     formRef.value?.clearValidate(...rest)
   }
 
-  const initializeForm = () => {
-    if (fields.length === 0) return
-    fields.forEach(item => {
+  function initializeForm() {
+    if (formSchemaes.value.length === 0) return
+    formSchemaes.value.forEach(item => {
       formModel[item.key] = props.model[item.key]
 
       if (!inline) {
         formRules[item.key] = item.rules
       }
-    })
-    watch(formModel, () => {
-      emits('effect', toRaw(formModel))
     })
   }
 
@@ -96,9 +105,6 @@ export const useForm = (parameter: UseFormParameter) => {
     resetFields,
     clearValidate,
     validate,
-    updateSchemas,
-    appendSchemaByField,
-    removeSchemaByField,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     validateField: () => {},
     // eslint-disable-next-line @typescript-eslint/no-empty-function

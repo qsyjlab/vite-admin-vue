@@ -52,21 +52,6 @@ export function useProForm(): UseProForm {
     instance.scrollToField()
   }
 
-  const updateSchemas: FormMethodsType['updateSchemas'] = async schemas => {
-    const instance = await getForm()
-    instance.updateSchemas(schemas)
-  }
-
-  const appendSchemaByField: FormMethodsType['appendSchemaByField'] = async (...rest) => {
-    const instance = await getForm()
-    instance.appendSchemaByField(...rest)
-  }
-
-  const removeSchemaByField: FormMethodsType['removeSchemaByField'] = async (...rest) => {
-    const instance = await getForm()
-    instance.removeSchemaByField(...rest)
-  }
-
   return {
     register,
     getForm,
@@ -75,9 +60,6 @@ export function useProForm(): UseProForm {
     resetFields,
     clearValidate,
     validateField,
-    forceUpdateModel,
-    updateSchemas,
-    appendSchemaByField,
-    removeSchemaByField
+    forceUpdateModel
   }
 }
