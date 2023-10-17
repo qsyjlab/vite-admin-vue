@@ -6,20 +6,17 @@ import { watchOnce } from '@vueuse/core'
 import { PaginationProps } from 'element-plus'
 
 import type { ProTableColumns, ProTableProps } from '../types'
+
 import type { SetupContext } from 'vue'
 
-type IProps = Pick<
-  ProTableProps,
-  | 'columns'
-  | 'data'
-  | 'request'
-  | 'params'
-  | 'pagination'
-  | 'loading'
-  | 'rowKey'
-  | 'transform'
-  | 'transformParams'
->
+interface IProps
+  extends Pick<
+    ProTableProps,
+    'columns' | 'data' | 'request' | 'params' | 'pagination' | 'loading' | 'rowKey'
+  > {
+  transform: ProTableProps['transform'][]
+  transformParams: ProTableProps['transformParams'][]
+}
 
 type Extra = {
   emits: SetupContext<typeof proTableEmits>['emit']
@@ -131,12 +128,9 @@ export const useProTable = (props: IProps, extra: Extra) => {
         const transform = props.transform
         const transformParams = props.transformParams
 
-        const response = await request(
-          transformParams
-            ? transformParams(Object.assign({}, params?.value || {}, pageQuery))
-            : Object.assign({}, params?.value || {}, pageQuery)
-        )
-        const { total: _total, data } = transform ? transform(response) : response
+        const mergedParams = Object.assign({}, params?.value || {}, pageQuery)
+        const response = await request(resolveTransform(mergedParams, transformParams))
+        const { total: _total, data } = resolveTransform(response, transform)
 
         dataSource.value = data
         total.value = _total
@@ -170,4 +164,15 @@ function columnPreConfiguration(columns: ProTableColumns) {
   }
 
   return columns
+}
+
+export function resolveTransform(data: any, transformers: ((...args: any[]) => any)[]) {
+  if (transformers.length) return data
+  let transformedData = data
+
+  for (const transformer of transformers) {
+    transformedData = transformer(transformedData)
+  }
+
+  return transformedData
 }
