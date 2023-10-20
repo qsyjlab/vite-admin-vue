@@ -74,7 +74,7 @@ export function useEditable(props: IProps) {
 
   function deleteEditRow(rowKey: EditableTableRowKey) {
     if (editableConfig.onDelete) {
-      editableConfig.onDelete(editableCellMap.value.get(rowKey)?.data, done)
+      editableConfig.onDelete(editableCellMap.value.get(rowKey)?.data || findRow(rowKey), done)
       return
     }
 

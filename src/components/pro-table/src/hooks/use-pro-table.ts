@@ -86,8 +86,8 @@ export const useProTable = (props: IProps, extra: Extra) => {
     [params, data],
     () => {
       reload()
-    },
-    { deep: true }
+    }
+    // { deep: }
   )
 
   const setQueryPage = (page: number) => {
@@ -103,6 +103,8 @@ export const useProTable = (props: IProps, extra: Extra) => {
   }
 
   function reload() {
+    console.log('reload')
+
     pageQuery.page = 1
     fetchData()
   }

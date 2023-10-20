@@ -11,6 +11,7 @@
           mode: 'single',
           onSave: saveRowHandler,
           onDelete(row, done) {
+            delRow(row)
             done()
           },
           onChange: changeHandler,
@@ -56,6 +57,10 @@ const loading = ref(false)
 
 function changeHandler(data: any) {
   console.log('changeHandler', data)
+}
+
+const delRow = row => {
+  console.log('delRow', row)
 }
 
 const errorHandler: ProTableEditable['onError'] = errors => {

@@ -5,6 +5,7 @@
         :columns="columns"
         mode="multiple"
         :data="data"
+        :onDelete="deleteRow"
         @change="changeData"
         @append-error="appendErrorHandler"
       ></editable-pro-table>
@@ -103,6 +104,10 @@ const columns: ProTableColumns = [
 
 const changeData = (_d: any) => {
   data.value = _d
+}
+
+function deleteRow(row) {
+  console.log('row', row)
 }
 
 const appendErrorHandler = ({ message }: { message: string }) => {
