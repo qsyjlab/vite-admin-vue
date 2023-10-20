@@ -1,11 +1,27 @@
 import { defineConfig } from "vitepress";
+import { transformDemo } from "./plugins/transform-demo";
+import { MarkdownTransform } from "./plugins/vite-transform";
+import { fixAliasPath } from "./plugins/fix-alias-path";
+
+
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "vite-admin-vue",
   description: " ",
   base:'/vite-admin-vue/',
-  markdown: {},
+  markdown: {
+    config(md) {
+
+        transformDemo(md)
+
+    }
+  },
+  vite: {
+    plugins: [MarkdownTransform()],
+
+
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [

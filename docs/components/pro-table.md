@@ -1,4 +1,10 @@
 # ProTable 高级表格
+:::demo You can set `offset` attribute to change the offset top，the default value is 0.
+
+pro-table/basic
+
+:::
+
 
 
 

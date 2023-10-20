@@ -3,6 +3,11 @@ import { h } from 'vue'
 import Theme from 'vitepress/theme'
 import './style.css'
 
+import ElementPlus from 'element-plus'
+import Demo from '../components/demos/vp-demo.vue'
+
+import 'element-plus/theme-chalk/index.css'
+
 export default {
   extends: Theme,
   Layout: () => {
@@ -11,6 +16,16 @@ export default {
     })
   },
   enhanceApp({ app, router, siteData }) {
+
+    // app.use(ElementPlus)
+
+    console.log('ElementPlus',ElementPlus);
+    console.log('app', app);
+    app.use(ElementPlus)
+
+
+    app.component('Demo', Demo)
+    // globals
     // ...
   }
 }
