@@ -50,6 +50,13 @@ export function useProTable() {
   return {
     register,
     getTableRef,
+    reload: () => {
+      tableActionRef.value?.reload()
+    },
+    refresh: () => {
+      tableActionRef.value?.refresh()
+    },
+
     /** editable start */
     startEditable,
     cancelEditable,

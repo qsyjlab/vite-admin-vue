@@ -34,15 +34,6 @@ export function useTableStore(
     proTableConfig = proTable
   } catch (error) {}
 
-  const transform: ProTableProps['transform'][] = []
-  const transformParams: ProTableProps['transformParams'][] = []
-
-  proTableConfig?.transform && transform.push(proTableConfig?.transform)
-  props.transform && transform.push(props.transform)
-
-  proTableConfig?.transformParams && transformParams.push(proTableConfig?.transformParams)
-  props?.transformParams && transformParams.push(props.transformParams)
-
   const {
     paginationProps,
     dataSource,
@@ -57,8 +48,8 @@ export function useTableStore(
   } = useProTable(
     reactive({
       ...toRefs(props),
-      transform,
-      transformParams
+      transform: props.transform || proTableConfig?.transform,
+      transformParams: props.transformParams || proTableConfig?.transformParams
     }),
     { emits }
   )
