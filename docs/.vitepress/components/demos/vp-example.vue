@@ -2,29 +2,27 @@
 defineProps({
   file: {
     type: String,
-    required: true,
+    required: true
   },
   demo: {
     type: Object,
-    required: true,
-  },
+    required: true
+  }
 })
-
-
 </script>
 
 <template>
-  <div class="example-showcase">
+  <div class="example-showcase vp-raw">
     <ClientOnly>
-      <component :is="demo" v-if="demo" v-bind="$attrs" />
+      <component class="vp-raw" :is="demo" v-if="demo" v-bind="$attrs" />
     </ClientOnly>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.example-showcase {
-  padding: 1.5rem;
-  margin: 0.5px;
-  background-color: var(--bg-color);
-}
+// .example-showcase {
+//   padding: 1.5rem;
+//   margin: 0.5px;
+//   background-color: var(--bg-color);
+// }
 </style>

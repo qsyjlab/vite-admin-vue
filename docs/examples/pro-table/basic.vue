@@ -1,14 +1,60 @@
 <template>
   <div>
-    <ProTable />
-      测试代码块
+    <ProTable
+      header-title="基本使用"
+      checkable
+      :columns="columns"
+      :data="tableData"
+      v-model:selectedKeys="selectedKeys"
+    />
   </div>
-
 </template>
 <script setup lang="ts">
-console.log('pro-table');
+import { ref } from 'vue'
+import { ProTableColumns } from '../../.vitepress/.exampleCompnents/index'
 
-// import {  } from '../../../dist/componentsPkg.mjs'
+const selectedKeys = ref([])
 
+const columns: ProTableColumns = [
+  {
+    title: 'Date',
+    key: 'date'
+  },
+  {
+    title: 'Name',
+    key: 'name'
+  },
+  {
+    title: 'Address',
+    key: 'address'
+  }
+]
+
+const tableData = [
+  {
+    id: '1',
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles'
+  },
+  {
+    id: '2',
+    date: '2016-05-02',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles'
+  },
+  {
+    id: '3',
+    date: '2016-05-04',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles'
+  },
+  {
+    id: '4',
+    date: '2016-05-01',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles'
+  }
+]
 </script>
 <style scoped></style>
