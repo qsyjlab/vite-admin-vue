@@ -1,7 +1,5 @@
 import { defineConfig } from "vitepress";
 import { transformDemo } from "./plugins/transform-demo";
-import { MarkdownTransform } from "./plugins/vite-transform";
-import { fixAliasPath } from "./plugins/fix-alias-path";
 
 
 
@@ -18,7 +16,7 @@ export default defineConfig({
     }
   },
   vite: {
-    plugins: [MarkdownTransform()],
+    plugins: [],
 
 
   },

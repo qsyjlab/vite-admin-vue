@@ -8,12 +8,18 @@ import { viteAutoImportPlugin, viteComponentsPlugin } from './plugins/element-pl
 import WindiCSS from 'vite-plugin-windicss'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { configSvgIconsPlugin } from './plugins/svg-icons'
-import legacy from '@vitejs/plugin-legacy'
+import legacyPlugin from '@vitejs/plugin-legacy'
 // @ts-nocheck
 import ElementPlus from 'unplugin-element-plus/vite'
 
-export function createVitePlugin(configEnv: ConfigEnv) {
+interface Extra {
+  legacy?: boolean
+}
+
+export function createVitePlugin(configEnv: ConfigEnv, extra?: Extra) {
   const { command } = configEnv
+
+  const { legacy = true } = extra || {}
   const isBuild = command === 'build'
   const vitePlugins: Plugin[] = [
     vue(),
@@ -25,10 +31,6 @@ export function createVitePlugin(configEnv: ConfigEnv) {
     ElementPlus({
       useSource: true
     }),
-    legacy({
-      renderLegacyChunks: false,
-      modernPolyfills: ['es.array.flat-map']
-    }),
     visualizer({
       gzipSize: true,
       brotliSize: true,
@@ -37,6 +39,15 @@ export function createVitePlugin(configEnv: ConfigEnv) {
       open: true //如果存在本地服务端口，将在打包后自动展示
     })
   ]
+
+  if (legacy) {
+    vitePlugins.push(
+      legacyPlugin({
+        renderLegacyChunks: false,
+        modernPolyfills: ['es.array.flat-map']
+      }) as unknown as Plugin
+    )
+  }
 
   const useMock = true
 

@@ -8,15 +8,19 @@ import Example from './vp-example.vue'
 import SourceCode from './vp-source-code.vue'
 
 const props = withDefaults(defineProps<{
-  demos?: object
+  // demos?: object
   source?: string
   path?: string
   rawSource?: string
   description?: string
 }>(), {
-  demos: ()=> ({}),
+  // demos: ()=> ({}),
   description: ''
 })
+
+const demos = import.meta.globEager('../../../examples/**/*.vue')
+
+console.log('demos demos',demos);
 
 // const vm = getCurrentInstance()!
 
@@ -31,14 +35,18 @@ const [sourceVisible, toggleSourceVisible] = useToggle()
 
 const sourceCodeRef = ref<HTMLButtonElement>()
 const formatPathDemos = computed(() => {
-  const demos = {}
 
-  Object.keys(props.demos).forEach((key) => {
-    demos[key.replace('../examples/', '').replace('.vue', '')] =
-      props.demos[key].default
+  let _demos = {}
+
+  Object.keys(demos).forEach((key) => {
+    _demos[key.replace('../../../examples/', '').replace('.vue', '')] =
+      demos[key].default
   })
 
-  return demos
+  console.log('_demos', _demos);
+
+
+  return _demos
 })
 
 // const locale = computed(() => demoBlockLocale[lang.value])

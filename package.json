@@ -14,7 +14,8 @@
     "lint:code-recyle": "dpdm ./src/main.ts --no-warning",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
     "prepare": "husky install",
-    "clean:lib": "rimraf node_modules"
+    "clean:lib": "rimraf node_modules",
+    "buildComponents": "node ./build/scripts/buildComponents.ts"
   },
   "dependencies": {
     "@arco-design/color": "^0.4.0",

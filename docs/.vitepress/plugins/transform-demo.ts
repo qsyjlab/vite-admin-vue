@@ -38,7 +38,7 @@ export function transformDemo(md){
 
 
 
-        return `<Demo :demos="demos" source="${encodeURIComponent(
+        return `<Demo  source="${encodeURIComponent(
           highlight(source, 'vue')
         )}" path="${sourceFile}" raw-source="${encodeURIComponent(
           source
