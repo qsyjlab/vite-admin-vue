@@ -9,14 +9,18 @@ import type { ProTableColumns, ProTableProps } from '../types'
 
 import type { SetupContext } from 'vue'
 
-interface IProps
-  extends Pick<
-    ProTableProps,
-    'columns' | 'data' | 'request' | 'params' | 'pagination' | 'loading' | 'rowKey'
-  > {
-  transform: ProTableProps['transform'][]
-  transformParams: ProTableProps['transformParams'][]
-}
+type IProps = Pick<
+  ProTableProps,
+  | 'columns'
+  | 'data'
+  | 'request'
+  | 'params'
+  | 'pagination'
+  | 'loading'
+  | 'rowKey'
+  | 'transform'
+  | 'transformParams'
+>
 
 type Extra = {
   emits: SetupContext<typeof proTableEmits>['emit']
@@ -131,8 +135,10 @@ export const useProTable = (props: IProps, extra: Extra) => {
         const transformParams = props.transformParams
 
         const mergedParams = Object.assign({}, params?.value || {}, pageQuery)
-        const response = await request(resolveTransform(mergedParams, transformParams))
-        const { total: _total, data } = resolveTransform(response, transform)
+        const response = await request(
+          transformParams ? transformParams(mergedParams) : mergedParams
+        )
+        const { total: _total, data } = transform ? transform(response) : response
 
         dataSource.value = data
         total.value = _total
