@@ -5,30 +5,28 @@
 项目基于 Nodejs, 以及包管理器 pnpm
 
 ::: warning 注意
-- 关于node环境推荐 nvm 来管理
-- node.js 最低为12.x 以上, pnpm 最低支持 5x node.js 12版本，项目内推荐 pnpm 8 ,node.js 16x。[详见](https://pnpm.io/installation)
-:::
+
+- 关于 node 环境推荐 nvm 来管理
+- node.js 最低为 12.x 以上, pnpm 最低支持 5x node.js 12 版本，项目内推荐 pnpm 8 ,node.js 16x。[详见](https://pnpm.io/installation)
+  :::
 
 ## 安装
 
 ### Node.js
 
-[整合nvm和node](https://qsyjlab.club/article/317)
-
+[整合 nvm 和 node](https://qsyjlab.club/article/317)
 
 ### 安装 pnpm
 
-``` sh
-npm install -g pnpm 
+```sh
+npm install -g pnpm
 ```
 
 pnpm 使用方法具体详见官网
 
-
-
-
 ## scripts
-``` json
+
+```json
   "scripts": {
     // 启动
     "dev": "vite",
@@ -57,20 +55,19 @@ pnpm 使用方法具体详见官网
 
 ## 工具配置
 
-推荐 IDE vscode 
+推荐 IDE vscode
 
-- volar 提供vue, 及 ts 提示, 升级版的 vetur
+- volar 提供 vue, 及 ts 提示, 升级版的 vetur
 - Eslint 代码检查
 - prettier 代码风格格式化
-- DotENV 提供 env的 高亮 
+- DotENV 提供 env 的 高亮
 
 ## 代码获取
-
 
 ### Github
 
 ### Gitee
 
-``` shell
+```shell
 git clone https://gitee.com/qsyj0522/vite-admin-vue.git
 ```

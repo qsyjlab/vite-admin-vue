@@ -1,12 +1,9 @@
 # service 工作逻辑
 
-
 文件夹位置位于 /src/service
 
-
-
-``` 
- service 
+```
+ service
    ├── axios-request # 主要文件不涉及任何逻辑
         ├── axios-canceler # 主要文件不涉及任何逻辑
         ├── axios-request # 业务实现层
@@ -17,12 +14,12 @@
    ├── request-adapter # 适配请求用，进行请求类的重写
    └── types # 相关类型 不涉及业务类型
    └── index.ts
- 
+
 ```
 
 本篇主要讲 `axios-request` 文件夹核心包
 
-``` ts
+```ts
 export type BaseAxiosRequestConfig = {
   baseURL?: AxiosRequestConfig['baseURL']
   timeout?: AxiosRequestConfig['timeout']
@@ -34,10 +31,9 @@ interface RequestConfigEx {
 }
 ```
 
-
 ### 创建
 
-``` ts
+```ts
 import { interceptorsHooks, requestCatch, transformResponse } from './axios-request-impl'
 import { RequestResultAdapter } from './request-adapter'
 
@@ -51,13 +47,11 @@ export const mockService = new RequestResultAdapter({
 })
 ```
 
-
-
-这里使用了  `RequestResultAdapter` 并不是原有的 `axios-request` 实例。因为各个业务的返回值格式并不同。针对类型传入需要每次都指定固定的类型。期望每次只需要传入当前的 类型。
+这里使用了 `RequestResultAdapter` 并不是原有的 `axios-request` 实例。因为各个业务的返回值格式并不同。针对类型传入需要每次都指定固定的类型。期望每次只需要传入当前的 类型。
 
 例子：
 
-``` ts
+```ts
 {
     code: 200,
     data: null,
@@ -71,9 +65,10 @@ export interface Result<T = any> {
     message?: string
 }
 ```
+
 然而这每次需要指定具体的
 
-``` ts
+```ts
 export function getMenuList() {
   return mockService.request<unknown, Result<RouteModule>>({
     url: '/getMenuList',
@@ -83,7 +78,8 @@ export function getMenuList() {
 ```
 
 `RequestResultAdapter` 只是做了类型的兼容，如果需要仍可以通过 第二个类型来覆盖
-``` ts
+
+```ts
 export class RequestResultAdapter extends AxiosRequest {
   constructor(config: BaseAxiosRequestConfig) {
     super(config)
@@ -100,21 +96,17 @@ export class RequestResultAdapter extends AxiosRequest {
 
 ## transform 和 interceptorsHooks
 
-### interceptorsHooks 
+### interceptorsHooks
 
 类型：
 
-
-``` ts
-
-
+```ts
 export interface InterceptorsType {
   requestInterceptors?: RequestInterceptorsType
   requestInterceptorsCatch?: RequestInterceptorsCatchType
   responseInterceptors?: ResponseInterceptorsType
   responseInterceptorsCatch?: ResponseInterceptorsCatchType
 }
-
 
 export type RequestInterceptorsType = (
   // 这里使用的是最新版本的 axios 1.x 以上 与 0.x 类型并不是同一个
@@ -128,13 +120,11 @@ export type ResponseInterceptorsType = (response: BaseAxiosResponse) => BaseAxio
 export type ResponseInterceptorsCatchType = (error: CatchError) => Promise<CatchError>
 
 export type CatchError = AxiosError
-
-
-
 ```
+
 最终会被 `AxiosRequest` 注册
 
-``` ts
+```ts
 private registerInterceptors(): void {
     const {
       requestInterceptors,
@@ -148,14 +138,13 @@ private registerInterceptors(): void {
 }
 ```
 
-
 ### transform
 
 这个属性是为了细化请求额外拓展出来的，你仍然可以使用拦截器来处理请求。
 
-
 类型：
-``` ts
+
+```ts
 export interface RequestOptionsEx {
   /** 忽略 transformRequest 不执行 */
   ignoreTransformRequest?: boolean
@@ -182,5 +171,4 @@ export interface RequestTransform {
   transformRequest?: TransformRequest
   requestCatch?: RequestCatch
 }
-
 ```

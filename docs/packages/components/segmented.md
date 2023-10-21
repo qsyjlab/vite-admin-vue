@@ -1,7 +1,6 @@
 # Segmented 分段器
 
-
-``` ts
+```ts
 interface SegmentedItem {
   label: string
   value: string | number
@@ -26,5 +25,4 @@ const props = withDefaults(
     autoSize: true
   }
 )
-
 ```

@@ -2,18 +2,16 @@
 
 ## 实现
 
-``` ts
-
-import { useRedo } from '@/hooks/web/use-page';
-import { defineComponent } from 'vue';
+```ts
+import { useRedo } from '@/hooks/web/use-page'
+import { defineComponent } from 'vue'
 export default defineComponent({
   setup() {
     const { reload } = useReloadPage()
     reload()
-  },
-});
+  }
+})
 ```
-
 
 ## Redirect
 
@@ -21,7 +19,7 @@ export default defineComponent({
 
 `/src/views/redirect/redirect.vue`
 
-``` vue
+```vue
 <script lang="ts">
 import { defineComponent, h, unref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -58,9 +56,7 @@ export default defineComponent({
   }
 })
 </script>
-
 ```
-
 
 ::: info 提示
 这种方式如果当前的组件被缓存，是不会走开始的生命周期,所以要在缓存钩子来处理

@@ -2,11 +2,7 @@
 
 目录锚点 同 antd anchor
 
-
-
-
-
-## Props 
+## Props
 
 | 属性       | 说明       | 类型                                                 | 默认值   |
 | ---------- | ---------- | ---------------------------------------------------- | -------- |
@@ -15,8 +11,6 @@
 | anchors    | 锚点列表   | AnchorItem                                           | []       |
 | direction  | 方向       | 'vertical' \| 'horizontal'                           | vertical |
 | bounds     | 边界容错值 | number                                               | 5        |
-
-
 
 ## Evens
 
@@ -29,7 +23,7 @@
 
 - AnchorItem
 
-  ``` ts
+  ```ts
   interface AnchorItem {
     title: string
     link: string

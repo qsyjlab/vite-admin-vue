@@ -4,9 +4,8 @@
 
 ::: warning 注意
 
-`element-plus`  默认是支持 暗黑模式的，但是如果你使用了非 `element-plus` 的 ui 组件等，需要自行根据项目中的变量实现自己的暗黑模式条件。
+`element-plus` 默认是支持 暗黑模式的，但是如果你使用了非 `element-plus` 的 ui 组件等，需要自行根据项目中的变量实现自己的暗黑模式条件。
 :::
-
 
 ## 变更主题配色
 
@@ -40,7 +39,7 @@
 
 通过 js 来生成主要变量的色阶 , 通过 style 动态设置 `css-var`
 
-``` ts
+```ts
 import { generateThemeCluster } from '@/utils'
 
 import { generate } from '@arco-design/color'
@@ -90,9 +89,7 @@ export const useElementCssVar = (mode?: 'light' | 'dark') => {
     removeElementCssVar
   }
 }
-
 ```
-
 
 ## 暗黑主题
 
@@ -110,7 +107,7 @@ export const useElementCssVar = (mode?: 'light' | 'dark') => {
 ```ts
 // main.ts
 // 如果只想导入css变量
-import "element-plus/theme-chalk/dark/css-vars.css";
+import 'element-plus/theme-chalk/dark/css-vars.css'
 ```
 
 [更多详情](https://element-plus.gitee.io/zh-CN/guide/dark-mode.html)

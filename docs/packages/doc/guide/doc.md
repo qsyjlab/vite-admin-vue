@@ -12,14 +12,15 @@ vite-admin-vue 是一个基于 Vue3、Vite、 Element-Plus、TypeScript 的后�
 
 - [vue3](https://cn.vuejs.org/)
 - [vue-router@4+](https://router.vuejs.org/zh/)
-- [vue2迁移至vue3](https://v3-migration.vuejs.org/zh/)
+- [vue2 迁移至 vue3](https://v3-migration.vuejs.org/zh/)
 - [pinia](https://pinia.vuejs.org/zh/)
 - [ElementPlus](https://element-plus.org/zh-CN/)
 - [vite](https://cn.vitejs.dev/)
 
 ## 关于浏览器支持
-本地开发推荐使用Chrome 最新版浏览器，不支持Chrome 80以下版本。
 
-浏览器支持情况详情见vite 官网,ie 确认不支持
+本地开发推荐使用 Chrome 最新版浏览器，不支持 Chrome 80 以下版本。
+
+浏览器支持情况详情见 vite 官网,ie 确认不支持
 
 [浏览器支持](https://cn.vitejs.dev/guide/#browser-support)

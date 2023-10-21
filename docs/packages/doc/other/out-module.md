@@ -2,13 +2,12 @@
 
 以安装 element-plus 为例
 
-``` shell
+```shell
 pnpm i element-plus
 
 ```
 
-
-``` ts
+```ts
 // src/plugins/elementPlus/index.ts
 
 // 需要单独引入的css 样式路径
@@ -16,7 +15,6 @@ import './css'
 
 // 因使用 unplugin 自动注册 需要使用动态组件时需要实际注册
 import * as components from './el'
-
 
 import { defineAppPlugin } from '@/utils'
 
@@ -27,11 +25,10 @@ export default defineAppPlugin(app => {
 })
 ```
 
-
 插件引入入口
 
-``` ts
-//  src/plugins/index.ts 
+```ts
+//  src/plugins/index.ts
 
 export default defineAppPlugin(app => {
   // 进度条
@@ -53,15 +50,11 @@ export default defineAppPlugin(app => {
    */
   import('./vite-plugin-svg-icons')
 })
-
-
 ```
-
 
 main.ts 最终会执行
 
-``` ts
-
+```ts
 async function setupWebApp() {
   const app = createApp(App)
 
@@ -74,7 +67,6 @@ async function setupWebApp() {
 
 setupWebApp()
 ```
-
 
 注意： 默认情况下插件的导入统一入口都是从 `plugin` 作为实际的引入入口方便后面的统一替换。关于 是否使用 vue 的注册则是根据实际需要来使用。`plugin` 文件夹更多是为了需要进行应用启动时的插件初始化。
 

@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "vite-admin-vue"
+  name: 'vite-admin-vue'
   # text: "A VitePress Site"
   # tagline: My great project tagline
   # actions:
@@ -20,9 +20,9 @@ features:
 
   - title: ⚡️轻量快速的热重载
     details: '由 vite 来驱动'
-  
+
   - title: 🔑权限管理
-    details: 
+    details:
 
   - title: 🔩 布局预设
     details: 提供常用布局的预设

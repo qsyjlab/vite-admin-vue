@@ -2,11 +2,9 @@
 
 生成水印层
 
-
 ## Type
 
-
-  ``` ts
+```ts
 export interface WatermarkProps {
   // 层级
   zIndex?: number
@@ -35,4 +33,4 @@ export interface WatermarkProps {
   // 偏移量
   offset?: [number, number]
 }
-  ```
+```

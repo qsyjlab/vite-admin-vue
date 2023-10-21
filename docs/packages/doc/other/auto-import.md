@@ -1,9 +1,6 @@
-
 # 自动导入插件
 
 下面讲讲关于自动导入插件相关的问题。
-
-
 
 ## unplugin-vue-components
 
@@ -11,9 +8,9 @@
 
 例如
 
-``` vue
+```vue
 <template>
-    <el-button />
+  <el-button />
 </template>
 
 <script setup lang="ts">
@@ -39,7 +36,7 @@ import { ElButton } from 'element-plus'
 这个插件并不会对你的项目提升太多的项目 ，可能还会对你的项目添加上手难度。即便是 有 ts 类型的支持
 
 ## unplugin-element-plus
- 
+
 这个插件做到的事实际 unplugin-vue-components 和这个插件类似。实际感觉是 和 `unplugin-vue-components` `ElementPlusResolver` 基本差不多的原理，但是并不会因为你的导入而影响了插件的导入逻辑。可以配合 `unplugin-vue-components` 共同使用弥补样式导入的问题。
 
 仍然是全局组件问题。
