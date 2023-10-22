@@ -90,6 +90,11 @@ export const proTableProps = {
   editable: {
     type: definePropType<ProTableEditable>(Object),
     default: () => ({})
+  },
+  // 是否总是显示 alert
+  alwaysShowAlert: {
+    type: Boolean,
+    default: false
   }
 }
 

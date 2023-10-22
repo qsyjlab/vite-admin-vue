@@ -12,7 +12,12 @@
 
     <slot name="alert">
       <div class="pro-table-alert">
-        <el-alert v-if="selectedKeys.length" type="info" show-icon :closable="false">
+        <el-alert
+          v-if="alwaysShowAlert || selectedKeys.length"
+          type="info"
+          show-icon
+          :closable="false"
+        >
           <template #title
             >当前已选择 {{ selectedKeys.length }} 项
             <el-button type="primary" link @click="clearSelectedKeys">取消全部</el-button></template
