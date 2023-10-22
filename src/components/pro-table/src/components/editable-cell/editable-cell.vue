@@ -6,6 +6,7 @@ import { ElPopover } from 'element-plus'
 import { ProTableColumnItem, ProTableEditRowComponent } from '../../types'
 import { h, toRaw, computed, resolveComponent } from 'vue'
 import { useTableStoreContext } from '../../store'
+import { getRowkey } from '../../utils'
 
 const { editableCellMap } = useTableStoreContext()
 
@@ -14,23 +15,36 @@ const props = withDefaults(
     column: ProTableColumnItem<any>
     value?: any
     row?: any
+    rowKey?: any
   }>(),
   {}
 )
-const emits = defineEmits<{
-  change: [value: any]
-}>()
+// const emits = defineEmits<{
+//   change: [value: any]
+// }>()
 
 const isNeedRender = computed(() => {
   return props.column?.key && props.column.rowComponent && props.column.rowComponent.el
 })
 
 function onChangeValue(value: any) {
-  emits('change', value)
+  const realRowKey = getRowkey(props.row, props.rowKey)
+  if (!realRowKey) return
+  const row = editableCellMap.value.get(realRowKey)
+
+  if (!row?.data) return
+  row.data[props.column.key] = value
 }
 
 function getValue() {
-  return props.row[props.column.key]
+  const realRowKey = getRowkey(props.row, props.rowKey)
+  if (!realRowKey) return
+
+  const row = editableCellMap.value.get(realRowKey)
+
+  if (!row?.data) return undefined
+
+  return row?.data[props.column.key]
 }
 
 function getDynamicComponent(rowComponent: ProTableColumnItem['rowComponent']) {

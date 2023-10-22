@@ -31,6 +31,8 @@ export function useEditable(props: IProps) {
     if (editableConfig.mode === 'single') {
       clearEditRow()
     }
+
+    // TODO: 考虑引用问题
     const data = findRow(rowKey)
     editableCellMap.value.set(rowKey, { isEdit: true, data: { ...data }, errors: {} })
   }
@@ -44,19 +46,17 @@ export function useEditable(props: IProps) {
     }
 
     function done() {
-      rollbackRow(rowKey)
-
       editableCellMap.value.delete(rowKey)
     }
   }
 
-  function saveEditRow(rowKey: EditableTableRowKey) {
+  function saveEditable(rowKey: EditableTableRowKey) {
+    const cacheData = getEditData(rowKey)
     validateRowFields(
       rowKey,
       () => {
-        const row = findRow(rowKey)
         if (editableConfig.onSave) {
-          editableConfig.onSave(row, done)
+          editableConfig.onSave(getEditData(rowKey), done)
         } else {
           done()
         }
@@ -67,12 +67,14 @@ export function useEditable(props: IProps) {
     )
 
     function done() {
+      const row = findRow(rowKey)
+      mergeEditData(row, cacheData)
       editableCellMap.value.delete(rowKey)
       editChange()
     }
   }
 
-  function deleteEditRow(rowKey: EditableTableRowKey) {
+  function deleteEditable(rowKey: EditableTableRowKey) {
     if (editableConfig.onDelete) {
       editableConfig.onDelete(editableCellMap.value.get(rowKey)?.data || findRow(rowKey), done)
       return
@@ -105,11 +107,7 @@ export function useEditable(props: IProps) {
 
     if (needValidKeys.length === 0) return
 
-    const needValidRows = dataSource.value.filter(row => {
-      const realRowKey = getRowkey(row, props.rowKey)
-      if (!realRowKey) return false
-      return needValidKeys.includes(realRowKey)
-    })
+    const needValidRows = needValidKeys.map(needKey => getEditData(needKey))
 
     let hasError = false
 
@@ -204,50 +202,18 @@ export function useEditable(props: IProps) {
   }
 
   function clearEditRow() {
-    const rollbackKeys = Array.from(editableCellMap.value.keys())
-    if (rollbackKeys.length === 0) return
-
-    rollbackKeys.forEach(key => {
-      rollbackRow(key)
-    })
-
     editableCellMap.value.clear()
   }
 
-  // 回滚某个行的数据
-  function rollbackRow(rowKey: EditableTableRowKey) {
-    const data = editableCellMap.value.get(rowKey)?.data || {}
-
-    if (Object.keys(data).length === 0) {
-      deleteEditRow(rowKey)
-      return
-    }
-    const atIndex = findRowIndex(rowKey)
-
-    const row = dataSource.value[atIndex]
-
-    /**
-     * TODO: 不能直接赋值 会导致 table 中的 data 仍是编辑后的值，
-     * 导致输入其他的格子会回滚旧值。
-     * 暂时依次复制处理
-     */
-    Object.keys(row).forEach(key => {
-      if (key === props.rowKey) return
-      const value = data[key]
-
-      if (isDate(value)) {
-        row[key] = data[key]
-        return
-      }
-
-      if (isEmpty(value)) {
-        row[key] = undefined
-      } else {
-        row[key] = data[key]
-      }
+  function mergeEditData(row: any, editRow: any) {
+    Object.keys(editRow).forEach(key => {
+      row[key] = editRow[key]
     })
   }
 
+  function getEditData(rowKey: EditableTableRowKey) {
+    return editableCellMap.value.get(rowKey)?.data || {}
+  }
   function findRow(rowKey: EditableTableRowKey) {
     return dataSource.value.find(row => getRowkey(row, props.rowKey) === rowKey)
   }
@@ -275,8 +241,8 @@ export function useEditable(props: IProps) {
   return {
     startEditable,
     cancelEditable,
-    saveEditRow,
-    deleteEditRow,
+    saveEditable,
+    deleteEditable,
     clearEditRow,
     clearValidateErrors,
     hasEditingRow,

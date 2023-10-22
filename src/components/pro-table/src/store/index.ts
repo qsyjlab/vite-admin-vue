@@ -62,8 +62,8 @@ export function useTableStore(
   const {
     startEditable,
     cancelEditable,
-    saveEditRow,
-    deleteEditRow,
+    saveEditable,
+    deleteEditable,
     editableCellMap,
     clearEditRow,
     clearValidateErrors,
@@ -91,8 +91,8 @@ export function useTableStore(
   const editableCellUtils = {
     startEditable,
     cancelEditable,
-    saveEditRow,
-    deleteEditRow,
+    saveEditable,
+    deleteEditable,
     clearEditRow,
     hasEditingRow,
     clearValidateErrors

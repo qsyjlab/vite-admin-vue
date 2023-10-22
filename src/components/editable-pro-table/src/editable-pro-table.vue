@@ -26,7 +26,7 @@
               >编辑</el-button
             >
             <template v-else>
-              <el-button type="primary" link @click="saveEditRow(getRowKeyValue(row))"
+              <el-button type="primary" link @click="saveEditable(getRowKeyValue(row))"
                 >保存</el-button
               >
               <el-button type="primary" link @click="cancelEditable(getRowKeyValue(row))"
@@ -35,7 +35,7 @@
             </template>
             <el-popconfirm
               title="确定删除当前行数据？"
-              @confirm="deleteEditRow(getRowKeyValue(row))"
+              @confirm="deleteEditable(getRowKeyValue(row))"
             >
               <template #reference>
                 <el-button type="danger" link>删除</el-button>
@@ -91,7 +91,7 @@ const emits = defineEmits<{
 
 const dataSource = ref<any[]>([])
 
-const { register, startEditable, cancelEditable, deleteEditRow, saveEditRow, hasEditingRow } =
+const { register, startEditable, cancelEditable, deleteEditable, saveEditable, hasEditingRow } =
   useProTable()
 
 const presetColumns = computed(() => {

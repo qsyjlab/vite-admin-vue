@@ -56,7 +56,7 @@ export type ProTableColumns<T = any> = ProTableColumnItem<T>[]
 
 export type RowKey = ProTableProps['rowKey']
 
-export type ColumnKey = number | string
+export type ColumnKey = string
 
 /** 列设置配置 */
 export interface ColumnsState {
@@ -77,8 +77,8 @@ export interface TableExpose {
   reload: NOOP
   startEditable: (rowKey: RowKey) => void
   cancelEditable: (rowKey: RowKey) => void
-  saveEditRow: (rowKey: RowKey) => void
-  deleteEditRow: (rowKey: RowKey) => void
+  saveEditable: (rowKey: RowKey) => void
+  deleteEditable: (rowKey: RowKey) => void
 }
 
 /** 表格默认工具栏开关 */

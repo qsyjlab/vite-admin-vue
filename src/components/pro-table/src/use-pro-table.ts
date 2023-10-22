@@ -34,12 +34,12 @@ export function useProTable() {
     getEditableCellUtils()?.cancelEditable(rowKey)
   }
 
-  function saveEditRow(rowKey: EditableTableRowKey) {
-    getEditableCellUtils()?.saveEditRow(rowKey)
+  function saveEditable(rowKey: EditableTableRowKey) {
+    getEditableCellUtils()?.saveEditable(rowKey)
   }
 
-  function deleteEditRow(rowKey: EditableTableRowKey) {
-    getEditableCellUtils()?.deleteEditRow(rowKey)
+  function deleteEditable(rowKey: EditableTableRowKey) {
+    getEditableCellUtils()?.deleteEditable(rowKey)
   }
 
   function hasEditingRow() {
@@ -60,8 +60,8 @@ export function useProTable() {
     /** editable start */
     startEditable,
     cancelEditable,
-    saveEditRow,
-    deleteEditRow,
+    saveEditable,
+    deleteEditable,
     hasEditingRow
     /** editable end */
   }

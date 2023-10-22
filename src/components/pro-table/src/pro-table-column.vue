@@ -48,10 +48,11 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
   const rowEditState = realRowKey ? editableCellMap.value.get(realRowKey) : undefined
 
   if (columnConfig.editable && rowEditState && rowEditState.isEdit) {
-    function onChangeEditValue(value: any) {
-      row[columnConfig.key] = value
-    }
-    return <EditableCell row={row} column={columnConfig} onChange={onChangeEditValue} />
+    // function onChangeEditValue(value: any) {
+
+    //   row[columnConfig.key] = value
+    // }
+    return <EditableCell row={row} column={columnConfig} rowKey={props.rowKey} />
   }
 
   if (typeof _render === 'function') return _render(renderParamters)
