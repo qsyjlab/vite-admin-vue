@@ -18,7 +18,8 @@ const selectedKeys = ref([])
 const columns: ProTableColumns = [
   {
     title: 'Date',
-    key: 'date'
+    key: 'date',
+    tip: '这是一个日期列'
   },
   {
     title: 'Name',

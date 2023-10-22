@@ -29,11 +29,11 @@
 
           <template v-else>
             <el-space>
-              <el-button :loading="loading" @click="saveEditRow(row.id)" type="primary"
+              <el-button :loading="loading" @click="saveEditable(row.id)" type="primary"
                 >保存</el-button
               >
               <el-button :loading="loading" @click="cancelEditable(row.id)">取消</el-button>
-              <el-button :loading="loading" @click="deleteEditRow(row.id)" type="danger"
+              <el-button :loading="loading" @click="deleteEditable(row.id)" type="danger"
                 >删除</el-button
               >
             </el-space>
@@ -51,7 +51,7 @@ import type { ProTableColumns, ProTableEditable } from '@/components/pro-table'
 import { onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 
-const { startEditable, cancelEditable, saveEditRow, register, deleteEditRow } = useProTable()
+const { startEditable, cancelEditable, saveEditable, register, deleteEditable } = useProTable()
 
 const loading = ref(false)
 

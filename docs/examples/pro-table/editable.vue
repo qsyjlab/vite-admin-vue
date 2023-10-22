@@ -30,7 +30,7 @@
           >编辑</el-button
         >
         <el-button size="small" v-else @click="saveRow(row)">保存</el-button>
-        <el-button size="small" type="danger" @click="deleteEditRow(row.id)">删除</el-button>
+        <el-button size="small" type="danger" @click="deleteEditable(row.id)">删除</el-button>
       </template>
     </ProTable>
   </div>
@@ -42,7 +42,7 @@ import { ProTableColumns, useProTable } from '../../.vitepress/.exampleCompnents
 const loading = ref(false)
 const params = ref({})
 
-const { register, refresh, startEditable, saveEditRow, deleteEditRow } = useProTable()
+const { register, refresh, startEditable, saveEditable, deleteEditable } = useProTable()
 
 const columns: ProTableColumns = [
   {
@@ -74,7 +74,7 @@ const columns: ProTableColumns = [
 ]
 
 function saveRow(row) {
-  saveEditRow(row.id)
+  saveEditable(row.id)
   refresh()
 }
 
