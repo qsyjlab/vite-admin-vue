@@ -20,9 +20,8 @@ defineProps({
 </template>
 
 <style lang="scss" scoped>
-// .example-showcase {
-//   padding: 1.5rem;
-//   margin: 0.5px;
-//   background-color: var(--bg-color);
-// }
+.example-showcase {
+  width: 100%;
+  overflow: auto;
+}
 </style>
