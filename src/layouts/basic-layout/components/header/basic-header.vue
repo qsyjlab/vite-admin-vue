@@ -8,7 +8,7 @@
       <!-- 面包屑导航 -->
       <template
         v-if="
-          projectConfig.showBreadCrumb &&
+          projectConfig.defaultLayoutSetting.showBreadCrumb &&
           !isMobile &&
           [LayoutMode.Side, LayoutMode.SideMix].includes(layoutConfig.layoutMode)
         "
@@ -51,7 +51,12 @@
             <icon-selector icon="svg.moon" v-else :size="14" />
           </el-button>
         </el-tooltip>
-        <el-tooltip effect="dark" content="页面配置" placement="bottom">
+        <el-tooltip
+          v-if="projectConfig.defaultLayoutSetting.showSettingButton"
+          effect="dark"
+          content="页面配置"
+          placement="bottom"
+        >
           <el-button :icon="Setting" circle @click="toggleSettingDrawer" />
         </el-tooltip>
 

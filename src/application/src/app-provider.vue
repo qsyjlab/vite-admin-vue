@@ -7,7 +7,6 @@ import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 
 import { createBreakpointListener } from '@/hooks/event/use-breakpoint'
 import { createAppProviderContext } from './context'
-import { getLayoutCache } from '@/store/local'
 import { useLayoutConfigHandler } from '@/hooks'
 
 import projectConfig from '@/config/project-setting'
@@ -47,7 +46,18 @@ export default defineComponent({
 
     function initAppConfig() {
       const { initLayout } = useLayoutConfigHandler()
-      initLayout(getLayoutCache() || {})
+      const defaultLayoutSetting = projectConfig.defaultLayoutSetting
+
+      initLayout({
+        layoutMode: defaultLayoutSetting.layoutMode,
+        collapsed: defaultLayoutSetting.asideMenuCollapsed,
+        asideWidth: defaultLayoutSetting.asideWidth,
+        tabBarHeight: defaultLayoutSetting.tabBarHeight,
+        headerHeight: defaultLayoutSetting.headerHeight,
+        theme: projectConfig.theme,
+        themeColor: projectConfig.themeColor,
+        splitMenu: defaultLayoutSetting.splitMenu
+      })
     }
 
     return () =>
