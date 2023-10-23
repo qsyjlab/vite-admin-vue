@@ -19,7 +19,7 @@ export default defineExposeRoutes([
         path: 'out-link',
         meta: {
           title: '外链',
-          href: 'https://qsyjlab.club'
+          href: 'https://qsyjlab.github.io/vite-admin-vue/'
         },
         component: BlankContainer
       },

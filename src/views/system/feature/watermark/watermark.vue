@@ -1,27 +1,27 @@
 <template>
-  <div>
-    <el-card style="margin-bottom: 20px">
+  <page-wrapper>
+    <page-card style="margin-bottom: 20px">
       <div>自定义配置</div>
       <pre>
           {{ watermarkProps }}
       </pre>
       <ProForm :fields="proFormFields" :model="state" label-position="top" @effect="formEffect" />
-    </el-card>
-    <el-card style="margin-bottom: 20px">
+    </page-card>
+    <page-card style="margin-bottom: 20px">
       <Watermark v-bind="watermarkProps">
         <div style="height: 200px">组件水印</div>
       </Watermark>
-    </el-card>
+    </page-card>
 
-    <el-card style="margin-bottom: 20px">
+    <page-card style="margin-bottom: 20px">
       <div>hook 水印</div>
       <div ref="hookWaterRef" style="position: relative; height: 200px"></div>
-    </el-card>
-    <el-card style="margin-bottom: 20px">
+    </page-card>
+    <page-card style="margin-bottom: 20px">
       <div>vue 指令 水印</div>
       <div v-watermark="watermarkProps" style="position: relative; height: 200px"></div>
-    </el-card>
-  </div>
+    </page-card>
+  </page-wrapper>
 </template>
 <script setup lang="ts">
 import { useWaterMark, Watermark } from '@/components/watermark'

@@ -1,1 +1,9 @@
-export { ProTable, ProForm, ProSelect, ProCheckboxGruop, ProRadioGruop } from '@/components'
+export {
+  ProTable,
+  ProForm,
+  ProSelect,
+  ProCheckboxGruop,
+  ProRadioGruop,
+  PageCard,
+  PageWrapper
+} from '@/components'

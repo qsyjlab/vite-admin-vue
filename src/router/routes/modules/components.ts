@@ -141,14 +141,6 @@ export default defineExposeRoutes([
         component: () => import('@/views/system/components/drag-sort/drag-sort.vue')
       },
       {
-        name: 'Table',
-        path: 'table',
-        meta: {
-          title: '表格'
-        },
-        component: () => import('@/views/system/components/Table.vue')
-      },
-      {
         name: 'Anchor',
         path: 'anchor',
         meta: {
