@@ -17,10 +17,10 @@
       @register="register"
     >
       <template #name="{ row, editableState }">
-        <pre>
-          {{ editableState }}
-        </pre>
-        <el-input v-model="row.name"></el-input>
+        <el-input v-if="editableState" v-model="editableState.data.name"></el-input>
+        <template v-else>
+          {{ row.name }}
+        </template>
       </template>
       <template #action="{ row, editableState }">
         <el-button
@@ -83,7 +83,10 @@ function onSave(row, done) {
 }
 
 async function onDelete(row, done) {
+  console.log('onDelete row', row)
+
   await sleep()
+
   done()
   refresh()
 }
