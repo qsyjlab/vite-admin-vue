@@ -16,10 +16,29 @@ pro-table/basic
 pro-table/request
 :::
 
+## 多级表头
+
+:::demo 多级表头
+pro-table/children
+:::
+
+## 展开行
+
+:::demo
+
+pro-table/expand
+:::
+
 ## 可编辑行
 
 :::demo 通过 `columns` 配置列 添加 `editable` 和 `rowComponent` 实现编辑行，通过 `ref` api 控制开启关闭编辑状态。 删除 ，保存，数据变更，验证错误等 可在 `ProTable` `editable` 属性中配置并做自定义操作。插槽可解构出 `editableState` 变量 包含 当前的编辑状态，行验证错误信息，缓存的数据 data，根据这个状态可以自定义插槽内容。
 pro-table/editable
+:::
+
+## 内置渲染器
+
+:::demo 可通过 `valueType` 和 `valueEnum` 快速渲染单元格。`valueEnum` 可以是一个函数，回调 行数据 可能根据行数据自定义 `valueEnum` 。
+pro-table/renderer
 :::
 
 ## Props
@@ -38,7 +57,7 @@ pro-table/editable
 | pagination                        | 分页相关配置                                                   | `ProTablePaginationConfig`                          | boolean |
 | checkable                         | checkbox 列开关                                                | boolean                                             | false   |
 | selectedKeys/v-model:selectedKeys | checkbox 列选中的 rowKey                                       | Array                                               | []      |
-| loading/v-model: loading          | 数据加载状态 ，                                                | boolean                                             | false   |
+| loading/v-model: loading          | 数据加载状态                                                   | boolean                                             | false   |
 | editable                          | 编辑模式下配置                                                 | `ProTableEditable`                                  | {}      |
 
 ## columns 配置
