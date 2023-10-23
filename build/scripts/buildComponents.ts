@@ -13,6 +13,9 @@ async function buildComponents() {
     configFile: false,
     envFile: false,
     root: resolve(projectRootPath),
+    optimizeDeps: {
+      exclude: ['../../src/components/tinymce/**']
+    },
 
     build: {
       copyPublicDir: false,
