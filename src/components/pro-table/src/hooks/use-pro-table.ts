@@ -107,8 +107,6 @@ export const useProTable = (props: IProps, extra: Extra) => {
   }
 
   function reload() {
-    console.log('reload')
-
     pageQuery.page = 1
     fetchData()
   }
@@ -167,8 +165,8 @@ function columnPreConfiguration(columns: ProTableColumns) {
   const indexBorderColumn = columns.find(col => col.valueType === 'indexBorder')
 
   if (indexBorderColumn) {
-    indexBorderColumn!.title = '序号'
-    indexBorderColumn!.width = 60
+    !indexBorderColumn.title && (indexBorderColumn!.title = '序号')
+    !indexBorderColumn.width && (indexBorderColumn!.width = 60)
   }
 
   return columns

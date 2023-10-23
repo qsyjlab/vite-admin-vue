@@ -1,8 +1,5 @@
 <template>
   <div class="pro-table">
-    <pre>
-      {{ editableCellMap }}
-    </pre>
     <!-- header -->
     <toolbar :header-title="headerTitle" :columns="tableColums" :options="options">
       <template #headerTitle>
@@ -117,8 +114,7 @@ const {
   clearSelectedKeys,
   editableCellUtils,
   setQueryPage,
-  setQueryPageSize,
-  editableCellMap
+  setQueryPageSize
 } = store
 
 createTableStoreContext(store)

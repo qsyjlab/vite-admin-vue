@@ -76,7 +76,8 @@ export function useEditable(props: IProps) {
 
   function deleteEditable(rowKey: EditableTableRowKey) {
     if (editableConfig.onDelete) {
-      editableConfig.onDelete(editableCellMap.value.get(rowKey)?.data || findRow(rowKey), done)
+      // TODO: 这里的值应该是未编辑状态的值
+      editableConfig.onDelete(findRow(rowKey), done)
       return
     }
 
