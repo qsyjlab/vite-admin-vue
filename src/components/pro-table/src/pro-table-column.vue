@@ -29,6 +29,9 @@ const { editableCellMap, pageQuery } = useTableStoreContext()
 function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
   const { row, $index } = scope || {}
 
+  if (columnConfig.children && columnConfig.children.length)
+    return columnConfig.children.map(child => renderColumns(child))
+
   const { valueType = 'text', valueEnum, render: _render } = columnConfig
 
   const mergedSlots = {
