@@ -38,3 +38,14 @@ export interface FormSchema {
   col?: Partial<ColProps>
 }
 ```
+
+## fields 配置
+
+| 属性             | 说明                      | 类型                                                     | 可选值 | 默认值 |
+| ---------------- | ------------------------- | -------------------------------------------------------- | ------ | ------ |
+| validate         | 验证表单                  | `(handle: (model: Record<string, any>) => void) => void` |        |        |
+| resetFields      | 重置表单                  | `() => void`                                             |        |        |
+| clearValidate    | 清除验证                  | 同 `el-form`                                             |        |        |
+| forceUpdateModel | 强制合并数据到 form model | (model: Record<string, any>) => void                     |        |        |
+|                  |                           |                                                          |        |        |
+|                  |                           |                                                          |        |        |
