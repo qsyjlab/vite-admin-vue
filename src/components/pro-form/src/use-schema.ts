@@ -1,17 +1,22 @@
-import type { FormSchema } from './types'
-
-import { cloneDeep } from 'lodash-es'
-import { computed, ref, toRaw, unref } from 'vue'
+import { Ref, computed, ref, toRaw, unref } from 'vue'
 import { deepMerge, isArray } from '@/utils'
 
-export function useSchema(schemas: FormSchema[]) {
-  const schemaRef = ref(cloneDeep(unref(schemas)))
+// type Test<T, S extends { key: string } = T & { key: string }, E = S & { [key: string]: any }> = E
 
-  const schemaToArray = (schemas: FormSchema | FormSchema[]) => {
+type RequiredKey = { key: string }
+
+export function useSchema<
+  T = any,
+  S extends RequiredKey = T & { key: string },
+  E extends RequiredKey = Partial<Omit<S, 'key'>> & RequiredKey & { [key: string]: any }
+>(schemas: S[]) {
+  const schemaRef = ref(unref(schemas)) as Ref<S[]>
+
+  const schemaToArray = (schemas: E | E[]) => {
     return isArray(schemas) ? schemas : [schemas]
   }
 
-  const updateSchemas = (schemas: FormSchema | FormSchema[]) => {
+  const updateSchemas = (schemas: E | E[]) => {
     const _schemas = schemaToArray(schemas)
 
     _schemas.forEach(schema => {
@@ -29,7 +34,7 @@ export function useSchema(schemas: FormSchema[]) {
    * @returns
    */
   const appendSchemaByField = (
-    schemas: FormSchema | FormSchema[],
+    schemas: E | E[],
     referKey: string,
     position?: 'after' | 'before'
   ) => {
@@ -39,18 +44,14 @@ export function useSchema(schemas: FormSchema[]) {
     if (atIndex === -1) return
 
     if (position === 'before') {
-      schemaRef.value.splice(atIndex === 0 ? 0 : atIndex - 1, 0, ..._schemas)
+      schemaRef.value.splice(atIndex === 0 ? 0 : atIndex - 1, 0, ...(_schemas as unknown as S[]))
     } else {
       schemaRef.value.splice(
         atIndex === schemaRef.value.length ? schemaRef.value.length : atIndex + 1,
         0,
-        ..._schemas
+        ...(_schemas as unknown as S[])
       )
     }
-
-    // schemaRef.value = [...schemaRef.value]
-
-    console.log('schemaRef.value', schemaRef.value)
   }
 
   const removeSchemaByField = (key: string | string[]) => {
@@ -60,7 +61,7 @@ export function useSchema(schemas: FormSchema[]) {
   }
 
   return {
-    formSchemaes: computed(() => schemaRef.value),
+    schemaes: computed(() => schemaRef.value),
     getSchemaes: () => schemaRef.value,
     updateSchemas,
     removeSchemaByField,
