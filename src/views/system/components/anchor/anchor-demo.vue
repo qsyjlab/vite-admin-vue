@@ -1,9 +1,6 @@
 <template>
-  <div>
-    <el-card style="margin-bottom: 20px">
-      <div>锚点</div>
-
-      {{ activeAnchor }}
+  <page-wrapper>
+    <page-card header="锚点" :full="false" style="margin-bottom: 20px">
       <Anchor
         v-model="activeAnchor"
         :container="() => containerRef!"
@@ -29,14 +26,8 @@
           part-3
         </div>
       </div>
-      <!--
-
-      <div id="part-2" style={{ height: '100vh', background: 'rgba(0,255,0,0.02)' }} />
-      <div id="part-3" style={{ height: '100vh', background: 'rgba(0,0,255,0.02)' }} /> -->
-    </el-card>
-    <el-card>
-      <div>horizontal 模式</div>
-
+    </page-card>
+    <page-card :full="false" :header="'horizontal 模式<'">
       <Anchor
         :container="() => container2Ref!"
         :anchors="horizontalAnchors"
@@ -54,8 +45,8 @@
           {{ item.title }}
         </div>
       </div>
-    </el-card>
-  </div>
+    </page-card>
+  </page-wrapper>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'

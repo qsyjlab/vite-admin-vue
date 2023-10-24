@@ -1,12 +1,12 @@
 <template>
   <page-wrapper>
-    <page-card style="margin-bottom: 20px" header="基础用法">
+    <page-card :full="false" style="margin-bottom: 20px" header="基础用法">
       <upload v-model="fileList" :limit="3">
         <el-button>上传</el-button>
       </upload>
     </page-card>
 
-    <page-card style="margin-bottom: 20px" header="照片墙">
+    <page-card :full="false" style="margin-bottom: 20px" header="照片墙">
       <pre>
         {{ pictureCard }}
       </pre>
@@ -24,7 +24,7 @@
       </upload>
     </page-card>
 
-    <page-card header="拖拽上传">
+    <page-card :full="false" header="拖拽上传">
       <upload v-model="fileList" :limit="3" multiple drag>
         <el-icon class="el-icon--upload"><upload-filled /></el-icon>
         <div class="el-upload__text">Drop file here or <em>click to upload</em></div>

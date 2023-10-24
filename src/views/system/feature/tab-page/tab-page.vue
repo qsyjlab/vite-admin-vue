@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%; box-sizing: border-box; padding: 10px">
+  <page-wrapper>
     <page-card header="tab 栏" style="margin-bottom: 20px">
       <el-input v-model="title"></el-input>
 
@@ -12,7 +12,7 @@
         >打开新标签</el-button
       >
     </page-card>
-  </div>
+  </page-wrapper>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'

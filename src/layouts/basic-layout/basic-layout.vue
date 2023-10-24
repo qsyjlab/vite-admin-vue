@@ -1,6 +1,15 @@
 <template>
   <div class="container">
-    <Layout v-bind="layoutAttrs">
+    <Layout
+      v-bind="layoutAttrs"
+      :config="{
+        footer: projectSetting.defaultLayoutSetting.showFooter,
+        header: true,
+        tab: projectSetting.defaultLayoutSetting.showTagPage,
+        aside: true,
+        main: true
+      }"
+    >
       <template #aside>
         <template v-if="isMobile">
           <div class="mobile-menu">
@@ -64,10 +73,10 @@
   </div>
 
   <!-- 回到顶部 -->
-  <el-backtop v-if="projectSetting.showBackTop" />
+  <el-backtop v-if="projectSetting.defaultLayoutSetting.showBackTop" />
 
   <!-- 设置 -->
-  <basic-setting v-if="projectSetting.showSettingButton" />
+  <basic-setting v-if="projectSetting.defaultLayoutSetting.showSettingButton" />
 </template>
 
 <script setup lang="ts">
@@ -103,6 +112,8 @@ const { isMobile } = useAppInject()
 
 const mobileDrawer = ref(false)
 
+console.log('projectSetting', projectSetting)
+
 watch(
   isMobile,
   () => {
@@ -134,15 +145,17 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
     tabBarHeight
   } = unref(layoutConfig)
 
-  const collapseWidth = 14 + 24 + 20 * 2
+  const collapseWidth = 78
 
   const { fixedMenu, showChildren } = unref(mixMenuLayoutConfig)
+
+  const { showTagPage } = projectSetting.defaultLayoutSetting
   const layoutModeMap: LayoutModeMap = {
     [LayoutMode.Side]: () => {
       const _asideWidth = isMobile.value ? 0 : collapsed ? collapseWidth : asideWidth
       return {
         headerHeight,
-        tabHeight: tabBarHeight,
+        tabHeight: showTagPage ? tabBarHeight : 0,
         asideWidth: _asideWidth,
         headerPaddingLeft: _asideWidth,
         headerZIndex: 1001
@@ -152,7 +165,7 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       const _asideWidth = isMobile.value ? 0 : collapsed ? collapseWidth : asideWidth
       return {
         headerHeight,
-        tabHeight: tabBarHeight,
+        tabHeight: showTagPage ? tabBarHeight : 0,
         asideWidth: _asideWidth,
         asidePaddingTop: headerHeight,
         headerZIndex: 1003,
@@ -160,7 +173,7 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       }
     },
     [LayoutMode.Top]: () => ({
-      tabHeight: tabBarHeight,
+      tabHeight: showTagPage ? tabBarHeight : 0,
       asideWidth: 0,
       headerPaddingLeft: 0
     }),
@@ -168,7 +181,7 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       const _asideWidth = isMobile.value ? 0 : fixedMenu && showChildren ? 90 + asideWidth : 90
       return {
         headerHeight,
-        tabHeight: tabBarHeight,
+        tabHeight: showTagPage ? tabBarHeight : 0,
         asideWidth: _asideWidth,
         headerPaddingLeft: _asideWidth
       }

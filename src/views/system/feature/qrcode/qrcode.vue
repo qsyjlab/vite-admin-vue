@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <el-card>
-      <div>二维码</div>
-
+  <page-wrapper>
+    <page-card :header="$route.meta.title">
       <Qrcode
         text="https://qsyjlab.club/"
         :logo="{
@@ -11,8 +9,8 @@
         }"
         :size="300"
       />
-    </el-card>
-  </div>
+    </page-card>
+  </page-wrapper>
 </template>
 <script setup lang="ts">
 import { Qrcode } from '@/components/qrcode'
