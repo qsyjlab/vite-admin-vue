@@ -70,6 +70,7 @@ export default defineConfig({
       '/components': [
         { text: '简介', link: '/components/guide.md' },
         { text: '高级表格 ProTable', link: '/components/pro-table.md' },
+        { text: '高级表单 ProForm', link: '/components/pro-form.md' },
         { text: '锚点组件 anchor', link: '/components/anchor.md' },
         { text: '二维码组件 qrcode', link: '/components/qrcode.md' },
         { text: '分段器 segmented', link: '/components/segmented.md' }

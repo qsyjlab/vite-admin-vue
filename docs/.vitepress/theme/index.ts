@@ -8,26 +8,36 @@ import Demo from '../components/demos/vp-demo.vue'
 
 import 'element-plus/theme-chalk/index.css'
 
-import { ProTable, ProConfigProvider } from '../.exampleCompnents/index.mjs'
+import {
+  ProTable,
+  ProConfigProvider,
+  ProForm,
+  ProCheckboxGruop,
+  ProSelect,
+  ProRadioGruop
+} from '../.exampleCompnents/index.mjs'
 import '../.exampleCompnents/style.css'
 
-import 'prismjs/themes/prism.css';
+import 'prismjs/themes/prism.css'
 
 export default {
   extends: Theme,
   Layout: () => {
     return h(ProConfigProvider, null, {
-      default: ()=> h(Theme.Layout, null, {
-        // https://vitepress.dev/guide/extending-default-theme#layout-slots
-      })
+      default: () =>
+        h(Theme.Layout, null, {
+          // https://vitepress.dev/guide/extending-default-theme#layout-slots
+        })
     })
   },
   enhanceApp({ app, router, siteData }) {
-
     app.use(ElementPlus)
 
     app.use(ProTable)
-
+    app.use(ProForm)
+    app.use(ProCheckboxGruop)
+    app.use(ProSelect)
+    app.use(ProRadioGruop)
 
     app.component('Demo', Demo)
     // globals

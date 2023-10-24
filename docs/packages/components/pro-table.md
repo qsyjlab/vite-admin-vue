@@ -1,7 +1,3 @@
----
-title: Affix
----
-
 # ProTable 高级表格
 
 ## 基本使用
