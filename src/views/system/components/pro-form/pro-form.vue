@@ -25,6 +25,25 @@ export default {
 <script setup lang="ts">
 import { PageCard, PageWrapper } from '@/components'
 import { useProForm, useSchema } from '@/hooks'
+
+import { _fields } from './config'
+
+const { schemaes: _schemaes, updateSchemas: _updateSchemas } = useSchema(_fields)
+
+console.log('_updateSchemas', _updateSchemas)
+
+_updateSchemas({
+  key: 'test',
+  attrs: {
+    b: { c: undefined },
+    options: [{}],
+    disabled: false
+  },
+  on: {
+    change: () => 1
+  }
+})
+
 const fields = [
   {
     label: 'name',

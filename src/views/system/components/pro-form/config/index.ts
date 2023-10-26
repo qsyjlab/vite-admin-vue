@@ -1,10 +1,12 @@
-export const fields = [
+export const _fields = [
   {
     label: '测试',
     key: 'test',
     attrs: {
-      options: [],
-      disabled: true
+      options: [{ 1: '1' }],
+      disabled: true,
+      a: 2,
+      b: { c: 1 }
     }
   },
   {

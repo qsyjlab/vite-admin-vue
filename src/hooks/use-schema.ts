@@ -1,5 +1,5 @@
 import { Ref, computed, ref, toRaw, unref } from 'vue'
-import { isArray } from '@/utils'
+import { isArray, isObject } from '@/utils'
 
 // type Test<T, S extends { key: string } = T & { key: string }, E = S & { [key: string]: any }> = E
 
@@ -12,7 +12,7 @@ declare type _DeepPartial<T> = {
 export function useSchema<
   T = any,
   S extends RequiredKey = T & { key: string },
-  E extends RequiredKey = _DeepPartial<Omit<S, 'key'>> & RequiredKey
+  E extends RequiredKey = _DeepPartial<Omit<S, 'key'>> & RequiredKey & { [key: string]: any }
 >(schemas: S[]) {
   const schemaRef = ref(unref(schemas)) as Ref<S[]>
 
@@ -27,7 +27,7 @@ export function useSchema<
       const atIndex = schemaRef.value.findIndex(i => i.key === schema.key)
 
       if (atIndex !== -1) {
-        const newVal = Object.assign(schemaRef.value[atIndex], schema)
+        const newVal = _deepMerge(schemaRef.value[atIndex], schema)
         schemaRef.value[atIndex] = newVal
       }
     })
@@ -71,4 +71,16 @@ export function useSchema<
     removeSchemaByField,
     appendSchemaByField
   }
+}
+
+export function _deepMerge<
+  T extends Record<string, any> | null | undefined,
+  U extends Record<string, any> | null | undefined
+>(target: T, source: U): T | (T & U) {
+  if (!target || !source) return target
+  Object.keys(source).forEach(key => {
+    if (isObject(source[key])) Object.assign(source[key], _deepMerge(target[key], source[key]))
+  })
+  Object.assign(target || {}, source)
+  return target
 }
