@@ -1,1 +1,0 @@
-import{_ as s,o as n,c as a,Q as p}from"./chunks/framework.36267fc7.js";const u=JSON.parse('{"title":"接口联调","description":"","frontmatter":{},"headers":[],"relativePath":"http/index.md","filePath":"http/index.md"}'),l={name:"http/index.md"},o=p("",11),e=[o];function t(c,r,E,i,y,d){return n(),a("div",null,e)}const F=s(l,[["render",t]]);export{u as __pageData,F as default};
