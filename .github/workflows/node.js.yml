@@ -38,6 +38,14 @@ jobs:
       - name: Install PNPM
         run: npm i -g pnpm
 
+      - name: Install root deps
+        run: |
+          pnpm install
+
+      - name: Build Components
+        run: |
+          pnpm run buildComponents
+
       - name: Install deps
         run: |
           cd docs
