@@ -20,7 +20,16 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: '指南', link: '/doc/guide/doc' },
-      { text: '组件', link: '/components/guide.md' }
+      { text: '组件', link: '/components/guide.md' },
+      {
+        text: '文档',
+        items: [
+          {
+            text: '@vitejs/plugin-legacy 中文文档',
+            link: 'https://qsyjlab.github.io/doc-library/vite/plugin-legacy.html'
+          }
+        ]
+      }
     ],
     sidebar: {
       '/doc': [
@@ -55,20 +64,21 @@ export default defineConfig({
 
         {
           text: '外部模块引入',
-          link: '/other/out-module.md'
+          link: '/doc/other/out-module.md'
         },
         {
           text: '其他',
           items: [
-            { text: '图标', link: '/other/icon' },
-            { text: '暗黑主题', link: '/other/theme' },
-            { text: '目录说明', link: '/guide/contents' },
-            { text: '自动导入插件', link: '/other/auto-import' }
+            { text: '图标', link: '/doc/other/icon' },
+            { text: '暗黑主题', link: '/doc/other/theme' },
+            { text: '目录说明', link: '/doc/guide/contents' },
+            { text: '自动导入插件', link: '/doc/other/auto-import' }
           ]
         }
       ],
       '/components': [
         { text: '简介', link: '/components/guide.md' },
+        { text: '全局配置 ProConfigProvider', link: '/components/pro-config-provider.md' },
         { text: '高级表格 ProTable', link: '/components/pro-table.md' },
         { text: '高级表单 ProForm', link: '/components/pro-form.md' },
         { text: '锚点组件 anchor', link: '/components/anchor.md' },

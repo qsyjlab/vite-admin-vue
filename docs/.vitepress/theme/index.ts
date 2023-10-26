@@ -14,7 +14,8 @@ import {
   ProForm,
   ProCheckboxGruop,
   ProSelect,
-  ProRadioGruop
+  ProRadioGruop,
+  ProConfigProvider
 } from '../.exampleCompnents/index.mjs'
 import '../.exampleCompnents/style.css'
 
@@ -38,7 +39,7 @@ export default {
     app.use(ProCheckboxGruop)
     app.use(ProSelect)
     app.use(ProRadioGruop)
-
+    app.use(ProConfigProvider)
     app.component('Demo', Demo)
     // globals
     // ...
