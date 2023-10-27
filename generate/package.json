@@ -9,10 +9,13 @@
     "gen:table": "ts-node-esm ./scripts/gen-table.ts"
   },
   "devDependencies": {
+    "@babel/core": "^7.23.2",
     "@babel/generator": "^7.23.0",
     "@babel/parser": "^7.23.0",
     "@babel/traverse": "^7.23.2",
+    "@babel/types": "^7.23.0",
     "@types/inquirer": "^9.0.6",
+    "babel-types": "^6.26.0",
     "inquirer": "^9.2.11",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
