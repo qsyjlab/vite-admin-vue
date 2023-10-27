@@ -1,0 +1,14 @@
+{
+  "name": "generate",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "gen:template": "ts-node-esm  ./gen.ts",
+    "gen:table": "ts-node-esm ./scripts/gen-table.ts"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
