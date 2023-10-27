@@ -6,7 +6,9 @@ import {
   projectRootPath,
   outputPath,
   generateBatch
-} from '../utils/index.ts'
+} from '../utils'
+
+import inquirer from 'inquirer'
 
 async function generateAndWriteFile() {
   const content = await readFile(path.resolve(projectRootPath, 'template/pro-form.template'))
@@ -138,4 +140,20 @@ async function generateAndWriteFile() {
   ])
 }
 
-generateAndWriteFile()
+// generateAndWriteFile()
+
+runinquirer()
+
+function runinquirer() {
+  inquirer
+    .prompt([
+      {
+        type: 'input',
+        name: 'username',
+        message: '请输入用户名:'
+      }
+    ])
+    .then(answers => {
+      console.log(`你输入的用户名是: ${answers.username}`)
+    })
+}
