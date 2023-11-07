@@ -2,13 +2,18 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { setPermissionsCache, getPermissionsCache } from '../local'
 import { filter } from '@/utils'
-import { asyncRoutes } from '@/router/routes/async'
-import { flatRoutesLevel, transformRouteToMenu } from '@/router/helper'
+
 import router from '@/router'
 import { pageError } from '@/router/routes'
+import { asyncRoutes } from '@/router/routes/async'
+import { flatRoutesLevel, transformRouteToMenu } from '@/router/helper'
 import { cloneDeep } from 'lodash-es'
+import projectSetting from '@/config/project-setting'
+
 import type { RouteRecordRaw } from 'vue-router'
 import type { Menu } from '@/router/types'
+import { PermissionModeEnum } from '@/enum'
+import useUserStore from './user'
 
 export const usePermissionStore = defineStore('permissionStoreKey', () => {
   const permissions = ref<string[]>([])
@@ -61,17 +66,32 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
   function buildPermissionRoutes() {
     let routes: RouteRecordRaw[] = []
 
-    function routerFilter(route: RouteRecordRaw) {
-      const name = route.name
+    if (projectSetting.permissionMode === PermissionModeEnum.ROUTE_MAPPING) {
+      function routesFilter(route: RouteRecordRaw) {
+        const name = route.name
 
-      if (!name) return true
+        if (!name) return true
 
-      if (route.meta?.ignoreAuth) return true
+        if (route.meta?.ignoreAuth) return true
 
-      return hasPermission(name as string)
+        return hasPermission(name as string)
+      }
+      routes = filter(asyncRoutes, routesFilter, { id: 'name' })
+    } else if (projectSetting.permissionMode === PermissionModeEnum.ROLE) {
+      const userStore = useUserStore()
+
+      function roleFilter(route: RouteRecordRaw) {
+        const roles = route.meta?.roles?.map(String)
+        if (route.meta?.ignoreAuth) return true
+        if (!userStore.roles) return false
+        if (!roles || roles.length === 0) return true
+
+        return userStore.hasRole(roles)
+      }
+
+      routes = filter(asyncRoutes, roleFilter, { id: 'name' })
     }
 
-    routes = filter(asyncRoutes, routerFilter, { id: 'name' })
     setFrontedMenuList(transformRouteToMenu(routes) as Menu[])
     return flatRoutesLevel(routes)
   }

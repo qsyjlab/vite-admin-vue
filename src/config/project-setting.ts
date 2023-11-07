@@ -1,5 +1,6 @@
 import { LayoutMode } from '@/layouts'
 import { readonly } from 'vue'
+import { PermissionModeEnum } from '@/enum'
 
 export interface ProjectConfig {
   theme: 'light' | 'dark'
@@ -48,6 +49,8 @@ export interface ProjectConfig {
    * normal: 正常缓存含有 name的组件
    */
   keepAliveCachePolicy: 'never' | 'tab' | 'normal'
+
+  permissionMode: keyof typeof PermissionModeEnum
 }
 
 const setting: ProjectConfig = readonly({
@@ -85,7 +88,8 @@ const setting: ProjectConfig = readonly({
     showFooter: true
   },
   openLeavePagePrompt: true,
-  keepAliveCachePolicy: 'normal'
+  keepAliveCachePolicy: 'normal',
+  permissionMode: PermissionModeEnum.ROUTE_MAPPING
 })
 
 export default setting

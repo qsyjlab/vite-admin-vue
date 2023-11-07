@@ -15,6 +15,7 @@ interface UserStoreState {
   }
   token: string | null | undefined
   permissions: string[]
+  roles: string[] | number[]
 }
 
 type UserStoreGetter = Record<string, any>
@@ -26,6 +27,8 @@ type UserStoreActions = {
   setToken: (token: string) => void
   loginSystem: (data: { username: string; password: string }) => ReturnType<typeof loginHttp>
   loginOutSystem: NOOP
+  setRoles: (roles: string[] | number[]) => void
+  hasRole: (role: number | string | number[] | string[]) => boolean
 }
 
 export const useUserStore = defineStore<string, UserStoreState, UserStoreGetter, UserStoreActions>(
@@ -40,7 +43,9 @@ export const useUserStore = defineStore<string, UserStoreState, UserStoreGetter,
         },
         token: '',
         // 权限
-        permissions: []
+        permissions: [],
+        // 角色类型
+        roles: []
       }
     },
     actions: {
@@ -55,6 +60,17 @@ export const useUserStore = defineStore<string, UserStoreState, UserStoreGetter,
         this.permissions = permissions
         setPermissionsCache(permissions)
       },
+      setRoles(roles) {
+        this.roles = roles
+      },
+
+      hasRole(auth) {
+        if (!auth) return false
+        if (Array.isArray(auth))
+          return auth.map(String).some(r => this.roles.map(String).includes(String(r)))
+        return this.roles.map(String).includes(String(auth))
+      },
+
       setToken(token) {
         if (token) {
           this.token = token

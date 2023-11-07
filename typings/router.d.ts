@@ -28,6 +28,8 @@ interface ExtraRouteMeta {
   currentActiveMenu?: string
   // 隐藏子菜单
   hideChildrenInMenu?: boolean
+  // 角色类型
+  roles?: string[] | number[]
 }
 
 declare module 'vue-router' {
