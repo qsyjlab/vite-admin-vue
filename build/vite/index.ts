@@ -1,4 +1,4 @@
-import type { Plugin, ConfigEnv } from 'vite'
+import { type Plugin, type ConfigEnv, loadEnv } from 'vite'
 
 import vue from '@vitejs/plugin-vue'
 
@@ -9,18 +9,17 @@ import WindiCSS from 'vite-plugin-windicss'
 // import { visualizer } from 'rollup-plugin-visualizer'
 import { configSvgIconsPlugin } from './plugins/svg-icons'
 import legacyPlugin from '@vitejs/plugin-legacy'
-// @ts-nocheck
 import ElementPlus from 'unplugin-element-plus/vite'
+import legecyConfig from '../../legecy.config'
+import { envDir } from '../utils'
 
-interface Extra {
-  legacy?: boolean
-}
-
-export function createVitePlugin(configEnv: ConfigEnv, extra?: Extra) {
-  const { command } = configEnv
-
-  const { legacy = true } = extra || {}
+export function createVitePlugin(configEnv: ConfigEnv) {
+  const { command, mode } = configEnv
   const isBuild = command === 'build'
+
+  // 拿到全部的 env
+  const viteEnvs = loadEnv(mode, envDir, '')
+
   const vitePlugins: Plugin[] = [
     vue(),
     vueJsx(),
@@ -40,13 +39,8 @@ export function createVitePlugin(configEnv: ConfigEnv, extra?: Extra) {
     // })
   ]
 
-  if (legacy) {
-    vitePlugins.push(
-      legacyPlugin({
-        renderLegacyChunks: false,
-        modernPolyfills: ['es.array.flat-map']
-      }) as unknown as Plugin
-    )
+  if (viteEnvs.ENABLE_LEGACY === 'true') {
+    vitePlugins.push(legacyPlugin(legecyConfig) as unknown as Plugin)
   }
 
   const useMock = true
