@@ -1,12 +1,41 @@
 <template>
-  <el-card>
-    <template #header>{{ $route.meta.title }}</template>
-
-    <VModalForm title="modal 表单" :fields="fields" @submit="submit" />
-  </el-card>
+  <page-wrapper>
+    <page-card :header="$route.meta.title">
+      <el-button @click="_show">打开</el-button>
+      <el-button @click="close">关闭</el-button>
+      <!-- <VModalForm title="modal 表单" :fields="fields" @submit="submit" /> -->
+      <pro-modal></pro-modal>
+      <TestDialog>
+        中间内容渲染
+        <template #footer> 测试页脚渲染 </template>
+      </TestDialog>
+    </page-card>
+  </page-wrapper>
 </template>
 <script setup lang="ts">
-import { VModalForm } from '@/components/pro-form'
+// import { VModalForm } from '@/components/pro-form'
+import { PageWrapper, PageCard } from '@/components'
+import { useDialog, IDialogProps } from '@/hooks/use-dialog'
+import { reactive } from 'vue'
+
+const dialogProps = reactive<IDialogProps>({
+  name: 'yewu',
+  title: '这是dialog 标题',
+  fullscreen: true,
+  openDelay: 200
+})
+const [TestDialog, { show, close }] = useDialog(dialogProps)
+
+const _show = () => {
+  console.log('show')
+  show()
+  setTimeout(() => {
+    dialogProps.fullscreen = false
+    dialogProps.openDelay = 300
+
+    console.log('full')
+  }, 5000)
+}
 
 const fields = [
   {
