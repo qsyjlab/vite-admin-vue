@@ -1,8 +1,16 @@
 ## todoList
 
+### 新 TODO 清单
+
+- pro-form action-state
+
+- hook 形式 dialog form
+
+  目的抹平 ref 在 ts 中的劣势
+
+- hook 形式组件 泛型补足
+
 ### 权限相关
-
-
 
 #### Env , 编译配置文件相关
 
