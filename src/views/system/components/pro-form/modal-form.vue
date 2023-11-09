@@ -9,10 +9,6 @@
           <el-button @click="close"> 关闭 </el-button>
         </template>
       </TestDialog>
-
-      <!-- <TemplatePromise v-slot="{ promise, resolve, reject, args }">
-        <button @click="resolve('ok')">OK</button>
-      </TemplatePromise> -->
     </page-card>
   </page-wrapper>
 </template>

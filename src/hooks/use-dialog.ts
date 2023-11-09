@@ -29,7 +29,7 @@ interface DialogCommand {
   close: () => void
 }
 
-export function useDialog(dialogProps: IDialogProps): [DialogComponent, DialogCommand] {
+export function useDialog(dialogProps?: IDialogProps): [DialogComponent, DialogCommand] {
   const state = reactive({
     dialogVisible: false
   })
@@ -43,7 +43,7 @@ export function useDialog(dialogProps: IDialogProps): [DialogComponent, DialogCo
   }
 
   const component = defineComponent({
-    name: dialogProps.name,
+    name: dialogProps?.name,
     setup(_, { slots, attrs }) {
       const dynamicProps = computed<Partial<_DialogProps>>(() => {
         return {
@@ -57,12 +57,12 @@ export function useDialog(dialogProps: IDialogProps): [DialogComponent, DialogCo
         default?: (...args: any[]) => any
       } = {}
 
-      if (slots.footer || dialogProps.footer) {
-        renderSlots.footer = () => h((slots.footer as any) || (dialogProps.footer as any))
+      if (slots.footer || dialogProps?.footer) {
+        renderSlots.footer = () => h((slots.footer as any) || (dialogProps?.footer as any))
       }
 
-      if (slots.default || dialogProps.default) {
-        renderSlots.default = () => h((slots.default as any) || (dialogProps.default as any))
+      if (slots.default || dialogProps?.default) {
+        renderSlots.default = () => h((slots.default as any) || (dialogProps?.default as any))
       }
 
       return () =>

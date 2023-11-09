@@ -326,7 +326,27 @@ export const allRouteModules = [
   componentsModuleRoute,
   pluginModuleRoute,
   outPageModuleRoute,
-  echarts
+  echarts,
+  {
+    path: '/hooks',
+    name: 'Hooks',
+    meta: {
+      title: 'Hooks',
+      sort: 1,
+      icon: 'ep.home-filled'
+    },
+    children: [
+      {
+        path: 'use-dialog',
+        name: 'UseDialog',
+        meta: {
+          title: 'useDialog',
+          sort: 1,
+          icon: 'ep.home-filled'
+        }
+      }
+    ]
+  }
 ]
 
 export const permissionsMap = {
