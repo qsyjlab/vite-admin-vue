@@ -1,17 +1,35 @@
-import { ElDialog, DialogProps, DialogEmits, dialogProps as elDialogProps } from 'element-plus'
-import { computed, defineComponent, h, reactive } from 'vue'
+import { ElDialog, DialogProps, DialogEmits } from 'element-plus'
+import { DefineComponent, computed, defineComponent, h, reactive } from 'vue'
 
 type OnEvents<E> = {
-  [key in keyof E as `on${Capitalize<string & key>}`]: E[key]
+  [key in keyof E as `on${Capitalize<string & key>}`]: () => void
 }
 
-export interface IDialogProps extends Partial<Mutable<DialogProps> & OnEvents<DialogEmits>> {
-  name: string
+type _DialogProps = Partial<Mutable<DialogProps>> &
+  Partial<OnEvents<Omit<DialogEmits, 'update:modelValue'>>>
+
+export interface IDialogProps extends _DialogProps {
+  name?: string
   default?: any
   footer?: any
 }
 
-export function useDialog(dialogProps: IDialogProps) {
+type DialogComponent = DefineComponent<_DialogProps> & {
+  new (): {
+    $slots: {
+      default(): any
+      footer(): any
+      header(): any
+    }
+  }
+}
+
+interface DialogCommand {
+  show: () => void
+  close: () => void
+}
+
+export function useDialog(dialogProps: IDialogProps): [DialogComponent, DialogCommand] {
   const state = reactive({
     dialogVisible: false
   })
@@ -25,17 +43,10 @@ export function useDialog(dialogProps: IDialogProps) {
   }
 
   const component = defineComponent({
-    props: {
-      ...elDialogProps,
-      title: {
-        type: String
-      }
-    },
-    setup(props, { slots, attrs }) {
-      // TODO: 尝试解决组件属性和 传入属性的冲突
-      const dynamicProps = computed<Partial<DialogProps>>(() => {
+    name: dialogProps.name,
+    setup(_, { slots, attrs }) {
+      const dynamicProps = computed<Partial<_DialogProps>>(() => {
         return {
-          ...props,
           ...attrs,
           ...dialogProps
         }
@@ -68,5 +79,5 @@ export function useDialog(dialogProps: IDialogProps) {
         )
     }
   })
-  return [component, { show, close }]
+  return [component as any, { show, close }]
 }

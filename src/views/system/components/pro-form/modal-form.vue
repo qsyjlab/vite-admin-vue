@@ -2,37 +2,38 @@
   <page-wrapper>
     <page-card :header="$route.meta.title">
       <el-button @click="_show">打开</el-button>
-      <el-button @click="close">关闭</el-button>
-      <!-- <VModalForm title="modal 表单" :fields="fields" @submit="submit" /> -->
-      <!-- <pro-modal></pro-modal> -->
-      <TestDialog :title="'123123'">
-        中间内容渲染
-        <template #footer> 测试页脚渲染 </template>
+      <TestDialog :title="'123123'" append-to-body @close="closeCallback">
+        <template #header>123213</template>
+        内容部分渲染
+        <template #footer>
+          <el-button @click="close"> 关闭 </el-button>
+        </template>
       </TestDialog>
+
+      <!-- <TemplatePromise v-slot="{ promise, resolve, reject, args }">
+        <button @click="resolve('ok')">OK</button>
+      </TemplatePromise> -->
     </page-card>
   </page-wrapper>
 </template>
 <script setup lang="ts">
-// import { VModalForm } from '@/components/pro-form'
 import { PageWrapper, PageCard } from '@/components'
 import { useDialog, IDialogProps } from '@/hooks/use-dialog'
 import { reactive } from 'vue'
 
+const closeCallback = () => {
+  console.log('closed')
+}
+
 const dialogProps = reactive<IDialogProps>({
   name: 'TestDialog',
   title: '这是dialog 标题',
-  fullscreen: true,
-  openDelay: 200,
-  onClose: () => {
-    console.log('close use')
-
-    return true
-  }
+  fullscreen: false,
+  openDelay: 200
 })
 const [TestDialog, { show, close }] = useDialog(dialogProps)
 
 const _show = () => {
-  console.log('show')
   show()
   setTimeout(() => {
     dialogProps.fullscreen = false
