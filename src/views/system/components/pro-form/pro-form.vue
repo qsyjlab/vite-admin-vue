@@ -2,6 +2,7 @@
   <page-wrapper>
     <page-card :header="$route.meta.title">
       <ProForm inline :fields="schemaes" @submit="submit" @reset="reset" @register="register">
+        <template #name> asdasd </template>
       </ProForm>
 
       <template v-if="true">

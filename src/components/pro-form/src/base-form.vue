@@ -8,21 +8,25 @@
     @submit.prevent
   >
     <el-row :gutter="20">
-      <el-col
-        v-for="(item, index) in formSchemaes"
-        v-bind="item.col"
-        :key="`${item.key}`"
-        v-show="!inline ? true : fieldsIsCollapsedMap[item.key]"
-      >
-        <el-form-item style="width: 100%" :label="item.label" :prop="item.key || String(index)">
-          <component
-            :is="item.el"
-            v-model="formModel[item.key]"
-            v-bind="handleElAttrs(item)"
-            v-on="item.events || {}"
-          />
-        </el-form-item>
-      </el-col>
+      <template v-for="(item, index) in formSchemaes" :key="item.key">
+        <slot :name="item.key" :field="item">
+          <el-col
+            v-bind="item.col"
+            :key="`${item.key}`"
+            v-show="!inline ? true : fieldsIsCollapsedMap[item.key]"
+          >
+            <el-form-item style="width: 100%" :label="item.label" :prop="item.key || String(index)">
+              <component
+                :is="item.el"
+                v-model="formModel[item.key]"
+                v-bind="handleElAttrs(item)"
+                v-on="item.events || {}"
+              />
+            </el-form-item>
+          </el-col>
+        </slot>
+      </template>
+
       <el-col v-if="inline" v-bind="advancedSpanColAttrs">
         <form-action
           :collapsed="advanceState.isAdvanced"

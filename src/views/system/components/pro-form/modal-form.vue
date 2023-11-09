@@ -1,7 +1,7 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title">
-      <el-button @click="_show">打开</el-button>
+      <el-button @click="dialogFormCommand.show()">打开</el-button>
       <TestDialog :title="'123123'" append-to-body @close="closeCallback">
         <template #header>123213</template>
         内容部分渲染
@@ -9,6 +9,17 @@
           <el-button @click="close"> 关闭 </el-button>
         </template>
       </TestDialog>
+
+      <DialogFormTemplate>
+        <template #test1>
+          <el-col :span="14">
+            <el-input
+              v-model="state.str"
+              @change="val => dialogFormCommand.updateModel({ str: val })"
+            ></el-input>
+          </el-col>
+        </template>
+      </DialogFormTemplate>
     </page-card>
   </page-wrapper>
 </template>
@@ -16,6 +27,16 @@
 import { PageWrapper, PageCard } from '@/components'
 import { useDialog, IDialogProps } from '@/hooks/use-dialog'
 import { reactive } from 'vue'
+
+import { useDialogForm } from '@/hooks/use-dialog-form'
+
+const [DialogFormTemplate, dialogFormCommand] = useDialogForm({
+  fields: [{ label: '测试表单1', key: 'test1', el: 'el-input' }]
+})
+
+const state = reactive({
+  str: ''
+})
 
 const closeCallback = () => {
   console.log('closed')
