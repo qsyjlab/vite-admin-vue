@@ -1,7 +1,11 @@
-import { ElDialog, DialogProps } from 'element-plus'
+import { ElDialog, DialogProps, DialogEmits, dialogProps as elDialogProps } from 'element-plus'
 import { computed, defineComponent, h, reactive } from 'vue'
 
-export interface IDialogProps extends Partial<Mutable<DialogProps>> {
+type OnEvents<E> = {
+  [key in keyof E as `on${Capitalize<string & key>}`]: E[key]
+}
+
+export interface IDialogProps extends Partial<Mutable<DialogProps> & OnEvents<DialogEmits>> {
   name: string
   default?: any
   footer?: any
@@ -21,13 +25,19 @@ export function useDialog(dialogProps: IDialogProps) {
   }
 
   const component = defineComponent({
-    name: dialogProps.name,
+    props: {
+      ...elDialogProps,
+      title: {
+        type: String
+      }
+    },
     setup(props, { slots, attrs }) {
+      // TODO: 尝试解决组件属性和 传入属性的冲突
       const dynamicProps = computed<Partial<DialogProps>>(() => {
         return {
-          ...dialogProps,
+          ...props,
           ...attrs,
-          ...props
+          ...dialogProps
         }
       })
 
@@ -58,6 +68,5 @@ export function useDialog(dialogProps: IDialogProps) {
         )
     }
   })
-
   return [component, { show, close }]
 }
