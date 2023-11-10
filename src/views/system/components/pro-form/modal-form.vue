@@ -1,7 +1,11 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title">
+      <el-button @click="show">hook 打开 dialog</el-button>
+
       <el-button @click="dialogFormCommand.show()">打开</el-button>
+
+      <el-button @click="dialogFormCommand.show(1)">编辑</el-button>
       <TestDialog :title="'123123'" append-to-body @close="closeCallback">
         <template #header>123213</template>
         内容部分渲染
@@ -10,16 +14,8 @@
         </template>
       </TestDialog>
 
-      <DialogFormTemplate>
-        <template #test1>
-          <el-col :span="14">
-            <el-input
-              v-model="state.str"
-              @change="val => dialogFormCommand.updateModel({ str: val })"
-            ></el-input>
-          </el-col>
-        </template>
-      </DialogFormTemplate>
+      <ProDialogForm />
+      <DialogFormTemplate />
     </page-card>
   </page-wrapper>
 </template>
@@ -27,15 +23,29 @@
 import { PageWrapper, PageCard } from '@/components'
 import { useDialog, IDialogProps } from '@/hooks/use-dialog'
 import { reactive } from 'vue'
-
 import { useDialogForm } from '@/hooks/use-dialog-form'
+import ProDialogForm from '@/components/pro-form-dialog/src/pro-dialog-form.vue'
 
 const [DialogFormTemplate, dialogFormCommand] = useDialogForm({
-  fields: [{ label: '测试表单1', key: 'test1', el: 'el-input' }]
-})
-
-const state = reactive({
-  str: ''
+  title: '标题',
+  fields: [{ label: '测试表单1', key: 'test1', el: 'el-input' }],
+  cancelText: '关闭',
+  confirmText: '确定',
+  addRequest: data => {
+    console.log('data', data)
+    return Promise.resolve(data)
+  },
+  getRequest: () => {
+    return Promise.resolve({
+      test1: '测试数据'
+    })
+  },
+  editRequest: () => {
+    return Promise.resolve()
+  },
+  onSuccess(data) {
+    console.log('sucess', data)
+  }
 })
 
 const closeCallback = () => {
@@ -49,22 +59,6 @@ const dialogProps = reactive<IDialogProps>({
   openDelay: 200
 })
 const [TestDialog, { show, close }] = useDialog(dialogProps)
-
-const _show = () => {
-  show()
-  setTimeout(() => {
-    dialogProps.fullscreen = false
-    dialogProps.openDelay = 300
-
-    console.log('full')
-  }, 5000)
-}
-
-const closeAfter = () => {
-  console.log('close')
-
-  return true
-}
 
 const fields = [
   {
