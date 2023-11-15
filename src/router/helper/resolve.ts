@@ -2,6 +2,7 @@ import { cloneDeep, omit } from 'lodash-es'
 import { createRouter, createWebHistory } from 'vue-router'
 import { treeMap } from '@/utils'
 import type { RouteRecordNormalized, RouteRecordRaw, RouterOptions } from 'vue-router'
+import type { Menu } from '../types'
 
 export function createWebHistoryRouter(
   routes: RouteRecordRaw[],
@@ -142,4 +143,12 @@ export function transformRouteToMenu(routeModList: RouteRecordRaw[]) {
   // 路径处理
   joinParentPath(list)
   return cloneDeep(list)
+}
+
+// 处理菜单排序
+export function routeMenusSort(menus: Menu[]) {
+  return menus.sort((prev, next) => {
+    if (!prev.meta?.order || !next.meta?.order) return -1
+    return (prev.meta?.order || 0) - (next.meta?.order || 0)
+  })
 }

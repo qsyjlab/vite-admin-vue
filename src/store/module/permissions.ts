@@ -2,11 +2,10 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { setPermissionsCache, getPermissionsCache } from '../local'
 import { filter } from '@/utils'
-
 import router from '@/router'
 import { pageError } from '@/router/routes'
 import { asyncRoutes } from '@/router/routes/async'
-import { flatRoutesLevel, transformRouteToMenu } from '@/router/helper'
+import { flatRoutesLevel, routeMenusSort, transformRouteToMenu } from '@/router/helper'
 import { cloneDeep } from 'lodash-es'
 import projectSetting from '@/config/project-setting'
 
@@ -49,8 +48,7 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
         return show
       })
     }
-
-    return menuFilter(cloneDeep(frontedMenuList.value))
+    return routeMenusSort(menuFilter(cloneDeep(frontedMenuList.value)))
   }
 
   async function loadDynamicRoutes() {
@@ -59,9 +57,9 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
     router.addRoute(pageError)
   }
 
-  // TODO: 重置权限
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  function resetPermissionRoutes() {}
+  function resetPermissionRoutes() {
+    // TODO: 重置权限
+  }
 
   function buildPermissionRoutes() {
     let routes: RouteRecordRaw[] = []
