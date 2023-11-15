@@ -1,13 +1,13 @@
 import type { EChartsOption } from 'echarts'
 import type { Ref } from 'vue'
 import { tryOnUnmounted, useDebounceFn, useEventListener } from '@vueuse/core'
-import { unref, nextTick, computed, ref, isRef } from 'vue'
+import { unref, computed, ref, isRef } from 'vue'
 import echarts from '@/plugins/echarts'
 
 export function useEcharts(
   elRef: Ref<HTMLDivElement | null> | HTMLDivElement,
   callback?: (instance: echarts.ECharts | null) => void,
-  theme?: 'light' | 'dark' | 'default' = 'default'
+  theme: 'light' | 'dark' | 'default' = 'default'
 ) {
   if (!isRef(elRef)) {
     elRef = ref(elRef)

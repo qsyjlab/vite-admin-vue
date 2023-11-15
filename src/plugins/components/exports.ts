@@ -5,5 +5,6 @@ export {
   ProCheckboxGruop,
   ProRadioGruop,
   PageCard,
-  PageWrapper
+  PageWrapper,
+  EchartsRenderer
 } from '@/components'
