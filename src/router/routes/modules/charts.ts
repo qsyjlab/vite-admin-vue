@@ -17,7 +17,7 @@ export default defineExposeRoutes([
     children: [
       {
         name: 'Echarts',
-        path: '/echarts',
+        path: 'echarts',
         meta: {
           title: 'echarts',
           sort: 4

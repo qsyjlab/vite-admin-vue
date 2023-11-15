@@ -4,9 +4,10 @@ import { tryOnUnmounted, useDebounceFn, useEventListener } from '@vueuse/core'
 import { unref, nextTick, computed, ref, isRef } from 'vue'
 import echarts from '@/plugins/echarts'
 
-export function useECharts(
+export function useEcharts(
   elRef: Ref<HTMLDivElement | null> | HTMLDivElement,
-  theme: 'light' | 'dark' | 'default' = 'default'
+  callback?: (instance: echarts.ECharts | null) => void,
+  theme?: 'light' | 'dark' | 'default' = 'default'
 ) {
   if (!isRef(elRef)) {
     elRef = ref(elRef)
@@ -28,30 +29,22 @@ export function useECharts(
     const el = unref(elRef)
     if (el) {
       chartInstance = echarts.init(el, t)
+
+      callback?.(chartInstance)
       removeResizeFn = useEventListener(window, 'resize', resizeFn)
     }
   }
 
   function setOptions(options: EChartsOption, clear = true) {
     cacheOptions.value = options
-    if (unref(elRef)?.offsetHeight === 0) {
-      setTimeout(() => {
-        setOptions(unref(getOptions))
-      }, 30)
-      return
+    if (!chartInstance) {
+      initCharts()
+
+      if (!chartInstance) return
     }
-    nextTick(() => {
-      setTimeout(() => {
-        if (!chartInstance) {
-          initCharts()
+    clear && chartInstance?.clear()
 
-          if (!chartInstance) return
-        }
-        clear && chartInstance?.clear()
-
-        chartInstance?.setOption(unref(getOptions))
-      }, 30)
-    })
+    chartInstance?.setOption(unref(getOptions))
   }
 
   function resize() {
@@ -71,9 +64,6 @@ export function useECharts(
   })
 
   function getInstance(): echarts.ECharts | null {
-    if (!chartInstance) {
-      // initCharts(getDarkMode.value as 'default')
-    }
     return chartInstance
   }
 
