@@ -2,7 +2,7 @@
   <div class="pro-table-header">
     <div class="pro-table-header__left">
       <slot name="headerTitle">
-        <span class="pro-table-header__title" v-if="headerTitle">
+        <span v-if="headerTitle" class="pro-table-header__title">
           {{ headerTitle }}
         </span>
       </slot>

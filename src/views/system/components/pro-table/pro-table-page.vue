@@ -2,6 +2,7 @@
   <page-wrapper>
     <page-card :header="$route.meta.title">
       <pro-table
+        v-model:selected-keys="selectedKeys"
         header-title="pro table"
         :columns="columns"
         :request="getTableMockList"
@@ -13,7 +14,6 @@
           pageSizes: [10, 20, 40],
           background: true
         }"
-        v-model:selected-keys="selectedKeys"
         @register="register"
         @page-change="pageChange"
       >

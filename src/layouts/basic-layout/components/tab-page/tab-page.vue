@@ -17,7 +17,7 @@
           >
             <template #label>
               <div class="tab-item">
-                <span class="icon" v-if="item.meta.icon">
+                <span v-if="item.meta.icon" class="icon">
                   <icon-selector :icon="item.meta.icon" :size="fontSize + 5" />
                 </span>
                 <span

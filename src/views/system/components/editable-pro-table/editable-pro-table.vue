@@ -5,7 +5,7 @@
         :columns="columns"
         mode="multiple"
         :data="data"
-        :onDelete="deleteRow"
+        :on-delete="deleteRow"
         @change="changeData"
         @append-error="appendErrorHandler"
       ></editable-pro-table>

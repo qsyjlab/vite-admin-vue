@@ -28,9 +28,9 @@
     <!-- table -->
     <el-table
       ref="tableInstanceRef"
+      v-loading="loading"
       :data="dataSource"
       v-bind="$attrs"
-      v-loading="loading"
       :border="border"
       :row-key="rowKey"
       :table-layout="tableLayout"
@@ -50,7 +50,7 @@
     </el-table>
 
     <!-- pagination -->
-    <div class="pro-table__pagination" v-if="pagination">
+    <div v-if="pagination" class="pro-table__pagination">
       <el-pagination
         v-bind="paginationProps"
         :small="tableProps.size === 'small'"

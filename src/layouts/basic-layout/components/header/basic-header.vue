@@ -17,11 +17,11 @@
       </template>
 
       <div
-        class="horizontal-menu"
         v-if="
           [LayoutMode.Top].includes(layoutConfig.layoutMode) ||
           (LayoutMode.TopMix === layoutConfig.layoutMode && layoutConfig.splitMenu)
         "
+        class="horizontal-menu"
       >
         <aside-menu
           :menus="getCurrentMenus"
@@ -47,8 +47,8 @@
           placement="bottom"
         >
           <el-button circle @click="toggleTheme">
-            <icon-selector icon="svg.sun" v-if="layoutConfig.theme === 'light'" :size="14" />
-            <icon-selector icon="svg.moon" v-else :size="14" />
+            <icon-selector v-if="layoutConfig.theme === 'light'" icon="svg.sun" :size="14" />
+            <icon-selector v-else icon="svg.moon" :size="14" />
           </el-button>
         </el-tooltip>
         <el-tooltip

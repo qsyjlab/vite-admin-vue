@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ProConfigProvider :proTable="{}"></ProConfigProvider>
+    <ProConfigProvider :pro-table="{}"></ProConfigProvider>
   </div>
 </template>
 <script setup lang="ts"></script>

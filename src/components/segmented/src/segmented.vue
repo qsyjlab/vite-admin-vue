@@ -10,13 +10,13 @@
   >
     <div class="segmented-group">
       <div
+        v-for="item in options"
+        :key="item.value"
         :class="[
           'segmented-item',
           selected === item.value ? 'is-selected' : '',
           disabled || item.disabled ? 'is-disabled' : ''
         ]"
-        v-for="item in options"
-        :key="item.value"
         @click="handleSelect(item)"
       >
         {{ item.label }}

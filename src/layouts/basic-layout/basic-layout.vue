@@ -20,7 +20,7 @@
               :size="layoutConfig.asideWidth || 250"
             >
               <basic-sidebar :collapsed="layoutConfig.collapsed">
-                <template #logo v-if="LayoutMode.Side === layoutConfig.layoutMode">
+                <template v-if="LayoutMode.Side === layoutConfig.layoutMode" #logo>
                   <logo v-bind="logoAttrs" />
                 </template>
               </basic-sidebar>
@@ -36,7 +36,7 @@
             "
           >
             <basic-sidebar :collapsed="layoutConfig.collapsed">
-              <template #logo v-if="LayoutMode.Side === layoutConfig.layoutMode">
+              <template v-if="LayoutMode.Side === layoutConfig.layoutMode" #logo>
                 <logo v-bind="logoAttrs" />
               </template>
             </basic-sidebar>
@@ -52,7 +52,7 @@
 
       <template #header>
         <basic-header @mobile-drawer="mobileDrawerHandler">
-          <template #logo v-if="LayoutMode.TopMix === layoutConfig.layoutMode">
+          <template v-if="LayoutMode.TopMix === layoutConfig.layoutMode" #logo>
             <logo :width="layoutConfig.asideWidth" />
           </template>
         </basic-header>

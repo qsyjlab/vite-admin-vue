@@ -5,8 +5,8 @@
         :columns="columns"
         mode="multiple"
         :data="data"
-        @drag-sort-end="changeData"
         drag-sort-key="drag"
+        @drag-sort-end="changeData"
       >
       </drag-sort-table>
     </page-card>

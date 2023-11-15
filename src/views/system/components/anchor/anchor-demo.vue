@@ -38,9 +38,9 @@
         <div
           v-for="(item, index) in horizontalAnchors"
           :id="item.link"
+          :key="index"
           class="ac-container"
           style="background-color: rgba(255, 0, 0, 0.02)"
-          :key="index"
         >
           {{ item.title }}
         </div>

@@ -1,11 +1,11 @@
 <template>
   <div>
     <ProTable
+      v-model:selectedKeys="selectedKeys"
       header-title="多级表头"
       checkable
       :columns="columns"
       :data="tableData"
-      v-model:selectedKeys="selectedKeys"
     >
       <template #expand> 展开行内容 </template>
 

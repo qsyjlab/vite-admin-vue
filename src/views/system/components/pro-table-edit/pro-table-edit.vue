@@ -21,19 +21,19 @@
       >
         <template #operation="{ row, editableState }">
           <el-button
-            type="primary"
             v-if="!(editableState && editableState.isEdit)"
+            type="primary"
             @click="startEditable(row.id)"
             >编辑</el-button
           >
 
           <template v-else>
             <el-space>
-              <el-button :loading="loading" @click="saveEditable(row.id)" type="primary"
+              <el-button :loading="loading" type="primary" @click="saveEditable(row.id)"
                 >保存</el-button
               >
               <el-button :loading="loading" @click="cancelEditable(row.id)">取消</el-button>
-              <el-button :loading="loading" @click="deleteEditable(row.id)" type="danger"
+              <el-button :loading="loading" type="danger" @click="deleteEditable(row.id)"
                 >删除</el-button
               >
             </el-space>

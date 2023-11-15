@@ -1,11 +1,11 @@
 <template>
   <div>
     <ProTable
+      v-model:selectedKeys="selectedKeys"
       header-title="基本使用"
       checkable
       :columns="columns"
       :data="tableData"
-      v-model:selectedKeys="selectedKeys"
     />
   </div>
 </template>

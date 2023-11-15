@@ -1,14 +1,14 @@
 <template>
   <div>
     <ProTable
-      header-title="基本使用"
       v-model:loading="loading"
+      header-title="基本使用"
       checkable
       :columns="columns"
       :request="request"
       :params="params"
       :transform="transform"
-      :transformParams="transformParams"
+      :transform-params="transformParams"
       @register="register"
     />
   </div>

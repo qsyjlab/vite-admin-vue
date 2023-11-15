@@ -1,5 +1,5 @@
 <template>
-  <component v-if="isNeedRender" :is="render()" />
+  <component :is="render()" v-if="isNeedRender" />
 </template>
 <script setup lang="tsx">
 import { ElPopover } from 'element-plus'

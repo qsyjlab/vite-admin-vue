@@ -1,19 +1,19 @@
 <template>
   <el-form
     v-bind="{ ...$attrs }"
+    :ref="ref => setFormRef(ref)"
     :inline="inline"
     :model="formModel"
     :rules="formRules"
-    :ref="ref => setFormRef(ref)"
     @submit.prevent
   >
     <el-row :gutter="20">
       <template v-for="(item, index) in formSchemaes" :key="item.key">
         <slot :name="item.key" :field="item">
           <el-col
+            v-show="!inline ? true : fieldsIsCollapsedMap[item.key]"
             v-bind="item.col"
             :key="`${item.key}`"
-            v-show="!inline ? true : fieldsIsCollapsedMap[item.key]"
           >
             <el-form-item style="width: 100%" :label="item.label" :prop="item.key || String(index)">
               <component

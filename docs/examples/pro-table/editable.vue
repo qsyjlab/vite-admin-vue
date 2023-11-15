@@ -1,14 +1,14 @@
 <template>
   <div>
     <ProTable
-      header-title="可编辑行"
       v-model:loading="loading"
+      header-title="可编辑行"
       checkable
       :columns="columns"
       :request="request"
       :params="params"
       :transform="transform"
-      :transformParams="transformParams"
+      :transform-params="transformParams"
       :editable="{
         mode: 'single',
         onSave,
@@ -24,12 +24,12 @@
       </template>
       <template #action="{ row, editableState }">
         <el-button
-          size="small"
           v-if="!editableState || !editableState.isEdit"
+          size="small"
           @click="startEditable(row.id)"
           >编辑</el-button
         >
-        <el-button size="small" v-else @click="saveRow(row)">保存</el-button>
+        <el-button v-else size="small" @click="saveRow(row)">保存</el-button>
         <el-button size="small" type="danger" @click="deleteEditable(row.id)">删除</el-button>
       </template>
     </ProTable>

@@ -1,8 +1,8 @@
 <template>
   <el-checkbox-group v-bind="$attrs" :model-value="modelValue" @change="changeHandler">
     <component
-      v-for="option in options"
       :is="renderTagMap[tag]"
+      v-for="option in options"
       :key="option.value"
       :label="option.value"
       :disabled="option.disabled"

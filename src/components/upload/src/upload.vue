@@ -10,10 +10,10 @@
     :list-type="listType"
     :drag="drag"
     :class="['upload', isHideUploadTrigger() ? 'hide-trigger' : '']"
-    :autoUpload="autoUpload"
+    :auto-upload="autoUpload"
     :accept="accept"
-    @change="change"
     v-bind="$attrs"
+    @change="change"
   >
     <slot v-if="!isHideUploadTrigger()"></slot>
     <template #file="{ file }">

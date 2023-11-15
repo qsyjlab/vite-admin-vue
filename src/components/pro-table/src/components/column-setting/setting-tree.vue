@@ -6,7 +6,7 @@
       :allow-drop="allowDrop"
       :allow-drag="allowDrag"
       :data="columns"
-      :defaultCheckedKeys="defaultCheckedKeys"
+      :default-checked-keys="defaultCheckedKeys"
       show-checkbox
       draggable
       node-key="_rowKey"
@@ -21,7 +21,7 @@
       <template #default="{ node }">
         <div class="setting-tree__node">
           <span>{{ node.label }}</span>
-          <span class="tools" v-if="node.level === 1">
+          <span v-if="node.level === 1" class="tools">
             <el-space>
               <el-tooltip
                 v-if="fixed !== 'auto'"

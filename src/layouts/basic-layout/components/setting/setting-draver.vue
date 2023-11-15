@@ -1,5 +1,5 @@
 <template>
-  <el-drawer :with-header="false" v-model="isOpenSettig" direction="rtl" size="370px">
+  <el-drawer v-model="isOpenSettig" :with-header="false" direction="rtl" size="370px">
     <!-- {{ layoutConfig }} -->
     <div class="setting-body">
       <div class="setting-title">系统布局配置</div>

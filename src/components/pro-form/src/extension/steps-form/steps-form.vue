@@ -5,18 +5,18 @@
   <template v-for="(step, index) in steps" :key="index">
     <base-form
       v-show="active === index + 1"
-      @register="stepFormInstanceMap[index].register"
       :fields="step.form"
+      @register="stepFormInstanceMap[index].register"
     ></base-form>
   </template>
 
   <div>
     <el-space>
-      <el-button @click="lastStep" v-if="active > info.start">上一步</el-button>
-      <el-button type="primary" v-if="active < info.end" @click="nextStep" :loading="waitDone"
+      <el-button v-if="active > info.start" @click="lastStep">上一步</el-button>
+      <el-button v-if="active < info.end" type="primary" :loading="waitDone" @click="nextStep"
         >下一步</el-button
       >
-      <el-button type="primary" v-else :loading="waitDone" @click="submit">提交</el-button>
+      <el-button v-else type="primary" :loading="waitDone" @click="submit">提交</el-button>
     </el-space>
   </div>
 </template>

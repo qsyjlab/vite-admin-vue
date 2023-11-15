@@ -2,13 +2,13 @@
   <div class="drag-sort">
     <transition-group name="drag" class="list" tag="ul">
       <li
+        v-for="(item, index) in list"
+        :key="item.label"
+        :draggable="true"
+        class="list-item"
         @dragenter="dragenter($event, index)"
         @dragover="dragover($event)"
         @dragstart="dragstart(index)"
-        :draggable="true"
-        v-for="(item, index) in list"
-        :key="item.label"
-        class="list-item"
       >
         {{ item.label }}
       </li>
