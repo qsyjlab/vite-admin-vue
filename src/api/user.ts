@@ -9,3 +9,17 @@ export function login(data: Record<string, any>) {
     data
   })
 }
+
+export function getUauth() {
+  return mockService.request<UserModel>({
+    url: '/uauth',
+    method: 'get'
+  })
+}
+
+export function refreshToken() {
+  return mockService.request({
+    url: '/refreshToken',
+    method: 'get'
+  })
+}

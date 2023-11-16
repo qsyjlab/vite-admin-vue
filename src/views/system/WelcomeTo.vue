@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import { IconSelector } from '@/components/icon'
 import { generate } from '@arco-design/color'
+import { getUauth } from '@/api/user'
 
-console.log('generate', generate('#1677FF', { index: 10, list: true, dark: true }))
+getUauth().then(res => {})
 </script>

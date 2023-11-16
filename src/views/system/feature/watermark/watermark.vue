@@ -1,23 +1,23 @@
 <template>
   <page-wrapper>
-    <page-card style="margin-bottom: 20px">
+    <page-card style="margin-bottom: 20px" :full="false">
       <div>自定义配置</div>
       <pre>
           {{ watermarkProps }}
       </pre>
       <ProForm :fields="proFormFields" :model="state" label-position="top" @effect="formEffect" />
     </page-card>
-    <page-card style="margin-bottom: 20px">
+    <page-card style="margin-bottom: 20px" :full="false">
       <Watermark v-bind="watermarkProps">
         <div style="height: 200px">组件水印</div>
       </Watermark>
     </page-card>
 
-    <page-card style="margin-bottom: 20px">
+    <page-card style="margin-bottom: 20px" :full="false">
       <div>hook 水印</div>
       <div ref="hookWaterRef" style="position: relative; height: 200px"></div>
     </page-card>
-    <page-card style="margin-bottom: 20px">
+    <page-card style="margin-bottom: 20px" :full="false">
       <div>vue 指令 水印</div>
       <div v-watermark="watermarkProps" style="position: relative; height: 200px"></div>
     </page-card>

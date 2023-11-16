@@ -98,6 +98,22 @@ const user: MockMethod[] = [
           }))
       })
     }
+  },
+  {
+    url: '/basic-api/refreshToken',
+    method: 'get',
+    response: () => {
+      return resultSuccess({
+        refreshToken: new Date().getTime()
+      })
+    }
+  },
+  {
+    url: '/basic-api/uauth',
+    method: 'get',
+    response: () => {
+      return resultSuccess(null)
+    }
   }
 ]
 

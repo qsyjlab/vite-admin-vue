@@ -17,7 +17,7 @@ export function responseFormatter(
   return {
     code,
     data,
-    message
+    message: message || ''
   }
 }
 

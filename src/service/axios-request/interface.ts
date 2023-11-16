@@ -15,9 +15,9 @@ export type RequestInterceptorsCatchType = (error: CatchError) => Promise<CatchE
 
 export type ResponseInterceptorsType = (response: BaseAxiosResponse) => BaseAxiosResponse
 
-export type ResponseInterceptorsCatchType = (error: CatchError) => Promise<CatchError>
+export type ResponseInterceptorsCatchType<T = any> = (error: CatchError<T>) => Promise<CatchError>
 
-export type CatchError = AxiosError
+export type CatchError<T = any> = AxiosError<T>
 
 export interface InterceptorsType {
   requestInterceptors?: RequestInterceptorsType
