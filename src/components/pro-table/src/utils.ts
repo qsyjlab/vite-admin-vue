@@ -1,3 +1,4 @@
+import { get } from 'lodash-es'
 import type { ColumnsMap, ProTableProps } from './types'
 
 export function sliceData(data: any, { page = 1, pageSize = 10 }) {
@@ -63,4 +64,8 @@ export function getRowkey(row: any, rowKey: ProTableProps['rowKey']): string | u
   }
 
   return void 0
+}
+
+export function resolveValue(...rest: Parameters<typeof get>) {
+  return get(...rest)
 }

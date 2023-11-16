@@ -143,5 +143,17 @@ export interface ProTableHeaderProps {
   headerTitle: string
 }
 
+interface CustomRendererParams<T = any> {
+  row: any
+  value: any
+  columnConfig: ProTableColumnItem<T>
+  valueEnum: any
+  valueType: any
+  index: number
+  pagination: any
+}
+
+export type CustomRendererFn = (params: CustomRendererParams) => any
+
 export * from './editable'
 export * from './renderer'

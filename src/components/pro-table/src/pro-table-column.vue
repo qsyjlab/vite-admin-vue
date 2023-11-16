@@ -24,7 +24,7 @@ const rootInstance = useProtableInstanceContext()
 
 const slots = useSlots()
 
-const { editableCellMap, pageQuery } = useTableStoreContext()
+const { editableCellMap, pageQuery, customRendererMap } = useTableStoreContext()
 
 function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
   const { row, $index } = scope || {}
@@ -51,10 +51,6 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
   const rowEditState = realRowKey ? editableCellMap.value.get(realRowKey) : undefined
 
   if (columnConfig.editable && rowEditState && rowEditState.isEdit) {
-    // function onChangeEditValue(value: any) {
-
-    //   row[columnConfig.key] = value
-    // }
     return <EditableCell row={row} column={columnConfig} rowKey={props.rowKey} />
   }
 
@@ -66,6 +62,7 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
     row,
     columnConfig,
     index: $index,
+    customRendererMap,
     pagination: {
       page: pageQuery.page,
       pageSize: pageQuery.pageSize

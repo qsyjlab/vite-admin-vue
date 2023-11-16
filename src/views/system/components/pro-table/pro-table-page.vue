@@ -134,6 +134,16 @@ const columns: ProTableColumns = [
     }
   },
   {
+    title: '自定义渲染器',
+    key: 'customText',
+    valueType: 'custom-text'
+  },
+  {
+    title: '自定义渲染器渲染组件',
+    key: 'customRenderComponent',
+    valueType: 'custom-render-componet'
+  },
+  {
     title: '操作',
     key: 'operation',
     width: 200,

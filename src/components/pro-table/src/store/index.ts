@@ -153,6 +153,7 @@ export function useTableStore(
     tableActionRef,
     tableInstanceRef,
     mergeTableProps,
+    customRendererMap: proTableConfig?.rendererMap,
     editableCellMap,
     editableCellUtils,
     columnsSettingUtils
