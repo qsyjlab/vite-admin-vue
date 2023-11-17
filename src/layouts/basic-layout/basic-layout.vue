@@ -62,7 +62,12 @@
         <basic-tab-page v-bind="routerBarAttrs" />
       </template>
 
-      <div class="basic-layout-main__wrapper">
+      <div
+        v-watermark="{
+          content: config.projectTitle
+        }"
+        class="basic-layout-main__wrapper"
+      >
         <component :is="container"></component>
       </div>
 
@@ -89,6 +94,7 @@ import { LayoutMode } from './enum'
 import { Layout } from '@/layouts/layout-package'
 import createBlankContainer from '@/layouts/container/createBlankContainer'
 import projectSetting from '@/config/project-setting'
+import config from '@/config'
 
 import {
   BasicHeader,
@@ -111,8 +117,6 @@ const { layoutConfig, mixMenuLayoutConfig } = storeToRefs(useLayoutStore())
 const { isMobile } = useAppInject()
 
 const mobileDrawer = ref(false)
-
-console.log('projectSetting', projectSetting)
 
 watch(
   isMobile,
