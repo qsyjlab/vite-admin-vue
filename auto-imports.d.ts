@@ -14,6 +14,8 @@ declare global {
   const ElForm: typeof import('element-plus/es')['ElForm']
   const ElFormItem: typeof import('element-plus/es')['ElFormItem']
   const ElInput: typeof import('element-plus/es')['ElInput']
+  const ElMessage: typeof import('element-plus/es')['ElMessage']
+  const ElMessageBox: typeof import('element-plus/es')['ElMessageBox']
   const ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
   const ElSlider: typeof import('element-plus/es')['ElSlider']
   const ElTable: typeof import('element-plus/es')['ElTable']

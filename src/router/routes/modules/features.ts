@@ -54,6 +54,14 @@ export default defineExposeRoutes([
           title: '图片预览'
         },
         component: () => import('@/views/system/feature/image-viwer/image-viwer.vue')
+      },
+      {
+        name: 'Message',
+        path: 'message',
+        meta: {
+          title: '消息提示'
+        },
+        component: () => import('@/views/system/feature/message/message.vue')
       }
     ]
   }

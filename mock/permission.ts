@@ -185,6 +185,13 @@ const featureModuleRoute = {
       meta: {
         title: '图片预览'
       }
+    },
+    {
+      name: 'Message',
+      path: 'message',
+      meta: {
+        title: '消息提示'
+      }
     }
   ]
 }
