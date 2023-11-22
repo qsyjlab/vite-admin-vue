@@ -62,6 +62,14 @@ export default defineExposeRoutes([
           title: '消息提示'
         },
         component: () => import('@/views/system/feature/message/message.vue')
+      },
+      {
+        name: 'Encrypt',
+        path: 'encrypt',
+        meta: {
+          title: '加密'
+        },
+        component: () => import('@/views/system/feature/encrypt/encrypt.vue')
       }
     ]
   }

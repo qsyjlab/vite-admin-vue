@@ -192,6 +192,13 @@ const featureModuleRoute = {
       meta: {
         title: '消息提示'
       }
+    },
+    {
+      name: 'Encrypt',
+      path: 'encrypt',
+      meta: {
+        title: '加密'
+      }
     }
   ]
 }

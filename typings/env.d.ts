@@ -18,3 +18,9 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+/** 密钥文件后缀 */
+declare module '*.pem' {
+  const content: string
+  export default content
+}
