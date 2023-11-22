@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import {  useClipboard, useToggle } from '@vueuse/core'
-import { CaretTop , DocumentCopy, Link } from '@element-plus/icons-vue'
-
+import { computed, onMounted, ref } from 'vue'
+import { useClipboard, useToggle } from '@vueuse/core'
+import { CaretTop, DocumentCopy, Link } from '@element-plus/icons-vue'
 
 import Example from './vp-example.vue'
 import SourceCode from './vp-source-code.vue'
 
-const props = withDefaults(defineProps<{
-  // demos?: object
-  source?: string
-  path?: string
-  rawSource?: string
-  description?: string
-}>(), {
-  // demos: ()=> ({}),
-  description: ''
-})
+const props = withDefaults(
+  defineProps<{
+    // demos?: object
+    source?: string
+    path?: string
+    rawSource?: string
+    description?: string
+  }>(),
+  {
+    // demos: ()=> ({}),
+    description: ''
+  }
+)
 
-const demos = import.meta.globEager('../../../examples/**/*.vue')
-
-console.log('demos demos',demos);
+const demos = import.meta.glob('../../../examples/**/*.vue', { eager: true })
 
 // const vm = getCurrentInstance()!
 
 const { copy, isSupported } = useClipboard({
   source: decodeURIComponent(props.rawSource || ''),
-  read: false,
+  read: false
 })
 
 const [sourceVisible, toggleSourceVisible] = useToggle()
@@ -35,24 +35,17 @@ const [sourceVisible, toggleSourceVisible] = useToggle()
 
 const sourceCodeRef = ref<HTMLButtonElement>()
 const formatPathDemos = computed(() => {
-
   let _demos = {}
 
-  Object.keys(demos).forEach((key) => {
-    _demos[key.replace('../../../examples/', '').replace('.vue', '')] =
-      demos[key].default
+  Object.keys(demos).forEach(key => {
+    _demos[key.replace('../../../examples/', '').replace('.vue', '')] = demos[key].default
   })
-
-  console.log('_demos', _demos);
-
 
   return _demos
 })
 
 // const locale = computed(() => demoBlockLocale[lang.value])
-const decodedDescription = computed(() =>
-  decodeURIComponent(props.description!)
-)
+const decodedDescription = computed(() => decodeURIComponent(props.description!))
 
 const onPlaygroundClick = () => {
   // const { link } = usePlayground(props.rawSource)
@@ -99,7 +92,6 @@ const copyCode = async () => {
           :trigger="['hover', 'focus']"
           :trigger-keys="[]"
         >
-
           <ElIcon
             :size="16"
             :aria-label="'复制'"
@@ -113,23 +105,15 @@ const copyCode = async () => {
             <DocumentCopy />
           </ElIcon>
         </ElTooltip>
-        <ElTooltip
-          content="查看代码"
-          :show-arrow="false"
-          :trigger="['hover', 'focus']"
-
-        >
+        <ElTooltip content="查看代码" :show-arrow="false" :trigger="['hover', 'focus']">
           <button
             ref="sourceCodeRef"
-            :aria-label="
-              sourceVisible ? '隐藏' : '查看'
-            "
+            :aria-label="sourceVisible ? '隐藏' : '查看'"
             class="reset-btn el-icon op-btn"
             @click="toggleSourceVisible()"
           >
-
             <ElIcon :size="16">
-             <el-icon><Link /></el-icon>
+              <el-icon><Link /></el-icon>
             </ElIcon>
           </button>
         </ElTooltip>

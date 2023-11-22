@@ -6,5 +6,6 @@
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { TinymceEditor, PageCard, PageWrapper } from '@/components'
+import { PageCard, PageWrapper } from '@/components'
+import { TinymceEditor } from '@/components/tinymce'
 </script>
