@@ -5,7 +5,7 @@
  * @FilePath: /Workflow-Vue3/src/components/node-renderer.vue
 -->
 <template>
-  <div v-if="nodeConfig.type < 3" class="node-wrap">
+  <div v-if="[NodeTypeEnum.Approver, NodeTypeEnum.CC].includes(nodeConfig.type)" class="node-wrap">
     <div
       class="node-wrap-box"
       :class="
@@ -16,7 +16,7 @@
       <div class="title" :style="`background: rgb(${bgColors[nodeConfig.type]});`">
         <span v-if="nodeConfig.type == 0">{{ nodeConfig.nodeName }}</span>
         <template v-else>
-          <span class="iconfont">图标123</span>
+          <span class="iconfont">图标占位</span>
           <input
             v-if="isInput"
             type="text"
@@ -41,7 +41,12 @@
     </div>
     <AddNode :node-config="nodeConfig" />
   </div>
-  <div v-if="nodeConfig.type == 4" class="branch-wrap">
+  <div
+    v-if="
+      [NodeTypeEnum.Conditional_Branch, NodeTypeEnum.Inclusive_Branch].includes(nodeConfig.type)
+    "
+    class="branch-wrap"
+  >
     <div class="branch-box-wrap">
       <div class="branch-box">
         <button class="add-branch" @click="addTerm">添加条件</button>
@@ -66,13 +71,7 @@
                   >
                   <i class="anticon anticon-close close" @click="delTerm(index)"></i>
                 </div>
-                <div
-                  v-if="index != nodeConfig.conditionNodes.length - 1"
-                  class="sort-right"
-                  @click="arrTransfer(index)"
-                >
-                  &gt;
-                </div>
+                <div class="sort-right" @click="arrTransfer(index)">&gt;</div>
                 <div class="content" @click="setPerson(item.priorityLevel)"></div>
                 <div v-if="isTried && item.error" class="error_tip">
                   <i class="anticon anticon-exclamation-circle"></i>
@@ -100,10 +99,9 @@
 </template>
 <script setup lang="ts">
 import AddNode from './add-node.vue'
-
 import { bgColors } from './constant'
-
 import { useWorkflowContext } from './store'
+import { NodeTypeEnum } from './constant'
 
 const props = defineProps({
   nodeConfig: {
@@ -112,8 +110,7 @@ const props = defineProps({
   }
 })
 
-const { workFlowState, setNodeConfig, removeConditionBranch, insertConditionNodesToNode } =
-  useWorkflowContext()
+const { setNodeConfig, removeConditionBranch, insertConditionNodesToNode } = useWorkflowContext()
 
 const isTried = false
 
@@ -128,11 +125,6 @@ const clickEvent = (index?) => {}
 
 // 删除纯节点
 const delNode = () => {
-  // console.log(
-  //   'props.nodeConfig.childNode, props.nodeConfig',
-  //   props.nodeConfig.childNode,
-  //   props.nodeConfig
-  // )
   setNodeConfig(props.nodeConfig.childNode, props.nodeConfig)
 }
 
@@ -146,9 +138,13 @@ const addTerm = () => {
   insertConditionNodesToNode(props.nodeConfig)
 }
 
-const setPerson = level => {}
+const setPerson = level => {
+  console.log('person')
+}
 
-const arrTransfer = (index, type = 1) => {}
+const arrTransfer = (index, type = 1) => {
+  console.log('111')
+}
 </script>
 <style>
 @import url('./theme.css');

@@ -3,23 +3,35 @@
     <div class="add-node-btn">
       <el-popover v-model="visible" placement="right-start" width="auto">
         <div class="add-node-popover-body">
-          <a class="add-node-popover-item approver" @click="addType(1)">
+          <a class="add-node-popover-item approver" @click="addFlowNode(NodeTypeEnum.Approver)">
             <div class="item-wrapper">
               <span class="iconfont"></span>
             </div>
             <p>审批人</p>
           </a>
-          <a class="add-node-popover-item notifier" @click="addType(2)">
+          <a class="add-node-popover-item notifier" @click="addFlowNode(NodeTypeEnum.CC)">
             <div class="item-wrapper">
               <span class="iconfont"></span>
             </div>
             <p>抄送人</p>
           </a>
-          <a class="add-node-popover-item condition" @click="addType(4)">
+          <a
+            class="add-node-popover-item condition"
+            @click="addFlowNode(NodeTypeEnum.Conditional_Branch)"
+          >
             <div class="item-wrapper">
               <span class="iconfont"></span>
             </div>
             <p>条件分支</p>
+          </a>
+          <a
+            class="add-node-popover-item condition"
+            @click="addFlowNode(NodeTypeEnum.Conditional_Branch)"
+          >
+            <div class="item-wrapper">
+              <span class="iconfont"></span>
+            </div>
+            <p>包容分支</p>
           </a>
         </div>
         <template #reference>
@@ -35,6 +47,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useWorkflowContext } from './store'
+import { NodeTypeEnum } from './constant'
 let props = defineProps({
   nodeConfig: {
     type: Object,
@@ -42,63 +55,12 @@ let props = defineProps({
   }
 })
 
-const { insertNode } = useWorkflowContext()
+const { insertFlowNode } = useWorkflowContext()
 
 let visible = ref(false)
-const addType = type => {
+const addFlowNode = type => {
   visible.value = false
-  if (type !== 4) {
-    if (type === 1) {
-      const newNode = {
-        nodeName: '审核人' + new Date().getTime(),
-        error: true,
-        type: 1,
-        settype: 1,
-        selectMode: 0,
-        selectRange: 0,
-        directorLevel: 1,
-        examineMode: 1,
-        noHanderAction: 1,
-        examineEndDirectorLevel: 0,
-        nodeUserList: []
-      }
-      insertNode(newNode, props.nodeConfig)
-    } else if (type === 2) {
-      const newNode = {
-        nodeName: '抄送人',
-        type: 2,
-        ccSelfSelectFlag: 1,
-        nodeUserList: []
-      }
-      insertNode(newNode, props.nodeConfig)
-    }
-  } else {
-    const newConditionNode = {
-      nodeName: '路由',
-      type: 4,
-      childNode: null,
-      conditionNodes: [
-        {
-          nodeName: '条件1',
-          error: true,
-          type: 3,
-          priorityLevel: 1,
-          conditionList: [],
-          nodeUserList: [],
-          childNode: null
-        },
-        {
-          nodeName: '条件2',
-          type: 3,
-          priorityLevel: 2,
-          conditionList: [],
-          nodeUserList: [],
-          childNode: null
-        }
-      ]
-    }
-    insertNode(newConditionNode, props.nodeConfig)
-  }
+  insertFlowNode(type, props.nodeConfig)
 }
 </script>
 <style scoped lang="scss">

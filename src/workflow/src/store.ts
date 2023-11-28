@@ -1,7 +1,6 @@
 import { reactive, InjectionKey } from 'vue'
 import { useContext, createContext } from './use-context'
-import { conditionStr } from './utils'
-import { NodeTypeEnum } from './constant'
+import { conditionStr, createNode } from './utils'
 
 export function useWorkflowDesignStore() {
   const state = reactive<{
@@ -43,7 +42,15 @@ export function useWorkflowDesignStore() {
     }
   }
 
+  // 处理逻辑层插入
+  function insertFlowNode(type, root) {
+    if (!root) return
+    const newNode = createNode(type)
+    insertNode(newNode, root)
+  }
+
   // 像某个节点插入一个节点
+  // 只做节点操作 让 addFlowNode 来做逻辑层操作
   function insertNode(node, root?: any) {
     const childNode = root.childNode
 
@@ -120,64 +127,11 @@ export function useWorkflowDesignStore() {
     }
   }
 
-  // 这里只做工厂创建节点
-  function createNode(type) {
-    switch (type) {
-      case NodeTypeEnum.Approver:
-        return {
-          nodeName: '审核人' + new Date().getTime(),
-          error: true,
-          type: 1,
-          settype: 1,
-          selectMode: 0,
-          selectRange: 0,
-          directorLevel: 1,
-          examineMode: 1,
-          noHanderAction: 1,
-          examineEndDirectorLevel: 0,
-          nodeUserList: []
-        }
-      case NodeTypeEnum.CC:
-        return {
-          nodeName: '抄送人',
-          type: 2,
-          ccSelfSelectFlag: 1,
-          nodeUserList: []
-        }
-      case NodeTypeEnum.Conditional_Branch:
-        return {
-          nodeName: '路由',
-          type: 4,
-          childNode: null,
-          conditionNodes: [
-            {
-              nodeName: '条件1',
-              error: true,
-              type: 3,
-              priorityLevel: 1,
-              conditionList: [],
-              nodeUserList: [],
-              childNode: null
-            },
-            {
-              nodeName: '条件2',
-              type: 3,
-              priorityLevel: 2,
-              conditionList: [],
-              nodeUserList: [],
-              childNode: null
-            }
-          ]
-        }
-      default:
-        return null
-    }
-  }
-
   return {
     workFlowState: state,
     updateZoomSize,
     setNodeConfig,
+    insertFlowNode,
     insertNode,
     createNode,
     removeConditionBranch,
