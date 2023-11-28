@@ -70,6 +70,15 @@ export default defineExposeRoutes([
           title: '加密'
         },
         component: () => import('@/views/system/feature/encrypt/encrypt.vue')
+      },
+      {
+        name: 'Workflow',
+        path: 'workflow',
+        meta: {
+          title: '工作流',
+          ignoreAuth: true
+        },
+        component: () => import('@/views/system/workflow.vue')
       }
     ]
   }
