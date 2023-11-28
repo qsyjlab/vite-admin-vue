@@ -26,7 +26,7 @@
           </a>
           <a
             class="add-node-popover-item condition"
-            @click="addFlowNode(NodeTypeEnum.Conditional_Branch)"
+            @click="addFlowNode(NodeTypeEnum.Inclusive_Branch)"
           >
             <div class="item-wrapper">
               <span class="iconfont"></span>

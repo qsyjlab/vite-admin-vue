@@ -1,61 +1,5 @@
-<!--
- * @Date: 2022-09-21 14:41:53
- * @LastEditors: StavinLi 495727881@qq.com
- * @LastEditTime: 2023-05-24 15:20:24
- * @FilePath: /Workflow-Vue3/src/components/node-renderer.vue
--->
 <template>
-  <div v-if="[NodeTypeEnum.Approver, NodeTypeEnum.CC].includes(nodeConfig.type)" class="node-wrap">
-    <div
-      class="node-wrap-box"
-      :class="
-        (nodeConfig.type == 0 ? 'start-node ' : '') +
-        (isTried && nodeConfig.error ? 'active error' : '')
-      "
-    >
-      <div class="title" :style="`background: rgb(${bgColors[nodeConfig.type]});`">
-        <span v-if="nodeConfig.type == 0">{{ nodeConfig.nodeName }}</span>
-        <template v-else>
-          <span class="iconfont">图标占位</span>
-          <input
-            v-if="isInput"
-            type="text"
-            class="ant-input editable-title-input"
-            :placeholder="defaultText"
-            @blur="blurEvent()"
-          />
-          <span v-else class="editable-title" @click="clickEvent()">{{ nodeConfig.nodeName }}</span>
-          <i class="anticon anticon-close close" @click="delNode"></i>
-        </template>
-      </div>
-      <div class="content" @click="setPerson">
-        <div class="text">
-          <span v-if="!showText" class="placeholder">请选择{{ defaultText }}</span>
-          {{ showText }}
-        </div>
-        <i class="anticon anticon-right arrow"></i>
-      </div>
-      <div v-if="isTried && nodeConfig.error" class="error_tip">
-        <i class="anticon anticon-exclamation-circle"></i>
-      </div>
-    </div>
-    <AddNode :node-config="nodeConfig" />
-  </div>
-  <condition-branch
-    v-if="[NodeTypeEnum.Conditional_Branch].includes(nodeConfig.type)"
-    :node-config="nodeConfig"
-  ></condition-branch>
-  <inclusive-branch
-    v-if="[NodeTypeEnum.Inclusive_Branch].includes(nodeConfig.type)"
-    :node-config="nodeConfig"
-  ></inclusive-branch>
-  <div
-    v-if="
-      false &&
-      [NodeTypeEnum.Conditional_Branch, NodeTypeEnum.Inclusive_Branch].includes(nodeConfig.type)
-    "
-    class="branch-wrap"
-  >
+  <div class="branch-wrap">
     <div class="branch-box-wrap">
       <div class="branch-box">
         <button class="add-branch" @click="addTerm">添加条件</button>
@@ -90,7 +34,7 @@
               <AddNode :node-config="item" />
             </div>
           </div>
-          <node-renderer v-if="item.childNode" v-model:nodeConfig="item.childNode" />
+          <node-renderer v-if="item.childNode" :node-config="item.childNode" />
           <template v-if="index == 0">
             <div class="top-left-cover-line"></div>
             <div class="bottom-left-cover-line"></div>
@@ -104,15 +48,13 @@
       <AddNode :node-config="nodeConfig" />
     </div>
   </div>
-  <node-renderer v-if="nodeConfig.childNode" :node-config="nodeConfig.childNode" />
 </template>
 <script setup lang="ts">
-import ConditionBranch from './condition-branch.vue'
-import InclusiveBranch from './inclusive-branch.vue'
 import AddNode from './add-node.vue'
-import { bgColors } from './constant'
+// import { bgColors } from './constant'
 import { useWorkflowContext } from './store'
 import { NodeTypeEnum } from './constant'
+import NodeRenderer from './node-renderer.vue'
 
 const props = defineProps({
   nodeConfig: {
@@ -157,39 +99,3 @@ const arrTransfer = (index, type = 1) => {
   console.log('111')
 }
 </script>
-<style>
-@import url('./theme.css');
-
-.error_tip {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  transform: translate(150%, 0px);
-  font-size: 24px;
-}
-
-.promoter_person .el-dialog__body {
-  padding: 10px 20px 14px 20px;
-}
-
-.selected_list {
-  margin-bottom: 20px;
-  line-height: 30px;
-}
-
-.selected_list span {
-  margin-right: 10px;
-  padding: 3px 6px 3px 9px;
-  line-height: 12px;
-  white-space: nowrap;
-  border-radius: 2px;
-  border: 1px solid rgba(220, 220, 220, 1);
-}
-
-.selected_list img {
-  margin-left: 5px;
-  width: 7px;
-  height: 7px;
-  cursor: pointer;
-}
-</style>
