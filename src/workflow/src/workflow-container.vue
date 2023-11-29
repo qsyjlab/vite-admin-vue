@@ -1,19 +1,8 @@
 <template>
   <div class="workflow-container">
-    <div class="workflow-container__header">
-      <div class="fd-nav-left">
-        <div class="fd-nav-back">
-          <i class="anticon anticon-left"></i>
-        </div>
-        <!-- workFlowDef.name  -->
-        <div class="fd-nav-title">合同管理</div>
-      </div>
-      <div class="fd-nav-right">
-        <button type="button" class="ant-btn button-publish" @click="goPublic">
-          <span>发 布</span>
-        </button>
-      </div>
-    </div>
+    <!-- <button type="button" class="ant-btn button-publish" @click="goPublic">
+      <span>发 布</span>
+    </button> -->
     <div class="workflow-container__content fd-nav-content">
       <section class="workflow-container__canvas dingflow-design">
         <div class="zoom">
@@ -42,11 +31,17 @@
         </div>
       </section>
     </div>
-    <!-- <errorDialog v-model:visible="tipVisible" :list="tipList" />
-    <promoterDrawer />
-    <approverDrawer :director-max-level="directorMaxLevel" />
-    <copyerDrawer />
-    <conditionDrawer /> -->
+
+    <el-drawer
+      :model-value="workFlowState.drawerVisible"
+      append-to-body
+      direction="rtl"
+      @close="closeDrawer"
+    >
+      <template #header> 节点配置 </template>
+
+      处理各个节点逻辑
+    </el-drawer>
   </div>
 </template>
 
@@ -60,7 +55,8 @@ import { getWorkFlowData } from './mock'
 
 const workFlowDesignStore = useWorkflowDesignStore()
 
-const { workFlowState, updateZoomSize, setNodeConfig, flowToJson } = workFlowDesignStore
+const { workFlowState, updateZoomSize, setNodeConfig, flowToJson, closeDrawer } =
+  workFlowDesignStore
 
 createWorkflowContext(workFlowDesignStore)
 

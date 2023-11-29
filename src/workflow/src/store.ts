@@ -6,11 +6,13 @@ export function useWorkflowDesignStore() {
   const state = reactive<{
     scale: number
     node: any
+    drawerVisible: boolean
   }>({
     // 画布缩放倍率
     scale: 100,
     // 节点信息数据
-    node: {}
+    node: {},
+    drawerVisible: false
   })
 
   // 处理逻辑层插入
@@ -120,6 +122,14 @@ export function useWorkflowDesignStore() {
     }
   }
 
+  function openDrawer() {
+    state.drawerVisible = true
+  }
+
+  function closeDrawer() {
+    state.drawerVisible = false
+  }
+
   function setNodeConfig(node) {
     state.node = node
   }
@@ -140,6 +150,8 @@ export function useWorkflowDesignStore() {
   return {
     workFlowState: state,
     flowToJson,
+    openDrawer,
+    closeDrawer,
     updateZoomSize,
     removeNode,
     setNodeConfig,

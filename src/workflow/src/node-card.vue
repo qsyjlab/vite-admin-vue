@@ -18,6 +18,7 @@
         (nodeConfig.type === NodeTypeEnum.Initiator ? 'start-node ' : '') +
         (nodeConfig.error ? 'active error' : '')
       "
+      @click="openDrawer"
     >
       <div
         class="title"
@@ -62,7 +63,7 @@ const props = defineProps({
   }
 })
 
-const { removeNode } = useWorkflowContext()
+const { removeNode, openDrawer } = useWorkflowContext()
 
 const nodePreset = computed(() => {
   return NodeConfigEnum[props.nodeConfig.type] || {}
