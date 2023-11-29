@@ -51,7 +51,6 @@
 </template>
 <script setup lang="ts">
 import AddNode from './add-node.vue'
-// import { bgColors } from './constant'
 import { useWorkflowContext } from './store'
 import { NodeTypeEnum } from './constant'
 import NodeRenderer from './node-renderer.vue'

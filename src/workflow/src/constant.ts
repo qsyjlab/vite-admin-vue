@@ -1,5 +1,4 @@
 export const bgColors = ['87, 106, 149', '255, 148, 62', '50, 150, 250']
-
 // 类型枚举
 export const NodeTypeEnum = {
   // 发起人
@@ -40,42 +39,65 @@ export const NodeConfigEnum = {
   [NodeTypeEnum.Approver]: {
     nodeName: '审批人',
     placeholder: '请选择',
-    color: 'rgb(247, 143, 95)'
+    color: 'rgb(247, 143, 95)',
+    icon: 'approver'
   },
 
   [NodeTypeEnum.CC]: {
     nodeName: '抄送人',
     placeholder: '请选择',
-    color: 'rgb(64, 158, 255)'
+    color: 'rgb(64, 158, 255)',
+    icon: 'cc'
   },
   [NodeTypeEnum.Processor]: {
     nodeName: '办理人',
     placeholder: '请选择',
-    color: 'rgb(230, 176, 57)'
+    color: 'rgb(230, 176, 57)',
+    icon: 'processor'
   },
   [NodeTypeEnum.Trigger]: {
     nodeName: '触发器',
     placeholder: '请选择',
-    color: 'rgb(53, 184, 129)'
+    color: 'rgb(53, 184, 129)',
+    icon: 'trigger'
   },
   [NodeTypeEnum.Delay]: {
     nodeName: '延迟处理',
     placeholder: '等待多少分钟',
-    color: 'rgb(249, 81, 102)'
+    color: 'rgb(249, 81, 102)',
+    icon: 'delay'
   },
   [NodeTypeEnum.Conditional_Node]: {
     nodeName: '条件',
     placeholder: '请设置分支条件',
-    color: '#15bca3'
+    color: '#15bca3',
+    icon: 'conditional'
+  },
+  [NodeTypeEnum.Conditional_Branch]: {
+    nodeName: '条件分支',
+    color: '#15bca3',
+    icon: 'conditional'
   },
   [NodeTypeEnum.Inclusive_Node]: {
     nodeName: '包容条件',
     placeholder: '并行任务同时进行',
-    color: '#425c9d'
+    color: '#425c9d',
+    icon: 'inclusive'
+  },
+  [NodeTypeEnum.Inclusive_Branch]: {
+    nodeName: '包容分支',
+    color: '#425c9d',
+    icon: 'inclusive'
   },
   [NodeTypeEnum.Parallel_Node]: {
     nodeName: '分支',
     placeholder: '请设置分支条件',
-    color: '#718dff'
+    color: '#718dff',
+    icon: 'parallel'
+  },
+  [NodeTypeEnum.Parallel_Branch]: {
+    nodeName: '平行分支',
+    color: '#718dff',
+    icon: 'parallel'
   }
 }

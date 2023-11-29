@@ -7,7 +7,7 @@ export function createNode(type) {
     case NodeTypeEnum.Approver:
       return {
         nodeName: '审核人' + new Date().getTime(),
-        error: true,
+        error: false,
         type: NodeTypeEnum.Approver,
         settype: 1,
         selectMode: 0,
