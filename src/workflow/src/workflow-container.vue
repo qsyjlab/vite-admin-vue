@@ -30,7 +30,6 @@
           ></div>
         </div>
         <div class="box-scale" :style="`transform: scale(${workFlowState.scale / 100});`">
-          <!-- v-model:nodeConfig="nodeConfig" v-model:flowPermission="flowPermission" -->
           <node-renderer
             v-if="Object.keys(workFlowState.node).length"
             :node-config="workFlowState.node"

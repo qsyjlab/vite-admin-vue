@@ -46,6 +46,9 @@ export function useWorkflowDesignStore() {
   function insertFlowNode(type, root) {
     if (!root) return
     const newNode = createNode(type)
+
+    console.log('newNode', newNode)
+
     insertNode(newNode, root)
   }
 

@@ -1,30 +1,31 @@
-<!--
- * @Date: 2022-09-21 14:41:53
- * @LastEditors: StavinLi 495727881@qq.com
- * @LastEditTime: 2023-05-24 15:20:24
- * @FilePath: /Workflow-Vue3/src/components/node-renderer.vue
--->
 <template>
-  <div v-if="[NodeTypeEnum.Approver, NodeTypeEnum.CC].includes(nodeConfig.type)" class="node-wrap">
+  <div
+    v-if="
+      [
+        NodeTypeEnum.Initiator,
+        NodeTypeEnum.Approver,
+        NodeTypeEnum.CC,
+        NodeTypeEnum.Delay,
+        NodeTypeEnum.Trigger,
+        NodeTypeEnum.Processor
+      ].includes(nodeConfig.type)
+    "
+    class="node-wrap"
+  >
     <div
       class="node-wrap-box"
       :class="
-        (nodeConfig.type == 0 ? 'start-node ' : '') +
+        (nodeConfig.type === NodeTypeEnum.Initiator ? 'start-node ' : '') +
         (isTried && nodeConfig.error ? 'active error' : '')
       "
     >
       <div class="title" :style="`background: rgb(${bgColors[nodeConfig.type]});`">
-        <span v-if="nodeConfig.type == 0">{{ nodeConfig.nodeName }}</span>
+        <!-- 这里处理普通节点的样式 -->
+        <span v-if="nodeConfig.type === NodeTypeEnum.Initiator">{{ nodeConfig.nodeName }}</span>
         <template v-else>
-          <span class="iconfont">图标占位</span>
-          <input
-            v-if="isInput"
-            type="text"
-            class="ant-input editable-title-input"
-            :placeholder="defaultText"
-            @blur="blurEvent()"
-          />
-          <span v-else class="editable-title" @click="clickEvent()">{{ nodeConfig.nodeName }}</span>
+          <span class="iconfont"></span>
+
+          <span class="editable-title" @click="clickEvent()">{{ nodeConfig.nodeName }}</span>
           <i class="anticon anticon-close close" @click="delNode"></i>
         </template>
       </div>
@@ -41,14 +42,24 @@
     </div>
     <AddNode :node-config="nodeConfig" />
   </div>
+  <!-- 条件分支 -->
   <condition-branch
     v-if="[NodeTypeEnum.Conditional_Branch].includes(nodeConfig.type)"
     :node-config="nodeConfig"
   ></condition-branch>
+
+  <!-- 包容分支 -->
   <inclusive-branch
     v-if="[NodeTypeEnum.Inclusive_Branch].includes(nodeConfig.type)"
     :node-config="nodeConfig"
   ></inclusive-branch>
+
+  <!-- 并行分支 -->
+  <parallel-branch
+    v-if="[NodeTypeEnum.Parallel_Branch].includes(nodeConfig.type)"
+    :node-config="nodeConfig"
+  ></parallel-branch>
+
   <div
     v-if="
       false &&
@@ -109,10 +120,11 @@
 <script setup lang="ts">
 import ConditionBranch from './condition-branch.vue'
 import InclusiveBranch from './inclusive-branch.vue'
+import ParallelBranch from './parallel-branch.vue'
 import AddNode from './add-node.vue'
-import { bgColors } from './constant'
+
 import { useWorkflowContext } from './store'
-import { NodeTypeEnum } from './constant'
+import { NodeTypeEnum, bgColors } from './constant'
 
 const props = defineProps({
   nodeConfig: {

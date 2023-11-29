@@ -2,6 +2,8 @@ export const bgColors = ['87, 106, 149', '255, 148, 62', '50, 150, 250']
 
 // 类型枚举
 export const NodeTypeEnum = {
+  // 发起人
+  Initiator: 0,
   // 审批人
   Approver: 1,
   // 抄送人
@@ -14,5 +16,16 @@ export const NodeTypeEnum = {
   // 包容分支
   Inclusive_Branch: 5,
   // 包容分支 判定节点
-  Inclusive_Node: 6
+  Inclusive_Node: 6,
+
+  // 并行分支
+  Parallel_Branch: 7,
+  // 并行分支 判定节点
+  Parallel_Node: 8,
+  // 触发器
+  Trigger: 9,
+  // 延时等待
+  Delay: 10,
+  // 办理人
+  Processor: 11
 }
