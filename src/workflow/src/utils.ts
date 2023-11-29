@@ -82,7 +82,7 @@ export function createNode(type) {
         childNode: null,
         conditionNodes: [
           {
-            nodeName: '分支1',
+            nodeName: '并行分支1',
             error: true,
             type: NodeTypeEnum.Parallel_Node,
             priorityLevel: 1,
@@ -198,7 +198,7 @@ export function conditionStr(nodeConfig, index) {
   const { conditionList, nodeUserList } = nodeConfig.conditionNodes[index]
   if (conditionList.length == 0) {
     return index == nodeConfig.conditionNodes.length - 1 &&
-      nodeConfig.conditionNodes[0].conditionList.length != 0
+      nodeConfig.conditionNodes?.[0].conditionList?.length != 0
       ? '其他条件进入此流程'
       : '请设置条件'
   } else {

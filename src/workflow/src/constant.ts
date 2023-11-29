@@ -96,7 +96,7 @@ export const NodeConfigEnum = {
     icon: 'parallel'
   },
   [NodeTypeEnum.Parallel_Branch]: {
-    nodeName: '平行分支',
+    nodeName: '并行分支',
     color: '#718dff',
     icon: 'parallel'
   }

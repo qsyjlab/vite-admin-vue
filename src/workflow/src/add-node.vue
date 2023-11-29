@@ -1,7 +1,7 @@
 <template>
   <div class="add-node-btn-box">
     <div class="add-node-btn">
-      <el-popover v-model:visible="visible" width="auto">
+      <el-popover v-model:visible="visible" width="auto" placement="right-start">
         <h3 class="header">添加流程节点</h3>
 
         <div class="node-events">
@@ -21,71 +21,9 @@
           </div>
         </div>
 
-        <div v-if="false" class="add-node-popover-body">
-          <a class="add-node-popover-item approver" @click="addFlowNode(NodeTypeEnum.Approver)">
-            <div class="item-wrapper">
-              <span class="iconfont"></span>
-            </div>
-            <p>审批人</p>
-          </a>
-          <a class="add-node-popover-item approver" @click="addFlowNode(NodeTypeEnum.Processor)">
-            <div class="item-wrapper">
-              <span class="iconfont"></span>
-            </div>
-            <p>办理人</p>
-          </a>
-          <a class="add-node-popover-item notifier" @click="addFlowNode(NodeTypeEnum.CC)">
-            <div class="item-wrapper">
-              <span class="iconfont"></span>
-            </div>
-            <p>抄送人</p>
-          </a>
-          <a
-            class="add-node-popover-item condition"
-            @click="addFlowNode(NodeTypeEnum.Conditional_Branch)"
-          >
-            <div class="item-wrapper">
-              <span class="iconfont"></span>
-            </div>
-            <p>条件分支</p>
-          </a>
-        </div>
-        <div v-if="false" class="add-node-popover-body">
-          <a
-            class="add-node-popover-item condition"
-            @click="addFlowNode(NodeTypeEnum.Inclusive_Branch)"
-          >
-            <div class="item-wrapper">
-              <span class="iconfont"></span>
-            </div>
-            <p>包容分支</p>
-          </a>
-          <a
-            class="add-node-popover-item condition"
-            @click="addFlowNode(NodeTypeEnum.Parallel_Branch)"
-          >
-            <div class="item-wrapper">
-              <span class="iconfont"></span>
-            </div>
-            <p>并行分支</p>
-          </a>
-          <a class="add-node-popover-item approver" @click="addFlowNode(NodeTypeEnum.Trigger)">
-            <div class="item-wrapper">
-              <span class="iconfont"></span>
-            </div>
-            <p>触发器</p>
-          </a>
-          <a class="add-node-popover-item approver" @click="addFlowNode(NodeTypeEnum.Delay)">
-            <div class="item-wrapper">
-              <span class="iconfont"></span>
-            </div>
-            <p>延时等待</p>
-          </a>
-        </div>
-
         <template #reference>
           <button class="btn" type="button">
-            <span class="iconfont"></span>
+            <icon color="white" icon="add-node"></icon>
           </button>
         </template>
       </el-popover>
