@@ -118,9 +118,79 @@ export function createNode(type) {
         type: NodeTypeEnum.Processor
       }
     }
+    case NodeTypeEnum.Initiator: {
+      return {
+        nodeName: '发起人',
+        type: NodeTypeEnum.Initiator
+      }
+    }
     default:
       return null
   }
+}
+
+// 创建分支类型的条件节点
+export function createConditionNode(type, config = {}) {
+  switch (type) {
+    case NodeTypeEnum.Conditional_Node: {
+      return {
+        nodeName: '条件1',
+        error: true,
+        childNode: null,
+        ...config,
+        type: NodeTypeEnum.Conditional_Node
+      }
+    }
+    case NodeTypeEnum.Inclusive_Node: {
+      return {
+        nodeName: '条件1',
+        error: true,
+        childNode: null,
+        ...config,
+        type: NodeTypeEnum.Inclusive_Node
+      }
+    }
+
+    case NodeTypeEnum.Parallel_Node: {
+      return {
+        nodeName: '条件1',
+        error: true,
+        childNode: null,
+        ...config,
+        type: NodeTypeEnum.Parallel_Node
+      }
+    }
+
+    default:
+      return null
+  }
+}
+
+export function deepRemoveParentReference(obj, originalToCopyMap = new WeakMap()) {
+  // 如果是基本数据类型，则直接返回
+  if (typeof obj !== 'object' || obj === null) {
+    return obj
+  }
+
+  // 如果对象已经被复制过，直接返回复制后的对象，避免循环引用导致无限递归
+  if (originalToCopyMap.has(obj)) {
+    return originalToCopyMap.get(obj)
+  }
+
+  // 创建一个新的对象或数组
+  const copy = Array.isArray(obj) ? [] : {}
+
+  // 将原始对象和对应的复制对象存储在 Map 中
+  originalToCopyMap.set(obj, copy)
+
+  // 递归复制属性，同时忽略 _parent 属性
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key) && key !== '_parent') {
+      copy[key] = deepRemoveParentReference(obj[key], originalToCopyMap)
+    }
+  }
+
+  return copy
 }
 
 // TODO: 开源项目固有代码 待排查

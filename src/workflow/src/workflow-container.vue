@@ -9,9 +9,9 @@
         <div class="fd-nav-title">合同管理</div>
       </div>
       <div class="fd-nav-right">
-        <!-- <button type="button" class="ant-btn button-publish" @click="saveSet">
+        <button type="button" class="ant-btn button-publish" @click="goPublic">
           <span>发 布</span>
-        </button> -->
+        </button>
       </div>
     </div>
     <div class="workflow-container__content fd-nav-content">
@@ -20,13 +20,13 @@
           <div
             class="zoom-out"
             :class="workFlowState.scale == 50 && 'disabled'"
-            @click="updateZoomSize('i')"
+            @click="updateZoomSize('d')"
           ></div>
           <span>{{ workFlowState.scale }}%</span>
           <div
             class="zoom-in"
             :class="workFlowState.scale == 300 && 'disabled'"
-            @click="updateZoomSize()"
+            @click="updateZoomSize('i')"
           ></div>
         </div>
         <div class="box-scale" :style="`transform: scale(${workFlowState.scale / 100});`">
@@ -53,16 +53,19 @@
 <script setup lang="ts">
 import { useWorkflowDesignStore, createWorkflowContext } from './store'
 import NodeRenderer from './node-renderer.vue'
+import { createNode } from './utils'
+import { NodeTypeEnum } from './constant'
 // mock
 import { getWorkFlowData } from './mock'
 
 const workFlowDesignStore = useWorkflowDesignStore()
 
-const { workFlowState, updateZoomSize, setNodeConfig } = workFlowDesignStore
+const { workFlowState, updateZoomSize, setNodeConfig, flowToJson } = workFlowDesignStore
 
 createWorkflowContext(workFlowDesignStore)
 
-getFlowData()
+setNodeConfig(createNode(NodeTypeEnum.Initiator))
+// getFlowData()
 
 async function getFlowData() {
   const { data } = await getWorkFlowData()
@@ -89,9 +92,13 @@ async function getFlowData() {
 
   recursive(data.nodeConfig)
 
-  console.log('data.nodeConfig', data.nodeConfig)
-
   setNodeConfig(data.nodeConfig)
+}
+
+function goPublic() {
+  console.log('workFlowState', workFlowState.node)
+
+  console.log('flowToJson()', flowToJson())
 }
 </script>
 <style lang="scss" scoped>

@@ -1,6 +1,6 @@
 import { reactive, InjectionKey } from 'vue'
 import { useContext, createContext } from './use-context'
-import { conditionStr, createNode } from './utils'
+import { conditionStr, createConditionNode, createNode, deepRemoveParentReference } from './utils'
 
 export function useWorkflowDesignStore() {
   const state = reactive<{
@@ -12,6 +12,97 @@ export function useWorkflowDesignStore() {
     // 节点信息数据
     node: {}
   })
+
+  // 处理逻辑层插入
+  function insertFlowNode(type, root) {
+    if (!root) return
+    const newNode = createNode(type)
+    insertNode(newNode, root)
+  }
+
+  // 像某个节点插入一个节点
+  // 只做节点操作 让 addFlowNode 来做逻辑层操作
+  function insertNode(node, root?: any) {
+    const childNode = root.childNode
+
+    if (childNode) {
+      childNode._parent = node
+      node.childNode = childNode
+    }
+    root.childNode = node
+    node._parent = root
+  }
+
+  /**
+   * 传入当前节点 将父级节点的指向自己的子节点 ，子节点指向当前节点的父节点
+   */
+  function removeNode(node) {
+    const childNode = node.childNode
+
+    if (childNode) {
+      childNode._parent = node._parent
+    }
+
+    node._parent.childNode = childNode
+  }
+
+  // 移除某个条件流程
+  function removeConditionBranch(node, index) {
+    if (!node?.conditionNodes.length) return
+
+    const conditionNodes = node.conditionNodes
+
+    conditionNodes.splice(index, 1)
+    conditionNodes.map((condition, index) => {
+      condition.priorityLevel = index + 1
+      condition.nodeName = `条件${index + 1}`
+    })
+
+    resetConditionNodesErr(node)
+
+    // 递归连接后续 childNode
+    function reData(data, addData) {
+      if (!data.childNode) {
+        data.childNode = addData
+        addData._parent = data
+      } else {
+        reData(data.childNode, addData)
+      }
+    }
+
+    if (conditionNodes.length === 1) {
+      if (node.childNode) {
+        if (conditionNodes[0].childNode) {
+          reData(conditionNodes[0].childNode, node.childNode)
+        } else {
+          console.log('没有 childrenNOde')
+          conditionNodes[0].childNode = node.childNode
+        }
+      }
+
+      // 这里额外处理下 剩余一个子节点需要连接当前 流程节点的父节点 以及 父节点的子节点
+      // 有两种情况一种是下面有 n 个节点 另一种是 嵌套空条件
+      const childNode = conditionNodes[0].childNode
+
+      if (node._parent && childNode) {
+        childNode._parent = node._parent
+        node._parent.childNode = childNode
+      } else {
+        node._parent.childNode = conditionNodes[0].childNode
+      }
+    }
+  }
+
+  // 基于原有条件插入新的条件式子
+  function insertConditionNodesToNode(node, type) {
+    const len = node.conditionNodes.length + 1
+
+    const newConditionNode = createConditionNode(type, { nodeName: `条件${len}` })
+
+    node.conditionNodes.push(newConditionNode)
+
+    resetConditionNodesErr(node)
+  }
 
   // 更新画布缩放倍率
   function updateZoomSize(type?: 'i' | 'd', value = 10) {
@@ -29,97 +120,8 @@ export function useWorkflowDesignStore() {
     }
   }
 
-  /**
-   * 如果没有指定 root 则初始化信息
-   * 指定 root 则 更新 childNode
-   */
-  function setNodeConfig(node, root?: any) {
-    if (root && root._parent) {
-      root._parent.childNode = node
-    } else {
-      // 设置跟节点
-      state.node = node
-    }
-  }
-
-  // 处理逻辑层插入
-  function insertFlowNode(type, root) {
-    if (!root) return
-    const newNode = createNode(type)
-
-    console.log('newNode', newNode)
-
-    insertNode(newNode, root)
-  }
-
-  // 像某个节点插入一个节点
-  // 只做节点操作 让 addFlowNode 来做逻辑层操作
-  function insertNode(node, root?: any) {
-    const childNode = root.childNode
-
-    if (childNode) {
-      childNode.__parent = node
-    }
-
-    node.childNode = childNode
-    node._parent = root
-    root.childNode = node
-  }
-
-  // 移除某个条件流程
-  function removeConditionBranch(node, index) {
-    if (!node?.conditionNodes.length) return
-
-    const conditionNodes = node.conditionNodes
-
-    conditionNodes.splice(index, 1)
-    conditionNodes.map((condition, index) => {
-      condition.priorityLevel = index + 1
-      condition.nodeName = `条件${index + 1}`
-    })
-
-    resetConditionNodesErr(node)
-
-    function reData(data, addData) {
-      if (!data.childNode) {
-        data.childNode = addData
-      } else {
-        reData(data.childNode, addData)
-      }
-    }
-
-    if (conditionNodes.length === 1) {
-      debugger
-      if (node.childNode) {
-        if (conditionNodes[0].childNode) {
-          reData(conditionNodes[0].childNode, node.childNode)
-        } else {
-          setNodeConfig(node.childNode, node)
-
-          conditionNodes[0].childNode = node.childNode
-        }
-      }
-
-      setNodeConfig(conditionNodes[0].childNode, node)
-    }
-  }
-
-  // 基于原有条件插入新的条件式子
-  function insertConditionNodesToNode(node) {
-    const len = node.conditionNodes.length + 1
-
-    const newConditionNode = {
-      nodeName: '条件' + len,
-      type: 3,
-      priorityLevel: len,
-      conditionList: [],
-      nodeUserList: [],
-      childNode: null
-    }
-
-    node.conditionNodes.push(newConditionNode)
-
-    resetConditionNodesErr(node)
+  function setNodeConfig(node) {
+    state.node = node
   }
 
   // 判定语句生成
@@ -130,9 +132,16 @@ export function useWorkflowDesignStore() {
     }
   }
 
+  // 拷贝一层数据做提交使用
+  function flowToJson() {
+    return JSON.parse(JSON.stringify(deepRemoveParentReference(state.node)))
+  }
+
   return {
     workFlowState: state,
+    flowToJson,
     updateZoomSize,
+    removeNode,
     setNodeConfig,
     insertFlowNode,
     insertNode,

@@ -24,7 +24,7 @@ export function getWorkFlowData() {
         conditionList: [],
         nodeUserList: [],
         childNode: {
-          nodeName: '审核人',
+          nodeName: '审核人2',
           error: false,
           type: 1,
           settype: 2,
@@ -95,7 +95,7 @@ export function getWorkFlowData() {
                   }
                 ],
                 childNode: {
-                  nodeName: '审核人',
+                  nodeName: '审核人333',
                   type: 1,
                   priorityLevel: 1,
                   settype: 1,

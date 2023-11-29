@@ -29,3 +29,53 @@ export const NodeTypeEnum = {
   // 办理人
   Processor: 11
 }
+
+// 作为节点的生成默认文案 配置等
+export const NodeConfigEnum = {
+  [NodeTypeEnum.Initiator]: {
+    nodeName: '发起人',
+    placeholder: '请选择',
+    color: 'rgb(122, 147, 157)'
+  },
+  [NodeTypeEnum.Approver]: {
+    nodeName: '审批人',
+    placeholder: '请选择',
+    color: 'rgb(247, 143, 95)'
+  },
+
+  [NodeTypeEnum.CC]: {
+    nodeName: '抄送人',
+    placeholder: '请选择',
+    color: 'rgb(64, 158, 255)'
+  },
+  [NodeTypeEnum.Processor]: {
+    nodeName: '办理人',
+    placeholder: '请选择',
+    color: 'rgb(230, 176, 57)'
+  },
+  [NodeTypeEnum.Trigger]: {
+    nodeName: '触发器',
+    placeholder: '请选择',
+    color: 'rgb(53, 184, 129)'
+  },
+  [NodeTypeEnum.Delay]: {
+    nodeName: '延迟处理',
+    placeholder: '等待多少分钟',
+    color: 'rgb(249, 81, 102)'
+  },
+  [NodeTypeEnum.Conditional_Node]: {
+    nodeName: '条件',
+    placeholder: '请设置分支条件',
+    color: '#15bca3'
+  },
+  [NodeTypeEnum.Inclusive_Node]: {
+    nodeName: '包容条件',
+    placeholder: '并行任务同时进行',
+    color: '#425c9d'
+  },
+  [NodeTypeEnum.Parallel_Node]: {
+    nodeName: '分支',
+    placeholder: '请设置分支条件',
+    color: '#718dff'
+  }
+}

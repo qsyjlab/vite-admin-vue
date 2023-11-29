@@ -1,7 +1,7 @@
 <template>
   <div class="add-node-btn-box">
     <div class="add-node-btn">
-      <el-popover v-model="visible" placement="right-start" width="auto">
+      <el-popover v-model:visible="visible" placement="right-start" width="auto">
         <div class="add-node-popover-body">
           <a class="add-node-popover-item approver" @click="addFlowNode(NodeTypeEnum.Approver)">
             <div class="item-wrapper">
@@ -78,16 +78,18 @@
 import { ref } from 'vue'
 import { useWorkflowContext } from './store'
 import { NodeTypeEnum } from './constant'
-let props = defineProps({
+
+const props = defineProps({
   nodeConfig: {
     type: Object,
     default: () => ({})
   }
 })
 
+const visible = ref(false)
+
 const { insertFlowNode } = useWorkflowContext()
 
-let visible = ref(false)
 const addFlowNode = type => {
   visible.value = false
   insertFlowNode(type, props.nodeConfig)

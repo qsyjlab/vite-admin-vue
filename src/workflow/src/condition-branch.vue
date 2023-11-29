@@ -63,23 +63,14 @@ const props = defineProps({
   }
 })
 
-const { setNodeConfig, removeConditionBranch, insertConditionNodesToNode } = useWorkflowContext()
+const { removeConditionBranch, insertConditionNodesToNode } = useWorkflowContext()
 
 const isTried = false
 
-const isInput = false
-
-const defaultText = ''
-const showText = ''
 const isInputList = []
 
 const blurEvent = (index?) => {}
 const clickEvent = (index?) => {}
-
-// 删除纯节点
-const delNode = () => {
-  setNodeConfig(props.nodeConfig.childNode, props.nodeConfig)
-}
 
 // 删除条件
 const delTerm = index => {
@@ -88,7 +79,7 @@ const delTerm = index => {
 
 // 添加条件
 const addTerm = () => {
-  insertConditionNodesToNode(props.nodeConfig)
+  insertConditionNodesToNode(props.nodeConfig, NodeTypeEnum.Conditional_Node)
 }
 
 const setPerson = level => {
