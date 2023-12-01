@@ -103,19 +103,22 @@ function goPublic() {
 .workflow-container {
   height: 100%;
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
   background-color: #f5f5f7;
+  overflow: auto;
 
   &__header {
     height: 50px;
   }
 
   &__content {
+    height: 100%;
     flex: 1;
   }
 
   &__canvas {
     height: 100%;
+    overflow: hidden;
   }
 }
 </style>
