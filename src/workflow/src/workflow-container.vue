@@ -102,6 +102,7 @@ function goPublic() {
 
 .workflow-container {
   height: 100%;
+  position: relative;
   display: flex;
   // flex-direction: column;
   background-color: #f5f5f7;
@@ -114,11 +115,12 @@ function goPublic() {
   &__content {
     height: 100%;
     flex: 1;
+    position: relative;
   }
 
   &__canvas {
-    height: 100%;
-    overflow: hidden;
+    // height: 100%;
+    // overflow: hidden;
   }
 }
 </style>

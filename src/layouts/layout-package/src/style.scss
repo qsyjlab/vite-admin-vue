@@ -40,6 +40,7 @@
     width: 100%;
     transition-property: padding-left;
     box-sizing: border-box;
+    min-height: 0;
   }
 
   &-footer {
