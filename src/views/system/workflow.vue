@@ -1,9 +1,15 @@
 <template>
-  <div style="height: 100%">
-    <WorkflowContainer></WorkflowContainer>
-  </div>
+  <page-card>
+    <BpmnDesigner></BpmnDesigner>
+  </page-card>
 </template>
+
 <script setup lang="ts">
-import { WorkflowContainer } from '@/workflow'
+import { BpmnDesigner } from '@/bpmn-design'
 </script>
-<style scoped></style>
+
+<style scoped>
+.container {
+  height: 100%;
+}
+</style>
