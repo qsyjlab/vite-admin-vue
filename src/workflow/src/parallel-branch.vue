@@ -2,31 +2,22 @@
   <div class="branch-wrap">
     <div class="branch-box-wrap">
       <div class="branch-box">
-        <button class="add-branch" @click="addTerm">添加条件(包容节点)</button>
+        <button class="add-branch" @click="addTerm">添加条件(并行分支)</button>
+        <!-- <div class="branch-icon">
+          <icon :color="presetConfig.color" size="22" :icon="presetConfig.icon" />
+        </div> -->
         <div v-for="(item, index) in nodeConfig.conditionNodes" :key="index" class="col-box">
           <div class="condition-node">
             <div class="condition-node-box">
-              <div class="auto-judge" :class="isTried && item.error ? 'error active' : ''">
+              <div class="auto-judge" :class="item.error ? 'error active' : ''">
                 <div v-if="index != 0" class="sort-left" @click="arrTransfer(index, -1)">&lt;</div>
                 <div class="title-wrapper">
-                  <input
-                    v-if="isInputList[index]"
-                    v-model="item.nodeName"
-                    type="text"
-                    class="ant-input editable-title-input"
-                    @blur="blurEvent(index)"
-                  />
-                  <span v-else class="editable-title" @click="clickEvent(index)">{{
-                    item.nodeName
-                  }}</span>
-                  <span class="priority-title" @click="setPerson(item.priorityLevel)"
-                    >优先级{{ item.priorityLevel }}</span
-                  >
+                  <span class="editable-title" @click="clickEvent(index)">{{ item.nodeName }}</span>
                   <i class="anticon anticon-close close" @click="delTerm(index)"></i>
                 </div>
                 <div class="sort-right" @click="arrTransfer(index)">&gt;</div>
                 <div class="content" @click="setPerson(item.priorityLevel)"></div>
-                <div v-if="isTried && item.error" class="error_tip">
+                <div v-if="item.error" class="error_tip">
                   <i class="anticon anticon-exclamation-circle"></i>
                 </div>
               </div>
@@ -50,11 +41,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import AddNode from './add-node.vue'
-import { NodeTypeEnum } from './constant'
 import { useWorkflowContext } from './store'
-
+import { NodeTypeEnum } from './constant'
+import AddNode from './add-node.vue'
 import NodeRenderer from './node-renderer.vue'
+// import Icon from './components/icon.vue'
 
 const props = defineProps({
   nodeConfig: {
@@ -65,11 +56,10 @@ const props = defineProps({
 
 const { removeConditionBranch, insertConditionNodesToNode } = useWorkflowContext()
 
-const isTried = false
+// const presetConfig = computed(() => {
+//   return NodeConfigEnum[props.nodeConfig.type]
+// })
 
-const isInputList = []
-
-const blurEvent = (index?) => {}
 const clickEvent = (index?) => {}
 
 // 删除条件
@@ -79,7 +69,7 @@ const delTerm = index => {
 
 // 添加条件
 const addTerm = () => {
-  insertConditionNodesToNode(props.nodeConfig, NodeTypeEnum.Inclusive_Node)
+  insertConditionNodesToNode(props.nodeConfig, NodeTypeEnum.Parallel_Node)
 }
 
 const setPerson = level => {

@@ -1,36 +1,24 @@
 <template>
   <div class="workflow-container">
-    <div class="workflow-container__header">
-      <div class="fd-nav-left">
-        <div class="fd-nav-back">
-          <i class="anticon anticon-left"></i>
-        </div>
-        <!-- workFlowDef.name  -->
-        <div class="fd-nav-title">合同管理</div>
-      </div>
-      <div class="fd-nav-right">
-        <!-- <button type="button" class="ant-btn button-publish" @click="saveSet">
-          <span>发 布</span>
-        </button> -->
-      </div>
-    </div>
+    <!-- <button type="button" class="ant-btn button-publish" @click="goPublic">
+      <span>发 布</span>
+    </button> -->
     <div class="workflow-container__content fd-nav-content">
       <section class="workflow-container__canvas dingflow-design">
         <div class="zoom">
           <div
             class="zoom-out"
             :class="workFlowState.scale == 50 && 'disabled'"
-            @click="updateZoomSize('i')"
+            @click="updateZoomSize('d')"
           ></div>
           <span>{{ workFlowState.scale }}%</span>
           <div
             class="zoom-in"
             :class="workFlowState.scale == 300 && 'disabled'"
-            @click="updateZoomSize()"
+            @click="updateZoomSize('i')"
           ></div>
         </div>
         <div class="box-scale" :style="`transform: scale(${workFlowState.scale / 100});`">
-          <!-- v-model:nodeConfig="nodeConfig" v-model:flowPermission="flowPermission" -->
           <node-renderer
             v-if="Object.keys(workFlowState.node).length"
             :node-config="workFlowState.node"
@@ -43,27 +31,37 @@
         </div>
       </section>
     </div>
-    <!-- <errorDialog v-model:visible="tipVisible" :list="tipList" />
-    <promoterDrawer />
-    <approverDrawer :director-max-level="directorMaxLevel" />
-    <copyerDrawer />
-    <conditionDrawer /> -->
+
+    <el-drawer
+      :model-value="workFlowState.drawerVisible"
+      append-to-body
+      direction="rtl"
+      @close="closeDrawer"
+    >
+      <template #header> 节点配置 </template>
+
+      处理各个节点逻辑
+    </el-drawer>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useWorkflowDesignStore, createWorkflowContext } from './store'
 import NodeRenderer from './node-renderer.vue'
+import { createNode } from './utils'
+import { NodeTypeEnum } from './constant'
 // mock
 import { getWorkFlowData } from './mock'
 
 const workFlowDesignStore = useWorkflowDesignStore()
 
-const { workFlowState, updateZoomSize, setNodeConfig } = workFlowDesignStore
+const { workFlowState, updateZoomSize, setNodeConfig, flowToJson, closeDrawer } =
+  workFlowDesignStore
 
 createWorkflowContext(workFlowDesignStore)
 
-getFlowData()
+setNodeConfig(createNode(NodeTypeEnum.Initiator))
+// getFlowData()
 
 async function getFlowData() {
   const { data } = await getWorkFlowData()
@@ -90,9 +88,13 @@ async function getFlowData() {
 
   recursive(data.nodeConfig)
 
-  console.log('data.nodeConfig', data.nodeConfig)
-
   setNodeConfig(data.nodeConfig)
+}
+
+function goPublic() {
+  console.log('workFlowState', workFlowState.node)
+
+  console.log('flowToJson()', flowToJson())
 }
 </script>
 <style lang="scss" scoped>
@@ -100,20 +102,25 @@ async function getFlowData() {
 
 .workflow-container {
   height: 100%;
+  position: relative;
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
   background-color: #f5f5f7;
+  overflow: auto;
 
   &__header {
     height: 50px;
   }
 
   &__content {
+    height: 100%;
     flex: 1;
+    position: relative;
   }
 
   &__canvas {
-    height: 100%;
+    // height: 100%;
+    // overflow: hidden;
   }
 }
 </style>

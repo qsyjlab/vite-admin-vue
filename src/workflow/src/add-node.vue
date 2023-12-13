@@ -1,42 +1,29 @@
 <template>
   <div class="add-node-btn-box">
     <div class="add-node-btn">
-      <el-popover v-model="visible" placement="right-start" width="auto">
-        <div class="add-node-popover-body">
-          <a class="add-node-popover-item approver" @click="addFlowNode(NodeTypeEnum.Approver)">
-            <div class="item-wrapper">
-              <span class="iconfont"></span>
-            </div>
-            <p>审批人</p>
-          </a>
-          <a class="add-node-popover-item notifier" @click="addFlowNode(NodeTypeEnum.CC)">
-            <div class="item-wrapper">
-              <span class="iconfont"></span>
-            </div>
-            <p>抄送人</p>
-          </a>
-          <a
-            class="add-node-popover-item condition"
-            @click="addFlowNode(NodeTypeEnum.Conditional_Branch)"
+      <el-popover v-model:visible="visible" width="auto" placement="right-start">
+        <h3 class="header">添加流程节点</h3>
+
+        <div class="node-events">
+          <div
+            v-for="(item, index) in nodeEventsList"
+            :key="index"
+            class="node-events__item"
+            @click="addFlowNode(item.type)"
           >
-            <div class="item-wrapper">
-              <span class="iconfont"></span>
+            <div class="icon">
+              <icon size="25" :color="item.color" :icon="item.icon"></icon>
             </div>
-            <p>条件分支</p>
-          </a>
-          <a
-            class="add-node-popover-item condition"
-            @click="addFlowNode(NodeTypeEnum.Inclusive_Branch)"
-          >
-            <div class="item-wrapper">
-              <span class="iconfont"></span>
+
+            <div class="title">
+              {{ item.nodeName }}
             </div>
-            <p>包容分支</p>
-          </a>
+          </div>
         </div>
+
         <template #reference>
           <button class="btn" type="button">
-            <span class="iconfont"></span>
+            <icon color="white" icon="add-node"></icon>
           </button>
         </template>
       </el-popover>
@@ -47,23 +34,79 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useWorkflowContext } from './store'
-import { NodeTypeEnum } from './constant'
-let props = defineProps({
+import { NodeTypeEnum, NodeConfigEnum } from './constant'
+import Icon from './components/icon.vue'
+
+const props = defineProps({
   nodeConfig: {
     type: Object,
     default: () => ({})
   }
 })
 
+const visible = ref(false)
+
 const { insertFlowNode } = useWorkflowContext()
 
-let visible = ref(false)
+const nodeEventsList = ref<any[]>([])
+
+initilaizeEventsList()
+
+function initilaizeEventsList() {
+  Object.keys(NodeConfigEnum).forEach(key => {
+    if (
+      ![
+        NodeTypeEnum.Initiator,
+        NodeTypeEnum.Parallel_Node,
+        NodeTypeEnum.Inclusive_Node,
+        NodeTypeEnum.Conditional_Node
+      ].includes(Number(key))
+    ) {
+      nodeEventsList.value.push({
+        ...NodeConfigEnum[key],
+        type: Number(key)
+      })
+    }
+  })
+}
+
 const addFlowNode = type => {
+  console.log('type', type)
+
   visible.value = false
   insertFlowNode(type, props.nodeConfig)
 }
 </script>
 <style scoped lang="scss">
+.header {
+  padding: 10px;
+}
+.node-events {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+
+  &__item {
+    background-color: #f8f9f9;
+    padding: 15px;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+
+    .icon {
+      height: 37px;
+      width: 37px;
+      box-sizing: border-box;
+      padding: 5px;
+      border: 1px solid #dedfdf;
+      border-radius: 14px;
+      margin-right: 5px;
+    }
+  }
+}
+
 .add-node-btn-box {
   width: 240px;
   display: -webkit-inline-box;
@@ -121,66 +164,6 @@ const addFlowNode = type => {
         transform: none;
         background: #1e83e9;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-      }
-    }
-  }
-}
-</style>
-<style lang="scss" scoped>
-.add-node-popover-body {
-  display: flex;
-  .add-node-popover-item {
-    margin-right: 10px;
-    cursor: pointer;
-    text-align: center;
-    flex: 1;
-    color: #191f25 !important;
-    .item-wrapper {
-      user-select: none;
-      display: inline-block;
-      width: 80px;
-      height: 80px;
-      margin-bottom: 5px;
-      background: #fff;
-      border: 1px solid #e2e2e2;
-      border-radius: 50%;
-      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-      .iconfont {
-        font-size: 35px;
-        line-height: 80px;
-      }
-    }
-    &.approver {
-      .item-wrapper {
-        color: #ff943e;
-      }
-    }
-    &.notifier {
-      .item-wrapper {
-        color: #3296fa;
-      }
-    }
-    &.condition {
-      .item-wrapper {
-        color: #15bc83;
-      }
-    }
-    &:hover {
-      .item-wrapper {
-        background: #3296fa;
-        box-shadow: 0 10px 20px 0 rgba(50, 150, 250, 0.4);
-      }
-      .iconfont {
-        color: #fff;
-      }
-    }
-    &:active {
-      .item-wrapper {
-        box-shadow: none;
-        background: #eaeaea;
-      }
-      .iconfont {
-        color: inherit;
       }
     }
   }
