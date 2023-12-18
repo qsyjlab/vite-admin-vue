@@ -14,13 +14,6 @@ module.exports = {
   // 单个参数取消空格
   arrowParens: 'avoid',
   bracketSpacing: true,
-
-  // proseWrap: 'preserve',
-  // "proseWrap": "never"
-  // 关闭 prettier tslint 格式校验
-  // tslintIntegration: false,
-  // eslintIntegration: false,
-  // stylelintIntegration: false,
   // 配置 html 格式化
   overrides: [
     {
