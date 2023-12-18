@@ -4,7 +4,7 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
 import BpmnModeler from 'bpmn-js/lib/Modeler'
 import { customTranslate } from './lang'
-import { EnhancementPalette } from './palette'
+import { EnhancementPalette, RewritePalette } from './additional-modules/palette'
 import GridLineModule from 'diagram-js-grid-bg'
 import { createContext, useContext } from './use-context'
 import { InjectionKey, ref } from 'vue'
@@ -66,18 +66,8 @@ export function createBpmnDesigner() {
       additionalModules: [
         EnhancementPalette,
         GridLineModule,
-        {
-          // // 禁用滚轮滚动
-          // zoomScroll: ['value', '']
-          // // 禁止拖动线
-          // bendpoints: ['value', '']
-          // // 禁用左侧面板
-          // paletteProvider: ['value', ''],
-          // // 禁止点击节点出现contextPad
-          // contextPadProvider: ['value', ''],
-          // // 禁止双击节点出现label编辑框
-          // labelEditingProvider: ['value', '']
-        },
+        RewritePalette,
+
         {
           //汉化
           translate: ['value', customTranslate]

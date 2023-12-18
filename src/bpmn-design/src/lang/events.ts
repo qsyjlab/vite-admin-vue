@@ -44,5 +44,15 @@ export default {
   'Cancel Boundary Event': '取消边界事件',
   'Signal Boundary Event': '信号边界事件',
   'Signal Boundary Event (non-interrupting)': '信号边界事件（非中断）',
-  'Compensation Boundary Event': '补偿边界事件'
+  'Compensation Boundary Event': '补偿边界事件',
+  'Create {type}': '创建 {type}',
+  'Create StartEvent': '创建开始事件',
+  'Create EndEvent': '创建结束事件',
+  'Create Task': '创建任务',
+  'Create User Task': '创建用户任务',
+  'Create Gateway': '创建网关',
+  'Create DataObjectReference': '创建数据对象',
+  'Create DataStoreReference': '创建数据存储',
+  'Create Group': '创建分组',
+  'Create Intermediate/Boundary Event': '创建中间/边界事件'
 }
