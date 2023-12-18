@@ -1,64 +1,72 @@
 <template>
-  <div class="pro-table">
-    <!-- header -->
-    <toolbar :header-title="headerTitle" :columns="tableColums" :options="options">
-      <template #headerTitle>
-        <slot name="headerTitle"></slot>
-      </template>
-      <template #toolbar>
-        <slot name="toolbar"></slot>
-      </template>
-    </toolbar>
+  <el-form :ref="editableCellUtils.setFormInstanceRef" :model="editableRowsModel">
+    <div class="pro-table">
+      <!-- header -->
+      <toolbar :header-title="headerTitle" :columns="tableColums" :options="options">
+        <template #headerTitle>
+          <slot name="headerTitle"></slot>
+        </template>
+        <template #toolbar>
+          <slot name="toolbar"></slot>
+        </template>
+      </toolbar>
 
-    <slot name="alert">
-      <div class="pro-table-alert">
-        <el-alert
-          v-if="alwaysShowAlert || selectedKeys.length"
-          type="info"
-          show-icon
-          :closable="false"
-        >
-          <template #title
-            >当前已选择 {{ selectedKeys.length }} 项
-            <el-button type="primary" link @click="clearSelectedKeys">取消全部</el-button></template
+      <slot name="alert">
+        <div class="pro-table-alert">
+          <el-alert
+            v-if="alwaysShowAlert || selectedKeys.length"
+            type="info"
+            show-icon
+            :closable="false"
           >
-        </el-alert>
+            <template #title
+              >当前已选择 {{ selectedKeys.length }} 项
+              <el-button type="primary" link @click="clearSelectedKeys"
+                >取消全部</el-button
+              ></template
+            >
+          </el-alert>
+        </div>
+      </slot>
+      <!-- table -->
+      <el-table
+        ref="tableInstanceRef"
+        v-loading="loading"
+        :data="dataSource"
+        v-bind="{
+          ...$attrs,
+          style: undefined
+        }"
+        :style="{}"
+        :border="border"
+        :row-key="rowKey"
+        :table-layout="tableLayout"
+        :size="tableProps.size"
+        @selection-change="selectChangeHandler"
+      >
+        <el-table-column
+          v-if="checkable"
+          type="selection"
+          width="40"
+          :reserve-selection="reserveSelection"
+        />
+
+        <template v-for="(item, idx) in getColumns" :key="`${item.key}-${idx}`">
+          <pro-table-column :column="item" :row-key="props.rowKey"> </pro-table-column>
+        </template>
+      </el-table>
+
+      <!-- pagination -->
+      <div v-if="pagination" class="pro-table__pagination">
+        <el-pagination
+          v-bind="paginationProps"
+          :small="tableProps.size === 'small'"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
       </div>
-    </slot>
-    <!-- table -->
-    <el-table
-      ref="tableInstanceRef"
-      v-loading="loading"
-      :data="dataSource"
-      v-bind="$attrs"
-      :border="border"
-      :row-key="rowKey"
-      :table-layout="tableLayout"
-      :size="tableProps.size"
-      @selection-change="selectChangeHandler"
-    >
-      <el-table-column
-        v-if="checkable"
-        type="selection"
-        width="40"
-        :reserve-selection="reserveSelection"
-      />
-
-      <template v-for="(item, idx) in getColumns" :key="`${item.key}-${idx}`">
-        <pro-table-column :column="item" :row-key="props.rowKey"> </pro-table-column>
-      </template>
-    </el-table>
-
-    <!-- pagination -->
-    <div v-if="pagination" class="pro-table__pagination">
-      <el-pagination
-        v-bind="paginationProps"
-        :small="tableProps.size === 'small'"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
     </div>
-  </div>
+  </el-form>
 </template>
 <script setup lang="ts">
 import { computed, reactive, getCurrentInstance } from 'vue'
@@ -114,7 +122,8 @@ const {
   clearSelectedKeys,
   editableCellUtils,
   setQueryPage,
-  setQueryPageSize
+  setQueryPageSize,
+  editableRowsModel
 } = store
 
 createTableStoreContext(store)

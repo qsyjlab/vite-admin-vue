@@ -1,14 +1,15 @@
 import { Ref, computed, ref } from 'vue'
-import { isDate, isEmpty } from 'lodash-es'
+// import { isDate, isEmpty } from 'lodash-es'
 import type {
   ProTableColumns,
   ProTableEditable,
   EditableCellState,
-  EditRowRule,
+  // EditRowRule,
   RowKey,
   EditableTableRowKey
 } from '../types'
 import { getRowkey } from '../utils'
+import { ElForm } from 'element-plus'
 
 interface IProps {
   dataSource: Ref<any[]>
@@ -26,6 +27,23 @@ export function useEditable(props: IProps) {
    * data: 原数据 取消则回滚原数据
    */
   const editableCellMap = ref(new Map<EditableTableRowKey, EditableCellState>())
+
+  const formInstanceRef = ref<InstanceType<typeof ElForm> | null>(null)
+
+  const editableRowsModel = computed(() => {
+    const editModel: Record<string, any> = {}
+    for (const [key, value] of editableCellMap.value.entries()) {
+      if (value.isEdit) {
+        editModel[key] = value.data
+      }
+    }
+
+    return editModel
+  })
+
+  function setFormInstanceRef(ins: any) {
+    formInstanceRef.value = ins
+  }
 
   function startEditable(rowKey: EditableTableRowKey) {
     if (editableConfig.mode === 'single') {
@@ -52,19 +70,16 @@ export function useEditable(props: IProps) {
 
   function saveEditable(rowKey: EditableTableRowKey) {
     const cacheData = getEditData(rowKey)
-    validateRowFields(
-      rowKey,
-      () => {
-        if (editableConfig.onSave) {
-          editableConfig.onSave(getEditData(rowKey), done)
-        } else {
-          done()
-        }
-      },
-      () => {
-        editableConfig.onError?.(editableCellMap.value.get(rowKey)?.errors)
-      }
-    )
+
+    formInstanceRef.value?.validate((invalid, errors) => {
+      errors &&
+        Object.keys(errors).length &&
+        formInstanceRef.value?.scrollToField(Object.keys(errors))
+
+      if (!invalid) return
+
+      done()
+    })
 
     function done() {
       const row = findRow(rowKey)
@@ -92,106 +107,6 @@ export function useEditable(props: IProps) {
         editChange()
       }
     }
-  }
-
-  // 验证当前未闭合的数据
-  async function validateRowFields(
-    rowKeys: EditableTableRowKey[] | EditableTableRowKey,
-    callback?: () => void,
-    errorCallback?: () => void
-  ) {
-    let needValidKeys = rowKeys as EditableTableRowKey[]
-
-    if (!Array.isArray(rowKeys)) {
-      needValidKeys = [rowKeys]
-    }
-
-    if (needValidKeys.length === 0) return
-
-    const needValidRows = needValidKeys.map(needKey => getEditData(needKey))
-
-    let hasError = false
-
-    for (const row of needValidRows) {
-      const realRowKey = getRowkey(row, props.rowKey)
-      if (!realRowKey) continue
-
-      for (const column of columns) {
-        const value = row[column.key]
-
-        const validResult = await validate(value, row, column.rowComponent?.rules || [])
-
-        const cell = editableCellMap.value.get(realRowKey)
-        if (validResult) {
-          hasError = true
-
-          cell && (cell.errors[column.key] = { message: validResult.message || '' })
-        } else {
-          cell && delete cell.errors[column.key]
-        }
-      }
-    }
-
-    if (!hasError) {
-      callback?.()
-    } else {
-      errorCallback?.()
-    }
-  }
-
-  // 验证器
-  async function validate(
-    value: any,
-    row: any,
-    rules: EditRowRule[]
-  ): Promise<{ message: string } | null> {
-    if (!rules) return null
-    for (let i = 0; i < rules.length; i++) {
-      const item = rules[i]
-
-      if (isDate(value) && value) return null
-      if (item.required && isEmpty(value)) {
-        return {
-          message: item.message || ''
-        }
-      }
-
-      if (item.validator) {
-        const { state, error } = await new Promise<{
-          state: boolean
-          error: null | string
-        }>(resolve => {
-          item.validator &&
-            item?.validator(value, row, error => {
-              if (!error)
-                resolve({
-                  state: true,
-                  error: null
-                })
-
-              if (typeof error === 'string') {
-                resolve({
-                  state: false,
-                  error
-                })
-              } else {
-                resolve({
-                  state: false,
-                  error: error?.message || ''
-                })
-              }
-            })
-        })
-
-        if (state) return null
-
-        return {
-          message: error || ''
-        }
-      }
-    }
-
-    return null
   }
 
   function clearValidateErrors(rowKey: EditableTableRowKey) {
@@ -240,6 +155,9 @@ export function useEditable(props: IProps) {
   }
 
   return {
+    editableRowsModel,
+    formInstanceRef,
+    setFormInstanceRef,
     startEditable,
     cancelEditable,
     saveEditable,

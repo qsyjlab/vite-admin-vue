@@ -2,7 +2,7 @@
   <component :is="render()" v-if="isNeedRender" />
 </template>
 <script setup lang="tsx">
-import { ElPopover } from 'element-plus'
+import { ElFormItem } from 'element-plus'
 import { ProTableColumnItem, ProTableEditRowComponent } from '../../types'
 import { h, toRaw, computed, resolveComponent } from 'vue'
 import { useTableStoreContext } from '../../store'
@@ -62,31 +62,21 @@ function getDynamicComponent(rowComponent: ProTableColumnItem['rowComponent']) {
     return toRaw(el)
   }
 
-  const editableCellState = editableCellMap.value.get(props.row['id'])
+  const realRowKey = getRowkey(props.row, props.rowKey)
 
   return h(
-    ElPopover,
+    ElFormItem,
     {
-      placement: 'top',
-      visible: !!editableCellState?.errors[props.column.key]
+      prop: `${realRowKey}.${props.column.key}`,
+      rules: rowComponent.rules
     },
     {
       default: () =>
-        h(
-          'div',
-          { style: { color: 'red' } },
-          editableCellState?.errors[props.column.key]?.message || ''
-        ),
-      reference: () =>
-        h(
-          'span',
-          {},
-          h(getDynamicComponentInstance(rowComponent), {
-            ...(rowComponent.props || {}),
-            modelValue: getValue(),
-            'onUpdate:modelValue': onChangeValue
-          })
-        )
+        h(getDynamicComponentInstance(rowComponent), {
+          ...(rowComponent.props || {}),
+          modelValue: getValue(),
+          'onUpdate:modelValue': onChangeValue
+        })
     }
   )
 }

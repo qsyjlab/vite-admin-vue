@@ -67,7 +67,9 @@ export function useTableStore(
     editableCellMap,
     clearEditRow,
     clearValidateErrors,
-    hasEditingRow
+    hasEditingRow,
+    setFormInstanceRef,
+    editableRowsModel
   } = useEditable({
     dataSource,
     rowKey: props.rowKey,
@@ -95,6 +97,7 @@ export function useTableStore(
     deleteEditable,
     clearEditRow,
     hasEditingRow,
+    setFormInstanceRef,
     clearValidateErrors
   }
 
@@ -156,7 +159,8 @@ export function useTableStore(
     customRendererMap: proTableConfig?.rendererMap,
     editableCellMap,
     editableCellUtils,
-    columnsSettingUtils
+    columnsSettingUtils,
+    editableRowsModel
   }
 }
 

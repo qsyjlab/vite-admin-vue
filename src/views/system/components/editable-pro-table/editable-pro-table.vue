@@ -9,6 +9,15 @@
         @change="changeData"
         @append-error="appendErrorHandler"
       ></editable-pro-table>
+
+      <el-form ref="formRef" :model="formData">
+        <el-form-item label="表单" prop="name-1" :rules="[{ required: true, message: '请输入' }]">
+          <el-input v-model="formData.name"></el-input>
+        </el-form-item>
+        <el-form-item label="按钮">
+          <el-button>验证</el-button>
+        </el-form-item>
+      </el-form>
     </page-card>
   </page-wrapper>
 </template>
@@ -19,12 +28,31 @@ import { PageCard } from '@/components/page-card'
 import { ProTableColumns } from '@/components/pro-table'
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import { reactive } from 'vue'
+import { onMounted } from 'vue'
 
 const data = ref<any>([
   {
     id: new Date().getTime()
   }
 ])
+
+const formData = reactive({
+  name: ''
+})
+
+const formRef = ref()
+
+function validate() {
+  formRef.value.validate(valid => {
+    if (!valid) return
+    console.log('验证通过')
+  })
+}
+
+onMounted(() => {
+  console.log('formRef', formRef.value)
+})
 
 const columns: ProTableColumns = [
   {

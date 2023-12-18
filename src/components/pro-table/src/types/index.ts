@@ -99,7 +99,10 @@ export interface TableActionRef {
   /** 仅仅刷新 */
   refresh: () => void
   toggleRowSelection: TableInstance['toggleRowSelection']
-  editableCellUtils: Omit<UseEditableReturn, 'editableCellMap'>
+  editableCellUtils: Omit<
+    UseEditableReturn,
+    'editableCellMap' | 'formInstanceRef' | 'editableRowsModel'
+  >
   columnsSettingUtils: Omit<UseColumnsMapReturn, 'columnsMap' | 'defaultColumnsMap'>
 }
 
