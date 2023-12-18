@@ -71,7 +71,7 @@ export function useEditable(props: IProps) {
   function saveEditable(rowKey: EditableTableRowKey) {
     const cacheData = getEditData(rowKey)
 
-    formInstanceRef.value?.validate((invalid, errors) => {
+    formInstanceRef.value?.validateField(getShouldValidKeys(rowKey), (invalid, errors) => {
       errors &&
         Object.keys(errors).length &&
         formInstanceRef.value?.scrollToField(Object.keys(errors))
@@ -145,6 +145,10 @@ export function useEditable(props: IProps) {
      * 非原值可能在 onChange 中意外修改，需要注意
      */
     editableConfig?.onChange?.(dataSource.value)
+  }
+
+  function getShouldValidKeys(rowKey) {
+    return columns.map(col => `${rowKey}.${col.key}`)
   }
 
   /**
