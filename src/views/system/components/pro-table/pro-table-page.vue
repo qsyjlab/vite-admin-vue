@@ -7,6 +7,7 @@
         :columns="columns"
         :request="getTableMockList"
         :params="params"
+        :height="height"
         checkable
         :pagination="{
           page: pageRef,
@@ -39,6 +40,7 @@ import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
 
 import { getTableMockList } from '@/api/todos'
+import { computed } from 'vue'
 
 defineOptions({
   name: 'ProTablePage'
@@ -48,6 +50,10 @@ const loading = ref(false)
 const selectedKeys = ref<any[]>()
 
 const { register } = useProTable()
+
+const height = computed(() => {
+  return `${window.innerHeight - 400}px`
+})
 
 watch(loading, () => {
   console.log('v-model:loading', loading)
@@ -71,7 +77,6 @@ const columns: ProTableColumns = [
     title: '名称',
     key: 'name',
     tip: '名称的提示',
-
     editable: true
   },
   {

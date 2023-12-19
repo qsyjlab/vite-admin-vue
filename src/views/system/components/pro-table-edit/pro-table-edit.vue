@@ -8,7 +8,8 @@
         :params="params"
         row-key="id"
         :editable="{
-          mode: 'single',
+          mode: 'multiple',
+          enableValidate: true,
           onSave: saveRowHandler,
           onDelete(row, done) {
             delRow(row)
