@@ -9,12 +9,12 @@ export default defineExposeRoutes([
       title: 'Welcome',
       sort: 1,
       icon: 'ep.home-filled',
-      hideChildrenInMenu: true,
+      // hideChildrenInMenu: true,
       hideInTab: true
     },
-    redirect: {
-      name: 'WelcomeIndex'
-    },
+    // redirect: {
+    //   name: 'WelcomeIndex'
+    // },
     component: Layout,
     children: [
       {
@@ -26,7 +26,7 @@ export default defineExposeRoutes([
           icon: 'ep.home-filled',
 
           affixTab: true,
-          currentActiveMenu: 'Welcome',
+          // currentActiveMenu: 'Welcome',
           hideInBreadcrumb: true
         },
         component: () => import(/* webpackChunkName: "Welcome" */ '@/views/system/WelcomeTo.vue')

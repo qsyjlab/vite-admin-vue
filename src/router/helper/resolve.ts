@@ -110,23 +110,20 @@ function joinParentPath(menus: any[], parentPath = '') {
 
 // 将路由转换成菜单
 export function transformRouteToMenu(routeModList: RouteRecordRaw[]) {
-  const cloneRouteModList = cloneDeep(routeModList)
-  // const routeList: RouteRecordRaw[] = []
+  const cloneRouteModList = promoteSingleChild(cloneDeep(routeModList))
 
-  // // 对路由项进行修改
-  // cloneRouteModList.forEach(item => {
-  //   if (routerMapping && item?.meta?.hideChildrenInMenu && typeof item.redirect === 'string') {
-  //     item.path = item.redirect
-  //   }
+  function promoteSingleChild(menus: RouteRecordRaw[]): RouteRecordRaw[] {
+    return menus.map(item => {
+      let _temp: RouteRecordRaw = { ...item }
+      const children = item.children
+      if (children && children.length) {
+        _temp.children = promoteSingleChild(children || [])
+        if (_temp.children?.length === 1) _temp = _temp.children[0]
+      }
+      return _temp
+    })
+  }
 
-  //   // if (item.meta?.single) {
-  //   //   const realItem = item?.children?.[0]
-  //   //   realItem && routeList.push(realItem)
-  //   // } else {
-  //   //   routeList.push(item)
-  //   // }
-  //   routeList.push(item)
-  // })
   // 提取树指定结构
   const list = treeMap(cloneRouteModList, {
     conversion: (node: RouteRecordRaw) => {
