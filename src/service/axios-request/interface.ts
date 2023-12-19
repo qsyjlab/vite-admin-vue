@@ -64,3 +64,16 @@ export interface RequestTransform {
   transformRequest?: TransformRequest
   requestCatch?: RequestCatch
 }
+
+// multipart/form-data: upload file
+export interface UploadFileParams {
+  // Other parameters
+  data?: Record<string, any>
+  // File parameter interface field name
+  name?: string
+  // file name
+  file: File | Blob
+  // file name
+  filename?: string
+  [key: string]: any
+}

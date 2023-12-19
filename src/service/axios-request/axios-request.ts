@@ -6,7 +6,8 @@ import type {
   BaseAxiosRequestConfig,
   CatchError,
   RequestMethodConfig,
-  RequestOptionsEx
+  RequestOptionsEx,
+  UploadFileParams
 } from './interface'
 
 import { isFunction, extend } from '@/utils'
@@ -78,6 +79,36 @@ class AxiosRequest {
           }
           reject(error)
         })
+    })
+  }
+
+  /**
+   * @description:  File Upload
+   */
+  uploadFile<T = any>(params: UploadFileParams, config?: RequestMethodConfig): Promise<T> {
+    const formData = new FormData()
+    const customFilename = params.name || 'file'
+
+    formData.append(customFilename, params.file)
+
+    if (params.data) {
+      Object.keys(params.data).forEach(key => {
+        const value = params.data?.[key]
+        if (Array.isArray(value)) {
+          value.forEach(item => {
+            formData.append(`${key}[]`, item)
+          })
+          return
+        }
+
+        formData.append(key, params.data?.[key])
+      })
+    }
+
+    return this.request<T>({
+      ...config,
+      method: 'POST',
+      data: formData
     })
   }
 
