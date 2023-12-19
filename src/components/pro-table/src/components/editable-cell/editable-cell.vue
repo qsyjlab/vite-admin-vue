@@ -8,7 +8,7 @@ import { h, toRaw, computed, resolveComponent } from 'vue'
 import { useTableStoreContext } from '../../store'
 import { getRowkey } from '../../utils'
 
-const { editableCellMap } = useTableStoreContext()
+const { editableCellMap, sharedProperties } = useTableStoreContext()
 
 const props = withDefaults(
   defineProps<{
@@ -64,21 +64,30 @@ function getDynamicComponent(rowComponent: ProTableColumnItem['rowComponent']) {
 
   const realRowKey = getRowkey(props.row, props.rowKey)
 
-  return h(
-    ElFormItem,
-    {
-      prop: `${realRowKey}.${props.column.key}`,
-      rules: rowComponent.rules
-    },
-    {
-      default: () =>
-        h(getDynamicComponentInstance(rowComponent), {
-          ...(rowComponent.props || {}),
-          modelValue: getValue(),
-          'onUpdate:modelValue': onChangeValue
-        })
-    }
-  )
+  const enableValidate = sharedProperties.value.enableValidate
+
+  if (enableValidate) {
+    return h(
+      ElFormItem,
+      {
+        prop: `${realRowKey}.${props.column.key}`,
+        rules: rowComponent.rules
+      },
+      {
+        default: () => renderComponent()
+      }
+    )
+  }
+
+  return renderComponent()
+
+  function renderComponent() {
+    return h(getDynamicComponentInstance(rowComponent), {
+      ...(rowComponent?.props || {}),
+      modelValue: getValue(),
+      'onUpdate:modelValue': onChangeValue
+    })
+  }
 }
 
 function render() {

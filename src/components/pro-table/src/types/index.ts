@@ -43,6 +43,11 @@ export interface ProTableEditRowComponent {
 /** 编辑表格配置 */
 export interface ProTableEditable {
   mode?: 'single' | 'multiple'
+  /**
+   * 正确验证需要 el-form 包裹
+   * 动态渲染验证
+   */
+  enableValidate?: boolean
   onSave?: (row: any, next: () => void) => void
   onCancel?: (row: any, next: () => void) => void
   onDelete?: (row: any, next: () => void) => void

@@ -20,9 +20,11 @@ interface IProps {
 export function useEditable(props: IProps) {
   const { dataSource, editableConfig, columns } = props
 
-  /** 可编辑表格状态
+  /**
+   * 可编辑表格状态
    * isEdit: 是否处于编辑状态
    * data: 当前处于输入编辑的数据，保存则写入 dataSource,不直接修改表单项
+   * erros: 暂时废弃 ，通过 onError 来获取并提示
    */
   const editableCellMap = ref(new Map<EditableTableRowKey, EditableCellState>())
 
@@ -48,9 +50,8 @@ export function useEditable(props: IProps) {
       clearEditRow()
     }
 
-    // TODO: 考虑引用问题
     const data = findRow(rowKey)
-    editableCellMap.value.set(rowKey, { isEdit: true, data: { ...data }, errors: {} })
+    editableCellMap.value.set(rowKey, { isEdit: true, data: { ...data }, errors: undefined })
   }
 
   function cancelEditable(rowKey: EditableTableRowKey) {
@@ -69,11 +70,15 @@ export function useEditable(props: IProps) {
   function saveEditable(rowKey: EditableTableRowKey) {
     const cacheData = getEditData(rowKey)
 
+    if (!formInstanceRef.value) {
+      done()
+      return
+    }
+
     formInstanceRef.value?.validateField(getShouldValidKeys(rowKey), (invalid, errors) => {
       // errors &&
       //   Object.keys(errors).length &&
       //   formInstanceRef.value?.scrollToField(Object.keys(errors))
-
       editableConfig.onError?.(getRealValidErrors(errors))
 
       if (!invalid) return
@@ -91,7 +96,6 @@ export function useEditable(props: IProps) {
 
   function deleteEditable(rowKey: EditableTableRowKey) {
     if (editableConfig.onDelete) {
-      // TODO: 这里的值应该是未编辑状态的值
       editableConfig.onDelete(findRow(rowKey), done)
       return
     }

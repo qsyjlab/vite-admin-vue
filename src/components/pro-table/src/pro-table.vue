@@ -34,12 +34,11 @@
         </el-alert>
       </div>
     </slot>
-    <el-form :ref="editableCellUtils.setFormInstanceRef" :model="editableRowsModel">
+    <component :is="wrapper" :ref="setRef" class="pro-table__wrapper" :model="editableRowsModel">
       <!-- table -->
       <el-table
         ref="tableInstanceRef"
         v-loading="loading"
-        :data="dataSource"
         v-bind="{
           ...$attrs,
           style: undefined
@@ -49,6 +48,7 @@
         :row-key="rowKey"
         :table-layout="tableLayout"
         :size="tableProps.size"
+        :data="dataSource"
         @selection-change="selectChangeHandler"
       >
         <el-table-column
@@ -62,7 +62,7 @@
           <pro-table-column :column="item" :row-key="props.rowKey"> </pro-table-column>
         </template>
       </el-table>
-    </el-form>
+    </component>
 
     <!-- pagination -->
     <div v-if="pagination" class="pro-table__pagination">
@@ -83,7 +83,7 @@ import ProTableColumn from './pro-table-column.vue'
 import toolbar from './components/toolbar/toolbar.vue'
 import { columnsSort, columnsFilter, getRowkey } from './utils'
 import './style.scss'
-import type { TableInstance } from 'element-plus'
+import { ElForm, type TableInstance } from 'element-plus'
 import type { ProTableSlotScope, ProTableProps } from './types'
 
 type DefualtSlotFn = (scope: ProTableSlotScope) => void
@@ -137,13 +137,23 @@ createTableStoreContext(store)
 
 emits('register', tableActionRef)
 
-const getWrapper = computed(() => {
-  return ``
-})
-
 const getColumns = computed(() =>
   columnsFilter(tableColums.value, columnsMap.value).sort(columnsSort(columnsMap.value))
 )
+
+const wrapper = computed(() => {
+  if (props.editable?.enableValidate) {
+    return ElForm
+  }
+
+  return 'div'
+})
+
+function setRef(ref: any) {
+  if (props.editable?.enableValidate) {
+    editableCellUtils.setFormInstanceRef(ref)
+  }
+}
 
 function handleCurrentChange(page: number) {
   clearEffect()

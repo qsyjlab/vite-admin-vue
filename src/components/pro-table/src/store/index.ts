@@ -1,4 +1,4 @@
-import { inject, reactive, ref, toRefs } from 'vue'
+import { computed, inject, reactive, ref, toRefs } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
 import { useColumnsMap, useProTable, useEditable, useSelection } from '../hooks'
 
@@ -23,8 +23,16 @@ export function useTableStore(
 
   const tableInstanceRef = ref<TableInstance | null>(null)
 
+  // 表格实例属性
   const tableProps = reactive<ITableProps>({
     size: 'default'
+  })
+
+  // 全局共享读取的属性
+  const sharedProperties = computed(() => {
+    return {
+      enableValidate: props.editable.enableValidate
+    }
   })
 
   let proTableConfig: ProConfigProviderProps['proTable'] | undefined
@@ -138,6 +146,7 @@ export function useTableStore(
   }
 
   return {
+    sharedProperties,
     paginationProps,
     tableProps,
     loading,
@@ -158,9 +167,9 @@ export function useTableStore(
     mergeTableProps,
     customRendererMap: proTableConfig?.rendererMap,
     editableCellMap,
+    editableRowsModel,
     editableCellUtils,
-    columnsSettingUtils,
-    editableRowsModel
+    columnsSettingUtils
   }
 }
 
