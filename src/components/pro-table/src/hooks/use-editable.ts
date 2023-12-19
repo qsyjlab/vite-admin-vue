@@ -1,12 +1,11 @@
 import { Ref, computed, ref } from 'vue'
-// import { isDate, isEmpty } from 'lodash-es'
 import type {
   ProTableColumns,
   ProTableEditable,
   EditableCellState,
-  // EditRowRule,
   RowKey,
-  EditableTableRowKey
+  EditableTableRowKey,
+  EditableCellValidError
 } from '../types'
 import { getRowkey } from '../utils'
 import { ElForm } from 'element-plus'
@@ -22,9 +21,8 @@ export function useEditable(props: IProps) {
   const { dataSource, editableConfig, columns } = props
 
   /** 可编辑表格状态
-   *
    * isEdit: 是否处于编辑状态
-   * data: 原数据 取消则回滚原数据
+   * data: 当前处于输入编辑的数据，保存则写入 dataSource,不直接修改表单项
    */
   const editableCellMap = ref(new Map<EditableTableRowKey, EditableCellState>())
 
@@ -72,9 +70,11 @@ export function useEditable(props: IProps) {
     const cacheData = getEditData(rowKey)
 
     formInstanceRef.value?.validateField(getShouldValidKeys(rowKey), (invalid, errors) => {
-      errors &&
-        Object.keys(errors).length &&
-        formInstanceRef.value?.scrollToField(Object.keys(errors))
+      // errors &&
+      //   Object.keys(errors).length &&
+      //   formInstanceRef.value?.scrollToField(Object.keys(errors))
+
+      editableConfig.onError?.(getRealValidErrors(errors))
 
       if (!invalid) return
 
@@ -113,7 +113,7 @@ export function useEditable(props: IProps) {
     const cellState = editableCellMap.value.get(rowKey)
 
     if (cellState && cellState.errors) {
-      cellState.errors = {}
+      cellState.errors = undefined
     }
   }
 
@@ -147,7 +147,7 @@ export function useEditable(props: IProps) {
     editableConfig?.onChange?.(dataSource.value)
   }
 
-  function getShouldValidKeys(rowKey) {
+  function getShouldValidKeys(rowKey: EditableTableRowKey) {
     return columns.map(col => `${rowKey}.${col.key}`)
   }
 
@@ -171,6 +171,26 @@ export function useEditable(props: IProps) {
     hasEditingRow,
     editableCellMap: computed(() => editableCellMap.value)
   }
+}
+
+// 获取表单验证拼接后的 key
+function getRealValidFieldKey(key: string) {
+  const _key = key.split('.')
+  return _key.length >= 2 ? _key[1] : key
+}
+
+function getRealValidErrors(errors: EditableCellValidError) {
+  if (!errors) return {}
+  const _errors: EditableCellValidError = {}
+
+  Object.keys(errors).forEach(key => {
+    const item = errors[key]
+    const _rk = getRealValidFieldKey(key)
+
+    _errors[_rk] = item
+  })
+
+  return _errors
 }
 
 export type UseEditableReturn = ReturnType<typeof useEditable>

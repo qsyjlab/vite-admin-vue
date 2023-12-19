@@ -1,33 +1,40 @@
 <template>
-  <el-form :ref="editableCellUtils.setFormInstanceRef" :model="editableRowsModel">
-    <div class="pro-table">
-      <!-- header -->
-      <toolbar :header-title="headerTitle" :columns="tableColums" :options="options">
-        <template #headerTitle>
-          <slot name="headerTitle"></slot>
-        </template>
-        <template #toolbar>
-          <slot name="toolbar"></slot>
-        </template>
-      </toolbar>
+  <div class="pro-table">
+    <!-- header -->
+    <toolbar
+      v-if="!!options"
+      :header-title="headerTitle"
+      :columns="tableColums"
+      :options="{
+        ...(options === true ? {} : options),
+        headerTitle: !!$slots.headerTitle,
+        toolbar: !!$slots.toolbar
+      }"
+    >
+      <template #headerTitle>
+        <slot name="headerTitle"></slot>
+      </template>
+      <template #toolbar>
+        <slot name="toolbar"></slot>
+      </template>
+    </toolbar>
 
-      <slot name="alert">
-        <div class="pro-table-alert">
-          <el-alert
-            v-if="alwaysShowAlert || selectedKeys.length"
-            type="info"
-            show-icon
-            :closable="false"
+    <slot name="alert">
+      <div class="pro-table-alert">
+        <el-alert
+          v-if="alwaysShowAlert || selectedKeys.length"
+          type="info"
+          show-icon
+          :closable="false"
+        >
+          <template #title
+            >当前已选择 {{ selectedKeys.length }} 项
+            <el-button type="primary" link @click="clearSelectedKeys">取消全部</el-button></template
           >
-            <template #title
-              >当前已选择 {{ selectedKeys.length }} 项
-              <el-button type="primary" link @click="clearSelectedKeys"
-                >取消全部</el-button
-              ></template
-            >
-          </el-alert>
-        </div>
-      </slot>
+        </el-alert>
+      </div>
+    </slot>
+    <el-form :ref="editableCellUtils.setFormInstanceRef" :model="editableRowsModel">
       <!-- table -->
       <el-table
         ref="tableInstanceRef"
@@ -55,18 +62,18 @@
           <pro-table-column :column="item" :row-key="props.rowKey"> </pro-table-column>
         </template>
       </el-table>
+    </el-form>
 
-      <!-- pagination -->
-      <div v-if="pagination" class="pro-table__pagination">
-        <el-pagination
-          v-bind="paginationProps"
-          :small="tableProps.size === 'small'"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-        />
-      </div>
+    <!-- pagination -->
+    <div v-if="pagination" class="pro-table__pagination">
+      <el-pagination
+        v-bind="paginationProps"
+        :small="tableProps.size === 'small'"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
     </div>
-  </el-form>
+  </div>
 </template>
 <script setup lang="ts">
 import { computed, reactive, getCurrentInstance } from 'vue'
@@ -129,6 +136,10 @@ const {
 createTableStoreContext(store)
 
 emits('register', tableActionRef)
+
+const getWrapper = computed(() => {
+  return ``
+})
 
 const getColumns = computed(() =>
   columnsFilter(tableColums.value, columnsMap.value).sort(columnsSort(columnsMap.value))

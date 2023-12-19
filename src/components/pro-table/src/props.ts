@@ -88,8 +88,7 @@ export const proTableProps = {
   },
   /** 编辑相关配置 */
   editable: {
-    type: definePropType<ProTableEditable>(Object),
-    default: () => ({})
+    type: definePropType<ProTableEditable>(Object)
   },
   // 是否总是显示 alert
   alwaysShowAlert: {

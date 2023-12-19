@@ -1,13 +1,11 @@
-import { ElTable } from 'element-plus'
-
-import { Component, SetupContext, VNode } from 'vue'
-import { ProTableEmits } from '../props'
+import type { TableInstance } from 'element-plus'
+import type { Component, SetupContext, VNode, Ref } from 'vue'
+import type { ProTableEmits } from '../props'
 import type { UseColumnsMapReturn, UseEditableReturn } from '../hooks'
 import type { EditRowRule, EditableCellState, EditableCellValidError } from './editable'
 import type { TableColumnCtx, RenderRowData, TableProps } from 'element-plus'
 import type { ValueEnum, ValueType } from './renderer'
 import type { NOOP } from './utils'
-import type { Ref } from 'vue'
 
 export type ColumnsMap = Record<string, any>
 
@@ -66,7 +64,7 @@ export interface ColumnsState {
   change?: (map: ColumnsMap) => void
 }
 
-export type TableInstance = InstanceType<typeof ElTable>
+export { TableInstance }
 
 /**
  * 即将废弃 由 TableActionRef 来代替
