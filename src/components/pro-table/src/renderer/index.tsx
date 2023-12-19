@@ -1,4 +1,4 @@
-import {
+import type {
   BaseValueType,
   CustomRendererFn,
   ProTableColumnItem,
@@ -8,7 +8,7 @@ import {
   ValueTypeVal
 } from '../types'
 
-import { toDisplayString } from 'vue'
+import { h, isVNode, toDisplayString } from 'vue'
 import { ElProgress, ElImage } from 'element-plus'
 import Badge from '.././components/badge.vue'
 import { resolveValue } from '../utils'
@@ -48,7 +48,7 @@ export function resolveRenderer<T = any>(options: ResolveRenderOptions<T>) {
     const customRender = customRendererMap[valueTypeObject.type]
 
     if (customRender) {
-      return customRender(
+      const result = customRender(
         cloneDeep({
           value,
           row,
@@ -59,6 +59,12 @@ export function resolveRenderer<T = any>(options: ResolveRenderOptions<T>) {
           pagination
         })
       )
+
+      console.log('result', result)
+
+      if (isVNode(result)) return h(result)
+
+      return result
     }
   }
 

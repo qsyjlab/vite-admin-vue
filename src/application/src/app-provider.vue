@@ -76,7 +76,11 @@ export default defineComponent({
                       return '测试自定义渲染器'
                     },
                     'custom-render-componet': () => {
-                      return h(ElProgress, { percentage: 50 })
+                      return defineComponent({
+                        setup() {
+                          return () => h(ElProgress, { percentage: 50 })
+                        }
+                      })
                     }
                   }
                 }

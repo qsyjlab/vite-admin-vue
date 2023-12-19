@@ -1,4 +1,5 @@
 import type { Plugin } from 'vue'
+import { isFunction, isObject } from '../type'
 
 export type SFCWithInstall<T> = T & Plugin
 
@@ -18,4 +19,18 @@ export const withInstall = <T, E extends Record<string, any>>(main: T, extra?: E
     }
   }
   return _main as SFCWithInstall<T> & E
+}
+
+// 判定是否是 vue 组件对象
+export function isComponent(target: any) {
+  if (!isObject(target)) return false
+
+  if (
+    (target?.setup && isFunction(target.setup)) ||
+    (target?.render && isFunction(target.render))
+  ) {
+    return true
+  }
+
+  return false
 }
