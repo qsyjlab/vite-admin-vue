@@ -60,8 +60,6 @@ export function resolveRenderer<T = any>(options: ResolveRenderOptions<T>) {
         })
       )
 
-      console.log('result', result)
-
       if (isVNode(result)) return h(result)
 
       return result
