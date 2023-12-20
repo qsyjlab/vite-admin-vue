@@ -214,11 +214,13 @@ html.dark {
     min-width: 100%;
     max-width: 100%;
     height: 100%;
+    display: flex;
+    align-items: center;
   }
 
   .tab-scroll {
-    max-width: calc(100% - 90px);
-    min-width: calc(100% - 90px);
+    max-width: calc(100% - 38px);
+    min-width: calc(100% - 38px);
     height: 100%;
     overflow: hidden;
   }
@@ -285,6 +287,9 @@ html.dark {
 }
 
 .operate-btn {
+  width: 38px;
+  box-sizing: border-box;
+  flex-shrink: 0;
   cursor: pointer;
   height: 100%;
   border-left: 1px solid var(--base-border-color);
