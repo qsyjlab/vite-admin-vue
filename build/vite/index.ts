@@ -3,12 +3,16 @@ import { type Plugin, type ConfigEnv, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import { viteMockPlugin } from './plugins/mock'
-import { viteAutoImportPlugin, viteComponentsPlugin } from './plugins/element-plus'
 import WindiCSS from 'vite-plugin-windicss'
-// import { visualizer } from 'rollup-plugin-visualizer'
-import { configSvgIconsPlugin } from './plugins/svg-icons'
 import legacyPlugin from '@vitejs/plugin-legacy'
+import {
+  viteMockPlugin,
+  viteAutoImportPlugin,
+  viteComponentsPlugin,
+  configSvgIconsPlugin,
+  injectHtmlPlugin
+} from './plugins'
+// @ts-ignore
 import ElementPlus from 'unplugin-element-plus/vite'
 import legecyConfig from '../../legecy.config'
 import { envDir } from '../utils'
@@ -29,7 +33,9 @@ export function createVitePlugin(configEnv: ConfigEnv) {
     configSvgIconsPlugin({ isBuild }),
     ElementPlus({
       useSource: true
-    })
+    }),
+    injectHtmlPlugin({ env: viteEnvs })
+
     // visualizer({
     //   gzipSize: true,
     //   brotliSize: true,

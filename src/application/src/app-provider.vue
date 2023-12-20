@@ -3,7 +3,7 @@ import { computed, defineComponent, ref, readonly, h } from 'vue'
 import { useTitle } from '@vueuse/core'
 import { useRoute } from 'vue-router'
 import { ElConfigProvider, ElProgress } from 'element-plus'
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 import { createBreakpointListener } from '@/hooks/event/use-breakpoint'
 import { createAppProviderContext } from './context'

@@ -33,7 +33,6 @@ export default defineExposeRoutes([
       }
     ]
   },
-
   {
     path: '/dashboard',
     name: 'Dashboard',

@@ -135,7 +135,7 @@ const mobileDrawerHandler = () => {
 
 const routerBarAttrs = computed(() => {
   return {
-    fontSize: !layoutConfig.value.tabBarHeight ? 14 : layoutConfig.value.tabBarHeight * 0.3
+    fontSize: 12
   }
 })
 

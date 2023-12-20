@@ -9,12 +9,14 @@
         display: showTitle ? 'block' : 'none'
       }"
     >
-      Vue Admin
+      {{ config.projectTitle }}
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import config from '@/config'
 import { computed, CSSProperties } from 'vue'
+
 interface IProps {
   logoWidth?: number
   showTitle?: boolean
