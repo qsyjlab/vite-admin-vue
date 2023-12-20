@@ -29,7 +29,7 @@ export default defineExposeRoutes([
           // currentActiveMenu: 'Welcome',
           hideInBreadcrumb: true
         },
-        component: () => import(/* webpackChunkName: "Welcome" */ '@/views/system/WelcomeTo.vue')
+        component: () => import('@/views/system/WelcomeTo.vue')
       }
     ]
   },

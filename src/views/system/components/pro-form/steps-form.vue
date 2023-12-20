@@ -1,9 +1,11 @@
 <template>
-  <el-card>
-    <template #header>{{ $route.meta.title }}</template>
+  <page-wrapper>
+    <page-card>
+      <template #header>{{ $route.meta.title }}</template>
 
-    <VStepsForm :steps="steps" @submit="submit" />
-  </el-card>
+      <VStepsForm :steps="steps" @submit="submit" />
+    </page-card>
+  </page-wrapper>
 </template>
 <script setup lang="ts">
 import { VStepsForm } from '@/components/pro-form'

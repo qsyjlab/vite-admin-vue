@@ -1,14 +1,12 @@
 <template>
-  <el-card>
-    <template #header>
-      {{ $route.meta.title }}
-    </template>
+  <page-wrapper>
+    <page-card :header="$route.meta.title">
+      <div id="container" style="height: 500px">测试 container</div>
 
-    <div id="container" style="height: 500px">测试 container</div>
-
-    <el-button @click="canvesToImage">htmlcanvs to imgage</el-button>
-    <el-button @click="canvesToPdf">htmlcanvs to pdf</el-button>
-  </el-card>
+      <el-button @click="canvesToImage">htmlcanvs to imgage</el-button>
+      <el-button @click="canvesToPdf">htmlcanvs to pdf</el-button>
+    </page-card>
+  </page-wrapper>
 </template>
 
 <script lang="ts">
