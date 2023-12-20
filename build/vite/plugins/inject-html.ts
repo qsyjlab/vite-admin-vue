@@ -1,8 +1,6 @@
 import { createHtmlPlugin } from 'vite-plugin-html'
 
 export function injectHtmlPlugin({ env }) {
-  console.log('env', env)
-
   return createHtmlPlugin({
     minify: true,
     inject: {
