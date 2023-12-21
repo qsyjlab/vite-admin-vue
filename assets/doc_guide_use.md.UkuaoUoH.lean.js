@@ -1,1 +1,0 @@
-import{_ as s,o as a,c as n,R as o}from"./chunks/framework.SDKAm8L8.js";const q=JSON.parse('{"title":"使用","description":"","frontmatter":{},"headers":[],"relativePath":"doc/guide/use.md","filePath":"doc/guide/use.md"}'),l={name:"doc/guide/use.md"},p=o("",19),t=[p];function e(c,r,i,E,y,u){return a(),n("div",null,t)}const h=s(l,[["render",e]]);export{q as __pageData,h as default};
