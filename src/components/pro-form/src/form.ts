@@ -61,6 +61,7 @@ export const useForm = (parameter: UseFormParameter) => {
 
   const resetFields = (handle?: NOOP) => {
     formRef.value?.resetFields()
+    clearValidate()
     handle?.()
   }
 
@@ -72,15 +73,11 @@ export const useForm = (parameter: UseFormParameter) => {
     if (formSchemaes.value.length === 0) return
     formSchemaes.value.forEach(item => {
       formModel[item.key] = props.model[item.key]
-
-      if (!inline) {
-        formRules[item.key] = item.rules
-      }
     })
   }
 
   function forceUpdateModel(model?: Record<string, any>) {
-    const _model = Object.assign(props.model, model || [])
+    const _model = Object.assign(props.model, model || {})
     Object.keys(_model).forEach(key => {
       formModel[key] = _model[key]
     })

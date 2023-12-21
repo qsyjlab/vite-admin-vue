@@ -3,14 +3,19 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   // 自动修复
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.fixAll.stylelint": true
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
   },
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
   // 配置 ESLint 检查的文件类型
-  "eslint.validate": ["javascript", "vue", "html", "typescript"],
+  "eslint.validate": [
+    "javascript",
+    "vue",
+    "html",
+    "typescript"
+  ],
   "[dotenv]": {},
   "typescript.tsdk": "node_modules/typescript/lib",
   "[xml]": {

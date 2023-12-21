@@ -96,7 +96,7 @@ export function useCollapse(option: CollapseOption) {
       totalSpan += colSpan
     })
 
-    lastRowSpaceSpan.value = BASIC_COL_LEN - curRowSpan
+    lastRowSpaceSpan.value = BASIC_COL_LEN - (totalSpan % BASIC_COL_LEN)
 
     if (!advanceState.isAdvanced) {
       const shouldShowFields: { span: number }[] = fields

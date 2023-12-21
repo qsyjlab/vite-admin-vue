@@ -14,7 +14,7 @@ export interface FormSchema {
 export type NOOP = () => void
 
 export interface FormMethodsType {
-  validate: (handle: (model: Record<string, any>) => void) => void
+  validate: (handle?: (model: Record<string, any>) => void) => void
   resetFields: NOOP
   clearValidate: FormContext['clearValidate']
   validateField: NOOP

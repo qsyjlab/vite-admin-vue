@@ -4,14 +4,18 @@
     :ref="ref => setFormRef(ref)"
     :inline="inline"
     :model="formModel"
-    :rules="formRules"
     @submit.prevent
   >
     <el-row :gutter="20">
       <template v-for="(item, index) in formSchemaes" :key="item.key">
         <el-col v-show="!inline ? true : fieldsIsCollapsedMap[item.key]" v-bind="item.col">
           <slot :name="item.key" :field="item">
-            <el-form-item style="width: 100%" :label="item.label" :prop="item.key || String(index)">
+            <el-form-item
+              style="width: 100%"
+              :label="item.label"
+              :prop="item.key || String(index)"
+              :rules="item.rules"
+            >
               <component
                 :is="item.el"
                 v-model="formModel[item.key]"
@@ -56,7 +60,6 @@ const {
   formSchemaes,
   advanceState,
   formModel,
-  formRules,
   handleElAttrs,
   setFormRef,
   validate,
