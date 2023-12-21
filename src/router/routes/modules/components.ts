@@ -99,6 +99,15 @@ export default defineExposeRoutes([
             component: () => import('@/views/system/components/pro-form/pro-form.vue')
           },
           {
+            name: 'ProFormRef',
+            path: 'ref',
+            meta: {
+              title: '表单 ref 操作',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/components/pro-form/pro-form-ref.vue')
+          },
+          {
             name: 'ProFormModal',
             path: 'modal',
             meta: {
