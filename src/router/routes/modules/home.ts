@@ -12,9 +12,9 @@ export default defineExposeRoutes([
       // hideChildrenInMenu: true,
       hideInTab: true
     },
-    // redirect: {
-    //   name: 'WelcomeIndex'
-    // },
+    redirect: {
+      name: 'WelcomeIndex'
+    },
     component: Layout,
     children: [
       {
