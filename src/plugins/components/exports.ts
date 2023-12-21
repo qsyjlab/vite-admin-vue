@@ -6,5 +6,6 @@ export {
   ProRadioGruop,
   PageCard,
   PageWrapper,
-  EchartsRenderer
+  EchartsRenderer,
+  Upload
 } from '@/components'

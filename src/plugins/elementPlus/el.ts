@@ -1,15 +1,18 @@
 // TODO: Resolve cases where automatic import is not possible
 export {
-  ElTable,
   ElUpload,
   ElForm,
   ElFormItem,
+  ElTimePicker,
   ElDatePicker,
   ElCheckboxGroup,
   ElRadioGroup,
   ElCheckbox,
-  ElInput,
-  ElTimePicker,
   ElColorPicker,
-  ElSlider
+  ElSlider,
+  ElInput,
+  ElInputNumber,
+  ElRate,
+  ElSwitch,
+  ElTransfer
 } from 'element-plus'

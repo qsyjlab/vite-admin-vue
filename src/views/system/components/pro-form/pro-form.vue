@@ -1,18 +1,17 @@
 <template>
   <page-wrapper>
-    <page-card :header="$route.meta.title">
-      <ProForm inline :fields="schemaes" @submit="submit" @reset="reset" @register="register">
-        <!-- <template #name> asdasd </template> -->
+    <page-card style="margin-bottom: 15px" :full="false" header="查询表单">
+      <ProForm inline :fields="fields" :label-width="150" @submit="submit" @reset="reset">
       </ProForm>
-
-      <template v-if="true">
-        表单
-        <!-- <ProForm :fields="schemaes"> </ProForm> -->
-        <el-button @click="customSubmit">自定义提交按钮</el-button>
-        <el-button @click="updateFormConfig">更新表单配置</el-button>
-        <el-button @click="insertFormConfig">插入新的配置</el-button>
-        <el-button @click="removeFormConfig">移除配置</el-button>
-      </template>
+    </page-card>
+    <page-card :full="false" header="基础表单">
+      <ProForm :fields="fields" :label-width="150" @register="register"> </ProForm>
+      <div style="display: flex; justify-content: flex-end">
+        <el-space>
+          <el-button @click="resetFields()">取消</el-button>
+          <el-button type="primary" @click="validate()">提交</el-button>
+        </el-space>
+      </div>
     </page-card>
   </page-wrapper>
 </template>
@@ -25,73 +24,36 @@ export default {
 
 <script setup lang="ts">
 import { PageCard, PageWrapper } from '@/components'
-import { useProForm, useSchema } from '@/hooks'
+import { useProForm } from '@/hooks'
 
-import { _fields } from './config'
-
-const { schemaes: _schemaes, updateSchemas: _updateSchemas } = useSchema(_fields)
-
-console.log('_updateSchemas', _updateSchemas)
-
-_updateSchemas({
-  key: 'test',
-  attrs: {
-    b: { c: undefined },
-    options: [{}],
-    disabled: false
-  },
-  on: {
-    change: () => 1
-  }
-})
+const { register, validate, resetFields } = useProForm()
 
 const fields = [
   {
-    label: 'name',
+    label: '文本输入',
     el: 'el-input',
-    key: 'name',
+    key: 'input',
     rules: [
       { required: true, message: 'Please input Activity name', trigger: 'blur' },
       { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
     ],
     col: {
-      span: 4
+      span: 8
     }
   },
   {
-    label: 'ProSelect',
-    el: 'ProSelect',
-    key: 'ProSelect',
-    attrs: {
-      options: [
-        {
-          label: '测试数据1',
-          value: '测试数据1'
-        },
-        {
-          label: '测试数据2',
-          value: '测试数据2'
-        },
-        {
-          label: '禁用项',
-          value: '2',
-          disabled: true
-        }
-      ]
-    },
-    events: {
-      change: (...rest: any[]) => {
-        console.log('rest change', rest)
-      }
-    },
+    label: '数字输入',
+    el: 'el-input-number',
+    key: 'input-number',
+    attrs: {},
     col: {
-      span: 12
+      span: 8
     }
   },
   {
-    label: 'ProSelect 多选',
-    el: 'ProSelect',
-    key: 'ProSelectMutiple',
+    label: '下拉选择器',
+    el: 'pro-select',
+    key: 'pro-select',
     attrs: {
       multiple: true,
       'collapse-tags': true,
@@ -117,13 +79,13 @@ const fields = [
       ]
     },
     col: {
-      span: 14
+      span: 8
     }
   },
   {
-    label: 'ProSelect 分组模式',
+    label: '下拉选择器 分组模式',
     el: 'ProSelect',
-    key: 'ProSelectGroup',
+    key: 'select-group',
     attrs: {
       group: true,
       options: [
@@ -164,199 +126,116 @@ const fields = [
       ]
     },
     col: {
-      span: 7
+      span: 8
     }
   },
   {
-    label: 'ProSelect 远程搜索模式',
-    el: 'ProSelect',
-    key: 'ProSelectRemote',
+    label: '多选框组',
+    el: 'ProCheckboxGruop',
+    key: 'checkbox-group',
     attrs: {
-      filterable: true,
-      remote: true,
-      remoteMethod: () => {
-        console.log('query')
-
-        updateSchemas({
-          key: 'ProSelectRemote',
-          attrs: {
-            options: Array(20)
-              .fill(0)
-              .map(() => {
-                const key = Math.random() * 100
-                return {
-                  label: '测试数据-' + key,
-                  value: '测试数据-' + key
-                }
-              })
-          }
-        })
-      },
       options: [
         {
-          value: 'Shanghai',
-          label: 'Shanghai'
+          value: 1,
+          label: '选项1'
         },
         {
-          value: 'Beijing',
-          label: 'Beijing'
+          value: 2,
+          label: '选项2'
         }
       ]
     },
     col: {
-      span: 6
+      span: 8
     }
   },
   {
-    label: 'ProCheckboxGruop',
+    label: '多选框组按钮模式',
     el: 'ProCheckboxGruop',
-    key: 'ProCheckboxGruop',
-    attrs: {
-      options: [
-        {
-          value: 'Shanghai',
-          label: 'Shanghai'
-        },
-        {
-          value: 'Beijing',
-          label: 'Beijing'
-        }
-      ]
-    },
-    col: {
-      span: 20
-    }
-  },
-  {
-    label: 'ProCheckboxGruop 按钮模式',
-    el: 'ProCheckboxGruop',
-    key: 'ProCheckboxGruopButton',
+    key: 'checkbox-group-button',
     attrs: {
       tag: 'checkbox-button',
       options: [
         {
-          value: 'Shanghai',
-          label: 'Shanghai'
+          value: 1,
+          label: '选项1'
         },
         {
-          value: 'Beijing',
-          label: 'Beijing'
+          value: 2,
+          label: '选项2'
         }
       ]
     },
     col: {
-      span: 12
+      span: 8
     }
   },
   {
-    label: 'ProRadioGruop',
+    label: '单选框',
     el: 'ProRadioGruop',
-    key: 'ProRadioGruop',
+    key: 'radio',
     attrs: {
       options: [
         {
-          value: 'Shanghai',
-          label: 'Shanghai'
+          value: 1,
+          label: '男'
         },
         {
-          value: 'Beijing',
-          label: 'Beijing'
+          value: 2,
+          label: '女'
         }
       ]
     },
     col: {
-      span: 20
+      span: 8
     }
   },
   {
-    label: 'ProRadioGruop 按钮模式',
-    el: 'ProRadioGruop',
-    key: 'ProRadioGruopButton',
-    attrs: {
-      tag: 'radio-button',
-      options: [
-        {
-          value: 'Shanghai',
-          label: 'Shanghai'
-        },
-        {
-          value: 'Beijing',
-          label: 'Beijing'
-        }
-      ]
-    },
+    label: '评分',
+    el: 'el-rate',
+    key: 'rate',
+    attrs: {},
     col: {
-      span: 12
+      span: 8
+    }
+  },
+  {
+    label: '滑块',
+    el: 'el-slider',
+    key: 'slider',
+    attrs: {},
+    col: {
+      span: 8
+    }
+  },
+  {
+    label: '开关',
+    el: 'el-switch',
+    key: 'switch',
+    attrs: {},
+    col: {
+      span: 8
+    }
+  },
+  {
+    label: '日期选择器',
+    el: 'el-date-picker',
+    key: 'date',
+    attrs: {},
+    col: {
+      span: 8
+    }
+  },
+  {
+    label: '上传',
+    el: 'ProUpload',
+    key: 'upload',
+    attrs: {},
+    col: {
+      span: 8
     }
   }
 ]
-
-const { register, validate } = useProForm()
-
-const { schemaes, updateSchemas, appendSchemaByField, removeSchemaByField } = useSchema(fields)
-
-const updateFormConfig = () => {
-  updateSchemas({
-    label: '更新地区',
-    key: 'zone',
-    el: 'el-select',
-    attrs: {
-      options: [
-        {
-          label: '测试地区1',
-          value: '1'
-        }
-      ]
-    }
-  })
-
-  updateSchemas([
-    {
-      label: '更新地区2',
-      key: 'zone',
-
-      attrs: {
-        options: [
-          {
-            label: '测试地区1',
-            value: '2'
-          }
-        ]
-      }
-    },
-    {
-      label: '更新时间',
-      key: 'time23'
-      // col: {
-      //   span: '4'
-      // }
-    }
-  ])
-}
-
-const removeFormConfig = () => {
-  removeSchemaByField(['zone', 'name'])
-}
-
-const insertFormConfig = () => {
-  appendSchemaByField(
-    {
-      label: '新增项',
-      el: 'el-input',
-      key: 'name1',
-      col: {
-        span: 4
-      }
-    },
-    'name'
-  )
-}
-
-const customSubmit = () => {
-  validate(values => {
-    console.log('values', values)
-  })
-}
 
 const submit = (values: any) => {
   console.log('values', values)
