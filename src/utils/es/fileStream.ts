@@ -26,3 +26,20 @@ export function bytesToSize(bytes: number) {
 
   return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i]
 }
+
+export function fileReader(rawFile: File): Promise<FileReader['result']> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = async e => {
+      try {
+        resolve(e.target!.result)
+      } catch (error) {
+        reject(error)
+        // emit('error')
+      } finally {
+        // loadingRef.value = false
+      }
+    }
+    reader.readAsArrayBuffer(rawFile)
+  })
+}

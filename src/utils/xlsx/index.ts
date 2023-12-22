@@ -1,7 +1,12 @@
-import type { JSON2SheetOpts, WritingOptions, WorkBook } from 'xlsx'
+import type { JSON2SheetOpts, WritingOptions, WorkBook, WorkSheet } from 'xlsx'
 import * as xlsx from 'xlsx'
+import { fileReader } from '../es'
+import { formatToDate } from '../date'
 
-const { writeFile, utils } = xlsx
+/**
+ * @fork https://github.com/vbenjs/vue-vben-admin
+ */
+const { writeFile, utils, read } = xlsx
 
 const DEFAULT_SHEET_NAME = 'sheet'
 
@@ -100,12 +105,6 @@ export function aoaToSheetXlsx<T = any>({
   /* at this point, out.xlsb will have been downloaded */
 }
 
-/**
- * json导出多Sheet的Xlsx
- * @param sheetList 多sheet配置
- * @param filename 文件名(包含后缀)
- * @param write2excelOpts 文件配置
- */
 export function jsonToMultipleSheetXlsx<T = any>({
   sheetList,
   filename = `${new Date().getTime()}.xlsx`,
@@ -133,12 +132,6 @@ export function jsonToMultipleSheetXlsx<T = any>({
   writeFile(workbook, filename, write2excelOpts)
 }
 
-/**
- * aoa导出多Sheet的Xlsx
- * @param sheetList 多sheet配置
- * @param filename 文件名(包含后缀)
- * @param write2excelOpts 文件配置
- */
 export function aoaToMultipleSheetXlsx<T = any>({
   sheetList,
   filename = `${new Date().getTime()}.xlsx`,
@@ -179,4 +172,73 @@ function setColumnWidth(data, worksheet, min = 3) {
       wch: obj[key]
     })
   })
+}
+
+export function getExcelData(
+  workbook: xlsx.WorkBook,
+  options?: { timeZone: any; dateFormat: string }
+) {
+  const { timeZone, dateFormat } = options || {}
+  const excelData: ExcelData[] = []
+  // const { dateFormat, timeZone } = props
+  for (const sheetName of workbook.SheetNames) {
+    const worksheet = workbook.Sheets[sheetName]
+    const header: string[] = getHeaderRow(worksheet)
+    let results = utils.sheet_to_json(worksheet, {
+      raw: true
+    }) as object[]
+    results = results.map((row: object) => {
+      for (const field in row) {
+        if (row[field] instanceof Date) {
+          if (timeZone === 8) {
+            row[field].setSeconds(row[field].getSeconds() + 43)
+          }
+          if (dateFormat) {
+            row[field] = formatToDate(row[field], dateFormat)
+          }
+        }
+      }
+      return row
+    })
+
+    excelData.push({
+      header,
+      results,
+      meta: {
+        sheetName
+      }
+    })
+  }
+  return excelData
+}
+
+function getHeaderRow(sheet: WorkSheet) {
+  if (!sheet || !sheet['!ref']) return []
+  const headers: string[] = []
+  // A3:B7=>{s:{c:0, r:2}, e:{c:1, r:6}}
+  const range: xlsx.Range = utils.decode_range(sheet['!ref'])
+  // shapeWorkSheel(sheet, range)
+  const R = range.s.r
+  /* start in the first row */
+  for (let C = range.s.c; C <= range.e.c; ++C) {
+    /* walk every column in the range */
+    const cell = sheet[utils.encode_cell({ c: C, r: R })]
+    /* find the cell in the first row */
+    let hdr = '' // <-- replace with your desired default
+    if (cell && cell.t) hdr = utils.format_cell(cell)
+    headers.push(hdr)
+  }
+  return headers
+}
+
+export async function xlsxFileReader(rawFile: File) {
+  try {
+    const result = await fileReader(rawFile)
+    const workbook = read(result, { type: 'array', cellDates: true })
+
+    const excelData = getExcelData(workbook)
+    return excelData
+  } catch (error) {
+    return []
+  }
 }
