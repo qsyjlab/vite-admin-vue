@@ -1,5 +1,5 @@
 import { defineExposeRoutes } from '@/router'
-import { Layout } from '@/router/constant'
+import { BlankContainer, Layout } from '@/router/constant'
 
 export default defineExposeRoutes([
   {
@@ -70,6 +70,35 @@ export default defineExposeRoutes([
           title: '加密'
         },
         component: () => import('@/views/system/feature/encrypt/encrypt.vue')
+      },
+      {
+        name: 'Excel',
+        path: 'excel',
+        meta: {
+          title: 'Excel',
+          ignoreAuth: true
+        },
+        component: BlankContainer,
+        children: [
+          {
+            name: 'ExcelBase',
+            path: 'base',
+            meta: {
+              title: '基本导出',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/feature/excel/base/excel.vue')
+          },
+          {
+            name: 'ExcelBaseMutiHeader',
+            path: 'mutiple-header',
+            meta: {
+              title: '多表头',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/feature/excel/base/excel.vue')
+          }
+        ]
       }
     ]
   }
