@@ -14,6 +14,7 @@ export interface ExcelData<T = any> {
 export interface AoAToSheet<T = any> {
   data: T[][]
   header?: T[]
+  merges?: any[]
   filename?: string
   sheetName?: string
   write2excelOpts?: WritingOptions
@@ -24,6 +25,7 @@ export interface JsonToSheet<T = any> {
   header?: T
   filename?: string
   sheetName?: string
+  merges?: any[]
   json2sheetOpts?: JSON2SheetOpts
   write2excelOpts?: WritingOptions
 }
@@ -44,6 +46,7 @@ export interface AoaToMultipleSheet<T = any> {
 export function jsonToSheetXlsx<T = any>({
   data,
   header,
+  merges = [],
   filename = `${new Date().getTime()}.xlsx`,
   sheetName = DEFAULT_SHEET_NAME,
   json2sheetOpts = {},
@@ -55,6 +58,7 @@ export function jsonToSheetXlsx<T = any>({
     json2sheetOpts.skipHeader = true
   }
   const worksheet = xlsx.utils.json_to_sheet(arrData, json2sheetOpts)
+  worksheet['!merges'] = merges
   setColumnWidth(arrData, worksheet)
   /* add worksheet to workbook */
   const workbook: WorkBook = {
@@ -72,6 +76,7 @@ export function jsonToSheetXlsx<T = any>({
 export function aoaToSheetXlsx<T = any>({
   data,
   header,
+  merges = [],
   filename = `${new Date().getTime()}.xlsx`,
   write2excelOpts = { bookType: 'xlsx' }
 }: AoAToSheet<T>) {
@@ -81,6 +86,7 @@ export function aoaToSheetXlsx<T = any>({
   }
 
   const worksheet = utils.aoa_to_sheet(arrData)
+  worksheet['!merges'] = merges
 
   /* add worksheet to workbook */
   const workbook: WorkBook = {

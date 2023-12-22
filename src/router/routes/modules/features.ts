@@ -96,7 +96,8 @@ export default defineExposeRoutes([
               title: '多表头',
               ignoreAuth: true
             },
-            component: () => import('@/views/system/feature/excel/base/excel.vue')
+            component: () =>
+              import('@/views/system/feature/excel/mutiple-header/mutiple-header.vue')
           }
         ]
       }
