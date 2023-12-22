@@ -1,26 +1,33 @@
 <template>
-  <div class="pro-table">
+  <div
+    ref="proTableWrapperRef"
+    class="pro-table"
+    :style="{
+      height: autoFitHeight ? '100%' : ''
+    }"
+  >
     <!-- header -->
-    <toolbar
-      v-if="!!options"
-      :header-title="headerTitle"
-      :columns="tableColums"
-      :options="{
-        ...(options === true ? {} : options),
-        headerTitle: !!$slots.headerTitle,
-        toolbar: !!$slots.toolbar
-      }"
-    >
-      <template #headerTitle>
-        <slot name="headerTitle"></slot>
-      </template>
-      <template #toolbar>
-        <slot name="toolbar"></slot>
-      </template>
-    </toolbar>
+    <div v-if="!!options" ref="toolbarRef">
+      <toolbar
+        :header-title="headerTitle"
+        :columns="tableColums"
+        :options="{
+          ...(options === true ? {} : options),
+          headerTitle: !!$slots.headerTitle,
+          toolbar: !!$slots.toolbar
+        }"
+      >
+        <template #headerTitle>
+          <slot name="headerTitle"></slot>
+        </template>
+        <template #toolbar>
+          <slot name="toolbar"></slot>
+        </template>
+      </toolbar>
+    </div>
 
-    <slot name="alert">
-      <div class="pro-table-alert">
+    <div v-if="showAlert" ref="alertRef" class="pro-table-alert">
+      <slot name="alert">
         <el-alert
           v-if="alwaysShowAlert || selectedKeys.length"
           type="info"
@@ -32,8 +39,9 @@
             <el-button type="primary" link @click="clearSelectedKeys">取消全部</el-button></template
           >
         </el-alert>
-      </div>
-    </slot>
+      </slot>
+    </div>
+
     <component :is="wrapper" :ref="setRef" class="pro-table__wrapper" :model="editableRowsModel">
       <!-- table -->
       <el-table
@@ -43,6 +51,7 @@
           ...$attrs,
           style: undefined
         }"
+        :height="tableProps.height"
         :style="{}"
         :border="border"
         :row-key="rowKey"
@@ -65,7 +74,7 @@
     </component>
 
     <!-- pagination -->
-    <div v-if="pagination" class="pro-table__pagination">
+    <div v-if="pagination" ref="paginationRef" class="pro-table__pagination">
       <el-pagination
         v-bind="paginationProps"
         :small="tableProps.size === 'small'"
@@ -115,6 +124,10 @@ const emits = defineEmits(proTableEmits)
 const store = useTableStore(reactive(props) as ProTableProps, { emits })
 
 const {
+  toolbarRef,
+  alertRef,
+  paginationRef,
+  proTableWrapperRef,
   tableInstanceRef,
   tableActionRef,
   paginationProps,

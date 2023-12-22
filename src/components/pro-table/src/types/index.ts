@@ -126,6 +126,8 @@ export interface ProTablePaginationConfig {
 
 export interface ProTableProps<T = any> {
   size: TableProps<T>['size']
+  height?: string | number
+  autoFitHeight: boolean
   columnsState: ColumnsState
   columns: ProTableColumns
   data: any[]

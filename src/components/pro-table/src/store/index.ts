@@ -1,4 +1,4 @@
-import { computed, inject, reactive, ref, toRefs } from 'vue'
+import { computed, inject, nextTick, reactive, ref, toRefs, watch, watchEffect } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
 import { useColumnsMap, useProTable, useEditable, useSelection } from '../hooks'
 
@@ -13,7 +13,7 @@ interface IExtraOptions {
   emits: SetupContext<ProTableEmits>['emit']
 }
 
-type ITableProps = Pick<ProTableProps, 'size'>
+type ITableProps = Pick<ProTableProps, 'size' | 'height'>
 
 export function useTableStore(
   props: ProTableProps & { size?: ITableProps['size'] },
@@ -23,9 +23,17 @@ export function useTableStore(
 
   const tableInstanceRef = ref<TableInstance | null>(null)
 
+  const proTableWrapperRef = ref<Nullable<HTMLDivElement>>(null)
+
+  const paginationRef = ref<Nullable<HTMLDivElement>>(null)
+
+  const toolbarRef = ref<Nullable<HTMLDivElement>>(null)
+  const alertRef = ref<Nullable<HTMLDivElement>>(null)
+
   // 表格实例属性
   const tableProps = reactive<ITableProps>({
-    size: 'default'
+    size: 'default',
+    height: undefined
   })
 
   // 全局共享读取的属性
@@ -118,6 +126,40 @@ export function useTableStore(
     initLocalStorageOrDynamicMap
   }
 
+  if (props.autoFitHeight) {
+    watch([selectedKeys, dataSource, alertRef, toolbarRef, paginationRef], () => {
+      nextTick(() => {
+        doHeight()
+      })
+    })
+  } else {
+    doHeight()
+  }
+
+  function doHeight() {
+    if (props.height) {
+      tableProps.height = props.height
+      return
+    }
+    if (!props.autoFitHeight) return
+
+    let height = proTableWrapperRef.value?.offsetHeight
+    if (!height) return 0
+
+    if (toolbarRef.value) {
+      height -= toolbarRef.value.offsetHeight
+    }
+
+    if (alertRef.value && selectedKeys.value.length) {
+      height -= alertRef.value.offsetHeight
+    }
+    if (paginationRef.value) {
+      height -= paginationRef.value.clientHeight
+    }
+
+    tableProps.height = height - 20
+  }
+
   function clearSelection() {
     tableInstanceRef.value?.clearSelection()
   }
@@ -146,6 +188,11 @@ export function useTableStore(
   }
 
   return {
+    doHeight,
+    toolbarRef,
+    alertRef,
+    paginationRef,
+    proTableWrapperRef,
     sharedProperties,
     paginationProps,
     tableProps,

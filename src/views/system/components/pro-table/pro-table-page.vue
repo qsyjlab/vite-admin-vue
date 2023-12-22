@@ -7,7 +7,6 @@
         :columns="columns"
         :request="getTableMockList"
         :params="params"
-        :height="height"
         checkable
         :pagination="{
           page: pageRef,
