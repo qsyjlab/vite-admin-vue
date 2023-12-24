@@ -4,7 +4,7 @@
       <IconSelector :size="18" :icon="item.meta?.icon" />
     </div>
     <template #title>
-      <span>{{ item?.meta?.title }}</span></template
+      <span class="ellipsis">{{ item?.meta?.title }}</span></template
     >
   </el-menu-item>
 
@@ -13,7 +13,7 @@
       <div v-if="item.meta?.icon" class="icon">
         <IconSelector :size="18" :icon="item.meta?.icon" />
       </div>
-      <span>{{ item?.meta?.title }}</span>
+      <span class="ellipsis">{{ item?.meta?.title }}</span>
     </template>
 
     <template v-for="childMenu in item.children" :key="childMenu.name">
@@ -27,7 +27,7 @@
         </div>
 
         <template #title>
-          {{ childMenu?.meta?.title }}
+          <span class="ellipsis">{{ childMenu?.meta?.title }}</span>
         </template>
       </el-menu-item>
 
@@ -68,5 +68,12 @@ const hasChildrenMenu = (item: Menu) => {
   width: var(--el-menu-icon-width);
   text-align: center;
   flex-shrink: 0;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 </style>
