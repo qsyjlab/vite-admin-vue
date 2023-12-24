@@ -9,13 +9,13 @@
     <template v-if="group">
       <el-option-group
         v-for="group in (options as ProSelectGroupOption[])"
-        :key="group.key"
+        :key="group[mergedFields.value]"
         :label="group.label || ''"
         ><el-option
           v-for="option in group.options"
-          :key="option.value"
-          :label="option.label"
-          :value="option.value"
+          :key="option[mergedFields.value]"
+          :label="option[mergedFields.label]"
+          :value="option[mergedFields.value]"
           :disabled="option.disabled"
         >
           <slot v-bind="option"></slot>
@@ -26,9 +26,9 @@
     <template v-else>
       <el-option
         v-for="option in (options as ProSelectOption[])"
-        :key="option.value"
-        :label="option.label"
-        :value="option.value"
+        :key="option[mergedFields.value]"
+        :label="option[mergedFields.label]"
+        :value="option[mergedFields.value]"
         :disabled="option.disabled"
       >
         <slot v-bind="option"></slot>
@@ -38,6 +38,7 @@
 </template>
 <script setup lang="ts">
 import { ElSelect, ComponentSize } from 'element-plus'
+import { computed } from 'vue'
 
 type SelectInstance = InstanceType<typeof ElSelect>
 
@@ -50,11 +51,17 @@ interface ProSelectOption {
 
 interface ProSelectGroupOption {
   label: ProSelectOption['label']
-  key: ProSelectOption['key']
+  value: ProSelectOption['value']
   options: ProSelectOption[]
 }
 
 type ModelValue = ProSelectOption['value'] | ProSelectOption['value'][]
+
+interface Fields {
+  label: string
+  value: string
+  options: string
+}
 
 interface ProSelectProps {
   modelValue?: ModelValue
@@ -65,6 +72,8 @@ interface ProSelectProps {
   onChange?: (...args: any[]) => void
   /** @description 是否开始分组 */
   group?: boolean
+  /** @description 用于替换默认取值下标 */
+  fields?: Partial<Fields>
 }
 
 defineOptions({
@@ -75,16 +84,25 @@ defineSlots<{
   default: (scope: ProSelectOption) => void
 }>()
 
-withDefaults(defineProps<ProSelectProps>(), {
+const DefaultFields: Fields = {
+  label: 'label',
+  value: 'value',
+  options: 'options'
+}
+
+const props = withDefaults(defineProps<ProSelectProps>(), {
   options: () => [],
   clearable: true,
-  group: false
+  group: false,
+  fields: () => ({})
 })
 
 const emits = defineEmits<{
   'update:model-value': [...rest: any[]]
   change: [...rest: any[]]
 }>()
+
+const mergedFields = computed(() => Object.assign({}, DefaultFields, props.fields))
 
 const changeHandler: SelectInstance['onChange'] = (...rest) => {
   emits('update:model-value', rest[0])
