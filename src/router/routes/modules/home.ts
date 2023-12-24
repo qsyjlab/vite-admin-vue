@@ -7,7 +7,7 @@ export default defineExposeRoutes([
     name: 'Welcome',
     meta: {
       title: 'Welcome',
-      sort: 1,
+      order: 10,
       icon: 'ep.home-filled',
       // hideChildrenInMenu: true,
       hideInTab: true
@@ -22,7 +22,6 @@ export default defineExposeRoutes([
         name: 'WelcomeIndex',
         meta: {
           title: 'Welcome',
-          sort: 1,
           icon: 'ep.home-filled',
 
           affixTab: true,

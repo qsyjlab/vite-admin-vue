@@ -118,7 +118,14 @@ export function transformRouteToMenu(routeModList: RouteRecordRaw[]) {
       const children = item.children
       if (children && children.length) {
         _temp.children = promoteSingleChild(children || [])
-        if (_temp.children?.length === 1) _temp = _temp.children[0]
+        if (_temp.children?.length === 1 && _temp.meta?.hideChildrenInMenu !== false)
+          _temp = {
+            ..._temp.children[0],
+            meta: {
+              ..._temp.children[0].meta,
+              order: _temp.meta.order ?? _temp.children[0].meta?.order
+            }
+          }
       }
       return _temp
     })
@@ -145,7 +152,9 @@ export function transformRouteToMenu(routeModList: RouteRecordRaw[]) {
 // 处理菜单排序
 export function routeMenusSort(menus: Menu[]) {
   return menus.sort((prev, next) => {
-    if (!prev.meta?.order || !next.meta?.order) return -1
-    return (prev.meta?.order || 0) - (next.meta?.order || 0)
+    return (
+      (prev.meta?.order || Number.POSITIVE_INFINITY) -
+      (next.meta?.order || Number.POSITIVE_INFINITY)
+    )
   })
 }
