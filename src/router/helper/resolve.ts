@@ -121,10 +121,7 @@ export function transformRouteToMenu(routeModList: RouteRecordRaw[]) {
         if (_temp.children?.length === 1 && _temp.meta?.hideChildrenInMenu !== false)
           _temp = {
             ..._temp.children[0],
-            meta: {
-              ..._temp.children[0].meta,
-              order: _temp.meta.order ?? _temp.children[0].meta?.order
-            }
+            meta: Object.assign(_temp.meta, _temp.children[0].meta)
           }
       }
       return _temp
