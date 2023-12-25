@@ -1,36 +1,96 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title">
-      <el-button @click="show">hook 打开 dialog</el-button>
+      <el-button @click="() => show()">打开</el-button>
 
-      <el-button @click="dialogFormCommand.show()">打开</el-button>
+      <el-button @click="() => show(1)">编辑</el-button>
 
-      <el-button @click="dialogFormCommand.show(1)">编辑</el-button>
-      <TestDialog :title="'123123'" append-to-body @close="closeCallback">
-        <template #header>123213</template>
-        内容部分渲染
-        <template #footer>
-          <el-button @click="close"> 关闭 </el-button>
-        </template>
-      </TestDialog>
-
-      <ProDialogForm />
-      <DialogFormTemplate />
+      <ProDialogForm ref="formDialogRef" v-bind="formDialogProps" />
     </page-card>
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { PageWrapper, PageCard } from '@/components'
-import { useDialog, IDialogProps } from '@/hooks/use-dialog'
-import { reactive } from 'vue'
-import { useDialogForm } from '@/hooks/use-dialog-form'
-import ProDialogForm from '@/components/pro-form-dialog/src/pro-dialog-form.vue'
+import { PageWrapper, PageCard, FormSchema } from '@/components'
 
-const [DialogFormTemplate, dialogFormCommand] = useDialogForm({
-  title: '标题',
-  fields: [{ label: '测试表单1', key: 'test1', el: 'el-input' }],
+import { ProDialogForm, ProDialogFormInstance, IDialogForm } from '@/components/pro-dialog-form'
+import { ref } from 'vue'
+
+const fields: FormSchema[] = [
+  {
+    label: '签约客户名称',
+    el: 'el-input',
+    key: 'name',
+    col: {
+      span: 12
+    }
+  },
+  {
+    label: '我方公司名称',
+    el: 'el-input',
+    key: 'selfCompany',
+    col: {
+      span: 12
+    }
+  },
+  {
+    label: '合同名称',
+    el: 'el-input',
+    key: 'ht',
+    col: {
+      span: 12
+    }
+  },
+  {
+    label: '合同生效时间',
+    el: 'el-date-picker',
+    key: 'startTime',
+    attrs: {
+      type: 'daterange'
+    },
+    col: {
+      span: 12
+    }
+  },
+  {
+    label: '合同约定生效方式',
+    el: 'pro-select',
+    key: 'way',
+
+    col: {
+      span: 6
+    }
+  },
+  {
+    label: '合同约定失效效方式',
+    el: 'pro-select',
+    key: 'missWay',
+    col: {
+      span: 6
+    }
+  },
+
+  {
+    label: '项目名称',
+    el: 'el-input',
+    key: 'projectName'
+  },
+  {
+    label: '商务经理',
+    el: 'el-input',
+    key: 'bName'
+  }
+]
+
+const formDialogProps: IDialogForm = {
+  dialogProps: {
+    width: '50%',
+    title: '新建表单'
+  },
+  fields: fields,
   cancelText: '关闭',
   confirmText: '确定',
+  labelWidth: 100,
+  labelPosition: 'top',
   addRequest: data => {
     console.log('data', data)
     return Promise.resolve(data)
@@ -46,69 +106,13 @@ const [DialogFormTemplate, dialogFormCommand] = useDialogForm({
   onSuccess(data) {
     console.log('sucess', data)
   }
-})
-
-const closeCallback = () => {
-  console.log('closed')
 }
 
-const dialogProps = reactive<IDialogProps>({
-  name: 'TestDialog',
-  title: '这是dialog 标题',
-  fullscreen: false,
-  openDelay: 200
-})
-const [TestDialog, { show, close }] = useDialog(dialogProps)
+const formDialogRef = ref<ProDialogFormInstance>()
 
-const fields = [
-  {
-    label: 'name',
-    el: 'el-input',
-    key: 'name',
-    rules: [
-      { required: true, message: 'Please input Activity name', trigger: 'blur' },
-      { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
-    ]
-  },
-  {
-    label: 'zone',
-    el: 'el-input',
-    key: 'zone',
-    attrs: {
-      options: [
-        {
-          label: '测试地区1',
-          value: 1
-        }
-      ]
-    }
-  },
-  {
-    label: 'time',
-    el: 'el-input',
-    key: 'time123'
-  },
-  {
-    label: 'time',
-    el: 'el-input',
-    key: 'time23'
-  },
-  {
-    label: 'time',
-    el: 'el-input',
-    key: 'time2323'
-  },
-
-  {
-    label: 'time',
-    el: 'el-input',
-    key: 'time23232'
-  }
-]
-
-const submit = (values: Record<string, any>, done: () => void) => {
-  console.log('values', values)
-  done()
+const show = (id?: number) => {
+  formDialogRef.value?.show(id, {
+    name: '测试名称'
+  })
 }
 </script>
-<style scoped></style>
