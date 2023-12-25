@@ -65,7 +65,7 @@ interface Fields {
 
 interface ProSelectProps {
   modelValue?: ModelValue
-  options: ProSelectOption[] | ProSelectGroupOption[]
+  options?: ProSelectOption[] | ProSelectGroupOption[]
   size?: ComponentSize
   multiple?: SelectInstance['multiple']
   clearable?: SelectInstance['clearable']

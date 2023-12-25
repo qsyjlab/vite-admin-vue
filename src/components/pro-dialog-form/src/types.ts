@@ -1,11 +1,10 @@
-import { FormProps } from '@/components/pro-form/src/form-props'
-import { FormSchema } from '@/components/pro-form/src/types'
+import { FormSchema, ProFormProps } from '@/components/pro-form/src/types'
 import { DialogProps } from 'element-plus'
 
 export interface IDialogForm<T = Record<string, any>, D = Record<string, any>>
-  extends Partial<Omit<DialogProps, 'modelValue'>> {
+  extends Partial<ProFormProps> {
   fields?: FormSchema[]
-  formProps?: Partial<FormProps>
+  dialogProps: Partial<Omit<DialogProps, 'modelValue'>>
   cancelText?: string
   confirmText?: string
   addRequest?: (data: T) => Promise<any>
