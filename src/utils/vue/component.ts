@@ -22,12 +22,12 @@ export const withInstall = <T, E extends Record<string, any>>(main: T, extra?: E
 }
 
 // 判定是否是 vue 组件对象
-export function isComponent(target: any) {
-  if (!isObject(target)) return false
+export function isComponent(object: Record<string, any>) {
+  if (!isObject(object)) return false
 
   if (
-    (target?.setup && isFunction(target.setup)) ||
-    (target?.render && isFunction(target.render))
+    (object?.setup && isFunction(object.setup)) ||
+    (object?.render && isFunction(object.render))
   ) {
     return true
   }
