@@ -2,9 +2,11 @@
   <page-wrapper>
     <page-card :header="$route.meta.title">
       <editable-pro-table
-        :height="height"
+        v-model:selected-keys="selectedKeys"
+        checkable
+        style="height: 100%"
         :columns="columns"
-        mode="single"
+        mode="multiple"
         :data="data"
         :on-delete="deleteRow"
         :on-error="onError"
@@ -23,15 +25,13 @@ import { PageCard } from '@/components/page-card'
 import type { ProTableColumns, EditableCellValidError } from '@/components/pro-table'
 import { computed, ref } from 'vue'
 import { ElMessage } from 'element-plus'
-const height = computed(() => {
-  return `${window.innerHeight - 400}px`
-})
 
 const data = ref<any>([
   {
     id: new Date().getTime()
   }
 ])
+const selectedKeys = ref<number[]>([])
 
 const columns: ProTableColumns = [
   {
@@ -113,8 +113,8 @@ const changeData = (_d: any) => {
   data.value = _d
 }
 
-function deleteRow(row: any) {
-  console.log('row', row)
+function deleteRow(row: any, done) {
+  done()
 }
 
 function onError(errors: EditableCellValidError) {
