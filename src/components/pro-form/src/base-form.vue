@@ -4,6 +4,7 @@
     :ref="ref => setFormRef(ref)"
     :inline="inline"
     :model="formModel"
+    :label-width="labelWidth"
     @submit.prevent
   >
     <el-row :gutter="20">

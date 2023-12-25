@@ -3,6 +3,8 @@ import ProFormComponent from './src/base-form.vue'
 
 export const ProForm = withInstall(ProFormComponent)
 
+export type ProFormInstance = InstanceType<typeof ProForm>
+
 export * from './src/extension'
 
 export * from './src/types'

@@ -1,5 +1,6 @@
 import type { FormItemRule, ColProps, FormContext } from 'element-plus'
 import type { Component } from 'vue'
+import type { FormProps as EpFormProps } from 'element-plus'
 
 export interface FormSchema {
   label?: string
@@ -21,4 +22,8 @@ export interface FormMethodsType {
   scrollToField: NOOP
   // 强制更新 数据
   forceUpdateModel: (model: Record<string, any>) => void
+}
+
+export interface ProFormProps extends EpFormProps {
+  fields: FormSchema[]
 }
