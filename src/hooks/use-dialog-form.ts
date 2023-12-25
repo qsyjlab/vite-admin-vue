@@ -1,7 +1,7 @@
 import { defineComponent, h } from 'vue'
 
 import ProDialogForm from '@/components/pro-form-dialog/src/pro-dialog-form.vue'
-import type { IDialogExpose, IDialogForm } from '@/components/pro-form-dialog/src/types'
+import type { IDialogExpose, IDialogForm } from '@/components/pro-dialog-form/src/types'
 import { ref } from 'vue'
 
 export function useDialogForm(props?: IDialogForm) {
