@@ -99,7 +99,7 @@ export const transformResponse: RequestTransform['transformResponse'] = (
         } (${errorJson.message})`
       )
 
-      throw new Error(`${JSON.stringify(errorJson)}`)
+      throw errorJson
     }
   }
 }

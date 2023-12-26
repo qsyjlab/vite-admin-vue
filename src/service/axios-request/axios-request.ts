@@ -68,7 +68,7 @@ class AxiosRequest {
               const result = transformResponse(response, requestOptions)
               resolve(result)
             } catch (error: any) {
-              reject(JSON.parse(error.message))
+              reject(error)
             }
           }
           resolve(response.data)
