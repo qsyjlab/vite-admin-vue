@@ -33,6 +33,7 @@
     "mitt": "^3.0.1",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.16",
+    "print-js": "^1.6.0",
     "qrcode": "^1.5.3",
     "sortablejs": "^1.15.0",
     "tinymce": "5.10.3",

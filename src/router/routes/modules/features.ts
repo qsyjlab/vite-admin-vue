@@ -72,6 +72,15 @@ export default defineExposeRoutes([
         component: () => import('@/views/system/feature/encrypt/encrypt.vue')
       },
       {
+        name: 'Print',
+        path: 'print',
+        meta: {
+          title: '打印',
+          ignoreAuth: true
+        },
+        component: () => import('@/views/system/feature/print/print.vue')
+      },
+      {
         name: 'Excel',
         path: 'excel',
         meta: {
