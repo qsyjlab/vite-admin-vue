@@ -11,7 +11,11 @@
 
           <el-form :model="loginForm" size="large">
             <el-form-item>
-              <el-input v-model="loginForm.username" :prefix-icon="User" />
+              <el-input
+                v-model="loginForm.username"
+                :prefix-icon="User"
+                placeholder="请输入用户名"
+              />
             </el-form-item>
             <el-form-item>
               <el-input
@@ -19,6 +23,7 @@
                 :prefix-icon="Lock"
                 show-password
                 type="password"
+                placeholder="请输入密码"
               />
             </el-form-item>
             <el-form-item>
