@@ -4,11 +4,12 @@
     :model-value="modelValue"
     :clearable="clearable"
     :multiple="multiple"
+    :loading="loading"
     @change="changeHandler"
   >
     <template v-if="group">
       <el-option-group
-        v-for="group in (options as ProSelectGroupOption[])"
+        v-for="group in cahceOptions"
         :key="group[mergedFields.value]"
         :label="group.label || ''"
         ><el-option
@@ -25,7 +26,7 @@
 
     <template v-else>
       <el-option
-        v-for="option in (options as ProSelectOption[])"
+        v-for="option in cahceOptions"
         :key="option[mergedFields.value]"
         :label="option[mergedFields.label]"
         :value="option[mergedFields.value]"
@@ -37,25 +38,17 @@
   </el-select>
 </template>
 <script setup lang="ts">
+import { isFunction } from '@/utils'
 import { ElSelect, ComponentSize } from 'element-plus'
+import { watch } from 'vue'
+import { ref } from 'vue'
 import { computed } from 'vue'
 
 type SelectInstance = InstanceType<typeof ElSelect>
 
-interface ProSelectOption {
-  key: string | number
-  label: string
-  value: string | number
-  disabled?: boolean
-}
+type ProSelectOption = Record<string, any>
 
-interface ProSelectGroupOption {
-  label: ProSelectOption['label']
-  value: ProSelectOption['value']
-  options: ProSelectOption[]
-}
-
-type ModelValue = ProSelectOption['value'] | ProSelectOption['value'][]
+type ModelValue = any
 
 interface Fields {
   label: string
@@ -65,7 +58,7 @@ interface Fields {
 
 interface ProSelectProps {
   modelValue?: ModelValue
-  options?: ProSelectOption[] | ProSelectGroupOption[]
+  options?: ProSelectOption[]
   size?: ComponentSize
   multiple?: SelectInstance['multiple']
   clearable?: SelectInstance['clearable']
@@ -74,6 +67,7 @@ interface ProSelectProps {
   group?: boolean
   /** @description 用于替换默认取值下标 */
   fields?: Partial<Fields>
+  request?: () => Promise<ProSelectOption[]>
 }
 
 defineOptions({
@@ -96,11 +90,35 @@ const props = withDefaults(defineProps<ProSelectProps>(), {
   group: false,
   fields: () => ({})
 })
-
 const emits = defineEmits<{
   'update:model-value': [...rest: any[]]
   change: [...rest: any[]]
 }>()
+
+const cahceOptions = ref<ProSelectOption[]>([])
+const loading = ref(false)
+
+watch(
+  () => props.options,
+  () => {
+    cahceOptions.value = props.options
+  },
+  {
+    immediate: true
+  }
+)
+
+if (props.request && isFunction(props.request)) {
+  loading.value = true
+  props
+    .request()
+    .then(res => {
+      cahceOptions.value = res
+    })
+    .finally(() => {
+      loading.value = false
+    })
+}
 
 const mergedFields = computed(() => Object.assign({}, DefaultFields, props.fields))
 

@@ -145,6 +145,59 @@ const fields: FormSchema[] = [
     }
   },
   {
+    label: '下拉选择器 request',
+    el: 'ProSelect',
+    key: 'select-request',
+    attrs: {
+      group: true,
+      request: () => {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve([
+              {
+                label: 'Popular cities',
+                options: [
+                  {
+                    value: 'Shanghai',
+                    label: 'Shanghai'
+                  },
+                  {
+                    value: 'Beijing',
+                    label: 'Beijing'
+                  }
+                ]
+              },
+              {
+                label: 'City name',
+                options: [
+                  {
+                    value: 'Chengdu',
+                    label: 'Chengdu'
+                  },
+                  {
+                    value: 'Shenzhen',
+                    label: 'Shenzhen'
+                  },
+                  {
+                    value: 'Guangzhou',
+                    label: 'Guangzhou'
+                  },
+                  {
+                    value: 'Dalian',
+                    label: 'Dalian'
+                  }
+                ]
+              }
+            ])
+          }, 2000)
+        })
+      }
+    },
+    col: {
+      span: 8
+    }
+  },
+  {
     label: '多选框组',
     el: 'ProCheckboxGruop',
     key: 'checkbox-group',
