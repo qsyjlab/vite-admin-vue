@@ -121,8 +121,14 @@ class AxiosRequest {
       responseInterceptorsCatch
     } = this.instanceConfig.interceptorsHooks || {}
 
-    this.instance.interceptors.request.use(requestInterceptors, requestInterceptorsCatch)
-    this.instance.interceptors.response.use(responseInterceptors, responseInterceptorsCatch)
+    this.instance.interceptors.request.use(
+      requestInterceptors,
+      error => requestInterceptorsCatch?.(error, this) ?? error
+    )
+    this.instance.interceptors.response.use(
+      responseInterceptors,
+      error => responseInterceptorsCatch?.(error, this) ?? error
+    )
   }
 }
 

@@ -4,6 +4,7 @@ import type {
   AxiosError,
   InternalAxiosRequestConfig
 } from 'axios'
+import AxiosRequest from './axios-request'
 
 export type BaseAxiosResponse = AxiosResponse<any>
 
@@ -11,11 +12,17 @@ export type RequestInterceptorsType = (
   config: InternalAxiosRequestConfig
 ) => InternalAxiosRequestConfig
 
-export type RequestInterceptorsCatchType = (error: CatchError) => Promise<CatchError>
+export type RequestInterceptorsCatchType = (
+  error: CatchError,
+  instance: AxiosRequest
+) => Promise<CatchError>
 
 export type ResponseInterceptorsType = (response: BaseAxiosResponse) => BaseAxiosResponse
 
-export type ResponseInterceptorsCatchType<T = any> = (error: CatchError<T>) => Promise<CatchError>
+export type ResponseInterceptorsCatchType<T = any> = (
+  error: CatchError<T>,
+  instance: AxiosRequest
+) => Promise<CatchError>
 
 export type CatchError<T = any> = AxiosError<T>
 
