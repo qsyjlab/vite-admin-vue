@@ -1,9 +1,12 @@
 import { withInstall } from '@/utils'
-import ProFormComponent from './src/base-form.vue'
+import Form from './src/base-form.vue'
+import FormItem from './src/form-action.vue'
 
-export const ProForm = withInstall(ProFormComponent)
+export const ProForm = withInstall(Form)
+export const ProFormItem = withInstall(FormItem)
 
 export type ProFormInstance = InstanceType<typeof ProForm>
+export type ProFormItemInstance = InstanceType<typeof ProFormItem>
 
 export * from './src/extension'
 

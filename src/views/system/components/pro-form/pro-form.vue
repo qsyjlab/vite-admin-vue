@@ -23,20 +23,20 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { PageCard, PageWrapper } from '@/components'
+import { PageCard, PageWrapper, FormSchema } from '@/components'
 import { useProForm } from '@/hooks'
 
 const { register, validate, resetFields } = useProForm()
 
-const fields = [
+const fields: FormSchema[] = [
   {
-    label: '文本输入',
+    label: '文本输入文本',
     el: 'el-input',
     key: 'input',
-    rules: [
-      { required: true, message: 'Please input Activity name', trigger: 'blur' },
-      { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
-    ],
+    tip: '输入文本在 3 到 5个之间',
+    required: true,
+    requiredMessage: '请输入必填项',
+    rules: [{ min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }],
     col: {
       span: 8
     }
@@ -45,6 +45,21 @@ const fields = [
     label: '数字输入',
     el: 'el-input-number',
     key: 'input-number',
+    fill: true,
+    attrs: {},
+    col: {
+      span: 8
+    }
+  },
+  {
+    label: '额外渲染',
+    el: 'el-input-number',
+    key: 'input-number2',
+    tip: '当数字输入大于5隐藏',
+    fill: true,
+    show: (value, values) => {
+      return values['input-number'] !== 5
+    },
     attrs: {},
     col: {
       span: 8
