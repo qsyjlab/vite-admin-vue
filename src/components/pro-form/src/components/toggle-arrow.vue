@@ -48,6 +48,7 @@ const toggle = () => {
   align-items: center;
   color: var(--el-color-primary, #409eff);
   font-size: var(--el-font-size-base, 14px);
+  white-space: nowrap;
 }
 .toggle-arrow {
   display: inline-block;

@@ -2,8 +2,8 @@
   <el-form-item :prop="String(prop)" :required="isRequired" :rules="normalizedRules">
     <template v-if="label" #label>
       <div class="pro-form-item__label">
-        <span> {{ label }}：</span>
-        <tips v-if="tip" :text="tip"></tips>
+        <span> {{ label }}</span>
+        <tips v-if="tip" class="pro-form-item__tip" :text="tip"></tips>
       </div>
     </template>
     <slot>
@@ -85,6 +85,10 @@ const isRequired = computed(() => normalizedRules.value.some(rule => rule.requir
     display: flex;
     align-items: center;
     height: 100%;
+    span {
+      display: inline-block;
+      margin-right: 3px;
+    }
   }
 }
 </style>
