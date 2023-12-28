@@ -11,5 +11,4 @@ export type ProFormItemInstance = InstanceType<typeof ProFormItem>
 export * from './src/extension'
 
 export * from './src/types'
-export * from './src/use-schema'
 export * from './src/use-pro-form'

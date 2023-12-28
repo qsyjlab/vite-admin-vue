@@ -1,22 +1,10 @@
 <template>
   <div>
-    <ProForm inline :fields="schemaes" @submit="submit" @reset="reset" @register="register">
-    </ProForm>
-
-    <div>
-      表单
-      <!-- <ProForm :fields="schemaes"> </ProForm> -->
-      <el-button @click="customSubmit">自定义提交按钮</el-button>
-      <el-button @click="updateFormConfig">更新表单配置</el-button>
-      <el-button @click="insertFormConfig">插入新的配置</el-button>
-      <el-button @click="removeFormConfig">移除配置</el-button>
-    </div>
+    <ProForm inline :fields="fields" @submit="submit" @reset="reset"> </ProForm>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useProForm, useSchema } from '../../.vitepress/.exampleCompnents'
-
 const fields = [
   {
     label: 'name',
@@ -146,24 +134,6 @@ const fields = [
     attrs: {
       filterable: true,
       remote: true,
-      remoteMethod: () => {
-        console.log('query')
-
-        updateSchemas({
-          key: 'ProSelectRemote',
-          attrs: {
-            options: Array(20)
-              .fill(0)
-              .map(() => {
-                const key = Math.random() * 100
-                return {
-                  label: '测试数据-' + key,
-                  value: '测试数据-' + key
-                }
-              })
-          }
-        })
-      },
       options: [
         {
           value: 'Shanghai',
@@ -262,73 +232,6 @@ const fields = [
     }
   }
 ]
-
-const { register, validate } = useProForm()
-
-const { schemaes, updateSchemas, appendSchemaByField, removeSchemaByField } = useSchema(fields)
-
-const updateFormConfig = () => {
-  updateSchemas({
-    label: '更新地区',
-    key: 'zone',
-    el: 'el-select',
-    attrs: {
-      options: [
-        {
-          label: '测试地区1',
-          value: '1'
-        }
-      ]
-    }
-  })
-
-  updateSchemas([
-    {
-      label: '更新地区2',
-      key: 'zone',
-
-      attrs: {
-        options: [
-          {
-            label: '测试地区1',
-            value: '2'
-          }
-        ]
-      }
-    },
-    {
-      label: '更新时间',
-      key: 'time23'
-      // col: {
-      //   span: '4'
-      // }
-    }
-  ])
-}
-
-const removeFormConfig = () => {
-  removeSchemaByField(['zone', 'name'])
-}
-
-const insertFormConfig = () => {
-  appendSchemaByField(
-    {
-      label: '新增项',
-      el: 'el-input',
-      key: 'name1',
-      col: {
-        span: 4
-      }
-    },
-    'name'
-  )
-}
-
-const customSubmit = () => {
-  validate(values => {
-    console.log('values', values)
-  })
-}
 
 const submit = (values: any) => {
   console.log('values', values)

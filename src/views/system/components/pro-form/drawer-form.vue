@@ -1,62 +1,93 @@
 <template>
-  <el-card>
-    <template #header>{{ $route.meta.title }}</template>
+  <page-wrapper>
+    <page-card>
+      <template #header>{{ $route.meta.title }}</template>
 
-    <VDrawerModal title="modal 表单" :fields="fields" @submit="submit" />
-  </el-card>
+      <el-button type="primary" @click="visible = true">打开抽屉</el-button>
+
+      <el-drawer v-model="visible" direction="rtl" size="50%">
+        <pro-form :label-width="150" :fields="fields"> </pro-form>
+        <template #footer>
+          <div>
+            <el-button>取消</el-button>
+            <el-button type="primary">确定</el-button>
+          </div>
+        </template>
+      </el-drawer>
+    </page-card>
+  </page-wrapper>
 </template>
-<script setup lang="ts">
-import { VDrawerModal } from '@/components/pro-form'
 
-const fields = [
+<script setup lang="ts">
+import { FormSchema } from '@/components'
+import { ref } from 'vue'
+
+const visible = ref(false)
+
+const fields: FormSchema[] = [
   {
-    label: 'name',
+    label: '签约客户名称',
     el: 'el-input',
     key: 'name',
-    rules: [
-      { required: true, message: 'Please input Activity name', trigger: 'blur' },
-      { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
-    ]
-  },
-  {
-    label: 'zone',
-    el: 'el-input',
-    key: 'zone',
-    attrs: {
-      options: [
-        {
-          label: '测试地区1',
-          value: 1
-        }
-      ]
+    col: {
+      span: 12
     }
   },
   {
-    label: 'time',
+    label: '我方公司名称',
     el: 'el-input',
-    key: 'time123'
+    key: 'selfCompany',
+    col: {
+      span: 12
+    }
   },
   {
-    label: 'time',
+    label: '合同名称',
     el: 'el-input',
-    key: 'time23'
+    key: 'ht',
+    col: {
+      span: 12
+    }
   },
   {
-    label: 'time',
-    el: 'el-input',
-    key: 'time2323'
+    label: '合同生效时间',
+    el: 'el-date-picker',
+    key: 'startTime',
+    attrs: {
+      type: 'daterange'
+    },
+    col: {
+      span: 12
+    }
+  },
+  {
+    label: '合同约定生效方式',
+    el: 'pro-select',
+    key: 'way',
+    fill: true,
+    col: {
+      span: 24
+    }
+  },
+  {
+    label: '合同约定失效效方式',
+    el: 'pro-select',
+    key: 'missWay',
+    fill: true,
+    col: {
+      span: 24
+    }
   },
 
   {
-    label: 'time',
+    label: '项目名称',
     el: 'el-input',
-    key: 'time23232'
+    key: 'projectName'
+  },
+  {
+    label: '商务经理',
+    el: 'el-input',
+    key: 'bName'
   }
 ]
-
-const submit = (values: Record<string, any>, done: () => void) => {
-  console.log('values', values)
-  done()
-}
 </script>
-<style scoped></style>

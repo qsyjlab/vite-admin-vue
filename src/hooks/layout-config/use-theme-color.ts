@@ -31,11 +31,6 @@ export const useElementCssVar = (mode?: 'light' | 'dark') => {
   }
   const removeElementCssVar = () => {
     style.removeProperty('--el-color-primary')
-    // style.removeProperty('--el-button-bg-color')
-    // style.removeProperty('--el-button-active-bg-color')
-    // style.removeProperty('--el-button-active-border-color')
-    // style.removeProperty('--el-color-primary-dark-2')
-    // style.removeProperty('--el-color-primary-dark-1')
     for (let index = 1; index <= 9; index++) {
       style.removeProperty(`--el-color-primary-light-${index}`)
     }

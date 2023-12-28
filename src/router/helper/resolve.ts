@@ -92,14 +92,7 @@ export async function flatRoutesLevel(asyncRoutes: RouteRecordRaw[]) {
 function joinParentPath(menus: any[], parentPath = '') {
   for (let index = 0; index < menus.length; index++) {
     const menu = menus[index]
-    // https://next.router.vuejs.org/guide/essentials/nested-routes.html
-    // Note that nested paths that start with / will be treated as a root path.
-    // 请注意，以 / 开头的嵌套路径将被视为根路径。
-    // This allows you to leverage the component nesting without having to use a nested URL.
-    // 这允许你利用组件嵌套，而无需使用嵌套 URL。
     if (!menu.path.startsWith('/')) {
-      // path doesn't start with /, nor is it a url, join parent path
-      // 路径不以 / 开头，也不是 url，加入父路径
       menu.path = `${parentPath}/${menu.path}`
     }
     if (menu?.children?.length) {
