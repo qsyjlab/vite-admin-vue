@@ -1,6 +1,8 @@
 .el-menu {
   --global-menu-radius: 5px;
   --global-menu-active-text-color: white;
+  --el-menu-sub-item-height: calc(var(--el-menu-item-height) - 3px);
+  --el-menu-item-height: 42px;
 
   &--vertical {
     .el-sub-menu {
