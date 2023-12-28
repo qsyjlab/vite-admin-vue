@@ -103,6 +103,7 @@ const fields: FormSchema[] = [
     key: 'select-group',
     attrs: {
       group: true,
+
       options: [
         {
           label: 'Popular cities',
@@ -150,6 +151,8 @@ const fields: FormSchema[] = [
     key: 'select-request',
     attrs: {
       group: true,
+      filterable: true,
+      remote: true,
       request: () => {
         return new Promise(resolve => {
           setTimeout(() => {

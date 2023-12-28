@@ -4,6 +4,9 @@
     :key="flushKey"
     :model-value="modelValue"
     :clearable="clearable"
+    :filterable="filterable"
+    :remote="remote"
+    :remote-method="customRemoteMehotd"
     :multiple="multiple"
     :loading="loading"
     @change="changeHandler"
@@ -41,6 +44,7 @@
 <script setup lang="ts">
 import { isFunction } from '@/utils'
 import { ElSelect, ComponentSize } from 'element-plus'
+import { useThrottleFn } from '@vueuse/core'
 import { watch } from 'vue'
 import { ref } from 'vue'
 import { computed } from 'vue'
@@ -61,14 +65,18 @@ interface ProSelectProps {
   modelValue?: ModelValue
   options?: ProSelectOption[]
   size?: ComponentSize
-  multiple?: SelectInstance['multiple']
-  clearable?: SelectInstance['clearable']
+  multiple?: boolean
+  clearable?: boolean
+  remote?: boolean
   onChange?: (...args: any[]) => void
   /** @description 是否开始分组 */
   group?: boolean
   /** @description 用于替换默认取值下标 */
   fields?: Partial<Fields>
-  request?: () => Promise<ProSelectOption[]>
+  filterable?: boolean
+  paramns?: Record<string, any>
+  request?: (paramns: Record<string, any>) => Promise<ProSelectOption[]>
+  remoteMethod?: SelectInstance['remoteMethod']
 }
 
 defineOptions({
@@ -89,7 +97,9 @@ const props = withDefaults(defineProps<ProSelectProps>(), {
   options: () => [],
   clearable: true,
   group: false,
-  fields: () => ({})
+  fields: () => ({}),
+  filterable: false,
+  paramns: () => ({})
 })
 const emits = defineEmits<{
   'update:model-value': [...rest: any[]]
@@ -99,6 +109,11 @@ const emits = defineEmits<{
 const cahceOptions = ref<ProSelectOption[]>([])
 const loading = ref(false)
 const flushKey = ref()
+
+const fetchOptionsFn = useThrottleFn((...parmas) => {
+  // do something, it will be called at most 1 time per second
+  fetchOptions(...parmas)
+}, 50)
 
 watch(
   () => props.options,
@@ -118,16 +133,16 @@ watch(
   }
 )
 
-if (props.request && isFunction(props.request)) {
-  loading.value = true
-  props
-    .request()
-    .then(res => {
-      cahceOptions.value = res
-    })
-    .finally(() => {
-      loading.value = false
-    })
+if (props.paramns && props.request) {
+  watch(
+    () => props.paramns,
+    () => {
+      fetchOptionsFn()
+    },
+    {
+      immediate: true
+    }
+  )
 }
 
 const mergedFields = computed(() => Object.assign({}, DefaultFields, props.fields))
@@ -135,6 +150,35 @@ const mergedFields = computed(() => Object.assign({}, DefaultFields, props.field
 const changeHandler: SelectInstance['onChange'] = (...rest) => {
   emits('update:model-value', rest[0])
   emits('change', ...rest)
+}
+
+const customRemoteMehotd = query => {
+  query &&
+    fetchOptionsFn({
+      _keyworkd: query
+    })
+}
+
+function fetchOptions(query = {}) {
+  console.log('query')
+
+  if (props.request && isFunction(props.request)) {
+    loading.value = true
+    props
+      .request({
+        ...props.paramns,
+        ...query
+      })
+      .then(res => {
+        cahceOptions.value = res
+      })
+      .catch(() => {
+        cahceOptions.value = []
+      })
+      .finally(() => {
+        loading.value = false
+      })
+  }
 }
 </script>
 <style scoped></style>
