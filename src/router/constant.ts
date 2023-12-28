@@ -1,6 +1,14 @@
+import { h } from 'vue'
+
 export const Layout = () => import('@/layouts/basic-layout/basic-layout.vue')
 
-export const BlankContainer = () => Promise.resolve({})
+export const BlankContainer = () =>
+  Promise.resolve({
+    name: 'BlankContainer',
+    setup() {
+      return () => h('div')
+    }
+  })
 
 export const ROUTE_ENUM = {
   LOGIN_NAME: 'Login',

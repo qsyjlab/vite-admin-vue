@@ -89,6 +89,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'ProForm'
         },
+        component: BlankContainer,
         children: [
           {
             name: 'ProFormBase',
