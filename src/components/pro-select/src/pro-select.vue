@@ -1,6 +1,7 @@
 <template>
   <el-select
     v-bind="$attrs"
+    :key="flushKey"
     :model-value="modelValue"
     :clearable="clearable"
     :multiple="multiple"
@@ -97,6 +98,7 @@ const emits = defineEmits<{
 
 const cahceOptions = ref<ProSelectOption[]>([])
 const loading = ref(false)
+const flushKey = ref()
 
 watch(
   () => props.options,
@@ -105,6 +107,14 @@ watch(
   },
   {
     immediate: true
+  }
+)
+
+watch(
+  () => props.multiple,
+  () => {
+    flushKey.value = new Date().getTime()
+    emits('update:model-value', undefined)
   }
 )
 
