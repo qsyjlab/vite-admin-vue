@@ -1,8 +1,8 @@
-import { interceptorsHooks, requestCatch, transformResponse } from './axios-request-impl'
+import { interceptorHooks, requestCatch, transformResponse } from './axios-request-impl'
 import { RequestResultAdapter } from './request-adapter'
 
 export const mockService = new RequestResultAdapter({
-  interceptorsHooks,
+  interceptorHooks,
   baseURL: '/basic-api',
   transform: {
     transformResponse,

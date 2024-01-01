@@ -5,4 +5,8 @@
 
 ## 固定不可关闭
 
-当路由 meta 中的 affix 属性设为 `true`则不可关闭
+当路由 meta 中的 affixTab 属性设为 `true`则不可关闭
+
+## 隐藏某个标签页
+
+当路由 meta 中的 hideInTab 属性设为 `true`则不在记录中显示

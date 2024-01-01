@@ -49,7 +49,7 @@ class AxiosRequest {
         this.instanceConfig.transform || {}
 
       let requestConfig = extend(
-        omit(this.instanceConfig, ['transform', 'interceptorsHooks']),
+        omit(this.instanceConfig, ['transform', 'interceptorHooks']),
         options
       )
       if (!ignoreTransformRequest && transformRequest && isFunction(transformRequest)) {
@@ -115,19 +115,19 @@ class AxiosRequest {
   // 注册拦截器
   private registerInterceptors(): void {
     const {
-      requestInterceptors,
-      requestInterceptorsCatch,
-      responseInterceptors,
-      responseInterceptorsCatch
-    } = this.instanceConfig.interceptorsHooks || {}
+      requestInterceptor,
+      requestInterceptorCatch,
+      responseInterceptor,
+      responseInterceptorCatch
+    } = this.instanceConfig.interceptorHooks || {}
 
     this.instance.interceptors.request.use(
-      requestInterceptors,
-      error => requestInterceptorsCatch?.(error, this) ?? error
+      requestInterceptor,
+      error => requestInterceptorCatch?.(error, this) ?? error
     )
     this.instance.interceptors.response.use(
-      responseInterceptors,
-      error => responseInterceptorsCatch?.(error, this) ?? error
+      responseInterceptor,
+      error => responseInterceptorCatch?.(error, this) ?? error
     )
   }
 }

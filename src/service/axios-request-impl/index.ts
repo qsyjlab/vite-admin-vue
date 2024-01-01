@@ -1,8 +1,8 @@
 import type {
-  RequestInterceptorsType,
-  RequestInterceptorsCatchType,
-  ResponseInterceptorsType,
-  ResponseInterceptorsCatchType,
+  requestInterceptorType,
+  requestInterceptorCatchType,
+  responseInterceptorType,
+  responseInterceptorCatchType,
   InterceptorsType,
   RequestTransform
   // RequestMethodConfig
@@ -23,19 +23,19 @@ import { ResultEnum, showErrorMessage } from './helper'
 // const pendingTaskQueue: PendingTaskQueue[] = []
 // const refreshing = false
 
-const requestInterceptorsImpl: RequestInterceptorsType = config => {
+const requestInterceptorImpl: requestInterceptorType = config => {
   return config
 }
 
-const requestInterceptorsCatchImpl: RequestInterceptorsCatchType = error => {
+const requestInterceptorCatchImpl: requestInterceptorCatchType = error => {
   return Promise.reject(error)
 }
 
-const responseInterceptorsImpl: ResponseInterceptorsType = response => {
+const responseInterceptorImpl: responseInterceptorType = response => {
   return response
 }
 
-const responseInterceptorsCatchImpl: ResponseInterceptorsCatchType = async error => {
+const responseInterceptorCatchImpl: responseInterceptorCatchType = async error => {
   if (isCancelError(error)) return Promise.reject(error)
 
   // const { data, config } = error.response || {}
@@ -120,9 +120,9 @@ export const requestCatch: RequestTransform['requestCatch'] = (error, requestOpt
   return error
 }
 
-export const interceptorsHooks: InterceptorsType = {
-  requestInterceptors: requestInterceptorsImpl,
-  requestInterceptorsCatch: requestInterceptorsCatchImpl,
-  responseInterceptors: responseInterceptorsImpl,
-  responseInterceptorsCatch: responseInterceptorsCatchImpl
+export const interceptorHooks: InterceptorsType = {
+  requestInterceptor: requestInterceptorImpl,
+  requestInterceptorCatch: requestInterceptorCatchImpl,
+  responseInterceptor: responseInterceptorImpl,
+  responseInterceptorCatch: responseInterceptorCatchImpl
 }
