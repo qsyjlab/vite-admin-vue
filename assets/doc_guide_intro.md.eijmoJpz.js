@@ -1,1 +1,0 @@
-import{_ as e,o as t,c as o}from"./chunks/framework.c3HWorPL.js";const m=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"doc/guide/intro.md","filePath":"doc/guide/intro.md"}'),r={name:"doc/guide/intro.md"};function a(n,c,i,d,s,p){return t(),o("div")}const f=e(r,[["render",a]]);export{m as __pageData,f as default};
