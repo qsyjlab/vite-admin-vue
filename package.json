@@ -15,6 +15,7 @@
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
     "prepare": "husky install",
     "clean:lib": "rimraf node_modules",
+    "clean:output": "rimraf .output",
     "buildComponents": "node ./build/scripts/buildComponents.ts"
   },
   "dependencies": {

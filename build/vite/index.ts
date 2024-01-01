@@ -34,6 +34,7 @@ export function createVitePlugin(configEnv: ConfigEnv) {
     ElementPlus({
       useSource: true
     }),
+    viteMockPlugin(isBuild),
     injectHtmlPlugin({ env: viteEnvs })
 
     // visualizer({
@@ -48,10 +49,6 @@ export function createVitePlugin(configEnv: ConfigEnv) {
   if (viteEnvs.ENABLE_LEGACY === 'true') {
     vitePlugins.push(legacyPlugin(legecyConfig) as unknown as Plugin)
   }
-
-  const useMock = true
-
-  useMock && vitePlugins.push(viteMockPlugin(isBuild))
 
   return vitePlugins
 }
