@@ -33,7 +33,7 @@ interface IProps {
 }
 
 defineOptions({
-  name: 'ProCheckboxGruop'
+  name: 'ProCheckboxGroup'
 })
 
 defineSlots<{

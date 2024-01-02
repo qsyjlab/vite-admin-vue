@@ -2,10 +2,11 @@ import { definePropType } from '@/utils'
 import type { ExtractPropTypes } from 'vue'
 import { FormMethodsType, FormSchema } from './types/form'
 import type { FormProps as EpFormProps } from 'element-plus'
-
+import { formProps as epFormProps } from 'element-plus'
 export type { FormSchema }
 
 export const formProps = {
+  ...epFormProps,
   fields: {
     type: definePropType<FormSchema[]>(Array),
     default: () => []

@@ -4,6 +4,18 @@
     :ref="ref => setFormRef(ref)"
     :model="formModel"
     :label-width="labelWidth"
+    :label-position="labelPosition"
+    :disabled="disabled"
+    :inline-message="inlineMessage"
+    :label-suffix="labelSuffix"
+    :require-asterisk-position="requireAsteriskPosition"
+    :hide-required-asterisk="hideRequiredAsterisk"
+    :scroll-into-view-options="scrollIntoViewOptions"
+    :scroll-to-error="scrollToError"
+    :show-message="showMessage"
+    :size="size"
+    :status-icon="statusIcon"
+    :validate-on-rule-change="validateOnRuleChange"
     @submit.prevent
   >
     <el-row :gutter="20">

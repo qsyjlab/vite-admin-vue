@@ -3,9 +3,8 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "app:host": "vite --host",
-    "app:prod": "pnpm run app:host --mode prod",
+    "dev": "vite --host",
+    "app:prod": "vite --host --mode prod",
     "build": "vite build",
     "build:prod": "vite build --mode prod",
     "check": "vue-tsc --noEmit --skipLibCheck",

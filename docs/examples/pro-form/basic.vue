@@ -150,9 +150,9 @@ const fields = [
     }
   },
   {
-    label: 'ProCheckboxGruop',
-    el: 'ProCheckboxGruop',
-    key: 'ProCheckboxGruop',
+    label: 'ProCheckboxGroup',
+    el: 'ProCheckboxGroup',
+    key: 'ProCheckboxGroup',
     attrs: {
       options: [
         {
@@ -170,8 +170,8 @@ const fields = [
     }
   },
   {
-    label: 'ProCheckboxGruop 按钮模式',
-    el: 'ProCheckboxGruop',
+    label: 'ProCheckboxGroup 按钮模式',
+    el: 'ProCheckboxGroup',
     key: 'ProCheckboxGruopButton',
     attrs: {
       tag: 'checkbox-button',
@@ -191,9 +191,9 @@ const fields = [
     }
   },
   {
-    label: 'ProRadioGruop',
-    el: 'ProRadioGruop',
-    key: 'ProRadioGruop',
+    label: 'ProRadioGroup',
+    el: 'ProRadioGroup',
+    key: 'ProRadioGroup',
     attrs: {
       options: [
         {
@@ -211,8 +211,8 @@ const fields = [
     }
   },
   {
-    label: 'ProRadioGruop 按钮模式',
-    el: 'ProRadioGruop',
+    label: 'ProRadioGroup 按钮模式',
+    el: 'ProRadioGroup',
     key: 'ProRadioGruopButton',
     attrs: {
       tag: 'radio-button',

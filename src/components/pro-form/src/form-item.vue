@@ -1,10 +1,10 @@
 <template>
   <el-form-item :prop="String(prop)" :required="isRequired" :rules="normalizedRules">
     <template v-if="label" #label>
-      <div class="pro-form-item__label">
+      <span class="pro-form-item__label">
         <span> {{ label }}</span>
         <tips v-if="tip" class="pro-form-item__tip" :text="tip"></tips>
-      </div>
+      </span>
     </template>
     <slot>
       <component
@@ -52,7 +52,7 @@ const normalizedRules = computed(() => {
   if (required) {
     rules.push({
       required,
-      message: requiredMessage
+      message: requiredMessage || '此项为必填'
     })
   }
   if (props.rules) {
@@ -82,7 +82,7 @@ const isRequired = computed(() => normalizedRules.value.some(rule => rule.requir
 <style lang="scss" scoped>
 .pro-form-item {
   &__label {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     height: 100%;
     span {

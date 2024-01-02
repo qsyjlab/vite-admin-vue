@@ -32,7 +32,7 @@ interface IProps {
 }
 
 defineOptions({
-  name: 'ProRadioGruop'
+  name: 'ProRadioGroup'
 })
 
 defineSlots<{

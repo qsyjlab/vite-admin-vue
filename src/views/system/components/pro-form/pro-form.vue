@@ -202,7 +202,7 @@ const fields: FormSchema[] = [
   },
   {
     label: '多选框组',
-    el: 'ProCheckboxGruop',
+    el: 'ProCheckboxGroup',
     key: 'checkbox-group',
     attrs: {
       options: [
@@ -222,7 +222,7 @@ const fields: FormSchema[] = [
   },
   {
     label: '多选框组按钮模式',
-    el: 'ProCheckboxGruop',
+    el: 'ProCheckboxGroup',
     key: 'checkbox-group-button',
     attrs: {
       tag: 'checkbox-button',
@@ -243,7 +243,7 @@ const fields: FormSchema[] = [
   },
   {
     label: '单选框',
-    el: 'ProRadioGruop',
+    el: 'ProRadioGroup',
     key: 'radio',
     attrs: {
       options: [
