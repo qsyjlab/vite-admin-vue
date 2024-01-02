@@ -83,15 +83,17 @@ export const routes = defineExposeRoutes([
 function getRouteNames(routes: RouteRecordRaw[], names: string[] = []) {
   routes.forEach(item => {
     names.push(item.name as string)
-    getRouteNames(item.children || [])
+    getRouteNames(item.children || [], names)
   })
 
   return names
 }
 
-export const WHITE_NAME_LIST = getRouteNames(routes)
+// 静态路由名单
+export const STATIC_ROUTE_NAME_LIST = getRouteNames(routes)
 
-console.log('WHITE_NAME_LIST,', WHITE_NAME_LIST)
+// 白名单
+export const WHITE_NAME_LIST = [LOGIN_NAME]
 
 export default routes
 

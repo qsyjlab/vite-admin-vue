@@ -56,9 +56,13 @@ const router = useRouter()
 
 const loginAdmin = () => {
   loginSystem(loginForm).then(() => {
+    const redirect = router.currentRoute.value.query.redirect as string
     ElMessage.success('登录成功')
-
-    router.push({ name: 'Welcome' })
+    if (redirect) {
+      router.replace(redirect)
+    } else {
+      router.replace({ name: 'Welcome' })
+    }
   })
 }
 </script>
