@@ -14,6 +14,7 @@ import {
 } from './plugins'
 // @ts-ignore
 import ElementPlus from 'unplugin-element-plus/vite'
+import visualizer from 'rollup-plugin-visualizer'
 import legecyConfig from '../../legecy.config'
 import { envDir } from '../utils'
 
@@ -35,15 +36,15 @@ export function createVitePlugin(configEnv: ConfigEnv) {
       useSource: true
     }),
     viteMockPlugin(isBuild),
-    injectHtmlPlugin({ env: viteEnvs })
+    injectHtmlPlugin({ env: viteEnvs }),
 
-    // visualizer({
-    //   gzipSize: true,
-    //   brotliSize: true,
-    //   emitFile: false,
-    //   filename: '.visualizer.html', //分析图生成的文件名
-    //   open: true //如果存在本地服务端口，将在打包后自动展示
-    // })
+    visualizer({
+      gzipSize: true,
+      brotliSize: true,
+      emitFile: false,
+      filename: '.output/visualizer.html', //分析图生成的文件名
+      open: false //如果存在本地服务端口，将在打包后自动展示
+    })
   ]
 
   if (viteEnvs.ENABLE_LEGACY === 'true') {
