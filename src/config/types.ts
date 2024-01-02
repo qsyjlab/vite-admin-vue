@@ -3,6 +3,10 @@ import { readonly } from '@/utils'
 interface GlobalConfig {
   /** api url */
   baseApiUrl: string
+  /** 单点登录地址 */
+  casBaseUrl: string
+  /** 是否启用 sso */
+  enableSSO: boolean
   /** 项目名称 */
   projectTitle: string
   /** 项目描述 */

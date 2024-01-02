@@ -39,6 +39,7 @@ const error404: RouteRecordRaw = {
 
 const root: RouteRecordRaw = {
   path: '/',
+  name: 'Root',
   redirect: '/welcome',
   meta: {
     title: '主系统',
@@ -89,6 +90,8 @@ function getRouteNames(routes: RouteRecordRaw[], names: string[] = []) {
 }
 
 export const WHITE_NAME_LIST = getRouteNames(routes)
+
+console.log('WHITE_NAME_LIST,', WHITE_NAME_LIST)
 
 export default routes
 
