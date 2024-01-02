@@ -10,11 +10,6 @@ export const BlankContainer = () =>
     }
   })
 
-export const ROUTE_ENUM = {
-  LOGIN_NAME: 'Login',
-  LOGIN_PATH: '/login'
-}
-
 export const LOGIN_NAME = 'Login'
 export const LOGIN_PATH = '/login'
 

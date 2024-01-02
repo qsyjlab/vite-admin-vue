@@ -3,7 +3,7 @@ import { LOGIN_NAME, LOGIN_PATH, REDIRECT_NAME, Layout } from '../constant'
 
 import type { RouteRecordRaw } from 'vue-router'
 
-export const pageError = {
+export const pageError: RouteRecordRaw = {
   path: '/:pathMatch(.*)',
   name: 'PageNotFound',
   component: () => import('@/views/error/error-404.vue')
@@ -16,7 +16,7 @@ const loginRoute: RouteRecordRaw = {
     title: '登录',
     isAuth: false
   },
-  component: () => import('@/views/Login/Login.vue')
+  component: () => import('@/views/login/login.vue')
 }
 
 const error403: RouteRecordRaw = {
