@@ -13,8 +13,6 @@ export async function sso() {
       return
     }
     if (ticket) {
-      console.log('ticket', ticket)
-
       const { loginAfterInitialize } = useUserStoreOut()
       ssoLogin({ ticket })
         .then(res => {

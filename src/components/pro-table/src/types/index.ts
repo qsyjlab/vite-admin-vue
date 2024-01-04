@@ -101,6 +101,7 @@ export interface TableActionRef {
   reload: () => void
   /** 仅仅刷新 */
   refresh: () => void
+  doHeight: () => void
   toggleRowSelection: TableInstance['toggleRowSelection']
   editableCellUtils: Omit<
     UseEditableReturn,
@@ -145,6 +146,7 @@ export interface ProTableProps<T = any> {
   editable: ProTableEditable
   transform: (response: any) => { data: any[]; total: number }
   transformParams: (params: any) => any
+  alwaysShowAlert: boolean
 }
 
 export interface ProTableHeaderProps {

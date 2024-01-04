@@ -2,6 +2,7 @@
   <page-wrapper>
     <page-card :header="$route.meta.title">
       <pro-table
+        ref="tableRef"
         v-model:selected-keys="selectedKeys"
         header-title="pro table"
         :columns="columns"
@@ -19,7 +20,7 @@
       >
         <template #headerTitle> 自定义表头 </template>
         <template #toolbar>
-          <el-button type="primary">新增</el-button>
+          <el-button type="primary" @click="tableRef.doHeight()">新增</el-button>
         </template>
 
         <!-- <template #name="scope"> {{ getScope(scope) }} </template> -->
@@ -49,6 +50,8 @@ const loading = ref(false)
 const selectedKeys = ref<any[]>()
 
 const { register } = useProTable()
+
+const tableRef = ref()
 
 const height = computed(() => {
   return `${window.innerHeight - 400}px`

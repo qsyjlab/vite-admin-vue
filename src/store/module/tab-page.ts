@@ -108,13 +108,16 @@ export const useTabPageStore = defineStore('tab-page', () => {
   function removeOhterTabPages() {
     resetTabPages()
 
-    if (currentTabPage.value) {
+    if (currentTabPage.value && !isAffixTab(currentTabPage.value)) {
       tabsList.value.push(currentTabPage.value)
     }
   }
 
-  function removeLeftAllTabPages() {
-    let atIndex = tabsList.value.findIndex(i => i.fullPath === currentTabPage.value?.fullPath)
+  function removeLeftAllTabPages(index?: number) {
+    let atIndex =
+      index !== undefined && index >= 0
+        ? index!
+        : tabsList.value.findIndex(i => i.fullPath === currentTabPage.value?.fullPath)
 
     if (atIndex === -1) return
 
@@ -170,6 +173,7 @@ export const useTabPageStore = defineStore('tab-page', () => {
   }
 
   return {
+    isAffixTab,
     addTabPage,
     removeTabPage,
     removeAllTabPage,

@@ -24,6 +24,7 @@ export function useTableStore(
   const tableInstanceRef = ref<TableInstance | null>(null)
 
   const proTableWrapperRef = ref<Nullable<HTMLDivElement>>(null)
+  const proTableWrapperHeight = ref<number>(0)
 
   const paginationRef = ref<Nullable<HTMLDivElement>>(null)
 
@@ -33,7 +34,7 @@ export function useTableStore(
   // 表格实例属性
   const tableProps = reactive<ITableProps>({
     size: 'default',
-    height: undefined
+    height: 0
   })
 
   // 全局共享读取的属性
@@ -127,10 +128,21 @@ export function useTableStore(
   }
 
   if (props.autoFitHeight) {
-    watch([selectedKeys, dataSource, alertRef, toolbarRef, paginationRef], () => {
-      nextTick(() => {
-        doHeight()
-      })
+    nextTick(() => {
+      proTableWrapperHeight.value = proTableWrapperRef.value?.offsetHeight || 0
+    }).then(() => {
+      watch(
+        [proTableWrapperRef, alertRef, toolbarRef, paginationRef, selectedKeys],
+        () => {
+          nextTick(() => {
+            doHeight()
+          })
+        },
+        {
+          immediate: true,
+          flush: 'post'
+        }
+      )
     })
   } else {
     doHeight()
@@ -143,7 +155,8 @@ export function useTableStore(
     }
     if (!props.autoFitHeight) return
 
-    let height = proTableWrapperRef.value?.offsetHeight
+    let height = proTableWrapperHeight.value
+
     if (!height) return 0
 
     if (toolbarRef.value) {
@@ -157,7 +170,7 @@ export function useTableStore(
       height -= paginationRef.value.clientHeight
     }
 
-    tableProps.height = height - 20
+    tableProps.height = height - 5
   }
 
   function clearSelection() {
@@ -178,6 +191,7 @@ export function useTableStore(
    */
   const tableActionRef: TableActionRef = {
     tableRef: tableInstanceRef,
+    doHeight,
     emits,
     reload,
     refresh,

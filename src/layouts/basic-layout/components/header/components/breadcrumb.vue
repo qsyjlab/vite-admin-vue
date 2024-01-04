@@ -3,7 +3,7 @@
     <el-breadcrumb-item v-for="item in matched" :key="item.path" :to="{ name: item.name }">
       <div class="breadcrumb-item">
         <div v-if="projectSetting.defaultLayoutSetting.showBreadCrumbIcon" class="icon">
-          <IconSelector :icon="item.meta.icon" :size="18" />
+          <ProIcon :icon="item.meta.icon" :size="18" />
         </div>
         <div class="title">{{ item?.meta?.title }}</div>
       </div>
@@ -16,7 +16,7 @@ import { ref, onUnmounted } from 'vue'
 import { RouteRecordNormalized } from 'vue-router'
 import { routeChangeListener } from '@/router'
 import { REDIRECT_NAME } from '@/router/constant'
-import { IconSelector } from '@/components/icon'
+import { ProIcon } from '@/components/icon'
 import projectSetting from '@/config/project-setting'
 
 const matched = ref<RouteRecordNormalized[]>([])
