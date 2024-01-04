@@ -3,7 +3,12 @@
     <page-card :header="$route.meta.title">
       <span style="width: 30%">
         <el-space>
-          <pro-context-menu :menus="contextMenus" :trigger="['click']" @click-menu="clickMemnu">
+          <pro-context-menu
+            :menus="contextMenus"
+            :item-height="30"
+            :trigger="['click']"
+            @click-menu="clickMemnu"
+          >
             <el-button>点击触发</el-button>
           </pro-context-menu>
 

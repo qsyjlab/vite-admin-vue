@@ -19,7 +19,7 @@
             'basic-layout-mix-menu-module__icon'
           ]"
         >
-          <icon-selector :icon="item.meta?.icon" :size="20"></icon-selector>
+          <pro-icon :icon="item.meta?.icon" :size="20"></pro-icon>
         </div>
         <div
           :class="[
@@ -69,7 +69,7 @@ import { useLayoutStore, usePermissionStore } from '@/store'
 import { useRoute, useRouter } from 'vue-router'
 import { AsideMenu } from '../../menu'
 import { routeChangeListener } from '@/router'
-import { IconSelector } from '@/components/icon'
+import { ProIcon } from '@/components/icon'
 
 import Pushpin from '../pushpin.vue'
 import { storeToRefs } from 'pinia'

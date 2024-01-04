@@ -10,11 +10,11 @@
       <el-button type="danger">asdas</el-button>
       <el-button type="danger">asdas</el-button>
 
-      <IconSelector icon="ify.ant-design:alert-filled" color="red" />
+      <ProIcon icon="ify.ant-design:alert-filled" color="red" />
     </page-card>
   </page-wrapper>
 </template>
 
 <script setup lang="ts">
-import { IconSelector } from '@/components/icon'
+import { ProIcon } from '@/components/icon'
 </script>

@@ -1,7 +1,7 @@
 <template>
-  <teleport to="body">
+  <teleport v-if="state.visible" to="body">
     <div
-      v-if="state.visible"
+      v-bind="$attrs"
       ref="contextMenuRef"
       class="context-menu"
       :style="contextMenuStyles"
@@ -13,8 +13,12 @@
         :collapse="true"
         :collapse-transition="false"
         :router="false"
-        :teleported="false"
         :close-on-click-outside="true"
+        :teleported="false"
+        :style="{
+          '--el-menu-item-height': `${itemHeight}px`,
+          '--el-menu-item-font-size': `${fontSize}px`
+        }"
       >
         <template v-for="menu in menus" :key="menu.name">
           <menu-item :menu="menu" />
@@ -42,7 +46,7 @@ import type { CSSProperties } from 'vue'
 
 defineOptions({
   name: 'ProContextMenu',
-  inheritAttrs: true
+  inheritAttrs: false
 })
 
 type Trigger = 'click' | 'contextmenu'
@@ -52,11 +56,15 @@ const props = withDefaults(
     menus: ProContextMenuItem[]
     closeOnClick?: boolean
     trigger?: Trigger[]
+    itemHeight?: number
+    fontSize?: number
   }>(),
   {
     menus: () => [],
     closeOnClick: true,
-    trigger: () => ['contextmenu']
+    trigger: () => ['contextmenu'],
+    itemHeight: 40,
+    fontSize: 14
   }
 )
 
@@ -75,7 +83,9 @@ const state = reactive<{
 })
 
 provide(contextMenuKey, {
-  onClick: menuClick
+  onClick: menuClick,
+  itemHeight: props.itemHeight,
+  fontSize: props.fontSize
 })
 
 const contextMenuRef = ref<HTMLDivElement>()
@@ -139,13 +149,15 @@ defineExpose({
   position: fixed;
   left: 0;
   top: 0;
-  width: 20%;
   background-color: var(--el-menu-bg-color);
   z-index: 2000;
   padding: 5px 0;
   border-radius: var(--el-border-radius-small);
   box-shadow: var(--el-box-shadow-light);
 
+  min-width: 100px;
+
+  --el-menu-base-level-padding: 5px;
   :deep(.el-menu--collapse) {
     width: 100%;
 

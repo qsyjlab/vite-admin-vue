@@ -12,7 +12,11 @@ import {
   Timer,
   Link,
   ArrowDown,
-  WarningFilled
+  WarningFilled,
+  Refresh,
+  Close,
+  Upload,
+  CircleClose
 } from '@element-plus/icons-vue'
 
 const props = withDefaults(
@@ -33,7 +37,11 @@ const epIconMap: Record<string, any> = {
   timer: Timer,
   link: Link,
   'arrow-down': ArrowDown,
-  'warning-filled': WarningFilled
+  'warning-filled': WarningFilled,
+  refresh: Refresh,
+  close: Close,
+  upload: Upload,
+  'circle-close': CircleClose
 }
 
 const getAttrs = computed(() => {

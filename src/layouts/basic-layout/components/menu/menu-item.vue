@@ -1,7 +1,7 @@
 <template>
   <el-menu-item v-if="!hasChildrenMenu(item)" :index="item.name" :route="{ name: item.name }">
     <div v-if="item.meta?.icon" class="icon">
-      <IconSelector :size="18" :icon="item.meta?.icon" />
+      <ProIcon :size="18" :icon="item.meta?.icon" />
     </div>
     <template #title>
       <span class="ellipsis">{{ item?.meta?.title }}</span></template
@@ -11,7 +11,7 @@
   <el-sub-menu v-else :index="item.name">
     <template #title>
       <div v-if="item.meta?.icon" class="icon">
-        <IconSelector :size="18" :icon="item.meta?.icon" />
+        <ProIcon :size="18" :icon="item.meta?.icon" />
       </div>
       <span class="ellipsis">{{ item?.meta?.title }}</span>
     </template>
@@ -23,7 +23,7 @@
         :route="{ name: childMenu.name }"
       >
         <div v-if="childMenu.meta?.icon" class="icon">
-          <IconSelector :size="18" :icon="childMenu.meta?.icon" />
+          <ProIcon :size="18" :icon="childMenu.meta?.icon" />
         </div>
 
         <template #title>
@@ -43,7 +43,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { IconSelector } from '@/components/icon'
+import { ProIcon } from '@/components/icon'
 import type { Menu } from '@/router/types'
 
 interface IProps {

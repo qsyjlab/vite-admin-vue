@@ -47,8 +47,8 @@
           placement="bottom"
         >
           <el-button circle @click="toggleTheme">
-            <icon-selector v-if="layoutConfig.theme === 'light'" icon="svg.sun" :size="14" />
-            <icon-selector v-else icon="svg.moon" :size="14" />
+            <pro-icon v-if="layoutConfig.theme === 'light'" icon="svg.sun" :size="14" />
+            <pro-icon v-else icon="svg.moon" :size="14" />
           </el-button>
         </el-tooltip>
         <el-tooltip
@@ -78,7 +78,7 @@ import { useFullscreen } from '@vueuse/core'
 import { LayoutMode } from '../../enum'
 import { isFullScreen as fullScreenStatus } from '@/utils'
 import Notification from './components/notification.vue'
-import { IconSelector } from '@/components'
+import { ProIcon } from '@/components'
 import { useLayoutConfigHandler } from '@/hooks'
 
 const layoutStore = useLayoutStore()

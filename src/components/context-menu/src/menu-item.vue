@@ -1,8 +1,15 @@
 <template>
-  <el-menu-item v-if="!hasChildrenMenu(menu)" :index="menu.command">
+  <el-menu-item
+    v-if="!hasChildrenMenu(menu)"
+    :style="{
+      '--el-menu-item-height': `${itemHeight}px`
+    }"
+    :disabled="menu.disabled"
+    :index="menu.command"
+  >
     <div class="menu-item" @mousedown.stop="clickMenuItem(menu.command, menu)">
       <div v-if="menu?.icon" class="icon">
-        <IconSelector :size="18" :icon="menu?.icon" />
+        <ProIcon :size="fontSize" :icon="menu?.icon" />
       </div>
       <span class="ellipsis">{{ menu?.title }}</span>
     </div>
@@ -11,18 +18,25 @@
   <el-sub-menu v-else :index="menu.command">
     <template #title>
       <div v-if="menu?.icon" class="icon">
-        <IconSelector :size="18" :icon="menu?.icon" />
+        <ProIcon :size="fontSize" :icon="menu?.icon" />
       </div>
       <span class="ellipsis">{{ menu?.title }}</span>
     </template>
 
     <template v-for="childMenu in menu.children" :key="childMenu.command">
-      <el-menu-item v-if="!childMenu.children?.length" :index="childMenu.command">
-        <div @mousedown.stop="clickMenuItem(childMenu.command, childMenu)">
-          <div v-if="childMenu?.icon" class="icon">
-            <IconSelector :size="18" :icon="childMenu?.icon" />
-          </div>
+      <el-menu-item
+        v-if="!childMenu.children?.length"
+        :style="{
+          '--el-menu-item-height': `${itemHeight}px`
+        }"
+        :disabled="menu.disabled"
+        :index="childMenu.command"
+      >
+        <div v-if="childMenu?.icon" class="icon">
+          <ProIcon :size="fontSize" :icon="childMenu?.icon" />
+        </div>
 
+        <div @mousedown.stop="clickMenuItem(childMenu.command, childMenu)">
           <span class="ellipsis">{{ childMenu?.title }}</span>
         </div>
       </el-menu-item>
@@ -33,10 +47,10 @@
 </template>
 
 <script setup lang="ts">
-import { IconSelector } from '@/components/icon'
 import type { ProContextMenuItem } from './types'
 import { inject } from 'vue'
 import { contextMenuKey } from './context-menu'
+import { ProIcon } from '@/components/icon'
 
 interface IProps {
   menu: ProContextMenuItem
@@ -44,13 +58,14 @@ interface IProps {
 
 defineProps<IProps>()
 
-const { onClick } = inject(contextMenuKey) || {}
+const { onClick, itemHeight, fontSize } = inject(contextMenuKey) || {}
 
 const hasChildrenMenu = (menu: ProContextMenuItem) => {
   return !!menu.children?.length
 }
 
 const clickMenuItem = (command: ProContextMenuItem['command'], menu: ProContextMenuItem) => {
+  if (menu.disabled) return
   menu.onClick?.()
   onClick?.(command, menu)
 }
@@ -59,6 +74,7 @@ const clickMenuItem = (command: ProContextMenuItem['command'], menu: ProContextM
 <style lang="scss" scoped>
 .menu-item {
   width: 100%;
+  display: flex;
 }
 .icon {
   display: flex;
