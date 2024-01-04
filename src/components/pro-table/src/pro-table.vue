@@ -21,7 +21,6 @@
           <slot name="headerTitle"></slot>
         </template>
         <template #toolbar>
-          {{ tableProps.height }}
           <slot name="toolbar"></slot>
         </template>
       </toolbar>

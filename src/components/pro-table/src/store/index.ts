@@ -34,7 +34,7 @@ export function useTableStore(
   // 表格实例属性
   const tableProps = reactive<ITableProps>({
     size: 'default',
-    height: undefined
+    height: 0
   })
 
   // 全局共享读取的属性
