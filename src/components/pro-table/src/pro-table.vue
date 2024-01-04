@@ -21,19 +21,19 @@
           <slot name="headerTitle"></slot>
         </template>
         <template #toolbar>
+          {{ tableProps.height }}
           <slot name="toolbar"></slot>
         </template>
       </toolbar>
     </div>
 
-    <div v-if="showAlert" ref="alertRef" class="pro-table-alert">
+    <div
+      v-if="showAlert && (alwaysShowAlert || selectedKeys.length)"
+      ref="alertRef"
+      class="pro-table__alert"
+    >
       <slot name="alert">
-        <el-alert
-          v-if="alwaysShowAlert || selectedKeys.length"
-          type="info"
-          show-icon
-          :closable="false"
-        >
+        <el-alert type="info" show-icon :closable="false">
           <template #title
             >当前已选择 {{ selectedKeys.length }} 项
             <el-button type="primary" link @click="clearSelectedKeys">取消全部</el-button></template
