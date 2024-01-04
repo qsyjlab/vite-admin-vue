@@ -159,6 +159,15 @@ export default defineExposeRoutes([
         component: () => import('@/views/system/components/segmented/segmented.vue')
       },
       {
+        name: 'ContextMenu',
+        path: 'context-menu',
+        meta: {
+          title: '右键菜单',
+          ignoreAuth: true
+        },
+        component: () => import('@/views/system/components/context-menu/context-menu.vue')
+      },
+      {
         name: 'Tree',
         path: 'tree',
         meta: {
