@@ -1,30 +1,33 @@
 <template>
-  <teleport v-if="state.visible" to="body">
-    <div
-      v-bind="$attrs"
-      ref="contextMenuRef"
-      class="context-menu"
-      :style="contextMenuStyles"
-      :tabindex="-1"
-      @blur="blur"
-    >
-      <el-menu
-        ref="menuRef"
-        :collapse="true"
-        :collapse-transition="false"
-        :router="false"
-        :close-on-click-outside="true"
-        :teleported="false"
-        :style="{
-          '--el-menu-item-height': `${itemHeight}px`,
-          '--el-menu-item-font-size': `${fontSize}px`
-        }"
+  <teleport to="body">
+    <fade-transition>
+      <div
+        v-if="state.visible"
+        v-bind="$attrs"
+        ref="contextMenuRef"
+        class="context-menu"
+        :style="contextMenuStyles"
+        :tabindex="-1"
+        @blur="blur"
       >
-        <template v-for="menu in menus" :key="menu.name">
-          <menu-item :menu="menu" />
-        </template>
-      </el-menu>
-    </div>
+        <el-menu
+          ref="menuRef"
+          :collapse="true"
+          :collapse-transition="false"
+          :router="false"
+          :close-on-click-outside="true"
+          :teleported="false"
+          :style="{
+            '--el-menu-item-height': `${itemHeight}px`,
+            '--el-menu-item-font-size': `${fontSize}px`
+          }"
+        >
+          <template v-for="menu in menus" :key="menu.name">
+            <menu-item :menu="menu" />
+          </template>
+        </el-menu>
+      </div>
+    </fade-transition>
   </teleport>
 
   <span
@@ -43,6 +46,7 @@ import { ProContextMenuItem } from './types'
 import { contextMenuKey } from './context-menu'
 import { ref, reactive, computed, nextTick, provide } from 'vue'
 import type { CSSProperties } from 'vue'
+import { FadeTransition } from '@/components/transition'
 
 defineOptions({
   name: 'ProContextMenu',
