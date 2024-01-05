@@ -153,7 +153,10 @@ export function useTableStore(
       tableProps.height = props.height
       return
     }
-    if (!props.autoFitHeight) return
+    if (!props.autoFitHeight) {
+      tableProps.height = undefined
+      return
+    }
 
     let height = proTableWrapperHeight.value
 
