@@ -18,6 +18,7 @@
           onChange: changeHandler,
           onError: errorHandler
         }"
+        :auto-fit-height="false"
         @register="register"
       >
         <template #operation="{ row, editableState }">
