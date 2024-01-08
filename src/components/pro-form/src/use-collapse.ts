@@ -45,6 +45,10 @@ export function useCollapse(option: CollapseOption) {
   }
 
   const advancedSpanColAttrs = computed<Partial<ColProps>>(() => {
+    console.log('lastRowSpaceSpan.value', lastRowSpaceSpan.value)
+
+    console.log('advanceState.span', advanceState.span)
+
     return {
       span: advanceState.span > lastRowSpaceSpan.value ? BASIC_COL_LEN : advanceState.span,
       offset:
@@ -89,7 +93,7 @@ export function useCollapse(option: CollapseOption) {
       totalSpan += colSpan
     })
 
-    lastRowSpaceSpan.value = BASIC_COL_LEN - (totalSpan % BASIC_COL_LEN)
+    lastRowSpaceSpan.value = BASIC_COL_LEN - curRowSpan
 
     if (!advanceState.isAdvanced) {
       const shouldShowFields: { span: number }[] = fields.value

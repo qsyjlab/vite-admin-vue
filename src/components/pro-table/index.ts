@@ -9,3 +9,5 @@ export type { ProTableColumns, ProTableEditable, EditableCellValidError } from '
 export * from './src/use-pro-table'
 
 export type ProTableInstance = InstanceType<typeof ProTable>
+
+export default ProTable

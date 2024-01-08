@@ -102,7 +102,7 @@ export const proTableProps = {
   /** 是否自适应高度 */
   autoFitHeight: {
     type: Boolean,
-    default: true
+    default: false
   }
 }
 
