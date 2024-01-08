@@ -11,11 +11,10 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ProTableColumns } from '../../.vitepress/.exampleCompnents/index'
 
 const selectedKeys = ref([])
 
-const columns: ProTableColumns = [
+const columns = [
   {
     title: 'Date',
     key: 'date',

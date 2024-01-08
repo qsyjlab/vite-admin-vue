@@ -9,20 +9,16 @@
       :params="params"
       :transform="transform"
       :transform-params="transformParams"
-      @register="register"
     />
   </div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ProTableColumns, useProTable } from '../../.vitepress/.exampleCompnents/index'
 
 const loading = ref(false)
 const params = ref({})
 
-const { register } = useProTable()
-
-const columns: ProTableColumns = [
+const columns = [
   {
     key: 'indexBorder',
     valueType: 'indexBorder',
