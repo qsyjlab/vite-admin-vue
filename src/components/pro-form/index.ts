@@ -1,6 +1,6 @@
 import { withInstall } from '@/utils'
 import Form from './src/base-form.vue'
-import FormItem from './src/form-action.vue'
+import FormItem from './src/form-item.vue'
 
 export const ProForm = withInstall(Form, {
   FormItem

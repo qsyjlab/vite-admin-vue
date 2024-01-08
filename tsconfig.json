@@ -31,10 +31,6 @@
       ]
     }
   },
-  "typeRoots": [
-    // "src/types/*.d.ts",
-    "typings/*.d.ts"
-  ],
   "include": [
     "components.d.ts",
     "src/**/*.ts",

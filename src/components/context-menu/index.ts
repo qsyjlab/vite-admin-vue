@@ -4,3 +4,4 @@ import { withInstall } from '@/utils'
 export const ProContextMenu = withInstall(ContextMenuComponent)
 
 export type { ProContextMenuItem } from './src/types'
+export type { ProContextMenuProps } from './src/context-menu'

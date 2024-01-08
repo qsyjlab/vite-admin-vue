@@ -9,3 +9,5 @@ export * from './use-echarts'
 export * from './use-tabs'
 export * from './web/use-page'
 export * from './message'
+
+export { useAuth } from './use-auth'

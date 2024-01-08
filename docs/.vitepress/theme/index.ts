@@ -16,23 +16,25 @@ import 'prismjs/themes/prism.css'
 export default {
   extends: Theme,
   Layout: () => {
-    return h(Theme.Layout, null, {
-      // https://vitepress.dev/guide/extending-default-theme#layout-slots
-    })
+    return h(
+      'div',
+      { proTable: {} },
+      h(Theme.Layout, null, {
+        // https://vitepress.dev/guide/extending-default-theme#layout-slots
+      })
+    )
   },
   async enhanceApp({ app, router, siteData }) {
-    // if (inBrowser) {
-    //   const components = await import('../.exampleCompnents/index.mjs')
-    //   app.use(components['ProTable'])
-    //   app.use(components['ProForm'])
-    //   app.use(components['ProCheckboxGroup'])
-    //   app.use(components['ProSelect'])
-    //   app.use(components['ProRadioGroup'])
-    //   app.use(components['ProConfigProvider'])
-    //   app.use(ElementPlus)
-    //   app.component('Demo', Demo)
-    // }
-    // globals
-    // ...
+    if (!import.meta.env.SSR) {
+      app.component('Demo', Demo)
+      app.use(ElementPlus)
+      const plugin = await import('../.exampleCompnents/index.mjs')
+
+      app.use(plugin['ProTable'])
+      app.use(plugin['ProForm'])
+      app.use(plugin['ProSelect'])
+      app.use(plugin['ProRadioGroup'])
+      app.use(plugin['ProCheckboxGroup'])
+    }
   }
 }

@@ -23,6 +23,8 @@
           >
             <el-button>都可以触发</el-button>
           </pro-context-menu>
+
+          <el-button v-contextmenu="{ menus: [{ title: '测试指令' }] }">指令触发</el-button>
         </el-space>
       </span>
     </page-card>

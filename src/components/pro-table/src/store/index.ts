@@ -1,4 +1,4 @@
-import { computed, inject, nextTick, reactive, ref, toRefs, watch, watchEffect } from 'vue'
+import { computed, inject, nextTick, reactive, ref, toRefs, watch, onMounted } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
 import { useColumnsMap, useProTable, useEditable, useSelection } from '../hooks'
 
@@ -128,21 +128,25 @@ export function useTableStore(
   }
 
   if (props.autoFitHeight) {
-    nextTick(() => {
-      proTableWrapperHeight.value = proTableWrapperRef.value?.offsetHeight || 0
-    }).then(() => {
-      watch(
-        [proTableWrapperRef, alertRef, toolbarRef, paginationRef, selectedKeys],
-        () => {
-          nextTick(() => {
-            doHeight()
-          })
-        },
-        {
-          immediate: true,
-          flush: 'post'
-        }
-      )
+    onMounted(() => {
+      nextTick(() => {
+        /**
+         * 已知问题 , 页面存在过度动画过着 包裹着的父级元素过度 会导致表格获取不到高度
+         */
+        proTableWrapperHeight.value = proTableWrapperRef.value?.clientHeight || 0
+        watch(
+          [proTableWrapperRef, alertRef, toolbarRef, paginationRef, selectedKeys],
+          () => {
+            nextTick(() => {
+              doHeight()
+            })
+          },
+          {
+            immediate: true,
+            flush: 'post'
+          }
+        )
+      })
     })
   } else {
     doHeight()
@@ -153,7 +157,11 @@ export function useTableStore(
       tableProps.height = props.height
       return
     }
-    if (!props.autoFitHeight) return
+    if (!props.autoFitHeight) {
+      tableProps.height = undefined
+
+      return
+    }
 
     let height = proTableWrapperHeight.value
 
@@ -192,7 +200,6 @@ export function useTableStore(
   const tableActionRef: TableActionRef = {
     tableRef: tableInstanceRef,
     doHeight,
-    emits,
     reload,
     refresh,
     clearSelection,

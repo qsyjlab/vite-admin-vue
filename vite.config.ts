@@ -1,13 +1,15 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 
 import { fileURLToPath } from 'url'
 
 import { envDir, projectRootPath } from './build'
-import { createVitePlugin } from './build/vite'
+import { createProxy, createVitePlugin } from './build/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig(configEnv => {
   const buildOutdir = `.output/dist.${configEnv.mode}`
+
+  const viteEnvs = loadEnv(configEnv.mode, envDir, '')
 
   return {
     root: projectRootPath,
@@ -27,6 +29,11 @@ export default defineConfig(configEnv => {
         scss: {
           additionalData: '@use "./src/styles/index.scss" as *;'
         }
+      }
+    },
+    server: {
+      proxy: {
+        ...createProxy(viteEnvs.SERVER_PROXY_LIST)
       }
     },
     build: {
