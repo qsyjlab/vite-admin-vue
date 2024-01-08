@@ -15,15 +15,13 @@
           pageSizes: [10, 20, 40],
           background: true
         }"
-        @register="register"
         @page-change="pageChange"
       >
         <template #headerTitle> 自定义表头 </template>
         <template #toolbar>
-          <el-button type="primary" @click="tableRef.doHeight()">新增</el-button>
+          <el-button type="primary" @click="tableRef?.doHeight()">新增</el-button>
         </template>
 
-        <!-- <template #name="scope"> {{ getScope(scope) }} </template> -->
         <template #operation="{}">
           <el-button size="small" type="primary">编辑</el-button>
           <el-button size="small" type="danger">删除</el-button>
@@ -34,13 +32,12 @@
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { useProTable } from '@/components/pro-table'
+import { ProTableInstance } from '@/components/pro-table'
 import { PageCard, PageWrapper } from '@/components'
 import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
 
 import { getTableMockList } from '@/api/todos'
-import { computed } from 'vue'
 
 defineOptions({
   name: 'ProTablePage'
@@ -49,12 +46,12 @@ defineOptions({
 const loading = ref(false)
 const selectedKeys = ref<any[]>()
 
-const { register } = useProTable()
+const tableRef = ref<ProTableInstance>()
 
-const tableRef = ref()
-
-const height = computed(() => {
-  return `${window.innerHeight - 400}px`
+onMounted(() => {
+  setTimeout(() => {
+    data.value = createData()
+  }, 0)
 })
 
 watch(loading, () => {
@@ -64,10 +61,6 @@ watch(loading, () => {
 watch(selectedKeys, () => {
   console.log('selectedKeys', selectedKeys.value)
 })
-
-setTimeout(() => {
-  selectedKeys.value = [5, 6]
-}, 3000)
 
 const columns: ProTableColumns = [
   {
@@ -160,13 +153,7 @@ const columns: ProTableColumns = [
 
 const data = ref<any[]>()
 
-const pageRef = ref<number>(3)
-
-onMounted(() => {
-  setTimeout(() => {
-    data.value = createData()
-  }, 0)
-})
+const pageRef = ref<number>(1)
 
 const params = ref({
   page: 1

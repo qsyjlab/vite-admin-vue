@@ -1,13 +1,7 @@
-import { Ref, nextTick, ref, unref } from 'vue'
+import { nextTick, ref, unref } from 'vue'
 import { FormMethodsType } from './types/form'
 
-interface UseProForm extends FormMethodsType {
-  register: (instance: FormMethodsType | null) => void
-  getForm: () => Promise<FormMethodsType>
-  formInstance: Ref<FormMethodsType | null>
-}
-
-export function useProForm(): UseProForm {
+export function useProForm() {
   const formRef = ref<FormMethodsType | null>(null)
   function register(instance: FormMethodsType | null) {
     formRef.value = instance
@@ -53,6 +47,16 @@ export function useProForm(): UseProForm {
     instance?.scrollToField()
   }
 
+  const setFieldValue: FormMethodsType['setFieldValue'] = async (key, value) => {
+    const instance = await getForm()
+    instance?.setFieldValue(key, value)
+  }
+
+  const getFieldValue: FormMethodsType['getFieldValue'] = async key => {
+    const instance = await getForm()
+    instance?.getFieldValue(key)
+  }
+
   return {
     formInstance: formRef,
     register,
@@ -62,6 +66,8 @@ export function useProForm(): UseProForm {
     resetFields,
     clearValidate,
     validateField,
-    forceUpdateModel
+    forceUpdateModel,
+    setFieldValue,
+    getFieldValue
   }
 }

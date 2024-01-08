@@ -200,7 +200,6 @@ export function useTableStore(
   const tableActionRef: TableActionRef = {
     tableRef: tableInstanceRef,
     doHeight,
-    emits,
     reload,
     refresh,
     clearSelection,

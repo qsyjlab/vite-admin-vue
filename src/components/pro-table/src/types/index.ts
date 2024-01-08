@@ -71,19 +71,6 @@ export interface ColumnsState {
 
 export { TableInstance }
 
-/**
- * 即将废弃 由 TableActionRef 来代替
- * @deprecated
- */
-export interface TableExpose {
-  doLayout: TableInstance['doLayout']
-  reload: NOOP
-  startEditable: (rowKey: RowKey) => void
-  cancelEditable: (rowKey: RowKey) => void
-  saveEditable: (rowKey: RowKey) => void
-  deleteEditable: (rowKey: RowKey) => void
-}
-
 /** 表格默认工具栏开关 */
 interface ToolbarOptions {
   reload?: boolean
@@ -95,7 +82,6 @@ export type TableOptions = boolean | ToolbarOptions
 
 export interface TableActionRef {
   tableRef: Ref<TableInstance | null>
-  emits: SetupContext<ProTableEmits>['emit']
   clearSelection: TableInstance['clearSelection']
   /** 重载列表 */
   reload: () => void
