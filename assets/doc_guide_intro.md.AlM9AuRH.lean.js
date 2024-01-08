@@ -1,0 +1,1 @@
+import{_ as e,c as t,o}from"./chunks/framework.SCZo_iHs.js";const m=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"doc/guide/intro.md","filePath":"doc/guide/intro.md"}'),r={name:"doc/guide/intro.md"};function a(n,c,i,d,s,p){return o(),t("div")}const f=e(r,[["render",a]]);export{m as __pageData,f as default};
