@@ -27,6 +27,7 @@ import { ElFormItem } from 'element-plus'
 import { FormSchema } from './form-props'
 import { useFormContext } from './provider'
 import { Tips } from '../../tips'
+import { isFunction } from 'lodash-es'
 
 const props = withDefaults(defineProps<Omit<FormSchema, 'key'> & { prop: FormSchema['key'] }>(), {
   events: () => ({}),
@@ -36,10 +37,16 @@ const props = withDefaults(defineProps<Omit<FormSchema, 'key'> & { prop: FormSch
 const formContext = useFormContext()
 
 const normalizedAttrs = computed(() => {
-  const { attrs, label } = props
+  const { attrs = {}, label, disabled } = props
   return {
     placeholder: label,
-    ...attrs
+    ...attrs,
+    disabled:
+      attrs.disabled !== undefined || attrs.disabled !== null
+        ? isFunction(disabled)
+          ? disabled?.(formContext?.getFieldValue(props.prop), formContext.formModel)
+          : disabled
+        : attrs.disabled
   }
 })
 

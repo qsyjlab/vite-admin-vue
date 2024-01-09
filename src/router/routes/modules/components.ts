@@ -109,6 +109,15 @@ export default defineExposeRoutes([
             component: () => import('@/views/system/components/pro-form/pro-form-ref.vue')
           },
           {
+            name: 'ProFromDynamic',
+            path: 'dynamic',
+            meta: {
+              title: '动态表单',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/components/pro-form/dynamic.vue')
+          },
+          {
             name: 'ProFormModal',
             path: 'modal',
             meta: {

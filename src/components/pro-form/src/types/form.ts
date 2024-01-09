@@ -22,6 +22,7 @@ export interface FormSchema extends Partial<Pick<FormItemProps, 'labelWidth' | '
    * @default true
    */
   show?: boolean | ((value: any, values: Record<string, any>) => boolean)
+  disabled?: boolean | ((value: any, values: Record<string, any>) => boolean)
   /** 组件属性 */
   attrs?: Record<string, any>
   /** 组件事件 */
