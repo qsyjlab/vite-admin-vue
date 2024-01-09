@@ -12,4 +12,5 @@ export interface ProjectLayoutConfig {
   theme?: ThemeMode
   /** 顶部混合时可拆分菜单  */
   splitMenu?: boolean
+  footerHeight?: number
 }

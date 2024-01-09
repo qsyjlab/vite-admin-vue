@@ -7,21 +7,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { CSSProperties } from 'vue'
+import type { LayoutSideBarProps } from '../interface'
 
-interface Props {
-  /** fixed布局的层级 */
-  zIndex?: number
-  /** 宽度 */
-  width?: number
-  /** 顶部内边距 */
-  paddingTop?: number
-  /** 动画过渡时间 */
-  transitionDuration?: number
-  /** 动画过渡时间 */
-  transitionTimingFunction?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
+type IProps = LayoutSideBarProps
+const props = withDefaults(defineProps<IProps>(), {
   zIndex: 1002,
   width: 200,
   paddingTop: 0,

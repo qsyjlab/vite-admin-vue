@@ -35,7 +35,8 @@ export const useLayoutStore = defineStore<string, LayoutState, LayoutGetter, Lay
           headerHeight: 48,
           theme: 'light',
           themeColor: '#1677FF',
-          splitMenu: true
+          splitMenu: true,
+          footerHeight: 56
         },
         mixMenuLayoutConfig: {
           fixedMenu: false,

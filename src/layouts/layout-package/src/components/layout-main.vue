@@ -6,21 +6,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { LayoutMainProps } from '../interface'
 
-interface Props {
-  /** 顶部内边距 */
-  paddingTop?: number
-  /** 底部内边距 */
-  paddingBottom?: number
-  /** 左侧内边距 */
-  paddingLeft?: number
-  /** 动画过渡时间 */
-  transitionDuration?: number
-  /** 动画过渡时间 */
-  transitionTimingFunction?: string
-}
+type IProps = LayoutMainProps
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<IProps>(), {
   paddingTop: 0,
   paddingBottom: 0,
   paddingLeft: 200,

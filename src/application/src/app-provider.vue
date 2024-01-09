@@ -56,7 +56,8 @@ export default defineComponent({
         headerHeight: defaultLayoutSetting.headerHeight,
         theme: projectConfig.theme,
         themeColor: projectConfig.themeColor,
-        splitMenu: defaultLayoutSetting.splitMenu
+        splitMenu: defaultLayoutSetting.splitMenu,
+        footerHeight: defaultLayoutSetting.footerHeight
       })
     }
 

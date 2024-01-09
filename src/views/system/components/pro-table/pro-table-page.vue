@@ -9,6 +9,7 @@
         :request="getTableMockList"
         :params="params"
         checkable
+        auto-fit-height
         :pagination="{
           page: pageRef,
           pageSize: 10,
