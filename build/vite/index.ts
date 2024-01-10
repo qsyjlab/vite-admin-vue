@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import WindiCSS from 'vite-plugin-windicss'
 import legacyPlugin from '@vitejs/plugin-legacy'
+import UnoCSS from 'unocss/vite'
 import {
   viteMockPlugin,
   viteAutoImportPlugin,
@@ -37,7 +38,7 @@ export function createVitePlugin(configEnv: ConfigEnv) {
     }),
     viteMockPlugin(isBuild),
     injectHtmlPlugin({ env: viteEnvs }),
-
+    UnoCSS(),
     visualizer({
       gzipSize: true,
       brotliSize: true,
