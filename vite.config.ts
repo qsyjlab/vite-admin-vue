@@ -2,18 +2,17 @@ import { defineConfig, loadEnv } from 'vite'
 
 import { fileURLToPath } from 'url'
 
-import { envDir, projectRootPath } from './build'
+import { envDir, projectRootPath, resolveProjectPath, buildOutdir } from './build'
 import { createProxy, createVitePlugin } from './build/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig(configEnv => {
-  const buildOutdir = `.output/dist.${configEnv.mode}`
-
   const viteEnvs = loadEnv(configEnv.mode, envDir, '')
+  const { mode } = configEnv
 
   return {
     root: projectRootPath,
-    base: '/',
+    base: viteEnvs.BASE_URL || '/',
     envDir,
 
     plugins: createVitePlugin(configEnv),
@@ -32,12 +31,10 @@ export default defineConfig(configEnv => {
       }
     },
     server: {
-      proxy: {
-        ...createProxy(viteEnvs.SERVER_PROXY_LIST)
-      }
+      proxy: createProxy(viteEnvs.SERVER_PROXY_LIST)
     },
     build: {
-      outDir: buildOutdir,
+      outDir: resolveProjectPath(buildOutdir, `dist_${mode}`),
       rollupOptions: {
         output: {
           manualChunks: {
