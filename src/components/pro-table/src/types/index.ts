@@ -1,11 +1,9 @@
 import type { TableInstance } from 'element-plus'
-import type { Component, SetupContext, VNode, Ref } from 'vue'
-import type { ProTableEmits } from '../props'
+import type { Component, VNode, Ref } from 'vue'
 import type { UseColumnsMapReturn, UseEditableReturn } from '../hooks'
 import type { EditRowRule, EditableCellState, EditableCellValidError } from './editable'
 import type { TableColumnCtx, RenderRowData, TableProps } from 'element-plus'
 import type { ValueEnum, ValueType } from './renderer'
-import type { NOOP } from './utils'
 
 export type ColumnsMap = Record<string, any>
 
@@ -82,13 +80,12 @@ export type TableOptions = boolean | ToolbarOptions
 
 export interface TableActionRef {
   tableRef: Ref<TableInstance | null>
-  clearSelection: TableInstance['clearSelection']
+  clearSelectedKeys: () => void
   /** 重载列表 */
   reload: () => void
   /** 仅仅刷新 */
   refresh: () => void
   doHeight: () => void
-  toggleRowSelection: TableInstance['toggleRowSelection']
   editableCellUtils: Omit<
     UseEditableReturn,
     'editableCellMap' | 'formInstanceRef' | 'editableRowsModel'
@@ -133,6 +130,7 @@ export interface ProTableProps<T = any> {
   transform: (response: any) => { data: any[]; total: number }
   transformParams: (params: any) => any
   alwaysShowAlert: boolean
+  autoRequest: boolean
 }
 
 export interface ProTableHeaderProps {

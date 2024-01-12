@@ -103,6 +103,11 @@ export const proTableProps = {
   autoFitHeight: {
     type: Boolean,
     default: false
+  },
+  /** 自动请求 */
+  autoRequest: {
+    type: Boolean,
+    default: false
   }
 }
 

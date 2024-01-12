@@ -181,14 +181,6 @@ export function useTableStore(
     tableProps.height = height - 5
   }
 
-  function clearSelection() {
-    tableInstanceRef.value?.clearSelection()
-  }
-
-  function toggleRowSelection(row: any, selected: boolean) {
-    tableInstanceRef.value?.toggleRowSelection(row, selected)
-  }
-
   function mergeTableProps(props: ITableProps) {
     Object.assign(tableProps, props)
   }
@@ -202,8 +194,7 @@ export function useTableStore(
     doHeight,
     reload,
     refresh,
-    clearSelection,
-    toggleRowSelection,
+    clearSelectedKeys,
     editableCellUtils,
     columnsSettingUtils
   }
