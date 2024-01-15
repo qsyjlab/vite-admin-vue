@@ -43,3 +43,14 @@ export function fileReader(rawFile: File): Promise<FileReader['result']> {
     reader.readAsArrayBuffer(rawFile)
   })
 }
+
+// 文件下载方法
+export function downloadFile(href: string, filename: string) {
+  if (href && filename) {
+    const a: HTMLAnchorElement = document.createElement('a')
+    a.download = filename
+    a.href = href
+    a.click() // 模拟点击
+    URL.revokeObjectURL(a.href)
+  }
+}
