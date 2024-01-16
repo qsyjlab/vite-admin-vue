@@ -120,6 +120,16 @@ function bindHandlers(editor: Editor) {
 // 初始化实例
 function initEditorInstance() {
   tinymce.init(initOptions.value)
+
+  watch(
+    () => props.disabled,
+    newVal => {
+      tinymceEditorInstance.value?.setMode(newVal ? 'readonly' : 'design')
+    },
+    {
+      immediate: true
+    }
+  )
 }
 
 // 销毁

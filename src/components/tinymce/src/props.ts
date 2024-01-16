@@ -5,6 +5,11 @@ import { THEME_MODE, LANGS, TOOLBAR, OUTPUT_FORMAT } from './editor'
 export type OutputFormat = typeof OUTPUT_FORMAT[number]
 
 export const tinymceProps = {
+  /** 禁用编辑器 */
+  disabled: {
+    type: Boolean,
+    default: false
+  },
   // 主题
   theme: {
     type: String,
