@@ -137,6 +137,15 @@ export default defineExposeRoutes([
               ignoreAuth: true
             },
             component: () => import('@/views/system/feature/docx/html-to-docx.vue')
+          },
+          {
+            name: 'RichDocx',
+            path: 'rich-docx-template',
+            meta: {
+              title: '行内模板',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/feature/docx/docx-template-editor/template.vue')
           }
         ]
       }
