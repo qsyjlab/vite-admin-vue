@@ -35,9 +35,7 @@ export function fileReader(rawFile: File): Promise<FileReader['result']> {
         resolve(e.target!.result)
       } catch (error) {
         reject(error)
-        // emit('error')
       } finally {
-        // loadingRef.value = false
       }
     }
     reader.readAsArrayBuffer(rawFile)
@@ -50,7 +48,7 @@ export function downloadFile(href: string, filename: string) {
     const a: HTMLAnchorElement = document.createElement('a')
     a.download = filename
     a.href = href
-    a.click() // 模拟点击
+    a.click()
     URL.revokeObjectURL(a.href)
   }
 }

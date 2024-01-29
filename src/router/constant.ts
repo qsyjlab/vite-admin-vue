@@ -12,5 +12,6 @@ export const BlankContainer = () =>
 
 export const LOGIN_NAME = 'Login'
 export const LOGIN_PATH = '/login'
+export const PAGE_NOT_FOUND = 'PageNotFound'
 
 export const REDIRECT_NAME = 'Redirect'
