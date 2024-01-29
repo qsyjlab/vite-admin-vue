@@ -2,9 +2,6 @@
   <!-- svg 精灵图 -->
   <svg-icon v-if="iconType === 'svg'" :name="iconName" :size="size" :color="color" />
 
-  <!-- iconify -->
-  <iconify v-else-if="iconType === 'ify'" :icon="iconName" :size="size" :color="color" />
-
   <!-- element-plus -->
   <ep-icon v-else-if="iconType === 'ep'" :icon="iconName" :size="size" :color="color" />
 
@@ -17,7 +14,6 @@
 import { watch, ref, VNode } from 'vue'
 
 import SvgIcon from './svg-icon.vue'
-import Iconify from './iconify.vue'
 import EpIcon from './ep.vue'
 import { isFunction } from '@/utils'
 

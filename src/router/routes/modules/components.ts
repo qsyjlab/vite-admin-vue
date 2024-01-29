@@ -8,7 +8,7 @@ export default defineExposeRoutes([
     meta: {
       title: '组件',
       sort: 4,
-      icon: 'ify.bxs:component'
+      icon: 'ep.grid'
     },
     redirect: { name: 'ProTable' },
     component: Layout,
