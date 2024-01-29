@@ -8,8 +8,6 @@ export const withInstall = <T, E extends Record<string, any>>(main: T, extra?: E
   _main.install = (app): void => {
     for (const comp of [_main, ...Object.values(extra ?? {})]) {
       app.component(comp.name, comp)
-
-      // console.log('comp.name, comp');
     }
   }
 

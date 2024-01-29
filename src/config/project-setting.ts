@@ -5,9 +5,14 @@ import { PermissionModeEnum } from '@/enum'
 export interface ProjectConfig {
   theme: 'light' | 'dark'
   themeColor: string
+  logo: string
+
   defaultLayoutSetting: {
     layoutMode: LayoutMode
     /** header start */
+
+    /** 是否显示头部 */
+    showHeader: boolean
     /** 是否显示面包屑导航 */
     showBreadCrumb: boolean
     /** 是否显示面包屑导航图标 */
@@ -37,6 +42,8 @@ export interface ProjectConfig {
     showBackTop: boolean
     /** 是否显示页脚 */
     showFooter: boolean
+    /** 页脚高度 */
+    footerHeight: number
   }
   /**
    * 是否在切换路由导航的时候提示
@@ -53,15 +60,19 @@ export interface ProjectConfig {
   permissionMode: keyof typeof PermissionModeEnum
 }
 
-const setting: ProjectConfig = readonly({
+const setting = readonly<ProjectConfig>({
   themeColor: '#1677FF',
   theme: 'light',
+  logo: '/logo.svg',
   defaultLayoutSetting: {
     layoutMode: LayoutMode.Side,
     /** header start */
     showBreadCrumb: true,
     showBreadCrumbIcon: true,
     showSettingButton: true,
+
+    /** 是否显示头部 */
+    showHeader: true,
     headerHeight: 48,
     /** header end */
 
@@ -85,7 +96,9 @@ const setting: ProjectConfig = readonly({
     /** 返回顶部 */
     showBackTop: true,
     /** 是否显示页脚 */
-    showFooter: true
+    showFooter: true,
+    /** 页脚高度 */
+    footerHeight: 50
   },
   openLeavePagePrompt: true,
   keepAliveCachePolicy: 'normal',

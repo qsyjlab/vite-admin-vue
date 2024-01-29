@@ -140,7 +140,7 @@ const columns: ProTableColumns = [
     title: '进度条',
     key: 'progress',
     width: 200,
-    editable: true,
+    editable: false,
     valueType: () => {
       return { type: 'progress' }
     }
@@ -150,7 +150,7 @@ const columns: ProTableColumns = [
     key: 'fnE',
     valueType: 'enum',
     width: 200,
-    editable: true,
+    editable: false,
     valueEnum: () => {
       return {
         all: { text: '全部', color: 'blue' },
@@ -174,7 +174,7 @@ const columns: ProTableColumns = [
     key: 'status',
     valueType: 'enum',
     width: 200,
-    editable: true,
+    editable: false,
 
     valueEnum: {
       all: { text: '全部', color: 'blue' },

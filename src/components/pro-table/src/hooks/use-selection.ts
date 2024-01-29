@@ -34,7 +34,7 @@ export function useSelection(
     if (keys.toString() === selectedKeys.value.toString()) return
     selectedKeys.value = keys
 
-    emits('update:selectedKeys', selectedKeys.value)
+    emits('update:selectedKeys', [...selectedKeys.value])
   }
 
   function clearSelectedKeys() {

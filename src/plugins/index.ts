@@ -1,7 +1,6 @@
 import setupElementPlus from './elementPlus'
 import setUpDayJs from './dayJs'
 import registerGlobalComponents from './components'
-
 import { defineAppPlugin } from '@/utils'
 
 export default defineAppPlugin(app => {
@@ -16,4 +15,6 @@ export default defineAppPlugin(app => {
   import('./vite-plugin-svg-icons')
   // 进度条
   import('./nprogress')
+  // unocss
+  import('./unocss')
 })

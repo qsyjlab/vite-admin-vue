@@ -32,31 +32,19 @@ import {
   LayoutTabs
 } from './components'
 
-import type { LayoutProps, AsideProps, MainProps } from './types'
+import type {
+  LayoutSideBarProps,
+  LayoutProps,
+  LayoutMainProps,
+  LayoutFooterProps
+} from './interface'
 import './style.scss'
 
-interface Layout {
-  asideWidth?: LayoutProps['asideWidth']
-  asideHeight?: LayoutProps['asideHeight']
-  asideTop?: LayoutProps['asideTop']
-  asidePaddingTop?: LayoutProps['asidePaddingTop']
-  headerHeight?: LayoutProps['headerHeight']
-  headerPaddingLeft?: LayoutProps['headerPaddingLeft']
-  headerZIndex?: LayoutProps['headerZIndex']
-  tabHeight?: LayoutProps['tabHeight']
-  config?: {
-    header: boolean
-    tab: boolean
-    aside: boolean
-    footer: boolean
-    main: boolean
-  }
-}
+type IProps = LayoutProps
 
-const props = withDefaults(defineProps<Layout>(), {
+const props = withDefaults(defineProps<IProps>(), {
   asideWidth: 220,
   asidePaddingTop: 0,
-  asideTop: 0,
   headerHeight: 48,
   tabHeight: 32,
   headerZIndex: 1001,
@@ -71,7 +59,7 @@ const props = withDefaults(defineProps<Layout>(), {
 })
 
 // 侧边栏属性
-const asideAttrs = computed<AsideProps>(() => {
+const asideAttrs = computed<LayoutSideBarProps>(() => {
   return {
     width: props.asideWidth,
     paddingTop: props.asidePaddingTop
@@ -89,24 +77,35 @@ const headerAttrs = computed(() => {
 
 // tab 属性
 const tabAttrs = computed(() => {
+  const top = props.config.header ? props.headerHeight : 0
   return {
-    top: props.headerHeight,
+    top,
     paddingLeft: props.asideWidth,
     height: props.tabHeight
   }
 })
 
 // 内容属性
-const mainAttrs = computed<MainProps>(() => {
+const mainAttrs = computed<LayoutMainProps>(() => {
+  let paddingTop = 0
+
+  if (props.config.header) {
+    paddingTop += props.headerHeight
+  }
+  if (props.config.tab) {
+    paddingTop += props.tabHeight
+  }
+
   return {
     paddingLeft: props.asideWidth,
-    paddingTop: props.headerHeight + props.tabHeight
+    paddingTop: paddingTop
   }
 })
 
-const footerAttrs = computed(() => {
+const footerAttrs = computed<LayoutFooterProps>(() => {
   return {
-    paddingLeft: props.asideWidth
+    paddingLeft: props.asideWidth,
+    height: props.footerHeight
   }
 })
 </script>

@@ -6,25 +6,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { LayoutFooterProps } from '../interface'
 
-interface Props {
-  /** 开启fixed布局 */
-  fixed?: boolean
-  /** fixed布局的层级 */
-  zIndex?: number
-  /** 最小宽度 */
-  minWidth?: number
-  /** 高度 */
-  height?: number
-  /** 左侧内边距 */
-  paddingLeft?: number
-  /** 动画过渡时间 */
-  transitionDuration?: number
-  /** 动画过渡时间 */
-  transitionTimingFunction?: string
-}
+type IProps = LayoutFooterProps
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<IProps>(), {
   fixed: true,
   zIndex: 999,
   minWidth: 1200,
@@ -35,26 +21,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const style = computed(() => {
-  const {
-    // fixed,
-    zIndex,
-    // minWidth,
-    height,
-    paddingLeft,
-    transitionDuration,
-    transitionTimingFunction
-  } = props
-  // const position = fixed ? 'fixed' : 'static'
+  const { zIndex, height, paddingLeft, transitionDuration, transitionTimingFunction } = props
   return ` z-index: ${zIndex};;height: ${height}px;padding-left: ${paddingLeft}px;transition-duration: ${transitionDuration}ms;transition-timing-function: ${transitionTimingFunction};box-sizing: border-box;`
 })
 </script>
-
-<!-- <style scoped>
-.layout-footer {
-  box-sizing: border-box;
-  flex: 0;
-  flex-shrink: 0;
-  box-sizing: border-box;
-  padding: 20px 0;
-}
-</style> -->

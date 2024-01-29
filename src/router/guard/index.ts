@@ -3,9 +3,9 @@ import { useRouteStore, useUserStore } from '@/store'
 import { getTokenCahce, getUserInfoCache } from '@/store/local'
 import { usePermissionStore } from '@/store/module/permissions'
 import { AxiosCanceler } from '@/service/axios-request/axios-canceler'
-import { LOGIN_NAME } from '../constant'
+import { LOGIN_NAME, PAGE_NOT_FOUND } from '../constant'
 import type { Router } from 'vue-router'
-import { emitRoute } from '../listener'
+import { emitRoute } from '../helper/listener'
 import projectSetting from '@/config/project-setting'
 import { WHITE_NAME_LIST } from '../routes'
 
@@ -61,7 +61,7 @@ export function createRouterGuard(router: Router) {
       await permissionStore.loadDynamicRoutes()
       setInitialized(true)
 
-      if (to.name === 'PageNotFound') {
+      if (to.name === PAGE_NOT_FOUND) {
         return next({ path: to.fullPath, replace: true, query: to.query })
       }
     }

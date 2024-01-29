@@ -7,5 +7,6 @@ export {
   PageCard,
   PageWrapper,
   EchartsRenderer,
-  Upload
+  Upload,
+  ProTinymce
 } from '@/components'

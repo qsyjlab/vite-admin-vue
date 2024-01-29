@@ -87,6 +87,7 @@ const reset = () => {
 }
 
 createFormContext({
+  formModel,
   submit,
   reset,
   toggleCollapse,

@@ -8,7 +8,7 @@ export default defineExposeRoutes([
     meta: {
       title: '组件',
       sort: 4,
-      icon: 'ify.bxs:component'
+      icon: 'ep.grid'
     },
     redirect: { name: 'ProTable' },
     component: Layout,
@@ -107,6 +107,15 @@ export default defineExposeRoutes([
               ignoreAuth: true
             },
             component: () => import('@/views/system/components/pro-form/pro-form-ref.vue')
+          },
+          {
+            name: 'ProFromDynamic',
+            path: 'dynamic',
+            meta: {
+              title: '动态表单',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/components/pro-form/dynamic.vue')
           },
           {
             name: 'ProFormModal',

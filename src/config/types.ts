@@ -1,4 +1,4 @@
-import { readonly } from '@/utils'
+import { readonly } from 'vue'
 
 interface GlobalConfig {
   /** api url */

@@ -1,11 +1,11 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title">
-      <tinymce-editor></tinymce-editor>
+      <pro-tinymce />
     </page-card>
   </page-wrapper>
 </template>
 <script setup lang="ts">
 import { PageCard, PageWrapper } from '@/components'
-import { TinymceEditor } from '@/components/tinymce'
+import { ProTinymce } from '@/components/tinymce'
 </script>

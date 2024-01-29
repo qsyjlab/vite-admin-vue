@@ -16,7 +16,8 @@ import {
   Refresh,
   Close,
   Upload,
-  CircleClose
+  CircleClose,
+  Grid
 } from '@element-plus/icons-vue'
 
 const props = withDefaults(
@@ -41,7 +42,8 @@ const epIconMap: Record<string, any> = {
   refresh: Refresh,
   close: Close,
   upload: Upload,
-  'circle-close': CircleClose
+  'circle-close': CircleClose,
+  grid: Grid
 }
 
 const getAttrs = computed(() => {

@@ -85,13 +85,13 @@
 </template>
 <script setup lang="ts">
 import { computed, reactive, getCurrentInstance } from 'vue'
+import { ElForm, type TableInstance } from 'element-plus'
 import { proTableProps, proTableEmits } from './props'
 import { createProtableInstanceContext, createTableStoreContext, useTableStore } from './store'
 import ProTableColumn from './pro-table-column.vue'
 import toolbar from './components/toolbar/toolbar.vue'
 import { columnsSort, columnsFilter, getRowkey } from './utils'
 import './style.scss'
-import { ElForm, type TableInstance } from 'element-plus'
 import type { ProTableSlotScope, ProTableProps } from './types'
 
 type DefualtSlotFn = (scope: ProTableSlotScope) => void
@@ -180,6 +180,9 @@ function handleSizeChange(size: number) {
 }
 
 function clearEffect() {
+  if (!props.reserveSelection) {
+    clearSelectedKeys()
+  }
   editableCellUtils.clearEditRow()
 }
 

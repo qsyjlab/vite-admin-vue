@@ -35,11 +35,20 @@ export function fileReader(rawFile: File): Promise<FileReader['result']> {
         resolve(e.target!.result)
       } catch (error) {
         reject(error)
-        // emit('error')
       } finally {
-        // loadingRef.value = false
       }
     }
     reader.readAsArrayBuffer(rawFile)
   })
+}
+
+// 文件下载方法
+export function downloadFile(href: string, filename: string) {
+  if (href && filename) {
+    const a: HTMLAnchorElement = document.createElement('a')
+    a.download = filename
+    a.href = href
+    a.click()
+    URL.revokeObjectURL(a.href)
+  }
 }

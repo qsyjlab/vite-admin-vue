@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import type { ProjectLayoutConfig } from '@/layouts'
 import { LayoutMode } from '@/layouts'
+import { setLayoutCache } from '../local'
 
 interface LayoutState {
   layoutConfig: ProjectLayoutConfig
@@ -35,7 +36,8 @@ export const useLayoutStore = defineStore<string, LayoutState, LayoutGetter, Lay
           headerHeight: 48,
           theme: 'light',
           themeColor: '#1677FF',
-          splitMenu: true
+          splitMenu: true,
+          footerHeight: 56
         },
         mixMenuLayoutConfig: {
           fixedMenu: false,
@@ -47,6 +49,7 @@ export const useLayoutStore = defineStore<string, LayoutState, LayoutGetter, Lay
     actions: {
       setLayoutConfig(config) {
         this.layoutConfig = { ...this.layoutConfig, ...config }
+        setLayoutCache(this.layoutConfig)
       },
       setMixMenuLayoutConfig(config) {
         this.mixMenuLayoutConfig = { ...this.mixMenuLayoutConfig, ...config }

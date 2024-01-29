@@ -6,27 +6,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { LayoutTabsProps } from '../interface'
 
-interface Props {
-  /** 开启fixed布局 */
-  fixed?: boolean
-  /** fixed布局的top距离 */
-  top?: number
-  /** fixed布局的层级 */
-  zIndex?: number
-  /** 最小宽度 */
-  minWidth?: number
-  /** 高度 */
-  height?: number
-  /** 左侧内边距 */
-  paddingLeft?: number
-  /** 动画过渡时间 */
-  transitionDuration?: number
-  /** 动画过渡时间 */
-  transitionTimingFunction?: string
-}
+type IProps = LayoutTabsProps
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<IProps>(), {
   fixed: true,
   top: 56,
   zIndex: 999,

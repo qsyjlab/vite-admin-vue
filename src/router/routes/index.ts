@@ -1,11 +1,11 @@
 import { defineExposeRoutes } from '../helper/utils'
-import { LOGIN_NAME, LOGIN_PATH, REDIRECT_NAME, Layout } from '../constant'
+import { LOGIN_NAME, LOGIN_PATH, REDIRECT_NAME, Layout, PAGE_NOT_FOUND } from '../constant'
 
 import type { RouteRecordRaw } from 'vue-router'
 
 export const pageError: RouteRecordRaw = {
   path: '/:pathMatch(.*)',
-  name: 'PageNotFound',
+  name: PAGE_NOT_FOUND,
   component: () => import('@/views/error/error-404.vue')
 }
 

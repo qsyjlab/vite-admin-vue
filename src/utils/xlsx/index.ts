@@ -1,7 +1,7 @@
 import type { JSON2SheetOpts, WritingOptions, WorkBook, WorkSheet } from 'xlsx'
 import * as xlsx from 'xlsx'
 import { fileReader } from '../es'
-import { formatToDate } from '../date'
+import { dayJsFormatDate } from '../date'
 
 /**
  * @fork https://github.com/vbenjs/vue-vben-admin
@@ -180,7 +180,7 @@ export function getExcelData(
 ) {
   const { timeZone, dateFormat } = options || {}
   const excelData: ExcelData[] = []
-  // const { dateFormat, timeZone } = props
+
   for (const sheetName of workbook.SheetNames) {
     const worksheet = workbook.Sheets[sheetName]
     const header: string[] = getHeaderRow(worksheet)
@@ -194,7 +194,7 @@ export function getExcelData(
             row[field].setSeconds(row[field].getSeconds() + 43)
           }
           if (dateFormat) {
-            row[field] = formatToDate(row[field], dateFormat)
+            row[field] = dayJsFormatDate(row[field], dateFormat)
           }
         }
       }

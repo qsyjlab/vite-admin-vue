@@ -35,5 +35,5 @@ export default router
 
 export * from './helper'
 
-export { routeChangeListener } from './listener'
-export { resolveMatched } from './matched'
+export { routeChangeListener } from './helper/listener'
+export { resolveMatched } from './helper/matched'

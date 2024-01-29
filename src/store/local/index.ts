@@ -19,7 +19,7 @@ const $storage = createStorage({
  * @param {UserInfo} data 用户信息
  */
 export function setUserInfoCache(data: UserInfo) {
-  $storage.set(StorageKeys.UserInfo, data)
+  $storage.set(StorageKeys.USER_INFO, data)
 }
 
 /**
@@ -27,7 +27,7 @@ export function setUserInfoCache(data: UserInfo) {
  * @returns {UserInfo}
  */
 export function getUserInfoCache() {
-  return $storage.get<UserInfo>(StorageKeys.UserInfo)
+  return $storage.get<UserInfo>(StorageKeys.USER_INFO)
 }
 
 /**
@@ -35,7 +35,7 @@ export function getUserInfoCache() {
  * @param {String} token
  */
 export function setTokenCahce(token: string) {
-  $storage.set(StorageKeys.Token, token)
+  $storage.set(StorageKeys.TOKEN, token)
 }
 
 /**
@@ -43,15 +43,15 @@ export function setTokenCahce(token: string) {
  * @returns {String}
  */
 export function getTokenCahce() {
-  return $storage.get<string>(StorageKeys.Token)
+  return $storage.get<string>(StorageKeys.TOKEN)
 }
 
 export function setPermissionsCache(permissions: string[]) {
-  $storage.set('_PERMISSIONS_', permissions)
+  $storage.set(StorageKeys.PERMISSIONS, permissions)
 }
 
 export function getPermissionsCache() {
-  return $storage.get<string[]>('_PERMISSIONS_')
+  return $storage.get<string[]>(StorageKeys.PERMISSIONS)
 }
 /**
  * 获取配置
@@ -59,14 +59,14 @@ export function getPermissionsCache() {
  * @returns
  */
 export function setLayoutCache(layout: ProjectLayoutConfig | undefined) {
-  return $storage.set(StorageKeys.Layout, layout)
+  return $storage.set(StorageKeys.LAYOUT, layout)
 }
 
 /**
  * @returns {ProjectLayoutConfig}
  */
 export function getLayoutCache() {
-  return $storage.get<ProjectLayoutConfig>(StorageKeys.Layout)
+  return $storage.get<ProjectLayoutConfig>(StorageKeys.LAYOUT)
 }
 
 /**

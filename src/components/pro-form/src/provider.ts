@@ -3,6 +3,7 @@ import type { InjectionKey } from 'vue'
 import { FormMethodsType } from './types'
 
 interface FormContext {
+  formModel: Record<string, any>
   submit: () => void
   reset: () => void
   toggleCollapse: () => void

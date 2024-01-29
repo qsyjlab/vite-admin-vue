@@ -17,11 +17,17 @@ export function createProxy(envString: string) {
       rewrite: path => {
         return path.replace(new RegExp(`^${prefix}`), rewrite)
       },
+      configure: (proxy, options) => {
+        proxy.on('proxyReq', (proxyReq, req) => {
+          console.log(
+            `\n\x1b[34m[vite:proxy]\x1b[0m ${prefix}  proxying request from \x1b[32m${
+              proxyReq.path
+            }\x1b[0m to \x1b[32m${options.target + req.url}\x1b[0m`
+          )
+        })
+      },
       ...(isHttps ? { secure: false } : {})
     }
   }
-
-  console.log('ret', ret)
-
   return ret
 }
