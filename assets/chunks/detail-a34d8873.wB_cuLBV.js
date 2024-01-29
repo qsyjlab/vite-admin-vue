@@ -1,2 +1,0 @@
-import{w as r}from"./index.V9EroKAY.js";import{u as s}from"./use-tabs-d4c31ec5._IiQlp4f.js";import{d as n,D as l,o as m,c as p,I as i,w as d,t as c,k as u}from"./framework.SCZo_iHs.js";import"../app.g2pGqmxW.js";import"./theme.Lm0SghTC.js";const x=n({__name:"detail",setup(f){const{setTitle:e}=s(),t=r();return e(`新标签页面${t.params.id}`),(o,w)=>{const a=l("el-card");return m(),p("div",null,[i(a,null,{default:d(()=>[u("pre",null,"            "+c(o.$route.params)+`
-        `,1)]),_:1})])}}});export{x as default};
