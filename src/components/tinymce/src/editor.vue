@@ -63,6 +63,8 @@ const initOptions = computed<RawEditorSettings>(() => {
     setup: editor => {
       setupTinymceEditor(editor)
     },
+    /** @see https://www.tiny.cloud/docs-3x/reference/Configuration3x/Configuration3x@convert_urls/ */
+    convert_urls: false,
     file_picker_types: 'file image media',
     skin_url: `${resource}/skins/ui/${themeMode.value}`,
     branding: false,
