@@ -1,0 +1,1 @@
+import{q as a,v as o}from"./index.ghQPKumy.js";import{d as r,o as s,b as m,w as l,I as n,m as e}from"./framework.e2dboEyh.js";import"../app.kf9R8BQv.js";import"./theme.2Uqr2FmO.js";const h=r({__name:"modal",setup(u){return(t,d)=>(s(),m(e(o),null,{default:l(()=>[n(e(a),{header:t.$route.meta.title},null,8,["header"])]),_:1}))}});export{h as default};

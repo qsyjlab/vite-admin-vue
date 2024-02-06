@@ -1,1 +1,0 @@
-import{U as e}from"./index.mdm6ka2m.js";import{d as t,o,c as a,I as r,m}from"./framework.kGBdJdCt.js";import"../app.4OzQX80d.js";import"./theme.IDZC-AZR.js";const s={style:{height:"100%"}},i={name:"IframeView "},h=t({...i,setup(n){return(p,c)=>(o(),a("div",s,[r(m(e),{"frame-src":"https://qsyjlab.github.io/vite-admin-vue/"})]))}});export{h as default};

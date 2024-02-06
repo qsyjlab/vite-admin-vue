@@ -1,1 +1,0 @@
-import{_ as s,c as n,o,R as a}from"./chunks/framework.kGBdJdCt.js";const q=JSON.parse('{"title":"图标","description":"","frontmatter":{},"headers":[],"relativePath":"doc/other/icon.md","filePath":"doc/other/icon.md"}'),l={name:"doc/other/icon.md"},p=a("",12),t=[p];function e(c,r,y,E,i,F){return o(),n("div",null,t)}const d=s(l,[["render",e]]);export{q as __pageData,d as default};
