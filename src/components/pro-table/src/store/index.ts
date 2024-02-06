@@ -1,4 +1,4 @@
-import { computed, inject, nextTick, reactive, ref, toRefs, watch, onMounted } from 'vue'
+import { computed, inject, nextTick, reactive, ref, toRefs, watch, onMounted, toRef } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
 import { useColumnsMap, useProTable, useEditable, useSelection } from '../hooks'
 
@@ -71,10 +71,18 @@ export function useTableStore(
     { emits }
   )
 
-  const { selectedKeys, setSelectedKeys, clearSelectedKeys } = useSelection(props, {
-    tableInstance: tableInstanceRef,
-    emits
-  })
+  const { cacheSelectedData, selectedKeys, setSelectedKeys, clearSelectedKeys } = useSelection(
+    {
+      dataSource,
+      selectedKeys: toRef(props, 'selectedKeys'),
+      cacheSelectedData: toRef(props, 'cacheSelectedData'),
+      rowKey: props.rowKey
+    },
+    {
+      tableInstance: tableInstanceRef,
+      emits
+    }
+  )
 
   const {
     startEditable,
@@ -210,6 +218,7 @@ export function useTableStore(
     tableProps,
     loading,
     selectedKeys,
+    cacheSelectedData,
     total,
     pageQuery,
     dataSource,

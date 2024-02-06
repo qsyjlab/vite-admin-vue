@@ -86,6 +86,11 @@ export const proTableProps = {
     type: definePropType<any[]>(Array),
     default: () => []
   },
+  /** 跨页选择回显用 */
+  cacheSelectedData: {
+    type: definePropType<any[]>(Array),
+    default: () => []
+  },
   /** 编辑相关配置 */
   editable: {
     type: definePropType<ProTableEditable>(Object)
@@ -122,6 +127,7 @@ export const proTableEmits = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   'update:loading': (loading: boolean) => true,
   'update:selectedKeys': (keys: any[]) => !!keys,
+  'selection-change': selection => !!selection,
   register: (instance: TableActionRef) => !!instance
 }
 

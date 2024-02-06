@@ -107,14 +107,13 @@ export interface ProTablePaginationConfig {
  *
  * 下面定义仅作用外部类型
  */
-
 export interface ProTableProps<T = any> {
   size: TableProps<T>['size']
   height?: string | number
   autoFitHeight: boolean
   columnsState: ColumnsState
   columns: ProTableColumns
-  data: any[]
+  data: T[]
   border: boolean
   request: (...rest: any[]) => Promise<any>
   params: Record<string | number, any>
@@ -131,6 +130,7 @@ export interface ProTableProps<T = any> {
   transformParams: (params: any) => any
   alwaysShowAlert: boolean
   autoRequest: boolean
+  cacheSelectedData: T[]
 }
 
 export interface ProTableHeaderProps {

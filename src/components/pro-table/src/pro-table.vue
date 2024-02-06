@@ -84,7 +84,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, reactive, getCurrentInstance } from 'vue'
+import { computed, reactive, getCurrentInstance, toValue } from 'vue'
 import { ElForm, type TableInstance } from 'element-plus'
 import { proTableProps, proTableEmits } from './props'
 import { createProtableInstanceContext, createTableStoreContext, useTableStore } from './store'
@@ -138,6 +138,7 @@ const {
   dataSource,
   selectedKeys,
   setSelectedKeys,
+  cacheSelectedData,
   clearSelectedKeys,
   editableCellUtils,
   setQueryPage,
@@ -190,16 +191,34 @@ function emitPageChange() {
   emits('page-change', pageQuery.page, pageQuery.pageSize)
 }
 
+// 重写 onSelection-change 支持多页选择回显
 const selectChangeHandler: TableInstance['onSelection-change'] = selection => {
   if (Array.isArray(selection)) {
-    setSelectedKeys(
-      selection
-        .map(row => {
-          const realRowKey = getRowkey(row, props.rowKey)
-          if (!realRowKey) return false
-          return realRowKey
-        })
-        .filter(Boolean)
+    const dataKeys = dataSource.value.map(row => getRowkey(row, props.rowKey))
+
+    const selectionKeys = selection.map(row => getRowkey(row, props.rowKey))
+
+    dataKeys.forEach(rowKey => {
+      if (!selectionKeys.includes(rowKey)) {
+        if (cacheSelectedData.has(rowKey)) {
+          cacheSelectedData.delete(rowKey)
+        }
+      }
+    })
+
+    selection.forEach(item => {
+      const rowKey = getRowkey(item, props.rowKey)
+
+      if (!cacheSelectedData.has(rowKey)) {
+        cacheSelectedData.set(rowKey, item)
+      }
+    })
+
+    setSelectedKeys(Array.from(cacheSelectedData.keys()))
+
+    emits(
+      'selection-change',
+      toValue(() => Array.from(cacheSelectedData.values()))
     )
   }
 }
