@@ -3,7 +3,6 @@ import { type Plugin, type ConfigEnv, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import WindiCSS from 'vite-plugin-windicss'
 import legacyPlugin from '@vitejs/plugin-legacy'
 import UnoCSS from 'unocss/vite'
 import {
@@ -31,7 +30,6 @@ export function createVitePlugin(configEnv: ConfigEnv) {
     vueJsx(),
     viteAutoImportPlugin(),
     viteComponentsPlugin(),
-    WindiCSS(),
     configSvgIconsPlugin({ isBuild }),
     ElementPlus({
       useSource: true
