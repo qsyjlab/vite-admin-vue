@@ -8,7 +8,8 @@ export default defineExposeRoutes([
     meta: {
       title: 'Hooks',
       sort: 1,
-      icon: 'ep.home-filled'
+      icon: 'svg.hooks',
+      hideChildrenInMenu: false
     },
     redirect: {
       name: 'UseDialog'
