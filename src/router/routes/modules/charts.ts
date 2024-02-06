@@ -18,8 +18,7 @@ export default defineExposeRoutes([
         name: 'Echarts',
         path: 'echarts',
         meta: {
-          title: 'echarts',
-          sort: 4
+          title: 'echarts'
         },
         component: () => import('@/views/system/charts/echarts/echarts.vue')
       }
