@@ -1,45 +1,71 @@
 import { TableInstance } from 'element-plus'
-import { computed, Ref, ref, SetupContext, watch } from 'vue'
+import { computed, Ref, ref, SetupContext, watch, nextTick } from 'vue'
 import type { ProTableEmits } from '../props'
 import type { ProTableProps, RowKey } from '../types'
 import { getRowkey } from '../utils'
 
-type IProps = Pick<ProTableProps, 'selectedKeys' | 'rowKey'>
+type IProps = {
+  dataSource: Ref<ProTableProps['data']>
+  selectedKeys: Ref<ProTableProps['selectedKeys']>
+  rowKey: ProTableProps['rowKey']
+  cacheSelectedData: Ref<ProTableProps['cacheSelectedData']>
+}
 
 export function useSelection(
   props: IProps,
   options: { tableInstance: Ref<TableInstance | null>; emits: SetupContext<ProTableEmits>['emit'] }
 ) {
   const selectedKeys = ref<any[]>([])
+  const cacheSelectedData = new Map<unknown, any>()
 
   const { emits, tableInstance } = options || {}
 
   watch(
-    () => props.selectedKeys,
-    (newVal, oldVal) => {
-      if (newVal.toString() === oldVal.toString()) return
-      // 是否需要 diff
-      setSelectedKeys(props.selectedKeys)
-
-      getRowsByRowKey(tableInstance.value?.data || [], props.rowKey, props.selectedKeys).forEach(
-        row => {
-          tableInstance.value?.toggleRowSelection(row, true)
-        }
-      )
+    [props.selectedKeys, props.dataSource, props.cacheSelectedData],
+    () => {
+      updateSelection()
     },
-    { deep: true }
+    { deep: true, immediate: true }
   )
+
+  function updateSelection() {
+    const dataSource = props.dataSource
+
+    setSelectedKeys(props.selectedKeys.value)
+
+    props.cacheSelectedData.value.forEach(item => {
+      const realKey = getRowkey(item, props.rowKey)
+      const row = dataSource.value.find(row => getRowkey(row, props.rowKey) === realKey)
+      if (row) {
+        cacheSelectedData.set(realKey, row)
+      } else {
+        cacheSelectedData.set(realKey, item)
+      }
+    })
+
+    const rows = getRowsByRowKey(dataSource.value, props.rowKey, props.selectedKeys.value)
+
+    rows.forEach(row => {
+      const realKey = getRowkey(row, props.rowKey)
+      cacheSelectedData.set(realKey, row)
+    })
+    nextTick(() => {
+      rows.forEach(row => {
+        tableInstance.value?.toggleRowSelection(row, true)
+      })
+    })
+  }
 
   function setSelectedKeys(keys: any[]) {
     if (keys.toString() === selectedKeys.value.toString()) return
     selectedKeys.value = keys
-
     emits('update:selectedKeys', [...selectedKeys.value])
   }
 
   function clearSelectedKeys() {
     setSelectedKeys([])
     tableInstance.value?.clearSelection()
+    cacheSelectedData.clear()
   }
 
   function getRowsByRowKey(data: any[], rowKey: RowKey, keys: any[]) {
@@ -60,6 +86,7 @@ export function useSelection(
   }
 
   return {
+    cacheSelectedData,
     selectedKeys: computed(() => selectedKeys.value),
     setSelectedKeys,
     clearSelectedKeys

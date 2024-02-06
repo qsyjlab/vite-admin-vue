@@ -4,19 +4,25 @@
       <pro-table
         ref="tableRef"
         v-model:selected-keys="selectedKeys"
+        row-key="id"
         header-title="pro table"
         :columns="columns"
         :request="getTableMockList"
         :params="params"
         checkable
         auto-fit-height
+        :reserve-selection="true"
         :pagination="{
           page: pageRef,
           pageSize: 10,
           pageSizes: [10, 20, 40],
           background: true
         }"
+        :cache-selected-data="cacheSelectedData"
         @page-change="pageChange"
+        @select="selectHandler"
+        @select-all="selectAllHandler"
+        @selection-change="selectionChangeHandler"
       >
         <template #headerTitle> 自定义表头 </template>
         <template #toolbar>
@@ -45,7 +51,9 @@ defineOptions({
 })
 
 const loading = ref(false)
-const selectedKeys = ref<any[]>()
+
+const cacheSelectedData = ref([{ id: 2 }, { id: 3 }, { id: 15 }])
+const selectedKeys = ref<any[]>(cacheSelectedData.value.map(i => i.id))
 
 const tableRef = ref<ProTableInstance>()
 
@@ -68,6 +76,10 @@ const columns: ProTableColumns = [
     key: 'indexBorder',
     valueType: 'indexBorder',
     fixed: 'left'
+  },
+  {
+    title: 'ID',
+    key: 'id'
   },
   {
     title: '名称',
@@ -197,5 +209,17 @@ function createData() {
   })
 
   return data
+}
+
+function selectionChangeHandler(selection) {
+  console.log('selection', selection)
+}
+
+function selectHandler(selection, row) {
+  console.log('selection, row', selection, row)
+}
+
+function selectAllHandler(selection) {
+  console.log('selectAllHandler', selection)
 }
 </script>

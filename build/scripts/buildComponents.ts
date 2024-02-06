@@ -4,8 +4,6 @@ const { build } = require('vite')
 const vue = require('@vitejs/plugin-vue')
 const vueJsx = require('@vitejs/plugin-vue-jsx')
 
-const dts = require('vite-plugin-dts')
-
 const projectRootPath = process?.cwd() || resolve(__dirname, '..', '..')
 
 async function buildComponents() {
@@ -44,14 +42,7 @@ async function buildComponents() {
       ]
     },
 
-    plugins: [
-      vue(),
-      vueJsx(),
-      dts({
-        entryRoot: resolve(projectRootPath, 'src', 'components'),
-        tsConfigFilePath: resolve(projectRootPath, 'tsconfig.json')
-      })
-    ],
+    plugins: [vue(), vueJsx()],
 
     resolve: {
       alias: {
