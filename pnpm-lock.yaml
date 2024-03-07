@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -30,8 +30,8 @@ importers:
         specifier: ^5.4.3
         version: 5.4.3
       element-plus:
-        specifier: ^2.5.3
-        version: 2.5.3(vue@3.4.15)
+        specifier: ^2.6.0
+        version: 2.6.0(vue@3.4.15)
       html-docx-js-typescript:
         specifier: ^0.1.5
         version: 0.1.5
@@ -4299,7 +4299,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.1
       '@types/raf': 3.4.1
-      core-js: 3.35.1
+      core-js: 3.36.0
       raf: 3.4.1
       regenerator-runtime: 0.13.11
       rgbcolor: 1.0.1
@@ -4600,8 +4600,8 @@ packages:
     requiresBuild: true
     dev: true
 
-  /core-js@3.35.1:
-    resolution: {integrity: sha512-IgdsbxNyMskrTFxa9lWHyMwAJU5gXOPP+1yO+K59d50VLVAIDAbs7gIv705KzALModfK3ZrSZTPNpC0PQgIZuw==}
+  /core-js@3.36.0:
+    resolution: {integrity: sha512-mt7+TUBbTFg5+GngsAxeKBTl5/VS0guFeJacYge9OmHb+m058UwwIm41SE9T4Den7ClatV57B6TYTuJ0CX1MAw==}
     requiresBuild: true
     dev: false
     optional: true
@@ -4998,8 +4998,8 @@ packages:
     resolution: {integrity: sha512-On2ymeleg6QbRuDk7wNgDdXtNqlJLM2w4Agx1D/RiTmItiL+a9oq5p7HUa2ZtkAtGBe/kil2dq/7rPfkbe0r5w==}
     dev: true
 
-  /element-plus@2.5.3(vue@3.4.15):
-    resolution: {integrity: sha512-wmtstxaMkD6UinIgD+45CjrhbRh4u0vt+/GgxfPeMLt5pDpIVwZFjkUaVcWqqxcxd5a80HP3XlDF74fW7wim9A==}
+  /element-plus@2.6.0(vue@3.4.15):
+    resolution: {integrity: sha512-MP+N48P+diyndR+GjY+0VOrUmFnajD4U0CkrXIMzmeRmq4+dwi0bdzVo587v4wDo9Hs+ggviyacqm3NS8JYVqw==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
@@ -6205,7 +6205,7 @@ packages:
       fflate: 0.4.8
     optionalDependencies:
       canvg: 3.0.10
-      core-js: 3.35.1
+      core-js: 3.36.0
       dompurify: 2.4.7
       html2canvas: 1.4.1
     dev: false
