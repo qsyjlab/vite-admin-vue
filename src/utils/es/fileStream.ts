@@ -43,7 +43,7 @@ export function fileReader(rawFile: File): Promise<FileReader['result']> {
 }
 
 // 文件下载方法
-export function downloadFile(href: string, filename: string) {
+export function downloadFile(href: string, filename?: string) {
   if (href && filename) {
     const a: HTMLAnchorElement = document.createElement('a')
     a.download = filename
