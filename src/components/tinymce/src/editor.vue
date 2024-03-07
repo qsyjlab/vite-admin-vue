@@ -1,30 +1,29 @@
 <template>
   <div>
-    <textarea id="demo-tinymce" ref="tinymceRef" :style="{ visibility: 'hidden' }" />
+    <textarea :id="tinymceId" ref="tinymceRef" :style="{ visibility: 'hidden' }" />
   </div>
 </template>
 
-<script lang="ts">
-export default { name: 'ProTinymce' }
-</script>
-
 <script setup lang="ts">
 import type { Editor, RawEditorSettings } from 'tinymce'
-
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, unref, watch } from 'vue'
-
 import tinymce from 'tinymce/tinymce'
+import config from '@/config'
 import './source'
-
 import { tinymceProps } from './props'
-
 import { THEME_MODE } from './editor'
+
+defineOptions({
+  name: 'ProTinymce'
+})
 
 const props = defineProps(tinymceProps)
 const emits = defineEmits<{
   (event: 'change', val: string): void
   (event: 'update:modelValue', val: string): void
 }>()
+
+const tinymceId = new Date().getTime().toString()
 
 const tinymceRef = ref<HTMLElement | null>(null)
 const tinymceEditorInstance = ref<Editor | null>(null)
@@ -52,14 +51,14 @@ const lang = computed(() => {
 // 初始化选项
 const initOptions = computed<RawEditorSettings>(() => {
   const { height, toolbar } = props
-  const publicPath = '/'
+  const publicPath = config.publicBaseUrl
 
   const resource = `${publicPath}resource/tinymce`
 
   return {
     height,
     toolbar,
-    selector: '#demo-tinymce',
+    selector: `#${tinymceId}`,
     setup: editor => {
       setupTinymceEditor(editor)
     },
@@ -94,7 +93,7 @@ function setupTinymceEditor(editor: Editor) {
     if (!tinymceEditorInstance.value) return
 
     props.modelValue && setValue(props.modelValue)
-    bindHandlers(editor)
+    bindHandlers()
   })
 
   editor.on(
@@ -108,7 +107,7 @@ function setupTinymceEditor(editor: Editor) {
 }
 
 // 绑定监听事件
-function bindHandlers(editor: Editor) {
+function bindHandlers() {
   watch(
     () => props.modelValue,
     (newVal, oldVal) => {
