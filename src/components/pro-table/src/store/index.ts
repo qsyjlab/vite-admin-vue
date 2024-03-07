@@ -47,7 +47,7 @@ export function useTableStore(
   let proTableConfig: ProConfigProviderProps['proTable'] | undefined
 
   try {
-    const { proTable } = inject(proConfigProviderContextKey) || {}
+    const { proTable } = inject(proConfigProviderContextKey, {})
     proTableConfig = proTable
   } catch (error) {}
 
