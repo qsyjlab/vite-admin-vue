@@ -4,7 +4,7 @@
       :is="renderTagMap[tag]"
       v-for="option in options"
       :key="option.value"
-      :label="option.value"
+      :value="option.value"
       :disabled="option.disabled"
     >
       <slot v-bind="option">{{ option.label }}</slot>
