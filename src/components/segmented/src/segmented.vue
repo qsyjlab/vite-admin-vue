@@ -181,8 +181,11 @@ defineExpose({
 
   &-item {
     position: relative;
-    min-height: var(--segmented-item-height);
-    line-height: var(--segmented-item-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    box-sizing: border-box;
     padding: 0 11px;
     overflow: hidden;
     white-space: nowrap;
