@@ -91,6 +91,22 @@ const styleTransformMap = {
   }
 }
 
+const tagTrasnformMap = {
+  // 斜线
+  em: {
+    property: 'italics',
+    handler: () => {
+      return true
+    }
+  },
+  strong: {
+    property: 'bold',
+    handler: () => {
+      return true
+    }
+  }
+}
+
 export function cssStylesToAttrs(style: CSSProperties): any {
   const attrs: any = {}
   Object.keys(style).forEach(key => {
@@ -105,6 +121,19 @@ export function cssStylesToAttrs(style: CSSProperties): any {
     }
 
     attrs[_key] = value
+  })
+
+  return attrs
+}
+
+export function tagsToAttrs(tags: string[]) {
+  const attrs: any = {}
+
+  tags.forEach(tag => {
+    const config = tagTrasnformMap[tag]
+    if (!config) return
+
+    attrs[config.property] = config.handler()
   })
 
   return attrs

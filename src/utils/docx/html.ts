@@ -1,6 +1,5 @@
 import { Paragraph, TextRun, ParagraphChild } from 'docx'
-
-import { cssStylesToAttrs, getInlineStyles } from './style'
+import { cssStylesToAttrs, getInlineStyles, tagsToAttrs } from './style'
 
 export function richTextToParagraph(richText: string | string[]) {
   const paragraphNodes: Paragraph[] = []
@@ -43,40 +42,26 @@ function convertRichTextToParagraphNodes(richText: string) {
         )
       } else if (node.nodeType === Node.ELEMENT_NODE) {
         const elementNode = node as any
-        let textRun
-        switch (elementNode.tagName.toLowerCase()) {
-          case 'strong':
-            textRun = new TextRun({
-              text: elementNode.textContent,
-              ...customMerge(cssStylesToAttrs(getInlineStyles(elementNode)), rootStyles),
-              bold: true
-            })
-            break
-          case 'em':
-            textRun = new TextRun({
-              text: elementNode.textContent,
-              ...customMerge(cssStylesToAttrs(getInlineStyles(elementNode)), rootStyles),
-              italics: true
-            })
-            break
 
-          case 'i':
-            textRun = new TextRun({
-              text: elementNode.textContent,
+        const attrsTag = ['strong', 'em', 'i']
+        const tagNames = Array.from(elementNode.querySelectorAll('strong,em, i')).map((node: any) =>
+          node.tagName.toLowerCase()
+        )
+        const tagAttrs = tagsToAttrs(tagNames)
 
-              ...customMerge(cssStylesToAttrs(getInlineStyles(elementNode)), rootStyles),
-              italics: true
-            })
-            break
-          default:
-            textRun = new TextRun({
+        const deepAttrs = customMerge(
+          customMerge(cssStylesToAttrs(getInlineStyles(elementNode)), rootStyles),
+          tagAttrs
+        )
+
+        if (!attrsTag.includes(elementNode.tagName.toLowerCase())) {
+          paragraphChildrenNodes.push(
+            new TextRun({
               text: elementNode.textContent,
-              ...customMerge(cssStylesToAttrs(getInlineStyles(elementNode)), rootStyles)
+              ...deepAttrs
             })
-            break
+          )
         }
-
-        paragraphChildrenNodes.push(textRun)
       }
     })
     const paragraph = new Paragraph({
