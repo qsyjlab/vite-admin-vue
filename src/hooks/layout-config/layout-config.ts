@@ -8,7 +8,7 @@ import { useElementCssVar } from './use-theme-color'
 import { useDark, useToggle } from '@vueuse/core'
 
 type SetLayoutConfig = (eventKey: EventKeys, value: any) => void
-type EventKeys = typeof LayoutConfigHandlerEnum[keyof typeof LayoutConfigHandlerEnum]
+type EventKeys = (typeof LayoutConfigHandlerEnum)[keyof typeof LayoutConfigHandlerEnum]
 
 export const LayoutConfigHandlerEnum = {
   // 布局模式
@@ -29,18 +29,16 @@ export const LayoutConfigHandlerEnum = {
   SPLIT_MENU: 'splitMenu'
 } as const
 
+const isDark = useDark({
+  storageKey: 'LAYOUT_THEME',
+  storage: localStorage
+})
+
 export function useLayoutConfigHandler() {
   const layoutStore = useLayoutStore()
   const { setElementCssVar, removeElementCssVar } = useElementCssVar()
 
   const { layoutConfig } = storeToRefs(layoutStore)
-
-  const isDark = useDark({
-    storageKey: 'LAYOUT_THEME',
-    storage: localStorage
-  })
-
-  const toggleDark = useToggle(isDark)
 
   function handler(eventKey: EventKeys, value: any): Partial<ProjectLayoutConfig> | null {
     switch (eventKey) {
@@ -83,16 +81,15 @@ export function useLayoutConfigHandler() {
         }
       }
       case LayoutConfigHandlerEnum.LAYOUT_THEME: {
-        if (value === 'dark' && !isDark.value) {
-          toggleDark()
+        if (value === 'dark') {
+          isDark.value = true
 
           removeElementCssVar()
-
-          layoutConfig.value.themeColor && setElementCssVar(layoutConfig.value.themeColor)
-        } else if (value === 'light' && isDark.value) {
-          toggleDark()
-          layoutConfig.value.themeColor && setElementCssVar(layoutConfig.value.themeColor)
+        } else if (value === 'light') {
+          isDark.value = false
         }
+
+        layoutConfig.value.themeColor && setElementCssVar(layoutConfig.value.themeColor)
 
         return {
           theme: value
