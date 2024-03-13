@@ -16,6 +16,7 @@ interface GlobalConfig {
   storage: {
     prefix: string
   }
+  docxLink: string
 }
 
 export function defineConfig(config: GlobalConfig) {

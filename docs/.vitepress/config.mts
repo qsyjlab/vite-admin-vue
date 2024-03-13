@@ -3,9 +3,9 @@ import { transformDemo } from './plugins/transform-demo'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'vite-admin-vue',
+  title: 'Vite Admin Vue',
   description: ' ',
-  base: '/vite-admin-vue/',
+  base: '/Vite Admin Vue/',
   srcDir: 'packages',
   markdown: {
     config(md) {
@@ -84,6 +84,6 @@ export default defineConfig({
         { text: '分段器 segmented', link: '/components/segmented.md' }
       ]
     },
-    socialLinks: [{ icon: 'github', link: 'https://github.com/qsyjlab/vite-admin-vue' }]
+    socialLinks: [{ icon: 'github', link: 'https://github.com/qsyjlab/Vite Admin Vue' }]
   }
 })

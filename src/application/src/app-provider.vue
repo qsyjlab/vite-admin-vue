@@ -62,7 +62,10 @@ export default defineComponent({
         footerHeight: defaultLayoutSetting.footerHeight,
         sideMixFixedMenu: defaultLayoutSetting.sideMixFixedMenu
       })
-      layoutConfigCache && initLayout(layoutConfigCache)
+      layoutConfigCache &&
+        initLayout({
+          ...layoutConfigCache
+        })
     }
 
     return () =>

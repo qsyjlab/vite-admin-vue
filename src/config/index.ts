@@ -9,6 +9,7 @@ export default defineConfig({
   projectTitle: VITE_EVN.VITE_APP_TITLE,
   projectDesc: VITE_EVN.VITE_APP_DESC,
   enableSSO: VITE_EVN.VITE_ENABLE_SSO,
+  docxLink: 'https://qsyjlab.github.io/vite-admin-vue/',
   storage: {
     prefix: '_BASIC_'
   }

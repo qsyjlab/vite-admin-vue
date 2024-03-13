@@ -61,6 +61,8 @@ export function useLayoutConfigHandler() {
 
     const themeMode = config.theme || layoutConfig.value.theme
     setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_THEME, themeMode)
+
+    setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_MODE, layoutConfig.value.layoutMode)
   }
 
   function handler(eventKey: EventKeys, value: any): Partial<ProjectLayoutConfig> | null {
@@ -104,7 +106,7 @@ export function useLayoutConfigHandler() {
       case LayoutConfigHandlerEnum.LAYOUT_MODE: {
         if (value !== LayoutMode.TopMix)
           return {
-            splitMenu: undefined,
+            splitMenu: false,
             layoutMode: value
           }
         return {
