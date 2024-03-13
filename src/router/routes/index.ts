@@ -92,9 +92,6 @@ function getRouteNames(routes: RouteRecordRaw[], names: string[] = []) {
 // 静态路由名单
 export const STATIC_ROUTE_NAME_LIST = getRouteNames(routes)
 
-// 白名单
-export const WHITE_NAME_LIST = [LOGIN_NAME]
-
 export default routes
 
 export * from './async'

@@ -3,11 +3,10 @@ import { useRouteStore, useUserStore } from '@/store'
 import { getTokenCahce, getUserInfoCache } from '@/store/local'
 import { usePermissionStore } from '@/store/module/permissions'
 import { AxiosCanceler } from '@/service/axios-request/axios-canceler'
-import { LOGIN_NAME, PAGE_NOT_FOUND } from '../constant'
+import { LOGIN_NAME, PAGE_NOT_FOUND, WHITE_NAME_LIST } from '../constant'
 import type { Router } from 'vue-router'
 import { emitRoute } from '../helper/listener'
 import projectSetting from '@/config/project-setting'
-import { WHITE_NAME_LIST } from '../routes'
 
 export function setupRouterGuard(router: Router) {
   createListenerGuard(router)
@@ -28,18 +27,24 @@ export function createRouterGuard(router: Router) {
 
     // 如果忽略直接通过
     if (to.meta.ignoreAuth) return next()
+    // // 处理基础白名单的路由
+    if (WHITE_NAME_LIST.includes(to.name as string)) return next()
 
     const { initialized, setInitialized } = useUserStore()
     const permissionStore = usePermissionStore()
-    const token = getTokenCahce()
-
-    const isLogin = !!token
 
     if (!initialized) {
       initializeStore()
+      await permissionStore.loadDynamicRoutes()
+      setInitialized(true)
+
+      if (to.name === PAGE_NOT_FOUND) {
+        return next({ path: to.fullPath, replace: true, query: to.query })
+      }
     }
-    // // 处理基础白名单的路由
-    if (WHITE_NAME_LIST.includes(to.name as string)) return next()
+
+    const token = getTokenCahce()
+    const isLogin = !!token
 
     if (!isLogin) {
       const redirectData: { name: string; replace: boolean; query?: Record<string, string> } = {
@@ -55,15 +60,6 @@ export function createRouterGuard(router: Router) {
       }
 
       return next(redirectData)
-    }
-
-    if (!initialized) {
-      await permissionStore.loadDynamicRoutes()
-      setInitialized(true)
-
-      if (to.name === PAGE_NOT_FOUND) {
-        return next({ path: to.fullPath, replace: true, query: to.query })
-      }
     }
 
     next()
