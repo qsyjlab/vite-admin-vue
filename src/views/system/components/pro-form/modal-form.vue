@@ -1,62 +1,118 @@
 <template>
-  <el-card>
-    <template #header>{{ $route.meta.title }}</template>
+  <page-wrapper>
+    <page-card :header="$route.meta.title">
+      <el-button @click="() => show()">打开</el-button>
 
-    <VModalForm title="modal 表单" :fields="fields" @submit="submit" />
-  </el-card>
+      <el-button @click="() => show(1)">编辑</el-button>
+
+      <ProDialogForm ref="formDialogRef" v-bind="formDialogProps" />
+    </page-card>
+  </page-wrapper>
 </template>
 <script setup lang="ts">
-import { VModalForm } from '@/components/pro-form'
+import { PageWrapper, PageCard, FormSchema } from '@/components'
 
-const fields = [
+import { ProDialogForm, ProDialogFormInstance, IDialogForm } from '@/components/pro-dialog-form'
+import { ref } from 'vue'
+
+const fields: FormSchema[] = [
   {
-    label: 'name',
+    label: '签约客户名称',
     el: 'el-input',
     key: 'name',
-    rules: [
-      { required: true, message: 'Please input Activity name', trigger: 'blur' },
-      { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
-    ]
-  },
-  {
-    label: 'zone',
-    el: 'el-input',
-    key: 'zone',
-    attrs: {
-      options: [
-        {
-          label: '测试地区1',
-          value: 1
-        }
-      ]
+    col: {
+      span: 12
     }
   },
   {
-    label: 'time',
+    label: '我方公司名称',
     el: 'el-input',
-    key: 'time123'
+    key: 'selfCompany',
+    col: {
+      span: 12
+    }
   },
   {
-    label: 'time',
+    label: '合同名称',
     el: 'el-input',
-    key: 'time23'
+    key: 'ht',
+    col: {
+      span: 12
+    }
   },
   {
-    label: 'time',
-    el: 'el-input',
-    key: 'time2323'
+    label: '合同生效时间',
+    el: 'el-date-picker',
+    key: 'startTime',
+    attrs: {
+      type: 'daterange'
+    },
+    col: {
+      span: 12
+    }
+  },
+  {
+    label: '合同约定生效方式',
+    el: 'pro-select',
+    key: 'way',
+
+    col: {
+      span: 6
+    }
+  },
+  {
+    label: '合同约定失效效方式',
+    el: 'pro-select',
+    key: 'missWay',
+    col: {
+      span: 6
+    }
   },
 
   {
-    label: 'time',
+    label: '项目名称',
     el: 'el-input',
-    key: 'time23232'
+    key: 'projectName'
+  },
+  {
+    label: '商务经理',
+    el: 'el-input',
+    key: 'bName'
   }
 ]
 
-const submit = (values: Record<string, any>, done: () => void) => {
-  console.log('values', values)
-  done()
+const formDialogProps: IDialogForm = {
+  dialogProps: {
+    width: '50%',
+    title: '新建表单'
+  },
+  fields: fields,
+  cancelText: '关闭',
+  confirmText: '确定',
+  labelWidth: 100,
+  labelPosition: 'top',
+  addRequest: data => {
+    console.log('data', data)
+    return Promise.resolve(data)
+  },
+  getRequest: () => {
+    return Promise.resolve({
+      test1: '测试数据'
+    })
+  },
+  editRequest: () => {
+    return Promise.resolve()
+  },
+  onSuccess(data) {
+    console.log('sucess', data)
+  }
+}
+
+const formDialogRef = ref<ProDialogFormInstance>()
+
+const show = (id?: number) => {
+  formDialogRef.value?.show(id, {
+    name: '测试名称'
+  })
 }
 </script>
-<style scoped></style>

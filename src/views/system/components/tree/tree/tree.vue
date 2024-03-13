@@ -4,7 +4,7 @@
       <pre>
         {{ keys }}
       </pre>
-      <tree :data="data" v-model="keys" />
+      <tree v-model="keys" :data="data" />
     </page-card>
   </page-wrapper>
 </template>

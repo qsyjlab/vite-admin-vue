@@ -8,19 +8,17 @@ export default defineExposeRoutes([
     path: '/charts',
     meta: {
       title: '图表',
-      sort: 4,
+      order: 20,
       icon: 'ep.document'
     },
-
     redirect: { name: 'Echarts' },
     component: Layout,
     children: [
       {
         name: 'Echarts',
-        path: '/echarts',
+        path: 'echarts',
         meta: {
-          title: 'echarts',
-          sort: 4
+          title: 'echarts'
         },
         component: () => import('@/views/system/charts/echarts/echarts.vue')
       }

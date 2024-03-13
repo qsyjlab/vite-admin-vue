@@ -1,16 +1,17 @@
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, watch, ComputedRef } from 'vue'
 import type { FormSchema } from './types/form'
 import type { ColProps } from 'element-plus'
 
 interface CollapseOption {
+  model: Record<string, any>
   isWatch: boolean
-  fields: FormSchema[]
+  fields: ComputedRef<FormSchema[]>
   alwaysShowLines?: number
   autoAdvancedLine?: number
 }
 
 export function useCollapse(option: CollapseOption) {
-  const { fields, isWatch } = option
+  const { fields, isWatch = true } = option
 
   const fieldsIsCollapsedMap = reactive<Record<string, boolean>>({})
 
@@ -18,6 +19,7 @@ export function useCollapse(option: CollapseOption) {
 
   // 最后一行的剩余宽度
   const lastRowSpaceSpan = ref(0)
+  const rowNum = ref(0)
 
   const advanceState = reactive<{
     isAdvanced: boolean
@@ -31,7 +33,7 @@ export function useCollapse(option: CollapseOption) {
 
   if (isWatch) {
     watch(
-      [() => fields, () => advanceState.isAdvanced],
+      [fields, () => advanceState.isAdvanced],
       () => {
         updateCollapce()
       },
@@ -42,11 +44,11 @@ export function useCollapse(option: CollapseOption) {
     )
   }
 
-  /**
-   * TODO: 期望值action col 能与最后一行平级 在有空余的情况下
-   *  show 控制函数加入
-   */
   const advancedSpanColAttrs = computed<Partial<ColProps>>(() => {
+    console.log('lastRowSpaceSpan.value', lastRowSpaceSpan.value)
+
+    console.log('advanceState.span', advanceState.span)
+
     return {
       span: advanceState.span > lastRowSpaceSpan.value ? BASIC_COL_LEN : advanceState.span,
       offset:
@@ -62,21 +64,27 @@ export function useCollapse(option: CollapseOption) {
     lastRowSpaceSpan.value = 0
 
     let totalSpan = 0
+    // 当前行总 span
+    let curRowSpan = 0
 
     if (!advanceState.isAdvanced) {
-      lastRowSpaceSpan.value += advanceState.span
+      curRowSpan += advanceState.span
       totalSpan += advanceState.span
     }
 
-    fields.forEach(item => {
+    rowNum.value++
+
+    fields.value.forEach(item => {
       const colSpan = item.col?.span || BASIC_COL_LEN
-      lastRowSpaceSpan.value += colSpan
+      curRowSpan += colSpan
 
-      const curRowSpaceSpan = BASIC_COL_LEN - lastRowSpaceSpan.value
+      // 计算目前剩余空格
+      const curRowSpaceSpan = BASIC_COL_LEN - curRowSpan
 
+      // 不足空格 下一行
       if (curRowSpaceSpan <= 0) {
-        lastRowSpaceSpan.value = 0
-        lastRowSpaceSpan.value += colSpan
+        rowNum.value++
+        curRowSpan = colSpan
       }
       const hidden =
         !advanceState.isAdvanced && (totalSpan > 24 || curRowSpaceSpan + colSpan < colSpan)
@@ -85,8 +93,10 @@ export function useCollapse(option: CollapseOption) {
       totalSpan += colSpan
     })
 
+    lastRowSpaceSpan.value = BASIC_COL_LEN - curRowSpan
+
     if (!advanceState.isAdvanced) {
-      const shouldShowFields: { span: number }[] = fields
+      const shouldShowFields: { span: number }[] = fields.value
         .filter(i => fieldsIsCollapsedMap[i.key])
         .map(i => ({ span: i.col?.span || BASIC_COL_LEN }))
 
@@ -94,12 +104,17 @@ export function useCollapse(option: CollapseOption) {
       shouldShowFields.forEach(({ span }) => {
         tCols += span
       })
-
       if (tCols >= BASIC_COL_LEN) {
         lastRowSpaceSpan.value = 0
       } else {
         lastRowSpaceSpan.value = BASIC_COL_LEN - tCols
       }
+    }
+
+    if (rowNum.value <= 1) {
+      advanceState.hideAdvanceBtn = true
+    } else {
+      advanceState.hideAdvanceBtn = false
     }
   }
 

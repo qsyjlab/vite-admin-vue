@@ -1,28 +1,24 @@
 <template>
   <div>
     <ProTable
-      header-title="基本使用"
       v-model:loading="loading"
+      header-title="基本使用"
       checkable
       :columns="columns"
       :request="request"
       :params="params"
       :transform="transform"
-      :transformParams="transformParams"
-      @register="register"
+      :transform-params="transformParams"
     />
   </div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ProTableColumns, useProTable } from '../../.vitepress/.exampleCompnents/index'
 
 const loading = ref(false)
 const params = ref({})
 
-const { register } = useProTable()
-
-const columns: ProTableColumns = [
+const columns = [
   {
     key: 'indexBorder',
     valueType: 'indexBorder',

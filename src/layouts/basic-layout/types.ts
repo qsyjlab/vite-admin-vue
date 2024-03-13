@@ -4,12 +4,17 @@ export type ThemeMode = 'light' | 'dark'
 // layout config
 export interface ProjectLayoutConfig {
   layoutMode: LayoutMode
-  asideWidth?: number
-  collapsed?: boolean
-  headerHeight?: number
-  tabBarHeight?: number
-  themeColor?: string
-  theme?: ThemeMode
+  showTagPage: boolean
+  asideWidth: number
+  collapsed: boolean
+  showBreadCrumb: boolean
+  headerHeight: number
+  tabBarHeight: number
+  themeColor: string
+  theme: ThemeMode
   /** 顶部混合时可拆分菜单  */
-  splitMenu?: boolean
+  splitMenu: boolean
+  footerHeight: number
+  showFooter: boolean
+  sideMixFixedMenu: boolean
 }

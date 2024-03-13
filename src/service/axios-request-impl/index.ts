@@ -1,29 +1,71 @@
 import type {
-  RequestInterceptorsType,
-  RequestInterceptorsCatchType,
-  ResponseInterceptorsType,
-  ResponseInterceptorsCatchType,
+  requestInterceptorType,
+  requestInterceptorCatchType,
+  responseInterceptorType,
+  responseInterceptorCatchType,
   InterceptorsType,
   RequestTransform
+  // RequestMethodConfig
 } from '../axios-request'
 
 import { isAxiosError, isCancelError } from '../axios-request'
 import { checkStatus } from './check-status'
 
 import { ResultEnum, showErrorMessage } from './helper'
-const requestInterceptorsImpl: RequestInterceptorsType = config => {
+// import { mockService } from '../index'
+// import { refreshToken } from '@/api/user'
+
+// interface PendingTaskQueue {
+//   config: any
+//   resolve: (...args: any[]) => any
+// }
+
+// const pendingTaskQueue: PendingTaskQueue[] = []
+// const refreshing = false
+
+const requestInterceptorImpl: requestInterceptorType = config => {
   return config
 }
 
-const requestInterceptorsCatchImpl: RequestInterceptorsCatchType = error => {
+const requestInterceptorCatchImpl: requestInterceptorCatchType = error => {
   return Promise.reject(error)
 }
 
-const responseInterceptorsImpl: ResponseInterceptorsType = response => {
+const responseInterceptorImpl: responseInterceptorType = response => {
   return response
 }
 
-const responseInterceptorsCatchImpl: ResponseInterceptorsCatchType = error => {
+const responseInterceptorCatchImpl: responseInterceptorCatchType = async error => {
+  if (isCancelError(error)) return Promise.reject(error)
+
+  // const { data, config } = error.response || {}
+
+  // const httpStatus = error.response?.status
+
+  // //  如果处于刷新 token 的步骤 收集请求
+  // if (refreshing) {
+  //   return new Promise(resolve => {
+  //     pendingTaskQueue.push({
+  //       config,
+  //       resolve
+  //     })
+  //   })
+  // }
+
+  // if (httpStatus === ResultEnum.UNAUTHORIZED) {
+  //   refreshing = true
+  //   await refreshToken()
+  //   refreshing = false
+
+  //   pendingTaskQueue.forEach(({ config, resolve }) => {
+  //     resolve(mockService.request(config))
+  //   })
+
+  //   return mockService.request(config, {
+  //     ignoreCancelRequest: true
+  //   })
+  // }
+
   return Promise.reject(error)
 }
 
@@ -57,7 +99,7 @@ export const transformResponse: RequestTransform['transformResponse'] = (
         } (${errorJson.message})`
       )
 
-      throw new Error(`${JSON.stringify(errorJson)}`)
+      throw errorJson
     }
   }
 }
@@ -78,9 +120,9 @@ export const requestCatch: RequestTransform['requestCatch'] = (error, requestOpt
   return error
 }
 
-export const interceptorsHooks: InterceptorsType = {
-  requestInterceptors: requestInterceptorsImpl,
-  requestInterceptorsCatch: requestInterceptorsCatchImpl,
-  responseInterceptors: responseInterceptorsImpl,
-  responseInterceptorsCatch: responseInterceptorsCatchImpl
+export const interceptorHooks: InterceptorsType = {
+  requestInterceptor: requestInterceptorImpl,
+  requestInterceptorCatch: requestInterceptorCatchImpl,
+  responseInterceptor: responseInterceptorImpl,
+  responseInterceptorCatch: responseInterceptorCatchImpl
 }

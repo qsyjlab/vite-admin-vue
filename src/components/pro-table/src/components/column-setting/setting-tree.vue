@@ -6,7 +6,7 @@
       :allow-drop="allowDrop"
       :allow-drag="allowDrag"
       :data="columns"
-      :defaultCheckedKeys="defaultCheckedKeys"
+      :default-checked-keys="defaultCheckedKeys"
       show-checkbox
       draggable
       node-key="_rowKey"
@@ -21,7 +21,7 @@
       <template #default="{ node }">
         <div class="setting-tree__node">
           <span>{{ node.label }}</span>
-          <span class="tools" v-if="node.level === 1">
+          <span v-if="node.level === 1" class="tools">
             <el-space>
               <el-tooltip
                 v-if="fixed !== 'auto'"
@@ -29,7 +29,9 @@
                 content="不固定"
                 placement="top-start"
               >
-                <el-icon @click="moveToAuto(node)"><Sort /></el-icon>
+                <el-icon color="var(--el-color-primary)" @click="moveToAuto(node)"
+                  ><Sort
+                /></el-icon>
               </el-tooltip>
 
               <el-tooltip
@@ -38,7 +40,9 @@
                 content="固定在列首"
                 placement="top-start"
               >
-                <el-icon @click="moveToLeft(node)"><Upload /></el-icon>
+                <el-icon color="var(--el-color-primary)" @click="moveToLeft(node)"
+                  ><Upload
+                /></el-icon>
               </el-tooltip>
 
               <el-tooltip
@@ -47,7 +51,9 @@
                 content="固定在列尾"
                 placement="top-start"
               >
-                <el-icon @click="moveToRight(node)"><Download /></el-icon>
+                <el-icon color="var(--el-color-primary)" @click="moveToRight(node)"
+                  ><Download
+                /></el-icon>
               </el-tooltip>
             </el-space>
           </span>
@@ -220,8 +226,13 @@ const allowDrag = (draggingNode: Node) => {
 <style lang="scss" scoped>
 .setting-tree {
   &__header {
-    padding-left: 18px;
-    margin-bottom: 10px;
+    // padding-left: 18px;
+    // margin-bottom: 10px;
+    margin-block-start: 6px;
+    margin-block-end: 6px;
+    padding-inline-start: 24px;
+    color: rgba(42, 46, 54, 0.65);
+    font-size: 12px;
   }
 
   &__node {

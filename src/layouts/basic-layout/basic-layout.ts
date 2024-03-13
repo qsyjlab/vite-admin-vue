@@ -1,8 +1,8 @@
-import type { LayoutHeaderProps, LayoutSideProps, LayoutTabProps } from '../layout-package'
+import type { LayoutProps } from '../layout-package'
 import { LogoProps } from './components/logo'
 import { LayoutMode } from './enum'
 
-export type BasicLayoutProps = LayoutHeaderProps & LayoutSideProps & LayoutTabProps
+export type BasicLayoutProps = LayoutProps
 
 export type LayoutModeMap = Record<LayoutMode, () => BasicLayoutProps>
 

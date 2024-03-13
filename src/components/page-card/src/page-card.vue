@@ -1,6 +1,6 @@
 <template>
   <div :class="['page-card', full ? 'is-full' : '']">
-    <div class="page-card__header" v-if="header || slost.header">
+    <div v-if="header || slost.header" class="page-card__header">
       <div class="card-header">
         <slot name="header">{{ header }}</slot>
       </div>

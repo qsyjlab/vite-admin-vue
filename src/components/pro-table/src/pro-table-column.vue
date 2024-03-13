@@ -10,7 +10,7 @@ import { EditableCell } from './components/editable-cell'
 import { resolveRenderer } from './renderer'
 
 import type { ProTableColumnItem, ProTableProps } from './types'
-import { getRowkey } from './utils'
+import { getRowkey, renderHelper } from './utils'
 
 const props = withDefaults(
   defineProps<{
@@ -24,7 +24,7 @@ const rootInstance = useProtableInstanceContext()
 
 const slots = useSlots()
 
-const { editableCellMap, pageQuery } = useTableStoreContext()
+const { editableCellMap, pageQuery, customRendererMap } = useTableStoreContext()
 
 function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
   const { row, $index } = scope || {}
@@ -51,26 +51,27 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
   const rowEditState = realRowKey ? editableCellMap.value.get(realRowKey) : undefined
 
   if (columnConfig.editable && rowEditState && rowEditState.isEdit) {
-    // function onChangeEditValue(value: any) {
-
-    //   row[columnConfig.key] = value
-    // }
     return <EditableCell row={row} column={columnConfig} rowKey={props.rowKey} />
   }
 
-  if (typeof _render === 'function') return _render(renderParamters)
+  if (typeof _render === 'function') {
+    return renderHelper(_render(renderParamters))
+  }
 
-  return resolveRenderer({
-    valueEnum,
-    valueType,
-    row,
-    columnConfig,
-    index: $index,
-    pagination: {
-      page: pageQuery.page,
-      pageSize: pageQuery.pageSize
-    }
-  })
+  return renderHelper(
+    resolveRenderer({
+      valueEnum,
+      valueType,
+      row,
+      columnConfig,
+      index: $index,
+      customRendererMap,
+      pagination: {
+        page: pageQuery.page,
+        pageSize: pageQuery.pageSize
+      }
+    })
+  )
 }
 
 const renderColumns = (item: ProTableColumnItem) => {

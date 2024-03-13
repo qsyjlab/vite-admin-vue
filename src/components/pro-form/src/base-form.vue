@@ -1,28 +1,33 @@
 <template>
   <el-form
     v-bind="{ ...$attrs }"
-    :inline="inline"
-    :model="formModel"
-    :rules="formRules"
     :ref="ref => setFormRef(ref)"
+    :model="formModel"
+    :label-width="labelWidth"
+    :label-position="labelPosition"
+    :disabled="disabled"
+    :inline-message="inlineMessage"
+    :label-suffix="labelSuffix"
+    :require-asterisk-position="requireAsteriskPosition"
+    :hide-required-asterisk="hideRequiredAsterisk"
+    :scroll-into-view-options="scrollIntoViewOptions"
+    :scroll-to-error="scrollToError"
+    :show-message="showMessage"
+    :size="size"
+    :status-icon="statusIcon"
+    :validate-on-rule-change="validateOnRuleChange"
     @submit.prevent
   >
     <el-row :gutter="20">
-      <el-col
-        v-for="(item, index) in formSchemaes"
-        v-bind="item.col"
-        :key="`${item.key}`"
-        v-show="!inline ? true : fieldsIsCollapsedMap[item.key]"
-      >
-        <el-form-item style="width: 100%" :label="item.label" :prop="item.key || String(index)">
-          <component
-            :is="item.el"
-            v-model="formModel[item.key]"
-            v-bind="handleElAttrs(item)"
-            v-on="item.events || {}"
-          />
-        </el-form-item>
-      </el-col>
+      <template v-for="item in formSchemaes" :key="item.key">
+        <el-col v-show="!inline ? true : fieldsIsCollapsedMap[item.key]" v-bind="item.col">
+          <slot :name="item.key" :field="item">
+            <form-item v-bind="item" :prop="item.key"></form-item>
+          </slot>
+        </el-col>
+      </template>
+      <slot></slot>
+
       <el-col v-if="inline" v-bind="advancedSpanColAttrs">
         <form-action
           :collapsed="advanceState.isAdvanced"
@@ -38,11 +43,10 @@
 <script setup lang="ts">
 import { formProps, formEmits, emitsEnums } from './form-props'
 import { useForm } from './form'
-import { ElForm, ElFormItem } from 'element-plus'
-
-import { createFormActionContext } from './provider'
-
+import { ElForm } from 'element-plus'
+import { createFormContext } from './provider'
 import FormAction from './form-action.vue'
+import FormItem from './form-item.vue'
 
 defineOptions({
   name: 'ProForm'
@@ -56,15 +60,15 @@ const {
   formSchemaes,
   advanceState,
   formModel,
-  formRules,
-  handleElAttrs,
   setFormRef,
   validate,
   resetFields,
   toggleCollapse,
   formExposeMethods,
   fieldsIsCollapsedMap,
-  advancedSpanColAttrs
+  advancedSpanColAttrs,
+  getFieldValue,
+  setFieldValue
 } = useForm({
   props,
   emits
@@ -82,11 +86,16 @@ const reset = () => {
   })
 }
 
-createFormActionContext({
+createFormContext({
+  formModel,
   submit,
   reset,
-  toggleCollapse
+  toggleCollapse,
+  getFieldValue,
+  setFieldValue
 })
 
 defineExpose(formExposeMethods)
 </script>
+
+<style lang="scss" scoped></style>

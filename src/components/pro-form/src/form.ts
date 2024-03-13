@@ -1,9 +1,10 @@
-import { SetupContext, toRaw } from 'vue'
-import { reactive, ref, watch, computed } from 'vue'
-import { FormProps, FormSchema, formEmits, emitsEnums } from './form-props'
+import type { SetupContext } from 'vue'
+import { reactive, ref, watch, computed, toRaw } from 'vue'
+import { FormProps, formEmits, emitsEnums } from './form-props'
 import { ElFormInstance } from './types'
 import { useCollapse } from './use-collapse'
-import { FormMethodsType, NOOP } from './types/form'
+import { FormMethodsType, FormSchema, NOOP } from './types/form'
+import { isFunction } from '@/utils'
 
 type UseFormParameter = {
   props: FormProps
@@ -14,28 +15,51 @@ export const useForm = (parameter: UseFormParameter) => {
   const { props, emits } = parameter
   const { inline } = props
 
-  const formSchemaes = computed(() => props.fields)
+  const formSchemaes = computed(() =>
+    props.fields.filter(field => {
+      const isShow = (field: FormSchema) => {
+        const { show = true, key } = field
+
+        if (isFunction(show)) {
+          return show(formModel[key], { ...formModel })
+        }
+
+        return show
+      }
+
+      return isShow(field)
+    })
+  )
 
   const formRef = ref<ElFormInstance | null>(null)
 
   const formModel = reactive<Record<string, any>>({})
 
-  const formRules = reactive<Record<string, FormSchema['rules']>>({})
-
-  const { fieldsIsCollapsedMap, toggleCollapse, advanceState, advancedSpanColAttrs } = useCollapse({
-    fields: formSchemaes.value,
-    isWatch: inline
+  const {
+    fieldsIsCollapsedMap,
+    toggleCollapse,
+    advanceState,
+    advancedSpanColAttrs,
+    updateCollapce
+  } = useCollapse({
+    fields: formSchemaes,
+    isWatch: inline,
+    model: formModel
   })
 
-  watch(
-    () => props.fields,
-    () => {
-      initializeForm()
-    },
-    {
-      immediate: true
-    }
-  )
+  watch([formModel, formSchemaes], () => {
+    updateCollapce()
+  })
+
+  // watch(
+  //   () => props.fields,
+  //   () => {
+  //     initializeForm()
+  //   },
+  //   {
+  //     immediate: true
+  //   }
+  // )
 
   // 判定是否启用 effect change
   if (props.enableEffect) {
@@ -51,6 +75,13 @@ export const useForm = (parameter: UseFormParameter) => {
     }
   )
 
+  const setFieldValue: FormMethodsType['setFieldValue'] = (key, value) => {
+    formModel[key] = value
+  }
+  const getFieldValue: FormMethodsType['getFieldValue'] = key => {
+    return formModel[key]
+  }
+
   const validate: FormMethodsType['validate'] = handle => {
     formRef.value?.validate(valid => {
       if (!valid) return
@@ -61,6 +92,7 @@ export const useForm = (parameter: UseFormParameter) => {
 
   const resetFields = (handle?: NOOP) => {
     formRef.value?.resetFields()
+    clearValidate()
     handle?.()
   }
 
@@ -72,26 +104,14 @@ export const useForm = (parameter: UseFormParameter) => {
     if (formSchemaes.value.length === 0) return
     formSchemaes.value.forEach(item => {
       formModel[item.key] = props.model[item.key]
-
-      if (!inline) {
-        formRules[item.key] = item.rules
-      }
     })
   }
 
   function forceUpdateModel(model?: Record<string, any>) {
-    const _model = Object.assign(props.model, model || [])
+    const _model = Object.assign(props.model, model || {})
     Object.keys(_model).forEach(key => {
       formModel[key] = _model[key]
     })
-  }
-
-  const handleElAttrs = (item: FormSchema) => {
-    const { attrs } = item
-    return {
-      placeholder: item.label,
-      ...attrs
-    }
   }
 
   const setFormRef = (ref: any) => {
@@ -105,6 +125,8 @@ export const useForm = (parameter: UseFormParameter) => {
     resetFields,
     clearValidate,
     validate,
+    setFieldValue,
+    getFieldValue,
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     validateField: () => {},
     // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -112,12 +134,12 @@ export const useForm = (parameter: UseFormParameter) => {
   }
 
   return {
+    setFieldValue,
+    getFieldValue,
     formSchemaes,
     formExposeMethods,
     advanceState: computed(() => advanceState),
     formModel,
-    formRules,
-    handleElAttrs,
     setFormRef,
     resetFields,
     validate,

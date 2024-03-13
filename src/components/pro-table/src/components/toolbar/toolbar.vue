@@ -1,8 +1,18 @@
 <template>
-  <div class="pro-table-header">
+  <div
+    v-if="
+      options.headerTitle ||
+      options.toolbar ||
+      headerTitle ||
+      optionsObj.reload ||
+      optionsObj.density ||
+      optionsObj.setting
+    "
+    class="pro-table-header"
+  >
     <div class="pro-table-header__left">
       <slot name="headerTitle">
-        <span class="pro-table-header__title" v-if="headerTitle">
+        <span v-if="headerTitle" class="pro-table-header__title">
           {{ headerTitle }}
         </span>
       </slot>
@@ -79,7 +89,7 @@ const props = withDefaults(
   defineProps<{
     columns?: ProTableColumns
     headerTitle?: string
-    options?: TableOptions
+    options?: TableOptions & { headerTitle?: boolean; toolbar?: boolean }
   }>(),
   {
     headerTitle: '',

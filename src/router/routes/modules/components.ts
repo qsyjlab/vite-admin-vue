@@ -7,8 +7,7 @@ export default defineExposeRoutes([
     path: '/components',
     meta: {
       title: '组件',
-      sort: 4,
-      icon: 'ify.bxs:component'
+      icon: 'ep.grid'
     },
     redirect: { name: 'ProTable' },
     component: Layout,
@@ -89,6 +88,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'ProForm'
         },
+        component: BlankContainer,
         children: [
           {
             name: 'ProFormBase',
@@ -97,6 +97,24 @@ export default defineExposeRoutes([
               title: '基础表单'
             },
             component: () => import('@/views/system/components/pro-form/pro-form.vue')
+          },
+          {
+            name: 'ProFormRef',
+            path: 'ref',
+            meta: {
+              title: '表单 ref 操作',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/components/pro-form/pro-form-ref.vue')
+          },
+          {
+            name: 'ProFromDynamic',
+            path: 'dynamic',
+            meta: {
+              title: '动态表单',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/components/pro-form/dynamic.vue')
           },
           {
             name: 'ProFormModal',
@@ -133,14 +151,6 @@ export default defineExposeRoutes([
         component: () => import('@/views/system/components/Upload.vue')
       },
       {
-        name: 'DargSort',
-        path: 'drag-sort',
-        meta: {
-          title: '拖拽排序'
-        },
-        component: () => import('@/views/system/components/drag-sort/drag-sort.vue')
-      },
-      {
         name: 'Anchor',
         path: 'anchor',
         meta: {
@@ -155,6 +165,15 @@ export default defineExposeRoutes([
           title: 'segmented 分段器'
         },
         component: () => import('@/views/system/components/segmented/segmented.vue')
+      },
+      {
+        name: 'ContextMenu',
+        path: 'context-menu',
+        meta: {
+          title: '右键菜单',
+          ignoreAuth: true
+        },
+        component: () => import('@/views/system/components/context-menu/context-menu.vue')
       },
       {
         name: 'Tree',

@@ -1,8 +1,8 @@
 <template>
   <span class="badge">
     <span
-      :class="['badge__dot', hasPreset(color) ? `badge__dot--${color}` : '']"
       v-if="color"
+      :class="['badge__dot', hasPreset(color) ? `badge__dot--${color}` : '']"
       :style="dynamicStyles"
     ></span>
     <span v-if="text || $slots.text">

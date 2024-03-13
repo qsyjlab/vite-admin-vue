@@ -1,11 +1,11 @@
 <template>
   <page-wrapper>
-    <page-card header="tab 栏" style="margin-bottom: 20px">
+    <page-card header="tab 栏" :full="false" style="margin-bottom: 20px">
       <el-input v-model="title"></el-input>
 
       <el-button type="primary" @click="setTitle(title)">设置标题</el-button>
     </page-card>
-    <page-card :header="'打开新的标签页'">
+    <page-card :header="'打开新的标签页'" :full="false">
       <el-button
         type="primary"
         @click="$router.push({ name: 'TabPageDetail', params: { id: new Date().getTime() } })"

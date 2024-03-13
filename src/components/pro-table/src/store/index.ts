@@ -1,4 +1,4 @@
-import { inject, reactive, ref, toRefs } from 'vue'
+import { computed, inject, nextTick, reactive, ref, toRefs, watch, onMounted, toRef } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
 import { useColumnsMap, useProTable, useEditable, useSelection } from '../hooks'
 
@@ -13,7 +13,7 @@ interface IExtraOptions {
   emits: SetupContext<ProTableEmits>['emit']
 }
 
-type ITableProps = Pick<ProTableProps, 'size'>
+type ITableProps = Pick<ProTableProps, 'size' | 'height'>
 
 export function useTableStore(
   props: ProTableProps & { size?: ITableProps['size'] },
@@ -23,14 +23,31 @@ export function useTableStore(
 
   const tableInstanceRef = ref<TableInstance | null>(null)
 
+  const proTableWrapperRef = ref<Nullable<HTMLDivElement>>(null)
+  const proTableWrapperHeight = ref<number>(0)
+
+  const paginationRef = ref<Nullable<HTMLDivElement>>(null)
+
+  const toolbarRef = ref<Nullable<HTMLDivElement>>(null)
+  const alertRef = ref<Nullable<HTMLDivElement>>(null)
+
+  // 表格实例属性
   const tableProps = reactive<ITableProps>({
-    size: 'default'
+    size: 'default',
+    height: 0
+  })
+
+  // 全局共享读取的属性
+  const sharedProperties = computed(() => {
+    return {
+      enableValidate: props.editable.enableValidate
+    }
   })
 
   let proTableConfig: ProConfigProviderProps['proTable'] | undefined
 
   try {
-    const { proTable } = inject(proConfigProviderContextKey) || {}
+    const { proTable } = inject(proConfigProviderContextKey, {})
     proTableConfig = proTable
   } catch (error) {}
 
@@ -54,10 +71,18 @@ export function useTableStore(
     { emits }
   )
 
-  const { selectedKeys, setSelectedKeys, clearSelectedKeys } = useSelection(props, {
-    tableInstance: tableInstanceRef,
-    emits
-  })
+  const { cacheSelectedData, selectedKeys, setSelectedKeys, clearSelectedKeys } = useSelection(
+    {
+      dataSource,
+      selectedKeys: toRef(props, 'selectedKeys'),
+      cacheSelectedData: toRef(props, 'cacheSelectedData'),
+      rowKey: props.rowKey
+    },
+    {
+      tableInstance: tableInstanceRef,
+      emits
+    }
+  )
 
   const {
     startEditable,
@@ -67,7 +92,9 @@ export function useTableStore(
     editableCellMap,
     clearEditRow,
     clearValidateErrors,
-    hasEditingRow
+    hasEditingRow,
+    setFormInstanceRef,
+    editableRowsModel
   } = useEditable({
     dataSource,
     rowKey: props.rowKey,
@@ -95,6 +122,7 @@ export function useTableStore(
     deleteEditable,
     clearEditRow,
     hasEditingRow,
+    setFormInstanceRef,
     clearValidateErrors
   }
 
@@ -107,12 +135,58 @@ export function useTableStore(
     initLocalStorageOrDynamicMap
   }
 
-  function clearSelection() {
-    tableInstanceRef.value?.clearSelection()
+  if (props.autoFitHeight) {
+    onMounted(() => {
+      nextTick(() => {
+        /**
+         * 已知问题 , 页面存在过度动画过着 包裹着的父级元素过度 会导致表格获取不到高度
+         */
+        proTableWrapperHeight.value = proTableWrapperRef.value?.clientHeight || 0
+        watch(
+          [proTableWrapperRef, alertRef, toolbarRef, paginationRef, selectedKeys],
+          () => {
+            nextTick(() => {
+              doHeight()
+            })
+          },
+          {
+            immediate: true,
+            flush: 'post'
+          }
+        )
+      })
+    })
+  } else {
+    doHeight()
   }
 
-  function toggleRowSelection(row: any, selected: boolean) {
-    tableInstanceRef.value?.toggleRowSelection(row, selected)
+  function doHeight() {
+    if (props.height) {
+      tableProps.height = props.height
+      return
+    }
+    if (!props.autoFitHeight) {
+      tableProps.height = undefined
+
+      return
+    }
+
+    let height = proTableWrapperHeight.value
+
+    if (!height) return 0
+
+    if (toolbarRef.value) {
+      height -= toolbarRef.value.offsetHeight
+    }
+
+    if (alertRef.value && selectedKeys.value.length) {
+      height -= alertRef.value.offsetHeight
+    }
+    if (paginationRef.value) {
+      height -= paginationRef.value.clientHeight
+    }
+
+    tableProps.height = height - 5
   }
 
   function mergeTableProps(props: ITableProps) {
@@ -125,20 +199,26 @@ export function useTableStore(
    */
   const tableActionRef: TableActionRef = {
     tableRef: tableInstanceRef,
-    emits,
+    doHeight,
     reload,
     refresh,
-    clearSelection,
-    toggleRowSelection,
+    clearSelectedKeys,
     editableCellUtils,
     columnsSettingUtils
   }
 
   return {
+    doHeight,
+    toolbarRef,
+    alertRef,
+    paginationRef,
+    proTableWrapperRef,
+    sharedProperties,
     paginationProps,
     tableProps,
     loading,
     selectedKeys,
+    cacheSelectedData,
     total,
     pageQuery,
     dataSource,
@@ -153,7 +233,9 @@ export function useTableStore(
     tableActionRef,
     tableInstanceRef,
     mergeTableProps,
+    customRendererMap: proTableConfig?.rendererMap,
     editableCellMap,
+    editableRowsModel,
     editableCellUtils,
     columnsSettingUtils
   }

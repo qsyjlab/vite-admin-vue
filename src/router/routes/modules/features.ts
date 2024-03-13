@@ -1,5 +1,5 @@
 import { defineExposeRoutes } from '@/router'
-import { Layout } from '@/router/constant'
+import { BlankContainer, Layout } from '@/router/constant'
 
 export default defineExposeRoutes([
   {
@@ -7,7 +7,7 @@ export default defineExposeRoutes([
     path: '/feature',
     meta: {
       title: '功能',
-      icon: 'ify.iconoir:git-fork'
+      icon: 'svg.git-fork'
     },
     redirect: '/feature/watermark',
     component: Layout,
@@ -54,6 +54,91 @@ export default defineExposeRoutes([
           title: '图片预览'
         },
         component: () => import('@/views/system/feature/image-viwer/image-viwer.vue')
+      },
+      {
+        name: 'Message',
+        path: 'message',
+        meta: {
+          title: '消息提示'
+        },
+        component: () => import('@/views/system/feature/message/message.vue')
+      },
+      {
+        name: 'Encrypt',
+        path: 'encrypt',
+        meta: {
+          title: '加密'
+        },
+        component: () => import('@/views/system/feature/encrypt/encrypt.vue')
+      },
+      {
+        name: 'Print',
+        path: 'print',
+        meta: {
+          title: '打印',
+          ignoreAuth: true
+        },
+        component: () => import('@/views/system/feature/print/print.vue')
+      },
+      {
+        name: 'Excel',
+        path: 'excel',
+        meta: {
+          title: 'Excel',
+          ignoreAuth: true
+        },
+        component: BlankContainer,
+        children: [
+          {
+            name: 'ExcelBase',
+            path: 'base',
+            meta: {
+              title: '基本导出',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/feature/excel/base/excel.vue')
+          },
+          {
+            name: 'ExcelBaseMutiHeader',
+            path: 'mutiple-header',
+            meta: {
+              title: '多表头',
+              ignoreAuth: true
+            },
+            component: () =>
+              import('@/views/system/feature/excel/mutiple-header/mutiple-header.vue')
+          },
+          {
+            name: 'ExcelImport',
+            path: 'import',
+            meta: {
+              title: '导入',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/feature/excel/import.vue')
+          }
+        ]
+      },
+      {
+        name: 'docx',
+        path: 'docx',
+        meta: {
+          title: 'docx',
+          ignoreAuth: true,
+          hideChildrenInMenu: false
+        },
+        component: BlankContainer,
+        children: [
+          {
+            name: 'HtmlToDocx',
+            path: 'html-to-docx',
+            meta: {
+              title: '富文本导出docx',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/feature/docx/html-to-docx.vue')
+          }
+        ]
       }
     ]
   }

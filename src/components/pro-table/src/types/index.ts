@@ -1,13 +1,9 @@
-import { ElTable } from 'element-plus'
-
-import { Component, SetupContext, VNode } from 'vue'
-import { ProTableEmits } from '../props'
+import type { TableInstance } from 'element-plus'
+import type { Component, VNode, Ref } from 'vue'
 import type { UseColumnsMapReturn, UseEditableReturn } from '../hooks'
 import type { EditRowRule, EditableCellState, EditableCellValidError } from './editable'
 import type { TableColumnCtx, RenderRowData, TableProps } from 'element-plus'
 import type { ValueEnum, ValueType } from './renderer'
-import type { NOOP } from './utils'
-import type { Ref } from 'vue'
 
 export type ColumnsMap = Record<string, any>
 
@@ -45,6 +41,11 @@ export interface ProTableEditRowComponent {
 /** 编辑表格配置 */
 export interface ProTableEditable {
   mode?: 'single' | 'multiple'
+  /**
+   * 正确验证需要 el-form 包裹
+   * 动态渲染验证
+   */
+  enableValidate?: boolean
   onSave?: (row: any, next: () => void) => void
   onCancel?: (row: any, next: () => void) => void
   onDelete?: (row: any, next: () => void) => void
@@ -66,20 +67,7 @@ export interface ColumnsState {
   change?: (map: ColumnsMap) => void
 }
 
-export type TableInstance = InstanceType<typeof ElTable>
-
-/**
- * 即将废弃 由 TableActionRef 来代替
- * @deprecated
- */
-export interface TableExpose {
-  doLayout: TableInstance['doLayout']
-  reload: NOOP
-  startEditable: (rowKey: RowKey) => void
-  cancelEditable: (rowKey: RowKey) => void
-  saveEditable: (rowKey: RowKey) => void
-  deleteEditable: (rowKey: RowKey) => void
-}
+export { TableInstance }
 
 /** 表格默认工具栏开关 */
 interface ToolbarOptions {
@@ -92,14 +80,16 @@ export type TableOptions = boolean | ToolbarOptions
 
 export interface TableActionRef {
   tableRef: Ref<TableInstance | null>
-  emits: SetupContext<ProTableEmits>['emit']
-  clearSelection: TableInstance['clearSelection']
+  clearSelectedKeys: () => void
   /** 重载列表 */
   reload: () => void
   /** 仅仅刷新 */
   refresh: () => void
-  toggleRowSelection: TableInstance['toggleRowSelection']
-  editableCellUtils: Omit<UseEditableReturn, 'editableCellMap'>
+  doHeight: () => void
+  editableCellUtils: Omit<
+    UseEditableReturn,
+    'editableCellMap' | 'formInstanceRef' | 'editableRowsModel'
+  >
   columnsSettingUtils: Omit<UseColumnsMapReturn, 'columnsMap' | 'defaultColumnsMap'>
 }
 
@@ -117,12 +107,14 @@ export interface ProTablePaginationConfig {
  *
  * 下面定义仅作用外部类型
  */
-
 export interface ProTableProps<T = any> {
+  headerTitle: string
   size: TableProps<T>['size']
+  height?: string | number
+  autoFitHeight: boolean
   columnsState: ColumnsState
   columns: ProTableColumns
-  data: any[]
+  data: T[]
   border: boolean
   request: (...rest: any[]) => Promise<any>
   params: Record<string | number, any>
@@ -137,11 +129,27 @@ export interface ProTableProps<T = any> {
   editable: ProTableEditable
   transform: (response: any) => { data: any[]; total: number }
   transformParams: (params: any) => any
+  alwaysShowAlert: boolean
+  showAlert: boolean
+  autoRequest: boolean
+  cacheSelectedData: T[]
 }
 
 export interface ProTableHeaderProps {
   headerTitle: string
 }
+
+interface CustomRendererParams<T = any> {
+  row: any
+  value: any
+  columnConfig: ProTableColumnItem<T>
+  valueEnum: any
+  valueType: any
+  index: number
+  pagination: any
+}
+
+export type CustomRendererFn = (params: CustomRendererParams) => any
 
 export * from './editable'
 export * from './renderer'

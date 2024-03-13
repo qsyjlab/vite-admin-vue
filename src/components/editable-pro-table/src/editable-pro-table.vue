@@ -1,6 +1,11 @@
 <template>
   <div class="editable-pro-table">
-    <div class="editable-pro-table__table">
+    <div
+      class="editable-pro-table__table"
+      :style="{
+        height: autoFitHeight ? 'calc(100% - 40px)' : ''
+      }"
+    >
       <pro-table
         :columns="presetColumns"
         :pagination="false"
@@ -13,7 +18,9 @@
           onDelete,
           onChange: changeHandler
         }"
+        :auto-fit-height="autoFitHeight"
         :options="false"
+        v-bind="$attrs"
         @register="register"
       >
         <template #operation="{ row, editableState }">
@@ -61,6 +68,7 @@ import { useProTable } from '@/components/pro-table'
 interface IProps {
   rowKey?: string
   columns?: ProTableColumns
+  autoFitHeight?: boolean
   data: any[]
   /**
    * @description
@@ -81,7 +89,8 @@ const props = withDefaults(defineProps<IProps>(), {
   rowKey: 'id',
   appendPosition: 'bottom',
   columns: () => [],
-  data: () => []
+  data: () => [],
+  autoFitHeight: true
 })
 
 const emits = defineEmits<{

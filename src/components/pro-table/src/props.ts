@@ -86,13 +86,31 @@ export const proTableProps = {
     type: definePropType<any[]>(Array),
     default: () => []
   },
+  /** 跨页选择回显用 */
+  cacheSelectedData: {
+    type: definePropType<any[]>(Array),
+    default: () => []
+  },
   /** 编辑相关配置 */
   editable: {
-    type: definePropType<ProTableEditable>(Object),
-    default: () => ({})
+    type: definePropType<ProTableEditable>(Object)
   },
   // 是否总是显示 alert
   alwaysShowAlert: {
+    type: Boolean,
+    default: false
+  },
+  showAlert: {
+    type: Boolean,
+    default: true
+  },
+  /** 是否自适应高度 */
+  autoFitHeight: {
+    type: Boolean,
+    default: false
+  },
+  /** 自动请求 */
+  autoRequest: {
     type: Boolean,
     default: false
   }
@@ -109,6 +127,7 @@ export const proTableEmits = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   'update:loading': (loading: boolean) => true,
   'update:selectedKeys': (keys: any[]) => !!keys,
+  'selection-change': selection => !!selection,
   register: (instance: TableActionRef) => !!instance
 }
 

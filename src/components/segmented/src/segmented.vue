@@ -10,13 +10,13 @@
   >
     <div class="segmented-group">
       <div
+        v-for="item in options"
+        :key="item.value"
         :class="[
           'segmented-item',
           selected === item.value ? 'is-selected' : '',
           disabled || item.disabled ? 'is-disabled' : ''
         ]"
-        v-for="item in options"
-        :key="item.value"
         @click="handleSelect(item)"
       >
         {{ item.label }}
@@ -181,8 +181,11 @@ defineExpose({
 
   &-item {
     position: relative;
-    min-height: var(--segmented-item-height);
-    line-height: var(--segmented-item-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    box-sizing: border-box;
     padding: 0 11px;
     overflow: hidden;
     white-space: nowrap;

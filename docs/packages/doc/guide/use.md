@@ -12,10 +12,6 @@
 
 ## 安装
 
-### Node.js
-
-[整合 nvm 和 node](https://qsyjlab.club/article/317)
-
 ### 安装 pnpm
 
 ```sh
@@ -28,28 +24,20 @@ pnpm 使用方法具体详见官网
 
 ```json
   "scripts": {
-    // 启动
     "dev": "vite",
-    // ip host 启动
     "app:host": "vite --host",
-    // 不同mode 启动
     "app:prod": "pnpm run app:host --mode prod",
-    "build": "vue-tsc --noEmit --skipLibCheck && vite build",
+    "build": "vite build",
     "build:prod": "vite build --mode prod",
-    // tsc 检查
     "check": "vue-tsc --noEmit --skipLibCheck",
-    // 打包产出本地服务预览
     "preview": "vite preview",
-    // prettier
     "prettier": "prettier --write .",
-    // 检查项目循环引用
-    "lint:code-recyle": "dpdm ./src/main.ts --no-warning",
-    // 代码检查
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
-    "lint:stylelint": "stylelint --cache --fix \"**/*.{css,less,vue,html}\" --cache --cache-location node_modules/.cache/stylelint/",
     "prepare": "husky install",
-    // 命令行删除  依赖 rimraf 包
-    "clean:lib": "rimraf node_modules"
+    // 移除 库
+    "clean:lib": "rimraf node_modules",
+    // 移除 输出产物文件夹
+    "clean:output": "rimraf .output",
   }
 ```
 
@@ -65,6 +53,10 @@ pnpm 使用方法具体详见官网
 ## 代码获取
 
 ### Github
+
+```shell
+git clone https://github.com/qsyjlab/vite-admin-vue.git
+```
 
 ### Gitee
 

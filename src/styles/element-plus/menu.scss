@@ -1,6 +1,8 @@
 .el-menu {
   --global-menu-radius: 5px;
   --global-menu-active-text-color: white;
+  --el-menu-sub-item-height: calc(var(--el-menu-item-height) - 3px);
+  --el-menu-item-height: 42px;
 
   &--vertical {
     .el-sub-menu {
@@ -22,15 +24,15 @@
   border-right: unset !important;
 }
 
-:deep(.el-menu-item.is-active) {
+.el-menu-item.is-active {
   background-color: var(--el-menu-hover-bg-color);
 }
 
-:deep(.el-sub-menu__title:hover) {
+.el-sub-menu__title:hover {
   // background-color: unset;
   color: var(--el-menu-active-color);
 }
 
-:deep(.el-menu-item:hover) {
+.el-menu-item:hover {
   color: var(--el-menu-active-color);
 }

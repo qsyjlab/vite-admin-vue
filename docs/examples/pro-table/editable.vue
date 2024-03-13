@@ -1,20 +1,20 @@
 <template>
   <div>
     <ProTable
-      header-title="可编辑行"
+      ref="tableRef"
       v-model:loading="loading"
+      header-title="可编辑行"
       checkable
       :columns="columns"
       :request="request"
       :params="params"
       :transform="transform"
-      :transformParams="transformParams"
+      :transform-params="transformParams"
       :editable="{
         mode: 'single',
         onSave,
         onDelete
       }"
-      @register="register"
     >
       <template #name="{ row, editableState }">
         <el-input v-if="editableState" v-model="editableState.data.name"></el-input>
@@ -24,27 +24,31 @@
       </template>
       <template #action="{ row, editableState }">
         <el-button
-          size="small"
           v-if="!editableState || !editableState.isEdit"
-          @click="startEditable(row.id)"
+          size="small"
+          @click="tableRef.value.editableCellUtils.startEditable(row.id)"
           >编辑</el-button
         >
-        <el-button size="small" v-else @click="saveRow(row)">保存</el-button>
-        <el-button size="small" type="danger" @click="deleteEditable(row.id)">删除</el-button>
+        <el-button v-else size="small" @click="saveRow(row)">保存</el-button>
+        <el-button
+          size="small"
+          type="danger"
+          @click="tableRef.value.editableCellUtils.deleteEditable(row.id)"
+          >删除</el-button
+        >
       </template>
     </ProTable>
   </div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ProTableColumns, useProTable } from '../../.vitepress/.exampleCompnents/index'
 
 const loading = ref(false)
 const params = ref({})
 
-const { register, refresh, startEditable, saveEditable, deleteEditable } = useProTable()
+const tableRef = ref()
 
-const columns: ProTableColumns = [
+const columns = [
   {
     title: 'Date',
     key: 'date',
@@ -74,8 +78,8 @@ const columns: ProTableColumns = [
 ]
 
 function saveRow(row) {
-  saveEditable(row.id)
-  refresh()
+  tableRef.value.editableCellUtils.saveEditable(row.id)
+  tableRef.value.refresh()
 }
 
 function onSave(row, done) {
@@ -88,7 +92,7 @@ async function onDelete(row, done) {
   await sleep()
 
   done()
-  refresh()
+  tableRef.value.refresh()
 }
 
 function sleep(delay = 500) {

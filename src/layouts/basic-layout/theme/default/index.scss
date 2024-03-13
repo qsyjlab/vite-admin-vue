@@ -1,9 +1,8 @@
-.container {
+.page-container {
   position: relative;
   height: 100%;
   width: 100%;
-
-  --layout-bg-color: #f2f3f5;
+  --layout-bg-color: var(--global-bg-color, #f2f3f5);
   --layout-menu-bg-color: var(--el-menu-bg-color, white);
   --layout-line-color: #eee;
   --layout-aside-bg-color: var(--el-menu-bg-color, white);
@@ -81,8 +80,7 @@
     &__wrapper {
       box-sizing: border-box;
       height: 100%;
-
-      // padding: 15px;
+      position: relative;
     }
   }
 

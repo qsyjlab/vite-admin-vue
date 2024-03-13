@@ -1,11 +1,11 @@
 import { defineExposeRoutes } from '../helper/utils'
-import { LOGIN_NAME, LOGIN_PATH, REDIRECT_NAME, Layout } from '../constant'
+import { LOGIN_NAME, LOGIN_PATH, REDIRECT_NAME, Layout, PAGE_NOT_FOUND } from '../constant'
 
 import type { RouteRecordRaw } from 'vue-router'
 
-export const pageError = {
+export const pageError: RouteRecordRaw = {
   path: '/:pathMatch(.*)',
-  name: 'PageNotFound',
+  name: PAGE_NOT_FOUND,
   component: () => import('@/views/error/error-404.vue')
 }
 
@@ -16,7 +16,7 @@ const loginRoute: RouteRecordRaw = {
     title: '登录',
     isAuth: false
   },
-  component: () => import('@/views/Login/Login.vue')
+  component: () => import('@/views/login/login.vue')
 }
 
 const error403: RouteRecordRaw = {
@@ -39,6 +39,7 @@ const error404: RouteRecordRaw = {
 
 const root: RouteRecordRaw = {
   path: '/',
+  name: 'Root',
   redirect: '/welcome',
   meta: {
     title: '主系统',
@@ -82,13 +83,14 @@ export const routes = defineExposeRoutes([
 function getRouteNames(routes: RouteRecordRaw[], names: string[] = []) {
   routes.forEach(item => {
     names.push(item.name as string)
-    getRouteNames(item.children || [])
+    getRouteNames(item.children || [], names)
   })
 
   return names
 }
 
-export const WHITE_NAME_LIST = getRouteNames(routes)
+// 静态路由名单
+export const STATIC_ROUTE_NAME_LIST = getRouteNames(routes)
 
 export default routes
 

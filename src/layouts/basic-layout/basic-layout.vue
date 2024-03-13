@@ -1,12 +1,12 @@
 <template>
-  <div class="container">
+  <div class="page-container">
     <Layout
       v-bind="layoutAttrs"
       :config="{
-        footer: projectSetting.defaultLayoutSetting.showFooter,
-        header: true,
-        tab: projectSetting.defaultLayoutSetting.showTagPage,
-        aside: true,
+        footer: layoutConfig.showFooter,
+        header: projectSetting.defaultLayoutSetting.showHeader,
+        tab: layoutConfig.showTagPage,
+        aside: !!layoutAttrs.asideWidth,
         main: true
       }"
     >
@@ -20,7 +20,7 @@
               :size="layoutConfig.asideWidth || 250"
             >
               <basic-sidebar :collapsed="layoutConfig.collapsed">
-                <template #logo v-if="LayoutMode.Side === layoutConfig.layoutMode">
+                <template v-if="LayoutMode.Side === layoutConfig.layoutMode" #logo>
                   <logo v-bind="logoAttrs" />
                 </template>
               </basic-sidebar>
@@ -36,7 +36,7 @@
             "
           >
             <basic-sidebar :collapsed="layoutConfig.collapsed">
-              <template #logo v-if="LayoutMode.Side === layoutConfig.layoutMode">
+              <template v-if="LayoutMode.Side === layoutConfig.layoutMode" #logo>
                 <logo v-bind="logoAttrs" />
               </template>
             </basic-sidebar>
@@ -52,7 +52,7 @@
 
       <template #header>
         <basic-header @mobile-drawer="mobileDrawerHandler">
-          <template #logo v-if="LayoutMode.TopMix === layoutConfig.layoutMode">
+          <template v-if="LayoutMode.TopMix === layoutConfig.layoutMode" #logo>
             <logo :width="layoutConfig.asideWidth" />
           </template>
         </basic-header>
@@ -62,7 +62,12 @@
         <basic-tab-page v-bind="routerBarAttrs" />
       </template>
 
-      <div class="basic-layout-main__wrapper">
+      <div
+        v-watermark="{
+          content: config.projectTitle
+        }"
+        class="basic-layout-main__wrapper"
+      >
         <component :is="container"></component>
       </div>
 
@@ -89,6 +94,7 @@ import { LayoutMode } from './enum'
 import { Layout } from '@/layouts/layout-package'
 import createBlankContainer from '@/layouts/container/createBlankContainer'
 import projectSetting from '@/config/project-setting'
+import config from '@/config'
 
 import {
   BasicHeader,
@@ -112,8 +118,6 @@ const { isMobile } = useAppInject()
 
 const mobileDrawer = ref(false)
 
-console.log('projectSetting', projectSetting)
-
 watch(
   isMobile,
   () => {
@@ -131,7 +135,7 @@ const mobileDrawerHandler = () => {
 
 const routerBarAttrs = computed(() => {
   return {
-    fontSize: !layoutConfig.value.tabBarHeight ? 14 : layoutConfig.value.tabBarHeight * 0.3
+    fontSize: 12
   }
 })
 
@@ -142,18 +146,21 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
     asideWidth = 220,
     collapsed,
     headerHeight,
-    tabBarHeight
+    tabBarHeight = 0,
+    footerHeight
   } = unref(layoutConfig)
 
   const collapseWidth = 78
+  const sideMixWidth = 90
 
-  const { fixedMenu, showChildren } = unref(mixMenuLayoutConfig)
+  const { sideMixFixedMenu } = unref(layoutConfig)
 
-  const { showTagPage } = projectSetting.defaultLayoutSetting
+  const { showTagPage } = layoutConfig.value
   const layoutModeMap: LayoutModeMap = {
     [LayoutMode.Side]: () => {
       const _asideWidth = isMobile.value ? 0 : collapsed ? collapseWidth : asideWidth
       return {
+        footerHeight,
         headerHeight,
         tabHeight: showTagPage ? tabBarHeight : 0,
         asideWidth: _asideWidth,
@@ -164,6 +171,7 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
     [LayoutMode.TopMix]: () => {
       const _asideWidth = isMobile.value ? 0 : collapsed ? collapseWidth : asideWidth
       return {
+        footerHeight,
         headerHeight,
         tabHeight: showTagPage ? tabBarHeight : 0,
         asideWidth: _asideWidth,
@@ -173,13 +181,19 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       }
     },
     [LayoutMode.Top]: () => ({
+      footerHeight,
       tabHeight: showTagPage ? tabBarHeight : 0,
       asideWidth: 0,
       headerPaddingLeft: 0
     }),
     [LayoutMode.SideMix]: () => {
-      const _asideWidth = isMobile.value ? 0 : fixedMenu && showChildren ? 90 + asideWidth : 90
+      const _asideWidth = isMobile.value
+        ? 0
+        : sideMixFixedMenu && mixMenuLayoutConfig.value.showChildren
+        ? sideMixWidth + asideWidth
+        : sideMixWidth
       return {
+        footerHeight,
         headerHeight,
         tabHeight: showTagPage ? tabBarHeight : 0,
         asideWidth: _asideWidth,

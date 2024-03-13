@@ -61,7 +61,7 @@ export function useWaterMark(
       content,
       font,
       // style,
-      gap = [50, 100],
+      gap = [100, 100],
       offset = [0]
     } = props?.value || {}
 

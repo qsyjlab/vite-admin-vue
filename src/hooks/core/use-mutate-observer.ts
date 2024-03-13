@@ -16,8 +16,6 @@ export function useMutateObserver(
   watch(
     [() => nodeOrList, () => options],
     () => {
-      console.log('watch')
-
       const nodeList = Array.isArray(nodeOrList) ? nodeOrList : [nodeOrList]
       if ('MutationObserver' in window) {
         instance = new MutationObserver(callback)

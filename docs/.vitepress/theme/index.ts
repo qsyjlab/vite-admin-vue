@@ -1,6 +1,7 @@
 // https://vitepress.dev/guide/custom-theme
 import { h } from 'vue'
 import Theme from 'vitepress/theme'
+import { inBrowser } from 'vitepress'
 import './style.css'
 
 import ElementPlus from 'element-plus'
@@ -8,15 +9,6 @@ import Demo from '../components/demos/vp-demo.vue'
 
 import 'element-plus/theme-chalk/index.css'
 
-import {
-  ProTable,
-  ProConfigProvider,
-  ProForm,
-  ProCheckboxGruop,
-  ProSelect,
-  ProRadioGruop,
-  ProConfigProvider
-} from '../.exampleCompnents/index.mjs'
 import '../.exampleCompnents/style.css'
 
 import 'prismjs/themes/prism.css'
@@ -24,24 +16,25 @@ import 'prismjs/themes/prism.css'
 export default {
   extends: Theme,
   Layout: () => {
-    return h(ProConfigProvider, null, {
-      default: () =>
-        h(Theme.Layout, null, {
-          // https://vitepress.dev/guide/extending-default-theme#layout-slots
-        })
-    })
+    return h(
+      'div',
+      { proTable: {} },
+      h(Theme.Layout, null, {
+        // https://vitepress.dev/guide/extending-default-theme#layout-slots
+      })
+    )
   },
-  enhanceApp({ app, router, siteData }) {
-    app.use(ElementPlus)
+  async enhanceApp({ app, router, siteData }) {
+    if (!import.meta.env.SSR) {
+      app.component('Demo', Demo)
+      app.use(ElementPlus)
+      const plugin = await import('../.exampleCompnents/index.mjs')
 
-    app.use(ProTable)
-    app.use(ProForm)
-    app.use(ProCheckboxGruop)
-    app.use(ProSelect)
-    app.use(ProRadioGruop)
-    app.use(ProConfigProvider)
-    app.component('Demo', Demo)
-    // globals
-    // ...
+      app.use(plugin['ProTable'])
+      app.use(plugin['ProForm'])
+      app.use(plugin['ProSelect'])
+      app.use(plugin['ProRadioGroup'])
+      app.use(plugin['ProCheckboxGroup'])
+    }
   }
 }

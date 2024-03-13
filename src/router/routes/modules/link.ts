@@ -1,5 +1,6 @@
 import { defineExposeRoutes } from '@/router'
 import { Layout, BlankContainer } from '@/router/constant'
+import config from '@/config'
 
 export default defineExposeRoutes([
   {
@@ -19,7 +20,7 @@ export default defineExposeRoutes([
         path: 'out-link',
         meta: {
           title: '外链',
-          href: 'https://qsyjlab.github.io/vite-admin-vue/'
+          href: config.docxLink
         },
         component: BlankContainer
       },

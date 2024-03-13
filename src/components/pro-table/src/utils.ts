@@ -1,4 +1,7 @@
+import { get } from 'lodash-es'
 import type { ColumnsMap, ProTableProps } from './types'
+import { h, isVNode } from 'vue'
+import { isComponent } from '@/utils'
 
 export function sliceData(data: any, { page = 1, pageSize = 10 }) {
   const start = (page - 1) * pageSize
@@ -63,4 +66,15 @@ export function getRowkey(row: any, rowKey: ProTableProps['rowKey']): string | u
   }
 
   return void 0
+}
+
+export function resolveValue(...rest: Parameters<typeof get>) {
+  return get(...rest)
+}
+
+export function renderHelper(target: any) {
+  // if(isVNode(object) || isCompeon)
+  if (isVNode(target) || isComponent(target)) return h(target)
+
+  return target
 }

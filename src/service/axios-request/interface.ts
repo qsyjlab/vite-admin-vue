@@ -4,26 +4,33 @@ import type {
   AxiosError,
   InternalAxiosRequestConfig
 } from 'axios'
+import AxiosRequest from './axios-request'
 
 export type BaseAxiosResponse = AxiosResponse<any>
 
-export type RequestInterceptorsType = (
+export type requestInterceptorType = (
   config: InternalAxiosRequestConfig
 ) => InternalAxiosRequestConfig
 
-export type RequestInterceptorsCatchType = (error: CatchError) => Promise<CatchError>
+export type requestInterceptorCatchType = (
+  error: CatchError,
+  instance: AxiosRequest
+) => Promise<CatchError>
 
-export type ResponseInterceptorsType = (response: BaseAxiosResponse) => BaseAxiosResponse
+export type responseInterceptorType = (response: BaseAxiosResponse) => BaseAxiosResponse
 
-export type ResponseInterceptorsCatchType = (error: CatchError) => Promise<CatchError>
+export type responseInterceptorCatchType<T = any> = (
+  error: CatchError<T>,
+  instance: AxiosRequest
+) => Promise<CatchError>
 
-export type CatchError = AxiosError
+export type CatchError<T = any> = AxiosError<T>
 
 export interface InterceptorsType {
-  requestInterceptors?: RequestInterceptorsType
-  requestInterceptorsCatch?: RequestInterceptorsCatchType
-  responseInterceptors?: ResponseInterceptorsType
-  responseInterceptorsCatch?: ResponseInterceptorsCatchType
+  requestInterceptor?: requestInterceptorType
+  requestInterceptorCatch?: requestInterceptorCatchType
+  responseInterceptor?: responseInterceptorType
+  responseInterceptorCatch?: responseInterceptorCatchType
 }
 
 export type BaseAxiosRequestConfig = {
@@ -32,7 +39,7 @@ export type BaseAxiosRequestConfig = {
   headers?: AxiosRequestConfig['headers']
 } & RequestConfigEx
 interface RequestConfigEx {
-  interceptorsHooks?: InterceptorsType
+  interceptorHooks?: InterceptorsType
   transform?: RequestTransform
 }
 
@@ -63,4 +70,17 @@ export interface RequestTransform {
   transformResponse?: TransformResponse
   transformRequest?: TransformRequest
   requestCatch?: RequestCatch
+}
+
+// multipart/form-data: upload file
+export interface UploadFileParams {
+  // Other parameters
+  data?: Record<string, any>
+  // File parameter interface field name
+  name?: string
+  // file name
+  file: File | Blob
+  // file name
+  filename?: string
+  [key: string]: any
 }

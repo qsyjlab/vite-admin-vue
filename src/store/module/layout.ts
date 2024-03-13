@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 import type { ProjectLayoutConfig } from '@/layouts'
 import { LayoutMode } from '@/layouts'
+import { setLayoutCache } from '../local'
 
 interface LayoutState {
   layoutConfig: ProjectLayoutConfig
   mixMenuLayoutConfig: {
-    fixedMenu: boolean
     showChildren: boolean
   }
   isOpenSettig: boolean
@@ -14,13 +14,12 @@ interface LayoutState {
 interface LayoutAction {
   setLayoutConfig: (config: Partial<LayoutState['layoutConfig']>) => void
   toggleSettingDrawer: () => void
-  setMixMenuFixed: (val: boolean) => void
-  setMixMenuLayoutConfig: (config: Partial<LayoutState['mixMenuLayoutConfig']>) => void
+  setShowMixChildrenMenu: (val: boolean) => void
 }
 
 export type LayoutGetter = Record<string, never>
 
-const LayoutStoreKey = 'Layout'
+const LayoutStoreKey = 'layoutStoreKey'
 
 export const useLayoutStore = defineStore<string, LayoutState, LayoutGetter, LayoutAction>(
   LayoutStoreKey,
@@ -35,10 +34,15 @@ export const useLayoutStore = defineStore<string, LayoutState, LayoutGetter, Lay
           headerHeight: 48,
           theme: 'light',
           themeColor: '#1677FF',
-          splitMenu: true
+          splitMenu: true,
+          footerHeight: 56,
+          showTagPage: true,
+          showFooter: true,
+          showBreadCrumb: true,
+          sideMixFixedMenu: false,
+          sideMixShowChildren: false
         },
         mixMenuLayoutConfig: {
-          fixedMenu: false,
           showChildren: false
         },
         isOpenSettig: false
@@ -47,17 +51,15 @@ export const useLayoutStore = defineStore<string, LayoutState, LayoutGetter, Lay
     actions: {
       setLayoutConfig(config) {
         this.layoutConfig = { ...this.layoutConfig, ...config }
-      },
-      setMixMenuLayoutConfig(config) {
-        this.mixMenuLayoutConfig = { ...this.mixMenuLayoutConfig, ...config }
+        setLayoutCache(this.layoutConfig)
       },
       // 切换设置抽屉
       toggleSettingDrawer() {
         this.isOpenSettig = !this.isOpenSettig
       },
       // 设置混合菜单固定
-      setMixMenuFixed(val) {
-        this.mixMenuLayoutConfig.fixedMenu = val
+      setShowMixChildrenMenu(val) {
+        this.mixMenuLayoutConfig.showChildren = val
       }
     }
   }

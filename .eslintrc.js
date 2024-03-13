@@ -27,6 +27,29 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   rules: {
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
+    // 定义 Vue 组件标签上属性的顺序
+    'vue/attributes-order': [
+      'error',
+      {
+        order: [
+          'DEFINITION',
+          'LIST_RENDERING',
+          'CONDITIONALS',
+          'RENDER_MODIFIERS',
+          'GLOBAL',
+          ['UNIQUE', 'SLOT'],
+          'TWO_WAY_BINDING',
+          'OTHER_DIRECTIVES',
+          'OTHER_ATTR',
+          'EVENTS',
+          'CONTENT'
+        ]
+      }
+    ],
+    // 多单词关闭
+    'vue/multi-word-component-names': 'off',
+    // 使用 a-b 风格 props
+    'vue/attribute-hyphenation': ['error', 'always'],
 
     // 是否允许 Vue.js 模板中的注释指令
     'vue/comment-directive': 'off',
@@ -37,8 +60,7 @@ module.exports = {
     // 是否允许使用 require （esm项目不需要）
     '@typescript-eslint/no-var-requires': 0,
     // 'vue/html-self-closing': 'off',
-    // 多单词关闭
-    'vue/multi-word-component-names': 'off',
+
     // 未使用的变量
     '@typescript-eslint/no-unused-vars': 'warn',
     // 禁止使用any （不禁止 不可能不是用 any）

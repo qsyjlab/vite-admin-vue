@@ -1,10 +1,10 @@
 <template>
   <el-radio-group v-bind="$attrs" :model-value="modelValue" @change="changeHandler">
     <component
-      v-for="option in options"
       :is="renderTagMap[tag]"
+      v-for="option in options"
       :key="option.value"
-      :label="option.value"
+      :value="option.value"
       :disabled="option.disabled"
     >
       <slot v-bind="option">{{ option.label }}</slot>
@@ -32,7 +32,7 @@ interface IProps {
 }
 
 defineOptions({
-  name: 'ProRadioGruop'
+  name: 'ProRadioGroup'
 })
 
 defineSlots<{

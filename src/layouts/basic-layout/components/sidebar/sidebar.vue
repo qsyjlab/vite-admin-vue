@@ -35,6 +35,7 @@ import { useLayoutStore, usePermissionStore } from '@/store'
 import { Fold, Expand } from '@element-plus/icons-vue'
 import { LayoutMode } from '../../enum'
 import { useRouter } from 'vue-router'
+import { useLayoutMenu } from '@/hooks'
 
 interface IProps {
   collapsed?: boolean
@@ -49,25 +50,20 @@ const props = withDefaults(defineProps<IProps>(), {
   collapsed: false
 })
 
-const { currentRoute } = useRouter()
-
-const { getMenus } = usePermissionStore()
 const layoutStore = useLayoutStore()
 const { layoutConfig } = storeToRefs(layoutStore)
+const { menus } = useLayoutMenu(
+  computed(() => {
+    return {
+      type: 'left'
+    }
+  })
+)
 
 const scrollbarWrapperStyle = computed<CSSProperties>(() => {
   return {
     height: `calc(100% - ${layoutConfig.value.headerHeight}px  - 40px)`
   }
-})
-
-const menus = computed(() => {
-  const _menus = getMenus()
-  if (layoutConfig.value.splitMenu && layoutConfig.value.layoutMode === LayoutMode.TopMix) {
-    const matched = currentRoute.value.matched
-    return _menus.find(i => i.name === matched[0].name)?.children || []
-  }
-  return _menus
 })
 </script>
 

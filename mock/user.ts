@@ -78,6 +78,20 @@ const user: MockMethod[] = [
     }
   },
   {
+    url: '/basic-api/sso',
+    method: 'post',
+    timeout: 200,
+    statusCode: 200,
+    response(response) {
+      const { body } = response
+
+      if (body.ticket) {
+        return resultSuccess(userList.find(i => i.username === 'admin'))
+      }
+      return resultError('Incorrect sso')
+    }
+  },
+  {
     url: '/basic-api/mockList',
     method: 'get',
     response: response => {
@@ -97,6 +111,22 @@ const user: MockMethod[] = [
             progress: Number((Math.random() * 100).toFixed(2))
           }))
       })
+    }
+  },
+  {
+    url: '/basic-api/refreshToken',
+    method: 'get',
+    response: () => {
+      return resultSuccess({
+        refreshToken: new Date().getTime()
+      })
+    }
+  },
+  {
+    url: '/basic-api/uauth',
+    method: 'get',
+    response: () => {
+      return resultSuccess(null)
     }
   }
 ]

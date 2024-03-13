@@ -17,16 +17,16 @@ export function responseFormatter(
   return {
     code,
     data,
-    message
+    message: message || ''
   }
 }
 
-interface MockPluginMethodOptions<T> {
-  url: Recordable
-  body: T
-  query: Recordable
-  headers: Recordable
+interface MockPluginMethodOptions<B = any, Q = any, H = Recordable> {
+  url: string
+  body: B
+  query: Q
+  headers: H
 }
 export interface MockPluginMethod extends MockMethod {
-  response?: <T = any>(opt: MockPluginMethodOptions<T>) => any
+  response?: (opt: MockPluginMethodOptions<any>) => any
 }

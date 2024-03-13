@@ -185,6 +185,20 @@ const featureModuleRoute = {
       meta: {
         title: '图片预览'
       }
+    },
+    {
+      name: 'Message',
+      path: 'message',
+      meta: {
+        title: '消息提示'
+      }
+    },
+    {
+      name: 'Encrypt',
+      path: 'encrypt',
+      meta: {
+        title: '加密'
+      }
     }
   ]
 }
@@ -326,7 +340,27 @@ export const allRouteModules = [
   componentsModuleRoute,
   pluginModuleRoute,
   outPageModuleRoute,
-  echarts
+  echarts,
+  {
+    path: '/hooks',
+    name: 'Hooks',
+    meta: {
+      title: 'Hooks',
+      sort: 1,
+      icon: 'ep.home-filled'
+    },
+    children: [
+      {
+        path: 'use-dialog',
+        name: 'UseDialog',
+        meta: {
+          title: 'useDialog',
+          sort: 1,
+          icon: 'ep.home-filled'
+        }
+      }
+    ]
+  }
 ]
 
 export const permissionsMap = {

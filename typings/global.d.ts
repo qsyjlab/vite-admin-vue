@@ -1,4 +1,5 @@
 declare type Nullable<T> = T | null
+declare type Recordable<T = any> = Record<string, T>
 
 declare type NOOP = () => void
 
@@ -8,4 +9,8 @@ declare interface Fn<T = any, R = T> {
 
 declare type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P]
+}
+
+declare type Mutable<O> = {
+  -readonly [key in keyof O]: O[key]
 }

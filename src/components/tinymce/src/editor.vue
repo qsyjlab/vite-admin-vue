@@ -1,30 +1,29 @@
 <template>
   <div>
-    <textarea id="demo-tinymce" ref="tinymceRef" :style="{ visibility: 'hidden' }" />
+    <textarea :id="tinymceId" ref="tinymceRef" :style="{ visibility: 'hidden' }" />
   </div>
 </template>
 
-<script lang="ts">
-export default { name: 'VTinymceEditor' }
-</script>
-
 <script setup lang="ts">
 import type { Editor, RawEditorSettings } from 'tinymce'
-
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, unref, watch } from 'vue'
-
 import tinymce from 'tinymce/tinymce'
+import config from '@/config'
 import './source'
-
 import { tinymceProps } from './props'
-
 import { THEME_MODE } from './editor'
+
+defineOptions({
+  name: 'ProTinymce'
+})
 
 const props = defineProps(tinymceProps)
 const emits = defineEmits<{
   (event: 'change', val: string): void
   (event: 'update:modelValue', val: string): void
 }>()
+
+const tinymceId = new Date().getTime().toString()
 
 const tinymceRef = ref<HTMLElement | null>(null)
 const tinymceEditorInstance = ref<Editor | null>(null)
@@ -52,17 +51,19 @@ const lang = computed(() => {
 // 初始化选项
 const initOptions = computed<RawEditorSettings>(() => {
   const { height, toolbar } = props
-  const publicPath = '/'
+  const publicPath = config.publicBaseUrl
 
   const resource = `${publicPath}resource/tinymce`
 
   return {
     height,
     toolbar,
-    selector: '#demo-tinymce',
+    selector: `#${tinymceId}`,
     setup: editor => {
       setupTinymceEditor(editor)
     },
+    /** @see https://www.tiny.cloud/docs-3x/reference/Configuration3x/Configuration3x@convert_urls/ */
+    convert_urls: false,
     file_picker_types: 'file image media',
     skin_url: `${resource}/skins/ui/${themeMode.value}`,
     branding: false,
@@ -73,9 +74,14 @@ const initOptions = computed<RawEditorSettings>(() => {
     content_css: `${resource}/skins/content/default/content.css`,
     language_url: `${resource}/langs/${lang.value}.js`,
     language: lang.value,
-    menubar: 'file edit insert view format table',
+    menubar: 'file edit insert view format table formats',
     // 黑暗模式
-    plugins: 'lists image media table wordcount save preview'
+    plugins: 'lists image media table wordcount save preview',
+    formats: {
+      h1: { block: 'h1' },
+      h2: { block: 'h2' },
+      h3: { block: 'h3' }
+    }
   }
 })
 
@@ -87,7 +93,7 @@ function setupTinymceEditor(editor: Editor) {
     if (!tinymceEditorInstance.value) return
 
     props.modelValue && setValue(props.modelValue)
-    bindHandlers(editor)
+    bindHandlers()
   })
 
   editor.on(
@@ -101,7 +107,7 @@ function setupTinymceEditor(editor: Editor) {
 }
 
 // 绑定监听事件
-function bindHandlers(editor: Editor) {
+function bindHandlers() {
   watch(
     () => props.modelValue,
     (newVal, oldVal) => {
@@ -115,6 +121,16 @@ function bindHandlers(editor: Editor) {
 // 初始化实例
 function initEditorInstance() {
   tinymce.init(initOptions.value)
+
+  watch(
+    () => props.disabled,
+    newVal => {
+      tinymceEditorInstance.value?.setMode(newVal ? 'readonly' : 'design')
+    },
+    {
+      immediate: true
+    }
+  )
 }
 
 // 销毁

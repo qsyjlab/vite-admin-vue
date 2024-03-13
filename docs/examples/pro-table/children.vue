@@ -1,11 +1,11 @@
 <template>
   <div>
     <ProTable
+      v-model:selectedKeys="selectedKeys"
       header-title="多级表头"
       checkable
       :columns="columns"
       :data="tableData"
-      v-model:selectedKeys="selectedKeys"
     >
       <template #name1>插槽</template>
     </ProTable>
@@ -13,11 +13,10 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ProTableColumns } from '../../.vitepress/.exampleCompnents/index'
 
 const selectedKeys = ref([])
 
-const columns: ProTableColumns = [
+const columns = [
   {
     title: 'Date',
     key: 'date',

@@ -7,6 +7,10 @@ interface ImportMetaEnv {
   readonly VITE_APP_DESC: string
   // api base
   readonly VITE_APP_API_BASE_URL: string
+  // 单点登录地址
+  readonly VITE_CAS_BASE_URL: string
+  // 启用单点登录
+  readonly VITE_ENABLE_SSO: boolean
 }
 
 interface ImportMeta {
@@ -17,4 +21,10 @@ declare module '*.vue' {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
   const component: DefineComponent<{}, {}, any>
   export default component
+}
+
+/** 密钥文件后缀 */
+declare module '*.pem' {
+  const content: string
+  export default content
 }

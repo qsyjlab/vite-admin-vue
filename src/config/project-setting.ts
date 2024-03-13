@@ -1,12 +1,18 @@
 import { LayoutMode } from '@/layouts'
 import { readonly } from 'vue'
+import { PermissionModeEnum } from '@/enum'
 
 export interface ProjectConfig {
   theme: 'light' | 'dark'
   themeColor: string
+  logo: string
+
   defaultLayoutSetting: {
     layoutMode: LayoutMode
     /** header start */
+
+    /** 是否显示头部 */
+    showHeader: boolean
     /** 是否显示面包屑导航 */
     showBreadCrumb: boolean
     /** 是否显示面包屑导航图标 */
@@ -22,6 +28,9 @@ export interface ProjectConfig {
     asideMenuCollapsed: boolean
     /** 侧边栏宽度 */
     asideWidth: number
+    /** 混合菜单固定 */
+    sideMixFixedMenu: boolean
+
     /** aside end */
 
     /** tabbar start */
@@ -36,35 +45,39 @@ export interface ProjectConfig {
     showBackTop: boolean
     /** 是否显示页脚 */
     showFooter: boolean
+    /** 页脚高度 */
+    footerHeight: number
   }
-  /**
-   * 是否在切换路由导航的时候提示
-   * TODO: 暂时未能实现
-   */
-  openLeavePagePrompt: boolean
   /**
    * never:不缓存
    * tab: 缓存当前 tab 中的项，且未忽略的项
    * normal: 正常缓存含有 name的组件
    */
   keepAliveCachePolicy: 'never' | 'tab' | 'normal'
+
+  permissionMode: keyof typeof PermissionModeEnum
 }
 
-const setting: ProjectConfig = readonly({
+const setting = readonly<ProjectConfig>({
   themeColor: '#1677FF',
   theme: 'light',
+  logo: '/logo.svg',
   defaultLayoutSetting: {
     layoutMode: LayoutMode.Side,
     /** header start */
     showBreadCrumb: true,
     showBreadCrumbIcon: true,
     showSettingButton: true,
+
+    /** 是否显示头部 */
+    showHeader: true,
     headerHeight: 48,
     /** header end */
 
     /** aside start */
     asideMenuCollapsed: false,
     asideWidth: 220,
+    sideMixFixedMenu: false,
 
     /** aside end */
 
@@ -82,10 +95,12 @@ const setting: ProjectConfig = readonly({
     /** 返回顶部 */
     showBackTop: true,
     /** 是否显示页脚 */
-    showFooter: true
+    showFooter: true,
+    /** 页脚高度 */
+    footerHeight: 50
   },
-  openLeavePagePrompt: true,
-  keepAliveCachePolicy: 'normal'
+  keepAliveCachePolicy: 'normal',
+  permissionMode: PermissionModeEnum.ROUTE_MAPPING
 })
 
 export default setting

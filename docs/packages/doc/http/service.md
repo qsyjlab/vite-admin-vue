@@ -26,7 +26,7 @@ export type BaseAxiosRequestConfig = {
   headers?: AxiosRequestConfig['headers']
 } & RequestConfigEx
 interface RequestConfigEx {
-  interceptorsHooks?: InterceptorsType
+  interceptorHooks?: InterceptorsType
   transform?: RequestTransform
 }
 ```
@@ -34,11 +34,11 @@ interface RequestConfigEx {
 ### 创建
 
 ```ts
-import { interceptorsHooks, requestCatch, transformResponse } from './axios-request-impl'
+import { interceptorHooks, requestCatch, transformResponse } from './axios-request-impl'
 import { RequestResultAdapter } from './request-adapter'
 
 export const mockService = new RequestResultAdapter({
-  interceptorsHooks,
+  interceptorHooks,
   baseURL: '/basic-api',
   transform: {
     transformResponse,
@@ -94,32 +94,36 @@ export class RequestResultAdapter extends AxiosRequest {
 }
 ```
 
-## transform 和 interceptorsHooks
+## transform 和 interceptorHooks
 
-### interceptorsHooks
+### interceptorHooks
 
 类型：
 
 ```ts
 export interface InterceptorsType {
-  requestInterceptors?: RequestInterceptorsType
-  requestInterceptorsCatch?: RequestInterceptorsCatchType
-  responseInterceptors?: ResponseInterceptorsType
-  responseInterceptorsCatch?: ResponseInterceptorsCatchType
+  requestInterceptor?: requestInterceptorType
+  requestInterceptorCatch?: requestInterceptorCatchType
+  responseInterceptor?: responseInterceptorType
+  responseInterceptorCatch?: responseInterceptorCatchType
 }
 
-export type RequestInterceptorsType = (
+export type requestInterceptorType = (
   // 这里使用的是最新版本的 axios 1.x 以上 与 0.x 类型并不是同一个
   config: InternalAxiosRequestConfig
 ) => InternalAxiosRequestConfig
 
-export type RequestInterceptorsCatchType = (error: CatchError) => Promise<CatchError>
+export type requestInterceptorCatchType = (
+  error: CatchError,
+  instance: AxiosRequest
+) => Promise<CatchError>
 
-export type ResponseInterceptorsType = (response: BaseAxiosResponse) => BaseAxiosResponse
+export type responseInterceptorType = (response: BaseAxiosResponse) => BaseAxiosResponse
 
-export type ResponseInterceptorsCatchType = (error: CatchError) => Promise<CatchError>
-
-export type CatchError = AxiosError
+export type responseInterceptorCatchType<T = any> = (
+  error: CatchError<T>,
+  instance: AxiosRequest
+) => Promise<CatchError>
 ```
 
 最终会被 `AxiosRequest` 注册
@@ -127,14 +131,20 @@ export type CatchError = AxiosError
 ```ts
 private registerInterceptors(): void {
     const {
-      requestInterceptors,
-      requestInterceptorsCatch,
-      responseInterceptors,
-      responseInterceptorsCatch
-    } = this.instanceConfig.interceptorsHooks || {}
+      requestInterceptor,
+      requestInterceptorCatch,
+      responseInterceptor,
+      responseInterceptorCatch
+    } = this.instanceConfig.interceptorHooks || {}
 
-    this.instance.interceptors.request.use(requestInterceptors, requestInterceptorsCatch)
-    this.instance.interceptors.response.use(responseInterceptors, responseInterceptorsCatch)
+    this.instance.interceptors.request.use(
+      requestInterceptor,
+      error => requestInterceptorCatch?.(error, this) ?? error
+    )
+    this.instance.interceptors.response.use(
+      responseInterceptor,
+      error => responseInterceptorCatch?.(error, this) ?? error
+    )
 }
 ```
 

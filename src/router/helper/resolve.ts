@@ -2,6 +2,7 @@ import { cloneDeep, omit } from 'lodash-es'
 import { createRouter, createWebHistory } from 'vue-router'
 import { treeMap } from '@/utils'
 import type { RouteRecordNormalized, RouteRecordRaw, RouterOptions } from 'vue-router'
+import type { Menu } from '../types'
 
 export function createWebHistoryRouter(
   routes: RouteRecordRaw[],
@@ -91,14 +92,7 @@ export async function flatRoutesLevel(asyncRoutes: RouteRecordRaw[]) {
 function joinParentPath(menus: any[], parentPath = '') {
   for (let index = 0; index < menus.length; index++) {
     const menu = menus[index]
-    // https://next.router.vuejs.org/guide/essentials/nested-routes.html
-    // Note that nested paths that start with / will be treated as a root path.
-    // 请注意，以 / 开头的嵌套路径将被视为根路径。
-    // This allows you to leverage the component nesting without having to use a nested URL.
-    // 这允许你利用组件嵌套，而无需使用嵌套 URL。
     if (!menu.path.startsWith('/')) {
-      // path doesn't start with /, nor is it a url, join parent path
-      // 路径不以 / 开头，也不是 url，加入父路径
       menu.path = `${parentPath}/${menu.path}`
     }
     if (menu?.children?.length) {
@@ -109,23 +103,24 @@ function joinParentPath(menus: any[], parentPath = '') {
 
 // 将路由转换成菜单
 export function transformRouteToMenu(routeModList: RouteRecordRaw[]) {
-  const cloneRouteModList = cloneDeep(routeModList)
-  // const routeList: RouteRecordRaw[] = []
+  const cloneRouteModList = promoteSingleChild(cloneDeep(routeModList))
 
-  // // 对路由项进行修改
-  // cloneRouteModList.forEach(item => {
-  //   if (routerMapping && item?.meta?.hideChildrenInMenu && typeof item.redirect === 'string') {
-  //     item.path = item.redirect
-  //   }
+  function promoteSingleChild(menus: RouteRecordRaw[]): RouteRecordRaw[] {
+    return menus.map(item => {
+      let _temp: RouteRecordRaw = { ...item }
+      const children = item.children
+      if (children && children.length) {
+        _temp.children = promoteSingleChild(children || [])
+        if (_temp.children?.length === 1 && _temp.meta?.hideChildrenInMenu !== false)
+          _temp = {
+            ..._temp.children[0],
+            meta: Object.assign(_temp.meta || {}, _temp.children[0].meta)
+          }
+      }
+      return _temp
+    })
+  }
 
-  //   // if (item.meta?.single) {
-  //   //   const realItem = item?.children?.[0]
-  //   //   realItem && routeList.push(realItem)
-  //   // } else {
-  //   //   routeList.push(item)
-  //   // }
-  //   routeList.push(item)
-  // })
   // 提取树指定结构
   const list = treeMap(cloneRouteModList, {
     conversion: (node: RouteRecordRaw) => {
@@ -142,4 +137,14 @@ export function transformRouteToMenu(routeModList: RouteRecordRaw[]) {
   // 路径处理
   joinParentPath(list)
   return cloneDeep(list)
+}
+
+// 处理菜单排序
+export function routeMenusSort(menus: Menu[]) {
+  return menus.sort((prev, next) => {
+    return (
+      (prev.meta?.order || Number.POSITIVE_INFINITY) -
+      (next.meta?.order || Number.POSITIVE_INFINITY)
+    )
+  })
 }

@@ -10,12 +10,14 @@
     :list-type="listType"
     :drag="drag"
     :class="['upload', isHideUploadTrigger() ? 'hide-trigger' : '']"
-    :autoUpload="autoUpload"
+    :auto-upload="autoUpload"
     :accept="accept"
-    @change="change"
     v-bind="$attrs"
+    @change="change"
   >
-    <slot v-if="!isHideUploadTrigger()"></slot>
+    <slot v-if="!isHideUploadTrigger()">
+      <el-button :icon="UploadFilled" type="primary">上传</el-button>
+    </slot>
     <template #file="{ file }">
       <slot name="file" :file="file"></slot>
     </template>
@@ -37,6 +39,7 @@
 import { ref, watch } from 'vue'
 import { bytesToSize } from '@/utils'
 import { ElUpload, ElImageViewer } from 'element-plus'
+import { UploadFilled } from '@element-plus/icons-vue'
 import 'element-plus/es/components/image-viewer/style/css'
 
 import type { UploadProps } from 'element-plus'
@@ -48,7 +51,7 @@ defineSlots<{
 }>()
 
 defineOptions({
-  name: 'Upload'
+  name: 'ProUpload'
 })
 
 interface IProps {
@@ -75,7 +78,7 @@ const props = withDefaults(defineProps<Partial<UploadPropsExtend> & IProps>(), {
   listType: 'text',
   autoUpload: true,
   modelValue: () => [],
-
+  limit: Infinity,
   size: 1024 * 1024 * 20
 })
 

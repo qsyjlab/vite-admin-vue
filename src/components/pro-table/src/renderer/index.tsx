@@ -1,8 +1,18 @@
-import { BaseValueType, ProTableColumnItem, ValueEnum, ValueType, ValueTypeVal } from '../types'
+import type {
+  BaseValueType,
+  CustomRendererFn,
+  ProTableColumnItem,
+  ValueEnum,
+  ValueType,
+  ValueTypeObject,
+  ValueTypeVal
+} from '../types'
 
-import { toDisplayString } from 'vue'
+import { h, isVNode, toDisplayString } from 'vue'
 import { ElProgress, ElImage } from 'element-plus'
 import Badge from '.././components/badge.vue'
+import { resolveValue } from '../utils'
+import { cloneDeep } from 'lodash-es'
 
 interface ResolveRenderOptions<T = any> {
   row: any
@@ -14,18 +24,48 @@ interface ResolveRenderOptions<T = any> {
     page: number
     pageSize: number
   }
+  customRendererMap?: Record<string, CustomRendererFn>
 }
 
 export function resolveRenderer<T = any>(options: ResolveRenderOptions<T>) {
-  const { row, columnConfig, valueEnum, valueType, pagination, index } = options
+  const { row, columnConfig, valueEnum, valueType, pagination, index, customRendererMap } = options
 
-  const value = row[columnConfig.key]
+  const value = resolveValue(row, columnConfig.key)
 
-  let realValueType = resolveValueType(valueType, row) as ValueTypeVal
+  const realValueType = resolveValueType(valueType, row) as ValueTypeVal
 
-  realValueType = typeof realValueType === 'string' ? realValueType : realValueType.type || 'text'
+  let valueTypeObject: ValueTypeObject = {
+    type: typeof realValueType === 'string' ? realValueType : realValueType.type || 'text'
+  }
 
-  // TODO: 优化类型
+  if (typeof realValueType === 'object') {
+    valueTypeObject = Object.assign(valueTypeObject, { ...realValueType })
+  }
+
+  const _valueEumn = resolveValueEnum(valueEnum, row)
+
+  if (customRendererMap) {
+    const customRender = customRendererMap[valueTypeObject.type]
+
+    if (customRender) {
+      const result = customRender(
+        cloneDeep({
+          value,
+          row,
+          index,
+          columnConfig,
+          valueEnum: _valueEumn,
+          valueType: valueTypeObject,
+          pagination
+        })
+      )
+
+      if (isVNode(result)) return h(result)
+
+      return result
+    }
+  }
+
   const valueTypeRendererMap: Record<BaseValueType, any> = {
     // tsx 返回值不能是对象
     text: () => {
@@ -34,8 +74,6 @@ export function resolveRenderer<T = any>(options: ResolveRenderOptions<T>) {
     },
     // 枚举类型
     enum: () => {
-      const _valueEumn = resolveValueEnum(valueEnum, row)
-
       const enumVal = _valueEumn[value]
 
       if (!enumVal) return ''
@@ -44,9 +82,12 @@ export function resolveRenderer<T = any>(options: ResolveRenderOptions<T>) {
     },
     // 进度条
     progress: () => {
-      const _realValueType = realValueType as any
       return (
-        <ElProgress percentage={value} status={_realValueType?.status} color={_realValueType.color}>
+        <ElProgress
+          percentage={value}
+          status={valueTypeObject?.status as any}
+          color={valueTypeObject.color}
+        >
           {{
             default: ({ percentage }: { percentage: number }) => `${percentage || 0}%`
           }}
@@ -63,21 +104,25 @@ export function resolveRenderer<T = any>(options: ResolveRenderOptions<T>) {
     },
     // 渲染图片
     image: () => {
+      let src = value
+      if (typeof valueTypeObject.src === 'function') {
+        src = valueTypeObject.src(value)
+      }
       return value ? (
         <ElImage
-          src={value}
-          previewSrcList={[value]}
+          src={src}
+          previewSrcList={[src]}
           initialIndex={0}
           previewTeleported
-          style={{
-            width: columnConfig.width || '100px'
-          }}
+          style={valueTypeObject.style}
         ></ElImage>
       ) : null
     }
   }
 
-  const renderer = valueTypeRendererMap[realValueType]
+  const renderer = valueTypeRendererMap[valueTypeObject.type]
+
+  if (!renderer) return value
 
   return renderer()
 }

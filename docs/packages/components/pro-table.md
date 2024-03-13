@@ -55,6 +55,7 @@ pro-table/renderer
 | selectedKeys/v-model:selectedKeys | checkbox 列选中的 rowKey                                       | Array                                               | []      |
 | loading/v-model: loading          | 数据加载状态                                                   | boolean                                             | false   |
 | editable                          | 编辑模式下配置                                                 | `ProTableEditable`                                  | {}      |
+| cacheSelectedData                 | 分页数据下 选中项回显需要添加，用于分页选中回显状态。          | Array                                               | []      |
 
 ## columns 配置
 

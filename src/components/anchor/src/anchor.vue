@@ -1,6 +1,6 @@
 <template>
-  <div :class="['anchor', direction === 'horizontal' ? 'is-horizontal' : '']" ref="anchorRef">
-    <span class="anchor-indicator" ref="indicatorRef"></span>
+  <div ref="anchorRef" :class="['anchor', direction === 'horizontal' ? 'is-horizontal' : '']">
+    <span ref="indicatorRef" class="anchor-indicator"></span>
 
     <AnchorLink
       v-for="item in getAnchors()"

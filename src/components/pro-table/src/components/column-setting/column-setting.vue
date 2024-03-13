@@ -33,7 +33,6 @@
 
         <setting-tree
           v-if="columnsStore.leftColumns.length"
-          style="margin-bottom: 20px"
           title="固定在左侧"
           fixed="left"
           :columns="columnsStore.leftColumns"
@@ -43,8 +42,9 @@
         ></setting-tree>
         <setting-tree
           v-if="columnsStore.autoColumns.length"
-          style="margin-bottom: 20px"
-          title="不固定"
+          :title="
+            !columnsStore.leftColumns.length && !columnsStore.leftColumns.length ? '' : '不固定'
+          "
           fixed="auto"
           :columns="columnsStore.autoColumns"
           @move="moveNode"
@@ -53,7 +53,6 @@
         ></setting-tree>
         <setting-tree
           v-if="columnsStore.rightColumns.length"
-          style="margin-bottom: 20px"
           title="固定在右侧"
           fixed="right"
           :columns="columnsStore.rightColumns"

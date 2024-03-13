@@ -1,9 +1,7 @@
 <template>
-  <el-card>
-    <template #header>
-      {{ $route.meta.title }}
-    </template>
-  </el-card>
+  <page-wrapper>
+    <page-card :header="$route.meta.title"></page-card>
+  </page-wrapper>
 </template>
 
 <script lang="ts">

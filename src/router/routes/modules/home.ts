@@ -7,9 +7,9 @@ export default defineExposeRoutes([
     name: 'Welcome',
     meta: {
       title: 'Welcome',
-      sort: 1,
+      order: 10,
       icon: 'ep.home-filled',
-      hideChildrenInMenu: true,
+      // hideChildrenInMenu: true,
       hideInTab: true
     },
     redirect: {
@@ -22,18 +22,16 @@ export default defineExposeRoutes([
         name: 'WelcomeIndex',
         meta: {
           title: 'Welcome',
-          sort: 1,
           icon: 'ep.home-filled',
 
           affixTab: true,
-          currentActiveMenu: 'Welcome',
+          // currentActiveMenu: 'Welcome',
           hideInBreadcrumb: true
         },
-        component: () => import(/* webpackChunkName: "Welcome" */ '@/views/system/WelcomeTo.vue')
+        component: () => import('@/views/system/WelcomeTo.vue')
       }
     ]
   },
-
   {
     path: '/dashboard',
     name: 'Dashboard',
@@ -52,7 +50,6 @@ export default defineExposeRoutes([
         name: 'DashboardIndex',
         meta: {
           title: 'Dashboard',
-          sort: 2,
           icon: 'ep.stopwatch',
           currentActiveMenu: 'Dashboard',
           hideInBreadcrumb: true,

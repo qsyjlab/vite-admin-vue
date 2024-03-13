@@ -2,8 +2,8 @@
 import { computed, defineComponent, ref, readonly, h } from 'vue'
 import { useTitle } from '@vueuse/core'
 import { useRoute } from 'vue-router'
-import { ElConfigProvider } from 'element-plus'
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import { ElConfigProvider, ElProgress } from 'element-plus'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 import { createBreakpointListener } from '@/hooks/event/use-breakpoint'
 import { createAppProviderContext } from './context'
@@ -14,11 +14,12 @@ import proComponentSetting from '@/config/pro-component-setting'
 import config from '@/config'
 
 import ProConfigProvider from '@/components/pro-config-provider'
+import { getLayoutCache } from '@/store/local'
 
 export default defineComponent({
   name: 'AppProvider',
   inheritAttrs: false,
-  setup(props, { slots }) {
+  setup(_, { slots }) {
     const route = useRoute()
 
     const isMobile = ref(false)
@@ -46,8 +47,9 @@ export default defineComponent({
 
     function initAppConfig() {
       const { initLayout } = useLayoutConfigHandler()
-      const defaultLayoutSetting = projectConfig.defaultLayoutSetting
+      const layoutConfigCache = getLayoutCache()
 
+      const defaultLayoutSetting = projectConfig.defaultLayoutSetting
       initLayout({
         layoutMode: defaultLayoutSetting.layoutMode,
         collapsed: defaultLayoutSetting.asideMenuCollapsed,
@@ -56,8 +58,14 @@ export default defineComponent({
         headerHeight: defaultLayoutSetting.headerHeight,
         theme: projectConfig.theme,
         themeColor: projectConfig.themeColor,
-        splitMenu: defaultLayoutSetting.splitMenu
+        splitMenu: defaultLayoutSetting.splitMenu,
+        footerHeight: defaultLayoutSetting.footerHeight,
+        sideMixFixedMenu: defaultLayoutSetting.sideMixFixedMenu
       })
+      layoutConfigCache &&
+        initLayout({
+          ...layoutConfigCache
+        })
     }
 
     return () =>
@@ -65,7 +73,28 @@ export default defineComponent({
         ElConfigProvider,
         { locale: zhCn },
         {
-          default: () => h(ProConfigProvider, { ...proComponentSetting }, () => slots.default?.())
+          default: () =>
+            h(
+              ProConfigProvider,
+              {
+                proTable: {
+                  ...proComponentSetting.proTable,
+                  rendererMap: {
+                    'custom-text': () => {
+                      return '测试自定义渲染器'
+                    },
+                    'custom-render-componet': () => {
+                      return defineComponent({
+                        setup() {
+                          return () => h(ElProgress, { percentage: 50 })
+                        }
+                      })
+                    }
+                  }
+                }
+              },
+              () => slots.default?.()
+            )
         }
       )
   }

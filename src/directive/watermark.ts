@@ -1,4 +1,3 @@
-// import { useUserStore } from '@/store'
 import { Directive, ref, nextTick } from 'vue'
 import { useWaterMark, WatermarkProps } from '@/components/watermark/src/use-watermark'
 

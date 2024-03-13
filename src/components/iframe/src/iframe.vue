@@ -1,9 +1,9 @@
 <template>
-  <div :style="getWrapStyle" v-loading="loading">
+  <div v-loading="loading" :style="getWrapStyle">
     <iframe
+      ref="frameRef"
       :src="frameSrc"
       :class="`iframe-page__main`"
-      ref="frameRef"
       @load="hideLoading"
     ></iframe>
   </div>
