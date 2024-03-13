@@ -8,7 +8,7 @@
       <!-- 面包屑导航 -->
       <template
         v-if="
-          projectConfig.defaultLayoutSetting.showBreadCrumb &&
+          layoutConfig.showBreadCrumb &&
           !isMobile &&
           [LayoutMode.Side, LayoutMode.SideMix].includes(layoutConfig.layoutMode)
         "
@@ -70,7 +70,6 @@ import { computed, onMounted } from 'vue'
 import { Setting, FullScreen, Notification as NotificationIcon } from '@element-plus/icons-vue'
 import { useAppInject } from '@/application'
 import { useLayoutStore, usePermissionStore } from '@/store'
-import { storeToRefs } from 'pinia'
 import { Breadcrumb, UserMenu } from './components'
 import { AsideMenu } from '../menu'
 import { Logo } from '../../components/logo'
@@ -86,11 +85,9 @@ const layoutStore = useLayoutStore()
 const { toggleSettingDrawer } = layoutStore
 
 const { isFullscreen, toggle } = useFullscreen()
-
-const { layoutConfig } = storeToRefs(useLayoutStore())
 const { getMenus } = usePermissionStore()
 
-const { setLayoutConfig } = useLayoutConfigHandler()
+const { setLayoutConfig, layoutConfig } = useLayoutConfigHandler()
 
 const { isMobile, projectConfig } = useAppInject()
 

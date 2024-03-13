@@ -14,6 +14,7 @@ import proComponentSetting from '@/config/pro-component-setting'
 import config from '@/config'
 
 import ProConfigProvider from '@/components/pro-config-provider'
+import { getLayoutCache } from '@/store/local'
 
 export default defineComponent({
   name: 'AppProvider',
@@ -46,8 +47,9 @@ export default defineComponent({
 
     function initAppConfig() {
       const { initLayout } = useLayoutConfigHandler()
-      const defaultLayoutSetting = projectConfig.defaultLayoutSetting
+      const layoutConfigCache = getLayoutCache()
 
+      const defaultLayoutSetting = projectConfig.defaultLayoutSetting
       initLayout({
         layoutMode: defaultLayoutSetting.layoutMode,
         collapsed: defaultLayoutSetting.asideMenuCollapsed,
@@ -57,8 +59,10 @@ export default defineComponent({
         theme: projectConfig.theme,
         themeColor: projectConfig.themeColor,
         splitMenu: defaultLayoutSetting.splitMenu,
-        footerHeight: defaultLayoutSetting.footerHeight
+        footerHeight: defaultLayoutSetting.footerHeight,
+        sideMixFixedMenu: defaultLayoutSetting.sideMixFixedMenu
       })
+      layoutConfigCache && initLayout(layoutConfigCache)
     }
 
     return () =>

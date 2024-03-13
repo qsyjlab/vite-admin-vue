@@ -28,6 +28,9 @@ export interface ProjectConfig {
     asideMenuCollapsed: boolean
     /** 侧边栏宽度 */
     asideWidth: number
+    /** 混合菜单固定 */
+    sideMixFixedMenu: boolean
+
     /** aside end */
 
     /** tabbar start */
@@ -45,11 +48,6 @@ export interface ProjectConfig {
     /** 页脚高度 */
     footerHeight: number
   }
-  /**
-   * 是否在切换路由导航的时候提示
-   * TODO: 暂时未能实现
-   */
-  openLeavePagePrompt: boolean
   /**
    * never:不缓存
    * tab: 缓存当前 tab 中的项，且未忽略的项
@@ -79,6 +77,7 @@ const setting = readonly<ProjectConfig>({
     /** aside start */
     asideMenuCollapsed: false,
     asideWidth: 220,
+    sideMixFixedMenu: false,
 
     /** aside end */
 
@@ -100,7 +99,6 @@ const setting = readonly<ProjectConfig>({
     /** 页脚高度 */
     footerHeight: 50
   },
-  openLeavePagePrompt: true,
   keepAliveCachePolicy: 'normal',
   permissionMode: PermissionModeEnum.ROUTE_MAPPING
 })
