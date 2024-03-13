@@ -10,3 +10,4 @@ export * from './web/use-page'
 export * from './message'
 
 export { useAuth } from './use-auth'
+export * from './use-layout-menu'
