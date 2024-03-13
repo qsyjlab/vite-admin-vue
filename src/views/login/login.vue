@@ -68,6 +68,15 @@ const loginAdmin = () => {
 </script>
 
 <style lang="scss" scoped>
+@media (max-width: 850px) {
+  .login-layout-body {
+    width: 100vw !important;
+  }
+  .login-exhibit {
+    display: none !important;
+  }
+}
+
 .login-container {
   width: 100vw;
   height: 100vh;
