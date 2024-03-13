@@ -35,7 +35,8 @@ const retry = () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: var(--global-bg-color-2);
+  /* background-color: white; */
 }
 
 .icon {
