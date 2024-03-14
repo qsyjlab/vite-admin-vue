@@ -2,7 +2,7 @@
   <div class="basic-layout-aside__wrapper">
     <slot name="logo"></slot>
 
-    <div :style="scrollbarWrapperStyle">
+    <div class="scroll-wrapper">
       <el-scrollbar>
         <div class="basic-layout-aside__menus">
           <aside-menu :collapsed="props.collapsed" :menus="menus"></aside-menu>
@@ -28,13 +28,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, CSSProperties } from 'vue'
+import { computed } from 'vue'
 import { AsideMenu } from '../menu'
 import { storeToRefs } from 'pinia'
-import { useLayoutStore, usePermissionStore } from '@/store'
+import { useLayoutStore } from '@/store'
 import { Fold, Expand } from '@element-plus/icons-vue'
-import { LayoutMode } from '../../enum'
-import { useRouter } from 'vue-router'
 import { useLayoutMenu } from '@/hooks'
 
 interface IProps {
@@ -59,19 +57,22 @@ const { menus } = useLayoutMenu(
     }
   })
 )
-
-const scrollbarWrapperStyle = computed<CSSProperties>(() => {
-  return {
-    height: `calc(100% - ${layoutConfig.value.headerHeight}px  - 40px)`
-  }
-})
 </script>
 
 <style lang="scss" scoped>
-.trigger {
+.basic-layout-aside__wrapper {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 20px;
+  flex-direction: column;
+  .scroll-wrapper {
+    flex: auto;
+    min-height: 0;
+  }
+  .trigger {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 15px;
+    flex-shrink: 0;
+  }
 }
 </style>
