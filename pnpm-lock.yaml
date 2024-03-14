@@ -29,6 +29,9 @@ importers:
       docx:
         specifier: ^8.5.0
         version: 8.5.0
+      docx-preview:
+        specifier: ^0.3.0
+        version: 0.3.0
       echarts:
         specifier: ^5.4.3
         version: 5.4.3
@@ -4808,6 +4811,12 @@ packages:
     dependencies:
       esutils: 2.0.3
     dev: true
+
+  /docx-preview@0.3.0:
+    resolution: {integrity: sha512-uLrLhytJkXe420Q0C/cyYuZYcKr+2bh7aXjwR/XclEIuGq9ifDRH1/GVqLBn7+ZX29CKC1bZovtjyfhETjdKKg==}
+    dependencies:
+      jszip: 3.10.1
+    dev: false
 
   /docx@8.5.0:
     resolution: {integrity: sha512-4SbcbedPXTciySXiSnNNLuJXpvxFe5nqivbiEHXyL8P/w0wx2uW7YXNjnYgjW0e2e6vy+L/tMISU/oAiXCl57Q==}

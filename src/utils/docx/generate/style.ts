@@ -1,7 +1,7 @@
 import { CSSProperties } from 'vue'
 import { camelize } from 'vue'
 import { AlignmentType, UnderlineType, ShadingType } from 'docx'
-import { parseStringStyle } from '../element'
+import { parseStringStyle } from '../../element'
 
 const styleTransformMap = {
   color: {

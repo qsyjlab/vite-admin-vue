@@ -30,3 +30,7 @@ export const isRegExp = (value: unknown): value is RegExp =>
 export const objectToString = Object.prototype.toString
 
 export const extend = Object.assign
+
+export const isFile = (value: unknown): value is File => value instanceof File
+
+export const isBlob = (value: unknown): value is Blob => value instanceof Blob

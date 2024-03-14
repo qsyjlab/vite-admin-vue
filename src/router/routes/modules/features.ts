@@ -137,6 +137,15 @@ export default defineExposeRoutes([
               ignoreAuth: true
             },
             component: () => import('@/views/system/feature/docx/html-to-docx.vue')
+          },
+          {
+            name: 'HtmlToDocxPreview',
+            path: 'html-to-docx-preview',
+            meta: {
+              title: '在线预览docx',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/feature/docx/docx-preview.vue')
           }
         ]
       }

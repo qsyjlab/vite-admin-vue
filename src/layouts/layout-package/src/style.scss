@@ -36,10 +36,11 @@
   }
 
   &-main {
-    flex: 1;
+    // flex: 1;
     width: 100%;
     transition-property: padding-left;
     box-sizing: border-box;
+    flex-grow: 1;
   }
 
   &-footer {
