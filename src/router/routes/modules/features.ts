@@ -90,6 +90,15 @@ export default defineExposeRoutes([
         component: BlankContainer,
         children: [
           {
+            name: 'ExcelPreview',
+            path: 'preview',
+            meta: {
+              title: '在线预览',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/feature/excel/preview.vue')
+          },
+          {
             name: 'ExcelBase',
             path: 'base',
             meta: {

@@ -21,6 +21,7 @@
     "@arco-design/color": "^0.4.0",
     "@element-plus/icons-vue": "^2.3.1",
     "@unocss/reset": "^0.58.3",
+    "@vue-office/excel": "^1.7.1",
     "@vueuse/core": "^10.7.2",
     "axios": "^1.5.0",
     "dayjs": "^1.11.10",
@@ -40,6 +41,7 @@
     "sortablejs": "^1.15.0",
     "tinymce": "5.10.3",
     "vue": "^3.4.15",
+    "vue-demi": "^0.14.7",
     "vue-router": "^4.2.5",
     "xlsx": "^0.18.5"
   },
