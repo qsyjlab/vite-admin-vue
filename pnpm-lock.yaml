@@ -20,6 +20,9 @@ importers:
       '@vue-office/excel':
         specifier: ^1.7.1
         version: 1.7.1(vue-demi@0.14.7)(vue@3.4.15)
+      '@vue-office/pdf':
+        specifier: ^1.6.4
+        version: 1.6.4(vue-demi@0.14.7)(vue@3.4.15)
       '@vueuse/core':
         specifier: ^10.7.2
         version: 10.7.2(vue@3.4.15)
@@ -3368,6 +3371,21 @@ packages:
 
   /@vue-office/excel@1.7.1(vue-demi@0.14.7)(vue@3.4.15):
     resolution: {integrity: sha512-VkaW9pWul+Ui8S2bkdMdZ5tsmaLpk0FN2G7X9b3MbQqHwP8tQMN0XSVi+E5jDkqXWl+dbF2iLVuz/1ZeAcif/A==}
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.7.1
+      vue: ^2.0.0 || >=3.0.0
+      vue-demi: ^0.14.6
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      vue: 3.4.15(typescript@5.3.3)
+      vue-demi: 0.14.7(vue@3.4.15)
+    dev: false
+
+  /@vue-office/pdf@1.6.4(vue-demi@0.14.7)(vue@3.4.15):
+    resolution: {integrity: sha512-wY+M62IWqST2KAjtHrRgvvVN48JSjlWfkugpmlfJmuv8CtmwrD8uAFDWQARK+73kW7X8yG7YZtRmYx8k16X7+g==}
     requiresBuild: true
     peerDependencies:
       '@vue/composition-api': ^1.7.1

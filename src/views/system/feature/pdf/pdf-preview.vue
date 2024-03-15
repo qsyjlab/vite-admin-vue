@@ -2,16 +2,18 @@
   <page-wrapper>
     <page-card :header="$route.meta.title">
       <input type="file" @change="fileChange" />
-      <xlsx-preview :file="src"></xlsx-preview>
+
+      <div style="height: 700px">
+        <pdf-preview :file="src"></pdf-preview>
+      </div>
     </page-card>
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { XlsxPreview } from '@/components/xlsx-preview'
-
 import { ref } from 'vue'
+import { PdfPreview } from '@/components/pdf-preview'
 
-const src = ref()
+const src = ref<Blob>()
 
 const fileChange = (event: Event) => {
   if (event?.target) {
@@ -19,9 +21,7 @@ const fileChange = (event: Event) => {
 
     if (files.length >= 1) {
       const file = files[0]
-      src.value = URL.createObjectURL(new Blob([file], { type: file.type }))
-
-      console.log(' src.value', src.value)
+      src.value = new Blob([file], { type: file.type })
     }
   }
 }

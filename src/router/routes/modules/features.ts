@@ -81,6 +81,27 @@ export default defineExposeRoutes([
         component: () => import('@/views/system/feature/print/print.vue')
       },
       {
+        name: 'Pdf',
+        path: 'pdf',
+        meta: {
+          title: 'Pdf',
+          ignoreAuth: true,
+          hideChildrenInMenu: false
+        },
+        component: BlankContainer,
+        children: [
+          {
+            name: 'PdfPreview',
+            path: 'preview',
+            meta: {
+              title: '在线预览',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/feature/pdf/pdf-preview.vue')
+          }
+        ]
+      },
+      {
         name: 'Excel',
         path: 'excel',
         meta: {
