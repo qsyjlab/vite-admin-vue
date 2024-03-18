@@ -84,6 +84,6 @@ export default defineConfig({
         { text: '分段器 segmented', link: '/components/segmented.md' }
       ]
     },
-    socialLinks: [{ icon: 'github', link: 'https://github.com/qsyjlab/Vite Admin Vue' }]
+    socialLinks: [{ icon: 'github', link: 'https://github.com/qsyjlab/vite-admin-vue' }]
   }
 })
