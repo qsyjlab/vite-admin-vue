@@ -26,7 +26,7 @@ export default {
   },
   async enhanceApp({ app, router, siteData }) {
     if (!import.meta.env.SSR) {
-      app.component('Demo', Demo)
+      // app.component('Demo', Demo)
       app.use(ElementPlus)
       const plugin = await import('../.exampleCompnents/index.mjs')
 
