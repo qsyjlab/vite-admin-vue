@@ -7,7 +7,6 @@ export default defineExposeRoutes([
     path: '/components',
     meta: {
       title: '组件',
-      sort: 4,
       icon: 'ep.grid'
     },
     redirect: { name: 'ProTable' },

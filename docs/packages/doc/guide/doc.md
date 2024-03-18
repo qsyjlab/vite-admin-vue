@@ -2,7 +2,7 @@
 
 ## 介绍
 
-vite-admin-vue 是一个基于 Vue3、Vite、 Element-Plus、TypeScript 的后台解决方案。内置二次封装组件、utils、hooks、动态菜单、权限校验、按钮级别权限控制等功能。项目会使用前端较新的技术栈，可以作为项目的启动模版。
+Vite Admin Vue 是一个基于 Vue3、Vite、 Element-Plus、TypeScript 的后台解决方案。内置二次封装组件、utils、hooks、动态菜单、权限校验、按钮级别权限控制等功能。项目会使用前端较新的技术栈，可以作为项目的启动模版。
 
 ## 文档
 

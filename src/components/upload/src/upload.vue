@@ -12,6 +12,7 @@
     :class="['upload', isHideUploadTrigger() ? 'hide-trigger' : '']"
     :auto-upload="autoUpload"
     :accept="accept"
+    :show-file-list="showFileList"
     v-bind="$attrs"
     @change="change"
   >
@@ -22,7 +23,7 @@
       <slot name="file" :file="file"></slot>
     </template>
 
-    <template #tip>
+    <template v-if="showTip" #tip>
       <slot name="tip">
         <div class="el-upload__tip">{{ getTipsString() }}</div>
       </slot>
@@ -57,6 +58,7 @@ defineOptions({
 interface IProps {
   modelValue?: any[]
   size?: number
+  showTip?: boolean
 }
 
 type UploadPropsExtend = Pick<
@@ -79,7 +81,8 @@ const props = withDefaults(defineProps<Partial<UploadPropsExtend> & IProps>(), {
   autoUpload: true,
   modelValue: () => [],
   limit: Infinity,
-  size: 1024 * 1024 * 20
+  size: 1024 * 1024 * 20,
+  showTip: true
 })
 
 const emits = defineEmits<{

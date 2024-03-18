@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: 'vite-admin-vue'
+  name: 'Vite Admin Vue'
   # text: "A VitePress Site"
   # tagline: My great project tagline
   # actions:

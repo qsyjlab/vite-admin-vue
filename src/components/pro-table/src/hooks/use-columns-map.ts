@@ -12,7 +12,7 @@ export function useColumnsMap(props: IProps) {
   watch(
     [() => props.columnsState],
     () => {
-      mergeColumnsMap(props.columnsState.value || {})
+      mergeColumnsMap(props.columnsState?.value || {})
     },
     {
       deep: true,

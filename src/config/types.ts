@@ -1,6 +1,7 @@
 import { readonly } from 'vue'
 
 interface GlobalConfig {
+  publicBaseUrl: string
   /** api url */
   baseApiUrl: string
   /** 单点登录地址 */
@@ -15,6 +16,7 @@ interface GlobalConfig {
   storage: {
     prefix: string
   }
+  docxLink: string
 }
 
 export function defineConfig(config: GlobalConfig) {

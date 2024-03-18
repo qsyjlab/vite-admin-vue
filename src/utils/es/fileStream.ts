@@ -1,3 +1,5 @@
+import { isBlob, isFile, isString } from '../type'
+
 /**
  *  base64 to blob
  * @param {String} dataURI base64
@@ -43,7 +45,7 @@ export function fileReader(rawFile: File): Promise<FileReader['result']> {
 }
 
 // 文件下载方法
-export function downloadFile(href: string, filename: string) {
+export function downloadFile(href: string, filename?: string) {
   if (href && filename) {
     const a: HTMLAnchorElement = document.createElement('a')
     a.download = filename
@@ -51,4 +53,32 @@ export function downloadFile(href: string, filename: string) {
     a.click()
     URL.revokeObjectURL(a.href)
   }
+}
+
+// 文件转 blob 链接
+export function fileToObjectURL(file: File) {
+  return URL.createObjectURL(new Blob([file], { type: file.type }))
+}
+
+/**
+ * 将只转换成 blob 类型
+ * 1.文件类型转换
+ * 2.地址类型转换
+ * 3.如果直接是 blob 则直接返回
+ */
+export async function convertUnknownObjectToBlob(file: unknown): Promise<Blob | null> {
+  if (isString(file)) {
+    return new Promise(resolve => {
+      fetch(file, { mode: 'cors' }).then(response => {
+        if (response.ok) {
+          resolve(response.blob())
+        }
+        return null
+      })
+    })
+  }
+  if (isFile(file)) return new Blob([file], { type: file.type })
+  if (isBlob(file)) return file
+
+  return null
 }

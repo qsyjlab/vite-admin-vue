@@ -1,10 +1,10 @@
 import type { SetupContext } from 'vue'
-import { reactive, ref, watch, computed, toRaw } from 'vue'
+import { reactive, ref, watch, computed, toRaw, markRaw } from 'vue'
 import { FormProps, formEmits, emitsEnums } from './form-props'
 import { ElFormInstance } from './types'
 import { useCollapse } from './use-collapse'
 import { FormMethodsType, FormSchema, NOOP } from './types/form'
-import { isFunction } from '@/utils'
+import { isFunction, isPlainObject } from '@/utils'
 
 type UseFormParameter = {
   props: FormProps
@@ -16,19 +16,26 @@ export const useForm = (parameter: UseFormParameter) => {
   const { inline } = props
 
   const formSchemaes = computed(() =>
-    props.fields.filter(field => {
-      const isShow = (field: FormSchema) => {
-        const { show = true, key } = field
+    props.fields
+      .filter(field => {
+        const isShow = (field: FormSchema) => {
+          const { show = true, key } = field
 
-        if (isFunction(show)) {
-          return show(formModel[key], { ...formModel })
+          if (isFunction(show)) {
+            return show(formModel[key], { ...formModel })
+          }
+
+          return show
         }
 
-        return show
-      }
-
-      return isShow(field)
-    })
+        return isShow(field)
+      })
+      .map(item => {
+        return {
+          ...item,
+          el: item.el && isPlainObject(item.el) ? markRaw(item.el) : item.el
+        }
+      })
   )
 
   const formRef = ref<ElFormInstance | null>(null)
@@ -98,13 +105,6 @@ export const useForm = (parameter: UseFormParameter) => {
 
   const clearValidate: FormMethodsType['clearValidate'] = (...rest) => {
     formRef.value?.clearValidate(...rest)
-  }
-
-  function initializeForm() {
-    if (formSchemaes.value.length === 0) return
-    formSchemaes.value.forEach(item => {
-      formModel[item.key] = props.model[item.key]
-    })
   }
 
   function forceUpdateModel(model?: Record<string, any>) {

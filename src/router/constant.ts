@@ -15,3 +15,6 @@ export const LOGIN_PATH = '/login'
 export const PAGE_NOT_FOUND = 'PageNotFound'
 
 export const REDIRECT_NAME = 'Redirect'
+
+// 路由白名单
+export const WHITE_NAME_LIST = [LOGIN_NAME]

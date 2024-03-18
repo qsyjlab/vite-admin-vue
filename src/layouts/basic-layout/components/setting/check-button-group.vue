@@ -50,11 +50,10 @@
 </template>
 <script setup lang="ts">
 import type { Component } from 'vue'
-import { ref } from 'vue'
 import { Check } from './icon'
 
 interface IProps {
-  defaultValue?: unknown
+  modelValue?: unknown
   options: {
     title: string
     value: unknown
@@ -68,9 +67,9 @@ interface IEmits {
 
 const emits = defineEmits<IEmits>()
 
-const props = defineProps<IProps>()
+defineProps<IProps>()
 
-const checkValue = ref(props.defaultValue)
+const checkValue = defineModel<unknown>('modelValue')
 
 const onClick = (value: unknown) => {
   checkValue.value = value

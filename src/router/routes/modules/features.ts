@@ -7,7 +7,7 @@ export default defineExposeRoutes([
     path: '/feature',
     meta: {
       title: '功能',
-      icon: 'ify.iconoir:git-fork'
+      icon: 'svg.git-fork'
     },
     redirect: '/feature/watermark',
     component: Layout,
@@ -81,6 +81,27 @@ export default defineExposeRoutes([
         component: () => import('@/views/system/feature/print/print.vue')
       },
       {
+        name: 'Pdf',
+        path: 'pdf',
+        meta: {
+          title: 'Pdf',
+          ignoreAuth: true,
+          hideChildrenInMenu: false
+        },
+        component: BlankContainer,
+        children: [
+          {
+            name: 'PdfPreview',
+            path: 'preview',
+            meta: {
+              title: '在线预览',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/feature/pdf/pdf-preview.vue')
+          }
+        ]
+      },
+      {
         name: 'Excel',
         path: 'excel',
         meta: {
@@ -89,6 +110,15 @@ export default defineExposeRoutes([
         },
         component: BlankContainer,
         children: [
+          {
+            name: 'ExcelPreview',
+            path: 'preview',
+            meta: {
+              title: '在线预览',
+              ignoreAuth: true
+            },
+            component: () => import('@/views/system/feature/excel/preview.vue')
+          },
           {
             name: 'ExcelBase',
             path: 'base',
@@ -139,13 +169,13 @@ export default defineExposeRoutes([
             component: () => import('@/views/system/feature/docx/html-to-docx.vue')
           },
           {
-            name: 'RichDocx',
-            path: 'rich-docx-template',
+            name: 'HtmlToDocxPreview',
+            path: 'html-to-docx-preview',
             meta: {
-              title: '行内模板',
+              title: '在线预览docx',
               ignoreAuth: true
             },
-            component: () => import('@/views/system/feature/docx/docx-template-editor/template.vue')
+            component: () => import('@/views/system/feature/docx/docx-preview.vue')
           }
         ]
       }

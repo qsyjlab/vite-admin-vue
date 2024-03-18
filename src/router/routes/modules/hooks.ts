@@ -7,8 +7,9 @@ export default defineExposeRoutes([
     name: 'Hooks',
     meta: {
       title: 'Hooks',
-      sort: 1,
-      icon: 'ep.home-filled'
+
+      icon: 'svg.hooks',
+      hideChildrenInMenu: false
     },
     redirect: {
       name: 'UseDialog'
@@ -20,7 +21,6 @@ export default defineExposeRoutes([
         name: 'UseDialog',
         meta: {
           title: 'useDialog',
-          sort: 1,
           icon: 'ep.home-filled'
         },
         component: () =>

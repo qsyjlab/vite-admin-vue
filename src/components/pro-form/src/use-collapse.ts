@@ -45,14 +45,12 @@ export function useCollapse(option: CollapseOption) {
   }
 
   const advancedSpanColAttrs = computed<Partial<ColProps>>(() => {
-    console.log('lastRowSpaceSpan.value', lastRowSpaceSpan.value)
-
-    console.log('advanceState.span', advanceState.span)
+    const spaceSpan =
+      advanceState.span > lastRowSpaceSpan.value ? BASIC_COL_LEN : lastRowSpaceSpan.value
 
     return {
-      span: advanceState.span > lastRowSpaceSpan.value ? BASIC_COL_LEN : advanceState.span,
-      offset:
-        advanceState.span > lastRowSpaceSpan.value ? 0 : lastRowSpaceSpan.value - advanceState.span
+      span: advanceState.span,
+      offset: spaceSpan < advanceState.span ? 0 : spaceSpan - advanceState.span
     }
   })
 
@@ -82,7 +80,7 @@ export function useCollapse(option: CollapseOption) {
       const curRowSpaceSpan = BASIC_COL_LEN - curRowSpan
 
       // 不足空格 下一行
-      if (curRowSpaceSpan <= 0) {
+      if (curRowSpaceSpan < 0) {
         rowNum.value++
         curRowSpan = colSpan
       }

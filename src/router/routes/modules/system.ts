@@ -7,7 +7,6 @@ export default defineExposeRoutes([
     path: '/system',
     meta: {
       title: '系统管理',
-      sort: 3,
       icon: 'ep.setting'
 
       // hideChildrenInMenu: true

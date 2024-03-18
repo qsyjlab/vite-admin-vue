@@ -85,7 +85,11 @@ class AxiosRequest {
   /**
    * @description:  File Upload
    */
-  uploadFile<T = any>(params: UploadFileParams, config?: RequestMethodConfig): Promise<T> {
+  uploadFile<T = any>(
+    params: UploadFileParams,
+    config?: RequestMethodConfig,
+    requestOptions: RequestOptionsEx = {}
+  ): Promise<T> {
     const formData = new FormData()
     const customFilename = params.name || 'file'
 
@@ -105,11 +109,14 @@ class AxiosRequest {
       })
     }
 
-    return this.request<T>({
-      ...config,
-      method: 'POST',
-      data: formData
-    })
+    return this.request<T>(
+      {
+        method: 'POST',
+        ...config,
+        data: formData
+      },
+      requestOptions
+    )
   }
 
   // 注册拦截器

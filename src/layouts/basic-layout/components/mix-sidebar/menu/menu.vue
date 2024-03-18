@@ -63,9 +63,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, unref, watch, computed, onUnmounted } from 'vue'
+import { ref, watch, computed, onUnmounted } from 'vue'
 import { useLayoutStore, usePermissionStore } from '@/store'
-// import { MapLocation } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { AsideMenu } from '../../menu'
 import { routeChangeListener } from '@/router'
@@ -84,9 +83,9 @@ defineProps<IProps>()
 
 const layoutStore = useLayoutStore()
 
-const { setMixMenuFixed, setMixMenuLayoutConfig } = layoutStore
-const { mixMenuLayoutConfig } = storeToRefs(layoutStore)
+const { layoutConfig } = storeToRefs(layoutStore)
 const { getMenus } = usePermissionStore()
+
 const route = useRoute()
 const router = useRouter()
 
@@ -113,10 +112,8 @@ onUnmounted(() => {
   stopRouteListener()
 })
 
-watch([showChildren], () => {
-  setMixMenuLayoutConfig({
-    showChildren: showChildren.value
-  })
+watch(showChildren, newVal => {
+  layoutStore.setShowMixChildrenMenu(newVal)
 })
 
 const clickMenuModuleHandler = (item: Menu) => {
@@ -148,18 +145,17 @@ function getActiveChildrenMenus() {
 
 //  鼠标移除 子菜单处理
 const leaveChildrenMenuHandler = () => {
-  const { fixedMenu } = unref(mixMenuLayoutConfig)
-
-  if (fixedMenu && showChildren.value) return
+  if (layoutConfig.value.sideMixFixedMenu && showChildren.value) return
   showChildren.value = false
 }
 
 const onClickFixedEventHandler = () => {
-  setMixMenuFixed(!unref(mixMenuLayoutConfig).fixedMenu)
+  layoutStore.setLayoutConfig({
+    sideMixFixedMenu: !layoutStore.layoutConfig.sideMixFixedMenu
+  })
 }
 </script>
 
 <style lang="scss" scoped>
 @import '../mix-sidebar';
 </style>
-../../menu

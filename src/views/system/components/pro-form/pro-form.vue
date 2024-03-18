@@ -23,7 +23,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { PageCard, PageWrapper, FormSchema } from '@/components'
+import { PageCard, PageWrapper, FormSchema, ProUploadList } from '@/components'
 import { useProForm } from '@/hooks'
 
 const { register, validate, resetFields } = useProForm()
@@ -301,6 +301,15 @@ const fields: FormSchema[] = [
     label: '上传',
     el: 'ProUpload',
     key: 'upload',
+    attrs: {},
+    col: {
+      span: 8
+    }
+  },
+  {
+    label: '上传列表',
+    el: ProUploadList,
+    key: 'upload-list',
     attrs: {},
     col: {
       span: 8

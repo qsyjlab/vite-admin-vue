@@ -7,7 +7,6 @@ export default defineExposeRoutes([
     path: '/plugins',
     meta: {
       title: '插件',
-      sort: 3,
       icon: 'svg.plugin'
 
       // hideChildrenInMenu: true

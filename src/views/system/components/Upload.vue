@@ -1,5 +1,9 @@
 <template>
   <page-wrapper>
+    <page-card :full="false" style="margin-bottom: 20px" header="文件列表">
+      <pro-upload-list v-model="proFileList" auto-upload></pro-upload-list>
+    </page-card>
+
     <page-card :full="false" style="margin-bottom: 20px" header="基础用法">
       <upload v-model="fileList" :limit="3">
         <el-button>上传</el-button>
@@ -41,12 +45,19 @@ export default { name: 'Upload' }
 import { PageWrapper } from '@/components/page-wrapper'
 import { PageCard } from '@/components/page-card'
 import { Upload } from '@/components/upload'
+import { ProUploadList } from '@/components/pro-upload-list'
 import { Plus, UploadFilled } from '@element-plus/icons-vue'
 
 import { ref } from 'vue'
 import { UploadProps } from 'element-plus'
 
 const fileList = ref([])
+const proFileList = ref([
+  {
+    name: 'element-plus-logo.svg',
+    url: 'https://element-plus.org/images/element-plus-logo.svg'
+  }
+])
 
 const pictureCard = ref([])
 

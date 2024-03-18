@@ -5,8 +5,7 @@
     "usernamehw.errorlens",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "vue.vscode-typescript-vue-plugin",
-    "Vue.volar",
     "antfu.unocss",
+    "vue.volar"
   ]
 }

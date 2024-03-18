@@ -50,7 +50,6 @@ export default defineExposeRoutes([
         name: 'DashboardIndex',
         meta: {
           title: 'Dashboard',
-          sort: 2,
           icon: 'ep.stopwatch',
           currentActiveMenu: 'Dashboard',
           hideInBreadcrumb: true,

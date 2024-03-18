@@ -30,3 +30,23 @@ export const isRegExp = (value: unknown): value is RegExp =>
 export const objectToString = Object.prototype.toString
 
 export const extend = Object.assign
+
+export const isFile = (value: unknown): value is File => value instanceof File
+
+export const isBlob = (value: unknown): value is Blob => value instanceof Blob
+
+export const isImage = (filename: string) => {
+  return /\.(jpg|jpeg|png|gif|bmp|svg)$/.test(filename.toLowerCase())
+}
+
+export const isXlsx = (filename: string) => {
+  return /^.+(\.xls|\.xlsx)$/.test(filename.toLowerCase())
+}
+
+export const isDocx = (filename: string) => {
+  return /^.+(\.docx)$/.test(filename.toLowerCase())
+}
+
+export const isPdf = (filename: string) => {
+  return /^.+(\.pdf)$/.test(filename.toLowerCase())
+}

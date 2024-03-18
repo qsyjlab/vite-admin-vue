@@ -8,7 +8,7 @@
       <!-- 面包屑导航 -->
       <template
         v-if="
-          projectConfig.defaultLayoutSetting.showBreadCrumb &&
+          layoutConfig.showBreadCrumb &&
           !isMobile &&
           [LayoutMode.Side, LayoutMode.SideMix].includes(layoutConfig.layoutMode)
         "
@@ -69,8 +69,7 @@
 import { computed, onMounted } from 'vue'
 import { Setting, FullScreen, Notification as NotificationIcon } from '@element-plus/icons-vue'
 import { useAppInject } from '@/application'
-import { useLayoutStore, usePermissionStore } from '@/store'
-import { storeToRefs } from 'pinia'
+import { useLayoutStore } from '@/store'
 import { Breadcrumb, UserMenu } from './components'
 import { AsideMenu } from '../menu'
 import { Logo } from '../../components/logo'
@@ -79,7 +78,7 @@ import { LayoutMode } from '../../enum'
 import { isFullScreen as fullScreenStatus } from '@/utils'
 import Notification from './components/notification.vue'
 import { ProIcon } from '@/components'
-import { useLayoutConfigHandler } from '@/hooks'
+import { useLayoutConfigHandler, useLayoutMenu } from '@/hooks'
 
 const layoutStore = useLayoutStore()
 
@@ -87,12 +86,16 @@ const { toggleSettingDrawer } = layoutStore
 
 const { isFullscreen, toggle } = useFullscreen()
 
-const { layoutConfig } = storeToRefs(useLayoutStore())
-const { getMenus } = usePermissionStore()
-
-const { setLayoutConfig } = useLayoutConfigHandler()
+const { setLayoutConfig, layoutConfig } = useLayoutConfigHandler()
 
 const { isMobile, projectConfig } = useAppInject()
+const { menus: getCurrentMenus } = useLayoutMenu(
+  computed(() => {
+    return {
+      type: 'top'
+    }
+  })
+)
 
 onMounted(() => {
   isFullscreen.value = fullScreenStatus()
@@ -101,13 +104,4 @@ onMounted(() => {
 const toggleTheme = () => {
   setLayoutConfig('theme', layoutConfig.value.theme === 'light' ? 'dark' : 'light')
 }
-
-const getCurrentMenus = computed(() => {
-  const menus = getMenus()
-
-  if (layoutConfig.value.splitMenu && layoutConfig.value.layoutMode === LayoutMode.TopMix)
-    return menus.map(i => ({ ...i, children: [] }))
-
-  return menus
-})
 </script>

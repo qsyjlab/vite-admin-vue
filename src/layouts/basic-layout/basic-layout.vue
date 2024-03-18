@@ -3,9 +3,9 @@
     <Layout
       v-bind="layoutAttrs"
       :config="{
-        footer: projectSetting.defaultLayoutSetting.showFooter,
+        footer: layoutConfig.showFooter,
         header: projectSetting.defaultLayoutSetting.showHeader,
-        tab: projectSetting.defaultLayoutSetting.showTagPage,
+        tab: layoutConfig.showTagPage,
         aside: !!layoutAttrs.asideWidth,
         main: true
       }"
@@ -146,16 +146,16 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
     asideWidth = 220,
     collapsed,
     headerHeight,
-    tabBarHeight,
+    tabBarHeight = 0,
     footerHeight
   } = unref(layoutConfig)
 
   const collapseWidth = 78
   const sideMixWidth = 90
 
-  const { fixedMenu, showChildren } = unref(mixMenuLayoutConfig)
+  const { sideMixFixedMenu } = unref(layoutConfig)
 
-  const { showTagPage } = projectSetting.defaultLayoutSetting
+  const { showTagPage } = layoutConfig.value
   const layoutModeMap: LayoutModeMap = {
     [LayoutMode.Side]: () => {
       const _asideWidth = isMobile.value ? 0 : collapsed ? collapseWidth : asideWidth
@@ -189,7 +189,7 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
     [LayoutMode.SideMix]: () => {
       const _asideWidth = isMobile.value
         ? 0
-        : fixedMenu && showChildren
+        : sideMixFixedMenu && mixMenuLayoutConfig.value.showChildren
         ? sideMixWidth + asideWidth
         : sideMixWidth
       return {
