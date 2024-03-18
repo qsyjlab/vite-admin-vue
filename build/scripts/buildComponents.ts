@@ -12,7 +12,7 @@ async function buildComponents() {
     envFile: false,
     root: resolve(projectRootPath),
     optimizeDeps: {
-      exclude: ['../../src/components/tinymce/**']
+      exclude: ['../../src/components/tinymce/**', 'vue']
     },
 
     build: {
@@ -26,7 +26,7 @@ async function buildComponents() {
       },
       rollupOptions: {
         // 配置 external
-        external: ['vue', '@element-plus/icons-vue', 'element-plus']
+        external: ['@element-plus/icons-vue', 'element-plus']
       },
       output: [
         {

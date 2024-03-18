@@ -5,7 +5,7 @@ import { transformDemo } from './plugins/transform-demo'
 export default defineConfig({
   title: 'Vite Admin Vue',
   description: ' ',
-  base: '/Vite Admin Vue/',
+  base: '/vite-admin-vue/',
   srcDir: 'packages',
   markdown: {
     config(md) {
