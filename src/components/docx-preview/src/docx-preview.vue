@@ -20,7 +20,7 @@ const props = withDefaults(
     height?: string
   }>(),
   {
-    height: '100%'
+    height: '700px'
   }
 )
 

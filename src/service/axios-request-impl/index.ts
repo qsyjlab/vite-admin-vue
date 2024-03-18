@@ -24,6 +24,8 @@ import { ResultEnum, showErrorMessage } from './helper'
 // const refreshing = false
 
 const requestInterceptorImpl: requestInterceptorType = config => {
+  config.headers.Authorization = `
+  Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzEwNzMwNDYxLCJleHAiOjE3MTEzMzUyNjF9.k6bYHSxh773R05R3zS0v5tlgZXuIPwrB-jmtAVYcz0kvTvQaHwjmvFZlHx8BMOg3kxPJ_lj4TQJ7DKjlLspC1w`
   return config
 }
 

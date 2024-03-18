@@ -19,6 +19,16 @@ export const service = new RequestResultAdapter({
     requestCatch
   }
 })
+
+export const fileService = new RequestResultAdapter({
+  interceptorHooks,
+  baseURL: 'http://localhost:9002/',
+  transform: {
+    transformResponse,
+    requestCatch
+  }
+})
+
 // 暴露出所有类型
 export * from './axios-request/interface'
 
