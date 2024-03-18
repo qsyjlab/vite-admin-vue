@@ -1,6 +1,0 @@
-import{K as v}from"./index-1bc4de67.W6DM0pGT.js";import{O as y}from"./index.ghQPKumy.js";import{d as g,h as i,D as r,o as x,b as C,w as l,I as s,a as T,e as w}from"./framework.e2dboEyh.js";import"../app.kf9R8BQv.js";import"./theme.2Uqr2FmO.js";const S=g({__name:"html-to-docx",setup(L){const a=i(`
-<h1 class="tinymce-h1">正文标题</h1>
-<p>asdasasd</p>
-<p>asdasd</p>
-<h2 class="tinymce-h2">二级正文</h2>
-<h1 class="tinymce-h1">以及一级正文</h1>`),d=i([]);a.value=u(a.value);const m=()=>{c(a.value),v(c(a.value)).then(t=>{y(URL.createObjectURL(t),`${new Date().getTime()}.docx`)})};function c(t){const e=document.createElement("div");return e.innerHTML=t,e.innerHTML.toString()}function u(t){const e=document.createElement("div");e.innerHTML=t;let o=new Date().getTime();return Array.from(e.querySelectorAll("h1,h2,h3,h4,h5")).forEach(n=>{n.id=String(o++),d.value.push({title:n.textContent||"",id:n.id})}),e.innerHTML.toString()}return(t,e)=>{const o=r("el-button"),n=r("pro-tinymce"),p=r("page-card"),h=r("page-wrapper");return x(),C(h,null,{default:l(()=>[s(p,{header:t.$route.meta.title},{default:l(()=>[s(o,{type:"primary",class:"mb-20px",onClick:m},{default:l(()=>[T("导出 word")]),_:1}),s(n,{modelValue:a.value,"onUpdate:modelValue":e[0]||(e[0]=f=>a.value=f)},null,8,["modelValue"]),w("",!0)]),_:1},8,["header"])]),_:1})}}});export{S as default};
