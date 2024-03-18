@@ -49,7 +49,7 @@ import { UploadFilled, View } from '@element-plus/icons-vue'
 import { ProTable, ProTableColumns } from '@/components/pro-table'
 import { Upload } from '@/components/upload'
 import { ProPreviewFile, ProPreviewFileInstance } from '@/components/pro-preview-file'
-import { Fragment, computed, h, reactive, ref, toRaw, watch } from 'vue'
+import { computed, h, reactive, ref, toRaw, watch } from 'vue'
 import {
   DialogProps,
   ElTag,

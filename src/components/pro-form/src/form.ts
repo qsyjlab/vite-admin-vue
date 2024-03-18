@@ -4,7 +4,7 @@ import { FormProps, formEmits, emitsEnums } from './form-props'
 import { ElFormInstance } from './types'
 import { useCollapse } from './use-collapse'
 import { FormMethodsType, FormSchema, NOOP } from './types/form'
-import { isFunction, isObject, isPlainObject } from '@/utils'
+import { isFunction, isPlainObject } from '@/utils'
 
 type UseFormParameter = {
   props: FormProps
@@ -105,13 +105,6 @@ export const useForm = (parameter: UseFormParameter) => {
 
   const clearValidate: FormMethodsType['clearValidate'] = (...rest) => {
     formRef.value?.clearValidate(...rest)
-  }
-
-  function initializeForm() {
-    if (formSchemaes.value.length === 0) return
-    formSchemaes.value.forEach(item => {
-      formModel[item.key] = props.model[item.key]
-    })
   }
 
   function forceUpdateModel(model?: Record<string, any>) {
