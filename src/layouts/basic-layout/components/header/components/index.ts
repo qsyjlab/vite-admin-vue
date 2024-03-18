@@ -1,4 +1,4 @@
-import Breadcrumb from './Breadcrumb/Breadcrumb.vue'
-import UserMenu from './UserMenu/UserMenu.vue'
+import Breadcrumb from './breadcrumb.vue'
+import UserMenu from './user-menu.vue'
 
 export { Breadcrumb, UserMenu }

@@ -72,13 +72,7 @@ const data = [
 ]
 
 const viewiewStatisticsRef = ref<Nullable<HTMLDivElement>>(null)
-const { setOptions, getInstance } = useEcharts(viewiewStatisticsRef, instance => {
-  console.log('callback')
-
-  instance?.on('click', params => {
-    console.log('params', params)
-  })
-})
+const { setOptions } = useEcharts(viewiewStatisticsRef)
 
 onMounted(() => {
   setOptions({

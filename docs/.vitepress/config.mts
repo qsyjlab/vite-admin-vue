@@ -37,8 +37,7 @@ export default defineConfig({
           text: '开始',
           items: [
             { text: '简介', link: '/doc/guide/doc' },
-            { text: '使用', link: '/doc/guide/use' },
-            { text: '目录说明', link: '/doc/guide/contents' }
+            { text: '使用', link: '/doc/guide/use' }
           ]
         },
         {
@@ -71,7 +70,6 @@ export default defineConfig({
           items: [
             { text: '图标', link: '/doc/other/icon' },
             { text: '暗黑主题', link: '/doc/other/theme' },
-            { text: '目录说明', link: '/doc/guide/contents' },
             { text: '自动导入插件', link: '/doc/other/auto-import' }
           ]
         }

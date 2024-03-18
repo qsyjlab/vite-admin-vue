@@ -16,9 +16,9 @@
             :closable="!affixTabsList.includes(item.fullPath)"
           >
             <template #label>
-              <div class="tab-item">
+              <div class="tab-item" @contextmenu="contextmenuHandler($event, item.fullPath)">
                 <span v-if="item.meta.icon" class="icon">
-                  <icon-selector :icon="item.meta.icon" :size="fontSize + 5" />
+                  <pro-icon :icon="item.meta.icon" :size="fontSize" />
                 </span>
                 <span
                   :style="{
@@ -31,12 +31,19 @@
           </el-tab-pane>
         </el-tabs>
       </div>
+      <pro-context-menu
+        ref="contextRef"
+        :menus="getContextMenus('contextmenu')"
+        :item-height="25"
+        :font-size="12"
+        style="width: 80px; font-size: 12px"
+      />
 
       <div class="tabs-bar__operate">
         <el-dropdown style="height: 100%">
           <span class="operate-btn">
             <!-- <el-icon><ArrowDown /></el-icon> -->
-            <icon-selector icon="ep.arrow-down" :size="16"></icon-selector>
+            <pro-icon icon="ep.arrow-down" :size="16"></pro-icon>
           </span>
 
           <template #dropdown>
@@ -77,9 +84,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { h, onMounted, ref } from 'vue'
 
-import type { TabsPaneContext } from 'element-plus'
+import { ElIcon, type TabsPaneContext } from 'element-plus'
 import { useRoute } from 'vue-router'
 import { watch } from 'vue'
 import { useTabPageStore } from '@/store'
@@ -88,8 +95,8 @@ import router from '@/router'
 import { Refresh, Close, Upload, CircleClose } from '@element-plus/icons-vue'
 import { useReloadPage } from '@/hooks'
 import { REDIRECT_NAME } from '@/router/constant'
-import { IconSelector } from '@/components/icon'
-
+import { ProIcon } from '@/components/icon'
+import { ProContextMenu, ProContextMenuItem } from '@/components/context-menu'
 interface Props {
   fontSize?: number
 }
@@ -98,6 +105,8 @@ withDefaults(defineProps<Props>(), {
   fontSize: 14
 })
 
+const contextRef = ref()
+
 const tabPageStore = useTabPageStore()
 
 const { reload } = useReloadPage()
@@ -105,6 +114,7 @@ const { reload } = useReloadPage()
 const { getTabPages, getCurrentActivityTabPage } = storeToRefs(tabPageStore)
 
 const {
+  isAffixTab,
   addTabPage,
   goTabPage,
   removeTabPage,
@@ -115,9 +125,88 @@ const {
 } = tabPageStore
 
 const route = useRoute()
+const currentCheckedKey = ref('')
 
 //禁止删除的 router tag name
 const affixTabsList = ref<string[]>([])
+
+const getContextMenus = (type: 'operate' | 'contextmenu'): ProContextMenuItem[] => {
+  const fullPath =
+    type === 'operate' ? getCurrentActivityTabPage.value?.fullPath : currentCheckedKey.value
+
+  const atIndex = getTabPages.value.findIndex(tab => tab.fullPath === fullPath)
+
+  const isCurrentTab =
+    type === 'operate'
+      ? true
+      : getCurrentActivityTabPage.value?.fullPath === currentCheckedKey.value
+
+  const affixTabCount = getTabPages.value.filter(tab => isAffixTab(tab)).length
+
+  const defaultDisabled = affixTabCount === getTabPages.value.length
+
+  return [
+    {
+      title: '重新加载',
+      command: 'reload',
+      onClick: reload,
+      disabled: !isCurrentTab,
+      icon: 'ep.refresh'
+    },
+    {
+      title: '关闭其他',
+      command: 'closeOtherstabs',
+      icon: 'ep.close',
+      onClick: () => {
+        removeOhterTabPages()
+      },
+      disabled: defaultDisabled || !isCurrentTab
+    },
+    {
+      title: '关闭左侧',
+      command: 'closeLefttabs',
+      onClick: () => {
+        removeLeftAllTabPages()
+      },
+      disabled: !isCurrentTab || atIndex <= affixTabCount,
+      icon: () =>
+        h(
+          ElIcon,
+          {
+            size: 12,
+            style: {
+              transform: `rotate(-90deg)`
+            }
+          },
+          () => h(Upload)
+        )
+    },
+    {
+      title: '关闭右侧',
+      command: 'closeRighttabs',
+      onClick: removeRightAllTabPages,
+      disabled: !isCurrentTab || atIndex === getTabPages.value.length - 1,
+      icon: () =>
+        h(
+          ElIcon,
+          {
+            size: 12,
+            style: {
+              transform: `rotate(90deg)`
+            }
+          },
+          () => h(Upload)
+        )
+    },
+    {
+      title: '关闭全部',
+      command: 'closeAlltabs',
+      onClick: removeAllTabPage,
+      disabled: defaultDisabled,
+      icon: 'ep.circle-close'
+    }
+  ]
+}
 
 onMounted(() => {
   initAffixTabs()
@@ -144,6 +233,14 @@ onMounted(() => {
     }
   )
 })
+
+function contextmenuHandler(event: MouseEvent, fullPath: string) {
+  event.preventDefault()
+
+  currentCheckedKey.value = fullPath
+
+  contextRef.value.show(event)
+}
 
 function initAffixTabs() {
   function filterAffixTab() {
@@ -214,11 +311,13 @@ html.dark {
     min-width: 100%;
     max-width: 100%;
     height: 100%;
+    display: flex;
+    align-items: center;
   }
 
   .tab-scroll {
-    max-width: calc(100% - 90px);
-    min-width: calc(100% - 90px);
+    max-width: calc(100% - 38px);
+    min-width: calc(100% - 38px);
     height: 100%;
     overflow: hidden;
   }
@@ -285,6 +384,9 @@ html.dark {
 }
 
 .operate-btn {
+  width: 38px;
+  box-sizing: border-box;
+  flex-shrink: 0;
   cursor: pointer;
   height: 100%;
   border-left: 1px solid var(--base-border-color);

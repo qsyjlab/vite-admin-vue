@@ -5,7 +5,20 @@
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
-import { HomeFilled, Stopwatch, Document, Timer, Link, ArrowDown } from '@element-plus/icons-vue'
+import {
+  HomeFilled,
+  Stopwatch,
+  Document,
+  Timer,
+  Link,
+  ArrowDown,
+  WarningFilled,
+  Refresh,
+  Close,
+  Upload,
+  CircleClose,
+  Grid
+} from '@element-plus/icons-vue'
 
 const props = withDefaults(
   defineProps<{
@@ -24,7 +37,13 @@ const epIconMap: Record<string, any> = {
   document: Document,
   timer: Timer,
   link: Link,
-  'arrow-down': ArrowDown
+  'arrow-down': ArrowDown,
+  'warning-filled': WarningFilled,
+  refresh: Refresh,
+  close: Close,
+  upload: Upload,
+  'circle-close': CircleClose,
+  grid: Grid
 }
 
 const getAttrs = computed(() => {

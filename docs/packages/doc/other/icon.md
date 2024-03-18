@@ -15,18 +15,18 @@
 ## 图标选择器
 
 ```tsx
-import { IconSelector } from '@/components/icon'
+import { ProIcon } from '@/components/icon'
 
 // element-plus 这个图标需要到组件内部中的map 中进行注册
-<IconSelector :size="18" icon="ep.图标名称" color="" />
+<ProIcon :size="18" icon="ep.图标名称" color="" />
 
 
 // 外部 svg 图标
-<IconSelector :size="18" icon="svg.图标名称" color="" />
+<ProIcon :size="18" icon="svg.图标名称" color="" />
 
 
 // iconify
-<IconSelector :size="18" icon="ify.图标名称" color="" />
+<ProIcon :size="18" icon="ify.图标名称" color="" />
 
 ```
 

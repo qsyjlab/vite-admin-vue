@@ -6,7 +6,8 @@ import type {
   BaseAxiosRequestConfig,
   CatchError,
   RequestMethodConfig,
-  RequestOptionsEx
+  RequestOptionsEx,
+  UploadFileParams
 } from './interface'
 
 import { isFunction, extend } from '@/utils'
@@ -48,7 +49,7 @@ class AxiosRequest {
         this.instanceConfig.transform || {}
 
       let requestConfig = extend(
-        omit(this.instanceConfig, ['transform', 'interceptorsHooks']),
+        omit(this.instanceConfig, ['transform', 'interceptorHooks']),
         options
       )
       if (!ignoreTransformRequest && transformRequest && isFunction(transformRequest)) {
@@ -67,7 +68,7 @@ class AxiosRequest {
               const result = transformResponse(response, requestOptions)
               resolve(result)
             } catch (error: any) {
-              reject(JSON.parse(error.message))
+              reject(error)
             }
           }
           resolve(response.data)
@@ -81,17 +82,53 @@ class AxiosRequest {
     })
   }
 
+  /**
+   * @description:  File Upload
+   */
+  uploadFile<T = any>(params: UploadFileParams, config?: RequestMethodConfig): Promise<T> {
+    const formData = new FormData()
+    const customFilename = params.name || 'file'
+
+    formData.append(customFilename, params.file)
+
+    if (params.data) {
+      Object.keys(params.data).forEach(key => {
+        const value = params.data?.[key]
+        if (Array.isArray(value)) {
+          value.forEach(item => {
+            formData.append(`${key}[]`, item)
+          })
+          return
+        }
+
+        formData.append(key, params.data?.[key])
+      })
+    }
+
+    return this.request<T>({
+      ...config,
+      method: 'POST',
+      data: formData
+    })
+  }
+
   // 注册拦截器
   private registerInterceptors(): void {
     const {
-      requestInterceptors,
-      requestInterceptorsCatch,
-      responseInterceptors,
-      responseInterceptorsCatch
-    } = this.instanceConfig.interceptorsHooks || {}
+      requestInterceptor,
+      requestInterceptorCatch,
+      responseInterceptor,
+      responseInterceptorCatch
+    } = this.instanceConfig.interceptorHooks || {}
 
-    this.instance.interceptors.request.use(requestInterceptors, requestInterceptorsCatch)
-    this.instance.interceptors.response.use(responseInterceptors, responseInterceptorsCatch)
+    this.instance.interceptors.request.use(
+      requestInterceptor,
+      error => requestInterceptorCatch?.(error, this) ?? error
+    )
+    this.instance.interceptors.response.use(
+      responseInterceptor,
+      error => responseInterceptorCatch?.(error, this) ?? error
+    )
   }
 }
 

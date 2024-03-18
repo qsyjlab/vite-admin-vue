@@ -8,10 +8,9 @@ export default defineExposeRoutes([
     path: '/charts',
     meta: {
       title: '图表',
-      sort: 4,
+      order: 20,
       icon: 'ep.document'
     },
-
     redirect: { name: 'Echarts' },
     component: Layout,
     children: [

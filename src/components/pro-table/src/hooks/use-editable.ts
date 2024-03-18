@@ -1,14 +1,14 @@
 import { Ref, computed, ref } from 'vue'
-import { isDate, isEmpty } from 'lodash-es'
 import type {
   ProTableColumns,
   ProTableEditable,
   EditableCellState,
-  EditRowRule,
   RowKey,
-  EditableTableRowKey
+  EditableTableRowKey,
+  EditableCellValidError
 } from '../types'
 import { getRowkey } from '../utils'
+import { ElForm } from 'element-plus'
 
 interface IProps {
   dataSource: Ref<any[]>
@@ -20,21 +20,38 @@ interface IProps {
 export function useEditable(props: IProps) {
   const { dataSource, editableConfig, columns } = props
 
-  /** 可编辑表格状态
-   *
+  /**
+   * 可编辑表格状态
    * isEdit: 是否处于编辑状态
-   * data: 原数据 取消则回滚原数据
+   * data: 当前处于输入编辑的数据，保存则写入 dataSource,不直接修改表单项
+   * erros: 暂时废弃 ，通过 onError 来获取并提示
    */
   const editableCellMap = ref(new Map<EditableTableRowKey, EditableCellState>())
+
+  const formInstanceRef = ref<InstanceType<typeof ElForm> | null>(null)
+
+  const editableRowsModel = computed(() => {
+    const editModel: Record<string, any> = {}
+    for (const [key, value] of editableCellMap.value.entries()) {
+      if (value.isEdit) {
+        editModel[key] = value.data
+      }
+    }
+
+    return editModel
+  })
+
+  function setFormInstanceRef(ins: any) {
+    formInstanceRef.value = ins
+  }
 
   function startEditable(rowKey: EditableTableRowKey) {
     if (editableConfig.mode === 'single') {
       clearEditRow()
     }
 
-    // TODO: 考虑引用问题
     const data = findRow(rowKey)
-    editableCellMap.value.set(rowKey, { isEdit: true, data: { ...data }, errors: {} })
+    editableCellMap.value.set(rowKey, { isEdit: true, data: { ...data }, errors: undefined })
   }
 
   function cancelEditable(rowKey: EditableTableRowKey) {
@@ -52,19 +69,22 @@ export function useEditable(props: IProps) {
 
   function saveEditable(rowKey: EditableTableRowKey) {
     const cacheData = getEditData(rowKey)
-    validateRowFields(
-      rowKey,
-      () => {
-        if (editableConfig.onSave) {
-          editableConfig.onSave(getEditData(rowKey), done)
-        } else {
-          done()
-        }
-      },
-      () => {
-        editableConfig.onError?.(editableCellMap.value.get(rowKey)?.errors)
-      }
-    )
+
+    if (!formInstanceRef.value) {
+      done()
+      return
+    }
+
+    formInstanceRef.value?.validateField(getShouldValidKeys(rowKey), (invalid, errors) => {
+      // errors &&
+      //   Object.keys(errors).length &&
+      //   formInstanceRef.value?.scrollToField(Object.keys(errors))
+      editableConfig.onError?.(getRealValidErrors(errors))
+
+      if (!invalid) return
+
+      done()
+    })
 
     function done() {
       const row = findRow(rowKey)
@@ -76,7 +96,6 @@ export function useEditable(props: IProps) {
 
   function deleteEditable(rowKey: EditableTableRowKey) {
     if (editableConfig.onDelete) {
-      // TODO: 这里的值应该是未编辑状态的值
       editableConfig.onDelete(findRow(rowKey), done)
       return
     }
@@ -94,111 +113,11 @@ export function useEditable(props: IProps) {
     }
   }
 
-  // 验证当前未闭合的数据
-  async function validateRowFields(
-    rowKeys: EditableTableRowKey[] | EditableTableRowKey,
-    callback?: () => void,
-    errorCallback?: () => void
-  ) {
-    let needValidKeys = rowKeys as EditableTableRowKey[]
-
-    if (!Array.isArray(rowKeys)) {
-      needValidKeys = [rowKeys]
-    }
-
-    if (needValidKeys.length === 0) return
-
-    const needValidRows = needValidKeys.map(needKey => getEditData(needKey))
-
-    let hasError = false
-
-    for (const row of needValidRows) {
-      const realRowKey = getRowkey(row, props.rowKey)
-      if (!realRowKey) continue
-
-      for (const column of columns) {
-        const value = row[column.key]
-
-        const validResult = await validate(value, row, column.rowComponent?.rules || [])
-
-        const cell = editableCellMap.value.get(realRowKey)
-        if (validResult) {
-          hasError = true
-
-          cell && (cell.errors[column.key] = { message: validResult.message || '' })
-        } else {
-          cell && delete cell.errors[column.key]
-        }
-      }
-    }
-
-    if (!hasError) {
-      callback?.()
-    } else {
-      errorCallback?.()
-    }
-  }
-
-  // 验证器
-  async function validate(
-    value: any,
-    row: any,
-    rules: EditRowRule[]
-  ): Promise<{ message: string } | null> {
-    if (!rules) return null
-    for (let i = 0; i < rules.length; i++) {
-      const item = rules[i]
-
-      if (isDate(value) && value) return null
-      if (item.required && isEmpty(value)) {
-        return {
-          message: item.message || ''
-        }
-      }
-
-      if (item.validator) {
-        const { state, error } = await new Promise<{
-          state: boolean
-          error: null | string
-        }>(resolve => {
-          item.validator &&
-            item?.validator(value, row, error => {
-              if (!error)
-                resolve({
-                  state: true,
-                  error: null
-                })
-
-              if (typeof error === 'string') {
-                resolve({
-                  state: false,
-                  error
-                })
-              } else {
-                resolve({
-                  state: false,
-                  error: error?.message || ''
-                })
-              }
-            })
-        })
-
-        if (state) return null
-
-        return {
-          message: error || ''
-        }
-      }
-    }
-
-    return null
-  }
-
   function clearValidateErrors(rowKey: EditableTableRowKey) {
     const cellState = editableCellMap.value.get(rowKey)
 
     if (cellState && cellState.errors) {
-      cellState.errors = {}
+      cellState.errors = undefined
     }
   }
 
@@ -232,6 +151,10 @@ export function useEditable(props: IProps) {
     editableConfig?.onChange?.(dataSource.value)
   }
 
+  function getShouldValidKeys(rowKey: EditableTableRowKey) {
+    return columns.map(col => `${rowKey}.${col.key}`)
+  }
+
   /**
    * 用来判定是否当前是否有编辑行开启
    */
@@ -240,6 +163,9 @@ export function useEditable(props: IProps) {
   }
 
   return {
+    editableRowsModel,
+    formInstanceRef,
+    setFormInstanceRef,
     startEditable,
     cancelEditable,
     saveEditable,
@@ -249,6 +175,26 @@ export function useEditable(props: IProps) {
     hasEditingRow,
     editableCellMap: computed(() => editableCellMap.value)
   }
+}
+
+// 获取表单验证拼接后的 key
+function getRealValidFieldKey(key: string) {
+  const _key = key.split('.')
+  return _key.length >= 2 ? _key[1] : key
+}
+
+function getRealValidErrors(errors: EditableCellValidError) {
+  if (!errors) return {}
+  const _errors: EditableCellValidError = {}
+
+  Object.keys(errors).forEach(key => {
+    const item = errors[key]
+    const _rk = getRealValidFieldKey(key)
+
+    _errors[_rk] = item
+  })
+
+  return _errors
 }
 
 export type UseEditableReturn = ReturnType<typeof useEditable>

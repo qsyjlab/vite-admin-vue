@@ -1,16 +1,17 @@
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, watch, ComputedRef } from 'vue'
 import type { FormSchema } from './types/form'
 import type { ColProps } from 'element-plus'
 
 interface CollapseOption {
+  model: Record<string, any>
   isWatch: boolean
-  fields: FormSchema[]
+  fields: ComputedRef<FormSchema[]>
   alwaysShowLines?: number
   autoAdvancedLine?: number
 }
 
 export function useCollapse(option: CollapseOption) {
-  const { fields, isWatch } = option
+  const { fields, isWatch = true } = option
 
   const fieldsIsCollapsedMap = reactive<Record<string, boolean>>({})
 
@@ -32,7 +33,7 @@ export function useCollapse(option: CollapseOption) {
 
   if (isWatch) {
     watch(
-      [() => fields, () => advanceState.isAdvanced],
+      [fields, () => advanceState.isAdvanced],
       () => {
         updateCollapce()
       },
@@ -43,11 +44,11 @@ export function useCollapse(option: CollapseOption) {
     )
   }
 
-  /**
-   * TODO: 期望值action col 能与最后一行平级 在有空余的情况下
-   *  show 控制函数加入
-   */
   const advancedSpanColAttrs = computed<Partial<ColProps>>(() => {
+    console.log('lastRowSpaceSpan.value', lastRowSpaceSpan.value)
+
+    console.log('advanceState.span', advanceState.span)
+
     return {
       span: advanceState.span > lastRowSpaceSpan.value ? BASIC_COL_LEN : advanceState.span,
       offset:
@@ -68,15 +69,13 @@ export function useCollapse(option: CollapseOption) {
 
     if (!advanceState.isAdvanced) {
       curRowSpan += advanceState.span
-      // lastRowSpaceSpan.value += advanceState.span
       totalSpan += advanceState.span
     }
 
     rowNum.value++
 
-    fields.forEach(item => {
+    fields.value.forEach(item => {
       const colSpan = item.col?.span || BASIC_COL_LEN
-      // lastRowSpaceSpan.value += colSpan
       curRowSpan += colSpan
 
       // 计算目前剩余空格
@@ -85,8 +84,6 @@ export function useCollapse(option: CollapseOption) {
       // 不足空格 下一行
       if (curRowSpaceSpan <= 0) {
         rowNum.value++
-        // lastRowSpaceSpan.value = 0
-        // lastRowSpaceSpan.value += colSpan
         curRowSpan = colSpan
       }
       const hidden =
@@ -99,7 +96,7 @@ export function useCollapse(option: CollapseOption) {
     lastRowSpaceSpan.value = BASIC_COL_LEN - curRowSpan
 
     if (!advanceState.isAdvanced) {
-      const shouldShowFields: { span: number }[] = fields
+      const shouldShowFields: { span: number }[] = fields.value
         .filter(i => fieldsIsCollapsedMap[i.key])
         .map(i => ({ span: i.col?.span || BASIC_COL_LEN }))
 

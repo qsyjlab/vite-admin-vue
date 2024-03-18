@@ -3,10 +3,11 @@ import { useRouteStore, useUserStore } from '@/store'
 import { getTokenCahce, getUserInfoCache } from '@/store/local'
 import { usePermissionStore } from '@/store/module/permissions'
 import { AxiosCanceler } from '@/service/axios-request/axios-canceler'
-import { LOGIN_NAME, LOGIN_PATH } from '../constant'
+import { LOGIN_NAME, PAGE_NOT_FOUND } from '../constant'
 import type { Router } from 'vue-router'
-import { emitRoute } from '../listener'
+import { emitRoute } from '../helper/listener'
 import projectSetting from '@/config/project-setting'
+import { WHITE_NAME_LIST } from '../routes'
 
 export function setupRouterGuard(router: Router) {
   createListenerGuard(router)
@@ -15,8 +16,6 @@ export function setupRouterGuard(router: Router) {
   createKeepAliveGuard(router)
   createRouterGuard(router)
 }
-
-const WHITE_NAME_LIST = [LOGIN_NAME]
 
 export function createRouterGuard(router: Router) {
   router.beforeEach(async (to, from, next) => {
@@ -36,26 +35,17 @@ export function createRouterGuard(router: Router) {
 
     const isLogin = !!token
 
-    // TODO: 初始化 store 可以放到 store 去做
     if (!initialized) {
-      initUserStore()
+      initializeStore()
     }
-
     // // 处理基础白名单的路由
     if (WHITE_NAME_LIST.includes(to.name as string)) return next()
-    // if (whitePathList.includes(to.path)) {
-    //   // 这里判定如果当前处于登录状态但是跳转路径是 login 则直接进入系统 redirect | /
-    //   if (to.path === ROUTE_ENUM.LOGIN_PATH && isLogin) {
-    //     return next((to.query?.redirect as string) || '/')
-    //   }
-
-    //   return next()
-    // }
 
     if (!isLogin) {
-      const redirectData: { path: string; replace: boolean; query?: Record<string, string> } = {
-        path: LOGIN_PATH,
-        replace: true
+      const redirectData: { name: string; replace: boolean; query?: Record<string, string> } = {
+        name: LOGIN_NAME,
+        replace: true,
+        query: {}
       }
       if (to.path) {
         redirectData.query = {
@@ -71,22 +61,12 @@ export function createRouterGuard(router: Router) {
       await permissionStore.loadDynamicRoutes()
       setInitialized(true)
 
-      if (to.name === 'PageNotFound') {
-        // 动态添加路由后，此处应当重定向到fullPath，否则会加载404页面内容
+      if (to.name === PAGE_NOT_FOUND) {
         return next({ path: to.fullPath, replace: true, query: to.query })
       }
     }
 
     next()
-
-    // function redirectTo() {
-    //   const redirectPath = (from.query.redirect || to.path) as string
-    //   const redirect = decodeURIComponent(redirectPath)
-    //   debugger
-    //   const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect }
-    //   next(nextData)
-    //   return
-    // }
   })
 }
 
@@ -128,7 +108,7 @@ function createListenerGuard(router: Router) {
 }
 
 // 初始化 store 从 local
-function initUserStore() {
+function initializeStore() {
   const { setUserInfo, setToken } = useUserStore()
   const userInfo = getUserInfoCache()
   const token = getTokenCahce()

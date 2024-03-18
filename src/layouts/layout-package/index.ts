@@ -1,4 +1,4 @@
 import Layout from './src/layout.vue'
 
-export * from './src/types'
+export * from './src/interface'
 export { Layout }

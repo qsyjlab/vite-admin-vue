@@ -3,7 +3,7 @@ import { computed, defineComponent, ref, readonly, h } from 'vue'
 import { useTitle } from '@vueuse/core'
 import { useRoute } from 'vue-router'
 import { ElConfigProvider, ElProgress } from 'element-plus'
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 import { createBreakpointListener } from '@/hooks/event/use-breakpoint'
 import { createAppProviderContext } from './context'
@@ -56,7 +56,8 @@ export default defineComponent({
         headerHeight: defaultLayoutSetting.headerHeight,
         theme: projectConfig.theme,
         themeColor: projectConfig.themeColor,
-        splitMenu: defaultLayoutSetting.splitMenu
+        splitMenu: defaultLayoutSetting.splitMenu,
+        footerHeight: defaultLayoutSetting.footerHeight
       })
     }
 
@@ -76,7 +77,11 @@ export default defineComponent({
                       return '测试自定义渲染器'
                     },
                     'custom-render-componet': () => {
-                      return h(ElProgress, { percentage: 50 })
+                      return defineComponent({
+                        setup() {
+                          return () => h(ElProgress, { percentage: 50 })
+                        }
+                      })
                     }
                   }
                 }

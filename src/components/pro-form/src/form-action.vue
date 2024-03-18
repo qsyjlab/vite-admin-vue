@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import ToggleArrow from './components/toggle-arrow.vue'
 
-import { useFormActionContext } from './provider'
+import { useFormContext } from './provider'
 
 interface IProps {
   collapsed: boolean
@@ -23,7 +23,7 @@ interface IProps {
 
 defineProps<IProps>()
 
-const { submit, reset, toggleCollapse } = useFormActionContext()
+const { submit, reset, toggleCollapse } = useFormContext()
 </script>
 <style lang="scss" scoped>
 .form-action {

@@ -32,7 +32,7 @@ const { message, notification, messageBox } = useMessage()
 const showMesasgeBoxAlert = () => {
   messageBox.alert('This is a message', 'Title', {
     confirmButtonText: 'OK',
-    callback: (action: Action) => {
+    callback: action => {
       message({
         type: 'info',
         message: `action: ${action}`

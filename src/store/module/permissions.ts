@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { setPermissionsCache, getPermissionsCache } from '../local'
 import { filter } from '@/utils'
-import router from '@/router'
+import router, { resetRouter } from '@/router'
 import { pageError } from '@/router/routes'
 import { asyncRoutes } from '@/router/routes/async'
 import { flatRoutesLevel, routeMenusSort, transformRouteToMenu } from '@/router/helper'
@@ -52,6 +52,7 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
   }
 
   async function loadDynamicRoutes() {
+    resetRouter()
     const dynamicRoutes = await buildPermissionRoutes()
     addRouteBatch(dynamicRoutes)
     router.addRoute(pageError)

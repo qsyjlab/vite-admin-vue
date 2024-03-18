@@ -1,6 +1,7 @@
 <template>
   <div>
     <ProTable
+      ref="tableRef"
       v-model:loading="loading"
       header-title="基本使用"
       checkable
@@ -9,25 +10,24 @@
       :params="params"
       :transform="transform"
       :transform-params="transformParams"
-      @register="register"
     />
 
     <el-space>
-      <el-button type="primary" @click="reload">重载列表（页数回退并重新请求数据）</el-button>
-      <el-button type="primary" @click="refresh">刷新列表（仅重新请求数据）</el-button>
+      <el-button type="primary" @click="tableRef.reload()"
+        >重载列表（页数回退并重新请求数据）</el-button
+      >
+      <el-button type="primary" @click="tableRef.refresh()">刷新列表（仅重新请求数据）</el-button>
     </el-space>
   </div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ProTableColumns, useProTable } from '../../.vitepress/.exampleCompnents/index'
 
 const loading = ref(false)
 const params = ref({})
+const tableRef = ref()
 
-const { register, reload, refresh } = useProTable()
-
-const columns: ProTableColumns = [
+const columns = [
   {
     title: 'Date',
     key: 'date'

@@ -10,7 +10,7 @@ import { EditableCell } from './components/editable-cell'
 import { resolveRenderer } from './renderer'
 
 import type { ProTableColumnItem, ProTableProps } from './types'
-import { getRowkey } from './utils'
+import { getRowkey, renderHelper } from './utils'
 
 const props = withDefaults(
   defineProps<{
@@ -54,20 +54,24 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
     return <EditableCell row={row} column={columnConfig} rowKey={props.rowKey} />
   }
 
-  if (typeof _render === 'function') return _render(renderParamters)
+  if (typeof _render === 'function') {
+    return renderHelper(_render(renderParamters))
+  }
 
-  return resolveRenderer({
-    valueEnum,
-    valueType,
-    row,
-    columnConfig,
-    index: $index,
-    customRendererMap,
-    pagination: {
-      page: pageQuery.page,
-      pageSize: pageQuery.pageSize
-    }
-  })
+  return renderHelper(
+    resolveRenderer({
+      valueEnum,
+      valueType,
+      row,
+      columnConfig,
+      index: $index,
+      customRendererMap,
+      pagination: {
+        page: pageQuery.page,
+        pageSize: pageQuery.pageSize
+      }
+    })
+  )
 }
 
 const renderColumns = (item: ProTableColumnItem) => {

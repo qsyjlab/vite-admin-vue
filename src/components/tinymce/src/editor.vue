@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-export default { name: 'VTinymceEditor' }
+export default { name: 'ProTinymce' }
 </script>
 
 <script setup lang="ts">
@@ -63,6 +63,8 @@ const initOptions = computed<RawEditorSettings>(() => {
     setup: editor => {
       setupTinymceEditor(editor)
     },
+    /** @see https://www.tiny.cloud/docs-3x/reference/Configuration3x/Configuration3x@convert_urls/ */
+    convert_urls: false,
     file_picker_types: 'file image media',
     skin_url: `${resource}/skins/ui/${themeMode.value}`,
     branding: false,
@@ -73,9 +75,14 @@ const initOptions = computed<RawEditorSettings>(() => {
     content_css: `${resource}/skins/content/default/content.css`,
     language_url: `${resource}/langs/${lang.value}.js`,
     language: lang.value,
-    menubar: 'file edit insert view format table',
+    menubar: 'file edit insert view format table formats',
     // 黑暗模式
-    plugins: 'lists image media table wordcount save preview'
+    plugins: 'lists image media table wordcount save preview',
+    formats: {
+      h1: { block: 'h1' },
+      h2: { block: 'h2' },
+      h3: { block: 'h3' }
+    }
   }
 })
 
@@ -115,6 +122,16 @@ function bindHandlers(editor: Editor) {
 // 初始化实例
 function initEditorInstance() {
   tinymce.init(initOptions.value)
+
+  watch(
+    () => props.disabled,
+    newVal => {
+      tinymceEditorInstance.value?.setMode(newVal ? 'readonly' : 'design')
+    },
+    {
+      immediate: true
+    }
+  )
 }
 
 // 销毁

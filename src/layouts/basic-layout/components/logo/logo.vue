@@ -1,7 +1,7 @@
 <template>
   <div class="basic-layout-logo" :style="styles">
     <div class="basic-layout-logo__img" :style="logoImageStyle">
-      <img src="/logo.svg" alt="/" />
+      <img :src="projectSetting.logo" alt="/" />
     </div>
     <div
       class="basic-layout-logo__title"
@@ -9,12 +9,15 @@
         display: showTitle ? 'block' : 'none'
       }"
     >
-      Vue Admin
+      {{ config.projectTitle }}
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import config from '@/config'
+import projectSetting from '@/config/project-setting'
 import { computed, CSSProperties } from 'vue'
+
 interface IProps {
   logoWidth?: number
   showTitle?: boolean

@@ -23,3 +23,16 @@ export function refreshToken() {
     method: 'get'
   })
 }
+
+export function ssoLogin(data: Record<string, any>) {
+  return mockService.request<UserModel>(
+    {
+      url: '/sso',
+      method: 'post',
+      data
+    },
+    {
+      ignoreCancelRequest: true
+    }
+  )
+}

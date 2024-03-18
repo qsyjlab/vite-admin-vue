@@ -4,9 +4,9 @@
       v-bind="layoutAttrs"
       :config="{
         footer: projectSetting.defaultLayoutSetting.showFooter,
-        header: true,
+        header: projectSetting.defaultLayoutSetting.showHeader,
         tab: projectSetting.defaultLayoutSetting.showTagPage,
-        aside: true,
+        aside: !!layoutAttrs.asideWidth,
         main: true
       }"
     >
@@ -135,7 +135,7 @@ const mobileDrawerHandler = () => {
 
 const routerBarAttrs = computed(() => {
   return {
-    fontSize: !layoutConfig.value.tabBarHeight ? 14 : layoutConfig.value.tabBarHeight * 0.3
+    fontSize: 12
   }
 })
 
@@ -146,10 +146,12 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
     asideWidth = 220,
     collapsed,
     headerHeight,
-    tabBarHeight
+    tabBarHeight,
+    footerHeight
   } = unref(layoutConfig)
 
   const collapseWidth = 78
+  const sideMixWidth = 90
 
   const { fixedMenu, showChildren } = unref(mixMenuLayoutConfig)
 
@@ -158,6 +160,7 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
     [LayoutMode.Side]: () => {
       const _asideWidth = isMobile.value ? 0 : collapsed ? collapseWidth : asideWidth
       return {
+        footerHeight,
         headerHeight,
         tabHeight: showTagPage ? tabBarHeight : 0,
         asideWidth: _asideWidth,
@@ -168,6 +171,7 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
     [LayoutMode.TopMix]: () => {
       const _asideWidth = isMobile.value ? 0 : collapsed ? collapseWidth : asideWidth
       return {
+        footerHeight,
         headerHeight,
         tabHeight: showTagPage ? tabBarHeight : 0,
         asideWidth: _asideWidth,
@@ -177,13 +181,19 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       }
     },
     [LayoutMode.Top]: () => ({
+      footerHeight,
       tabHeight: showTagPage ? tabBarHeight : 0,
       asideWidth: 0,
       headerPaddingLeft: 0
     }),
     [LayoutMode.SideMix]: () => {
-      const _asideWidth = isMobile.value ? 0 : fixedMenu && showChildren ? 90 + asideWidth : 90
+      const _asideWidth = isMobile.value
+        ? 0
+        : fixedMenu && showChildren
+        ? sideMixWidth + asideWidth
+        : sideMixWidth
       return {
+        footerHeight,
         headerHeight,
         tabHeight: showTagPage ? tabBarHeight : 0,
         asideWidth: _asideWidth,

@@ -1,4 +1,5 @@
 import type { Component } from 'vue'
+import type { FormValidateFailure } from 'element-plus'
 
 export interface ProTableEditRowComponent {
   el: Component | string
@@ -20,4 +21,4 @@ export interface EditableCellState {
   errors: EditableCellValidError
 }
 
-export type EditableCellValidError = Record<string, { message: string }>
+export type EditableCellValidError = FormValidateFailure['fields'] | undefined

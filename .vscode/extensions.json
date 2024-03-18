@@ -6,6 +6,7 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "vue.vscode-typescript-vue-plugin",
-    "Vue.volar"
+    "Vue.volar",
+    "antfu.unocss",
   ]
 }

@@ -1,9 +1,9 @@
 import { computed, reactive, ref, toRefs, watch } from 'vue'
-import { proTableEmits } from '../props'
-import { useLoading } from './loading'
-import { sliceData } from '../utils'
-import { watchOnce } from '@vueuse/core'
 import { PaginationProps } from 'element-plus'
+import { watchOnce } from '@vueuse/core'
+import { DEFAULT_PAGE_SIZE, DEFAULT_PAGINATON_CONFIG } from '../constant'
+import { proTableEmits } from '../props'
+import { sliceData } from '../utils'
 
 import type { ProTableColumns, ProTableProps } from '../types'
 
@@ -20,16 +20,11 @@ type IProps = Pick<
   | 'rowKey'
   | 'transform'
   | 'transformParams'
+  | 'autoRequest'
 >
 
 type Extra = {
   emits: SetupContext<typeof proTableEmits>['emit']
-}
-
-const DEFAULT_PAGINATON_CONFIG = {
-  pageSizes: [10, 20, 30, 40],
-  background: true,
-  layout: ['total', 'sizes', 'prev', 'pager', 'next', 'jumper']
 }
 
 export const useProTable = (props: IProps, extra: Extra) => {
@@ -40,8 +35,10 @@ export const useProTable = (props: IProps, extra: Extra) => {
   const { request } = props
 
   const dataSource = ref<any[]>([])
-  const tableColums = ref(columns.value || [])
+  const tableColums = computed(() => columnPreConfiguration(columns.value))
   const total = ref(0)
+  const loading = ref(false)
+
   const pageQuery = reactive<{
     page: number
     pageSize: number
@@ -68,31 +65,26 @@ export const useProTable = (props: IProps, extra: Extra) => {
     }
   })
 
-  const { loading, setLoading } = useLoading(props, { emits })
-
   watchOnce(
     () => props.pagination,
     () => {
+      if (props.autoRequest) return
       if (typeof pagination.value === 'boolean') {
         refresh()
         return
+      } else {
+        pageQuery.pageSize = pagination.value.pageSize || DEFAULT_PAGE_SIZE
+        refresh()
       }
-      pageQuery.pageSize = pagination.value.pageSize || 10
-
-      refresh()
     },
     {
       immediate: true
     }
   )
 
-  watch(
-    [params, data],
-    () => {
-      reload()
-    }
-    // { deep: }
-  )
+  watch([params, data], () => {
+    reload()
+  })
 
   const setQueryPage = (page: number) => {
     pageQuery.page = page
@@ -147,11 +139,16 @@ export const useProTable = (props: IProps, extra: Extra) => {
     }
   }
 
+  function setLoading(state: boolean) {
+    loading.value = state
+    emits('update:loading', loading.value)
+  }
+
   return {
+    tableColums,
     paginationProps,
     total,
     loading,
-    tableColums: computed(() => columnPreConfiguration(tableColums.value)),
     dataSource,
     pageQuery,
     refresh,
@@ -161,6 +158,7 @@ export const useProTable = (props: IProps, extra: Extra) => {
   }
 }
 
+// 配置列预设
 function columnPreConfiguration(columns: ProTableColumns) {
   const indexBorderColumn = columns.find(col => col.valueType === 'indexBorder')
 
@@ -170,15 +168,4 @@ function columnPreConfiguration(columns: ProTableColumns) {
   }
 
   return columns
-}
-
-export function resolveTransform(data: any, transformers: ((...args: any[]) => any)[]) {
-  if (transformers.length) return data
-  let transformedData = data
-
-  for (const transformer of transformers) {
-    transformedData = transformer(transformedData)
-  }
-
-  return transformedData
 }

@@ -6,7 +6,7 @@ import echarts from '@/plugins/echarts'
 
 export function useEcharts(
   elRef: Ref<HTMLDivElement | null> | HTMLDivElement,
-  callback?: (instance: echarts.ECharts | null) => void,
+  callback?: (instance: echarts.ECharts) => void,
   theme: 'light' | 'dark' | 'default' = 'default'
 ) {
   if (!isRef(elRef)) {

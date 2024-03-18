@@ -39,22 +39,23 @@ pro-table/renderer
 
 ## Props
 
-| 属性                              | 说明                                                           | 类型                                                | 默认值  |
-| --------------------------------- | -------------------------------------------------------------- | --------------------------------------------------- | ------- |
-| headerTitle                       | 工具栏左侧表头                                                 | string \| slot                                      |         |
-| options                           | 工具栏配置, 可根据需要具体显示                                 | `TableOptions `\| boolean                           | true    |
-| columnsState                      | 列状态配置                                                     | `ColumnsState`                                      | {}      |
-| columns                           | 列配置                                                         | `ProTableColumns`                                   | []      |
-| data                              | 静态数据源                                                     | Array                                               | []      |
-| request                           | 数据请求函数                                                   | `(...rest: any[]) => Promise<any[]>`                |         |
-| params                            | 数据请求参数                                                   | object                                              | {}      |
-| transform                         | 数据请求响应结果处理器                                         | `(response: any) => { data: any[]; total: number }` |         |
+| 属性                              | 说明                                                         | 类型                                                | 默认值  |
+| --------------------------------- | ------------------------------------------------------------ | --------------------------------------------------- | ------- |
+| headerTitle                       | 工具栏左侧表头                                               | string \| slot                                      |         |
+| options                           | 工具栏配置, 可根据需要具体显示                               | `TableOptions `\| boolean                           | true    |
+| columnsState                      | 列状态配置                                                   | `ColumnsState`                                      | {}      |
+| columns                           | 列配置                                                       | `ProTableColumns`                                   | []      |
+| data                              | 静态数据源                                                   | Array                                               | []      |
+| request                           | 数据请求函数                                                 | `(...rest: any[]) => Promise<any[]>`                |         |
+| params                            | 数据请求参数                                                 | object                                              | {}      |
+| transform                         | 数据请求响应结果处理器                                       | `(response: any) => { data: any[]; total: number }` |         |
 | transformParams                   | 数据请求参数处理器，处理最终 params 与内部参数合并后的请求参数 | (params: any) => any                                |         |
-| pagination                        | 分页相关配置                                                   | `ProTablePaginationConfig`                          | boolean |
-| checkable                         | checkbox 列开关                                                | boolean                                             | false   |
-| selectedKeys/v-model:selectedKeys | checkbox 列选中的 rowKey                                       | Array                                               | []      |
-| loading/v-model: loading          | 数据加载状态                                                   | boolean                                             | false   |
-| editable                          | 编辑模式下配置                                                 | `ProTableEditable`                                  | {}      |
+| pagination                        | 分页相关配置                                                 | `ProTablePaginationConfig`                          | boolean |
+| checkable                         | checkbox 列开关                                              | boolean                                             | false   |
+| selectedKeys/v-model:selectedKeys | checkbox 列选中的 rowKey                                     | Array                                               | []      |
+| loading/v-model: loading          | 数据加载状态                                                 | boolean                                             | false   |
+| editable                          | 编辑模式下配置                                               | `ProTableEditable`                                  | {}      |
+| cacheSelectedData                 | 分页数据下 选中项回显需要添加，用于分页选中回显状态。        | Array                                               | []      |
 
 ## columns 配置
 

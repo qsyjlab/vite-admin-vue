@@ -2,27 +2,33 @@
   <page-wrapper>
     <page-card :header="$route.meta.title">
       <pro-table
+        ref="tableRef"
         v-model:selected-keys="selectedKeys"
+        row-key="id"
         header-title="pro table"
         :columns="columns"
         :request="getTableMockList"
         :params="params"
         checkable
+        auto-fit-height
+        :reserve-selection="true"
         :pagination="{
           page: pageRef,
           pageSize: 10,
           pageSizes: [10, 20, 40],
           background: true
         }"
-        @register="register"
+        :cache-selected-data="cacheSelectedData"
         @page-change="pageChange"
+        @select="selectHandler"
+        @select-all="selectAllHandler"
+        @selection-change="selectionChangeHandler"
       >
         <template #headerTitle> 自定义表头 </template>
         <template #toolbar>
-          <el-button type="primary">新增</el-button>
+          <el-button type="primary" @click="tableRef?.doHeight()">新增</el-button>
         </template>
 
-        <!-- <template #name="scope"> {{ getScope(scope) }} </template> -->
         <template #operation="{}">
           <el-button size="small" type="primary">编辑</el-button>
           <el-button size="small" type="danger">删除</el-button>
@@ -33,7 +39,7 @@
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { useProTable } from '@/components/pro-table'
+import { ProTableInstance } from '@/components/pro-table'
 import { PageCard, PageWrapper } from '@/components'
 import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
@@ -45,9 +51,17 @@ defineOptions({
 })
 
 const loading = ref(false)
-const selectedKeys = ref<any[]>()
 
-const { register } = useProTable()
+const cacheSelectedData = ref([{ id: 2 }, { id: 3 }, { id: 15 }])
+const selectedKeys = ref<any[]>(cacheSelectedData.value.map(i => i.id))
+
+const tableRef = ref<ProTableInstance>()
+
+onMounted(() => {
+  setTimeout(() => {
+    data.value = createData()
+  }, 0)
+})
 
 watch(loading, () => {
   console.log('v-model:loading', loading)
@@ -57,10 +71,6 @@ watch(selectedKeys, () => {
   console.log('selectedKeys', selectedKeys.value)
 })
 
-setTimeout(() => {
-  selectedKeys.value = [5, 6]
-}, 3000)
-
 const columns: ProTableColumns = [
   {
     key: 'indexBorder',
@@ -68,10 +78,13 @@ const columns: ProTableColumns = [
     fixed: 'left'
   },
   {
+    title: 'ID',
+    key: 'id'
+  },
+  {
     title: '名称',
     key: 'name',
     tip: '名称的提示',
-
     editable: true
   },
   {
@@ -153,13 +166,7 @@ const columns: ProTableColumns = [
 
 const data = ref<any[]>()
 
-const pageRef = ref<number>(3)
-
-onMounted(() => {
-  setTimeout(() => {
-    data.value = createData()
-  }, 0)
-})
+const pageRef = ref<number>(1)
 
 const params = ref({
   page: 1
@@ -202,5 +209,17 @@ function createData() {
   })
 
   return data
+}
+
+function selectionChangeHandler(selection) {
+  console.log('selection', selection)
+}
+
+function selectHandler(selection, row) {
+  console.log('selection, row', selection, row)
+}
+
+function selectAllHandler(selection) {
+  console.log('selectAllHandler', selection)
 }
 </script>

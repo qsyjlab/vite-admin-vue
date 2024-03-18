@@ -3,7 +3,7 @@
 ## 实现
 
 ```ts
-import { useRedo } from '@/hooks/web/use-page'
+import { useReloadPage } from '@/hooks/web/use-page'
 import { defineComponent } from 'vue'
 export default defineComponent({
   setup() {

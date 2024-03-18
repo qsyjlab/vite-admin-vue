@@ -2,13 +2,13 @@
   <component :is="render()" v-if="isNeedRender" />
 </template>
 <script setup lang="tsx">
-import { ElPopover } from 'element-plus'
+import { ElFormItem } from 'element-plus'
 import { ProTableColumnItem, ProTableEditRowComponent } from '../../types'
 import { h, toRaw, computed, resolveComponent } from 'vue'
 import { useTableStoreContext } from '../../store'
 import { getRowkey } from '../../utils'
 
-const { editableCellMap } = useTableStoreContext()
+const { editableCellMap, sharedProperties } = useTableStoreContext()
 
 const props = withDefaults(
   defineProps<{
@@ -62,33 +62,32 @@ function getDynamicComponent(rowComponent: ProTableColumnItem['rowComponent']) {
     return toRaw(el)
   }
 
-  const editableCellState = editableCellMap.value.get(props.row['id'])
+  const realRowKey = getRowkey(props.row, props.rowKey)
 
-  return h(
-    ElPopover,
-    {
-      placement: 'top',
-      visible: !!editableCellState?.errors[props.column.key]
-    },
-    {
-      default: () =>
-        h(
-          'div',
-          { style: { color: 'red' } },
-          editableCellState?.errors[props.column.key]?.message || ''
-        ),
-      reference: () =>
-        h(
-          'span',
-          {},
-          h(getDynamicComponentInstance(rowComponent), {
-            ...(rowComponent.props || {}),
-            modelValue: getValue(),
-            'onUpdate:modelValue': onChangeValue
-          })
-        )
-    }
-  )
+  const enableValidate = sharedProperties.value.enableValidate
+
+  if (enableValidate) {
+    return h(
+      ElFormItem,
+      {
+        prop: `${realRowKey}.${props.column.key}`,
+        rules: rowComponent.rules
+      },
+      {
+        default: () => renderComponent()
+      }
+    )
+  }
+
+  return renderComponent()
+
+  function renderComponent() {
+    return h(getDynamicComponentInstance(rowComponent), {
+      ...(rowComponent?.props || {}),
+      modelValue: getValue(),
+      'onUpdate:modelValue': onChangeValue
+    })
+  }
 }
 
 function render() {

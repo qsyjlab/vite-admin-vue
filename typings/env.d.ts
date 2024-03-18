@@ -7,6 +7,10 @@ interface ImportMetaEnv {
   readonly VITE_APP_DESC: string
   // api base
   readonly VITE_APP_API_BASE_URL: string
+  // 单点登录地址
+  readonly VITE_CAS_BASE_URL: string
+  // 启用单点登录
+  readonly VITE_ENABLE_SSO: boolean
 }
 
 interface ImportMeta {
