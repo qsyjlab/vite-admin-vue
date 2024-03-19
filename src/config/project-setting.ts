@@ -91,7 +91,7 @@ const setting = readonly<ProjectConfig>({
     /** tabbar end */
 
     /** 是否分割菜单 进在 顶部 混合模式下生效 */
-    splitMenu: true,
+    splitMenu: false,
     /** 返回顶部 */
     showBackTop: true,
     /** 是否显示页脚 */
