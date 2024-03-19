@@ -1,1 +1,0 @@
-import{u as n,A as a,a as u,n as o,b as s,W as i}from"./index.CXx_r3g5.js";import"./framework.CtQlGyLl.js";import"./theme.lKphzJcC.js";const l={name:"DayJs"};function p(e,d,m,c,f,g){const r=a("page-card"),t=a("page-wrapper");return u(),o(t,null,{default:s(()=>[i(r,{header:e.$route.meta.title},null,8,["header"])]),_:1})}const _=n(l,[["render",p]]);export{_ as default};
