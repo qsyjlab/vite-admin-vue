@@ -28,3 +28,6 @@ declare module '*.pem' {
   const content: string
   export default content
 }
+
+/** app信息 */
+declare const __APP_INFO__: Record<string, any>

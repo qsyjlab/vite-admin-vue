@@ -53,4 +53,5 @@ export function createVitePlugin(configEnv: ConfigEnv) {
   return vitePlugins
 }
 
+export * from './define'
 export { createProxy } from './proxy'
