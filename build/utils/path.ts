@@ -9,6 +9,9 @@ export const envDir = resolve(projectRootPath, 'env')
 /** 构建产物输出路径  */
 export const buildOutdir = resolve(projectRootPath, '.output')
 
+/** package.json  */
+export const pkgPath = resolve(projectRootPath, 'package.json')
+
 export function resolveProjectPath(...args: string[]) {
   return resolve(projectRootPath, ...args)
 }

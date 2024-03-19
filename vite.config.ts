@@ -3,7 +3,7 @@ import { defineConfig, loadEnv } from 'vite'
 import { fileURLToPath } from 'url'
 
 import { envDir, projectRootPath, resolveProjectPath, buildOutdir } from './build'
-import { createProxy, createVitePlugin } from './build/vite'
+import { createProxy, createVitePlugin, createDefine } from './build/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig(configEnv => {
@@ -14,7 +14,7 @@ export default defineConfig(configEnv => {
     root: projectRootPath,
     base: viteEnvs.BASE_URL || '/',
     envDir,
-
+    define: createDefine(),
     plugins: createVitePlugin(configEnv),
     resolve: {
       alias: {

@@ -24,9 +24,15 @@ async function buildComponents() {
         formats: ['es'],
         fileName: 'index'
       },
+      /**
+       * @see https://github.com/vitejs/vite/issues/13233
+       */
+      commonjsOptions: {
+        esmExternals: ['vue']
+      },
       rollupOptions: {
         // 配置 external
-        external: ['@element-plus/icons-vue', 'element-plus']
+        external: ['vue', '@element-plus/icons-vue', 'element-plus']
       },
       output: [
         {

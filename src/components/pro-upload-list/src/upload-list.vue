@@ -183,10 +183,11 @@ watch(
   () => {
     uploadListState.fileList =
       props.modelValue?.map(file => {
+        const status = file.status || UploadStatusEnum.SUCCESS
         return {
           ...file,
-          status: file.status || UploadStatusEnum.SUCCESS,
-          percentage: file.percentage || 100
+          status,
+          percentage: status === UploadStatusEnum.SUCCESS ? 100 : 0
         }
       }) || []
   },
@@ -279,4 +280,3 @@ function emitUpdate() {
   emits('update:model-value', toRaw(uploadListState.fileList))
 }
 </script>
-<style scoped></style>
