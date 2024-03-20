@@ -1,6 +1,6 @@
 import { withInstall } from '@/utils'
-import XlsxPreviewComponent from './src/xlsx-preview.vue'
+import { defineAsyncComponent } from 'vue'
 
-export const XlsxPreview = withInstall(XlsxPreviewComponent)
+export const XlsxPreview = withInstall(defineAsyncComponent(() => import('./src/xlsx-preview.vue')))
 
 export default XlsxPreview

@@ -6,8 +6,14 @@ const defaultIgnoreDeps: string[] = [
   '@arco-design/color',
   'vue',
   'vue-router',
-  'pinia'
+  'pinia',
+  'echarts'
 ]
+
+const defaultManualChunks: Record<string, string[]> = {
+  vue: ['vue', 'vue-router', 'pinia'],
+  echarts: ['echarts/core', 'echarts/charts', 'echarts/components', 'echarts/renderers']
+}
 
 export function createSplitManuaChunks(
   manualChunks?: Record<string, string[]>,
@@ -16,28 +22,19 @@ export function createSplitManuaChunks(
   const pkgString = readFileSync(pkgPath, 'utf-8')
 
   const { dependencies = {} } = JSON.parse(pkgString)
-  const defaultManualChunks: Record<string, string[]> = {
-    vue: ['vue', 'vue-router', 'pinia']
-  }
+
+  const manualChunksTemp = Object.assign({}, defaultManualChunks, manualChunks)
 
   Object.keys(dependencies).forEach(dep => {
-    if (ignoreDeps.includes(dep)) return
-    const depsNameArr = dep?.split('/')
+    if (ignoreDeps.includes(dep) || Reflect.has(manualChunksTemp, dep)) return
 
-    let rootName = ''
+    const rootName = dep
 
-    if (depsNameArr.length === 2) {
-      rootName = depsNameArr[0].split('@')?.[1]
+    if (manualChunksTemp[rootName]) {
+      manualChunksTemp[rootName].push(dep)
     } else {
-      rootName = dep
-    }
-
-    if (defaultManualChunks[rootName]) {
-      defaultManualChunks[rootName].push(dep)
-    } else {
-      defaultManualChunks[rootName] = [dep]
+      manualChunksTemp[rootName] = [dep]
     }
   })
-
-  return manualChunks
+  return manualChunksTemp
 }
