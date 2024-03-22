@@ -4,7 +4,7 @@
     <template #footer>
       <slot name="footer" v-bind="{ submit, close }">
         <el-button @click="close">{{ cancelText }}</el-button>
-        <el-button type="primary" @click="submit">{{ confirmText }}</el-button>
+        <el-button type="primary" :loading="loading" @click="submit">{{ confirmText }}</el-button>
       </slot>
     </template>
   </el-dialog>
@@ -12,23 +12,29 @@
 
 <script setup lang="ts">
 import { ProForm, useProForm } from '@/components'
-import { IDialogForm } from './types'
+import { IDialogFormProps } from './types'
 import { computed, nextTick, ref, reactive } from 'vue'
 import { omit } from 'lodash-es'
+import { inject } from 'vue'
+import { proConfigProviderContextKey } from '@/components/pro-config-provider/src/token'
+
+defineOptions({
+  name: 'ProDialogForm'
+})
 
 type _ID = number | string
 interface IState {
   id?: _ID
 }
 
-const DEFUALT_DIALOG_PROPS: IDialogForm['dialogProps'] = {
+const DEFUALT_DIALOG_PROPS: IDialogFormProps['dialogProps'] = {
   closeOnPressEscape: true,
   appendToBody: true,
   showClose: true,
   modal: true
 }
 
-const props = withDefaults(defineProps<IDialogForm>(), {
+const props = withDefaults(defineProps<IDialogFormProps>(), {
   cancelText: '取消',
   confirmText: '提交',
   dialogProps: () => ({})
@@ -36,7 +42,11 @@ const props = withDefaults(defineProps<IDialogForm>(), {
 
 const emits = defineEmits(['success', 'error'])
 
+const providerContext = inject(proConfigProviderContextKey, {})
+
 const dialogVisible = ref(false)
+
+const loading = ref(false)
 
 const dialogCommand = {
   show: () => {
@@ -73,7 +83,11 @@ const show = async (id?: _ID, defaultValue?: Record<string, any>) => {
   forceUpdateModel(defaultValue || {})
   id &&
     props?.getRequest?.(id).then(res => {
-      forceUpdateModel(res)
+      if (providerContext?.responseHandler) {
+        forceUpdateModel(providerContext.responseHandler(res))
+      } else {
+        forceUpdateModel(res)
+      }
     })
 }
 

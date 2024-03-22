@@ -8,5 +8,6 @@ export {
   PageWrapper,
   EchartsRenderer,
   Upload,
-  ProTinymce
+  ProTinymce,
+  ProDialogForm
 } from '@/components'
