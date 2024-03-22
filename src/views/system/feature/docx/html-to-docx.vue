@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { ProTinymce } from '@/components/tinymce'
 import { pureRichTextExportDocx } from '@/utils'
 
 const route = useRoute()
