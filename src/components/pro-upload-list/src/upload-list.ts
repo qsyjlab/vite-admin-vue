@@ -1,5 +1,3 @@
-import { UploadUserFile } from 'element-plus'
-
 export enum UploadStatusEnum {
   READY = 'ready',
   FAIL = 'fail',

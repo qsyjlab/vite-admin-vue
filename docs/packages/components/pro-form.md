@@ -18,18 +18,18 @@ pro-form/basic
 
 ## fields 配置
 
-| 属性            | 说明                            | 类型                  | 可选值                                                 | 默认值 |
-| --------------- | ------------------------------- | --------------------- | ------------------------------------------------------ | ------ |
-| label           | 标题                            | `string `             |                                                        |        |
-| el              | 组件名称 ， 组件实例，html 标签 | `Component \|string ` |                                                        |        |
-| key             | 唯一 key 值                     | string                |                                                        |        |
-| attrs           | v-bind                          | `Record<string, any>` |                                                        | text   |
-| events          | v-on                            | `Record<string, any>` |                                                        |        |
-| col             | 栅格布局                        |                       |                                                        |        |
-| tip             | tooltip 提示                    | `string`              |                                                        |        |
-| required        | 是否必填                        | `boolean`             |                                                        |        |
-| requiredMessage | 必填验证提示                    | `boolean`             |                                                        |        |
-| show            | 是否显示                        | `boolean \|((value: any, values: Record<string, any>) => boolean)` |  |False|
+| 属性            | 说明                            | 类型                                                               | 可选值 | 默认值 |
+| --------------- | ------------------------------- | ------------------------------------------------------------------ | ------ | ------ |
+| label           | 标题                            | `string `                                                          |        |        |
+| el              | 组件名称 ， 组件实例，html 标签 | `Component \|string `                                              |        |        |
+| key             | 唯一 key 值                     | string                                                             |        |        |
+| attrs           | v-bind                          | `Record<string, any>`                                              |        | text   |
+| events          | v-on                            | `Record<string, any>`                                              |        |        |
+| col             | 栅格布局                        |                                                                    |        |        |
+| tip             | tooltip 提示                    | `string`                                                           |        |        |
+| required        | 是否必填                        | `boolean`                                                          |        |        |
+| requiredMessage | 必填验证提示                    | `boolean`                                                          |        |        |
+| show            | 是否显示                        | `boolean \|((value: any, values: Record<string, any>) => boolean)` |        | False  |
 
 ### Type FormSchema
 

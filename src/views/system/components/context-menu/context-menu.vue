@@ -32,7 +32,6 @@
 </template>
 <script setup lang="ts">
 import { ProContextMenu, ProContextMenuItem } from '@/components/context-menu'
-import { ref } from 'vue'
 
 const contextMenus: ProContextMenuItem[] = [
   {
@@ -73,14 +72,8 @@ const contextMenus: ProContextMenuItem[] = [
   }
 ]
 
-const contextRef = ref()
-
 const clickMemnu = (...rest) => {
   console.log('click-menu', rest)
-}
-
-const show = event => {
-  contextRef.value.show(event)
 }
 </script>
 <style scoped></style>

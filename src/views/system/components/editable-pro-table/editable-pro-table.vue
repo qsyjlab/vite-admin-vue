@@ -23,7 +23,7 @@ import { EditableProTable } from '@/components/editable-pro-table'
 import { PageWrapper } from '@/components/page-wrapper'
 import { PageCard } from '@/components/page-card'
 import type { ProTableColumns, EditableCellValidError } from '@/components/pro-table'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 
 const data = ref<any>([

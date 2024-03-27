@@ -237,12 +237,4 @@ const fields = [
     }
   }
 ]
-
-const submit = (values: any) => {
-  console.log('values', values)
-}
-
-const reset = (values: any) => {
-  console.log('values', values)
-}
 </script>

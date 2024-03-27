@@ -78,7 +78,7 @@ const columns: ProTableColumns = [
   }
 ]
 
-const arraySpanMethod = ({ row, column, rowIndex, columnIndex }) => {
+const arraySpanMethod = ({ rowIndex, columnIndex }) => {
   if (rowIndex % 2 === 0) {
     if (columnIndex === 0) {
       return [1, 2]
@@ -89,18 +89,9 @@ const arraySpanMethod = ({ row, column, rowIndex, columnIndex }) => {
 }
 
 const exportArrToExcel = async () => {
-  const header = buildHeader(columns)
-  const merges = doMerges(header)
-
   const tableRef = await getTableRef()
 
   console.log('tableRef', tableRef)
-
-  // aoaToSheetXlsx({
-  //   merges,
-  //   data: header,
-  //   filename: '二维数组方式导出excel.xlsx'
-  // })
 }
 
 const exportExecel = () => {
@@ -174,50 +165,50 @@ function pushRowSpanPlaceHolder(arr, count) {
   }
 }
 
-function doMerges(arr: any[]) {
-  // 要么横向合并 要么纵向合并
-  let deep = arr.length
-  let merges: any[] = []
-  for (let y = 0; y < deep; y++) {
-    // 先处理横向合并
-    let row = arr[y]
-    let colSpan = 0
-    for (let x = 0; x < row.length; x++) {
-      if (row[x] === '!$COL_SPAN_PLACEHOLDER') {
-        row[x] = undefined
-        if (x + 1 === row.length) {
-          merges.push({ s: { r: y, c: x - colSpan - 1 }, e: { r: y, c: x } })
-        }
-        colSpan++
-      } else if (colSpan > 0 && x > colSpan) {
-        merges.push({ s: { r: y, c: x - colSpan - 1 }, e: { r: y, c: x - 1 } })
-        colSpan = 0
-      } else {
-        colSpan = 0
-      }
-    }
-  }
-  // 再处理纵向合并
-  let colLength = arr[0].length
-  for (let x = 0; x < colLength; x++) {
-    let rowSpan = 0
-    for (let y = 0; y < deep; y++) {
-      if (arr[y][x] === '!$ROW_SPAN_PLACEHOLDER') {
-        arr[y][x] = undefined
-        rowSpan++
-        if (y + 1 === deep) {
-          merges.push({ s: { r: y - rowSpan, c: x }, e: { r: y, c: x } })
-        }
-      } else if (rowSpan > 0 && y > rowSpan) {
-        merges.push({ s: { r: y - rowSpan - 1, c: x }, e: { r: y - 1, c: x } })
-        rowSpan = 0
-      } else {
-        rowSpan = 0
-      }
-    }
-  }
-  return merges
-}
+// function doMerges(arr: any[]) {
+//   // 要么横向合并 要么纵向合并
+//   let deep = arr.length
+//   let merges: any[] = []
+//   for (let y = 0; y < deep; y++) {
+//     // 先处理横向合并
+//     let row = arr[y]
+//     let colSpan = 0
+//     for (let x = 0; x < row.length; x++) {
+//       if (row[x] === '!$COL_SPAN_PLACEHOLDER') {
+//         row[x] = undefined
+//         if (x + 1 === row.length) {
+//           merges.push({ s: { r: y, c: x - colSpan - 1 }, e: { r: y, c: x } })
+//         }
+//         colSpan++
+//       } else if (colSpan > 0 && x > colSpan) {
+//         merges.push({ s: { r: y, c: x - colSpan - 1 }, e: { r: y, c: x - 1 } })
+//         colSpan = 0
+//       } else {
+//         colSpan = 0
+//       }
+//     }
+//   }
+//   // 再处理纵向合并
+//   let colLength = arr[0].length
+//   for (let x = 0; x < colLength; x++) {
+//     let rowSpan = 0
+//     for (let y = 0; y < deep; y++) {
+//       if (arr[y][x] === '!$ROW_SPAN_PLACEHOLDER') {
+//         arr[y][x] = undefined
+//         rowSpan++
+//         if (y + 1 === deep) {
+//           merges.push({ s: { r: y - rowSpan, c: x }, e: { r: y, c: x } })
+//         }
+//       } else if (rowSpan > 0 && y > rowSpan) {
+//         merges.push({ s: { r: y - rowSpan - 1, c: x }, e: { r: y - 1, c: x } })
+//         rowSpan = 0
+//       } else {
+//         rowSpan = 0
+//       }
+//     }
+//   }
+//   return merges
+// }
 
 function getData() {
   const tableData = [
