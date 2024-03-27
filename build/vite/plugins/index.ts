@@ -1,4 +1,4 @@
-export { viteAutoImportPlugin, viteComponentsPlugin } from './element-plus'
+export { viteAutoImportPlugin, viteComponentsPlugin } from './auto-import'
 
 export { configSvgIconsPlugin } from './svg-icons'
 

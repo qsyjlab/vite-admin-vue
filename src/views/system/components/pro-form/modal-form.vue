@@ -12,11 +12,7 @@
 <script setup lang="ts">
 import { PageWrapper, PageCard, FormSchema } from '@/components'
 
-import {
-  ProDialogForm,
-  ProDialogFormInstance,
-  ProDialogFormProps
-} from '@/components/pro-dialog-form'
+import { ProDialogFormInstance, ProDialogFormProps } from '@/components/pro-dialog-form'
 import { ref } from 'vue'
 
 const fields: FormSchema[] = [

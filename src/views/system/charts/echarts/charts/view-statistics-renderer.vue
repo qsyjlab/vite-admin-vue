@@ -1,5 +1,5 @@
 <template>
-  <echarts-renderer :options="options" :events="events" />
+  <pro-echarts :options="options" :events="events" />
 </template>
 <script setup lang="ts">
 const events = {

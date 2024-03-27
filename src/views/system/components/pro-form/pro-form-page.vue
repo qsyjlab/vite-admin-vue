@@ -1,6 +1,7 @@
 <template>
   <page-wrapper>
     <page-card style="margin-bottom: 15px" :full="false" header="查询表单">
+      <g-tips></g-tips>
       <ProForm inline :fields="fields" :label-width="150" @submit="submit" @reset="reset">
       </ProForm>
     </page-card>

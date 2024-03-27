@@ -21,6 +21,10 @@
   </el-tooltip>
 </template>
 <script setup lang="ts">
+defineOptions({
+  name: 'GTips'
+})
+
 defineProps<{
   text: string
   size?: number

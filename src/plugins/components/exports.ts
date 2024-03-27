@@ -1,13 +1,9 @@
 export {
-  ProTable,
-  ProForm,
   ProSelect,
   ProCheckboxGroup,
   ProRadioGroup,
   PageCard,
   PageWrapper,
-  EchartsRenderer,
   Upload,
-  ProTinymce,
-  ProDialogForm
+  ProTinymce
 } from '@/components'

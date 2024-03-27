@@ -96,7 +96,7 @@ export default defineExposeRoutes([
             meta: {
               title: '基础表单'
             },
-            component: () => import('@/views/system/components/pro-form/pro-form.vue')
+            component: () => import('@/views/system/components/pro-form/pro-form-page.vue')
           },
           {
             name: 'ProFormRef',
