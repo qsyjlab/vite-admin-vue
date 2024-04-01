@@ -12,6 +12,9 @@ import type {
 
 export const proTableProps = {
   headerTitle: String,
+  height: {
+    type: definePropType<ProTableProps['height']>([Number, String])
+  },
   size: {
     type: definePropType<ProTableProps['size']>(String)
   },
