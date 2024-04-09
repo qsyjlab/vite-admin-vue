@@ -119,7 +119,7 @@ export const proTableProps = {
   /** 自动请求 */
   autoRequest: {
     type: Boolean,
-    default: false
+    default: true
   }
 }
 
