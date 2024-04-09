@@ -53,6 +53,10 @@ export const proTableProps = {
   transformParams: {
     type: definePropType<ProTableProps['transformParams']>(Function)
   },
+  /** 最终请求参数处理 */
+  customRenderAfter: {
+    type: definePropType<ProTableProps['customRenderAfter']>(Function)
+  },
   /** 分页组件相关 */
   pagination: {
     type: definePropType<ProTablePaginationConfig | boolean>([Object, Boolean]),
@@ -119,14 +123,10 @@ export const proTableProps = {
   }
 }
 
-export const emitsEnums = {
-  PAGE_CHANGE: 'page-change'
-} as const
-
 // [Vue warn]:  Invalid event arguments: event validation failed for event
 // so, A value must be returned
 export const proTableEmits = {
-  [emitsEnums.PAGE_CHANGE]: (page: number, size: number) => !!size && !!page,
+  'page-change': (page: number, size: number) => !!size && !!page,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   'update:loading': (loading: boolean) => true,
   'update:selectedKeys': (keys: any[]) => !!keys,

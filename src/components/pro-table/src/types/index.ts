@@ -133,6 +133,7 @@ export interface ProTableProps<T = any> {
   showAlert: boolean
   autoRequest: boolean
   cacheSelectedData: T[]
+  customRenderAfter: (value: unknown) => any
 }
 
 export interface ProTableHeaderProps {

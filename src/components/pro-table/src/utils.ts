@@ -72,9 +72,8 @@ export function resolveValue(...rest: Parameters<typeof get>) {
   return get(...rest)
 }
 
-export function renderHelper(target: any) {
-  // if(isVNode(object) || isCompeon)
+export function renderHelper(target: any, finalRenderer?: (value: unknown) => any) {
   if (isVNode(target) || isComponent(target)) return h(target)
 
-  return target
+  return finalRenderer ? finalRenderer(target) : target
 }
