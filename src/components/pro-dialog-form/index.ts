@@ -5,6 +5,6 @@ export const ProDialogForm = withInstall(DialogForm)
 
 export type ProDialogFormInstance = InstanceType<typeof ProDialogForm>
 
-export * from './src/types'
+export type { IDialogFormProps as ProDialogFormProps } from './src/types'
 
 export default ProDialogForm

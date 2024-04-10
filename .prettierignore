@@ -13,3 +13,7 @@
 *-lock.*
 pnpm-lock.yaml
 .output
+
+
+# 忽略
+docs/.vitepress

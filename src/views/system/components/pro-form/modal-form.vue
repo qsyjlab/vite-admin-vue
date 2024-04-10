@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { PageWrapper, PageCard, FormSchema } from '@/components'
 
-import { ProDialogForm, ProDialogFormInstance, IDialogForm } from '@/components/pro-dialog-form'
+import { ProDialogFormInstance, ProDialogFormProps } from '@/components/pro-dialog-form'
 import { ref } from 'vue'
 
 const fields: FormSchema[] = [
@@ -81,7 +81,7 @@ const fields: FormSchema[] = [
   }
 ]
 
-const formDialogProps: IDialogForm = {
+const formDialogProps: ProDialogFormProps = {
   dialogProps: {
     width: '50%',
     title: '新建表单'
@@ -102,9 +102,6 @@ const formDialogProps: IDialogForm = {
   },
   editRequest: () => {
     return Promise.resolve()
-  },
-  onSuccess(data) {
-    console.log('sucess', data)
   }
 }
 

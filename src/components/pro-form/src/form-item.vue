@@ -28,10 +28,12 @@ import { FormSchema } from './form-props'
 import { useFormContext } from './provider'
 import { Tips } from '../../tips'
 import { isFunction } from 'lodash-es'
+import { toRaw } from 'vue'
 
 const props = withDefaults(defineProps<Omit<FormSchema, 'key'> & { prop: FormSchema['key'] }>(), {
   events: () => ({}),
-  attrs: () => ({})
+  attrs: () => ({}),
+  required: undefined
 })
 
 const formContext = useFormContext()
@@ -44,7 +46,7 @@ const normalizedAttrs = computed(() => {
     disabled:
       attrs.disabled !== undefined || attrs.disabled !== null
         ? isFunction(disabled)
-          ? disabled?.(formContext?.getFieldValue(props.prop), formContext.formModel)
+          ? disabled?.(formContext?.getFieldValue(props.prop), toRaw(formContext.formModel.value))
           : disabled
         : attrs.disabled
   }

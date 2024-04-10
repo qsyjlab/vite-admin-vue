@@ -15,6 +15,20 @@ export function viteComponentsPlugin() {
     dts: true,
     include: [],
     dirs: [],
-    resolvers: [ElementPlusResolver()]
+    resolvers: [ElementPlusResolver(), proComponentResolver(), globalComponentResolver()]
   })
+}
+
+// pro 组件自动导入
+export function proComponentResolver() {
+  return name => {
+    if (name.startsWith('Pro')) return { name: name, from: '@/components' }
+  }
+}
+
+// G 组件自动导入
+export function globalComponentResolver() {
+  return name => {
+    if (name.startsWith('G')) return { name: name, from: '@/components' }
+  }
 }

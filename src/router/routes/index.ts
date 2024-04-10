@@ -13,8 +13,7 @@ const loginRoute: RouteRecordRaw = {
   path: LOGIN_PATH,
   name: LOGIN_NAME,
   meta: {
-    title: '登录',
-    isAuth: false
+    title: '登录'
   },
   component: () => import('@/views/login/login.vue')
 }
@@ -53,7 +52,7 @@ export const redirectRoute: RouteRecordRaw = {
   name: 'RedirectTo',
   meta: {
     title: REDIRECT_NAME,
-    hideBreadcrumb: true,
+    hideInBreadcrumb: true,
     hideMenu: true,
     ignoreKeepAlive: true
   },
@@ -65,7 +64,7 @@ export const redirectRoute: RouteRecordRaw = {
       meta: {
         title: REDIRECT_NAME,
         ignoreKeepAlive: true,
-        hideBreadcrumb: true
+        hideInBreadcrumb: true
       }
     }
   ]

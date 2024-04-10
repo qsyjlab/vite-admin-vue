@@ -234,6 +234,7 @@ export function useTableStore(
     tableInstanceRef,
     mergeTableProps,
     customRendererMap: proTableConfig?.rendererMap,
+    customRenderAfter: props.customRenderAfter || proTableConfig?.customRenderAfter,
     editableCellMap,
     editableRowsModel,
     editableCellUtils,

@@ -1,6 +1,6 @@
 import { withInstall } from '@/utils'
-import PdfPreviewComponent from './src/pdf-preview.vue'
+import { defineAsyncComponent } from 'vue'
 
-export const PdfPreview = withInstall(PdfPreviewComponent)
+export const PdfPreview = withInstall(defineAsyncComponent(() => import('./src/pdf-preview.vue')))
 
 export default PdfPreview

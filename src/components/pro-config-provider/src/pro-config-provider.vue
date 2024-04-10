@@ -5,13 +5,13 @@
 import { provide } from 'vue'
 import { proConfigProviderContextKey } from './token'
 import type { ProConfigProviderProps } from './types'
-import { shallowReadonly } from 'vue'
+import { readonly } from 'vue'
 
 defineOptions({
   name: 'ProConfigProvider'
 })
 
-const props = defineProps<ProConfigProviderProps>()
+const props = defineProps<Partial<ProConfigProviderProps>>()
 
-provide(proConfigProviderContextKey, shallowReadonly(props))
+provide(proConfigProviderContextKey, readonly(props))
 </script>

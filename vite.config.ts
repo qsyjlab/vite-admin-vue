@@ -3,7 +3,7 @@ import { defineConfig, loadEnv } from 'vite'
 import { fileURLToPath } from 'url'
 
 import { envDir, projectRootPath, resolveProjectPath, buildOutdir } from './build'
-import { createProxy, createVitePlugin, createDefine } from './build/vite'
+import { createProxy, createVitePlugin, createDefine, createSplitManuaChunks } from './build/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig(configEnv => {
@@ -34,6 +34,11 @@ export default defineConfig(configEnv => {
       proxy: createProxy(viteEnvs.SERVER_PROXY_LIST)
     },
     build: {
+      rollupOptions: {
+        output: {
+          manualChunks: createSplitManuaChunks()
+        }
+      },
       outDir: resolveProjectPath(buildOutdir, `dist_${mode}`)
     }
   }

@@ -1,9 +1,9 @@
 import { createContext, useContext } from '@/hooks/core/use-context'
-import type { InjectionKey } from 'vue'
+import type { InjectionKey, Ref } from 'vue'
 import { FormMethodsType } from './types'
 
 interface FormContext {
-  formModel: Record<string, any>
+  formModel: Ref<Record<string, any>>
   submit: () => void
   reset: () => void
   toggleCollapse: () => void

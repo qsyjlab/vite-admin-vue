@@ -1,4 +1,7 @@
 import { withInstall } from '@/utils'
 import TipsComponet from './src/tips.vue'
 
-export const Tips = withInstall(TipsComponet)
+export const GTips = withInstall(TipsComponet)
+
+export const Tips = GTips
+export default GTips

@@ -3,7 +3,6 @@ import type { FormSchema } from './types/form'
 import type { ColProps } from 'element-plus'
 
 interface CollapseOption {
-  model: Record<string, any>
   isWatch: boolean
   fields: ComputedRef<FormSchema[]>
   alwaysShowLines?: number

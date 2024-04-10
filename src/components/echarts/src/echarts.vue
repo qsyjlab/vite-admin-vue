@@ -8,7 +8,7 @@ import { ref, watch } from 'vue'
 import type { CSSProperties } from 'vue'
 
 defineOptions({
-  name: 'EchartsRenderer'
+  name: 'ProEcharts'
 })
 
 type DEvent = (...args: any[]) => any

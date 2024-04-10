@@ -12,6 +12,9 @@ import type {
 
 export const proTableProps = {
   headerTitle: String,
+  height: {
+    type: definePropType<ProTableProps['height']>([Number, String])
+  },
   size: {
     type: definePropType<ProTableProps['size']>(String)
   },
@@ -49,6 +52,10 @@ export const proTableProps = {
   /** 最终请求参数处理 */
   transformParams: {
     type: definePropType<ProTableProps['transformParams']>(Function)
+  },
+  /** 最终请求参数处理 */
+  customRenderAfter: {
+    type: definePropType<ProTableProps['customRenderAfter']>(Function)
   },
   /** 分页组件相关 */
   pagination: {
@@ -112,18 +119,14 @@ export const proTableProps = {
   /** 自动请求 */
   autoRequest: {
     type: Boolean,
-    default: false
+    default: true
   }
 }
-
-export const emitsEnums = {
-  PAGE_CHANGE: 'page-change'
-} as const
 
 // [Vue warn]:  Invalid event arguments: event validation failed for event
 // so, A value must be returned
 export const proTableEmits = {
-  [emitsEnums.PAGE_CHANGE]: (page: number, size: number) => !!size && !!page,
+  'page-change': (page: number, size: number) => !!size && !!page,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   'update:loading': (loading: boolean) => true,
   'update:selectedKeys': (keys: any[]) => !!keys,

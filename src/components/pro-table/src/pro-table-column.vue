@@ -24,7 +24,7 @@ const rootInstance = useProtableInstanceContext()
 
 const slots = useSlots()
 
-const { editableCellMap, pageQuery, customRendererMap } = useTableStoreContext()
+const { editableCellMap, pageQuery, customRendererMap, customRenderAfter } = useTableStoreContext()
 
 function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
   const { row, $index } = scope || {}
@@ -55,7 +55,7 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
   }
 
   if (typeof _render === 'function') {
-    return renderHelper(_render(renderParamters))
+    return renderHelper(_render(renderParamters), customRenderAfter)
   }
 
   return renderHelper(
@@ -70,7 +70,8 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
         page: pageQuery.page,
         pageSize: pageQuery.pageSize
       }
-    })
+    }),
+    customRenderAfter
   )
 }
 
@@ -83,12 +84,7 @@ const renderColumns = (item: ProTableColumnItem) => {
     <ElTableColumn prop={String(item.key)} {...columnConfig}>
       {{
         default: (scope: any) => columnDefaultRender(item, scope),
-        header: (scope: any) => {
-          if (slots[`${item.key}Header`])
-            return slots[`${item.key}Header`]?.({
-              ...scope,
-              info: item
-            })
+        header: () => {
           return (
             <span class="column-header">
               <span class="column-header-title">{item.title}</span>

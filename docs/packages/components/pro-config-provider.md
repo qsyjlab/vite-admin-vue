@@ -8,11 +8,9 @@ pro-config-provider/basic
 
 ## Props
 
-| 属性     | 说明             | 类型           | 默认值 |
-| -------- | ---------------- | -------------- | ------ |
-| proTable | proTable相关配置 | string \| slot |        |
-
-
+| 属性     | 说明              | 类型           | 默认值 |
+| -------- | ----------------- | -------------- | ------ |
+| proTable | proTable 相关配置 | string \| slot |        |
 
 ### Type ProConfigProviderProps
 
@@ -23,5 +21,4 @@ export interface ProConfigProviderProps {
     transformParams?: (params: any) => any
   }
 }
-
 ```

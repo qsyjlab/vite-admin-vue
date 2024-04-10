@@ -68,7 +68,7 @@ export const useProTable = (props: IProps, extra: Extra) => {
   watchOnce(
     () => props.pagination,
     () => {
-      if (props.autoRequest) return
+      if (!props.autoRequest) return
       if (typeof pagination.value === 'boolean') {
         refresh()
         return

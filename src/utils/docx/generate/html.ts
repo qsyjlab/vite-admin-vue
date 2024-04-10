@@ -43,9 +43,9 @@ function convertRichTextToParagraphNodes(richText: string) {
       } else if (node.nodeType === Node.ELEMENT_NODE) {
         const elementNode = node as any
 
-        const attrsTag = ['strong', 'em', 'i']
-        const tagNames = Array.from(elementNode.querySelectorAll('strong,em, i')).map((node: any) =>
-          node.tagName.toLowerCase()
+        const attrsTags = ['strong', 'em', 'i']
+        const tagNames = Array.from(elementNode.querySelectorAll(attrsTags.join(','))).map(
+          (node: any) => node.tagName.toLowerCase()
         )
         const tagAttrs = tagsToAttrs(tagNames)
 
@@ -54,14 +54,12 @@ function convertRichTextToParagraphNodes(richText: string) {
           tagAttrs
         )
 
-        if (!attrsTag.includes(elementNode.tagName.toLowerCase())) {
-          paragraphChildrenNodes.push(
-            new TextRun({
-              text: elementNode.textContent,
-              ...deepAttrs
-            })
-          )
-        }
+        paragraphChildrenNodes.push(
+          new TextRun({
+            text: elementNode.textContent,
+            ...deepAttrs
+          })
+        )
       }
     })
     const paragraph = new Paragraph({

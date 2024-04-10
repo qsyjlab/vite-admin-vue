@@ -1,8 +1,7 @@
 import { withInstall } from '@/utils'
+import { defineAsyncComponent } from 'vue'
 
-import tinymceEditor from './src/editor.vue'
-
-export const ProTinymce = withInstall(tinymceEditor)
+export const ProTinymce = withInstall(defineAsyncComponent(() => import('./src/editor.vue')))
 
 export * from './src/props'
 export * from './src/editor'

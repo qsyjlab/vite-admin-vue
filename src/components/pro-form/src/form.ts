@@ -1,5 +1,5 @@
 import type { SetupContext } from 'vue'
-import { reactive, ref, watch, computed, toRaw, markRaw } from 'vue'
+import { ref, watch, computed, toRaw, markRaw } from 'vue'
 import { FormProps, formEmits, emitsEnums } from './form-props'
 import { ElFormInstance } from './types'
 import { useCollapse } from './use-collapse'
@@ -22,7 +22,7 @@ export const useForm = (parameter: UseFormParameter) => {
           const { show = true, key } = field
 
           if (isFunction(show)) {
-            return show(formModel[key], { ...formModel })
+            return show(formModel.value[key], { ...formModel.value })
           }
 
           return show
@@ -40,7 +40,7 @@ export const useForm = (parameter: UseFormParameter) => {
 
   const formRef = ref<ElFormInstance | null>(null)
 
-  const formModel = reactive<Record<string, any>>({})
+  const formModel = ref<Record<string, any>>({})
 
   const {
     fieldsIsCollapsedMap,
@@ -50,28 +50,17 @@ export const useForm = (parameter: UseFormParameter) => {
     updateCollapce
   } = useCollapse({
     fields: formSchemaes,
-    isWatch: inline,
-    model: formModel
+    isWatch: inline
   })
 
   watch([formModel, formSchemaes], () => {
     updateCollapce()
   })
 
-  // watch(
-  //   () => props.fields,
-  //   () => {
-  //     initializeForm()
-  //   },
-  //   {
-  //     immediate: true
-  //   }
-  // )
-
   // 判定是否启用 effect change
   if (props.enableEffect) {
-    watch(formModel, () => {
-      emits('effect', toRaw(formModel))
+    watch(formModel, (newVal, oldVal) => {
+      emits('effect', toRaw(newVal), toRaw(oldVal))
     })
   }
 
@@ -79,14 +68,18 @@ export const useForm = (parameter: UseFormParameter) => {
     () => props.model,
     () => {
       forceUpdateModel()
+    },
+    {
+      immediate: true,
+      deep: true
     }
   )
 
   const setFieldValue: FormMethodsType['setFieldValue'] = (key, value) => {
-    formModel[key] = value
+    formModel.value[key] = value
   }
   const getFieldValue: FormMethodsType['getFieldValue'] = key => {
-    return formModel[key]
+    return formModel.value[key]
   }
 
   const validate: FormMethodsType['validate'] = handle => {
@@ -108,10 +101,7 @@ export const useForm = (parameter: UseFormParameter) => {
   }
 
   function forceUpdateModel(model?: Record<string, any>) {
-    const _model = Object.assign(props.model, model || {})
-    Object.keys(_model).forEach(key => {
-      formModel[key] = _model[key]
-    })
+    formModel.value = Object.assign(props.model, formModel.value, model || {})
   }
 
   const setFormRef = (ref: any) => {

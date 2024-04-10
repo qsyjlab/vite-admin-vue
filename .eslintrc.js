@@ -61,8 +61,6 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 0,
     // 'vue/html-self-closing': 'off',
 
-    // 未使用的变量
-    '@typescript-eslint/no-unused-vars': 'warn',
     // 禁止使用any （不禁止 不可能不是用 any）
     '@typescript-eslint/no-explicit-any': ['off'],
     // 是否有空函数体
