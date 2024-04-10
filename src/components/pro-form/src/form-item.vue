@@ -31,7 +31,8 @@ import { isFunction } from 'lodash-es'
 
 const props = withDefaults(defineProps<Omit<FormSchema, 'key'> & { prop: FormSchema['key'] }>(), {
   events: () => ({}),
-  attrs: () => ({})
+  attrs: () => ({}),
+  required: undefined
 })
 
 const formContext = useFormContext()
