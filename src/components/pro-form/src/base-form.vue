@@ -41,6 +41,7 @@
 </template>
 
 <script setup lang="ts">
+import { toRaw } from 'vue'
 import { formProps, formEmits, emitsEnums } from './form-props'
 import { useForm } from './form'
 import { ElForm } from 'element-plus'
@@ -76,13 +77,13 @@ const {
 
 const submit = () => {
   validate(() => {
-    emits(emitsEnums.SUBMIT, formModel)
+    emits(emitsEnums.SUBMIT, toRaw(formModel.value))
   })
 }
 
 const reset = () => {
   resetFields(() => {
-    emits(emitsEnums.RESET, formModel)
+    emits(emitsEnums.RESET, toRaw(formModel.value))
   })
 }
 
@@ -97,5 +98,3 @@ createFormContext({
 
 defineExpose(formExposeMethods)
 </script>
-
-<style lang="scss" scoped></style>
