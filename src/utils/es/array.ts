@@ -1,4 +1,4 @@
-import { isEmpty } from './is'
+import { isEmptyValue } from './is'
 
 type Many<T> = T | T[]
 
@@ -9,6 +9,8 @@ type Many<T> = T | T[]
  * ensureArray('') => []
  */
 export function ensureArray<T = any>(arr: Many<T>): T[] {
-  if (isEmpty(arr)) return []
+  if (isEmptyValue(arr)) return []
   return Array.isArray(arr) ? arr : [arr]
 }
+
+export const unique = <T>(arr: T[]) => [...new Set(arr)]

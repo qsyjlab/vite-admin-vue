@@ -11,6 +11,7 @@
     "app:prod": "vite --host --mode prod",
     "build": "vite build",
     "build:prod": "vite build --mode prod",
+    "test": "vitest --ui",
     "check": "vue-tsc --noEmit --skipLibCheck",
     "preview": "vite preview",
     "prettier": "prettier --write .",
@@ -30,6 +31,7 @@
     "@arco-design/color": "^0.4.0",
     "@element-plus/icons-vue": "^2.3.1",
     "@unocss/reset": "^0.58.3",
+    "@vitest/ui": "^1.5.0",
     "@vue-office/excel": "^1.7.1",
     "@vue-office/pdf": "^1.6.4",
     "@vueuse/core": "^10.7.2",
@@ -91,6 +93,7 @@
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-mock": "^2.9.6",
     "vite-plugin-svg-icons": "^2.0.1",
+    "vitest": "^1.5.0",
     "vue-eslint-parser": "^8.3.0",
     "vue-tsc": "^1.8.27"
   }

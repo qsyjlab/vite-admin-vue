@@ -1,6 +1,6 @@
 import { mergeWith, cloneDeep } from 'lodash-es'
 import { isObject } from '../type'
-import { isEmpty } from './is'
+import { isEmptyValue } from './is'
 import { ensureArray } from './array'
 
 export function deepMerge<T extends object | null | undefined, U extends object | null | undefined>(
@@ -26,8 +26,8 @@ export function hasOnlyPropsWithValue<T extends object>(
   for (const key in obj) {
     if (Reflect.has(obj, key)) {
       if (props.includes(key)) {
-        hasValue = !isEmpty(obj[key])
-      } else if (!isEmpty(obj[key])) {
+        hasValue = !isEmptyValue(obj[key])
+      } else if (!isEmptyValue(obj[key])) {
         return false
       }
     }
