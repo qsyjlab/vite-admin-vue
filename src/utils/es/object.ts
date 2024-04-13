@@ -1,5 +1,7 @@
 import { mergeWith, cloneDeep } from 'lodash-es'
 import { isObject } from '../type'
+import { isEmptyValue } from './is'
+import { ensureArray } from './array'
 
 export function deepMerge<T extends object | null | undefined, U extends object | null | undefined>(
   target: T,
@@ -10,4 +12,26 @@ export function deepMerge<T extends object | null | undefined, U extends object 
       return mergeWith(cloneDeep(objValue), srcValue)
     }
   })
+}
+
+// 检查某些属性以外的值为空
+export function hasOnlyPropsWithValue<T extends object>(
+  obj: T,
+  propToCheck: keyof T | (keyof T)[]
+) {
+  let hasValue = false
+
+  const props = ensureArray(propToCheck)
+
+  for (const key in obj) {
+    if (Reflect.has(obj, key)) {
+      if (props.includes(key)) {
+        hasValue = !isEmptyValue(obj[key])
+      } else if (!isEmptyValue(obj[key])) {
+        return false
+      }
+    }
+  }
+
+  return hasValue
 }
