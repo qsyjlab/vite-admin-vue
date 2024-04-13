@@ -1,7 +1,7 @@
 import { resetRouter } from '@/router'
 
 import { defineStore } from 'pinia'
-import { setTokenCahce, setUserInfoCache, clearCache, setPermissionsCache } from '../local'
+import { setTokenCahce, setUserInfoCache, clearCache } from '../local'
 import { login as loginHttp } from '@/api/user'
 import { usePermissionStore } from './permissions'
 import { Recordable } from 'vite-plugin-mock'
@@ -25,7 +25,6 @@ type UserStoreGetter = Record<string, any>
 type UserStoreActions = {
   setInitialized: (val: boolean) => void
   setUserInfo: (userInfo: UserStoreState['userInfo']) => void
-  setPermissions: (permissions: UserStoreState['permissions']) => void
   setToken: (token: string) => void
   loginSystem: (data: { username: string; password: string }) => ReturnType<typeof loginHttp>
   loginOutSystem: NOOP
@@ -58,10 +57,6 @@ export const useUserStore = defineStore<string, UserStoreState, UserStoreGetter,
       setUserInfo(userInfo: UserStoreState['userInfo']) {
         this.userInfo = userInfo
         setUserInfoCache(this.userInfo)
-      },
-      setPermissions(permissions: string[]) {
-        this.permissions = permissions
-        setPermissionsCache(permissions)
       },
       setRoles(roles) {
         this.roles = roles
