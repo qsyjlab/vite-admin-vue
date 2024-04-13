@@ -1,8 +1,6 @@
 import { cloneDeep, omit } from 'lodash-es'
 import { createRouter, createWebHistory } from 'vue-router'
-import { treeMap } from '@/utils'
 import type { RouteRecordNormalized, RouteRecordRaw, RouterOptions } from 'vue-router'
-import type { Menu } from '../types'
 
 export function createWebHistoryRouter(
   routes: RouteRecordRaw[],
@@ -16,7 +14,7 @@ export function createWebHistoryRouter(
 }
 
 /** 扁平路由 最大路由级别 2 级 */
-export async function flatRoutesLevel(asyncRoutes: RouteRecordRaw[]) {
+export function flatRoutesLevel(asyncRoutes: RouteRecordRaw[]) {
   const routes = asyncRoutes
 
   function isMultipleRoute(route: RouteRecordRaw): boolean {
@@ -89,62 +87,16 @@ export async function flatRoutesLevel(asyncRoutes: RouteRecordRaw[]) {
 }
 
 // 路径处理
-function joinParentPath(menus: any[], parentPath = '') {
+export function joinParentPath(menus: any[], parentPath = '') {
   for (let index = 0; index < menus.length; index++) {
     const menu = menus[index]
     if (!menu.path.startsWith('/')) {
       menu.path = `${parentPath}/${menu.path}`
     }
     if (menu?.children?.length) {
-      joinParentPath(menu.children, menu.meta?.hidePathForChildren ? parentPath : menu.path)
+      joinParentPath(menu.children, menu.path)
     }
   }
-}
 
-// 将路由转换成菜单
-export function transformRouteToMenu(routeModList: RouteRecordRaw[]) {
-  const cloneRouteModList = promoteSingleChild(cloneDeep(routeModList))
-
-  function promoteSingleChild(menus: RouteRecordRaw[]): RouteRecordRaw[] {
-    return menus.map(item => {
-      let _temp: RouteRecordRaw = { ...item }
-      const children = item.children
-      if (children && children.length) {
-        _temp.children = promoteSingleChild(children || [])
-        if (_temp.children?.length === 1 && _temp.meta?.hideChildrenInMenu !== false)
-          _temp = {
-            ..._temp.children[0],
-            meta: Object.assign(_temp.meta || {}, _temp.children[0].meta)
-          }
-      }
-      return _temp
-    })
-  }
-
-  // 提取树指定结构
-  const list = treeMap(cloneRouteModList, {
-    conversion: (node: RouteRecordRaw) => {
-      const { name } = node
-
-      return {
-        meta: node.meta,
-        name: name,
-        path: node.path
-      }
-    }
-  })
-
-  // 路径处理
-  joinParentPath(list)
-  return cloneDeep(list)
-}
-
-// 处理菜单排序
-export function routeMenusSort(menus: Menu[]) {
-  return menus.sort((prev, next) => {
-    return (
-      (prev.meta?.order || Number.POSITIVE_INFINITY) -
-      (next.meta?.order || Number.POSITIVE_INFINITY)
-    )
-  })
+  return menus
 }

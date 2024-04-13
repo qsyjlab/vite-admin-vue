@@ -8,8 +8,7 @@ import type { App } from 'vue'
 export const router = createWebHistoryRouter(routes, {
   scrollBehavior: () => ({
     left: 0,
-    top: 0,
-    behavior: 'smooth'
+    top: 0
   })
 })
 

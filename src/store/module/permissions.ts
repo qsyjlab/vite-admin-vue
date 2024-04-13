@@ -1,18 +1,17 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { setPermissionsCache, getPermissionsCache } from '../local'
 import { filter } from '@/utils'
 import router, { resetRouter } from '@/router'
 import { pageError } from '@/router/routes'
 import { asyncRoutes } from '@/router/routes/async'
-import { flatRoutesLevel, routeMenusSort, transformRouteToMenu } from '@/router/helper'
-import { cloneDeep } from 'lodash-es'
+import { generateRoutesToMenusHandler, routeConversionHandler } from '@/router/helper'
 import projectSetting from '@/config/project-setting'
+import { PermissionModeEnum } from '@/enum'
+import useUserStore from './user'
+import { setPermissionsCache, getPermissionsCache } from '../local'
 
 import type { RouteRecordRaw } from 'vue-router'
 import type { Menu } from '@/router/types'
-import { PermissionModeEnum } from '@/enum'
-import useUserStore from './user'
 
 export const usePermissionStore = defineStore('permissionStoreKey', () => {
   const permissions = ref<string[]>([])
@@ -39,16 +38,7 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
   }
 
   function getMenus() {
-    const menuFilter = (items: Menu[]) => {
-      return items.filter(item => {
-        const show = !item.meta?.hideInMenu
-        if (show && item.children) {
-          item.children = menuFilter(item.children)
-        }
-        return show
-      })
-    }
-    return routeMenusSort(menuFilter(cloneDeep(frontedMenuList.value)))
+    return frontedMenuList.value
   }
 
   async function loadDynamicRoutes() {
@@ -59,7 +49,8 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
   }
 
   function resetPermissionRoutes() {
-    // TODO: 重置权限
+    setPermissions([])
+    resetRouter()
   }
 
   function buildPermissionRoutes() {
@@ -91,17 +82,17 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
       routes = filter(asyncRoutes, roleFilter, { id: 'name' })
     }
 
-    setFrontedMenuList(transformRouteToMenu(routes) as Menu[])
-    return flatRoutesLevel(routes)
+    setFrontedMenuList(generateRoutesToMenusHandler(routes))
+
+    const transformedRoutes = routeConversionHandler(routes)
+
+    return transformedRoutes
   }
 
-  /**
-   * 这里权限可传入字符串或者数组 数组 权限满足一个 则 为 true
-   */
   function hasPermission(auth?: string | string[]) {
     if (!auth) return false
 
-    if (Array.isArray(auth)) return !!auth.map(p => permissions.value.includes(p)).find(i => i)
+    if (Array.isArray(auth)) return auth.every(p => permissions.value.includes(p))
     return permissions.value.includes(auth)
   }
   function addRouteBatch(routes: RouteRecordRaw[]) {

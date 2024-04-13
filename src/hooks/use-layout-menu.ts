@@ -1,9 +1,8 @@
+import { storeToRefs } from 'pinia'
+import { ComputedRef, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { Menu } from '@/router/types'
 import { useLayoutStore, usePermissionStore } from '@/store'
-import { storeToRefs } from 'pinia'
-import { ComputedRef } from 'vue'
-import { computed } from 'vue'
-import { useRouter } from 'vue-router'
 
 interface LayoutMenuProps {
   type: 'all' | 'top' | 'left'
@@ -13,7 +12,6 @@ export function useLayoutMenu(props?: ComputedRef<LayoutMenuProps>) {
   const { getMenus } = usePermissionStore()
   const { layoutConfig } = storeToRefs(useLayoutStore())
 
-  // const menus = ref<Menu[]>()
   const router = useRouter()
 
   const currentRoute = router.currentRoute
