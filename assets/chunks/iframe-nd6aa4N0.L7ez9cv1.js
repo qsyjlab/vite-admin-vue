@@ -1,1 +1,0 @@
-import{J as a,a0 as r}from"./index.BxXvDlZo.js";import{d as o,o as s,c as t,J as m,p as e}from"./framework.D6RCW7MT.js";import"./theme.CN04-MxD.js";const n={style:{height:"100%"}},u=o({__name:"iframe",setup(i){return(c,f)=>(s(),t("div",n,[m(e(r),{"frame-src":e(a).docxLink},null,8,["frame-src"])]))}});export{u as default};

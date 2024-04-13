@@ -1,0 +1,1 @@
+import{q as o}from"./index.CC100n1M.js";import{E as e,o as n,b as s,w as l,J as p}from"./framework.D6RCW7MT.js";import"./theme.Dz7g7Wkx.js";const c={name:"DayJs"};function m(r,d,u,i,f,h){const t=e("page-card"),a=e("page-wrapper");return n(),s(a,null,{default:l(()=>[p(t,{header:r.$route.meta.title},null,8,["header"])]),_:1})}const q=o(c,[["render",m]]);export{q as default};
