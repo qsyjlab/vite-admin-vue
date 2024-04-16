@@ -5,7 +5,7 @@
       </ProForm>
     </page-card>
     <page-card :full="false" header="基础表单">
-      <ProForm :fields="fields" :label-width="150" @register="register"> </ProForm>
+      <ProForm inline :fields="fields" :label-width="150" @register="register"> </ProForm>
       <div style="display: flex; justify-content: flex-end">
         <el-space>
           <el-button @click="resetFields()">取消</el-button>

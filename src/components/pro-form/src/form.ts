@@ -15,6 +15,10 @@ export const useForm = (parameter: UseFormParameter) => {
   const { props, emits } = parameter
   const { inline } = props
 
+  const formRef = ref<ElFormInstance | null>(null)
+
+  const formModel = ref<Record<string, any>>({})
+
   const formSchemaes = computed(() =>
     props.fields
       .filter(field => {
@@ -38,9 +42,7 @@ export const useForm = (parameter: UseFormParameter) => {
       })
   )
 
-  const formRef = ref<ElFormInstance | null>(null)
-
-  const formModel = ref<Record<string, any>>({})
+  const isWatchCollapse = inline && props.layout
 
   const {
     fieldsIsCollapsedMap,
@@ -50,12 +52,14 @@ export const useForm = (parameter: UseFormParameter) => {
     updateCollapce
   } = useCollapse({
     fields: formSchemaes,
-    isWatch: inline
+    isWatch: isWatchCollapse
   })
 
-  watch([formModel, formSchemaes], () => {
-    updateCollapce()
-  })
+  if (isWatchCollapse) {
+    watch([formModel, formSchemaes], () => {
+      updateCollapce()
+    })
+  }
 
   // 判定是否启用 effect change
   if (props.enableEffect) {

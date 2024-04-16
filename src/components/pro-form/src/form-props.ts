@@ -26,6 +26,13 @@ export const formProps = {
   enableEffect: {
     type: Boolean,
     default: false
+  },
+  layout: {
+    type: Boolean,
+    default: true
+  },
+  actionProps: {
+    type: definePropType<EpFormProps['labelWidth']>([String, Number])
   }
 }
 

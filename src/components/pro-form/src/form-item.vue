@@ -100,4 +100,7 @@ const isRequired = computed(() => normalizedRules.value.some(rule => rule.requir
     }
   }
 }
+:deep(.el-form-item) {
+  width: 100% !important;
+}
 </style>
