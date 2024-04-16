@@ -103,11 +103,9 @@ defineExpose(formExposeMethods)
 </script>
 
 <style lang="scss" scoped>
-:deep(.el-form) {
-  .el-col {
-    .el-form-item {
-      width: 100% !important;
-    }
+:deep(.el-col) {
+  :deep(.el-form-item) {
+    width: 100% !important;
   }
 }
 </style>
