@@ -39,7 +39,7 @@
     "docx": "^8.5.0",
     "docx-preview": "^0.3.0",
     "echarts": "^5.4.3",
-    "element-plus": "^2.7.0",
+    "element-plus": "^2.7.1",
     "html2canvas": "^1.4.1",
     "jsencrypt": "^3.3.2",
     "jspdf": "^2.5.1",
