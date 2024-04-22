@@ -13,8 +13,6 @@ type UseFormParameter = {
 
 export const useForm = (parameter: UseFormParameter) => {
   const { props, emits } = parameter
-  const { inline } = props
-
   const formRef = ref<ElFormInstance | null>(null)
 
   const formModel = ref<Record<string, any>>({})
@@ -42,7 +40,7 @@ export const useForm = (parameter: UseFormParameter) => {
       })
   )
 
-  const isWatchCollapse = inline && props.layout
+  const isWatchCollapse = props.layout
 
   const {
     fieldsIsCollapsedMap,

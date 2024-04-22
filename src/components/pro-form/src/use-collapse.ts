@@ -34,8 +34,6 @@ export function useCollapse(option: CollapseOption) {
     watch(
       [fields, () => advanceState.isAdvanced],
       () => {
-        console.log('更新错误')
-
         updateCollapce()
       },
       {
