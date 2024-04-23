@@ -194,32 +194,36 @@ function emitPageChange() {
 // 重写 onSelection-change 支持多页选择回显
 const selectChangeHandler: TableInstance['onSelection-change'] = selection => {
   if (Array.isArray(selection)) {
-    const dataKeys = dataSource.value.map(row => getRowkey(row, props.rowKey))
+    if (props.reserveSelection) {
+      const dataKeys = dataSource.value.map(row => getRowkey(row, props.rowKey))
 
-    const selectionKeys = selection.map(row => getRowkey(row, props.rowKey))
+      const selectionKeys = selection.map(row => getRowkey(row, props.rowKey))
 
-    dataKeys.forEach(rowKey => {
-      if (!selectionKeys.includes(rowKey)) {
-        if (cacheSelectedData.has(rowKey)) {
-          cacheSelectedData.delete(rowKey)
+      dataKeys.forEach(rowKey => {
+        if (!selectionKeys.includes(rowKey)) {
+          if (cacheSelectedData.has(rowKey)) {
+            cacheSelectedData.delete(rowKey)
+          }
         }
-      }
-    })
+      })
 
-    selection.forEach(item => {
-      const rowKey = getRowkey(item, props.rowKey)
+      selection.forEach(item => {
+        const rowKey = getRowkey(item, props.rowKey)
 
-      if (!cacheSelectedData.has(rowKey)) {
-        cacheSelectedData.set(rowKey, item)
-      }
-    })
+        if (!cacheSelectedData.has(rowKey)) {
+          cacheSelectedData.set(rowKey, item)
+        }
+      })
 
-    setSelectedKeys(Array.from(cacheSelectedData.keys()))
+      setSelectedKeys(Array.from(cacheSelectedData.keys()))
 
-    emits(
-      'selection-change',
-      toValue(() => Array.from(cacheSelectedData.values()))
-    )
+      emits(
+        'selection-change',
+        toValue(() => Array.from(cacheSelectedData.values()))
+      )
+    } else {
+      emits('selection-change', selection)
+    }
   }
 }
 

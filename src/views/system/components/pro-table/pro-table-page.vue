@@ -8,12 +8,13 @@
         header-title="pro table"
         :columns="columns"
         :request="getTableMockList"
-        :params="params"
+        :params="{
+          type: 1
+        }"
         checkable
         auto-fit-height
         :reserve-selection="true"
         :pagination="{
-          page: pageRef,
           pageSize: 10,
           pageSizes: [10, 20, 40],
           background: true
@@ -167,10 +168,6 @@ const columns: ProTableColumns = [
 const data = ref<any[]>()
 
 const pageRef = ref<number>(1)
-
-const params = ref({
-  page: 1
-})
 
 function pageChange(page: number) {
   pageRef.value = page
