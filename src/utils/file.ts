@@ -1,9 +1,7 @@
-import { isBlob, isFile, isString } from '../type'
+import { isBlob, isFile, isString } from './type'
 
 /**
  *  base64 to blob
- * @param {String} dataURI base64
- * @returns {Blob}
  */
 export function dataURItoBlob(dataURI: string) {
   // base64 解码
@@ -46,17 +44,24 @@ export function fileReader(rawFile: File): Promise<FileReader['result']> {
 
 // 文件下载方法
 export function downloadFile(href: string, filename?: string) {
-  if (href && filename) {
+  if (href) {
     const a: HTMLAnchorElement = document.createElement('a')
-    a.download = filename
+
+    a.download = filename || href
     a.href = href
     a.click()
     URL.revokeObjectURL(a.href)
   }
 }
 
+// 文件流下载
+export function downloadFileStream(blob: Blob, mine?: string, filename?: string) {
+  const url = URL.createObjectURL(new Blob([blob], { type: mine || blob.type }))
+  downloadFile(url, filename)
+}
+
 // 文件转 blob 链接
-export function fileToObjectURL(file: File) {
+export function rawFileToObjectURL(file: File) {
   return URL.createObjectURL(new Blob([file], { type: file.type }))
 }
 

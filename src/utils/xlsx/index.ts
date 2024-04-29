@@ -1,6 +1,6 @@
 import type { JSON2SheetOpts, WritingOptions, WorkBook, WorkSheet } from 'xlsx'
 import * as xlsx from 'xlsx'
-import { fileReader } from '../es'
+import { fileReader } from '../file'
 import { dayJsFormatDate } from '../date'
 
 /**

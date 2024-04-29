@@ -39,7 +39,7 @@ export type BaseAxiosRequestConfig = {
   headers?: AxiosRequestConfig['headers']
 } & RequestConfigEx
 interface RequestConfigEx {
-  interceptorHooks?: InterceptorsType
+  interceptors?: InterceptorsType
   transform?: RequestTransform
 }
 

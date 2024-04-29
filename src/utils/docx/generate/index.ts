@@ -1,6 +1,6 @@
 import { Document, Packer } from 'docx'
 import { richTextToParagraph } from './html'
-import { downloadFile } from '../../es'
+import { downloadFile } from '../../file'
 
 export function pureRichTextExportDocx(richText: string | string[], filename?: string) {
   docxPackerToBlob(converRichTextToDocument(richText)).then(blob => {
