@@ -1,9 +1,9 @@
-import { interceptorHooks, requestCatch, transformResponse } from './axios-request-impl'
+import { interceptors, requestCatch, transformResponse } from './axios-request-impl'
 import { RequestResultAdapter } from './request-adapter'
 import config from '@/config'
 
 export const mockService = new RequestResultAdapter({
-  interceptorHooks,
+  interceptors,
   baseURL: '/basic-api',
   transform: {
     transformResponse,
@@ -12,7 +12,7 @@ export const mockService = new RequestResultAdapter({
 })
 
 export const service = new RequestResultAdapter({
-  interceptorHooks,
+  interceptors,
   baseURL: config.baseApiUrl,
   transform: {
     transformResponse,
@@ -21,7 +21,7 @@ export const service = new RequestResultAdapter({
 })
 
 export const fileService = new RequestResultAdapter({
-  interceptorHooks,
+  interceptors,
   baseURL: 'http://localhost:9002/',
   transform: {
     transformResponse,

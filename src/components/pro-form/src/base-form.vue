@@ -2,6 +2,7 @@
   <el-form
     v-bind="{ ...$attrs }"
     :ref="ref => setFormRef(ref)"
+    :inline="inline"
     :model="formModel"
     :label-width="labelWidth"
     :label-position="labelPosition"
@@ -18,36 +19,39 @@
     :validate-on-rule-change="validateOnRuleChange"
     @submit.prevent
   >
-    <el-row :gutter="20">
+    <form-layout-wrapper :layout="layout" :gutter="20">
       <template v-for="item in formSchemaes" :key="item.key">
-        <el-col v-show="!inline ? true : fieldsIsCollapsedMap[item.key]" v-bind="item.col">
+        <form-item-layout-wrapper
+          v-if="layout ? fieldsIsCollapsedMap[item.key] : true"
+          v-bind="item.col"
+          :layout="layout"
+        >
           <slot :name="item.key" :field="item">
             <form-item v-bind="item" :prop="item.key"></form-item>
           </slot>
-        </el-col>
+        </form-item-layout-wrapper>
       </template>
-      <slot></slot>
 
-      <el-col v-if="inline" v-bind="advancedSpanColAttrs">
+      <form-item-layout-wrapper v-if="inline" :layout="layout" v-bind="advancedSpanColAttrs">
         <form-action
           :collapsed="advanceState.isAdvanced"
-          :hidden-collapse-button="advanceState.hideAdvanceBtn"
+          :hidden-collapse-button="!layout || advanceState.hideAdvanceBtn"
         ></form-action>
-      </el-col>
-    </el-row>
-
-    <!-- 只提供 inline 模式下的操作按钮 -->
+      </form-item-layout-wrapper>
+    </form-layout-wrapper>
   </el-form>
 </template>
 
 <script setup lang="ts">
 import { toRaw } from 'vue'
+import { ElForm } from 'element-plus'
 import { formProps, formEmits, emitsEnums } from './form-props'
 import { useForm } from './form'
-import { ElForm } from 'element-plus'
 import { createFormContext } from './provider'
 import FormAction from './form-action.vue'
 import FormItem from './form-item.vue'
+import FormLayoutWrapper from './form-layout-wrapper.vue'
+import FormItemLayoutWrapper from './form-item-layout-wrapper.vue'
 
 defineOptions({
   name: 'ProForm'
@@ -74,7 +78,6 @@ const {
   props,
   emits
 })
-
 const submit = () => {
   validate(() => {
     emits(emitsEnums.SUBMIT, toRaw(formModel.value))
@@ -98,3 +101,11 @@ createFormContext({
 
 defineExpose(formExposeMethods)
 </script>
+
+<style lang="scss" scoped>
+:deep(.el-col) {
+  :deep(.el-form-item) {
+    width: 100% !important;
+  }
+}
+</style>

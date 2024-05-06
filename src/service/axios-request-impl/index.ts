@@ -1,3 +1,4 @@
+import { downloadFileStream } from '@/utils'
 import type {
   requestInterceptorType,
   requestInterceptorCatchType,
@@ -32,6 +33,10 @@ const requestInterceptorCatchImpl: requestInterceptorCatchType = error => {
 }
 
 const responseInterceptorImpl: responseInterceptorType = response => {
+  if (response.data instanceof Blob) {
+    downloadFileStream(response.data)
+  }
+
   return response
 }
 
@@ -120,7 +125,7 @@ export const requestCatch: RequestTransform['requestCatch'] = (error, requestOpt
   return error
 }
 
-export const interceptorHooks: InterceptorsType = {
+export const interceptors: InterceptorsType = {
   requestInterceptor: requestInterceptorImpl,
   requestInterceptorCatch: requestInterceptorCatchImpl,
   responseInterceptor: responseInterceptorImpl,

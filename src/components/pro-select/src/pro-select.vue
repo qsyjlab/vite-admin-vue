@@ -9,6 +9,7 @@
     :remote-method="customRemoteMehotd"
     :multiple="multiple"
     :loading="loading"
+    :size="size"
     @change="changeHandler"
   >
     <template v-if="group">

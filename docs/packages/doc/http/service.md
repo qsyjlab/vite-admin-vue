@@ -26,7 +26,7 @@ export type BaseAxiosRequestConfig = {
   headers?: AxiosRequestConfig['headers']
 } & RequestConfigEx
 interface RequestConfigEx {
-  interceptorHooks?: InterceptorsType
+  interceptors?: InterceptorsType
   transform?: RequestTransform
 }
 ```
@@ -34,11 +34,11 @@ interface RequestConfigEx {
 ### 创建
 
 ```ts
-import { interceptorHooks, requestCatch, transformResponse } from './axios-request-impl'
+import { interceptors, requestCatch, transformResponse } from './axios-request-impl'
 import { RequestResultAdapter } from './request-adapter'
 
 export const mockService = new RequestResultAdapter({
-  interceptorHooks,
+  interceptors,
   baseURL: '/basic-api',
   transform: {
     transformResponse,
@@ -94,9 +94,9 @@ export class RequestResultAdapter extends AxiosRequest {
 }
 ```
 
-## transform 和 interceptorHooks
+## transform 和 interceptors
 
-### interceptorHooks
+### interceptors
 
 类型：
 
@@ -135,7 +135,7 @@ private registerInterceptors(): void {
       requestInterceptorCatch,
       responseInterceptor,
       responseInterceptorCatch
-    } = this.instanceConfig.interceptorHooks || {}
+    } = this.instanceConfig.interceptors || {}
 
     this.instance.interceptors.request.use(
       requestInterceptor,

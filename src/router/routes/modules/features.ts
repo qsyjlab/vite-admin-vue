@@ -56,6 +56,15 @@ export default defineExposeRoutes([
         component: () => import('@/views/system/feature/image-viwer/image-viwer.vue')
       },
       {
+        name: 'Download',
+        path: 'download',
+        meta: {
+          title: '文件下载',
+          ignoreAuth: true
+        },
+        component: () => import('@/views/system/feature/download/download.vue')
+      },
+      {
         name: 'Message',
         path: 'message',
         meta: {
@@ -88,7 +97,6 @@ export default defineExposeRoutes([
           ignoreAuth: true,
           hideChildrenInMenu: false
         },
-        component: BlankContainer,
         children: [
           {
             name: 'PdfPreview',

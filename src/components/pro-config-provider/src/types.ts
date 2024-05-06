@@ -8,6 +8,6 @@ export interface ProConfigProviderProps {
     transformParams?: (params: any) => any
     rendererMap?: Record<string, CustomRendererFn>
     /** 对于最后渲染结果的处理 */
-    customRenderAfter: (value: unknown) => any
+    customRenderAfter?: (value: unknown) => any
   }
 }

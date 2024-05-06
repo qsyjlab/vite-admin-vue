@@ -9,7 +9,8 @@ export default defineExposeRoutes([
     meta: {
       title: '图表',
       order: 20,
-      icon: 'ep.document'
+      icon: 'ep.document',
+      hideChildrenInMenu: false
     },
     redirect: { name: 'Echarts' },
     component: Layout,

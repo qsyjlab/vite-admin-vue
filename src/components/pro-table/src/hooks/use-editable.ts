@@ -76,14 +76,16 @@ export function useEditable(props: IProps) {
     }
 
     formInstanceRef.value?.validateField(getShouldValidKeys(rowKey), (invalid, errors) => {
-      // errors &&
-      //   Object.keys(errors).length &&
-      //   formInstanceRef.value?.scrollToField(Object.keys(errors))
-      editableConfig.onError?.(getRealValidErrors(errors))
+      if (!invalid) {
+        editableConfig.onError?.(getRealValidErrors(errors))
+        return
+      }
 
-      if (!invalid) return
-
-      done()
+      if (editableConfig.onSave) {
+        editableConfig.onSave(cacheData, done)
+      } else {
+        done()
+      }
     })
 
     function done() {
