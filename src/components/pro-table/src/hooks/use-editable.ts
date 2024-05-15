@@ -17,6 +17,11 @@ interface IProps {
   columns: ProTableColumns
 }
 
+const defaultEditableState = {
+  isEdit: false,
+  data: {}
+}
+
 export function useEditable(props: IProps) {
   const { dataSource, editableConfig, columns } = props
 
@@ -136,6 +141,11 @@ export function useEditable(props: IProps) {
   function getEditData(rowKey: EditableTableRowKey) {
     return editableCellMap.value.get(rowKey)?.data || {}
   }
+
+  function getRowEditableState(rowKey, hasDefaultValue = false) {
+    return hasDefaultValue ? editableCellMap.value.get(rowKey) : defaultEditableState
+  }
+
   function findRow(rowKey: EditableTableRowKey) {
     return dataSource.value.find(row => getRowkey(row, props.rowKey) === rowKey)
   }
@@ -175,6 +185,7 @@ export function useEditable(props: IProps) {
     clearEditRow,
     clearValidateErrors,
     hasEditingRow,
+    getRowEditableState,
     editableCellMap: computed(() => editableCellMap.value)
   }
 }

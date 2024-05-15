@@ -24,7 +24,8 @@ const rootInstance = useProtableInstanceContext()
 
 const slots = useSlots()
 
-const { editableCellMap, pageQuery, customRendererMap, customRenderAfter } = useTableStoreContext()
+const { pageQuery, customRendererMap, customRenderAfter, editableCellUtils } =
+  useTableStoreContext()
 
 function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
   const { row, $index } = scope || {}
@@ -40,15 +41,14 @@ function columnDefaultRender(columnConfig: ProTableColumnItem, scope: any) {
   }
 
   const realRowKey = getRowkey(row, props.rowKey)
+  const rowEditState = editableCellUtils.getRowEditableState(realRowKey)
 
   const renderParamters = {
     ...scope,
-    editableState: realRowKey ? editableCellMap.value.get(realRowKey) : undefined
+    editableState: rowEditState
   }
 
   if (mergedSlots[columnConfig.key]) return mergedSlots[columnConfig.key]?.(renderParamters)
-
-  const rowEditState = realRowKey ? editableCellMap.value.get(realRowKey) : undefined
 
   if (columnConfig.editable && rowEditState && rowEditState.isEdit) {
     return <EditableCell row={row} column={columnConfig} rowKey={props.rowKey} />
