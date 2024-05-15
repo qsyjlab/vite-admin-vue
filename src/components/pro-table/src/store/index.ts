@@ -94,7 +94,8 @@ export function useTableStore(
     clearValidateErrors,
     hasEditingRow,
     setFormInstanceRef,
-    editableRowsModel
+    editableRowsModel,
+    getRowEditableState
   } = useEditable({
     dataSource,
     rowKey: props.rowKey,
@@ -123,6 +124,7 @@ export function useTableStore(
     clearEditRow,
     hasEditingRow,
     setFormInstanceRef,
+    getRowEditableState,
     clearValidateErrors
   }
 
