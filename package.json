@@ -42,7 +42,6 @@
     "element-plus": "^2.7.1",
     "html2canvas": "^1.4.1",
     "jsencrypt": "^3.3.2",
-    "jspdf": "^2.5.1",
     "lodash-es": "^4.17.21",
     "mitt": "^3.0.1",
     "nprogress": "^0.2.0",
@@ -51,7 +50,7 @@
     "qrcode": "^1.5.3",
     "sortablejs": "^1.15.0",
     "tinymce": "5.10.3",
-    "vue": "^3.4.15",
+    "vue": "^3.4.21",
     "vue-demi": "^0.14.7",
     "vue-router": "^4.2.5",
     "xlsx": "^0.18.5"

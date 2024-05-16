@@ -48,10 +48,7 @@ class AxiosRequest {
       const { transformResponse, transformRequest, requestCatch } =
         this.instanceConfig.transform || {}
 
-      let requestConfig = extend(
-        omit(this.instanceConfig, ['transform', 'interceptorHooks']),
-        options
-      )
+      let requestConfig = extend(omit(this.instanceConfig, ['transform', 'interceptors']), options)
       if (!ignoreTransformRequest && transformRequest && isFunction(transformRequest)) {
         requestConfig = transformRequest(requestConfig)
       }
@@ -126,7 +123,7 @@ class AxiosRequest {
       requestInterceptorCatch,
       responseInterceptor,
       responseInterceptorCatch
-    } = this.instanceConfig.interceptorHooks || {}
+    } = this.instanceConfig.interceptors || {}
 
     this.instance.interceptors.request.use(
       requestInterceptor,

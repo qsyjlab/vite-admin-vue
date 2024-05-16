@@ -17,6 +17,11 @@ interface IProps {
   columns: ProTableColumns
 }
 
+const defaultEditableState = {
+  isEdit: false,
+  data: {}
+}
+
 export function useEditable(props: IProps) {
   const { dataSource, editableConfig, columns } = props
 
@@ -76,14 +81,16 @@ export function useEditable(props: IProps) {
     }
 
     formInstanceRef.value?.validateField(getShouldValidKeys(rowKey), (invalid, errors) => {
-      // errors &&
-      //   Object.keys(errors).length &&
-      //   formInstanceRef.value?.scrollToField(Object.keys(errors))
-      editableConfig.onError?.(getRealValidErrors(errors))
+      if (!invalid) {
+        editableConfig.onError?.(getRealValidErrors(errors))
+        return
+      }
 
-      if (!invalid) return
-
-      done()
+      if (editableConfig.onSave) {
+        editableConfig.onSave(cacheData, done)
+      } else {
+        done()
+      }
     })
 
     function done() {
@@ -134,6 +141,11 @@ export function useEditable(props: IProps) {
   function getEditData(rowKey: EditableTableRowKey) {
     return editableCellMap.value.get(rowKey)?.data || {}
   }
+
+  function getRowEditableState(rowKey, hasDefaultValue = false) {
+    return hasDefaultValue ? editableCellMap.value.get(rowKey) : defaultEditableState
+  }
+
   function findRow(rowKey: EditableTableRowKey) {
     return dataSource.value.find(row => getRowkey(row, props.rowKey) === rowKey)
   }
@@ -173,6 +185,7 @@ export function useEditable(props: IProps) {
     clearEditRow,
     clearValidateErrors,
     hasEditingRow,
+    getRowEditableState,
     editableCellMap: computed(() => editableCellMap.value)
   }
 }

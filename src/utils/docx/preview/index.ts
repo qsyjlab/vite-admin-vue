@@ -1,4 +1,4 @@
-import { convertUnknownObjectToBlob } from '@/utils/es'
+import { convertUnknownObjectToBlob } from '@/utils/file'
 import { renderAsync } from 'docx-preview'
 
 export function docxPreviewRenderAsync(blob: Blob | File | string, container: HTMLElement) {
