@@ -83,7 +83,7 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" generic="T = any, Q = Record<string | number, any>">
 import { computed, reactive, getCurrentInstance, toValue } from 'vue'
 import { ElForm, type TableInstance } from 'element-plus'
 import { proTableProps, proTableEmits } from './props'
@@ -92,9 +92,8 @@ import ProTableColumn from './pro-table-column.vue'
 import toolbar from './components/toolbar/toolbar.vue'
 import { columnsSort, columnsFilter, getRowkey } from './utils'
 import './style.scss'
-import type { ProTableSlotScope, ProTableProps } from './types'
-
-type DefualtSlotFn = (scope: ProTableSlotScope) => void
+import type { ProTableSlotScope, ProTableProps, ProTableColumns } from './types'
+import { definePropType } from '@/utils'
 
 defineOptions({
   name: 'ProTable'
@@ -109,10 +108,26 @@ defineSlots<{
   toolbar: () => void
   alert: () => void
 
-  [key: string]: DefualtSlotFn
+  [key: string]: (scope: ProTableSlotScope<T>) => void
 }>()
 
-const props = defineProps(proTableProps)
+const props = defineProps({
+  ...proTableProps,
+  /** 列配置 */
+  columns: {
+    type: definePropType<ProTableColumns<T>>(Array),
+    default: () => []
+  },
+  /** 外部请求参数 */
+  params: {
+    type: definePropType<Q>(Object)
+  },
+  /** 数据 同 el-table data */
+  data: {
+    type: definePropType<T[]>(Array),
+    default: () => []
+  }
+})
 const emits = defineEmits(proTableEmits)
 
 /**
