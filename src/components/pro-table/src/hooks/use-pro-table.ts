@@ -1,11 +1,11 @@
 import { computed, reactive, ref, toRefs, watch } from 'vue'
 import { PaginationProps } from 'element-plus'
 import { watchOnce } from '@vueuse/core'
-import { DEFAULT_PAGE_SIZE, DEFAULT_PAGINATON_CONFIG } from '../constant'
+import { DEFAULT_INDEX_BORDER, DEFAULT_PAGE_SIZE, DEFAULT_PAGINATON_CONFIG } from '../constant'
 import { proTableEmits } from '../props'
 import { sliceData } from '../utils'
 
-import type { ProTableColumns, ProTableProps } from '../types'
+import type { ProTableIndexBorder, ProTableProps } from '../types'
 
 import type { SetupContext } from 'vue'
 
@@ -21,6 +21,7 @@ type IProps = Pick<
   | 'transform'
   | 'transformParams'
   | 'autoRequest'
+  | 'indexBorder'
 >
 
 type Extra = {
@@ -30,12 +31,22 @@ type Extra = {
 export const useProTable = (props: IProps, extra: Extra) => {
   const { emits } = extra
 
-  const { columns, data, params, pagination } = toRefs(props)
+  const { columns, data, params, pagination, indexBorder } = toRefs(props)
 
   const { request } = props
 
   const dataSource = ref<any[]>([])
-  const tableColums = computed(() => columnPreConfiguration(columns.value))
+  const tableColums = computed(() => {
+    const clonedColumns = [...columns.value]
+
+    const normalizedIndexColumn = normalizeIndexBorder(indexBorder.value)
+
+    if (normalizedIndexColumn) {
+      clonedColumns.unshift(normalizedIndexColumn)
+    }
+    return clonedColumns
+  })
+
   const total = ref(0)
   const loading = ref(false)
 
@@ -103,6 +114,16 @@ export const useProTable = (props: IProps, extra: Extra) => {
     fetchData()
   }
 
+  function normalizeIndexBorder(indexBorder: ProTableIndexBorder) {
+    if (typeof indexBorder === 'boolean') {
+      if (indexBorder === false) return null
+
+      return Object.assign({}, DEFAULT_INDEX_BORDER)
+    }
+
+    return Object.assign({}, DEFAULT_INDEX_BORDER, indexBorder)
+  }
+
   function refresh() {
     fetchData()
   }
@@ -156,16 +177,4 @@ export const useProTable = (props: IProps, extra: Extra) => {
     setQueryPageSize,
     setQueryPage
   }
-}
-
-// 配置列预设
-function columnPreConfiguration(columns: ProTableColumns) {
-  const indexBorderColumn = columns.find(col => col.valueType === 'indexBorder')
-
-  if (indexBorderColumn) {
-    !indexBorderColumn.title && (indexBorderColumn!.title = '序号')
-    !indexBorderColumn.width && (indexBorderColumn!.width = 60)
-  }
-
-  return columns
 }

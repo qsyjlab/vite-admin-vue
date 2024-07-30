@@ -17,6 +17,10 @@ export const proTableProps = {
   size: {
     type: definePropType<ProTableProps['size']>(String)
   },
+  indexBorder: {
+    type: definePropType<ProTableProps['indexBorder']>([Boolean, Object]),
+    default: true
+  },
   /** 列状态配置 */
   columnsState: {
     type: definePropType<ColumnsState>(Object),
