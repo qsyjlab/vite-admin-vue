@@ -25,7 +25,7 @@
     "url": "https://github.com/qsyjlab/vite-admin-vue"
   },
   "engines": {
-    "node": ">= 16"
+    "node": ">= 18"
   },
   "dependencies": {
     "@arco-design/color": "^0.4.0",
