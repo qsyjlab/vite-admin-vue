@@ -1,0 +1,1 @@
+import{R as o,O as r}from"./index.BY2CIEfQ.js";import{d as s,o as d,b as m,w as e,J as i,p as a,a as n}from"./framework.DHfpg7u7.js";import"./theme.CTPVtnNN.js";const _=s({__name:"image-viwer",setup(l){return(t,p)=>(d(),m(a(r),null,{default:e(()=>[i(a(o),{header:t.$route.meta.title},{default:e(()=>[n(" asdasd ")]),_:1},8,["header"])]),_:1}))}});export{_ as default};
