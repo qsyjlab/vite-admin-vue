@@ -8,6 +8,10 @@ export type { ProTableColumns, ProTableEditable, EditableCellValidError } from '
 
 export * from './src/use-pro-table'
 
+/**
+ * 针对泛型类组件相关问题
+ * https://github.com/vuejs/language-tools/issues/3206
+ */
 export type ProTableInstance = InstanceType<typeof ProTable>
 
 export default ProTable
