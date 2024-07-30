@@ -1,5 +1,6 @@
 import { h } from 'vue'
 
+export const EXCEPTION_COMPONENT = () => import('@/views/error/error-404.vue')
 export const Layout = () => import('@/layouts/basic-layout/basic-layout.vue')
 
 export const BlankContainer = () =>
