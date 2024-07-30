@@ -100,7 +100,7 @@ const fileList = ref<UploadProps['fileList']>([])
 watch(
   () => props.modelValue,
   newval => {
-    fileList.value = newval
+    fileList.value = newval || []
   },
   {
     immediate: true
@@ -169,7 +169,7 @@ const closeViewer = () => {
 }
 
 const isHideUploadTrigger = () => {
-  return !(props.limit && fileList.value.length < props.limit)
+  return !(props.limit && fileList.value?.length < props.limit)
 }
 </script>
 <style lang="scss" scoped>

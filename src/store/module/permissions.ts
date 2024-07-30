@@ -12,6 +12,8 @@ import { setPermissionsCache, getPermissionsCache } from '../local'
 
 import type { RouteRecordRaw } from 'vue-router'
 import type { Menu } from '@/router/types'
+import { transformObjToRoute } from '@/router/helper/dynamic'
+import { createMatcher } from '@/router/helper/matched'
 
 export const usePermissionStore = defineStore('permissionStoreKey', () => {
   const permissions = ref<string[]>([])
@@ -80,7 +82,13 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
       }
 
       routes = filter(asyncRoutes, roleFilter, { id: 'name' })
+    } else {
+      const backAsyncRoutes: RouteRecordRaw[] = []
+
+      routes = transformObjToRoute(backAsyncRoutes)
     }
+
+    createMatcher(routes)
 
     setFrontedMenuList(generateRoutesToMenusHandler(routes))
 

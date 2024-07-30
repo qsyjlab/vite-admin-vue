@@ -51,7 +51,7 @@ export function useEditable(props: IProps) {
   }
 
   function startEditable(rowKey: EditableTableRowKey) {
-    if (editableConfig.mode === 'single') {
+    if (editableConfig?.mode === 'single') {
       clearEditRow()
     }
 
@@ -111,6 +111,7 @@ export function useEditable(props: IProps) {
 
     function done() {
       const atIndex = findRowIndex(rowKey)
+      editableCellMap.value.delete(rowKey)
 
       if (atIndex !== -1) {
         dataSource.value.splice(atIndex, 1)

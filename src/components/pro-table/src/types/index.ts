@@ -134,6 +134,13 @@ export interface ProTableProps<T = any> {
   autoRequest: boolean
   cacheSelectedData: T[]
   customRenderAfter: (value: unknown) => any
+  indexBorder: ProTableIndexBorder
+}
+
+export type ProTableIndexBorder = boolean | ProTableIndexBorderProps
+
+export interface ProTableIndexBorderProps<T = any> extends ProTableColumnItem<T> {
+  _?: unknown
 }
 
 export interface ProTableHeaderProps {

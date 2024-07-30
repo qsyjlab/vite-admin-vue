@@ -1,8 +1,10 @@
 export enum PermissionModeEnum {
-  // role
-  // 角色权限
+  /** 角色权限 */
   ROLE = 'ROLE',
-  // route mapping
-  // 路由映射
-  ROUTE_MAPPING = 'ROUTE_MAPPING'
+
+  /** 路由权限映射 */
+  ROUTE_MAPPING = 'ROUTE_MAPPING',
+
+  /** 后端菜单映射 */
+  BACKED = 'BACKED'
 }

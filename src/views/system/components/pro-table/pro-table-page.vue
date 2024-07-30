@@ -30,7 +30,7 @@
           <el-button type="primary" @click="tableRef?.doHeight()">新增</el-button>
         </template>
 
-        <template #operation="{}">
+        <template #operation>
           <el-button size="small" type="primary">编辑</el-button>
           <el-button size="small" type="danger">删除</el-button>
           <el-button size="small">查看</el-button>
@@ -72,7 +72,12 @@ watch(selectedKeys, () => {
   console.log('selectedKeys', selectedKeys.value)
 })
 
-const columns: ProTableColumns = [
+const columns: ProTableColumns<{
+  id: string
+  name: string
+  progress: number
+  status: string
+}> = [
   {
     key: 'indexBorder',
     valueType: 'indexBorder',

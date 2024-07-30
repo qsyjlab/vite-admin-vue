@@ -2,7 +2,6 @@ import { definePropType } from '@/utils'
 
 import type {
   ColumnsState,
-  ProTableColumns,
   TableOptions,
   ProTableEditable,
   TableActionRef,
@@ -18,21 +17,16 @@ export const proTableProps = {
   size: {
     type: definePropType<ProTableProps['size']>(String)
   },
+  indexBorder: {
+    type: definePropType<ProTableProps['indexBorder']>([Boolean, Object]),
+    default: true
+  },
   /** 列状态配置 */
   columnsState: {
     type: definePropType<ColumnsState>(Object),
     default: () => ({})
   },
-  /** 列配置 */
-  columns: {
-    type: definePropType<ProTableColumns>(Array),
-    default: () => []
-  },
-  /** 数据 同 el-table data */
-  data: {
-    type: definePropType<any[]>(Array),
-    default: () => []
-  },
+
   border: {
     type: definePropType<boolean>(Boolean),
     default: true
@@ -41,10 +35,7 @@ export const proTableProps = {
   request: {
     type: definePropType<(...rest: any[]) => Promise<any>>(Function)
   },
-  /** 外部请求参数 */
-  params: {
-    type: definePropType<Record<string | number, any>>(Object)
-  },
+
   /** 最终请求结果处理 */
   transform: {
     type: definePropType<ProTableProps['transform']>(Function)
