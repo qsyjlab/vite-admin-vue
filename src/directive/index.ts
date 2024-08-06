@@ -1,8 +1,10 @@
-import { App } from 'vue'
-import { watermarkDirective } from './watermark'
-import { contextMenuDirective } from './context-menu'
+import { WatermarkDirective } from './watermark'
+import { ContextMenuDirective } from './context-menu'
+import { defineAppPlugin } from '@/utils'
 
-export default (app: App) => {
-  app.directive('watermark', watermarkDirective)
-  app.directive('contextmenu', contextMenuDirective)
-}
+export { WatermarkDirective, ContextMenuDirective }
+
+export default defineAppPlugin(app => {
+  app.directive('watermark', WatermarkDirective)
+  app.directive('contextmenu', ContextMenuDirective)
+})

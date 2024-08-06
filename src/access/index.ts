@@ -1,4 +1,5 @@
 import { usePermissionStore, useUserStore } from '@/store'
+import { defineAppPlugin } from '@/utils'
 
 export function hasAuthorize(auth: string) {
   const { hasPermission } = usePermissionStore()
@@ -10,3 +11,9 @@ export function hasRole(role: string) {
 
   return hasRole(role)
 }
+
+export default defineAppPlugin(app => {
+  const globalProperties = app.config.globalProperties
+  globalProperties['$hasAuthorize'] = hasAuthorize
+  globalProperties['$hasRole'] = hasRole
+})

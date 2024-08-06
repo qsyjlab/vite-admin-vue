@@ -2,7 +2,7 @@ import { ProContextMenuProps, ProContextMenu } from '@/components/context-menu'
 
 import { Directive, h, render } from 'vue'
 
-export const contextMenuDirective: Directive<HTMLElement, ProContextMenuProps> = (el, binding) => {
+export const ContextMenuDirective: Directive<HTMLElement, ProContextMenuProps> = (el, binding) => {
   const menuVnode = h(ProContextMenu, { ...binding.value })
 
   const trigger = binding.value.trigger || ['contextmenu']
