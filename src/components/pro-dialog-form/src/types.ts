@@ -10,6 +10,11 @@ export interface IDialogFormProps<T = Record<string, any>, D = Record<string, an
   addRequest?: (data: T) => Promise<any>
   editRequest?: (id: number | string, data: T) => Promise<any>
   getRequest?: (id: number | string) => Promise<D>
+  handler?: (data: T) => T
+  // showMessage?: boolean
+  addTitle?: string
+  editTitle?: string
+  title?: string
 }
 
 export interface IDialogExpose {
