@@ -31,5 +31,3 @@ export const fileService = new RequestResultAdapter({
 
 // 暴露出所有类型
 export * from './axios-request/interface'
-
-export * from './types'

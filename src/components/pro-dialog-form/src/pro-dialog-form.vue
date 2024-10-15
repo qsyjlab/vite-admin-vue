@@ -37,6 +37,9 @@ const DEFUALT_DIALOG_PROPS: IDialogFormProps['dialogProps'] = {
 const props = withDefaults(defineProps<IDialogFormProps>(), {
   cancelText: '取消',
   confirmText: '提交',
+  showMessage: true,
+  inlineMessage: true,
+  scrollToError: true,
   dialogProps: () => ({})
 })
 
@@ -57,17 +60,19 @@ const dialogCommand = {
   }
 }
 
-const state: IState = {
+const state = reactive<IState>({
   id: undefined
-}
+})
 
 const { register, clearValidate, resetFields, forceUpdateModel, validate, formInstance } =
   useProForm()
 
 const dynamicDialogProps = computed(() => {
+  const title = state.id ? props.editTitle : props.addTitle || props.title
   return {
     ...DEFUALT_DIALOG_PROPS,
-    ...props.dialogProps
+    ...props.dialogProps,
+    title
   }
 })
 
@@ -81,6 +86,8 @@ const show = async (id?: _ID, defaultValue?: Record<string, any>) => {
   resetFields()
   clearValidate()
   forceUpdateModel(defaultValue || {})
+
+  state.id = id
   id &&
     props?.getRequest?.(id).then(res => {
       if (providerContext?.responseHandler) {
@@ -104,12 +111,14 @@ async function _reset() {
 }
 
 const submit = () => {
+  const handler = createRequestHandler()
   validate(model => {
     if (state.id) {
       props
-        ?.editRequest?.(state.id, model)
+        ?.editRequest?.(state.id, handler(model))
         .then((...res) => {
           emits('success', ...res)
+
           close()
         })
         .catch(err => {
@@ -117,7 +126,7 @@ const submit = () => {
         })
     } else {
       props
-        ?.addRequest?.(model)
+        ?.addRequest?.(handler(model))
         .then((...res) => {
           emits('success', ...res)
           close()
@@ -127,6 +136,12 @@ const submit = () => {
         })
     }
   })
+}
+
+function createRequestHandler() {
+  if (props.handler) return props.handler
+
+  return data => data
 }
 
 defineExpose(

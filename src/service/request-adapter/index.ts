@@ -4,7 +4,6 @@ import type {
   BaseAxiosRequestConfig
 } from '../axios-request'
 import { AxiosRequest } from '../axios-request'
-import { Result } from '../types'
 
 // 为了适配同返回类型
 export class RequestResultAdapter extends AxiosRequest {
@@ -12,7 +11,7 @@ export class RequestResultAdapter extends AxiosRequest {
     super(config)
   }
 
-  request<T = any, R = Result<T>>(
+  request<T = any, R = Api.Result<T>>(
     options?: RequestMethodConfig,
     requestOptions?: RequestOptionsEx
   ): Promise<R> {

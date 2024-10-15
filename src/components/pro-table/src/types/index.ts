@@ -10,7 +10,7 @@ export type ColumnsMap = Record<string, any>
 export interface ProTableColumnItem<T = any>
   extends Partial<Omit<TableColumnCtx<T>, 'children' | 'label' | 'prop'>> {
   title?: number | string
-  key: ColumnKey
+  key: ColumnKey<T>
   /** 创建一个提示图标 */
   tip?: string
   /** 当前数值类型 default: text */
@@ -57,7 +57,17 @@ export type ProTableColumns<T = any> = ProTableColumnItem<T>[]
 
 export type RowKey = ProTableProps['rowKey']
 
-export type ColumnKey = string
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type ColumnKey<T = any> = DeepKeyOf<T> | (string & {})
+
+// 深度 keyof 类型
+type DeepKeyOf<T> = T extends object
+  ? {
+      [K in keyof T]: T[K] extends object
+        ? `${K & string}` | `${K & string}.${DeepKeyOf<T[K]>}`
+        : `${K & string}`
+    }[keyof T]
+  : never
 
 /** 列设置配置 */
 export interface ColumnsState {

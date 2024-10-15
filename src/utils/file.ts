@@ -87,3 +87,14 @@ export async function convertUnknownObjectToBlob(file: unknown): Promise<Blob | 
 
   return null
 }
+
+export function blobToBase64(blob: Blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onloadend = function () {
+      resolve(reader.result)
+    }
+    reader.onerror = reject
+    reader.readAsDataURL(blob)
+  })
+}
