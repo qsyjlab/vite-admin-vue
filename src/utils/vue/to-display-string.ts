@@ -7,7 +7,7 @@ import {
   isSet,
   isPlainObject,
   objectToString
-} from './type'
+} from '../type'
 
 /**
  * For converting {{ interpolation }} values to displayed strings.

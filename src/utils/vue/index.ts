@@ -1,3 +1,5 @@
 export * from './props'
 export * from './component'
 export * from './install'
+export * from './assets'
+export * from './to-display-string'
