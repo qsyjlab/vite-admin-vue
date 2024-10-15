@@ -1,1 +1,0 @@
-import{_ as e,c as r,o as a,aR as t}from"./chunks/framework.DHfpg7u7.js";const f=JSON.parse('{"title":"简介","description":"","frontmatter":{},"headers":[],"relativePath":"doc/guide/doc.md","filePath":"doc/guide/doc.md"}'),o={name:"doc/guide/doc.md"},i=t("",11),l=[i];function n(s,h,d,c,u,p){return a(),r("div",null,l)}const m=e(o,[["render",n]]);export{f as __pageData,m as default};

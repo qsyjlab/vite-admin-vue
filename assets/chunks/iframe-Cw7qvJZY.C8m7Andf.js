@@ -1,0 +1,1 @@
+import{t as a,a1 as r}from"./index.B_-AZqtN.js";import{d as t,o,c as s,J as m,p as e}from"./framework.D1sHVKzl.js";import"./theme.af-yJUCQ.js";const n={style:{height:"100%"}},u=t({__name:"iframe",setup(c){return(f,i)=>(o(),s("div",n,[m(e(r),{"frame-src":e(a).docxLink},null,8,["frame-src"])]))}});export{u as default};
