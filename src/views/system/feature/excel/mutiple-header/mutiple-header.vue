@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import { ProTableColumns, useProTable } from '@/components'
 import { ref } from 'vue'
-import { jsonToSheetXlsx } from '@/utils'
+import { aoaToSheetXlsx } from '@/utils'
 
 const data = ref<any[]>([])
 const { register, getTableRef } = useProTable()
@@ -32,6 +32,7 @@ const columns: ProTableColumns = [
   {
     title: '姓名',
     key: 'namer',
+
     children: [
       {
         title: '姓名1',
@@ -94,26 +95,42 @@ const exportArrToExcel = async () => {
   console.log('tableRef', tableRef)
 }
 
-const exportExecel = () => {
+const exportExecel = async () => {
   const headers = {}
   columns.forEach(col => {
     headers[col.key] = col.title
   })
 
   const header = buildHeader(columns)
+  console.log('header', header)
+  const merges = doMerges(header)
 
-  jsonToSheetXlsx({
-    data: [],
-    merges: [],
-    header: header,
-    filename: `${new Date().getTime()}.xlsx`,
-    json2sheetOpts: {
-      header
-    },
-    write2excelOpts: {
-      bookType: 'xlsx'
-    }
+  const tableRef = await getTableRef()
+
+  console.log('tableRef', tableRef)
+  console.log('header', header)
+  console.log('merges', merges)
+
+  console.log(' [...header, [, 123, 232, 233]]', [...header, [, 123, 232, 233]])
+
+  aoaToSheetXlsx({
+    merges,
+    data: [...header, [, 123, 232, 233]],
+    filename: '二维数组方式导出excel.xlsx'
   })
+
+  // jsonToSheetXlsx({
+  //   data: data.value,
+  //   merges: doMerges,
+  //   header: [],
+  //   filename: `${new Date().getTime()}.xlsx`,
+  //   json2sheetOpts: {
+  //     header
+  //   },
+  //   write2excelOpts: {
+  //     bookType: 'xlsx'
+  //   }
+  // })
 }
 
 function buildHeader(revealList: any[]) {
@@ -165,50 +182,50 @@ function pushRowSpanPlaceHolder(arr, count) {
   }
 }
 
-// function doMerges(arr: any[]) {
-//   // 要么横向合并 要么纵向合并
-//   let deep = arr.length
-//   let merges: any[] = []
-//   for (let y = 0; y < deep; y++) {
-//     // 先处理横向合并
-//     let row = arr[y]
-//     let colSpan = 0
-//     for (let x = 0; x < row.length; x++) {
-//       if (row[x] === '!$COL_SPAN_PLACEHOLDER') {
-//         row[x] = undefined
-//         if (x + 1 === row.length) {
-//           merges.push({ s: { r: y, c: x - colSpan - 1 }, e: { r: y, c: x } })
-//         }
-//         colSpan++
-//       } else if (colSpan > 0 && x > colSpan) {
-//         merges.push({ s: { r: y, c: x - colSpan - 1 }, e: { r: y, c: x - 1 } })
-//         colSpan = 0
-//       } else {
-//         colSpan = 0
-//       }
-//     }
-//   }
-//   // 再处理纵向合并
-//   let colLength = arr[0].length
-//   for (let x = 0; x < colLength; x++) {
-//     let rowSpan = 0
-//     for (let y = 0; y < deep; y++) {
-//       if (arr[y][x] === '!$ROW_SPAN_PLACEHOLDER') {
-//         arr[y][x] = undefined
-//         rowSpan++
-//         if (y + 1 === deep) {
-//           merges.push({ s: { r: y - rowSpan, c: x }, e: { r: y, c: x } })
-//         }
-//       } else if (rowSpan > 0 && y > rowSpan) {
-//         merges.push({ s: { r: y - rowSpan - 1, c: x }, e: { r: y - 1, c: x } })
-//         rowSpan = 0
-//       } else {
-//         rowSpan = 0
-//       }
-//     }
-//   }
-//   return merges
-// }
+function doMerges(arr: any[]) {
+  // 要么横向合并 要么纵向合并
+  let deep = arr.length
+  let merges: any[] = []
+  for (let y = 0; y < deep; y++) {
+    // 先处理横向合并
+    let row = arr[y]
+    let colSpan = 0
+    for (let x = 0; x < row.length; x++) {
+      if (row[x] === '!$COL_SPAN_PLACEHOLDER') {
+        row[x] = undefined
+        if (x + 1 === row.length) {
+          merges.push({ s: { r: y, c: x - colSpan - 1 }, e: { r: y, c: x } })
+        }
+        colSpan++
+      } else if (colSpan > 0 && x > colSpan) {
+        merges.push({ s: { r: y, c: x - colSpan - 1 }, e: { r: y, c: x - 1 } })
+        colSpan = 0
+      } else {
+        colSpan = 0
+      }
+    }
+  }
+  // 再处理纵向合并
+  let colLength = arr[0].length
+  for (let x = 0; x < colLength; x++) {
+    let rowSpan = 0
+    for (let y = 0; y < deep; y++) {
+      if (arr[y][x] === '!$ROW_SPAN_PLACEHOLDER') {
+        arr[y][x] = undefined
+        rowSpan++
+        if (y + 1 === deep) {
+          merges.push({ s: { r: y - rowSpan, c: x }, e: { r: y, c: x } })
+        }
+      } else if (rowSpan > 0 && y > rowSpan) {
+        merges.push({ s: { r: y - rowSpan - 1, c: x }, e: { r: y - 1, c: x } })
+        rowSpan = 0
+      } else {
+        rowSpan = 0
+      }
+    }
+  }
+  return merges
+}
 
 function getData() {
   const tableData = [
