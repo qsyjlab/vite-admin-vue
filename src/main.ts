@@ -6,6 +6,7 @@ import setupDirective from './directive'
 import setupAccess from './access'
 import setupStore from '@/store'
 import { sso } from '@/sso'
+import '@/styles/index.scss'
 
 const root = '#app'
 

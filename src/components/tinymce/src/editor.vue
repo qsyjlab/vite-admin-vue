@@ -1,13 +1,13 @@
 <template>
   <div>
-    <textarea :id="tinymceId" ref="tinymceRef" :style="{ visibility: 'hidden' }" />
+    <textarea :id="tinymceId" ref="tinymceRef" />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Editor, RawEditorSettings } from 'tinymce'
+import type { Editor, RawEditorOptions } from 'tinymce'
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, unref, watch } from 'vue'
-import tinymce from 'tinymce/tinymce'
+import tinymce from 'tinymce'
 import config from '@/config'
 import './source'
 import { tinymceProps } from './props'
@@ -23,7 +23,7 @@ const emits = defineEmits<{
   (event: 'update:modelValue', val: string): void
 }>()
 
-const tinymceId = new Date().getTime().toString()
+const tinymceId = `id_${new Date().getTime().toString()}`
 
 const tinymceRef = ref<HTMLElement | null>(null)
 const tinymceEditorInstance = ref<Editor | null>(null)
@@ -49,7 +49,7 @@ const lang = computed(() => {
 })
 
 // 初始化选项
-const initOptions = computed<RawEditorSettings>(() => {
+const initOptions = computed<RawEditorOptions>(() => {
   const { height, toolbar } = props
   const publicPath = config.publicBaseUrl
 
@@ -58,7 +58,8 @@ const initOptions = computed<RawEditorSettings>(() => {
   return {
     height,
     toolbar,
-    selector: `#${tinymceId}`,
+    license_key: 'gpl',
+    selector: `textarea#${tinymceId}`,
     setup: editor => {
       setupTinymceEditor(editor)
     },
@@ -66,13 +67,13 @@ const initOptions = computed<RawEditorSettings>(() => {
     convert_urls: false,
     file_picker_types: 'file image media',
     skin_url: `${resource}/skins/ui/${themeMode.value}`,
+    content_css: `${resource}/skins/content/default/content.css`,
+    language_url: `${resource}/langs/${lang.value}.js`,
     branding: false,
     default_link_target: '_blank',
     link_title: false,
     object_resizing: false,
     auto_focus: true,
-    content_css: `${resource}/skins/content/default/content.css`,
-    language_url: `${resource}/langs/${lang.value}.js`,
     language: lang.value,
     menubar: 'file edit insert view format table formats',
     // 黑暗模式
@@ -122,15 +123,15 @@ function bindHandlers() {
 function initEditorInstance() {
   tinymce.init(initOptions.value)
 
-  watch(
-    () => props.disabled,
-    newVal => {
-      tinymceEditorInstance.value?.setMode(newVal ? 'readonly' : 'design')
-    },
-    {
-      immediate: true
-    }
-  )
+  // watch(
+  //   () => props.disabled,
+  //   newVal => {
+  //     tinymceEditorInstance.value?.setMode(newVal ? 'readonly' : 'design')
+  //   },
+  //   {
+  //     immediate: true
+  //   }
+  // )
 }
 
 // 销毁
@@ -148,3 +149,9 @@ function getContent() {
   return tinymceEditorInstance.value?.getContent({ format: props.outputFormat }) || ''
 }
 </script>
+
+<style lang="scss" scoped>
+:global(.tox-promotion) {
+  display: none !important;
+}
+</style>

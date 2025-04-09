@@ -157,5 +157,5 @@ const onClickFixedEventHandler = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '../mix-sidebar';
+@use '../mix-sidebar';
 </style>
