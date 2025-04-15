@@ -15,7 +15,7 @@
     "check": "vue-tsc --noEmit --skipLibCheck",
     "preview": "vite preview",
     "prettier": "prettier --write .",
-    "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
+    "lint": "eslint . --fix",
     "prepare": "husky install",
     "clean:lib": "rimraf node_modules",
     "clean:output": "rimraf .output",

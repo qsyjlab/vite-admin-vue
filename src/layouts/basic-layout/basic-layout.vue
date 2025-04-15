@@ -190,8 +190,8 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       const _asideWidth = isMobile.value
         ? 0
         : sideMixFixedMenu && mixMenuLayoutConfig.value.showChildren
-        ? sideMixWidth + asideWidth
-        : sideMixWidth
+          ? sideMixWidth + asideWidth
+          : sideMixWidth
       return {
         footerHeight,
         headerHeight,

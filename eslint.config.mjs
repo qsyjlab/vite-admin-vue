@@ -5,6 +5,7 @@ import prettier from 'eslint-plugin-prettier'
 import tseslint from 'typescript-eslint'
 import VueEslintParser from 'vue-eslint-parser'
 
+/** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
   {
     files: ['**/*.{js,mjs,cjs,vue}'],
@@ -75,6 +76,7 @@ export default [
       '@typescript-eslint/no-empty-function': 'warn',
       // 禁用 ts 注释
       '@typescript-eslint/ban-ts-comment': 'off'
-    }
+    },
+    ignores: ['node_modules', 'dist', 'public', '*.md', '.output']
   }
 ]
