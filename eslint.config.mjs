@@ -5,7 +5,7 @@ import prettier from 'eslint-plugin-prettier'
 import tseslint from 'typescript-eslint'
 import VueEslintParser from 'vue-eslint-parser'
 
-/** @type {import('eslint').Linter.FlatConfig[]} */
+/** @type {import('eslint').Linter.Config} */
 export default [
   {
     files: ['**/*.{js,mjs,cjs,vue}'],
@@ -36,6 +36,7 @@ export default [
     },
     rules: {
       'prettier/prettier': ['error', { endOfLine: 'auto' }],
+
       // 定义 Vue 组件标签上属性的顺序
       'vue/attributes-order': [
         'error',
