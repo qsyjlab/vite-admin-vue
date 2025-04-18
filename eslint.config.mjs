@@ -1,11 +1,14 @@
-import { defineConfig } from 'eslint/config'
+import { defineConfig, globalIgnores } from 'eslint/config'
 import globals from 'globals'
 import js from '@eslint/js'
 import tseslint from 'typescript-eslint'
 import pluginVue from 'eslint-plugin-vue'
 import pluginPrettier from 'eslint-plugin-prettier/recommended'
 
+const ignores = ['node_modules', 'dist', '.output', 'public', 'docs/.vitepress/**', '.output']
+
 export default defineConfig([
+  globalIgnores(ignores),
   {
     files: ['**/*.{ts,js,mjs,cjs,vue}'],
     languageOptions: {
