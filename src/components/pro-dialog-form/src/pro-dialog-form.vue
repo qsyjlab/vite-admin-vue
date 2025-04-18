@@ -88,7 +88,7 @@ const show = async (id?: _ID, defaultValue?: Record<string, any>) => {
   forceUpdateModel(defaultValue || {})
 
   state.id = id
-  id &&
+  if (id) {
     props?.getRequest?.(id).then(res => {
       if (providerContext?.responseHandler) {
         forceUpdateModel(providerContext.responseHandler(res))
@@ -96,6 +96,7 @@ const show = async (id?: _ID, defaultValue?: Record<string, any>) => {
         forceUpdateModel(res)
       }
     })
+  }
 }
 
 function close() {

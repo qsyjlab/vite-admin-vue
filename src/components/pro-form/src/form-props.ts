@@ -44,13 +44,12 @@ export const emitsEnums = {
 } as const
 
 export const formEmits = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [emitsEnums.REGISTER]: (instance: FormMethodsType | null): boolean => true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   [emitsEnums.SUBMIT]: (values: Record<string, any>): boolean => true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   [emitsEnums.RESET]: (values: Record<string, any>): boolean => true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   [emitsEnums.EFFECT]: (newVal: Record<string, any>, oldVal: Record<string, any>): boolean => true
 }
 

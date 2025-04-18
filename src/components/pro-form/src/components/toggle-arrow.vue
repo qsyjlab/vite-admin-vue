@@ -13,7 +13,7 @@ import { ElIcon } from 'element-plus'
 
 withDefaults(
   defineProps<{
-    expand: boolean
+    expand?: boolean
     expandText?: string
     unExpandText?: string
   }>(),

@@ -42,7 +42,8 @@ export const tinymceProps = {
   },
   // v-model
   modelValue: {
-    type: String
+    type: String,
+    default: ''
   },
   // editor.on 触发更新
   modelValueEvents: {

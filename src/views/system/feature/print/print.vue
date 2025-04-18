@@ -34,7 +34,7 @@ import html2canvas from 'html2canvas'
 const tableRef = ref<HTMLDivElement>()
 
 const print = () => {
-  tableRef.value &&
+  if (tableRef.value) {
     html2canvas(tableRef.value).then(canves => {
       const image = new Image()
 
@@ -49,6 +49,7 @@ const print = () => {
         })
       }
     })
+  }
 }
 </script>
 <style scoped>

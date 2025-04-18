@@ -212,18 +212,19 @@ export function useWaterMark(
     }
 
     function appendWatermark(base64Url: string, markWidth: number) {
-      watermarkRef &&
-        watermarkRef.setAttribute(
-          'style',
-          getStyleStr({
-            ...getMarkStyle(),
-            backgroundImage: `url('${base64Url}')`,
-            backgroundSize: `${(gapX + markWidth) * BaseSize}px`
-          })
-        )
+      if (!watermarkRef) return
 
-      if (watermarkRef) {
-        target && target.append(watermarkRef)
+      watermarkRef.setAttribute(
+        'style',
+        getStyleStr({
+          ...getMarkStyle(),
+          backgroundImage: `url('${base64Url}')`,
+          backgroundSize: `${(gapX + markWidth) * BaseSize}px`
+        })
+      )
+
+      if (target) {
+        target.append(watermarkRef)
       }
     }
   }

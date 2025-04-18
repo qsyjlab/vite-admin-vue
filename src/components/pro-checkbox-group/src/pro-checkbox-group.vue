@@ -26,7 +26,7 @@ type ModelValue = Option['value'][]
 
 interface IProps {
   modelValue?: ModelValue
-  options: Option[]
+  options?: Option[]
   size?: ComponentSize
   tag?: 'checkbox-button' | 'checkbox'
   onChange?: (...args: any[]) => void

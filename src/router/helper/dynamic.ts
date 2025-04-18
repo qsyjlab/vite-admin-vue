@@ -32,7 +32,10 @@ export function transformObjToRoute<T = RouteRecordRaw>(routeList: RouteRecordRa
     } else {
       console.warn('请正确配置路由：' + route?.name?.toString() + '的component属性')
     }
-    route.children && asyncImportRoute(route.children)
+
+    if (route.children) {
+      asyncImportRoute(route.children)
+    }
   })
   return routeList as unknown as T[]
 }
@@ -52,9 +55,11 @@ function asyncImportRoute(routes: RouteRecordRaw[] | undefined) {
       } else {
         item.component = dynamicImport(dynamicViewsModules, component as unknown as string)
       }
-    } else if (name) {
     }
-    children && asyncImportRoute(children)
+
+    if (children) {
+      asyncImportRoute(children)
+    }
   })
 }
 

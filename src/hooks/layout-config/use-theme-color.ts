@@ -5,7 +5,6 @@ export const useElementCssVar = (mode?: 'light' | 'dark') => {
 
   const style = el.style
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   mode = mode || 'light'
 
   const setElementCssVar = (color: string, mode?: 'light' | 'dark'): void => {

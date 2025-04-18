@@ -1,5 +1,4 @@
 // 分组图标
-// @ts-nocheck
 export const SubIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

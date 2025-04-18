@@ -50,14 +50,18 @@ export function useLayoutConfigHandler() {
   const setLayoutConfig: SetLayoutConfig = (eventKey, value) => {
     const config = handler(eventKey, value)
 
-    config && layoutStore.setLayoutConfig(config)
+    if (config) {
+      layoutStore.setLayoutConfig(config)
+    }
   }
 
   const initLayout = (config: Partial<ProjectLayoutConfig>) => {
     layoutStore.setLayoutConfig(config)
 
     const themeColor = config.themeColor || layoutConfig.value.themeColor
-    themeColor && setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, themeColor)
+    if (themeColor) {
+      setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, themeColor)
+    }
 
     const themeMode = config.theme || layoutConfig.value.theme
     setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_THEME, themeMode)
@@ -129,7 +133,9 @@ export function useLayoutConfigHandler() {
           isDark.value = false
         }
 
-        layoutConfig.value.themeColor && setElementCssVar(layoutConfig.value.themeColor)
+        if (layoutConfig.value.themeColor) {
+          setElementCssVar(layoutConfig.value.themeColor)
+        }
 
         return {
           theme: value

@@ -118,7 +118,7 @@ export const proTableProps = {
 // so, A value must be returned
 export const proTableEmits = {
   'page-change': (page: number, size: number) => !!size && !!page,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   'update:loading': (loading: boolean) => true,
   'update:selectedKeys': (keys: any[]) => !!keys,
   'selection-change': selection => !!selection,

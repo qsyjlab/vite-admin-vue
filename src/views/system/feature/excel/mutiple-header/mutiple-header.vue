@@ -107,15 +107,9 @@ const exportExecel = async () => {
 
   const tableRef = await getTableRef()
 
-  console.log('tableRef', tableRef)
-  console.log('header', header)
-  console.log('merges', merges)
-
-  console.log(' [...header, [, 123, 232, 233]]', [...header, [, 123, 232, 233]])
-
   aoaToSheetXlsx({
     merges,
-    data: [...header, [, 123, 232, 233]],
+    data: [...header, [123, 232, 233]],
     filename: '二维数组方式导出excel.xlsx'
   })
 
@@ -154,11 +148,7 @@ function getHeader(headers, excelHeader, deep, perOffset) {
   for (let i = 0; i < headers.length; i++) {
     let head = headers[i]
     cur.push(head.title)
-    if (
-      head.hasOwnProperty('children') &&
-      Array.isArray(head.children) &&
-      head.children.length > 0
-    ) {
+    if (Reflect.has(head, 'children') && Array.isArray(head.children) && head.children.length > 0) {
       let childOffset = getHeader(head.children, excelHeader, deep + 1, cur.length - 1)
       // 填充列合并占位符
       pushColSpanPlaceHolder(cur, childOffset - 1)

@@ -57,7 +57,7 @@ type Trigger = 'click' | 'contextmenu'
 
 const props = withDefaults(
   defineProps<{
-    menus: ProContextMenuItem[]
+    menus?: ProContextMenuItem[]
     closeOnClick?: boolean
     trigger?: Trigger[]
     itemHeight?: number

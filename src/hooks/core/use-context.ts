@@ -20,7 +20,9 @@ export function createContext<T extends object>(
   const state = reactive<T>(context as any)
   const provideData = readonly ? defineReadonly(state) : state
 
-  !createProvider && provide<T>(key, (native ? context : provideData) as any)
+  if (!createProvider) {
+    provide<T>(key, (native ? context : provideData) as any)
+  }
 
   return {
     state

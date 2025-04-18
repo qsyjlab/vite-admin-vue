@@ -95,7 +95,9 @@ export const transformResponse: RequestTransform['transformResponse'] = (
         data: null
       }
 
-      !ignoreResponseErrorMessage && showErrorMessage(errorJson.message)
+      if (!ignoreResponseErrorMessage) {
+        showErrorMessage(errorJson.message)
+      }
 
       console.error(
         '[AxiosRequest error]:',
@@ -115,7 +117,11 @@ export const requestCatch: RequestTransform['requestCatch'] = (error, requestOpt
   if (isCancelError(error)) return error
 
   if (!isAxiosError(error)) {
-    !ignoreErrorMessage && !isCancelError(error) && showErrorMessage(error.message)
+    if (!ignoreErrorMessage) {
+      if (!isCancelError(error)) {
+        showErrorMessage(error.message)
+      }
+    }
 
     return error
   }

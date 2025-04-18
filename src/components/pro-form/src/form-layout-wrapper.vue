@@ -14,7 +14,7 @@ defineOptions({
 
 withDefaults(
   defineProps<{
-    layout: boolean
+    layout?: boolean
   }>(),
   {
     layout: true

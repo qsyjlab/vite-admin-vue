@@ -20,7 +20,7 @@ import { Menu } from '@/router/types'
 
 interface IProps {
   collapsed?: boolean
-  menus: Menu[]
+  menus?: Menu[]
   menuType?: 'top' | 'side'
   isSplit?: boolean
 }

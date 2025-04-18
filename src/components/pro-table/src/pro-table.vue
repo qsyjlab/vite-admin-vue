@@ -101,7 +101,9 @@ defineOptions({
 
 const instance = getCurrentInstance()
 
-instance && createProtableInstanceContext(instance)
+if (instance) {
+  createProtableInstanceContext(instance)
+}
 
 defineSlots<{
   headerTitle: () => void

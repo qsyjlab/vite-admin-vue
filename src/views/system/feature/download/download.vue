@@ -21,7 +21,9 @@ const downloadUrl = async () => {
   const blob = await convertUnknownObjectToBlob(
     'https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg'
   )
-  blob && downloadFileStream(blob)
+  if (blob) {
+    downloadFileStream(blob)
+  }
 }
 </script>
 <style scoped></style>
