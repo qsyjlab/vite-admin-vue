@@ -129,9 +129,12 @@ importers:
       eslint:
         specifier: ^9.24.0
         version: 9.24.0(jiti@1.21.6)
+      eslint-config-prettier:
+        specifier: ^10.1.2
+        version: 10.1.2(eslint@9.24.0(jiti@1.21.6))
       eslint-plugin-prettier:
         specifier: ^5.2.6
-        version: 5.2.6(@types/eslint@8.56.12)(eslint@9.24.0(jiti@1.21.6))(prettier@3.5.3)
+        version: 5.2.6(eslint-config-prettier@10.1.2(eslint@9.24.0(jiti@1.21.6)))(eslint@9.24.0(jiti@1.21.6))(prettier@3.5.3)
       eslint-plugin-vue:
         specifier: ^10.0.0
         version: 10.0.0(eslint@9.24.0(jiti@1.21.6))(vue-eslint-parser@10.1.3(eslint@9.24.0(jiti@1.21.6)))
@@ -189,9 +192,6 @@ importers:
       vite:
         specifier: ^6.2.5
         version: 6.2.5(@types/node@17.0.45)(jiti@1.21.6)(sass@1.86.3)(terser@5.14.2)
-      vite-plugin-eslint:
-        specifier: ^1.8.1
-        version: 1.8.1(eslint@9.24.0(jiti@1.21.6))(vite@6.2.5(@types/node@17.0.45)(jiti@1.21.6)(sass@1.86.3)(terser@5.14.2))
       vite-plugin-html:
         specifier: ^3.2.2
         version: 3.2.2(vite@6.2.5(@types/node@17.0.45)(jiti@1.21.6)(sass@1.86.3)(terser@5.14.2))
@@ -204,9 +204,6 @@ importers:
       vitest:
         specifier: ^1.5.0
         version: 1.5.0(@types/node@17.0.45)(@vitest/ui@1.5.0)(sass@1.86.3)(terser@5.14.2)
-      vue-eslint-parser:
-        specifier: ^10.1.3
-        version: 10.1.3(eslint@9.24.0(jiti@1.21.6))
       vue-tsc:
         specifier: ^1.8.27
         version: 1.8.27(typescript@5.4.5)
@@ -1742,8 +1739,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@eslint-community/eslint-utils@4.6.0':
-    resolution: {integrity: sha512-WhCn7Z7TauhBtmzhvKpoQs0Wwb/kBcy4CwpuI0/eEIr2Lx2auxmulAzLr91wVZJaz47iUZdkXOK7WlAfxGKCnA==}
+  '@eslint-community/eslint-utils@4.6.1':
+    resolution: {integrity: sha512-KTsJMmobmbrFLe3LDh0PC2FXpcSYJt/MLjlkh/9LEnmKYLSYmT/0EW9JWANjeoemiuZrmogti0tW5Ch+qNUYDw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
@@ -1962,8 +1959,8 @@ packages:
     resolution: {integrity: sha512-dfUnCxiN9H4ap84DvD2ubjw+3vUNpstxa0TneY/Paat8a3R4uQZDLSvWjmznAY/DoahqTHl9V46HF/Zs3F29pg==}
     engines: {node: '>= 10.0.0'}
 
-  '@pkgr/core@0.2.3':
-    resolution: {integrity: sha512-yMV8bb9prWI21N6FsrnPCbhoYb8UUvYCDGoSvPHBloVC095Ef2ker43hzXkJ6TpJPw53S8FeFYkARa7GGIGwxg==}
+  '@pkgr/core@0.2.4':
+    resolution: {integrity: sha512-ROFF39F6ZrnzSUEmQQZUar0Jt4xVoP9WnDRdWwF4NNcXs3xBTLgBUDoOwW141y1jP+S8nahIbdxbFC7IShw9Iw==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
   '@polka/url@1.0.0-next.24':
@@ -2268,9 +2265,6 @@ packages:
 
   '@tsconfig/node16@1.0.4':
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
-
-  '@types/eslint@8.56.12':
-    resolution: {integrity: sha512-03ruubjWyOHlmljCVoxSuNDdmfZDzsrrz0P2LeJsOXr+ZwFQ+0yQIwNCwt/GYhV7Z31fgtXJTAEs+FYlEL851g==}
 
   '@types/estree@0.0.39':
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
@@ -3585,6 +3579,12 @@ packages:
   escape-string-regexp@5.0.0:
     resolution: {integrity: sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==}
     engines: {node: '>=12'}
+
+  eslint-config-prettier@10.1.2:
+    resolution: {integrity: sha512-Epgp/EofAUeEpIdZkW60MHKvPyru1ruQJxPL+WIycnaPApuseK0Zpkrh/FwL9oIpQvIhJwV7ptOy0DWUjTlCiA==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
 
   eslint-plugin-prettier@5.2.6:
     resolution: {integrity: sha512-mUcf7QG2Tjk7H055Jk0lGBjbgDnfrvqjhXh9t2xLMSCjZVcw9Rb1V6sVNXO0th3jgeO7zllWPTNRil3JW94TnQ==}
@@ -5222,11 +5222,6 @@ packages:
       rollup:
         optional: true
 
-  rollup@2.79.2:
-    resolution: {integrity: sha512-fS6iqSPZDs3dr/y7Od6y5nha8dW1YnbgtsyotCVvoFGKbERG++CVRFv1meyGDE1SNItQA8BrnCw7ScdAhRJ3XQ==}
-    engines: {node: '>=10.0.0'}
-    hasBin: true
-
   rollup@4.20.0:
     resolution: {integrity: sha512-6rbWBChcnSGzIlXeIdNIZTopKYad8ZG8ajhl78lGRLsI2rX8IkaotQhVas2Ma+GPxJav19wrSzvRvuiv0YKzWw==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
@@ -5827,12 +5822,6 @@ packages:
     resolution: {integrity: sha512-tV8h6gMj6vPzVCa7l+VGq9lwoJjW8Y79vst8QZZGiuRAfijU+EEWuc0kFpmndQrWhMMhet1jdSF+40KSZUqIIw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
-
-  vite-plugin-eslint@1.8.1:
-    resolution: {integrity: sha512-PqdMf3Y2fLO9FsNPmMX+//2BF5SF8nEWspZdgl4kSt7UvHDRHVVfHvxsD7ULYzZrJDGRxR81Nq7TOFgwMnUang==}
-    peerDependencies:
-      eslint: '>=7'
-      vite: '>=2'
 
   vite-plugin-html@3.2.2:
     resolution: {integrity: sha512-vb9C9kcdzcIo/Oc3CLZVS03dL5pDlOFuhGlZYDCJ840BhWl/0nGeZWf3Qy7NlOayscY4Cm/QRgULCQkEZige5Q==}
@@ -7798,7 +7787,7 @@ snapshots:
   '@esbuild/win32-x64@0.25.2':
     optional: true
 
-  '@eslint-community/eslint-utils@4.6.0(eslint@9.24.0(jiti@1.21.6))':
+  '@eslint-community/eslint-utils@4.6.1(eslint@9.24.0(jiti@1.21.6))':
     dependencies:
       eslint: 9.24.0(jiti@1.21.6)
       eslint-visitor-keys: 3.4.3
@@ -8010,7 +7999,7 @@ snapshots:
       '@parcel/watcher-win32-x64': 2.5.1
     optional: true
 
-  '@pkgr/core@0.2.3': {}
+  '@pkgr/core@0.2.4': {}
 
   '@polka/url@1.0.0-next.24': {}
 
@@ -8210,11 +8199,6 @@ snapshots:
 
   '@tsconfig/node16@1.0.4': {}
 
-  '@types/eslint@8.56.12':
-    dependencies:
-      '@types/estree': 1.0.7
-      '@types/json-schema': 7.0.15
-
   '@types/estree@0.0.39': {}
 
   '@types/estree@1.0.2': {}
@@ -8339,7 +8323,7 @@ snapshots:
 
   '@typescript-eslint/utils@8.30.1(eslint@9.24.0(jiti@1.21.6))(typescript@5.4.5)':
     dependencies:
-      '@eslint-community/eslint-utils': 4.6.0(eslint@9.24.0(jiti@1.21.6))
+      '@eslint-community/eslint-utils': 4.6.1(eslint@9.24.0(jiti@1.21.6))
       '@typescript-eslint/scope-manager': 8.30.1
       '@typescript-eslint/types': 8.30.1
       '@typescript-eslint/typescript-estree': 8.30.1(typescript@5.4.5)
@@ -9786,18 +9770,22 @@ snapshots:
 
   escape-string-regexp@5.0.0: {}
 
-  eslint-plugin-prettier@5.2.6(@types/eslint@8.56.12)(eslint@9.24.0(jiti@1.21.6))(prettier@3.5.3):
+  eslint-config-prettier@10.1.2(eslint@9.24.0(jiti@1.21.6)):
+    dependencies:
+      eslint: 9.24.0(jiti@1.21.6)
+
+  eslint-plugin-prettier@5.2.6(eslint-config-prettier@10.1.2(eslint@9.24.0(jiti@1.21.6)))(eslint@9.24.0(jiti@1.21.6))(prettier@3.5.3):
     dependencies:
       eslint: 9.24.0(jiti@1.21.6)
       prettier: 3.5.3
       prettier-linter-helpers: 1.0.0
       synckit: 0.11.4
     optionalDependencies:
-      '@types/eslint': 8.56.12
+      eslint-config-prettier: 10.1.2(eslint@9.24.0(jiti@1.21.6))
 
   eslint-plugin-vue@10.0.0(eslint@9.24.0(jiti@1.21.6))(vue-eslint-parser@10.1.3(eslint@9.24.0(jiti@1.21.6))):
     dependencies:
-      '@eslint-community/eslint-utils': 4.6.0(eslint@9.24.0(jiti@1.21.6))
+      '@eslint-community/eslint-utils': 4.6.1(eslint@9.24.0(jiti@1.21.6))
       eslint: 9.24.0(jiti@1.21.6)
       natural-compare: 1.4.0
       nth-check: 2.1.1
@@ -9817,7 +9805,7 @@ snapshots:
 
   eslint@9.24.0(jiti@1.21.6):
     dependencies:
-      '@eslint-community/eslint-utils': 4.6.0(eslint@9.24.0(jiti@1.21.6))
+      '@eslint-community/eslint-utils': 4.6.1(eslint@9.24.0(jiti@1.21.6))
       '@eslint-community/regexpp': 4.12.1
       '@eslint/config-array': 0.20.0
       '@eslint/config-helpers': 0.2.1
@@ -11434,10 +11422,6 @@ snapshots:
     optionalDependencies:
       rollup: 4.39.0
 
-  rollup@2.79.2:
-    optionalDependencies:
-      fsevents: 2.3.3
-
   rollup@4.20.0:
     dependencies:
       '@types/estree': 1.0.5
@@ -11804,7 +11788,7 @@ snapshots:
 
   synckit@0.11.4:
     dependencies:
-      '@pkgr/core': 0.2.3
+      '@pkgr/core': 0.2.4
       tslib: 2.8.1
 
   systemjs@6.15.1: {}
@@ -12127,14 +12111,6 @@ snapshots:
       - sugarss
       - supports-color
       - terser
-
-  vite-plugin-eslint@1.8.1(eslint@9.24.0(jiti@1.21.6))(vite@6.2.5(@types/node@17.0.45)(jiti@1.21.6)(sass@1.86.3)(terser@5.14.2)):
-    dependencies:
-      '@rollup/pluginutils': 4.2.1
-      '@types/eslint': 8.56.12
-      eslint: 9.24.0(jiti@1.21.6)
-      rollup: 2.79.2
-      vite: 6.2.5(@types/node@17.0.45)(jiti@1.21.6)(sass@1.86.3)(terser@5.14.2)
 
   vite-plugin-html@3.2.2(vite@6.2.5(@types/node@17.0.45)(jiti@1.21.6)(sass@1.86.3)(terser@5.14.2)):
     dependencies:

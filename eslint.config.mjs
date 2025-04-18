@@ -1,42 +1,32 @@
+import { defineConfig } from 'eslint/config'
 import globals from 'globals'
-import pluginJs from '@eslint/js'
-import pluginVue from 'eslint-plugin-vue'
-import prettier from 'eslint-plugin-prettier'
+import js from '@eslint/js'
 import tseslint from 'typescript-eslint'
-import VueEslintParser from 'vue-eslint-parser'
+import pluginVue from 'eslint-plugin-vue'
+import pluginPrettier from 'eslint-plugin-prettier/recommended'
 
-/** @type {import('eslint').Linter.Config} */
-export default [
+export default defineConfig([
   {
-    files: ['**/*.{js,mjs,cjs,vue}'],
-    languageOptions: { globals: globals.browser }
-  },
-  {
+    files: ['**/*.{ts,js,mjs,cjs,vue}'],
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.node
-        // ...autoImportConfig.globals // 合并自动导入的 globals
-      },
-      parser: VueEslintParser,
-      parserOptions: {
-        parser: '@typescript-eslint/parser',
-        ecmaFeatures: {
-          jsx: true
-        }
       }
     }
   },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  ...pluginVue.configs['flat/essential'],
+  js.configs.recommended,
+  tseslint.configs.recommended,
   {
-    plugins: {
-      prettier: prettier
+    files: ['**/*.vue', '**/*.ts'],
+    extends: [pluginVue.configs['flat/recommended']],
+    languageOptions: {
+      parserOptions: {
+        parser: tseslint.parser,
+        jsx: true
+      }
     },
     rules: {
-      'prettier/prettier': ['error', { endOfLine: 'auto' }],
-
       // 定义 Vue 组件标签上属性的顺序
       'vue/attributes-order': [
         'error',
@@ -69,15 +59,18 @@ export default [
       'space-infix-ops': 'warn',
       // 是否允许使用 require （esm项目不需要）
       '@typescript-eslint/no-var-requires': 0,
-      // 'vue/html-self-closing': 'off',
-
-      // 禁止使用any （不禁止 不可能不是用 any）
+      // 禁止使用any
       '@typescript-eslint/no-explicit-any': ['off'],
       // 是否有空函数体
       '@typescript-eslint/no-empty-function': 'warn',
       // 禁用 ts 注释
       '@typescript-eslint/ban-ts-comment': 'off'
-    },
-    ignores: ['node_modules', 'dist', 'public', '*.md', '.output']
+    }
+  },
+  pluginPrettier,
+  {
+    rules: {
+      'prettier/prettier': ['error', { endOfLine: 'auto' }]
+    }
   }
-]
+])
