@@ -1,4 +1,4 @@
-import { type Plugin, type ConfigEnv, loadEnv } from 'vite'
+import { type Plugin, type ConfigEnv, loadEnv, PluginOption } from 'vite'
 
 import vue from '@vitejs/plugin-vue'
 
@@ -25,7 +25,7 @@ export function createVitePlugin(configEnv: ConfigEnv) {
   // 拿到全部的 env
   const viteEnvs = loadEnv(mode, envDir, '')
 
-  const vitePlugins: Plugin[] = [
+  const vitePlugins: PluginOption[] = [
     vue(),
     vueJsx(),
     viteAutoImportPlugin(),

@@ -4,7 +4,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted, computed, CSSProperties, onBeforeUnmount, watch } from 'vue'
+import { ref, onMounted, computed, type CSSProperties, onBeforeUnmount, watch } from 'vue'
 import { useWaterMark } from './use-watermark'
 import type { WatermarkProps } from './use-watermark'
 const watermarkContainerRef = ref<HTMLElement | null>(null)

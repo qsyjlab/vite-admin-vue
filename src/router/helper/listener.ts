@@ -1,6 +1,6 @@
 import mitt from 'mitt'
 
-import { RouteRecordNormalized, RouteLocationNormalized } from 'vue-router'
+import type { RouteRecordNormalized, RouteLocationNormalized } from 'vue-router'
 import { resolveMatched } from './matched'
 
 interface RouteListenerParameter {

@@ -1,6 +1,6 @@
-import { ProContextMenuProps, ProContextMenu } from '@/components/context-menu'
+import { type ProContextMenuProps, ProContextMenu } from '@/components/context-menu'
 
-import { Directive, h, render } from 'vue'
+import { type Directive, h, render } from 'vue'
 
 export const ContextMenuDirective: Directive<HTMLElement, ProContextMenuProps> = (el, binding) => {
   const menuVnode = h(ProContextMenu, { ...binding.value })

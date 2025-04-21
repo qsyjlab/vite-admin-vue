@@ -44,7 +44,7 @@ const columns: ProTableColumns = [
       rules: [
         {
           required: true,
-          validator: (value, error, callback) => {
+          validator: (value, _error, callback) => {
             if (!value) return callback(new Error('错误提示有没有'))
             callback()
           },
@@ -113,7 +113,7 @@ const changeData = (_d: any) => {
   data.value = _d
 }
 
-function deleteRow(row: any, done) {
+function deleteRow(_row, done) {
   done()
 }
 

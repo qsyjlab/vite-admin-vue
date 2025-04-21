@@ -1,5 +1,5 @@
-import { TableInstance } from 'element-plus'
-import { computed, Ref, ref, SetupContext, watch, nextTick } from 'vue'
+import type { TableInstance } from 'element-plus'
+import { computed, type Ref, ref, type SetupContext, watch, nextTick } from 'vue'
 import type { ProTableEmits } from '../props'
 import type { ProTableProps, RowKey } from '../types'
 import { getRowkey } from '../utils'

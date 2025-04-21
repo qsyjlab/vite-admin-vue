@@ -49,7 +49,7 @@ import { ProUploadList } from '@/components/pro-upload-list'
 import { Plus, UploadFilled } from '@element-plus/icons-vue'
 
 import { ref } from 'vue'
-import { UploadProps } from 'element-plus'
+import type { UploadProps } from 'element-plus'
 
 const fileList = ref([])
 const proFileList = ref([

@@ -95,7 +95,7 @@ const columns: ProTableColumns = [
       rules: [
         {
           required: true,
-          validator: (value, error, callback) => {
+          validator: (value, _error, callback) => {
             if (!value) return callback(new Error('错误提示有没有'))
             callback()
           },
@@ -222,7 +222,7 @@ function createData() {
   let data = Array(100).fill(0)
 
   let i = 0
-  data = data.map((item, index) => {
+  data = data.map((_item, index) => {
     return {
       id: ++i,
       name: `name-${index}`,

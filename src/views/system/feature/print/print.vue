@@ -15,7 +15,7 @@
         style="position: relative"
       >
         <table>
-          <tr v-for="(item, index) in 200" :key="index">
+          <tr v-for="(_, index) in 200" :key="index">
             <td>序号列- {{ index }}</td>
             <td>姓名</td>
             <td>年龄</td>

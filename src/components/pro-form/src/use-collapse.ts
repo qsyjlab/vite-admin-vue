@@ -1,4 +1,4 @@
-import { computed, reactive, ref, watch, ComputedRef } from 'vue'
+import { computed, reactive, ref, watch, type ComputedRef } from 'vue'
 import type { FormSchema } from './types/form'
 import type { ColProps } from 'element-plus'
 

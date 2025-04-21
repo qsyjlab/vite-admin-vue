@@ -1,5 +1,5 @@
-import { Directive, ref, nextTick } from 'vue'
-import { useWaterMark, WatermarkProps } from '@/components/watermark/src/use-watermark'
+import { type Directive, ref, nextTick } from 'vue'
+import { useWaterMark, type WatermarkProps } from '@/components/watermark/src/use-watermark'
 
 /**
  * 水印指令

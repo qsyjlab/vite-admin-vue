@@ -3,7 +3,7 @@
 </template>
 <script setup lang="tsx">
 import { ElFormItem } from 'element-plus'
-import { ProTableColumnItem, ProTableEditRowComponent } from '../../types'
+import type { ProTableColumnItem, ProTableEditRowComponent } from '../../types'
 import { h, toRaw, computed, resolveComponent } from 'vue'
 import { useTableStoreContext } from '../../store'
 import { getRowkey } from '../../utils'

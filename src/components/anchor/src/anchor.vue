@@ -7,7 +7,7 @@
       :key="item.link"
       :anchor="item"
       :active-key="state.active"
-      @click="(e, anc) => triggerAnchor(anc.link)"
+      @click="(_, anc) => triggerAnchor(anc.link)"
     />
   </div>
 </template>

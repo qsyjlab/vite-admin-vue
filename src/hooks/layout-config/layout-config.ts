@@ -1,8 +1,8 @@
 import { storeToRefs } from 'pinia'
 import { useDark } from '@vueuse/core'
 import { useLayoutStore } from '@/store'
-import { LayoutMode, ProjectLayoutConfig } from '@/layouts'
-import projectSetting, { ProjectConfig } from '@/config/project-setting'
+import { LayoutMode, type ProjectLayoutConfig } from '@/layouts'
+import projectSetting, { type ProjectConfig } from '@/config/project-setting'
 
 import { useElementCssVar } from './use-theme-color'
 import { cloneDeep } from 'lodash-es'

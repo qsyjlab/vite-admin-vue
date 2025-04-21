@@ -18,7 +18,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { FormSchema, PageCard, PageWrapper, ProFormInstance } from '@/components'
+import { type FormSchema, PageCard, PageWrapper, type ProFormInstance } from '@/components'
 import { ref } from 'vue'
 
 // const { register, validate, resetFields } = useProForm()
@@ -39,7 +39,7 @@ const fields: FormSchema[] = [
     el: 'el-input-number',
     key: 'input-number',
     attrs: {},
-    disabled: (value, values) => {
+    disabled: (_value, values) => {
       return values.switch1
     },
     col: {
@@ -58,7 +58,7 @@ const fields: FormSchema[] = [
     label: '隐藏项',
     el: 'el-switch',
     key: 'hideen2',
-    show: (value, values) => {
+    show: (_value, values) => {
       return !values.hideen
     },
     col: {

@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { ProForm, useProForm } from '@/components'
-import { IDialogFormProps } from './types'
+import type { IDialogFormProps } from './types'
 import { computed, nextTick, ref, reactive } from 'vue'
 import { omit } from 'lodash-es'
 import { inject } from 'vue'

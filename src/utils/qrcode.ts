@@ -1,4 +1,4 @@
-import { toCanvas, QRCodeRenderersOptions } from 'qrcode'
+import { toCanvas, type QRCodeRenderersOptions } from 'qrcode'
 
 export interface LogoOptions {
   src: string
@@ -9,7 +9,7 @@ export interface LogoOptions {
   // borderRadius: number
 }
 
-export { QRCodeRenderersOptions } from 'qrcode'
+export type { QRCodeRenderersOptions } from 'qrcode'
 
 export function renderQrcodeToCanvas(
   canvas: HTMLCanvasElement,

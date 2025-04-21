@@ -44,7 +44,7 @@
 </template>
 <script setup lang="ts">
 import { isFunction } from '@/utils'
-import { ElSelect, ComponentSize } from 'element-plus'
+import { ElSelect, type ComponentSize } from 'element-plus'
 import { useThrottleFn } from '@vueuse/core'
 import { watch } from 'vue'
 import { ref } from 'vue'

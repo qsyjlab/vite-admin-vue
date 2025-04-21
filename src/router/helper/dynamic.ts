@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash-es'
-import { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 import { EXCEPTION_COMPONENT, Layout } from '../constant'
 
 const layoutMap = new Map<string, () => Promise<typeof import('*.vue')>>()
@@ -45,7 +45,7 @@ function asyncImportRoute(routes: RouteRecordRaw[] | undefined) {
   dynamicViewsModules = dynamicViewsModules || import.meta.glob('../../views/**/*.{vue,tsx}')
   if (!routes) return
   routes.forEach(item => {
-    const { component, name } = item
+    const { component } = item
     const { children } = item
 
     if (component) {

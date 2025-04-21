@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import config from '@/config'
 import projectSetting from '@/config/project-setting'
-import { computed, CSSProperties } from 'vue'
+import { computed, type CSSProperties } from 'vue'
 
 interface IProps {
   logoWidth?: number

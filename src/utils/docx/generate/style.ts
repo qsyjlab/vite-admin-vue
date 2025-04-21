@@ -1,4 +1,4 @@
-import { CSSProperties } from 'vue'
+import type { CSSProperties } from 'vue'
 import { camelize } from 'vue'
 import { AlignmentType, UnderlineType, ShadingType } from 'docx'
 import { parseStringStyle } from '../../element'
@@ -24,7 +24,7 @@ const styleTransformMap = {
 
   textDecoration: {
     property: 'underline',
-    handler: (value, style) => {
+    handler: (_value, style) => {
       return {
         type: UnderlineType.SINGLE,
         color: style.color ? rgbToHexColor(style.color) : undefined

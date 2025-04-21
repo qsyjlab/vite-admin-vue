@@ -11,7 +11,7 @@
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { ProTableColumns } from '@/components'
+import type { ProTableColumns } from '@/components'
 import { ref } from 'vue'
 import { aoaToSheetXlsx, jsonToSheetXlsx } from '@/utils'
 

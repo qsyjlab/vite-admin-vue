@@ -12,7 +12,7 @@
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { useProForm, FormSchema } from '@/components'
+import { useProForm, type FormSchema } from '@/components'
 import { encrypt, decrypt } from '@/utils'
 
 const fields: FormSchema[] = [

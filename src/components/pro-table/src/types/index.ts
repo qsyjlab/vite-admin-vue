@@ -76,7 +76,7 @@ export interface ColumnsState {
   change?: (map: ColumnsMap) => void
 }
 
-export { TableInstance }
+export type { TableInstance }
 
 /** 表格默认工具栏开关 */
 interface ToolbarOptions {

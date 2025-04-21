@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import type { CSSProperties, IframeHTMLAttributes } from 'vue'
-import { PropType } from 'vue'
+import type { PropType } from 'vue'
 import { ref, computed } from 'vue'
 
 const props = defineProps({

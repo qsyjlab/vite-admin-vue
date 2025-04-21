@@ -1,7 +1,7 @@
 import { storeToRefs } from 'pinia'
-import { ComputedRef, computed } from 'vue'
+import { type ComputedRef, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { Menu } from '@/router/types'
+import type { Menu } from '@/router/types'
 import { useLayoutStore, usePermissionStore } from '@/store'
 
 interface LayoutMenuProps {

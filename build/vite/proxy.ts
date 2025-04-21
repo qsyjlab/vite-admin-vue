@@ -22,7 +22,7 @@ export function createProxy(envString: string) {
           console.log(
             `\n\x1b[34m[vite:proxy]\x1b[0m ${prefix}  proxying request from \x1b[32m${
               proxyReq.path
-            }\x1b[0m to \x1b[32m${options.target + req.url}\x1b[0m`
+            }\x1b[0m to \x1b[32m${options?.target || '' + req?.url || ''}\x1b[0m`
           )
         })
       },

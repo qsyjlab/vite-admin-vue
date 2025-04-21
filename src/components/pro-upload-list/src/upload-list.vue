@@ -46,16 +46,16 @@
 </template>
 <script setup lang="ts">
 import { UploadFilled, View } from '@element-plus/icons-vue'
-import { ProTable, ProTableColumns } from '@/components/pro-table'
+import { ProTable, type ProTableColumns } from '@/components/pro-table'
 import { Upload } from '@/components/upload'
-import { ProPreviewFile, ProPreviewFileInstance } from '@/components/pro-preview-file'
+import { ProPreviewFile, type ProPreviewFileInstance } from '@/components/pro-preview-file'
 import { computed, h, reactive, ref, toRaw, watch } from 'vue'
 import {
-  DialogProps,
+  type DialogProps,
   ElTag,
-  UploadInstance,
-  UploadUserFile,
-  UploadProps,
+  type UploadInstance,
+  type UploadUserFile,
+  type UploadProps,
   ElSpace,
   ElButton,
   ElPopconfirm
@@ -64,7 +64,7 @@ import { bytesToSize, convertUnknownObjectToBlob, downloadFile } from '@/utils'
 import { uploadFile } from '@/api/file'
 import { UploadStatusEnum, uploadStatusMap } from './upload-list'
 
-interface IProps extends Pick<UploadProps, 'multiple' | 'autoUpload'> {
+interface IProps extends Partial<Pick<UploadProps, 'multiple' | 'autoUpload'>> {
   modelValue?: any[]
 }
 
@@ -218,7 +218,7 @@ const showPreviewList = () => {
   uploadListState.mode = 'preview'
 }
 
-const fileChangeHandler: UploadInstance['onChange'] = (file, files) => {
+const fileChangeHandler: UploadInstance['onChange'] = (_, files) => {
   uploadListState.fileList = files.map(file => {
     return {
       ...file,

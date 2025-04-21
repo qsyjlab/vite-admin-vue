@@ -19,7 +19,8 @@
 </template>
 
 <script setup lang="ts">
-import { FormSchema } from '@/components'
+/// <reference types="../../../../../node_modules/.vue-global-types/vue_3.5_0_0_0.d.ts" />
+import type { FormSchema } from '@/components'
 import { ref } from 'vue'
 
 const visible = ref(false)

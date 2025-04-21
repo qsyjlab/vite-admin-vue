@@ -24,14 +24,16 @@
             <el-button>都可以触发</el-button>
           </pro-context-menu>
 
-          <el-button v-contextmenu="{ menus: [{ title: '测试指令' }] }">指令触发</el-button>
+          <el-button v-contextmenu="{ menus: [{ title: '测试指令', command: 'test' }] }"
+            >指令触发</el-button
+          >
         </el-space>
       </span>
     </page-card>
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { ProContextMenu, ProContextMenuItem } from '@/components/context-menu'
+import { ProContextMenu, type ProContextMenuItem } from '@/components/context-menu'
 
 const contextMenus: ProContextMenuItem[] = [
   {

@@ -1,5 +1,5 @@
 import { ref, watch, toRaw } from 'vue'
-import { ColumnsMap, ColumnsState } from '../types'
+import type { ColumnsMap, ColumnsState } from '../types'
 
 interface IProps {
   columnsState: ColumnsState

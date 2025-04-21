@@ -1,4 +1,4 @@
-import { CSSProperties } from 'vue'
+import type { CSSProperties } from 'vue'
 
 const listDelimiterRE = /;(?![^(]*\))/g
 const propertyDelimiterRE = /:([^]+)/

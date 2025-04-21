@@ -1,9 +1,8 @@
 import { mockService } from '@/service'
-import { RouteModule } from '~/mock/permission'
-import { Result } from '@/service/types/result'
+import type { RouteModule } from '~/mock/permission'
 
 export function getMenuList() {
-  return mockService.request<unknown, Result<RouteModule>>({
+  return mockService.request<unknown, Api.Result<RouteModule>>({
     url: '/getMenuList',
     method: 'get'
   })

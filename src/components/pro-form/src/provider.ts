@@ -1,6 +1,6 @@
 import { createContext, useContext } from '@/hooks/core/use-context'
 import type { InjectionKey, Ref } from 'vue'
-import { FormMethodsType } from './types'
+import type { FormMethodsType } from './types'
 
 interface FormContext {
   formModel: Ref<Record<string, any>>

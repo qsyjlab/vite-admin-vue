@@ -119,7 +119,7 @@ export const proTableProps = {
 export const proTableEmits = {
   'page-change': (page: number, size: number) => !!size && !!page,
 
-  'update:loading': (loading: boolean) => true,
+  'update:loading': (_loading: boolean) => true,
   'update:selectedKeys': (keys: any[]) => !!keys,
   'selection-change': selection => !!selection,
   register: (instance: TableActionRef) => !!instance

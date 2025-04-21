@@ -34,7 +34,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { PageCard, PageWrapper, FormSchema, ProUploadList } from '@/components'
+import { PageCard, PageWrapper, type FormSchema, ProUploadList } from '@/components'
 import { useProForm } from '@/hooks'
 
 const { register, validate, resetFields } = useProForm()
@@ -68,7 +68,7 @@ const fields: FormSchema[] = [
     key: 'input-number2',
     tip: '当数字输入大于5隐藏',
     fill: true,
-    show: (value, values) => {
+    show: (_value, values) => {
       return values['input-number'] !== 5
     },
     attrs: {},

@@ -1,5 +1,5 @@
 // forked from antd
-import { CSSProperties, Ref, unref } from 'vue'
+import { type CSSProperties, type Ref, unref } from 'vue'
 
 const BaseSize = 2
 const FontGap = 3

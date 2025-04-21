@@ -1,4 +1,4 @@
-import { ProTableColumnItem } from '../types'
+import type { ProTableColumnItem } from '../types'
 
 export const DEFAULT_PAGINATON_CONFIG = {
   pageSizes: [10, 20, 30, 40],

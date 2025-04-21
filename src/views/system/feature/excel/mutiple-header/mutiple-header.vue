@@ -16,7 +16,7 @@
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { ProTableColumns, useProTable } from '@/components'
+import { type ProTableColumns, useProTable } from '@/components'
 import { ref } from 'vue'
 import { aoaToSheetXlsx } from '@/utils'
 
@@ -104,8 +104,6 @@ const exportExecel = async () => {
   const header = buildHeader(columns)
   console.log('header', header)
   const merges = doMerges(header)
-
-  const tableRef = await getTableRef()
 
   aoaToSheetXlsx({
     merges,

@@ -40,7 +40,8 @@
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { ProTableInstance } from '@/components/pro-table'
+/// <reference types="../../../../../node_modules/.vue-global-types/vue_3.5_0_0_0.d.ts" />
+import type { ProTableInstance } from '@/components/pro-table'
 import { PageCard, PageWrapper } from '@/components'
 import type { ProTableColumns } from '@/components/pro-table'
 import { onMounted, ref, watch } from 'vue'
@@ -182,7 +183,7 @@ function createData() {
   let data = Array(100).fill(0)
 
   let i = 0
-  data = data.map((item, index) => {
+  data = data.map((_, index) => {
     return {
       id: ++i,
       name: `name-${index}`,

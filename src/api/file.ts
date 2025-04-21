@@ -1,4 +1,4 @@
-import { RequestMethodConfig, fileService } from '@/service'
+import { type RequestMethodConfig, fileService } from '@/service'
 
 export function uploadFile(file: File, request: RequestMethodConfig) {
   return fileService.uploadFile(

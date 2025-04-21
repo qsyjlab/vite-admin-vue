@@ -105,7 +105,7 @@ import {
   BasicMixSidebar
 } from './components'
 
-import { Logo, LogoProps } from './components/logo'
+import { Logo, type LogoProps } from './components/logo'
 
 import type { BasicLayoutProps, LayoutModeMap, LogoModeMap } from './basic-layout'
 import { useAppInject } from '@/application'

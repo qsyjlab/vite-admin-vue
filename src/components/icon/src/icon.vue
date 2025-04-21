@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { watch, ref, VNode } from 'vue'
+import { watch, ref, type VNode } from 'vue'
 
 import SvgIcon from './svg-icon.vue'
 import EpIcon from './ep.vue'
