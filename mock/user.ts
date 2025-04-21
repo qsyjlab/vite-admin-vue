@@ -1,6 +1,7 @@
 // import type { MockMethod } from 'vite-plugin-mock'
 
-import { type MockPluginMethod as MockMethod, resultError, resultSuccess } from './_utils'
+import { resultError, resultSuccess } from './_utils'
+import type { MockPluginMethod as MockMethod } from './_utils'
 import { allRouteModules, allPermissionStringKeys } from './permission'
 
 const userList = [

@@ -3,6 +3,7 @@ import { type Plugin, type ConfigEnv, loadEnv, PluginOption } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 import vueJsx from '@vitejs/plugin-vue-jsx'
+// @ts-ignore
 import legacyPlugin from '@vitejs/plugin-legacy'
 import UnoCSS from 'unocss/vite'
 import {
@@ -14,7 +15,7 @@ import {
 } from './plugins'
 // @ts-ignore
 import ElementPlus from 'unplugin-element-plus/vite'
-import visualizer from 'rollup-plugin-visualizer'
+import { visualizer } from 'rollup-plugin-visualizer'
 import legecyConfig from '../../legecy.config'
 import { envDir } from '../utils'
 

@@ -10,7 +10,7 @@
     "dev": "vite --host",
     "app:prod": "vite --host --mode prod",
     "build": "vite build",
-    "build:prod": "vite build --mode prod",
+    "build:prod": "cross-env NODE_OPTIONS='--max-old-space-size=8192' vite build --mode prod",
     "test": "vitest --ui",
     "check": "cross-env NODE_OPTIONS='--max-old-space-size=8192' vue-tsc -b --noEmit",
     "preview": "vite preview",
