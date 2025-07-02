@@ -1,4 +1,4 @@
-import { RouteRecordRaw, createRouterMatcher, RouterMatcher } from 'vue-router'
+import { type RouteRecordRaw, createRouterMatcher, type RouterMatcher } from 'vue-router'
 import { routes } from '../routes'
 
 /**

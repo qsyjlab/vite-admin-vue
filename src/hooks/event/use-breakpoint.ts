@@ -1,4 +1,4 @@
-import { ref, computed, ComputedRef, unref, onUnmounted } from 'vue'
+import { ref, computed, type ComputedRef, unref, onUnmounted } from 'vue'
 
 export enum sizeEnum {
   XS = 'XS',
@@ -8,9 +8,8 @@ export enum sizeEnum {
   XL = 'XL'
 }
 
-let globalScreenRef: ComputedRef<sizeEnum | undefined>
-let globalWidthRef: ComputedRef<number>
-let globalRealWidthRef: ComputedRef<number>
+let globalScreenRef: ComputedRef<sizeEnum | undefined> = computed(() => undefined)
+let globalRealWidthRef: ComputedRef<number> = computed(() => 0)
 
 export interface CreateCallbackParams {
   screen: ComputedRef<sizeEnum | undefined>
@@ -21,7 +20,6 @@ export interface CreateCallbackParams {
 export function useBreakpoint() {
   return {
     screenRef: computed(() => unref(globalScreenRef)),
-    widthRef: globalWidthRef,
     realWidthRef: globalRealWidthRef
   }
 }

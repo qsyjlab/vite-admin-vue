@@ -16,7 +16,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { AnchorItem } from './anchor'
+import type { AnchorItem } from './anchor'
 import AnchorLink from './anchor-link.vue'
 import './anchor.scss'
 

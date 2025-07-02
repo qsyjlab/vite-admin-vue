@@ -1,6 +1,7 @@
 // import type { MockMethod } from 'vite-plugin-mock'
 
-import { MockPluginMethod as MockMethod, resultError, resultSuccess } from './_utils'
+import { resultError, resultSuccess } from './_utils'
+import type { MockPluginMethod as MockMethod } from './_utils'
 import { allRouteModules, allPermissionStringKeys } from './permission'
 
 const userList = [
@@ -102,7 +103,7 @@ const user: MockMethod[] = [
         total: 1000,
         data: Array(Number(pageSize))
           .fill(0)
-          .map((item, index) => ({
+          .map((_, index) => ({
             id: (page - 1) * pageSize + (index + 1),
             name: 'name:' + ((page - 1) * pageSize + (index + 1)),
             status: ['all', 'open', 'closed', 'processing'][Math.floor(Math.random() * 4)],

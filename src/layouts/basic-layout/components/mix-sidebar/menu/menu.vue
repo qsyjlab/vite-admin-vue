@@ -98,7 +98,7 @@ const menus = computed(() => {
   return getMenus()
 })
 
-const stopRouteListener = routeChangeListener((to, from, matched) => {
+const stopRouteListener = routeChangeListener((_to, _from, matched) => {
   const moduleRoute = matched[0]
   activeKey.value = moduleRoute.name
   activeChildren.value = getActiveChildrenMenus()
@@ -157,5 +157,5 @@ const onClickFixedEventHandler = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '../mix-sidebar';
+@use '../mix-sidebar';
 </style>

@@ -1,5 +1,5 @@
 import { nextTick, ref, unref } from 'vue'
-import { FormMethodsType } from './types/form'
+import type { FormMethodsType } from './types/form'
 
 export function useProForm() {
   const formRef = ref<FormMethodsType | null>(null)

@@ -4,7 +4,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ProTable, ProTableColumns } from '@/components/pro-table'
+import { ProTable, type ProTableColumns } from '@/components/pro-table'
 import { getMenuList } from '@/api/permission'
 import { ref } from 'vue'
 

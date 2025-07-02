@@ -6,7 +6,7 @@
 import { get } from 'lodash-es'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 
-import { ProDescriptionsItem } from './descriptions'
+import type { ProDescriptionsItem } from './descriptions'
 import { isFunction } from '@/utils'
 
 /**

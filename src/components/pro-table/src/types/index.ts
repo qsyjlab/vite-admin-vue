@@ -57,7 +57,6 @@ export type ProTableColumns<T = any> = ProTableColumnItem<T>[]
 
 export type RowKey = ProTableProps['rowKey']
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type ColumnKey<T = any> = DeepKeyOf<T> | (string & {})
 
 // 深度 keyof 类型
@@ -77,7 +76,7 @@ export interface ColumnsState {
   change?: (map: ColumnsMap) => void
 }
 
-export { TableInstance }
+export type { TableInstance }
 
 /** 表格默认工具栏开关 */
 interface ToolbarOptions {

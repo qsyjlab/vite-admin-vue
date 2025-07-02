@@ -26,7 +26,7 @@ export default defineConfig(configEnv => {
       // css预处理器
       preprocessorOptions: {
         scss: {
-          additionalData: '@use "./src/styles/index.scss" as *;'
+          api: 'modern-compiler'
         }
       }
     },

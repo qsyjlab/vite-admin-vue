@@ -1,5 +1,5 @@
 import { computed, reactive, ref, toRefs, watch } from 'vue'
-import { PaginationProps } from 'element-plus'
+import type { PaginationProps } from 'element-plus'
 import { watchOnce } from '@vueuse/core'
 import { DEFAULT_INDEX_BORDER, DEFAULT_PAGE_SIZE, DEFAULT_PAGINATON_CONFIG } from '../constant'
 import { proTableEmits } from '../props'

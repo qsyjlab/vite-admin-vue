@@ -7,7 +7,7 @@ import type { ProTableEmits } from '../props'
 import type { TableActionRef, ProTableProps } from '../types'
 import type { ComponentInternalInstance, InjectionKey, SetupContext } from 'vue'
 import { proConfigProviderContextKey } from '@/components/pro-config-provider/src/token'
-import { ProConfigProviderProps } from '@/components/pro-config-provider'
+import type { ProConfigProviderProps } from '@/components/pro-config-provider'
 
 interface IExtraOptions {
   emits: SetupContext<ProTableEmits>['emit']

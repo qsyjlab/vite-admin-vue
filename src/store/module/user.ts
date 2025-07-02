@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 import { setTokenCahce, setUserInfoCache, clearCache } from '../local'
 import { login as loginHttp } from '@/api/user'
 import { usePermissionStore } from './permissions'
-import { Recordable } from 'vite-plugin-mock'
+import type { Recordable } from 'vite-plugin-mock'
 import { piniaInstance } from '../pinia'
 
 export const userStoreKey = 'userStoreKey'

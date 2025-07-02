@@ -1,4 +1,4 @@
-import { Component, VNode } from 'vue'
+import type { Component, VNode } from 'vue'
 
 export interface ProDescriptionsItem {
   key: string

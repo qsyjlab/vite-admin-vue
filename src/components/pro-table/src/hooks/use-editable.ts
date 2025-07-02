@@ -1,4 +1,4 @@
-import { Ref, computed, ref } from 'vue'
+import { type Ref, computed, ref } from 'vue'
 import type {
   ProTableColumns,
   ProTableEditable,

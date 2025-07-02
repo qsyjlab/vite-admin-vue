@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "types": ["node", "element-plus/global", "vite/client"],
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "module": "esnext",
+    "strict": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["esnext", "dom"],
+    "paths": {
+      "@/*": ["src/*"],
+      "~/*": ["./*"]
+    }
+  },
+  "include": [
+    "components.d.ts",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "typings/*.d.ts",
+    "mock/*.ts"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}

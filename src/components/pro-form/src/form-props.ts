@@ -1,6 +1,6 @@
 import { definePropType } from '@/utils'
 import type { ExtractPropTypes } from 'vue'
-import { FormMethodsType, FormSchema } from './types/form'
+import type { FormMethodsType, FormSchema } from './types/form'
 import type { FormProps as EpFormProps } from 'element-plus'
 import { formProps as epFormProps } from 'element-plus'
 export type { FormSchema }
@@ -44,14 +44,13 @@ export const emitsEnums = {
 } as const
 
 export const formEmits = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [emitsEnums.REGISTER]: (instance: FormMethodsType | null): boolean => true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [emitsEnums.SUBMIT]: (values: Record<string, any>): boolean => true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [emitsEnums.RESET]: (values: Record<string, any>): boolean => true,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  [emitsEnums.EFFECT]: (newVal: Record<string, any>, oldVal: Record<string, any>): boolean => true
+  [emitsEnums.REGISTER]: (_instance: FormMethodsType | null): boolean => true,
+
+  [emitsEnums.SUBMIT]: (_values: Record<string, any>): boolean => true,
+
+  [emitsEnums.RESET]: (_values: Record<string, any>): boolean => true,
+
+  [emitsEnums.EFFECT]: (_newVal: Record<string, any>, _oldVal: Record<string, any>): boolean => true
 }
 
 export type FormProps = ExtractPropTypes<typeof formProps>

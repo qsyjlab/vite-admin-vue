@@ -42,7 +42,7 @@
 <script setup lang="ts">
 import { checkBoundaries, getMousePosition } from '@/utils'
 import MenuItem from './menu-item.vue'
-import { ProContextMenuItem } from './types'
+import type { ProContextMenuItem } from './types'
 import { contextMenuKey } from './context-menu'
 import { ref, reactive, computed, nextTick, provide } from 'vue'
 import type { CSSProperties } from 'vue'
@@ -57,7 +57,7 @@ type Trigger = 'click' | 'contextmenu'
 
 const props = withDefaults(
   defineProps<{
-    menus: ProContextMenuItem[]
+    menus?: ProContextMenuItem[]
     closeOnClick?: boolean
     trigger?: Trigger[]
     itemHeight?: number

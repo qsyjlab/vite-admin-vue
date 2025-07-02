@@ -66,9 +66,13 @@
           :reserve-selection="reserveSelection"
         />
 
-        <template v-for="(item, idx) in getColumns" :key="`${item.key}-${idx}`">
-          <pro-table-column :column="item" :row-key="props.rowKey"> </pro-table-column>
-        </template>
+        <pro-table-column
+          v-for="(item, idx) in getColumns"
+          :key="`${item.key}-${idx}`"
+          :column="item"
+          :row-key="props.rowKey"
+        >
+        </pro-table-column>
       </el-table>
     </component>
 
@@ -101,7 +105,9 @@ defineOptions({
 
 const instance = getCurrentInstance()
 
-instance && createProtableInstanceContext(instance)
+if (instance) {
+  createProtableInstanceContext(instance)
+}
 
 defineSlots<{
   headerTitle: () => void

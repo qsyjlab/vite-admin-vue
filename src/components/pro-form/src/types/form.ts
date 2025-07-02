@@ -51,4 +51,6 @@ export interface ProFormProps extends EpFormProps {
   fields: FormSchema[]
 }
 
-export interface FormActionProps {}
+export interface FormActionProps {
+  _: string
+}

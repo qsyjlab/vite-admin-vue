@@ -96,7 +96,7 @@ import { Refresh, Close, Upload, CircleClose } from '@element-plus/icons-vue'
 import { useReloadPage } from '@/hooks'
 import { REDIRECT_NAME } from '@/router/constant'
 import { ProIcon } from '@/components/icon'
-import { ProContextMenu, ProContextMenuItem } from '@/components/context-menu'
+import { ProContextMenu, type ProContextMenuItem } from '@/components/context-menu'
 interface Props {
   fontSize?: number
 }

@@ -14,11 +14,11 @@
   >
     <template v-if="group">
       <el-option-group
-        v-for="group in cahceOptions"
-        :key="group[mergedFields.value]"
-        :label="group.label || ''"
+        v-for="groupItem in cahceOptions"
+        :key="groupItem[mergedFields.value]"
+        :label="groupItem.label || ''"
         ><el-option
-          v-for="option in group.options"
+          v-for="option in groupItem.options"
           :key="option[mergedFields.value]"
           :label="option[mergedFields.label]"
           :value="option[mergedFields.value]"
@@ -44,7 +44,7 @@
 </template>
 <script setup lang="ts">
 import { isFunction } from '@/utils'
-import { ElSelect, ComponentSize } from 'element-plus'
+import { ElSelect, type ComponentSize } from 'element-plus'
 import { useThrottleFn } from '@vueuse/core'
 import { watch } from 'vue'
 import { ref } from 'vue'
@@ -154,10 +154,9 @@ const changeHandler: SelectInstance['onChange'] = (...rest) => {
 }
 
 const customRemoteMehotd = query => {
-  query &&
-    fetchOptionsFn({
-      _keyworkd: query
-    })
+  fetchOptionsFn({
+    _keyworkd: query
+  })
 }
 
 function fetchOptions(query = {}) {

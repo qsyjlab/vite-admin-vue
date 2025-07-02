@@ -1,7 +1,7 @@
 <template>
   <div>
     <ProTable
-      v-model:selectedKeys="selectedKeys"
+      v-model:selected-keys="selectedKeys"
       header-title="基本使用"
       checkable
       :columns="columns"

@@ -92,7 +92,7 @@ function setupTinymceEditor(editor: Editor) {
   editor.on('init', () => {
     if (!tinymceEditorInstance.value) return
 
-    props.modelValue && setValue(props.modelValue)
+    setValue(props.modelValue)
     bindHandlers()
   })
 
@@ -140,7 +140,9 @@ function destory() {
 
 // 设置内容
 function setValue(val: string) {
-  tinymceEditorInstance.value && tinymceEditorInstance.value.setContent(val)
+  if (tinymceEditorInstance.value) {
+    tinymceEditorInstance.value.setContent(val)
+  }
 }
 
 // 获取内容

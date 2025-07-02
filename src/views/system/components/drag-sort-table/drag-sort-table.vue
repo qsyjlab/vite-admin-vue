@@ -16,13 +16,13 @@
 import { DragSortTable } from '@/components/drag-sort-table'
 import { PageWrapper } from '@/components/page-wrapper'
 import { PageCard } from '@/components/page-card'
-import { ProTableColumns } from '@/components/pro-table'
+import type { ProTableColumns } from '@/components/pro-table'
 import { ref } from 'vue'
 
 const data = ref<any>(
   Array(100)
     .fill(0)
-    .map((item, index) => {
+    .map((_item, index) => {
       return {
         id: index,
         name: index + 213123

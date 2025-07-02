@@ -69,7 +69,7 @@ interface IProps {
   rowKey?: string
   columns?: ProTableColumns
   autoFitHeight?: boolean
-  data: any[]
+  data?: any[]
   /**
    * @description
    * 新增位置 顶部| 底部

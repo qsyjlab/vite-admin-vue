@@ -105,7 +105,7 @@ import {
   BasicMixSidebar
 } from './components'
 
-import { Logo, LogoProps } from './components/logo'
+import { Logo, type LogoProps } from './components/logo'
 
 import type { BasicLayoutProps, LayoutModeMap, LogoModeMap } from './basic-layout'
 import { useAppInject } from '@/application'
@@ -190,8 +190,8 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       const _asideWidth = isMobile.value
         ? 0
         : sideMixFixedMenu && mixMenuLayoutConfig.value.showChildren
-        ? sideMixWidth + asideWidth
-        : sideMixWidth
+          ? sideMixWidth + asideWidth
+          : sideMixWidth
       return {
         footerHeight,
         headerHeight,

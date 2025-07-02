@@ -1,5 +1,5 @@
-import { FormSchema, ProFormProps } from '@/components/pro-form/src/types'
-import { DialogProps } from 'element-plus'
+import type { FormSchema, ProFormProps } from '@/components/pro-form/src/types'
+import type { DialogProps } from 'element-plus'
 
 export interface IDialogFormProps<T = Record<string, any>, D = Record<string, any>>
   extends Partial<ProFormProps> {

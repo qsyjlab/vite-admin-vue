@@ -1,7 +1,7 @@
 import { withInstall } from '@/utils'
 
 import ProTableComponent from './src/pro-table.vue'
-import { ComponentExposed } from 'vue-component-type-helpers'
+import type { ComponentExposed } from 'vue-component-type-helpers'
 
 export const ProTable = withInstall(ProTableComponent)
 

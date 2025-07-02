@@ -1,4 +1,4 @@
-import { CustomRendererFn } from '@/components/pro-table/src/types'
+import type { CustomRendererFn } from '@/components/pro-table/src/types'
 
 export interface ProConfigProviderProps {
   /** 针对通用性请求获取实际数据源 */

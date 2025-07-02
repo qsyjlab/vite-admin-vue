@@ -1,6 +1,6 @@
 import 'tinymce/themes/silver'
 import 'tinymce/themes/silver/theme'
-// import 'tinymce/models/dom' version 6.x
+// import 'tinymce/models/dom'
 import 'tinymce/icons/default'
 import 'tinymce/plugins/advlist'
 import 'tinymce/plugins/anchor'

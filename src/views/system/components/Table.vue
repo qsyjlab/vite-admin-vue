@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-export default { name: 'Table' }
+export default { name: 'TablePage' }
 </script>
 
 <script setup lang="ts">

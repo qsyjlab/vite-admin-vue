@@ -1,8 +1,8 @@
 import { storeToRefs } from 'pinia'
 import { useDark } from '@vueuse/core'
 import { useLayoutStore } from '@/store'
-import { LayoutMode, ProjectLayoutConfig } from '@/layouts'
-import projectSetting, { ProjectConfig } from '@/config/project-setting'
+import { LayoutMode, type ProjectLayoutConfig } from '@/layouts'
+import projectSetting, { type ProjectConfig } from '@/config/project-setting'
 
 import { useElementCssVar } from './use-theme-color'
 import { cloneDeep } from 'lodash-es'
@@ -50,14 +50,18 @@ export function useLayoutConfigHandler() {
   const setLayoutConfig: SetLayoutConfig = (eventKey, value) => {
     const config = handler(eventKey, value)
 
-    config && layoutStore.setLayoutConfig(config)
+    if (config) {
+      layoutStore.setLayoutConfig(config)
+    }
   }
 
   const initLayout = (config: Partial<ProjectLayoutConfig>) => {
     layoutStore.setLayoutConfig(config)
 
     const themeColor = config.themeColor || layoutConfig.value.themeColor
-    themeColor && setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, themeColor)
+    if (themeColor) {
+      setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, themeColor)
+    }
 
     const themeMode = config.theme || layoutConfig.value.theme
     setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_THEME, themeMode)
@@ -129,7 +133,9 @@ export function useLayoutConfigHandler() {
           isDark.value = false
         }
 
-        layoutConfig.value.themeColor && setElementCssVar(layoutConfig.value.themeColor)
+        if (layoutConfig.value.themeColor) {
+          setElementCssVar(layoutConfig.value.themeColor)
+        }
 
         return {
           theme: value

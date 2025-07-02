@@ -60,7 +60,9 @@
           <div class="setting-item__content">
             <el-input-number
               :model-value="layoutConfig.headerHeight"
-              @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.HEADER_HEIGHT, value)"
+              @change="
+                (value: any) => setLayoutConfig(LayoutConfigHandlerEnum.HEADER_HEIGHT, value)
+              "
             />
           </div>
         </div>
@@ -69,7 +71,9 @@
           <div class="setting-item__content">
             <el-switch
               :model-value="layoutConfig.showBreadCrumb"
-              @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.SHOW_BREAD_CRUMB, value)"
+              @change="
+                (value: any) => setLayoutConfig(LayoutConfigHandlerEnum.SHOW_BREAD_CRUMB, value)
+              "
             />
           </div>
         </div>
@@ -91,7 +95,9 @@
           <div class="setting-item__content">
             <el-input-number
               :model-value="layoutConfig.tabBarHeight"
-              @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.TAB_BAR_HEIGHT, value)"
+              @change="
+                (value: any) => setLayoutConfig(LayoutConfigHandlerEnum.TAB_BAR_HEIGHT, value)
+              "
             />
           </div>
         </div>

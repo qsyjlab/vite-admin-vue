@@ -7,7 +7,7 @@
       :key="item.link"
       :anchor="item"
       :active-key="state.active"
-      @click="(e, anc) => triggerAnchor(anc.link)"
+      @click="(_, anc) => triggerAnchor(anc.link)"
     />
   </div>
 </template>
@@ -28,9 +28,9 @@ import './anchor.scss'
  */
 
 interface IProps {
+  anchors?: AnchorItem[]
   modelValue?: AnchorItem['link']
   container?: string | (() => AnchorContainer)
-  anchors: AnchorItem[]
   targetOffset?: number
   offsetTop?: number
   direction?: 'vertical' | 'horizontal'
@@ -93,7 +93,9 @@ onMounted(() => {
 
       if (newVal === oldVal || state.active === newVal) return
       nextTick(() => {
-        props.modelValue && triggerAnchor(props.modelValue)
+        if (props.modelValue) {
+          triggerAnchor(props.modelValue)
+        }
       })
     },
     {
@@ -155,7 +157,7 @@ function handleScrollTo(link: string) {
 
   state.animating = true
 
-  container &&
+  if (container) {
     scrollTo(y, {
       getContainer: () => container,
 
@@ -163,6 +165,7 @@ function handleScrollTo(link: string) {
         state.animating = false
       }
     })
+  }
 }
 
 function handleScroll() {

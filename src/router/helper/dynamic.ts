@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash-es'
-import { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 import { EXCEPTION_COMPONENT, Layout } from '../constant'
 
 const layoutMap = new Map<string, () => Promise<typeof import('*.vue')>>()
@@ -32,7 +32,10 @@ export function transformObjToRoute<T = RouteRecordRaw>(routeList: RouteRecordRa
     } else {
       console.warn('请正确配置路由：' + route?.name?.toString() + '的component属性')
     }
-    route.children && asyncImportRoute(route.children)
+
+    if (route.children) {
+      asyncImportRoute(route.children)
+    }
   })
   return routeList as unknown as T[]
 }
@@ -42,7 +45,7 @@ function asyncImportRoute(routes: RouteRecordRaw[] | undefined) {
   dynamicViewsModules = dynamicViewsModules || import.meta.glob('../../views/**/*.{vue,tsx}')
   if (!routes) return
   routes.forEach(item => {
-    const { component, name } = item
+    const { component } = item
     const { children } = item
 
     if (component) {
@@ -52,9 +55,11 @@ function asyncImportRoute(routes: RouteRecordRaw[] | undefined) {
       } else {
         item.component = dynamicImport(dynamicViewsModules, component as unknown as string)
       }
-    } else if (name) {
     }
-    children && asyncImportRoute(children)
+
+    if (children) {
+      asyncImportRoute(children)
+    }
   })
 }
 

@@ -175,7 +175,9 @@ defineExpose({
     width: 0;
     height: 100%;
     border-radius: 6px;
-    transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
+    transition:
+      left 0.3s ease-in-out,
+      width 0.3s ease-in-out;
     background-color: #fff;
   }
 
@@ -196,7 +198,9 @@ defineExpose({
     transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 
     &.is-selected {
-      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02),
+      box-shadow:
+        0 1px 2px 0 rgba(0, 0, 0, 0.03),
+        0 1px 6px -1px rgba(0, 0, 0, 0.02),
         0 2px 4px 0 rgba(0, 0, 0, 0.02);
       color: rgba(0, 0, 0, 0.88);
     }

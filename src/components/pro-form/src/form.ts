@@ -1,9 +1,9 @@
 import type { SetupContext } from 'vue'
 import { ref, watch, computed, toRaw, markRaw } from 'vue'
-import { FormProps, formEmits, emitsEnums } from './form-props'
-import { ElFormInstance } from './types'
+import { type FormProps, formEmits, emitsEnums } from './form-props'
+import type { ElFormInstance } from './types'
 import { useCollapse } from './use-collapse'
-import { FormMethodsType, FormSchema, NOOP } from './types/form'
+import type { FormMethodsType, FormSchema, NOOP } from './types/form'
 import { isFunction, isPlainObject } from '@/utils'
 
 type UseFormParameter = {

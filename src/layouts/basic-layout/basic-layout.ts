@@ -1,5 +1,5 @@
 import type { LayoutProps } from '../layout-package'
-import { LogoProps } from './components/logo'
+import type { LogoProps } from './components/logo'
 import { LayoutMode } from './enum'
 
 export type BasicLayoutProps = LayoutProps

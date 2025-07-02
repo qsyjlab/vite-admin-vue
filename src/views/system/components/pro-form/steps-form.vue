@@ -43,7 +43,7 @@
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { FormSchema, ProFormInstance } from '@/components'
+import type { FormSchema, ProFormInstance } from '@/components'
 import { ref } from 'vue'
 
 const currentActive = ref(1)

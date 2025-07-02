@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { ProForm, useProForm } from '@/components'
-import { IDialogFormProps } from './types'
+import type { IDialogFormProps } from './types'
 import { computed, nextTick, ref, reactive } from 'vue'
 import { omit } from 'lodash-es'
 import { inject } from 'vue'
@@ -88,7 +88,7 @@ const show = async (id?: _ID, defaultValue?: Record<string, any>) => {
   forceUpdateModel(defaultValue || {})
 
   state.id = id
-  id &&
+  if (id) {
     props?.getRequest?.(id).then(res => {
       if (providerContext?.responseHandler) {
         forceUpdateModel(providerContext.responseHandler(res))
@@ -96,6 +96,7 @@ const show = async (id?: _ID, defaultValue?: Record<string, any>) => {
         forceUpdateModel(res)
       }
     })
+  }
 }
 
 function close() {

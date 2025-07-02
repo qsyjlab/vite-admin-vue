@@ -1,8 +1,8 @@
 import { cloneDeep } from 'lodash-es'
-import { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 import { treeMap, pipe } from '@/utils'
 import { flatRoutesLevel, joinParentPath } from './resolve'
-import { Menu } from '../types'
+import type { Menu } from '../types'
 
 // 将路由转换成菜单
 export function generateRoutesToMenusHandler(routeModList: RouteRecordRaw[]): Menu[] {

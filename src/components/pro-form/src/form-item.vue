@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { ElFormItem } from 'element-plus'
-import { FormSchema } from './form-props'
+import type { FormSchema } from './form-props'
 import { useFormContext } from './provider'
 import { Tips } from '../../tips'
 import { isFunction } from 'lodash-es'
