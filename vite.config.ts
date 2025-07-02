@@ -33,6 +33,12 @@ export default defineConfig(configEnv => {
     server: {
       proxy: createProxy(viteEnvs.SERVER_PROXY_LIST)
     },
+    optimizeDeps: {
+      /**
+       * 解决 buildComponents 自动化错误
+       */
+      include: ['@vue-office/pdf', '@vue-office/excel']
+    },
     build: {
       rollupOptions: {
         output: {
