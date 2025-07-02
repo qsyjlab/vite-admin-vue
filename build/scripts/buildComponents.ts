@@ -12,7 +12,7 @@ async function buildComponents() {
     envFile: false,
     root: resolve(projectRootPath),
     optimizeDeps: {
-      exclude: ['../../src/components/tinymce/**', 'vue']
+      exclude: ['../../src/components/tinymce/**', 'vue', '@vue-office/pdf', '@vue-office/excel']
     },
 
     build: {
