@@ -37,14 +37,14 @@ export default defineConfig(configEnv => {
       /**
        * 解决 buildComponents 自动化错误
        */
-      include: ['@vue-office/pdf', '@vue-office/excel']
+      // include: ['@vue-office/pdf', '@vue-office/excel']
     },
     build: {
-      rollupOptions: {
-        output: {
-          manualChunks: createSplitManuaChunks()
-        }
-      },
+      // rollupOptions: {
+      //   output: {
+      //     manualChunks: createSplitManuaChunks()
+      //   }
+      // },
       outDir: resolveProjectPath(buildOutdir, `dist_${mode}`)
     }
   }
