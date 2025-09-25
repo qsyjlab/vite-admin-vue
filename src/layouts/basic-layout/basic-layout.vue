@@ -69,6 +69,7 @@
         class="basic-layout-main__wrapper"
       >
         <component :is="container"></component>
+        <div id="react-swc"></div>
       </div>
 
       <template #footer>

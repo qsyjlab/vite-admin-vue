@@ -33,6 +33,31 @@ export default defineExposeRoutes([
           title: 'iframe'
         },
         component: () => import('@/views/system/out/iframe/iframe.vue')
+      },
+      {
+        name: 'Qiankun',
+        path: '/sub-vite',
+        meta: {
+          isKeepAlive: true,
+          ignoreAuth: true,
+          title: 'Qiankun',
+          hideChildrenInMenu: false
+        },
+        component: () => import('@/views/system/out/micro-app/qiankun.vue'),
+        children: [
+          {
+            name: 'ReactSwc',
+            path: 'react-swc/:pathMatch(.*)*',
+            meta: {
+              isKeepAlive: true,
+              ignoreAuth: true,
+              title: 'ReactSwc',
+              hideChildrenInMenu: false
+            },
+            component: () => import('@/views/system/out/micro-app/react-swc.vue'),
+            children: []
+          }
+        ]
       }
     ]
   }

@@ -17,6 +17,26 @@ import { aoaToSheetXlsx, jsonToSheetXlsx } from '@/utils'
 
 const data = ref<any[]>([])
 
+import * as XLSX from 'xlsx'
+
+const dataSource = [
+  {
+    dictLabel: '检举控告',
+    dictValue: 'petition_attrs_1'
+  },
+
+  {
+    dictLabel: '其他',
+    dictValue: 'petition_attrs_2'
+  }
+]
+
+const worksheet = XLSX.utils.json_to_sheet(dataSource)
+const workbook = XLSX.utils.book_new()
+XLSX.utils.book_append_sheet(workbook, worksheet, '岗位列表')
+
+XLSX.writeFile(workbook, 'positionWithinGroupList.xlsx')
+
 data.value = getData()
 const columns: ProTableColumns = [
   {

@@ -7,6 +7,7 @@ import { LOGIN_NAME, PAGE_NOT_FOUND, WHITE_NAME_LIST } from '../constant'
 import type { Router } from 'vue-router'
 import { emitRoute } from '../helper/listener'
 import projectSetting from '@/config/project-setting'
+import { assign, isEmpty } from 'lodash-es'
 
 export function setupRouterGuard(router: Router) {
   createListenerGuard(router)
@@ -99,6 +100,9 @@ function createHttpGuard(router: Router) {
 
 function createListenerGuard(router: Router) {
   router.beforeEach((to, from) => {
+    if (isEmpty(history.state.current)) {
+      assign(history.state, { current: from.fullPath })
+    }
     emitRoute(to, from)
   })
 }
