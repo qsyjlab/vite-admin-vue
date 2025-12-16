@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "license": "MIT",
+  "type": "module",
   "author": {
     "name": "qsyjlab"
   },
@@ -25,7 +26,8 @@
     "url": "https://github.com/qsyjlab/vite-admin-vue"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 20.19",
+    "pnpm": ">=10 <11"
   },
   "dependencies": {
     "@arco-design/color": "^0.4.0",
@@ -68,9 +70,9 @@
     "@types/nprogress": "^0.2.0",
     "@types/qrcode": "^1.5.1",
     "@types/sortablejs": "^1.15.3",
-    "@vitejs/plugin-legacy": "^6.1.0",
-    "@vitejs/plugin-vue": "^5.2.3",
-    "@vitejs/plugin-vue-jsx": "^4.1.2",
+    "@vitejs/plugin-legacy": "^6.1.1",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "@vitejs/plugin-vue-jsx": "^4.2.0",
     "@vitest/ui": "^1.5.0",
     "@vue/tsconfig": "^0.7.0",
     "cross-env": "^7.0.3",
@@ -95,7 +97,7 @@
     "unplugin-auto-import": "^19.1.2",
     "unplugin-element-plus": "^0.8.0",
     "unplugin-vue-components": "^28.4.1",
-    "vite": "^6.2.5",
+    "vite": "^7.3.0",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-mock": "^2.9.6",
     "vite-plugin-svg-icons": "^2.0.1",

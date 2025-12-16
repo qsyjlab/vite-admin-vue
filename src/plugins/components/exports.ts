@@ -4,6 +4,6 @@ export {
   ProRadioGroup,
   PageCard,
   PageWrapper,
-  Upload,
-  ProTinymce
+  Upload
+  // ProTinymce
 } from '@/components'
