@@ -12,7 +12,7 @@ export default defineConfig(configEnv => {
 
   return {
     root: projectRootPath,
-    base: viteEnvs.BASE_URL || '/',
+    base: viteEnvs.BASE_URL || './',
     envDir,
     define: createDefine(),
     plugins: createVitePlugin(configEnv),
@@ -31,6 +31,7 @@ export default defineConfig(configEnv => {
       }
     },
     server: {
+      port: 5300,
       proxy: createProxy(viteEnvs.SERVER_PROXY_LIST)
     },
     optimizeDeps: {
