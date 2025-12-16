@@ -16,7 +16,6 @@ import {
 // @ts-ignore
 import ElementPlus from 'unplugin-element-plus/vite'
 import { visualizer } from 'rollup-plugin-visualizer'
-import legecyConfig from '../../legecy.config'
 import { envDir } from '../utils'
 
 export function createVitePlugin(configEnv: ConfigEnv) {
@@ -48,7 +47,12 @@ export function createVitePlugin(configEnv: ConfigEnv) {
   ]
 
   if (viteEnvs.ENABLE_LEGACY === 'true') {
-    vitePlugins.push(legacyPlugin(legecyConfig) as unknown as Plugin)
+    vitePlugins.push(
+      legacyPlugin({
+        renderLegacyChunks: false,
+        modernPolyfills: false
+      }) as unknown as Plugin
+    )
   }
 
   return vitePlugins
