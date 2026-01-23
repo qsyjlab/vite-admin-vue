@@ -25,9 +25,9 @@ export default defineConfig(configEnv => {
     css: {
       // css预处理器
       preprocessorOptions: {
-        scss: {
-          api: 'modern-compiler'
-        }
+        // scss: {
+        //   api: 'modern-compiler'
+        // }
       }
     },
     server: {
@@ -35,14 +35,14 @@ export default defineConfig(configEnv => {
       proxy: createProxy(viteEnvs.SERVER_PROXY_LIST)
     },
     optimizeDeps: {
-      include: ['element-plus']
+      include: ['element-plus', 'echarts']
     },
     build: {
-      rollupOptions: {
-        output: {
-          manualChunks: createSplitManuaChunks()
-        }
-      },
+      // rollupOptions: {
+      //   output: {
+      //     manualChunks: createSplitManuaChunks()
+      //   }
+      // },
       outDir: resolveProjectPath(buildOutdir, `dist_${mode}`)
     }
   }
