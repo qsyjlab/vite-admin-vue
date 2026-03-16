@@ -3,7 +3,7 @@ import { defineConfig, loadEnv } from 'vite'
 import { fileURLToPath } from 'url'
 
 import { envDir, projectRootPath, resolveProjectPath, buildOutdir } from './build'
-import { createProxy, createVitePlugin, createDefine, createSplitManuaChunks } from './build/vite'
+import { createProxy, createVitePlugin, createDefine } from './build/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig(configEnv => {
@@ -20,14 +20,6 @@ export default defineConfig(configEnv => {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
         '~': fileURLToPath(new URL('./', import.meta.url))
-      }
-    },
-    css: {
-      // css预处理器
-      preprocessorOptions: {
-        // scss: {
-        //   api: 'modern-compiler'
-        // }
       }
     },
     server: {
