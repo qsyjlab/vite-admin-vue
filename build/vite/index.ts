@@ -59,5 +59,4 @@ export function createVitePlugin(configEnv: ConfigEnv) {
 }
 
 export * from './define'
-export * from './manua-chunks'
 export { createProxy } from './proxy'
