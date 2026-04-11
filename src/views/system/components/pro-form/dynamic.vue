@@ -6,7 +6,7 @@
         title="推荐使用 useProForm 操作表单 ref,内置类型提示"
         type="warning"
       />
-      <pro-form ref="formRef" :fields="fields" :label-width="150"> </pro-form>
+      <pro-form :fields="fields" :label-width="150"> </pro-form>
     </page-card>
   </page-wrapper>
 </template>
@@ -18,12 +18,9 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { type FormSchema, PageCard, PageWrapper, type ProFormInstance } from '@/components'
-import { ref } from 'vue'
+import { type FormSchema, PageCard, PageWrapper } from '@/components'
 
 // const { register, validate, resetFields } = useProForm()
-
-const formRef = ref<ProFormInstance>()
 
 const fields: FormSchema[] = [
   {

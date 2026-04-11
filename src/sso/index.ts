@@ -7,27 +7,19 @@ import config from '@/config'
 export async function sso() {
   const ticket = getUrlParam('ticket')
 
-  await new Promise(resolve => {
-    if (!config.enableSSO) {
-      resolve({})
-      return
-    }
-    if (ticket) {
-      const { loginAfterInitialize } = useUserStoreOut()
-      ssoLogin({ ticket })
-        .then(res => {
-          if (!res.data) return
+  if (!config.enableSSO || !ticket) {
+    return
+  }
 
-          loginAfterInitialize(res.data)
-          resolve({})
-        })
-        .catch(() => {
-          window.location.href = config.casBaseUrl
-        })
-    } else {
-      resolve({})
-    }
-  })
+  const { loginAfterInitialize } = useUserStoreOut()
+
+  try {
+    const res = await ssoLogin({ ticket })
+    if (!res.data) return
+    await loginAfterInitialize(res.data)
+  } catch {
+    window.location.href = config.casBaseUrl
+  }
 }
 
 export function ssoLoginOut() {

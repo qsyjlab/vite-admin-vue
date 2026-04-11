@@ -1,4 +1,4 @@
-import { mockService } from '@/service'
+import { basicApiService } from '@/service'
 
 export type Root = Root2[]
 
@@ -10,14 +10,14 @@ export interface Root2 {
 }
 
 export function getTodos(params: Record<string, any>) {
-  return mockService.request<Root>({
+  return basicApiService.request<Root>({
     url: '/todos',
     params
   })
 }
 
 export function getTableMockList(params: Record<string, any>) {
-  return mockService
+  return basicApiService
     .request<any>({
       url: '/mockList',
       params

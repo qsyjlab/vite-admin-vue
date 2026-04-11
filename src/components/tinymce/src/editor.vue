@@ -1,6 +1,6 @@
 <template>
   <div>
-    <textarea :id="tinymceId" ref="tinymceRef" :style="{ visibility: 'hidden' }" />
+    <textarea :id="tinymceId" :style="{ visibility: 'hidden' }" />
   </div>
 </template>
 
@@ -25,7 +25,6 @@ const emits = defineEmits<{
 
 const tinymceId = new Date().getTime().toString()
 
-const tinymceRef = ref<HTMLElement | null>(null)
 const tinymceEditorInstance = ref<Editor | null>(null)
 
 onMounted(() => {

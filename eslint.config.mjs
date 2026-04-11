@@ -76,7 +76,11 @@ export default defineConfig([
       'vue/one-component-per-file': 'off',
       // 允许 prop 没有默认值
       'vue/require-default-prop': 'off',
-      '@typescript-eslint/no-unused-vars': ['off', { argsIgnorePattern: '^_' }],
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_', ignoreRestSiblings: true }
+      ],
       // 多单词关闭
       'vue/multi-word-component-names': 'off',
       // 使用 a-b 风格 props

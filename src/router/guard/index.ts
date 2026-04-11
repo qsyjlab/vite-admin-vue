@@ -18,18 +18,18 @@ export function setupRouterGuard(router: Router) {
 }
 
 export function createRouterGuard(router: Router) {
-  router.beforeEach(async (to, from, next) => {
+  router.beforeEach(async (to, from) => {
     // 外链
     if (to.meta.href) {
       window.open(to.meta.href)
 
-      return next({ path: from.fullPath, replace: true, query: from.query })
+      return { path: from.fullPath, replace: true, query: from.query }
     }
 
     // 如果忽略直接通过
-    if (to.meta.ignoreAuth) return next()
+    if (to.meta.ignoreAuth) return true
     // // 处理基础白名单的路由
-    if (WHITE_NAME_LIST.includes(to.name as string)) return next()
+    if (WHITE_NAME_LIST.includes(to.name as string)) return true
 
     const { initialized, setInitialized } = useUserStore()
     const permissionStore = usePermissionStore()
@@ -40,7 +40,7 @@ export function createRouterGuard(router: Router) {
       setInitialized(true)
 
       if (to.name === PAGE_NOT_FOUND) {
-        return next({ path: to.fullPath, replace: true, query: to.query })
+        return { path: to.fullPath, replace: true, query: to.query }
       }
     }
 
@@ -60,10 +60,10 @@ export function createRouterGuard(router: Router) {
         }
       }
 
-      return next(redirectData)
+      return redirectData
     }
 
-    next()
+    return true
   })
 }
 

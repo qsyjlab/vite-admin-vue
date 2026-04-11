@@ -9,24 +9,29 @@ export default defineComponent({
 
     const { currentRoute, replace } = router
 
-    const { params = {}, query } = unref(currentRoute)
-    const { path, _redirect_type = 'path' } = params
+    const { query } = unref(currentRoute)
+    const { path, _redirect_type = 'path', _origin_params, ...restQuery } = query
+    const _path = Array.isArray(path) ? path.join('/') : (path ?? '')
 
-    Reflect.deleteProperty(params, '_redirect_type')
-    Reflect.deleteProperty(params, 'path')
+    function parseJsonSafely(input?: string) {
+      if (!input) return {}
+      try {
+        return JSON.parse(input)
+      } catch {
+        return {}
+      }
+    }
 
-    const _path = Array.isArray(path) ? path.join('/') : path
-
-    if (_redirect_type === 'name') {
+    if (_redirect_type === 'name' && _path) {
       replace({
         name: _path,
-        query,
-        params: JSON.parse((params._origin_params as string) ?? '{}')
+        query: restQuery,
+        params: parseJsonSafely(_origin_params as string)
       })
     } else {
       replace({
         path: _path.startsWith('/') ? _path : '/' + _path,
-        query
+        query: restQuery
       })
     }
 

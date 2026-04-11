@@ -21,9 +21,11 @@ html.dark {
 
   display: flex;
   flex-direction: column;
+  min-height: 0;
 
   &.is-full {
-    height: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
   }
 
   &__header {
@@ -39,6 +41,7 @@ html.dark {
 
   &__body {
     flex: 1;
+    min-height: 0;
     padding: var(--page-card-padding);
   }
 }

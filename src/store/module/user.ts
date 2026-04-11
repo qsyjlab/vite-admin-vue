@@ -1,10 +1,7 @@
-import { resetRouter } from '@/router'
-
 import { defineStore } from 'pinia'
 import { setTokenCahce, setUserInfoCache, clearCache } from '../local'
 import { login as loginHttp } from '@/api/user'
 import { usePermissionStore } from './permissions'
-import type { Recordable } from 'vite-plugin-mock'
 import { piniaInstance } from '../pinia'
 
 export const userStoreKey = 'userStoreKey'
@@ -89,19 +86,19 @@ export const useUserStore = defineStore<string, UserStoreState, UserStoreGetter,
         await permission.loadDynamicRoutes()
         this.setInitialized(true)
       },
-      loginSystem(data) {
-        return loginHttp(data).then(async res => {
-          if (res.data) {
-            this.loginAfterInitialize(res.data)
-          }
-          return res
-        })
+      async loginSystem(data) {
+        const res = await loginHttp(data)
+        if (res.data) {
+          await this.loginAfterInitialize(res.data)
+        }
+        return res
       },
 
       // 退出登录
       loginOutSystem() {
+        const permissionStore = usePermissionStore()
         clearCache()
-        resetRouter()
+        permissionStore.resetPermissionRoutes()
         this.setInitialized(false)
       }
     }

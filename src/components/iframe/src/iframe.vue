@@ -1,16 +1,11 @@
 <template>
   <div v-loading="loading" :style="getWrapStyle">
-    <iframe
-      ref="frameRef"
-      :src="frameSrc"
-      :class="`iframe-page__main`"
-      @load="hideLoading"
-    ></iframe>
+    <iframe :src="frameSrc" :class="`iframe-page__main`" @load="hideLoading"></iframe>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { CSSProperties, IframeHTMLAttributes } from 'vue'
+import type { CSSProperties } from 'vue'
 import type { PropType } from 'vue'
 import { ref, computed } from 'vue'
 
@@ -26,8 +21,6 @@ const props = defineProps({
 })
 
 const loading = ref(true)
-
-const frameRef = ref<IframeHTMLAttributes>()
 
 const getWrapStyle = computed((): CSSProperties => {
   console.log('props', props)

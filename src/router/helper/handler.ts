@@ -3,10 +3,36 @@ import type { RouteRecordRaw } from 'vue-router'
 import { treeMap, pipe } from '@/utils'
 import { flatRoutesLevel, joinParentPath } from './resolve'
 import type { Menu } from '../types'
+import { setComponentName } from './component-name'
+
+function normalizeRouteMenuMeta(routes: RouteRecordRaw[]) {
+  return routes.map(route => {
+    const menuMeta = route.meta?.menu || {}
+    const nextMeta = {
+      ...(route.meta || {}),
+      title: menuMeta.title ?? route.meta?.title,
+      icon: menuMeta.icon ?? route.meta?.icon,
+      order: menuMeta.order ?? route.meta?.order,
+      hideInMenu: menuMeta.hidden ?? route.meta?.hideInMenu,
+      hideChildrenInMenu: menuMeta.hideChildrenInMenu ?? route.meta?.hideChildrenInMenu
+    }
+
+    const nextRoute: RouteRecordRaw = {
+      ...route,
+      meta: nextMeta
+    }
+
+    if (nextRoute.children?.length) {
+      nextRoute.children = normalizeRouteMenuMeta(nextRoute.children)
+    }
+
+    return nextRoute
+  })
+}
 
 // 将路由转换成菜单
 export function generateRoutesToMenusHandler(routeModList: RouteRecordRaw[]): Menu[] {
-  const clonedRoutes = cloneDeep(routeModList)
+  const clonedRoutes = normalizeRouteMenuMeta(cloneDeep(routeModList))
 
   // 处理菜单过滤项
   function menusFilter(items: RouteRecordRaw[]) {
@@ -21,12 +47,20 @@ export function generateRoutesToMenusHandler(routeModList: RouteRecordRaw[]): Me
 
   // 处理菜单排序
   function routeMenusSort(routes: RouteRecordRaw[]) {
-    return routes.sort((prev, next) => {
+    const sorted = routes.sort((prev, next) => {
       return (
         (prev.meta?.order || Number.POSITIVE_INFINITY) -
         (next.meta?.order || Number.POSITIVE_INFINITY)
       )
     })
+
+    sorted.forEach(route => {
+      if (route.children?.length) {
+        route.children = routeMenusSort(route.children)
+      }
+    })
+
+    return sorted
   }
 
   // 单层级按钮层级提升
@@ -36,7 +70,16 @@ export function generateRoutesToMenusHandler(routeModList: RouteRecordRaw[]): Me
       const children = item.children
       if (children && children.length) {
         _temp.children = promoteSingleChild(children || [])
-        if (_temp.children?.length === 1 && _temp.meta?.hideChildrenInMenu !== false)
+        const menuMeta = (_temp.meta?.menu || {}) as {
+          promoteSingleChild?: boolean
+          keepParent?: boolean
+        }
+        const shouldPromote =
+          _temp.children?.length === 1 &&
+          menuMeta.keepParent !== true &&
+          (menuMeta.promoteSingleChild === true || _temp.meta?.hideChildrenInMenu === true)
+
+        if (shouldPromote)
           _temp = {
             ..._temp.children[0],
             meta: Object.assign(_temp.meta || {}, _temp.children[0].meta)
@@ -80,5 +123,5 @@ export function routeConversionHandler(routes: RouteRecordRaw[]) {
 
     return routes
   }
-  return pipe(flatRoutesLevel, joinParentPath, setRouteRedirect)(routes)
+  return pipe(setComponentName, flatRoutesLevel, joinParentPath, setRouteRedirect)(routes)
 }

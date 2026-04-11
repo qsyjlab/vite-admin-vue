@@ -6,11 +6,13 @@ import setupDirective from '@/directive'
 import setupAccess from '@/access'
 import setupStore from '@/store'
 import { sso } from '@/sso'
+import { setupMockWorker } from '@/mocks'
 import '@/styles/index.scss'
 import { startQiankunApp } from '@/micro-app/root-app'
 
 const root = '#app'
 async function setupWebApp() {
+  await setupMockWorker()
   const app = createApp(App)
 
   setupPlugins(app)

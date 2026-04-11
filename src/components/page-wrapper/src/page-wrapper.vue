@@ -27,8 +27,11 @@ withDefaults(
   padding: 10px;
   &.is-full {
     width: 100%;
-    height: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
   }
 }
 </style>

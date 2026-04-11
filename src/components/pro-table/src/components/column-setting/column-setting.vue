@@ -8,7 +8,6 @@
   <!-- TODO: virtual-ref error -->
   <div>
     <el-popover
-      ref="popoverRef"
       :virtual-ref="triggerRef"
       virtual-triggering
       placement="bottom"
@@ -86,8 +85,6 @@ const { initLocalStorageOrDynamicMap, setDefaultColumnsMap, resetColumnsMap, get
   columnsSettingUtils
 
 const triggerRef = ref<HTMLDivElement>()
-const popoverRef = ref()
-
 const colSettingChecked = reactive({
   indeterminate: false,
   checked: false

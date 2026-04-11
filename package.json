@@ -83,7 +83,7 @@
     "globals": "^16.0.0",
     "husky": "^7.0.4",
     "lint-staged": "^15.5.1",
-    "mockjs": "^1.1.0",
+    "msw": "^2.13.2",
     "postcss": "^8.4.16",
     "postcss-preset-env": "^7.8.0",
     "prettier": "^3.5.3",
@@ -99,9 +99,13 @@
     "unplugin-vue-components": "^28.4.1",
     "vite": "8.0.0",
     "vite-plugin-html": "^3.2.2",
-    "vite-plugin-mock": "^2.9.6",
     "vite-plugin-svg-icons": "^2.0.1",
     "vitest": "^1.5.0",
-    "vue-tsc": "^2.2.8"
+    "vue-tsc": "^3.2.6"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

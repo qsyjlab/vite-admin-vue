@@ -7,7 +7,6 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import legacyPlugin from '@vitejs/plugin-legacy'
 import UnoCSS from 'unocss/vite'
 import {
-  viteMockPlugin,
   viteAutoImportPlugin,
   viteComponentsPlugin,
   configSvgIconsPlugin,
@@ -34,7 +33,6 @@ export function createVitePlugin(configEnv: ConfigEnv) {
     ElementPlus({
       useSource: true
     }),
-    viteMockPlugin(isBuild),
     injectHtmlPlugin({ env: viteEnvs }),
     UnoCSS(),
     visualizer({

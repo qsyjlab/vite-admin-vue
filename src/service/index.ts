@@ -2,7 +2,7 @@ import { interceptors, requestCatch, transformResponse } from './axios-request-i
 import { RequestResultAdapter } from './request-adapter'
 import config from '@/config'
 
-export const mockService = new RequestResultAdapter({
+export const basicApiService = new RequestResultAdapter({
   interceptors,
   baseURL: '/basic-api',
   transform: {

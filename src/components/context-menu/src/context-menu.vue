@@ -22,7 +22,7 @@
             '--el-menu-item-font-size': `${fontSize}px`
           }"
         >
-          <template v-for="menu in menus" :key="menu.name">
+          <template v-for="menu in menus" :key="menu.command">
             <menu-item :menu="menu" />
           </template>
         </el-menu>
@@ -118,6 +118,8 @@ function show(event: MouseEvent | TouchEvent) {
   state.visible = true
   nextTick(() => {
     contextMenuRef.value?.focus()
+    const menuElement = (menuRef.value as any)?.$el as HTMLElement | undefined
+    menuElement?.focus?.()
     const pos = getMousePosition(event)
 
     if (contextMenuRef.value) {
@@ -132,6 +134,7 @@ function show(event: MouseEvent | TouchEvent) {
 
 const blur = () => {
   state.visible = false
+  triggerRef.value?.focus?.()
 }
 
 function menuClick(command: ProContextMenuItem['command'], menu: ProContextMenuItem) {

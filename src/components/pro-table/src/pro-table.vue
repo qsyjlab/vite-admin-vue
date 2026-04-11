@@ -167,6 +167,8 @@ const {
   editableRowsModel
 } = store
 
+void [toolbarRef, alertRef, paginationRef, proTableWrapperRef, tableInstanceRef]
+
 createTableStoreContext(store)
 
 emits('register', tableActionRef)

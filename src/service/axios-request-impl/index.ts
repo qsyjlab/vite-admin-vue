@@ -13,7 +13,7 @@ import { isAxiosError, isCancelError } from '../axios-request'
 import { checkStatus } from './check-status'
 
 import { ResultEnum, showErrorMessage } from './helper'
-// import { mockService } from '../index'
+// import { basicApiService } from '../index'
 // import { refreshToken } from '@/api/user'
 
 // interface PendingTaskQueue {
@@ -63,10 +63,10 @@ const responseInterceptorCatchImpl: responseInterceptorCatchType = async error =
   //   refreshing = false
 
   //   pendingTaskQueue.forEach(({ config, resolve }) => {
-  //     resolve(mockService.request(config))
+  //     resolve(basicApiService.request(config))
   //   })
 
-  //   return mockService.request(config, {
+  //   return basicApiService.request(config, {
   //     ignoreCancelRequest: true
   //   })
   // }

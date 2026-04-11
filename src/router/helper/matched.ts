@@ -14,7 +14,7 @@ export function createMatcher(asyncRoutes: RouteRecordRaw[]) {
 export function resolveMatched(...rest: Parameters<RouterMatcher['resolve']>) {
   try {
     return matcher?.resolve(...rest).matched || []
-  } catch (error) {
+  } catch {
     return []
   }
 }
