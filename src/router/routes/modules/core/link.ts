@@ -20,6 +20,7 @@ export default defineExposeRoutes([
         path: 'out-link',
         meta: {
           title: '外链',
+          icon: 'ep.link',
           href: config.docxLink
         }
       },
@@ -28,8 +29,8 @@ export default defineExposeRoutes([
         path: 'iframe',
         meta: {
           isKeepAlive: true,
-
-          title: 'iframe'
+          title: 'iframe',
+          icon: 'ep.monitor'
         },
         component: () => import('@/views/system/out/iframe/iframe.vue')
       },
@@ -40,6 +41,7 @@ export default defineExposeRoutes([
           isKeepAlive: true,
           ignoreAuth: true,
           title: 'Qiankun',
+          icon: 'ep.connection',
           hideChildrenInMenu: false
         },
         component: () => import('@/views/system/out/micro-app/qiankun.vue'),
@@ -51,6 +53,7 @@ export default defineExposeRoutes([
               isKeepAlive: true,
               ignoreAuth: true,
               title: 'ReactSwc',
+              icon: 'ep.orange',
               hideChildrenInMenu: false
             },
             component: () => import('@/views/system/out/micro-app/react-swc.vue')

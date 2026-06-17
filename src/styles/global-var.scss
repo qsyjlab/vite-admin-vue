@@ -2,13 +2,42 @@
   --nprogress-bar-bg-color: var(--el-color-primary);
   --nprogress-bar-default-bg-color: '#29d';
   /** 全局背景色 */
-  --global-bg-color: #f2f3f5;
-  --global-bg-color-2: white;
+  --global-bg-color: #edf1f5;
+  --global-bg-color-2: #ffffff;
+  --global-surface-color: #ffffff;
+  --global-surface-color-elevated: rgba(255, 255, 255, 0.97);
+  --global-surface-color-muted: #edf2f7;
+  --global-border-color: #cfd8e3;
+  --global-border-color-strong: #bcc7d6;
+  --global-text-color-regular: rgba(15, 23, 42, 0.92);
+  --global-text-color-secondary: #344054;
+  --global-text-color-placeholder: #667085;
+  --global-heading-color: #0f172a;
+  --global-sidebar-bg: #ffffff;
+  --global-sidebar-surface: #eaf1f8;
+  --global-sidebar-surface-active: #d7e7ff;
+  --global-shadow-color: rgba(15, 23, 42, 0.08);
+  --global-shadow-color-strong: rgba(15, 23, 42, 0.12);
+  --global-layout-radius: 18px;
+  --global-control-radius: 10px;
+  --global-pill-radius: 999px;
 }
 
 html.dark {
   --global-bg-color: #17171a;
   --global-bg-color-2: #141414;
+  --global-surface-color: #141414;
+  --global-surface-color-elevated: rgba(20, 20, 20, 0.92);
+  --global-surface-color-muted: #1c1f24;
   --global-border-color: #363637;
+  --global-border-color-strong: #414147;
   --global-text-color-regular: var(--el-text-color-regular, #cfd3dc);
+  --global-text-color-secondary: #a3a6ad;
+  --global-text-color-placeholder: #6b7280;
+  --global-heading-color: #f3f4f6;
+  --global-sidebar-bg: #141414;
+  --global-sidebar-surface: #1c1f24;
+  --global-sidebar-surface-active: rgba(22, 119, 255, 0.24);
+  --global-shadow-color: rgba(0, 0, 0, 0.28);
+  --global-shadow-color-strong: rgba(0, 0, 0, 0.4);
 }

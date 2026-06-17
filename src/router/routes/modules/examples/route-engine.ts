@@ -18,7 +18,8 @@ export default defineRoutes([
         path: 'route-engine',
         meta: {
           title: '路由与菜单',
-          ignoreAuth: true
+          ignoreAuth: true,
+          icon: 'ep.menu'
         },
         children: [
           {
@@ -26,7 +27,9 @@ export default defineRoutes([
             path: 'overview',
             meta: {
               title: '引擎概览',
-              ignoreAuth: true
+              ignoreAuth: true,
+              icon: 'ep.monitor',
+              order: 10
             },
             component: () => import('@/views/system/examples/route-engine/overview.vue')
           },
@@ -35,7 +38,9 @@ export default defineRoutes([
             path: 'access-control',
             meta: {
               title: '登录与权限',
-              ignoreAuth: true
+              ignoreAuth: true,
+              icon: 'ep.lock',
+              order: 20
             },
             component: () => import('@/views/system/examples/route-engine/access-control.vue')
           },
@@ -44,7 +49,9 @@ export default defineRoutes([
             path: 'menu-projection',
             meta: {
               title: '菜单投影',
-              ignoreAuth: true
+              ignoreAuth: true,
+              icon: 'ep.share',
+              order: 30
             },
             component: () => import('@/views/system/examples/route-engine/menu-projection.vue')
           },
@@ -52,9 +59,11 @@ export default defineRoutes([
             name: 'RouteEngineKeepAliveA',
             path: 'keep-alive-a',
             meta: {
-              title: 'KeepAlive A',
+              title: '缓存示例',
               ignoreAuth: true,
-              isKeepAlive: true
+              isKeepAlive: true,
+              icon: 'ep.coin',
+              order: 40
             },
             component: () => import('@/views/system/examples/route-engine/keep-alive-a.vue')
           },
@@ -62,9 +71,11 @@ export default defineRoutes([
             name: 'RouteEngineKeepAliveB',
             path: 'keep-alive-b',
             meta: {
-              title: 'KeepAlive B',
+              title: '缓存验证',
               ignoreAuth: true,
-              isKeepAlive: true
+              isKeepAlive: true,
+              hideInMenu: true,
+              icon: 'ep.coin'
             },
             component: () => import('@/views/system/examples/route-engine/keep-alive-b.vue')
           }

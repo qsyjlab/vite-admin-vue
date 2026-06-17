@@ -16,7 +16,8 @@ export default defineExposeRoutes([
         name: 'ProTable',
         path: 'pro-table',
         meta: {
-          title: 'ProTable'
+          title: 'ProTable',
+          icon: 'ep.list'
         },
         redirect: {
           name: 'ProTableBasic'
@@ -26,7 +27,8 @@ export default defineExposeRoutes([
             name: 'ProTableBasic',
             path: 'pro-table-basic',
             meta: {
-              title: 'ProTable 基本使用'
+              title: 'ProTable 基本使用',
+              icon: 'ep.tickets'
             },
             component: () => import('@/views/system/components/pro-table/pro-table-page.vue')
           },
@@ -35,6 +37,7 @@ export default defineExposeRoutes([
             path: 'pro-table-edit',
             meta: {
               title: 'ProTable edit 基本使用',
+              icon: 'ep.edit-pen',
               ignoreAuth: true
             },
             component: () => import('@/views/system/components/pro-table-edit/pro-table-edit.vue')
@@ -44,6 +47,7 @@ export default defineExposeRoutes([
             path: 'editable-pro-table',
             meta: {
               title: 'EditableProTable',
+              icon: 'ep.edit',
               ignoreAuth: true
             },
             component: () =>
@@ -54,6 +58,7 @@ export default defineExposeRoutes([
             path: 'drag-sort-table',
             meta: {
               title: 'DragSortTable',
+              icon: 'ep.rank',
               ignoreAuth: true
             },
             component: () => import('@/views/system/components/drag-sort-table/drag-sort-table.vue')
@@ -65,7 +70,8 @@ export default defineExposeRoutes([
         name: 'Editor',
         path: 'editor',
         meta: {
-          title: '编辑器'
+          title: '编辑器',
+          icon: 'ep.edit-pen'
         },
         redirect: { name: 'RichEditor' },
         children: [
@@ -73,7 +79,8 @@ export default defineExposeRoutes([
             name: 'RichEditor',
             path: 'rich-editor',
             meta: {
-              title: 'tinymce富文本'
+              title: 'tinymce富文本',
+              icon: 'ep.document'
             },
             component: () => import('@/views/system/components/rich-editor/rich-editor.vue')
           }
@@ -84,14 +91,16 @@ export default defineExposeRoutes([
         name: 'ProForm',
         path: 'pro-form',
         meta: {
-          title: 'ProForm'
+          title: 'ProForm',
+          icon: 'ep.memo'
         },
         children: [
           {
             name: 'ProFormBase',
             path: 'base',
             meta: {
-              title: '基础表单'
+              title: '基础表单',
+              icon: 'ep.document-add'
             },
             component: () => import('@/views/system/components/pro-form/pro-form-page.vue')
           },
@@ -100,6 +109,7 @@ export default defineExposeRoutes([
             path: 'ref',
             meta: {
               title: '表单 ref 操作',
+              icon: 'ep.pointer',
               ignoreAuth: true
             },
             component: () => import('@/views/system/components/pro-form/pro-form-ref.vue')
@@ -109,6 +119,7 @@ export default defineExposeRoutes([
             path: 'dynamic',
             meta: {
               title: '动态表单',
+              icon: 'ep.refresh-right',
               ignoreAuth: true
             },
             component: () => import('@/views/system/components/pro-form/dynamic.vue')
@@ -117,7 +128,8 @@ export default defineExposeRoutes([
             name: 'ProFormModal',
             path: 'modal',
             meta: {
-              title: 'Modal 表单'
+              title: 'Modal 表单',
+              icon: 'ep.copy-document'
             },
             component: () => import('@/views/system/components/pro-form/modal-form.vue')
           },
@@ -125,7 +137,8 @@ export default defineExposeRoutes([
             name: 'ProFormDrawer',
             path: 'drawer',
             meta: {
-              title: 'Drawer 表单'
+              title: 'Drawer 表单',
+              icon: 'ep.expand'
             },
             component: () => import('@/views/system/components/pro-form/drawer-form.vue')
           },
@@ -133,7 +146,8 @@ export default defineExposeRoutes([
             name: 'ProFormSteps',
             path: 'steps',
             meta: {
-              title: 'StepsForm 表单'
+              title: 'StepsForm 表单',
+              icon: 'ep.operation'
             },
             component: () => import('@/views/system/components/pro-form/steps-form.vue')
           }
@@ -143,7 +157,8 @@ export default defineExposeRoutes([
         name: 'Upload',
         path: 'upload',
         meta: {
-          title: '上传'
+          title: '上传',
+          icon: 'ep.upload-filled'
         },
         component: () => import('@/views/system/components/Upload.vue')
       },
@@ -151,7 +166,8 @@ export default defineExposeRoutes([
         name: 'Anchor',
         path: 'anchor',
         meta: {
-          title: '锚点'
+          title: '锚点',
+          icon: 'ep.position'
         },
         component: () => import('@/views/system/components/anchor/anchor-demo.vue')
       },
@@ -159,7 +175,8 @@ export default defineExposeRoutes([
         name: 'Segmented',
         path: 'segmented',
         meta: {
-          title: 'segmented 分段器'
+          title: 'segmented 分段器',
+          icon: 'ep.more-filled'
         },
         component: () => import('@/views/system/components/segmented/segmented.vue')
       },
@@ -168,6 +185,7 @@ export default defineExposeRoutes([
         path: 'context-menu',
         meta: {
           title: '右键菜单',
+          icon: 'ep.menu',
           ignoreAuth: true
         },
         component: () => import('@/views/system/components/context-menu/context-menu.vue')
@@ -177,6 +195,7 @@ export default defineExposeRoutes([
         path: 'tree',
         meta: {
           title: 'Tree',
+          icon: 'ep.share',
           ignoreAuth: true
         },
         children: [
@@ -185,7 +204,8 @@ export default defineExposeRoutes([
             path: 'tree-select',
             meta: {
               ignoreAuth: true,
-              title: 'TreeSelect'
+              title: 'TreeSelect',
+              icon: 'ep.connection'
             },
             component: () => import('@/views/system/components/tree/tree-select.vue')
           },
@@ -194,6 +214,7 @@ export default defineExposeRoutes([
             path: 'base',
             meta: {
               title: 'Tree',
+              icon: 'ep.folder-opened',
               ignoreAuth: true
             },
             component: () => import('@/views/system/components/tree/tree/tree.vue')

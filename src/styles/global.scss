@@ -9,6 +9,37 @@ body,
 body {
   overflow-x: hidden;
   background-color: var(--global-bg-color);
+  color: var(--global-text-color-regular);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family:
+    'PingFang SC',
+    'Microsoft YaHei',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+}
+
+.el-button {
+  font-weight: 600;
+  border-radius: var(--global-control-radius);
+
+  &--primary {
+    box-shadow: 0 6px 18px rgba(22, 119, 255, 0.18);
+  }
+}
+
+.el-input__wrapper,
+.el-textarea__inner,
+.el-select__wrapper {
+  border-radius: var(--global-control-radius);
+}
+
+.el-input__wrapper,
+.el-select__wrapper {
+  box-shadow: inset 0 0 0 1px var(--global-border-color);
 }
 
 #nprogress .bar {

@@ -1,5 +1,11 @@
 <template>
-  <el-drawer :model-value="isOpenSettig" :with-header="false" direction="rtl" size="370px">
+  <el-drawer
+    class="layout-setting-drawer"
+    :model-value="isOpenSettig"
+    :with-header="false"
+    direction="rtl"
+    size="370px"
+  >
     <div class="setting">
       <div class="setting-title">系统布局配置</div>
       <div class="setting-body">
@@ -189,8 +195,11 @@ const resertConfig = () => {
 }
 
 .setting-title {
-  font-weight: bold;
-  margin-bottom: 20px;
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--global-heading-color);
+  margin-bottom: 28px;
 }
 
 .setting-item {
@@ -199,13 +208,60 @@ const resertConfig = () => {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+  gap: 16px;
+
+  &__label {
+    color: var(--global-heading-color);
+    font-weight: 600;
+  }
+
+  &__content {
+    color: var(--global-text-color-regular);
+  }
 
   &.is-vertical {
     display: block;
 
     .setting-item__label {
-      margin-bottom: 15px;
+      margin-bottom: 16px;
     }
+  }
+}
+
+.layout-setting-drawer {
+  :deep(.el-drawer) {
+    background: var(--global-surface-color);
+  }
+
+  :deep(.el-drawer__body) {
+    padding: 24px 24px 20px;
+    background: linear-gradient(180deg, #ffffff, #fbfcfe);
+  }
+
+  :deep(.el-color-picker__trigger) {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border-color: var(--global-border-color);
+  }
+
+  :deep(.el-switch) {
+    --el-switch-on-color: var(--el-color-primary);
+    --el-switch-off-color: #d9dee7;
+  }
+
+  :deep(.el-input-number) {
+    width: 124px;
+
+    .el-input__wrapper {
+      box-shadow: inset 0 0 0 1px var(--global-border-color);
+    }
+  }
+
+  :deep(.el-button) {
+    height: 40px;
+    border-radius: 10px;
+    font-weight: 600;
   }
 }
 </style>

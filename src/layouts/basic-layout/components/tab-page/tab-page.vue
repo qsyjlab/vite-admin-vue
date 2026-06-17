@@ -40,10 +40,10 @@
       />
 
       <div class="tabs-bar__operate">
-        <el-dropdown style="height: 100%">
+        <el-dropdown trigger="click" style="height: 100%">
           <span class="operate-btn">
-            <!-- <el-icon><ArrowDown /></el-icon> -->
-            <pro-icon icon="ep.arrow-down" :size="16"></pro-icon>
+            <span>更多操作</span>
+            <pro-icon icon="ep.arrow-down" :size="14"></pro-icon>
           </span>
 
           <template #dropdown>
@@ -262,7 +262,7 @@ function initAffixTabs() {
 }
 
 const handleTabClick = (context: TabsPaneContext) => {
-  if (!context.index) return
+  if (context.index === undefined) return
 
   const route = getTabPages.value[Number(context.index)]
 
@@ -277,38 +277,42 @@ const handleTabRemove = (fullPath: any) => {
 
 <style lang="scss" scoped>
 .tabs-bar-container {
-  --base-padding: 7px;
   --base-bg-color: #fff;
-  --base-border-color: #dcdfe6;
-  --base-item-height: 29px;
+  --base-border-color: #d9e2ef;
+  --base-item-height: 28px;
+  --base-item-radius: 7px;
+  --base-item-text-color: #475569;
+  --base-item-active-bg: #eaf3ff;
+  --base-item-active-color: var(--el-color-primary);
+  --base-item-hover-bg: #f3f7fc;
+  --base-item-active-border: #b7d5ff;
 }
 
 html.dark {
   .tabs-bar-container {
-    --base-bg-color: transparent;
+    --base-bg-color: rgba(20, 20, 20, 0.92);
     --base-border-color: var(--global-border-color);
+    --base-item-hover-bg: rgba(22, 119, 255, 0.12);
+    --base-item-active-bg: rgba(22, 119, 255, 0.2);
   }
 }
 
 .tabs-bar-container {
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
   position: relative;
   box-sizing: border-box;
   display: flex;
-  align-content: center;
   align-items: center;
   justify-content: space-between;
-  padding: 3px;
-
-  padding-left: var(--base-padding);
+  padding: 4px 10px;
   user-select: none;
   background: var(--base-bg-color);
 
   :deep(.el-tabs__nav-wrap) {
-    margin-bottom: 0px;
-    min-width: 100%;
+    margin-bottom: 0;
+    min-width: 0;
+    width: 100%;
     max-width: 100%;
     height: 100%;
     display: flex;
@@ -316,8 +320,8 @@ html.dark {
   }
 
   .tab-scroll {
-    max-width: calc(100% - 38px);
-    min-width: calc(100% - 38px);
+    flex: 1 1 auto;
+    min-width: 0;
     height: 100%;
     overflow: hidden;
   }
@@ -325,11 +329,17 @@ html.dark {
   :deep(.tabs-content) {
     height: 100%;
     overflow: hidden;
+    --el-tabs-header-height: var(--base-item-height);
+
+    &.el-tabs--card > .el-tabs__header .el-tabs__nav {
+      border: 0;
+    }
 
     .el-tabs__nav-next,
     .el-tabs__nav-prev {
-      height: var(--base-item-heigh);
-      line-height: var(--base-item-heigh);
+      height: var(--base-item-height);
+      line-height: var(--base-item-height);
+      color: var(--base-item-text-color);
     }
 
     .el-tabs__nav-scroll {
@@ -340,33 +350,74 @@ html.dark {
       border-bottom: 0;
       margin-bottom: 0;
       height: 100% !important;
+      display: flex;
+      align-items: center;
 
       .el-tabs__nav {
         border: 0;
         height: 100%;
+        display: flex;
+        align-items: center;
+      }
+
+      .el-tabs__nav-wrap::after,
+      .el-tabs__nav-prev,
+      .el-tabs__nav-next {
+        border: 0;
+        box-shadow: none;
       }
 
       .el-tabs__item {
         box-sizing: border-box;
-        height: 100%;
-        margin-right: 5px;
-        border: 1px solid var(--base-border-color);
+        height: var(--base-item-height);
+        line-height: calc(var(--base-item-height) - 2px);
+        margin-right: 7px;
+        border: 1px solid var(--base-border-color) !important;
+        transition:
+          background-color 0.16s ease,
+          border-color 0.16s ease,
+          color 0.16s ease !important;
+        padding: 0 10px;
+        border-radius: var(--base-item-radius);
+        color: var(--base-item-text-color);
+        background: #fff;
+        font-size: 13px;
+        font-weight: 500;
+        box-shadow: none;
 
-        transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) !important;
-        padding: 0 7px;
-        border-radius: 3px;
+        &:hover {
+          background: var(--base-item-hover-bg);
+          color: var(--global-text-color-regular);
+          border-color: #c8d6e6;
+        }
+
         &.is-active {
-          background-color: var(--el-color-primary);
-          color: white;
-          border-width: 0;
-          // border: 1px solid $base-color-blue;
+          background: var(--base-item-active-bg);
+          color: var(--base-item-active-color);
+          border-color: var(--base-item-active-border) !important;
+          font-weight: 600;
+        }
+      }
+
+      .is-icon-close {
+        width: 16px;
+        height: 16px;
+        margin-left: 6px;
+        border-radius: 999px;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease;
+
+        &:hover {
+          background: rgba(15, 23, 42, 0.08);
+          color: var(--global-heading-color);
         }
       }
     }
   }
+
   .more {
     display: flex;
-    align-content: center;
     align-items: center;
     cursor: pointer;
   }
@@ -374,7 +425,7 @@ html.dark {
 
 .tabs-bar {
   &__operate {
-    height: 100%;
+    height: var(--base-item-height);
     box-sizing: border-box;
     flex-shrink: 0;
     display: flex;
@@ -384,37 +435,62 @@ html.dark {
 }
 
 .operate-btn {
-  width: 38px;
+  min-width: 84px;
   box-sizing: border-box;
   flex-shrink: 0;
+  height: var(--base-item-height);
+  border: 1px solid var(--base-border-color);
+  border-radius: var(--base-item-radius);
+  color: var(--base-item-text-color);
   cursor: pointer;
-  height: 100%;
-  border-left: 1px solid var(--base-border-color);
-  color: rgba(0, 0, 0, 0.45);
-  // line-height: 30px;
-  text-align: center;
-  cursor: pointer;
-  padding: 10px;
-  box-sizing: border-box;
+  background: #f8fafc;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
+  padding: 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    background: var(--base-item-hover-bg);
+    border-color: #d8e4ff;
+    color: var(--global-heading-color);
+  }
 }
 
 .tab-item {
   display: flex;
   align-items: center;
+  font-weight: inherit;
+  gap: 6px;
+
   .icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 5px;
+    margin-right: 0;
   }
 }
 
 html.dark {
   .operate-btn {
+    background: rgba(20, 20, 20, 0.92);
     color: var(--global-text-color-regular);
+  }
+
+  .tabs-bar-container {
+    :deep(.tabs-content .el-tabs__header .el-tabs__item) {
+      background: rgba(20, 20, 20, 0.92);
+
+      &:hover {
+        border-color: rgba(22, 119, 255, 0.24);
+      }
+    }
   }
 }
 </style>

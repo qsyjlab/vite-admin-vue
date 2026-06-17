@@ -1,0 +1,29 @@
+.el-card {
+  --el-card-border-color: #dbe3ef;
+  --el-card-border-radius: 10px;
+  --el-card-bg-color: #fff;
+  border: 1px solid var(--el-card-border-color);
+  border-radius: var(--el-card-border-radius);
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 10px 28px rgba(15, 23, 42, 0.06);
+
+  &__header {
+    padding: 22px 24px 0;
+    border-bottom: 0;
+    color: var(--global-heading-color);
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  &__body {
+    padding: 18px 24px 22px;
+  }
+}
+
+html.dark {
+  .el-card {
+    --el-card-border-color: var(--global-border-color);
+    --el-card-bg-color: var(--global-bg-color-2, #141414);
+  }
+}

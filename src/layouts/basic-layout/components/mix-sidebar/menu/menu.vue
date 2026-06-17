@@ -4,7 +4,7 @@
     <div
       class="basic-layout-mix-menu-module"
       :style="{
-        width: 90 + 'px'
+        width: 82 + 'px'
       }"
     >
       <div

@@ -16,7 +16,8 @@ export default defineExposeRoutes([
         name: 'Watermark',
         path: 'watermark',
         meta: {
-          title: '水印'
+          title: '水印',
+          icon: 'ep.postcard'
         },
         component: () => import('@/views/system/feature/watermark/watermark.vue')
       },
@@ -24,7 +25,8 @@ export default defineExposeRoutes([
         name: 'Qrcode',
         path: 'qrcode',
         meta: {
-          title: '二维码'
+          title: '二维码',
+          icon: 'ep.grid'
         },
         component: () => import('@/views/system/feature/qrcode/qrcode.vue')
       },
@@ -32,7 +34,8 @@ export default defineExposeRoutes([
         name: 'TabPage',
         path: 'tab-page',
         meta: {
-          title: '标签栏'
+          title: '标签栏',
+          icon: 'ep.collection-tag'
         },
         component: () => import('@/views/system/feature/tab-page/tab-page.vue'),
         children: [
@@ -41,6 +44,7 @@ export default defineExposeRoutes([
             path: 'detail/:id',
             meta: {
               title: '标签栏详情',
+              icon: 'ep.tickets',
               hideInMenu: true
             },
             component: () => import('@/views/system/feature/tab-page/detail.vue')
@@ -51,7 +55,8 @@ export default defineExposeRoutes([
         name: 'ImageViewer',
         path: 'image-viewer',
         meta: {
-          title: '图片预览'
+          title: '图片预览',
+          icon: 'ep.picture'
         },
         component: () => import('@/views/system/feature/image-viwer/image-viwer.vue')
       },
@@ -60,6 +65,7 @@ export default defineExposeRoutes([
         path: 'download',
         meta: {
           title: '文件下载',
+          icon: 'ep.download',
           ignoreAuth: true
         },
         component: () => import('@/views/system/feature/download/download.vue')
@@ -68,7 +74,8 @@ export default defineExposeRoutes([
         name: 'Message',
         path: 'message',
         meta: {
-          title: '消息提示'
+          title: '消息提示',
+          icon: 'ep.chat-dot-round'
         },
         component: () => import('@/views/system/feature/message/message.vue')
       },
@@ -76,7 +83,8 @@ export default defineExposeRoutes([
         name: 'Encrypt',
         path: 'encrypt',
         meta: {
-          title: '加密'
+          title: '加密',
+          icon: 'ep.lock'
         },
         component: () => import('@/views/system/feature/encrypt/encrypt.vue')
       },
@@ -85,6 +93,7 @@ export default defineExposeRoutes([
         path: 'print',
         meta: {
           title: '打印',
+          icon: 'ep.printer',
           ignoreAuth: true
         },
         component: () => import('@/views/system/feature/print/print.vue')
@@ -94,6 +103,7 @@ export default defineExposeRoutes([
         path: 'pdf',
         meta: {
           title: 'Pdf',
+          icon: 'ep.document',
           ignoreAuth: true,
           hideChildrenInMenu: false
         },
@@ -103,6 +113,7 @@ export default defineExposeRoutes([
             path: 'preview',
             meta: {
               title: '在线预览',
+              icon: 'ep.view',
               ignoreAuth: true
             },
             component: () => import('@/views/system/feature/pdf/pdf-preview.vue')
@@ -114,6 +125,7 @@ export default defineExposeRoutes([
         path: 'excel',
         meta: {
           title: 'Excel',
+          icon: 'ep.files',
           ignoreAuth: true
         },
         children: [
@@ -122,6 +134,7 @@ export default defineExposeRoutes([
             path: 'preview',
             meta: {
               title: '在线预览',
+              icon: 'ep.view',
               ignoreAuth: true
             },
             component: () => import('@/views/system/feature/excel/preview.vue')
@@ -131,6 +144,7 @@ export default defineExposeRoutes([
             path: 'base',
             meta: {
               title: '基本导出',
+              icon: 'ep.download',
               ignoreAuth: true
             },
             component: () => import('@/views/system/feature/excel/base/excel.vue')
@@ -140,6 +154,7 @@ export default defineExposeRoutes([
             path: 'mutiple-header',
             meta: {
               title: '多表头',
+              icon: 'ep.grid',
               ignoreAuth: true
             },
             component: () =>
@@ -150,6 +165,7 @@ export default defineExposeRoutes([
             path: 'import',
             meta: {
               title: '导入',
+              icon: 'ep.upload',
               ignoreAuth: true
             },
             component: () => import('@/views/system/feature/excel/import.vue')
@@ -161,6 +177,7 @@ export default defineExposeRoutes([
         path: 'docx',
         meta: {
           title: 'docx',
+          icon: 'ep.document-copy',
           ignoreAuth: true,
           hideChildrenInMenu: false
         },
@@ -170,6 +187,7 @@ export default defineExposeRoutes([
             path: 'html-to-docx',
             meta: {
               title: '富文本导出docx',
+              icon: 'ep.edit-pen',
               ignoreAuth: true
             },
             component: () => import('@/views/system/feature/docx/html-to-docx.vue')
@@ -179,6 +197,7 @@ export default defineExposeRoutes([
             path: 'html-to-docx-preview',
             meta: {
               title: '在线预览docx',
+              icon: 'ep.view',
               ignoreAuth: true
             },
             component: () => import('@/views/system/feature/docx/docx-preview.vue')

@@ -1,8 +1,23 @@
 <template>
-  <div class="basic-layout-header__wrapper">
-    <div class="basic-layout-header__left">
+  <div
+    :class="[
+      'basic-layout-header__wrapper',
+      layoutConfig.layoutMode === LayoutMode.Top ? 'is-top-mode' : ''
+    ]"
+  >
+    <div
+      :class="[
+        'basic-layout-header__left',
+        layoutConfig.layoutMode === LayoutMode.Top ? 'is-top-mode' : ''
+      ]"
+    >
       <slot name="logo">
-        <logo v-if="layoutConfig.layoutMode === LayoutMode.Top" />
+        <logo
+          v-if="layoutConfig.layoutMode === LayoutMode.Top"
+          :width="172"
+          :height="layoutConfig.headerHeight"
+          :logo-width="36"
+        />
       </slot>
 
       <!-- 面包屑导航 -->
@@ -21,7 +36,10 @@
           [LayoutMode.Top].includes(layoutConfig.layoutMode) ||
           (LayoutMode.TopMix === layoutConfig.layoutMode && layoutConfig.splitMenu)
         "
-        class="horizontal-menu"
+        :class="[
+          'horizontal-menu',
+          layoutConfig.layoutMode === LayoutMode.Top ? 'is-top-mode' : ''
+        ]"
       >
         <aside-menu
           :menus="getCurrentMenus"
@@ -31,7 +49,12 @@
         ></aside-menu>
       </div>
     </div>
-    <div class="basic-layout-header__right">
+    <div
+      :class="[
+        'basic-layout-header__right',
+        layoutConfig.layoutMode === LayoutMode.Top ? 'is-top-mode' : ''
+      ]"
+    >
       <el-space>
         <el-tooltip effect="dark" content="消息通知" placement="bottom">
           <notification>

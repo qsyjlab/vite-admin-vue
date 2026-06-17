@@ -13,6 +13,7 @@
     <slot name="trigger">
       <div class="trigger">
         <el-button
+          class="collapse-trigger-btn"
           text
           bg
           @click="layoutStore.setLayoutConfig({ collapsed: !layoutConfig.collapsed })"
@@ -71,8 +72,27 @@ const { menus } = useLayoutMenu(
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: 15px;
+    padding: 12px;
     flex-shrink: 0;
+  }
+
+  .collapse-trigger-btn {
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 10px;
+    color: var(--global-text-color-secondary);
+    border: 1px solid var(--global-border-color);
+    background: #fff;
+    box-shadow: none;
+
+    &:hover,
+    &:focus {
+      color: var(--el-color-primary);
+      border-color: #d8e4ff;
+      background: #f6f9ff;
+    }
   }
 }
 </style>

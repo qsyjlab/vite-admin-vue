@@ -28,7 +28,7 @@ interface IProps {
 }
 
 const props = withDefaults(defineProps<IProps>(), {
-  logoWidth: 78,
+  logoWidth: 42,
   showTitle: true,
   width: 220,
   height: 48,
@@ -40,13 +40,19 @@ const styles = computed<CSSProperties>(() => {
   const { width, height } = props
   return {
     width: `${width}px`,
-    height: `${height}px`
+    height: `${height}px`,
+    '--basic-logo-height': `${height}px`,
+    '--basic-logo-width': `${width}px`,
+    '--basic-logo-image-width': `${props.logoWidth}px`
   }
 })
 
 const logoImageStyle = computed<CSSProperties>(() => {
+  const visualSize = Math.min(props.logoWidth, Math.max(props.height - 10, 32))
+
   return {
-    width: `${props.logoWidth}px`
+    width: `${visualSize}px`,
+    height: `${visualSize}px`
   }
 })
 </script>
