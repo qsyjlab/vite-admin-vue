@@ -1,6 +1,6 @@
 <template>
   <page-wrapper>
-    <page-card :header="$route.meta.title">
+    <page-card :header="$route.meta.title" full>
       <pro-table
         ref="tableRef"
         v-model:selected-keys="selectedKeys"
@@ -40,7 +40,6 @@
   </page-wrapper>
 </template>
 <script setup lang="ts">
-/// <reference types="../../../../../node_modules/.vue-global-types/vue_3.5_0_0_0.d.ts" />
 import type { ProTableInstance } from '@/components/pro-table'
 import { PageCard, PageWrapper } from '@/components'
 import type { ProTableColumns } from '@/components/pro-table'

@@ -1,9 +1,3 @@
-import { withInstall } from '@/utils'
-
-import ProSelectComponent from './src/pro-select.vue'
-
-export const ProSelect = withInstall(ProSelectComponent)
-
-export type ProSelectInstance = InstanceType<typeof ProSelect>
-
-export default ProSelect
+/** @deprecated Import from `@/components/pro-components` instead. */
+export { ProSelect as default, ProSelect } from '../pro-components/pro-select'
+export * from '../pro-components/pro-select'

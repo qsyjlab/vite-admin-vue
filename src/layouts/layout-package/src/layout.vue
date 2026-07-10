@@ -45,8 +45,8 @@ type IProps = LayoutProps
 const props = withDefaults(defineProps<IProps>(), {
   asideWidth: 220,
   asidePaddingTop: 0,
-  headerHeight: 48,
-  tabHeight: 32,
+  headerHeight: 56,
+  tabHeight: 48,
   headerZIndex: 1001,
   mainPaddingLeft: 220,
   config: () => ({

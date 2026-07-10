@@ -1,12 +1,20 @@
 <template>
-  <div class="page-container">
+  <div
+    :class="[
+      'page-container',
+      {
+        'is-dark-sidebar': layoutConfig.theme === 'light' && layoutConfig.sidebarTheme === 'dark',
+        'is-dark-header': layoutConfig.theme === 'light' && layoutConfig.headerTheme === 'dark'
+      }
+    ]"
+  >
     <Layout
       v-bind="layoutAttrs"
       :config="{
         footer: layoutConfig.showFooter,
         header: showHeader,
         tab: layoutConfig.showTagPage,
-        aside: !!layoutAttrs.asideWidth,
+        aside: isMobile || !!layoutAttrs.asideWidth,
         main: true
       }"
     >
@@ -17,9 +25,10 @@
               v-model="mobileDrawer"
               direction="ltr"
               :with-header="false"
-              :size="layoutConfig.asideWidth || 250"
+              :size="`min(${layoutConfig.asideWidth || 250}px, calc(100vw - 48px))`"
+              append-to-body
             >
-              <basic-sidebar :collapsed="layoutConfig.collapsed">
+              <basic-sidebar :collapsed="false">
                 <template v-if="LayoutMode.Side === layoutConfig.layoutMode" #logo>
                   <logo v-bind="logoAttrs" />
                 </template>
@@ -53,13 +62,13 @@
       <template #header>
         <basic-header @mobile-drawer="mobileDrawerHandler">
           <template v-if="LayoutMode.TopMix === layoutConfig.layoutMode" #logo>
-            <logo :width="layoutConfig.asideWidth" />
+            <logo :width="layoutConfig.asideWidth" :height="layoutConfig.headerHeight" />
           </template>
         </basic-header>
       </template>
 
       <template #tabs>
-        <basic-tab-page :font-size="12" />
+        <basic-tab-page :font-size="14" />
       </template>
 
       <div
@@ -101,6 +110,7 @@ import { Logo, type LogoProps } from './components/logo'
 import type { BasicLayoutProps, LayoutModeMap, LogoModeMap } from './basic-layout'
 import type { ProjectLayoutConfig } from './types'
 import type { Component } from 'vue'
+import { useLayoutMenu } from '@/hooks'
 
 defineOptions({
   name: 'BasicLayoutCore'
@@ -120,16 +130,16 @@ const props = defineProps<{
 }>()
 
 const mobileDrawer = ref(false)
+const { menus: splitSideMenus } = useLayoutMenu(
+  computed(() => ({
+    type: 'left' as const
+  }))
+)
 
 watch(
   () => props.isMobile,
-  () => {
-    if (
-      props.layoutConfig.layoutMode &&
-      ![LayoutMode.Top].includes(props.layoutConfig.layoutMode)
-    ) {
-      mobileDrawer.value = props.isMobile
-    }
+  isMobile => {
+    if (!isMobile) mobileDrawer.value = false
   },
   {
     immediate: true
@@ -150,8 +160,8 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
     footerHeight
   } = props.layoutConfig
 
-  const collapseWidth = 78
-  const sideMixWidth = 90
+  const collapseWidth = 60
+  const sideMixWidth = 60
   const { sideMixFixedMenu } = props.layoutConfig
   const { showTagPage } = props.layoutConfig
 
@@ -168,7 +178,12 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
       }
     },
     [LayoutMode.TopMix]: () => {
-      const computedAsideWidth = props.isMobile ? 0 : collapsed ? collapseWidth : asideWidth
+      const showSidebar =
+        !props.layoutConfig.splitMenu ||
+        splitSideMenus.value.length > 0 ||
+        props.layoutConfig.showEmptySplitMenuSidebar
+      const computedAsideWidth =
+        props.isMobile || !showSidebar ? 0 : collapsed ? collapseWidth : asideWidth
       return {
         footerHeight,
         headerHeight,
@@ -181,9 +196,11 @@ const layoutAttrs = computed<BasicLayoutProps>(() => {
     },
     [LayoutMode.Top]: () => ({
       footerHeight,
+      headerHeight,
       tabHeight: showTagPage ? tabBarHeight : 0,
       asideWidth: 0,
-      headerPaddingLeft: 0
+      headerPaddingLeft: 0,
+      headerZIndex: 1003
     }),
     [LayoutMode.SideMix]: () => {
       const computedAsideWidth = props.isMobile
@@ -210,7 +227,7 @@ const logoAttrs = computed<LogoProps>(() => {
     [LayoutMode.Side]: () => {
       return {
         height: headerHeight,
-        width: asideWidth,
+        width: collapsed ? 60 : asideWidth,
         showTitle: !collapsed
       }
     },
@@ -232,6 +249,10 @@ const logoAttrs = computed<LogoProps>(() => {
 .mobile-menu {
   :deep(.el-drawer__body) {
     padding: 0;
+  }
+
+  :deep(.el-drawer) {
+    max-width: calc(100vw - 48px);
   }
 }
 </style>

@@ -8,7 +8,8 @@ export default defineRouteModule({
     title: '异常页面',
     hideChildrenInMenu: false,
     ignoreAuth: true,
-    icon: 'ep.warning-filled'
+    icon: 'ep.warning-filled',
+    order: 90
   },
   children: [
     {
@@ -16,7 +17,9 @@ export default defineRouteModule({
       path: '404',
       meta: {
         ignoreAuth: true,
-        title: '404'
+        title: '404',
+        icon: 'ep.warning',
+        order: 20
       },
       component: () => import('@/views/error/error-404.vue')
     },
@@ -25,7 +28,9 @@ export default defineRouteModule({
       path: '403',
       meta: {
         title: '403',
-        ignoreAuth: true
+        ignoreAuth: true,
+        icon: 'ep.lock',
+        order: 10
       },
       component: () => import('@/views/error/error-403.vue')
     }

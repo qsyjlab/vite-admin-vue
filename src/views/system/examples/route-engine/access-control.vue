@@ -99,9 +99,9 @@ const tips = [
 
 .summary-item,
 .tip-item {
-  border: 1px solid #dbe3ef;
+  border: 1px solid var(--global-border-color);
   border-radius: 8px;
-  background: #fbfdff;
+  background: var(--global-surface-color-muted);
 }
 
 .summary-item {

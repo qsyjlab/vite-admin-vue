@@ -36,17 +36,24 @@ const logout = () => {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  height: 36px;
+  height: var(--layout-header-user-height, 36px);
+  min-height: 0;
   padding: 0 10px 0 6px;
   border-radius: 999px;
   color: var(--global-heading-color);
   border: 1px solid var(--global-border-color);
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--global-surface-color);
+
+  :deep(.el-avatar) {
+    width: var(--layout-header-avatar-size, 32px) !important;
+    height: var(--layout-header-avatar-size, 32px) !important;
+    flex: 0 0 var(--layout-header-avatar-size, 32px);
+  }
 
   &:hover,
   &:focus {
-    border-color: #cddcff;
-    background: #eef4ff;
+    border-color: var(--el-color-primary);
+    background: var(--el-color-primary-light-9);
     color: var(--el-color-primary);
   }
 

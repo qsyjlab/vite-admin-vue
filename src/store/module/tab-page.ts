@@ -98,6 +98,23 @@ export const useTabPageStore = defineStore('tab-page', () => {
     goLastTabRoute()
   }
 
+  function reorderTabPages(fullPaths: string[]) {
+    if (
+      fullPaths.length !== tabsList.value.length ||
+      new Set(fullPaths).size !== fullPaths.length
+    ) {
+      return
+    }
+
+    const tabsMap = new Map(tabsList.value.map(tab => [tab.fullPath, tab]))
+    const reorderedTabs = fullPaths.map(fullPath => tabsMap.get(fullPath))
+
+    if (reorderedTabs.some(tab => !tab)) return
+
+    tabsList.value = reorderedTabs as TabPage[]
+    updateTabCache()
+  }
+
   function removeAllTabPage() {
     resetTabPages()
     currentTabPage.value = null
@@ -176,6 +193,7 @@ export const useTabPageStore = defineStore('tab-page', () => {
     isAffixTab,
     addTabPage,
     removeTabPage,
+    reorderTabPages,
     removeAllTabPage,
     removeOhterTabPages,
     removeLeftAllTabPages,

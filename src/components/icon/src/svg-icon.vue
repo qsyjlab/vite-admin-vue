@@ -39,9 +39,9 @@ const getStyle = computed<CSSProperties>(() => {
 
 <style lang="scss" scoped>
 .svg-icon {
-  display: inline-block;
+  display: block;
   overflow: hidden;
   fill: currentcolor;
-  vertical-align: -0.15em;
+  vertical-align: middle;
 }
 </style>

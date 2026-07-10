@@ -4,77 +4,120 @@
     :model-value="isOpenSettig"
     :with-header="false"
     direction="rtl"
-    size="370px"
+    size="420px"
   >
     <div class="setting">
-      <div class="setting-title">系统布局配置</div>
+      <header class="setting-header">
+        <h2>系统布局配置</h2>
+        <el-button
+          class="setting-header__close"
+          :icon="Close"
+          text
+          circle
+          aria-label="关闭布局设置"
+          @click="layoutStore.toggleSettingDrawer()"
+        />
+      </header>
+
       <div class="setting-body">
-        <div class="setting-item">
-          <div class="setting-item__label">主题色</div>
-          <div class="setting-item__content">
+        <section class="setting-section">
+          <h3>主题</h3>
+          <div class="setting-item">
+            <span class="setting-item__label">主题色</span>
             <el-color-picker
               :model-value="layoutConfig.themeColor"
               @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, value)"
             />
           </div>
-        </div>
-
-        <div class="setting-item is-vertical">
-          <div class="setting-item__label">导航模式</div>
-          <div class="setting-item__content">
-            <CheckButtonGroup
-              :model-value="layoutConfig.layoutMode"
-              :options="layoutModeOptions"
-              @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_MODE, value)"
+          <div class="setting-item">
+            <span class="setting-item__label">深色侧边栏</span>
+            <el-switch
+              :model-value="layoutConfig.sidebarTheme === 'dark'"
+              :disabled="layoutConfig.theme === 'dark'"
+              @change="
+                (value: any) =>
+                  setLayoutConfig(LayoutConfigHandlerEnum.SIDEBAR_THEME, value ? 'dark' : 'light')
+              "
             />
           </div>
-        </div>
+          <div class="setting-item">
+            <span class="setting-item__label">深色顶部导航</span>
+            <el-switch
+              :model-value="layoutConfig.headerTheme === 'dark'"
+              :disabled="layoutConfig.theme === 'dark'"
+              @change="
+                (value: any) =>
+                  setLayoutConfig(LayoutConfigHandlerEnum.HEADER_THEME, value ? 'dark' : 'light')
+              "
+            />
+          </div>
+          <div
+            v-if="layoutConfig.sidebarTheme === 'dark' || layoutConfig.headerTheme === 'dark'"
+            class="setting-item"
+          >
+            <span class="setting-item__label">深色菜单背景</span>
+            <el-color-picker
+              :model-value="layoutConfig.darkMenuBackground"
+              :disabled="layoutConfig.theme === 'dark'"
+              @change="
+                (value: any) => setLayoutConfig(LayoutConfigHandlerEnum.DARK_MENU_BACKGROUND, value)
+              "
+            />
+          </div>
+        </section>
 
-        <div class="setting-item">
-          <div class="setting-item__label">折叠菜单</div>
-          <div class="setting-item__content">
+        <section class="setting-section">
+          <h3>导航模式</h3>
+          <CheckButtonGroup
+            :model-value="layoutConfig.layoutMode"
+            :options="layoutModeOptions"
+            @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_MODE, value)"
+          />
+        </section>
+
+        <section class="setting-section">
+          <h3>菜单</h3>
+          <div class="setting-item">
+            <span class="setting-item__label">折叠菜单</span>
             <el-switch
               :model-value="layoutConfig.collapsed"
               @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.COLLAPSED, value)"
             />
           </div>
-        </div>
-
-        <div class="setting-item">
-          <div class="setting-item__label">是否分割菜单</div>
-          <div class="setting-item__content">
+          <div class="setting-item">
+            <span class="setting-item__label">分割菜单</span>
             <el-switch
               :model-value="layoutConfig.splitMenu"
               :disabled="LayoutMode.TopMix !== layoutConfig.layoutMode"
               @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.SPLIT_MENU, value)"
             />
           </div>
-        </div>
-
-        <div class="setting-item">
-          <div class="setting-item__label">菜单展开宽度</div>
-          <div class="setting-item__content">
+          <div
+            v-if="layoutConfig.layoutMode === LayoutMode.TopMix && layoutConfig.splitMenu"
+            class="setting-item"
+          >
+            <span class="setting-item__label">无子菜单时显示侧栏</span>
+            <el-switch
+              :model-value="layoutConfig.showEmptySplitMenuSidebar"
+              @change="
+                (value: any) =>
+                  setLayoutConfig(LayoutConfigHandlerEnum.SHOW_EMPTY_SPLIT_MENU_SIDEBAR, value)
+              "
+            />
+          </div>
+          <div class="setting-item">
+            <span class="setting-item__label">菜单展开宽度</span>
             <el-input-number
               :model-value="layoutConfig.asideWidth"
               @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.MENU_WIDTH, value)"
             />
           </div>
-        </div>
+        </section>
 
-        <div class="setting-item">
-          <div class="setting-item__label">头部高度</div>
-          <div class="setting-item__content">
-            <el-input-number
-              :model-value="layoutConfig.headerHeight"
-              @change="
-                (value: any) => setLayoutConfig(LayoutConfigHandlerEnum.HEADER_HEIGHT, value)
-              "
-            />
-          </div>
-        </div>
-        <div class="setting-item">
-          <div class="setting-item__label">显示面包屑导航</div>
-          <div class="setting-item__content">
+        <section class="setting-section">
+          <h3>页面区域</h3>
+          <div class="setting-item">
+            <span class="setting-item__label">面包屑导航</span>
             <el-switch
               :model-value="layoutConfig.showBreadCrumb"
               @change="
@@ -82,52 +125,66 @@
               "
             />
           </div>
-        </div>
-
-        <setting-item title="标签页显示">
-          <el-switch
-            :model-value="layoutConfig.showTagPage"
-            @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.SHOW_TAB_PAGE, value)"
-          />
-        </setting-item>
-        <setting-item title="显示页脚">
-          <el-switch
-            :model-value="layoutConfig.showFooter"
-            @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.SHOW_FOOTER, value)"
-          />
-        </setting-item>
-        <div class="setting-item">
-          <div class="setting-item__label">标签页高度</div>
-          <div class="setting-item__content">
-            <el-input-number
-              :model-value="layoutConfig.tabBarHeight"
+          <div class="setting-item">
+            <span class="setting-item__label">标签页</span>
+            <el-switch
+              :model-value="layoutConfig.showTagPage"
               @change="
-                (value: any) => setLayoutConfig(LayoutConfigHandlerEnum.TAB_BAR_HEIGHT, value)
+                (value: any) => setLayoutConfig(LayoutConfigHandlerEnum.SHOW_TAB_PAGE, value)
               "
             />
           </div>
-        </div>
+          <div class="setting-item">
+            <span class="setting-item__label">页脚</span>
+            <el-switch
+              :model-value="layoutConfig.showFooter"
+              @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.SHOW_FOOTER, value)"
+            />
+          </div>
+        </section>
+
+        <section class="setting-section">
+          <h3>尺寸</h3>
+          <div class="setting-dimension-grid">
+            <label class="setting-dimension">
+              <span>头部高度</span>
+              <el-input-number
+                :model-value="layoutConfig.headerHeight"
+                @change="
+                  (value: any) => setLayoutConfig(LayoutConfigHandlerEnum.HEADER_HEIGHT, value)
+                "
+              />
+            </label>
+            <label class="setting-dimension">
+              <span>标签页高度</span>
+              <el-input-number
+                :model-value="layoutConfig.tabBarHeight"
+                @change="
+                  (value: any) => setLayoutConfig(LayoutConfigHandlerEnum.TAB_BAR_HEIGHT, value)
+                "
+              />
+            </label>
+          </div>
+        </section>
       </div>
-      <div class="setting-footer">
-        <el-space style="width: 100%" fill direction="vertical">
-          <el-button :icon="CopyDocument" type="primary" @click="copyJsonConfig">复制</el-button>
-          <el-button :icon="Refresh" type="warning" @click="resertConfig">重置</el-button>
-        </el-space>
-      </div>
+
+      <footer class="setting-footer">
+        <el-button :icon="CopyDocument" type="primary" @click="copyJsonConfig">复制配置</el-button>
+        <el-button :icon="Refresh" @click="resertConfig">重置</el-button>
+      </footer>
     </div>
   </el-drawer>
 </template>
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { CopyDocument, Refresh } from '@element-plus/icons-vue'
+import { Close, CopyDocument, Refresh } from '@element-plus/icons-vue'
 import { useLayoutStore } from '@/store'
 import { useLayoutConfigHandler, LayoutConfigHandlerEnum, useMessage } from '@/hooks'
 import { copyToClipboard } from '@/utils'
 
 import { LayoutMode } from '../../enum'
 import CheckButtonGroup from './check-button-group.vue'
-import SettingItem from './setting-item.vue'
 import { LeftSideMix, NavTop, SideTopMix, LeftSide } from './icon'
 
 const { message, messageBox } = useMessage()
@@ -136,28 +193,11 @@ const { layoutConfig, setLayoutConfig, getProjectSetting, resetLayoutConfig } =
   useLayoutConfigHandler()
 const { isOpenSettig } = storeToRefs(layoutStore)
 
-// 导航模式选项
 const layoutModeOptions = [
-  {
-    title: '侧边栏布局',
-    value: LayoutMode.Side,
-    icon: LeftSide
-  },
-  {
-    title: '顶部菜单布局',
-    value: LayoutMode.Top,
-    icon: NavTop
-  },
-  {
-    title: '顶部混合菜单',
-    value: LayoutMode.TopMix,
-    icon: SideTopMix
-  },
-  {
-    title: '左侧菜单混合',
-    value: LayoutMode.SideMix,
-    icon: LeftSideMix
-  }
+  { title: '侧边栏布局', value: LayoutMode.Side, icon: LeftSide },
+  { title: '顶部菜单布局', value: LayoutMode.Top, icon: NavTop },
+  { title: '顶部混合菜单', value: LayoutMode.TopMix, icon: SideTopMix },
+  { title: '左侧菜单混合', value: LayoutMode.SideMix, icon: LeftSideMix }
 ]
 
 const copyJsonConfig = () => {
@@ -184,84 +224,159 @@ const resertConfig = () => {
   flex-direction: column;
   height: 100%;
   min-height: 0;
+  color: var(--el-text-color-regular);
 }
 
-.setting-body {
-  width: 100%;
-  height: 100%;
-  top: 0;
-  right: 0;
-  box-sizing: border-box;
-}
-
-.setting-title {
-  font-size: 28px;
-  line-height: 1.2;
-  font-weight: 700;
-  color: var(--global-heading-color);
-  margin-bottom: 28px;
-}
-
-.setting-item {
-  font-size: 14px;
+.setting-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  min-height: 64px;
+  padding: 0 20px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--el-border-color-lighter);
+
+  h2 {
+    margin: 0;
+    color: var(--el-text-color-primary);
+    font-size: 20px;
+    line-height: 1.4;
+    letter-spacing: 0;
+  }
+}
+
+.setting-header__close {
+  width: 32px;
+  height: 32px;
+}
+
+.setting-body {
+  min-height: 0;
+  padding: 4px 20px 20px;
+  flex: 1 1 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.setting-section {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--el-border-color-lighter);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  h3 {
+    margin: 0 0 10px;
+    color: var(--el-text-color-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0;
+  }
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 42px;
   gap: 16px;
+  font-size: 14px;
 
   &__label {
-    color: var(--global-heading-color);
-    font-weight: 600;
+    color: var(--el-text-color-regular);
+    font-weight: 500;
   }
+}
 
-  &__content {
-    color: var(--global-text-color-regular);
-  }
+.setting-dimension-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
 
-  &.is-vertical {
-    display: block;
+.setting-dimension {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--el-text-color-regular);
+  font-size: 13px;
+  font-weight: 500;
+}
 
-    .setting-item__label {
-      margin-bottom: 16px;
-    }
+.setting-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+  padding: 14px 20px;
+  flex-shrink: 0;
+  border-top: 1px solid var(--el-border-color-lighter);
+  background: var(--el-bg-color);
+
+  :deep(.el-button) {
+    width: 100%;
+    height: 38px;
+    margin: 0;
   }
 }
 
 .layout-setting-drawer {
   :deep(.el-drawer) {
-    background: var(--global-surface-color);
+    background: var(--el-bg-color);
   }
 
   :deep(.el-drawer__body) {
-    padding: 24px 24px 20px;
-    background: linear-gradient(180deg, #ffffff, #fbfcfe);
+    padding: 0;
+    background: var(--el-bg-color);
   }
 
   :deep(.el-color-picker__trigger) {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    border-color: var(--global-border-color);
+    width: 36px;
+    height: 36px;
+    border-radius: var(--el-border-radius-base);
+    border-color: var(--el-border-color);
   }
 
   :deep(.el-switch) {
     --el-switch-on-color: var(--el-color-primary);
-    --el-switch-off-color: #d9dee7;
+    --el-switch-off-color: var(--el-border-color);
   }
 
   :deep(.el-input-number) {
-    width: 124px;
+    width: 126px;
+  }
 
-    .el-input__wrapper {
-      box-shadow: inset 0 0 0 1px var(--global-border-color);
+  .setting-dimension :deep(.el-input-number) {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .layout-setting-drawer {
+    :deep(.el-drawer) {
+      width: calc(100vw - 16px) !important;
     }
   }
 
-  :deep(.el-button) {
-    height: 40px;
-    border-radius: 10px;
-    font-weight: 600;
+  .setting-header {
+    min-height: 56px;
+    padding: 0 16px;
+
+    h2 {
+      font-size: 18px;
+    }
+  }
+
+  .setting-body {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .setting-footer {
+    padding-right: 16px;
+    padding-left: 16px;
   }
 }
 </style>

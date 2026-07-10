@@ -1,5 +1,5 @@
 <template>
-  <div class="basic-layout-logo" :style="styles">
+  <div :class="['basic-layout-logo', { 'is-compact': isCompact }]" :style="styles">
     <div class="basic-layout-logo__img" :style="logoImageStyle">
       <img :src="projectSetting.logo" alt="/" />
     </div>
@@ -36,6 +36,8 @@ const props = withDefaults(defineProps<IProps>(), {
   transitionTimingFunction: 'ease-in-out'
 })
 
+const isCompact = computed(() => !props.showTitle || props.width <= 60)
+
 const styles = computed<CSSProperties>(() => {
   const { width, height } = props
   return {
@@ -48,7 +50,7 @@ const styles = computed<CSSProperties>(() => {
 })
 
 const logoImageStyle = computed<CSSProperties>(() => {
-  const visualSize = Math.min(props.logoWidth, Math.max(props.height - 10, 32))
+  const visualSize = Math.max(0, Math.min(props.logoWidth, props.height * 0.8))
 
   return {
     width: `${visualSize}px`,

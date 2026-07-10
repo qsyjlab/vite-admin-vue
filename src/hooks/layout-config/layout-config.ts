@@ -24,6 +24,12 @@ export const LayoutConfigHandlerEnum = {
   HEADER_HEIGHT: 'headerHeight',
   // themeColor
   THEME_COLOR: 'themeColor',
+  // 侧边导航主题
+  SIDEBAR_THEME: 'sidebarTheme',
+  // 顶部导航主题
+  HEADER_THEME: 'headerTheme',
+  // 深色导航背景
+  DARK_MENU_BACKGROUND: 'darkMenuBackground',
   // 标签页签显示
   SHOW_TAB_PAGE: 'showTabPage',
   // 显示页脚
@@ -33,7 +39,9 @@ export const LayoutConfigHandlerEnum = {
   // tabbar
   TAB_BAR_HEIGHT: 'tabBarHeight',
   // split menu
-  SPLIT_MENU: 'splitMenu'
+  SPLIT_MENU: 'splitMenu',
+  // 无子菜单时显示侧栏
+  SHOW_EMPTY_SPLIT_MENU_SIDEBAR: 'showEmptySplitMenuSidebar'
 } as const
 
 const isDark = useDark({
@@ -66,6 +74,9 @@ export function useLayoutConfigHandler() {
     const themeMode = config.theme || layoutConfig.value.theme
     setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_THEME, themeMode)
 
+    const darkMenuBackground = config.darkMenuBackground || layoutConfig.value.darkMenuBackground
+    setLayoutConfig(LayoutConfigHandlerEnum.DARK_MENU_BACKGROUND, darkMenuBackground)
+
     setLayoutConfig(LayoutConfigHandlerEnum.LAYOUT_MODE, layoutConfig.value.layoutMode)
   }
 
@@ -91,6 +102,11 @@ export function useLayoutConfigHandler() {
           splitMenu: value
         }
       }
+      case LayoutConfigHandlerEnum.SHOW_EMPTY_SPLIT_MENU_SIDEBAR: {
+        return {
+          showEmptySplitMenuSidebar: value
+        }
+      }
       case LayoutConfigHandlerEnum.COLLAPSED: {
         return {
           collapsed: value
@@ -106,6 +122,23 @@ export function useLayoutConfigHandler() {
           headerHeight: value
         }
       }
+      case LayoutConfigHandlerEnum.SIDEBAR_THEME: {
+        return {
+          sidebarTheme: value
+        }
+      }
+      case LayoutConfigHandlerEnum.HEADER_THEME: {
+        return {
+          headerTheme: value
+        }
+      }
+      case LayoutConfigHandlerEnum.DARK_MENU_BACKGROUND: {
+        if (!value) return null
+        document.documentElement.style.setProperty('--layout-dark-menu-background', value)
+        return {
+          darkMenuBackground: value
+        }
+      }
 
       case LayoutConfigHandlerEnum.LAYOUT_MODE: {
         if (value !== LayoutMode.TopMix)
@@ -119,7 +152,7 @@ export function useLayoutConfigHandler() {
       }
 
       case LayoutConfigHandlerEnum.THEME_COLOR: {
-        setElementCssVar(value)
+        setElementCssVar(value, layoutConfig.value.theme)
         return {
           themeColor: value
         }
@@ -127,14 +160,14 @@ export function useLayoutConfigHandler() {
       case LayoutConfigHandlerEnum.LAYOUT_THEME: {
         if (value === 'dark') {
           isDark.value = true
-
-          removeElementCssVar()
         } else if (value === 'light') {
           isDark.value = false
         }
 
         if (layoutConfig.value.themeColor) {
-          setElementCssVar(layoutConfig.value.themeColor)
+          setElementCssVar(layoutConfig.value.themeColor, value)
+        } else {
+          removeElementCssVar()
         }
 
         return {
@@ -164,9 +197,13 @@ export function useLayoutConfigHandler() {
     defaultLayoutSetting.asideMenuCollapsed = _layoutConfig.collapsed
     defaultLayoutSetting.tabBarHeight = _layoutConfig.tabBarHeight
     defaultLayoutSetting.headerHeight = _layoutConfig.headerHeight
+    defaultLayoutSetting.headerTheme = _layoutConfig.headerTheme
     defaultLayoutSetting.footerHeight = _layoutConfig.footerHeight
     defaultLayoutSetting.splitMenu = _layoutConfig.splitMenu
+    defaultLayoutSetting.showEmptySplitMenuSidebar = _layoutConfig.showEmptySplitMenuSidebar
     defaultLayoutSetting.sideMixFixedMenu = _layoutConfig.sideMixFixedMenu
+    defaultLayoutSetting.sidebarTheme = _layoutConfig.sidebarTheme
+    defaultLayoutSetting.darkMenuBackground = _layoutConfig.darkMenuBackground
     defaultLayoutSetting.showBreadCrumb = _layoutConfig.showBreadCrumb
     defaultLayoutSetting.showFooter = _layoutConfig.showFooter
     defaultLayoutSetting.showTagPage = _layoutConfig.showTagPage
@@ -178,6 +215,10 @@ export function useLayoutConfigHandler() {
     const defaultLayoutSetting = projectSetting.defaultLayoutSetting
 
     layoutStore.setShowMixChildrenMenu(false)
+    document.documentElement.style.setProperty(
+      '--layout-dark-menu-background',
+      defaultLayoutSetting.darkMenuBackground
+    )
     layoutStore.setLayoutConfig({
       layoutMode: defaultLayoutSetting.layoutMode,
       collapsed: defaultLayoutSetting.asideMenuCollapsed,
@@ -186,7 +227,11 @@ export function useLayoutConfigHandler() {
       headerHeight: defaultLayoutSetting.headerHeight,
       theme: projectSetting.theme,
       themeColor: projectSetting.themeColor,
+      sidebarTheme: defaultLayoutSetting.sidebarTheme,
+      headerTheme: defaultLayoutSetting.headerTheme,
+      darkMenuBackground: defaultLayoutSetting.darkMenuBackground,
       splitMenu: defaultLayoutSetting.splitMenu,
+      showEmptySplitMenuSidebar: defaultLayoutSetting.showEmptySplitMenuSidebar,
       footerHeight: defaultLayoutSetting.footerHeight,
       showBreadCrumb: defaultLayoutSetting.showBreadCrumb,
       showFooter: defaultLayoutSetting.showFooter,

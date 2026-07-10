@@ -6,7 +6,7 @@ export default defineExposeRoutes([
     path: '/welcome',
     name: 'Welcome',
     meta: {
-      title: 'Welcome',
+      title: '工作台',
       order: 10,
       icon: 'ep.home-filled',
       hideChildrenInMenu: true,
@@ -21,7 +21,7 @@ export default defineExposeRoutes([
         path: 'index',
         name: 'WelcomeIndex',
         meta: {
-          title: 'Welcome',
+          title: '工作台',
           icon: 'ep.home-filled',
 
           affixTab: true,

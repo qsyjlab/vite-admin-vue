@@ -7,7 +7,8 @@ export default defineExposeRoutes([
     path: '/components',
     meta: {
       title: '组件',
-      icon: 'ep.grid'
+      icon: 'ep.grid',
+      order: 30
     },
     redirect: { name: 'ProTable' },
     component: Layout,
@@ -17,7 +18,8 @@ export default defineExposeRoutes([
         path: 'pro-table',
         meta: {
           title: 'ProTable',
-          icon: 'ep.list'
+          icon: 'ep.list',
+          order: 10
         },
         redirect: {
           name: 'ProTableBasic'
@@ -71,7 +73,8 @@ export default defineExposeRoutes([
         path: 'editor',
         meta: {
           title: '编辑器',
-          icon: 'ep.edit-pen'
+          icon: 'ep.edit-pen',
+          order: 30
         },
         redirect: { name: 'RichEditor' },
         children: [
@@ -92,7 +95,8 @@ export default defineExposeRoutes([
         path: 'pro-form',
         meta: {
           title: 'ProForm',
-          icon: 'ep.memo'
+          icon: 'ep.memo',
+          order: 20
         },
         children: [
           {
@@ -158,7 +162,8 @@ export default defineExposeRoutes([
         path: 'upload',
         meta: {
           title: '上传',
-          icon: 'ep.upload-filled'
+          icon: 'ep.upload-filled',
+          order: 40
         },
         component: () => import('@/views/system/components/Upload.vue')
       },
@@ -167,7 +172,8 @@ export default defineExposeRoutes([
         path: 'anchor',
         meta: {
           title: '锚点',
-          icon: 'ep.position'
+          icon: 'ep.position',
+          order: 80
         },
         component: () => import('@/views/system/components/anchor/anchor-demo.vue')
       },
@@ -176,7 +182,8 @@ export default defineExposeRoutes([
         path: 'segmented',
         meta: {
           title: 'segmented 分段器',
-          icon: 'ep.more-filled'
+          icon: 'ep.more-filled',
+          order: 60
         },
         component: () => import('@/views/system/components/segmented/segmented.vue')
       },
@@ -186,6 +193,7 @@ export default defineExposeRoutes([
         meta: {
           title: '右键菜单',
           icon: 'ep.menu',
+          order: 70,
           ignoreAuth: true
         },
         component: () => import('@/views/system/components/context-menu/context-menu.vue')
@@ -196,6 +204,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'Tree',
           icon: 'ep.share',
+          order: 50,
           ignoreAuth: true
         },
         children: [

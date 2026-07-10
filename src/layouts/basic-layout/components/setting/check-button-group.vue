@@ -4,7 +4,13 @@
       <el-tooltip effect="dark" :content="item.title">
         <div
           :class="['check-button-group__card', item.value === checkValue ? 'is-active' : '']"
+          role="button"
+          tabindex="0"
+          :aria-label="item.title"
+          :title="item.title"
           @click="onClick(item.value)"
+          @keydown.enter="onClick(item.value)"
+          @keydown.space.prevent="onClick(item.value)"
         >
           <div v-if="item.value == checkValue" class="check-button-group__checked">
             <Check />
@@ -48,7 +54,8 @@ const onClick = (value: unknown) => {
 .check-button-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px 22px;
+  justify-content: space-between;
+  gap: 12px;
 
   &__item {
     flex: 0 0 auto;
@@ -74,11 +81,11 @@ const onClick = (value: unknown) => {
     width: 20px;
     height: 20px;
     border-radius: 999px;
-    background: #1677ff;
-    color: #fff;
+    background: var(--el-color-primary);
+    color: var(--el-color-white);
     z-index: 2;
     font-size: 12px;
-    box-shadow: 0 6px 14px rgba(22, 119, 255, 0.22);
+    box-shadow: var(--el-box-shadow-light);
   }
 }
 </style>

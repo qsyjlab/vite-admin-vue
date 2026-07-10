@@ -4,7 +4,7 @@ import config from '@/config'
 
 export const basicApiService = new RequestResultAdapter({
   interceptors,
-  baseURL: '/basic-api',
+  baseURL: import.meta.env.VITE_APP_MOCK_API_BASE_URL,
   transform: {
     transformResponse,
     requestCatch

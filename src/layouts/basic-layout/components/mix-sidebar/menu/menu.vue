@@ -1,12 +1,11 @@
 <template>
-  <div class="basic-layout-mix-menu" :tabindex="-1" @blur="leaveChildrenMenuHandler">
+  <div
+    :class="['basic-layout-mix-menu', layoutConfig.sideMixFixedMenu ? 'is-fixed' : '']"
+    :tabindex="-1"
+    @blur="leaveChildrenMenuHandler"
+  >
     <!---->
-    <div
-      class="basic-layout-mix-menu-module"
-      :style="{
-        width: 82 + 'px'
-      }"
-    >
+    <div class="basic-layout-mix-menu-module">
       <div
         v-for="(item, index) in menus"
         :key="index"
@@ -16,10 +15,12 @@
         <div
           :class="[
             item.name === activeKey ? 'is-active' : '',
-            'basic-layout-mix-menu-module__icon'
+            'basic-layout-mix-menu-module__icon',
+            !item.meta?.icon ? 'no-icon' : ''
           ]"
         >
-          <pro-icon :icon="item.meta?.icon" :size="20"></pro-icon>
+          <pro-icon v-if="item.meta?.icon" :icon="item.meta?.icon" :size="20"></pro-icon>
+          <span v-else class="fallback-text">{{ (item.meta?.title || '').charAt(0) }}</span>
         </div>
         <div
           :class="[
@@ -46,15 +47,16 @@
             height: headerHeight + 'px'
           }"
         >
-          <div
+          <button
+            type="button"
             class="basic-layout-mix-menu-children-header-icon"
-            :style="{
-              color: 'rgba(0, 0, 0, 0.35)'
-            }"
-            @click="onClickFixedEventHandler"
+            :aria-label="layoutConfig.sideMixFixedMenu ? '取消固定子菜单' : '固定子菜单'"
+            :title="layoutConfig.sideMixFixedMenu ? '取消固定子菜单' : '固定子菜单'"
+            @mousedown.prevent.stop
+            @click.stop="onClickFixedEventHandler"
           >
             <Pushpin />
-          </div>
+          </button>
         </div>
 
         <aside-menu :menus="activeChildren" />
@@ -150,8 +152,15 @@ const leaveChildrenMenuHandler = () => {
 }
 
 const onClickFixedEventHandler = () => {
+  const nextFixed = !layoutStore.layoutConfig.sideMixFixedMenu
+
+  if (nextFixed) {
+    showChildren.value = true
+    layoutStore.setShowMixChildrenMenu(true)
+  }
+
   layoutStore.setLayoutConfig({
-    sideMixFixedMenu: !layoutStore.layoutConfig.sideMixFixedMenu
+    sideMixFixedMenu: nextFixed
   })
 }
 </script>

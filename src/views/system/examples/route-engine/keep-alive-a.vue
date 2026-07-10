@@ -80,10 +80,10 @@ const goVerify = () => {
   gap: 8px;
 
   span {
-    border: 1px solid #dbe3ef;
+    border: 1px solid var(--global-border-color);
     border-radius: 6px;
     padding: 4px 10px;
-    background: #f8fafc;
+    background: var(--global-surface-color-muted);
     color: var(--global-text-color-secondary);
   }
 }

@@ -31,8 +31,8 @@
   vertical-align: -0.125em;
   cursor: pointer;
   &:hover {
-    color: rgba(42, 46, 54, 0.88);
-    background-color: #d3e7ff;
+    color: var(--el-text-color-regular);
+    background-color: var(--el-color-primary-light-9);
   }
 }
 </style>

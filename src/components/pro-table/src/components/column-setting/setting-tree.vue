@@ -231,7 +231,7 @@ const allowDrag = (draggingNode: Node) => {
     margin-block-start: 6px;
     margin-block-end: 6px;
     padding-inline-start: 24px;
-    color: rgba(42, 46, 54, 0.65);
+    color: var(--el-text-color-secondary);
     font-size: 12px;
   }
 

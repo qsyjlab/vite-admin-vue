@@ -24,14 +24,21 @@ withDefaults(
 </script>
 <style lang="scss" scoped>
 .page-wrapper {
-  padding: 10px;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+
   &.is-full {
-    width: 100%;
     flex: 1 1 auto;
     min-height: 0;
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
+  }
+}
+
+@media (max-width: 767px) {
+  .page-wrapper {
+    padding: 10px;
   }
 }
 </style>

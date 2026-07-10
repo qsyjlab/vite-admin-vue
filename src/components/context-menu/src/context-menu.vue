@@ -152,19 +152,25 @@ defineExpose({
 .context-menu-trigger {
   display: inline-block;
 }
+
+/* AD 风格右键菜单 */
 .context-menu {
   position: fixed;
   left: 0;
   top: 0;
-  background-color: var(--el-menu-bg-color);
+  background-color: var(--global-surface-color-elevated);
   z-index: 2000;
-  padding: 5px 0;
-  border-radius: var(--el-border-radius-small);
-  box-shadow: var(--el-box-shadow-light);
+  padding: 4px;
+  border-radius: 6px;
+  border: 1px solid var(--global-border-color);
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.04);
 
   min-width: 100px;
 
   --el-menu-base-level-padding: 5px;
+
   :deep(.el-menu--collapse) {
     width: 100%;
 
@@ -181,6 +187,24 @@ defineExpose({
       width: auto;
       overflow: unset;
       visibility: unset;
+    }
+
+    /* AD 风格右键菜单项 */
+    .el-menu-item {
+      font-size: 13px;
+      color: var(--global-text-color-regular);
+      border-radius: 4px !important;
+      margin-bottom: 2px;
+
+      &:hover {
+        background: var(--el-fill-color-light) !important;
+        color: var(--el-color-primary) !important;
+      }
+
+      &.is-disabled {
+        color: var(--global-text-color-placeholder);
+        pointer-events: none;
+      }
     }
   }
 }

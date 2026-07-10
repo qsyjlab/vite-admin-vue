@@ -114,13 +114,13 @@ const rules = [
 
 .stat-item {
   height: 72px;
-  border: 1px solid #dbe3ef;
+  border: 1px solid var(--global-border-color);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #f8fafc;
+  background: var(--global-surface-color-muted);
 
   span {
     color: var(--el-color-primary);
@@ -158,7 +158,7 @@ const rules = [
   position: absolute;
   top: 18px;
   right: 24px;
-  color: #c9d4e4;
+  color: var(--global-text-color-placeholder);
   font-size: 24px;
   font-weight: 700;
 }
@@ -170,10 +170,10 @@ const rules = [
 }
 
 .rule-item {
-  border: 1px solid #dbe3ef;
+  border: 1px solid var(--global-border-color);
   border-radius: 8px;
   padding: 14px 16px;
-  background: #fbfdff;
+  background: var(--global-surface-color-muted);
 
   strong {
     display: block;

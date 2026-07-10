@@ -7,8 +7,8 @@ export default defineRouteModule({
     ignoreAuth: true,
     title: '关于',
     menu: {
-      icon: 'ep.document',
-      order: 20,
+      icon: 'ep.info-filled',
+      order: 100,
       hideChildrenInMenu: true
     }
   },
@@ -18,7 +18,8 @@ export default defineRouteModule({
       path: 'about',
       meta: {
         ignoreAuth: true,
-        title: '关于'
+        title: '关于',
+        icon: 'ep.info-filled'
       },
       component: () => import('@/views/system/about/about.vue')
     }

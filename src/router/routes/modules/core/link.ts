@@ -8,7 +8,8 @@ export default defineExposeRoutes([
     path: '/out-page',
     meta: {
       title: '外部页面',
-      icon: 'ep.link'
+      icon: 'ep.link',
+      order: 70
     },
     redirect: {
       name: 'Iframe'
@@ -21,6 +22,7 @@ export default defineExposeRoutes([
         meta: {
           title: '外链',
           icon: 'ep.link',
+          order: 10,
           href: config.docxLink
         }
       },
@@ -30,7 +32,8 @@ export default defineExposeRoutes([
         meta: {
           isKeepAlive: true,
           title: 'iframe',
-          icon: 'ep.monitor'
+          icon: 'ep.monitor',
+          order: 20
         },
         component: () => import('@/views/system/out/iframe/iframe.vue')
       },
@@ -42,6 +45,7 @@ export default defineExposeRoutes([
           ignoreAuth: true,
           title: 'Qiankun',
           icon: 'ep.connection',
+          order: 30,
           hideChildrenInMenu: false
         },
         component: () => import('@/views/system/out/micro-app/qiankun.vue'),

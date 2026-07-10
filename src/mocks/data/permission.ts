@@ -208,7 +208,7 @@ const welcomeModuleRoute = {
   path: '/welcome',
   name: 'Welcome',
   meta: {
-    title: 'Welcome',
+    title: '工作台',
     sort: 1,
     icon: 'icon-home-filled',
     hideChildrenInMenu: true
@@ -221,7 +221,7 @@ const welcomeModuleRoute = {
       path: 'index',
       name: 'WelcomeIndex',
       meta: {
-        title: 'Welcome',
+        title: '工作台',
         sort: 1,
         icon: 'icon-home-filled'
       }

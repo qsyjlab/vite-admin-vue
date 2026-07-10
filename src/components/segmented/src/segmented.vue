@@ -134,7 +134,7 @@ defineExpose({
   height: var(--segmented-item-height);
 
   padding: 2px;
-  background-color: #f5f5f5;
+  background-color: var(--el-fill-color-light);
   border-radius: 6px;
   transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 
@@ -154,7 +154,7 @@ defineExpose({
     }
   }
   &.is-disabled {
-    color: #d7d7d7;
+    color: var(--el-text-color-disabled);
     cursor: not-allowed;
   }
 
@@ -163,7 +163,7 @@ defineExpose({
     display: flex;
     justify-content: flex-start;
     box-sizing: border-box;
-    color: rgba(0, 0, 0, 0.65);
+    color: var(--el-text-color-regular);
     height: 100%;
     width: 100%;
   }
@@ -178,7 +178,7 @@ defineExpose({
     transition:
       left 0.3s ease-in-out,
       width 0.3s ease-in-out;
-    background-color: #fff;
+    background-color: var(--el-bg-color-overlay);
   }
 
   &-item {
@@ -202,11 +202,11 @@ defineExpose({
         0 1px 2px 0 rgba(0, 0, 0, 0.03),
         0 1px 6px -1px rgba(0, 0, 0, 0.02),
         0 2px 4px 0 rgba(0, 0, 0, 0.02);
-      color: rgba(0, 0, 0, 0.88);
+      color: var(--el-text-color-primary);
     }
 
     &.is-disabled {
-      color: #d7d7d7;
+      color: var(--el-text-color-disabled);
       cursor: not-allowed;
     }
 

@@ -5,6 +5,7 @@ export default defineRouteModule({
   path: '/docs',
   meta: {
     icon: 'ep.document',
+    order: 80,
     ignoreAuth: true,
     title: '文档',
     href: 'https://qsyjlab.github.io/vite-admin-vue/'

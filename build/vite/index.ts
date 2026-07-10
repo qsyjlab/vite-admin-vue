@@ -10,12 +10,14 @@ import {
   viteAutoImportPlugin,
   viteComponentsPlugin,
   configSvgIconsPlugin,
-  injectHtmlPlugin
+  injectHtmlPlugin,
+  mockApiPlugin,
+  appLoadingPlugin
 } from './plugins'
 // @ts-ignore
 import ElementPlus from 'unplugin-element-plus/vite'
 import { visualizer } from 'rollup-plugin-visualizer'
-import { envDir } from '../utils'
+import { envDir, resolveProjectPath } from '../utils'
 
 export function createVitePlugin(configEnv: ConfigEnv) {
   const { command, mode } = configEnv
@@ -30,6 +32,12 @@ export function createVitePlugin(configEnv: ConfigEnv) {
     viteAutoImportPlugin(),
     viteComponentsPlugin(),
     configSvgIconsPlugin({ isBuild }),
+    mockApiPlugin(viteEnvs.VITE_APP_MOCK_API_BASE_URL),
+    appLoadingPlugin({
+      componentPath: resolveProjectPath('src/app-loading/app-loading.vue'),
+      appTitle: viteEnvs.VITE_APP_TITLE,
+      baseUrl: viteEnvs.BASE_URL || './'
+    }),
     ElementPlus({
       useSource: true
     }),

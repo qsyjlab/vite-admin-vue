@@ -9,7 +9,7 @@ export default defineRoutes([
       ignoreAuth: true,
       menu: {
         icon: 'ep.guide',
-        order: 30
+        order: 50
       }
     },
     children: [
@@ -19,7 +19,8 @@ export default defineRoutes([
         meta: {
           title: '路由与菜单',
           ignoreAuth: true,
-          icon: 'ep.menu'
+          icon: 'ep.menu',
+          order: 10
         },
         children: [
           {

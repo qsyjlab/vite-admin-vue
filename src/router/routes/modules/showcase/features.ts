@@ -7,7 +7,8 @@ export default defineExposeRoutes([
     path: '/feature',
     meta: {
       title: '功能',
-      icon: 'svg.git-fork'
+      icon: 'svg.git-fork',
+      order: 40
     },
     redirect: '/feature/watermark',
     component: Layout,
@@ -17,7 +18,8 @@ export default defineExposeRoutes([
         path: 'watermark',
         meta: {
           title: '水印',
-          icon: 'ep.postcard'
+          icon: 'ep.postcard',
+          order: 10
         },
         component: () => import('@/views/system/feature/watermark/watermark.vue')
       },
@@ -26,7 +28,8 @@ export default defineExposeRoutes([
         path: 'qrcode',
         meta: {
           title: '二维码',
-          icon: 'ep.grid'
+          icon: 'ep.grid',
+          order: 20
         },
         component: () => import('@/views/system/feature/qrcode/qrcode.vue')
       },
@@ -35,7 +38,8 @@ export default defineExposeRoutes([
         path: 'tab-page',
         meta: {
           title: '标签栏',
-          icon: 'ep.collection-tag'
+          icon: 'ep.collection-tag',
+          order: 30
         },
         component: () => import('@/views/system/feature/tab-page/tab-page.vue'),
         children: [
@@ -56,7 +60,8 @@ export default defineExposeRoutes([
         path: 'image-viewer',
         meta: {
           title: '图片预览',
-          icon: 'ep.picture'
+          icon: 'ep.picture',
+          order: 40
         },
         component: () => import('@/views/system/feature/image-viwer/image-viwer.vue')
       },
@@ -66,6 +71,7 @@ export default defineExposeRoutes([
         meta: {
           title: '文件下载',
           icon: 'ep.download',
+          order: 50,
           ignoreAuth: true
         },
         component: () => import('@/views/system/feature/download/download.vue')
@@ -75,7 +81,8 @@ export default defineExposeRoutes([
         path: 'message',
         meta: {
           title: '消息提示',
-          icon: 'ep.chat-dot-round'
+          icon: 'ep.chat-dot-round',
+          order: 60
         },
         component: () => import('@/views/system/feature/message/message.vue')
       },
@@ -84,7 +91,8 @@ export default defineExposeRoutes([
         path: 'encrypt',
         meta: {
           title: '加密',
-          icon: 'ep.lock'
+          icon: 'ep.lock',
+          order: 70
         },
         component: () => import('@/views/system/feature/encrypt/encrypt.vue')
       },
@@ -94,6 +102,7 @@ export default defineExposeRoutes([
         meta: {
           title: '打印',
           icon: 'ep.printer',
+          order: 80,
           ignoreAuth: true
         },
         component: () => import('@/views/system/feature/print/print.vue')
@@ -104,6 +113,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'Pdf',
           icon: 'ep.document',
+          order: 90,
           ignoreAuth: true,
           hideChildrenInMenu: false
         },
@@ -126,6 +136,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'Excel',
           icon: 'ep.files',
+          order: 100,
           ignoreAuth: true
         },
         children: [
@@ -178,6 +189,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'docx',
           icon: 'ep.document-copy',
+          order: 110,
           ignoreAuth: true,
           hideChildrenInMenu: false
         },

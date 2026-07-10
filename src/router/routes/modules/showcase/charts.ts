@@ -9,7 +9,7 @@ export default defineExposeRoutes([
     meta: {
       title: '图表',
       order: 20,
-      icon: 'ep.document',
+      icon: 'ep.trend-charts',
       hideChildrenInMenu: false
     },
     redirect: { name: 'Echarts' },
@@ -19,7 +19,9 @@ export default defineExposeRoutes([
         name: 'Echarts',
         path: 'echarts',
         meta: {
-          title: 'echarts'
+          title: 'ECharts',
+          icon: 'ep.data-line',
+          order: 10
         },
         component: () => import('@/views/system/charts/echarts/echarts.vue')
       }

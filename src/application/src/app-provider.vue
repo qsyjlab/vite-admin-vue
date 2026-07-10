@@ -58,7 +58,11 @@ export default defineComponent({
         headerHeight: defaultLayoutSetting.headerHeight,
         theme: projectConfig.theme,
         themeColor: projectConfig.themeColor,
+        sidebarTheme: defaultLayoutSetting.sidebarTheme,
+        headerTheme: defaultLayoutSetting.headerTheme,
+        darkMenuBackground: defaultLayoutSetting.darkMenuBackground,
         splitMenu: defaultLayoutSetting.splitMenu,
+        showEmptySplitMenuSidebar: defaultLayoutSetting.showEmptySplitMenuSidebar,
         footerHeight: defaultLayoutSetting.footerHeight,
         sideMixFixedMenu: defaultLayoutSetting.sideMixFixedMenu
       })

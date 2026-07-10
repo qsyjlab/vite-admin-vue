@@ -2,42 +2,57 @@
   --nprogress-bar-bg-color: var(--el-color-primary);
   --nprogress-bar-default-bg-color: '#29d';
   /** 全局背景色 */
-  --global-bg-color: #edf1f5;
+  --global-bg-color: #f0f2f5;
   --global-bg-color-2: #ffffff;
   --global-surface-color: #ffffff;
-  --global-surface-color-elevated: rgba(255, 255, 255, 0.97);
-  --global-surface-color-muted: #edf2f7;
-  --global-border-color: #cfd8e3;
-  --global-border-color-strong: #bcc7d6;
-  --global-text-color-regular: rgba(15, 23, 42, 0.92);
-  --global-text-color-secondary: #344054;
-  --global-text-color-placeholder: #667085;
-  --global-heading-color: #0f172a;
+  --global-surface-color-elevated: #ffffff;
+  --global-surface-color-muted: #f5f5f5;
+  --global-hover-color: #f0f3f8;
+  --global-hover-color-strong: #e8eef7;
+  /* 边框颜色 */
+  --global-border-color: #e8e8e8;
+  --global-border-color-strong: #d9d9d9;
+  /* 文字颜色 - 高对比正文、清晰辅助文字 */
+  --global-text-color-regular: #1f1f1f;
+  --global-text-color-secondary: #595959;
+  --global-text-color-placeholder: #8c8c8c;
+  --global-heading-color: #141414;
+  /* 侧边栏 */
   --global-sidebar-bg: #ffffff;
-  --global-sidebar-surface: #eaf1f8;
-  --global-sidebar-surface-active: #d7e7ff;
-  --global-shadow-color: rgba(15, 23, 42, 0.08);
-  --global-shadow-color-strong: rgba(15, 23, 42, 0.12);
-  --global-layout-radius: 18px;
-  --global-control-radius: 10px;
+  --global-sidebar-surface: #f5f5f5;
+  --global-sidebar-surface-active: #e6f4ff;
+  /* 阴影 */
+  --global-shadow-color: rgba(0, 0, 0, 0.06);
+  --global-shadow-color-strong: rgba(0, 0, 0, 0.12);
+  /* 圆角 */
+  --global-layout-radius: 8px;
+  --global-control-radius: 6px;
   --global-pill-radius: 999px;
+  /* 亮色应用下的可配置深色导航背景 */
+  --layout-dark-menu-background: #001529;
 }
 
 html.dark {
-  --global-bg-color: #17171a;
-  --global-bg-color-2: #141414;
-  --global-surface-color: #141414;
-  --global-surface-color-elevated: rgba(20, 20, 20, 0.92);
-  --global-surface-color-muted: #1c1f24;
-  --global-border-color: #363637;
-  --global-border-color-strong: #414147;
-  --global-text-color-regular: var(--el-text-color-regular, #cfd3dc);
-  --global-text-color-secondary: #a3a6ad;
-  --global-text-color-placeholder: #6b7280;
-  --global-heading-color: #f3f4f6;
-  --global-sidebar-bg: #141414;
-  --global-sidebar-surface: #1c1f24;
-  --global-sidebar-surface-active: rgba(22, 119, 255, 0.24);
-  --global-shadow-color: rgba(0, 0, 0, 0.28);
-  --global-shadow-color-strong: rgba(0, 0, 0, 0.4);
+  /* 基于 Element Plus 暗黑模式配色体系 */
+  --global-bg-color: var(--el-bg-color-page, #141414);
+  --global-bg-color-2: var(--el-bg-color, #1f1f1f);
+  --global-surface-color: var(--el-bg-color, #1f1f1f);
+  --global-surface-color-elevated: var(--el-bg-color-overlay, #262626);
+  --global-surface-color-muted: var(--el-fill-color-lighter, #262626);
+  --global-hover-color: #2a2d32;
+  --global-hover-color-strong: #32363d;
+  --global-border-color: var(--el-border-color, #303030);
+  --global-border-color-strong: var(--el-border-color-dark, #424242);
+  /* 暗色文字令牌，由组件自身变量消费 */
+  --global-text-color-regular: rgba(255, 255, 255, 0.88);
+  --global-text-color-secondary: rgba(255, 255, 255, 0.72);
+  --global-text-color-placeholder: rgba(255, 255, 255, 0.45);
+  --global-heading-color: rgba(255, 255, 255, 0.95);
+  /* 侧边栏 */
+  --global-sidebar-bg: var(--el-bg-color-page, #141414);
+  --global-sidebar-surface: var(--el-fill-color-light, #1f1f1f);
+  --global-sidebar-surface-active: var(--el-color-primary-light-9, rgba(22, 119, 255, 0.16));
+  /* 阴影 */
+  --global-shadow-color: var(--el-box-shadow-lighter, rgba(0, 0, 0, 0.28));
+  --global-shadow-color-strong: var(--el-box-shadow, rgba(0, 0, 0, 0.45));
 }

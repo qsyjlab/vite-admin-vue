@@ -3,6 +3,9 @@
     <div v-if="item.meta?.icon" class="icon">
       <ProIcon :size="18" :icon="item.meta?.icon" />
     </div>
+    <div v-else class="icon fallback-icon">
+      <ProIcon :size="18" icon="ep.document" />
+    </div>
     <template #title>
       <span class="ellipsis">{{ item?.meta?.title }}</span></template
     >
@@ -13,6 +16,10 @@
       <div v-if="item.meta?.icon" class="icon">
         <ProIcon :size="18" :icon="item.meta?.icon" />
       </div>
+      <div v-else class="icon fallback-icon">
+        <ProIcon :size="18" icon="ep.folder-opened" />
+      </div>
+
       <span class="ellipsis">{{ item?.meta?.title }}</span>
     </template>
 
@@ -25,22 +32,19 @@
         <div v-if="childMenu.meta?.icon" class="icon">
           <ProIcon :size="18" :icon="childMenu.meta?.icon" />
         </div>
+        <div v-else class="icon fallback-icon">
+          <ProIcon :size="18" icon="ep.document" />
+        </div>
 
         <template #title>
           <span class="ellipsis">{{ childMenu?.meta?.title }}</span>
         </template>
       </el-menu-item>
 
-      <menu-item v-else :item="childMenu"></menu-item>
+      <menu-item v-else :item="childMenu" :mode="mode"></menu-item>
     </template>
   </el-sub-menu>
 </template>
-
-<script lang="ts">
-export default {
-  name: 'MenuItem'
-}
-</script>
 
 <script setup lang="ts">
 import { ProIcon } from '@/components/icon'
@@ -48,8 +52,12 @@ import type { Menu } from '@/router/types'
 
 interface IProps {
   item: Menu
+  mode: 'horizontal' | 'vertical'
 }
 
+defineOptions({
+  name: 'MenuItem'
+})
 defineProps<IProps>()
 
 const hasChildrenMenu = (item: Menu) => {
@@ -58,16 +66,50 @@ const hasChildrenMenu = (item: Menu) => {
 </script>
 
 <style lang="scss" scoped>
+/* 图标容器 - 固定尺寸，确保对齐 */
 .icon {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-right: 5px;
-  margin: 0;
-  vertical-align: middle;
-  width: var(--el-menu-icon-width);
-  text-align: center;
   flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  position: relative;
+
+  /* 确保内部内容居中 */
+  :deep(svg),
+  :deep(.pro-icon),
+  :deep(i) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :deep(.el-icon) {
+    width: 18px;
+    height: 18px;
+    margin: 0 !important;
+    flex: 0 0 18px;
+    line-height: 1;
+  }
+
+  :deep(.pro-icon) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0 !important;
+    transform: translate(-50%, -50%);
+  }
+
+  :deep(svg) {
+    display: block;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.fallback-icon {
+  color: var(--global-text-color-secondary);
 }
 
 .ellipsis {

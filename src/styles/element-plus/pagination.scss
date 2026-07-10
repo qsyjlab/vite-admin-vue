@@ -1,0 +1,16 @@
+.el-pagination {
+  .el-select {
+    min-width: 100px;
+    width: auto;
+  }
+  ul {
+    li {
+      border-radius: 7px;
+    }
+  }
+
+  .btn-prev,
+  .btn-next {
+    border-radius: 7px;
+  }
+}

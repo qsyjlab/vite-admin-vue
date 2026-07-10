@@ -49,8 +49,8 @@ export function generateRoutesToMenusHandler(routeModList: RouteRecordRaw[]): Me
   function routeMenusSort(routes: RouteRecordRaw[]) {
     const sorted = routes.sort((prev, next) => {
       return (
-        (prev.meta?.order || Number.POSITIVE_INFINITY) -
-        (next.meta?.order || Number.POSITIVE_INFINITY)
+        (prev.meta?.order ?? Number.POSITIVE_INFINITY) -
+        (next.meta?.order ?? Number.POSITIVE_INFINITY)
       )
     })
 
@@ -82,7 +82,11 @@ export function generateRoutesToMenusHandler(routeModList: RouteRecordRaw[]): Me
         if (shouldPromote)
           _temp = {
             ..._temp.children[0],
-            meta: Object.assign(_temp.meta || {}, _temp.children[0].meta)
+            meta: {
+              ...(_temp.meta || {}),
+              ...(_temp.children[0].meta || {}),
+              order: _temp.children[0].meta?.order ?? _temp.meta?.order
+            }
           }
       }
       return _temp
