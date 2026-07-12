@@ -5,9 +5,22 @@
 - `@vite-admin/pro-components` 已包含 Field、Form、Table、Select、Upload、Descriptions、Card、List、Empty 等核心组件。
 - `@vite-admin/pro-code-editor` 已包含可用的轻量 `ProCodeEditor` 和 `ProJsonEditor`。
 - `src/pro-components` 已删除，应用统一使用 workspace 包。
-- 当前类型检查、生产构建以及 110 条单元测试通过。
+- 当前应用类型测试、112 条应用单元测试以及 106 条包级单元测试通过。
+- 两个 workspace 包已具备独立构建、类型、测试、Lint、产物检查和打包脚本。
 
-## P0：必须完成
+## 刚实现，尚未完成验收
+
+以下能力已有代码并通过 TypeScript，但在补齐示例、测试和文档前不视为最终完成：
+
+- `ProResult`：已实现状态、插槽和操作事件；待示例、单测、暗黑/窄屏验收。
+- `ProCheckCard / ProCheckCardGroup`：已实现单选、多选、禁用、加载和响应式布局；待泛型测试、键盘交互和示例。
+- `ProTree / ProTreeSelect`：已实现字段映射、搜索、选中、懒加载入口和 Ref API；待异步父节点补全、路径回显、测试和示例。
+- `ProQueryFilter`：已实现独立使用、条件计数、清空和 ProForm/ProTableSearch 桥接；待查询历史、完整 Ref 类型和示例。
+- `ProSelect` 请求缓存：已实现 TTL、请求去重、失效和强制刷新；待运行新增单测并验证远程搜索边界。
+- `ProTable` 状态持久化：已实现 session/local storage 的分页、排序、筛选恢复；待 URL 同步、恢复时重复请求审计和测试。
+- Modal/Drawer dirty 保护：已接入统一 `close()` 并增加单元测试；待遮罩、ESC、取消按钮和路由场景 E2E。
+
+## 暂缓：编辑器增强
 
 ### 1. ProCodeEditor 正式编辑器内核
 
@@ -20,7 +33,7 @@
 - [ ] 支持受控主题、暗黑模式、只读和禁用状态。
 - [ ] 避免 SSR、首次加载和大文本场景阻塞页面。
 
-阻塞：CodeMirror 依赖安装目前被本机审批服务 503 拦截。
+当前普通文本编辑、受控值、只读/禁用和 Ref API 已可用。现阶段不引入 CodeMirror，避免编辑器增强阻塞工程收尾。
 
 ### 2. ProJsonEditor 完整能力
 
@@ -34,10 +47,11 @@
 
 `ProForm` 已有 dirty 状态和路由离开保护，但 Modal/Drawer 尚未自动组合。
 
-- [ ] `ProModalForm`、`ProDrawerForm` 内置可选未保存修改确认。
-- [ ] 区分取消、遮罩关闭、ESC、路由离开和提交成功关闭。
-- [ ] 提交失败保留表单数据和字段错误。
-- [ ] 异步初始化完成后重置 clean baseline。
+- [x] `ProModalForm`、`ProDrawerForm` 内置可选未保存修改确认。
+- [x] 提交成功强制关闭，普通 `close()` 统一执行 dirty 判断。
+- [x] 提交失败保留表单数据和字段错误。
+- [x] 异步初始化完成后重置 clean baseline。
+- [ ] 验证取消、遮罩关闭、ESC 和路由离开场景。
 - [ ] 补充关闭保护单元测试和 E2E。
 
 ### 4. 浏览器验收
@@ -62,14 +76,14 @@
 ### 6. ProTable 查询状态
 
 - [ ] 分页、排序、筛选和搜索条件支持可选 URL 同步。
-- [ ] 支持可选 session/local 持久化与恢复。
+- [x] 支持可选 session/local 持久化与恢复。
 - [ ] 恢复状态时避免重复请求和页码抖动。
 - [ ] 增加服务端筛选示例与浏览器测试。
 
 ### 7. ProSelect 请求缓存
 
-- [ ] 相同参数结果缓存和请求去重。
-- [ ] 配置缓存时间、手动失效和强制刷新。
+- [x] 相同参数结果缓存和请求去重。
+- [x] 配置缓存时间、手动失效和强制刷新。
 - [ ] 处理远程搜索、分页选项和外部 `remoteMethod` 的缓存边界。
 
 ### 8. ProEmpty 接入收尾
@@ -85,20 +99,30 @@
 
 ### 9. ProQueryFilter
 
-- [ ] 独立于 ProTable 使用。
-- [ ] 响应式折叠、已启用条件计数、快捷清空和查询历史。
-- [ ] 可与 ProForm schema、ProTable params 显式桥接。
+- [x] 独立于 ProTable 使用。
+- [x] 响应式折叠、已启用条件计数和快捷清空。
+- [ ] 查询历史与常用条件保存。
+- [x] 可与 ProForm schema、ProTable params 显式桥接。
 
 ### 10. ProTree / ProTreeSelect
 
-- [ ] 泛型节点和字段映射。
-- [ ] 远程加载、懒加载、搜索、受控选中和 Ref API。
+- [x] 泛型节点和字段映射。
+- [x] 懒加载、搜索、受控选中和 Ref API。
+- [ ] 远程整树请求、错误态和重试。
 - [ ] TreeSelect 支持路径回显和异步父节点补全。
 
 ### 11. ProCheckCard / ProCheckCardGroup
 
-- [ ] 卡片式单选、多选、禁用和加载状态。
-- [ ] 泛型值、受控 model、响应式网格和自定义内容插槽。
+- [x] 卡片式单选、多选、禁用和加载状态。
+- [x] 泛型值、受控 model、响应式网格和自定义内容插槽。
+- [ ] 键盘选择、焦点样式和表单校验集成。
+
+### 12. ProResult
+
+- [x] success、error、warning、info、403、404、500 状态。
+- [x] 图标、标题、描述、内容、操作区和事件。
+- [ ] 与错误页、CRUD 成功页和请求错误态建立示例。
+- [ ] 补齐暗黑模式、窄屏和无障碍验收。
 
 ## 暂缓开发
 
@@ -106,22 +130,21 @@
 - `ProTransfer`：暂无明确业务缺口。
 - `ProSegmented`：现有组件足够，暂无 Pro 化收益。
 - `ProListForm`：表格和现有动态表单能够覆盖主要场景。
-- `ProResult`：先由 ProEmpty 和现有错误页覆盖，暂不新增平行状态组件。
-- 独立仓库发布、npm 打包和版本发布流程：先完成同仓库多包逻辑与验收。
+- 独立仓库发布和 npm 正式发布流程：当前先维持同仓库 workspace 多包。
 
 ## 工程收尾
 
 - [ ] 审批服务恢复后执行 `pnpm install`，同步 workspace lockfile。
-- [ ] 为两个 package 建立独立 lint、typecheck 和 test 脚本。
-- [ ] 补齐 package README、公共导出表和 peer dependency 说明。
-- [ ] 检查所有包内是否存在应用别名、业务类型或隐式全局组件依赖。
-- [ ] 建立 API 变更检查，防止示例与公共类型漂移。
-- [ ] 最终执行 typecheck、unit、E2E、build、ESLint 和 diff check。
+- [x] 为两个 package 建立独立 build、lint、typecheck、test 和 pack 脚本。
+- [x] 补齐 package README、公共导出和 peer dependency 说明。
+- [x] 建立依赖边界审计，禁止应用别名、业务模块和未声明外部依赖。
+- [x] 建立产物检查，验证 ESM、类型、样式、子路径导出和 tarball 内容。
+- [x] 完成应用与包级 typecheck、unit、build、ESLint 和 diff check。
+- [ ] 完成浏览器 E2E（本地服务启动审批 503 阻塞）。
 
 ## 推荐执行顺序
 
-1. CodeMirror 依赖恢复后完成 ProCodeEditor / ProJsonEditor。
-2. 完成 Modal/Drawer dirty 关闭保护。
-3. 统一请求错误态和 ProTable 查询状态。
-4. 完成 E2E、暗黑模式、窄屏和键盘验收。
-5. 根据实际业务需求选择 ProQueryFilter 或 ProTree 系列。
+1. 审批和网络恢复后同步 workspace lockfile。
+2. 完成 E2E、暗黑模式、窄屏和键盘验收。
+3. 统一请求错误态并补齐 ProTable URL 状态同步。
+4. 根据实际业务需要再增强编辑器内核。

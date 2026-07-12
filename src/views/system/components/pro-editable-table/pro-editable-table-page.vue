@@ -24,11 +24,8 @@
 import { ref, useTemplateRef } from 'vue'
 import { ElMessage } from 'element-plus'
 import { PageCard, PageWrapper } from '@/components'
-import {
-  ProEditableTable,
-  type ProEditableTableInstance
-} from '@vite-admin/pro-components/pro-editable-table'
-import type { ProTableColumns, ProTableEditableErrors } from '@vite-admin/pro-components/pro-table'
+import { ProEditableTable, type ProEditableTableInstance } from '@vite-admin/pro-components'
+import type { ProTableColumns, ProTableEditableErrors } from '@vite-admin/pro-components'
 
 defineOptions({
   name: 'ProEditableTablePage'

@@ -36,7 +36,7 @@ export default defineConfig(configEnv => {
       include: ['element-plus', 'echarts']
     },
     build: {
-      // rollupOptions: {
+      // rolldownOptions: {
       //   output: {
       //     manualChunks: createSplitManuaChunks()
       //   }

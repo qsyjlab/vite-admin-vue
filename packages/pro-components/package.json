@@ -3,20 +3,44 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "main": "./dist/es/index.js",
+  "module": "./dist/es/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
-    ".": "./src/index.ts",
-    "./*": "./src/*/index.ts"
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/es/index.js"
+    },
+    "./style.css": "./dist/es/style.css",
+    "./*": {
+      "types": "./dist/types/*/index.d.ts",
+      "import": "./dist/es/*/index.js"
+    }
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "pnpm run clean && pnpm run build:types && vite build --config vite.config.ts",
+    "build:types": "vue-tsc -p tsconfig.build.json",
+    "typecheck": "vue-tsc -p tsconfig.json --noEmit",
+    "test": "vitest run src",
+    "lint": "eslint src",
+    "pack:check": "pnpm run build && pnpm pack --pack-destination ../../.output/packages"
   },
   "peerDependencies": {
     "@element-plus/icons-vue": "^2.3.0",
+    "dayjs": "^1.11.0",
     "element-plus": "^2.9.0",
     "lodash-es": "^4.17.0",
     "sortablejs": "^1.15.0",
     "vue": "^3.5.0",
     "vue-router": "^4.5.0"
   },
-  "devDependencies": {
-    "@types/lodash-es": "^4.17.0",
-    "@types/sortablejs": "^1.15.0"
-  }
+  "devDependencies": {}
 }

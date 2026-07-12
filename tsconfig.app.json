@@ -42,5 +42,6 @@
     "src/mocks/**/*.ts",
     "packages/**/*.ts",
     "packages/**/*.vue"
-  ]
+  ],
+  "exclude": ["packages/*/vite.config.ts"]
 }
