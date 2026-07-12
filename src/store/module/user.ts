@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { setTokenCahce, setUserInfoCache, clearCache } from '../local'
+import { setTokenCahce, setUserInfoCache, setRolesCache, clearCache } from '../local'
 import { login as loginHttp } from '@/api/user'
 import { usePermissionStore } from './permissions'
 import { piniaInstance } from '../pinia'
@@ -57,6 +57,7 @@ export const useUserStore = defineStore<string, UserStoreState, UserStoreGetter,
       },
       setRoles(roles) {
         this.roles = roles
+        setRolesCache(roles.map(String))
       },
 
       hasRole(auth) {
@@ -81,8 +82,14 @@ export const useUserStore = defineStore<string, UserStoreState, UserStoreGetter,
           userName: data.username
         })
 
+        // 从登录响应中提取角色值（roles 可能为 { value }[] 或 string[]）
+        const roleValues = Array.isArray(data.roles)
+          ? data.roles.map((r: any) => (typeof r === 'object' ? r.value : r))
+          : []
+        this.setRoles(roleValues)
+
         const permission = usePermissionStore()
-        permission.setPermissions(data.permissions)
+        permission.setPermissions(data.permissions || [])
         await permission.loadDynamicRoutes()
         this.setInitialized(true)
       },
@@ -97,7 +104,10 @@ export const useUserStore = defineStore<string, UserStoreState, UserStoreGetter,
       // 退出登录
       loginOutSystem() {
         const permissionStore = usePermissionStore()
+        // 保留权限模式，清除其余缓存
+        const savedMode = permissionStore.getPermissionMode()
         clearCache()
+        permissionStore.setPermissionMode(savedMode)
         permissionStore.resetPermissionRoutes()
         this.setInitialized(false)
       }

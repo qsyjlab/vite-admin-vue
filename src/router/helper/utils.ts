@@ -21,7 +21,12 @@ const defaultDefineRoutesOptions: DefineRoutesOptions = {
 }
 
 function getDefaultRedirect(children: RouteDraft[]) {
-  const firstRoute = children.find(item => !item.meta?.hideInMenu) || children[0]
+  // 过滤掉带有动态参数的子路由，避免 redirect 到需要必填参数的路由
+  // 例如 detail/:id 这类路由不能作为 redirect 目标
+  const staticChildren = children.filter(item => !String(item.path || '').includes(':'))
+  if (!staticChildren.length) return undefined
+
+  const firstRoute = staticChildren.find(item => !item.meta?.hideInMenu) || staticChildren[0]
   if (!firstRoute) return undefined
 
   if (firstRoute.name) {

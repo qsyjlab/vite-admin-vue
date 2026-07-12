@@ -23,7 +23,7 @@ export default defineExposeRoutes([
         meta: {
           title: '工作台',
           icon: 'ep.home-filled',
-
+          order: 10,
           affixTab: true,
           // currentActiveMenu: 'Welcome',
           hideInBreadcrumb: true

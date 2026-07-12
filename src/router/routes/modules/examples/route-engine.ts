@@ -6,7 +6,6 @@ export default defineRoutes([
     path: '/examples',
     meta: {
       title: '示例中心',
-      ignoreAuth: true,
       menu: {
         icon: 'ep.guide',
         order: 50
@@ -18,7 +17,6 @@ export default defineRoutes([
         path: 'route-engine',
         meta: {
           title: '路由与菜单',
-          ignoreAuth: true,
           icon: 'ep.menu',
           order: 10
         },
@@ -28,7 +26,6 @@ export default defineRoutes([
             path: 'overview',
             meta: {
               title: '引擎概览',
-              ignoreAuth: true,
               icon: 'ep.monitor',
               order: 10
             },
@@ -39,7 +36,6 @@ export default defineRoutes([
             path: 'access-control',
             meta: {
               title: '登录与权限',
-              ignoreAuth: true,
               icon: 'ep.lock',
               order: 20
             },
@@ -50,7 +46,6 @@ export default defineRoutes([
             path: 'menu-projection',
             meta: {
               title: '菜单投影',
-              ignoreAuth: true,
               icon: 'ep.share',
               order: 30
             },
@@ -61,7 +56,6 @@ export default defineRoutes([
             path: 'keep-alive-a',
             meta: {
               title: '缓存示例',
-              ignoreAuth: true,
               isKeepAlive: true,
               icon: 'ep.coin',
               order: 40
@@ -73,7 +67,6 @@ export default defineRoutes([
             path: 'keep-alive-b',
             meta: {
               title: '缓存验证',
-              ignoreAuth: true,
               isKeepAlive: true,
               hideInMenu: true,
               icon: 'ep.coin'
@@ -87,7 +80,6 @@ export default defineRoutes([
         path: 'pro-components',
         meta: {
           title: 'Pro 组件实战',
-          ignoreAuth: true,
           icon: 'ep.grid',
           order: 20
         },
@@ -97,7 +89,6 @@ export default defineRoutes([
             path: 'order-crud',
             meta: {
               title: '订单 CRUD',
-              ignoreAuth: true,
               icon: 'ep.shopping-cart',
               order: 10
             },
@@ -109,13 +100,38 @@ export default defineRoutes([
             path: 'dashboard-list',
             meta: {
               title: '项目运营工作台',
-              ignoreAuth: true,
               icon: 'ep.data-analysis',
               order: 20
             },
             component: () =>
               import(
                 '@/views/system/examples/pro-components/dashboard-list/dashboard-list-page.vue'
+              )
+          },
+          {
+            name: 'OperationMonitorExample',
+            path: 'operation-monitor',
+            meta: {
+              title: '运营监控中心',
+              icon: 'ep.monitor',
+              order: 30
+            },
+            component: () =>
+              import(
+                '@/views/system/examples/pro-components/operation-monitor/operation-monitor-page.vue'
+              )
+          },
+          {
+            name: 'ContentPublishExample',
+            path: 'content-publish',
+            meta: {
+              title: '内容发布工作台',
+              icon: 'ep.edit-pen',
+              order: 40
+            },
+            component: () =>
+              import(
+                '@/views/system/examples/pro-components/content-publish/content-publish-page.vue'
               )
           }
         ]

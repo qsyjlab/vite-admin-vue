@@ -63,7 +63,8 @@ export function generateRoutesToMenusHandler(routeModList: RouteRecordRaw[]): Me
     return sorted
   }
 
-  // 单层级按钮层级提升
+  // 单子路由默认提升：单路由情况下无需再包一层父路由
+  // 仅当显式设置 keepParent: true 时才保留父级
   function promoteSingleChild(menus: RouteRecordRaw[]): RouteRecordRaw[] {
     return menus.map(item => {
       let _temp: RouteRecordRaw = { ...item }
@@ -71,23 +72,17 @@ export function generateRoutesToMenusHandler(routeModList: RouteRecordRaw[]): Me
       if (children && children.length) {
         _temp.children = promoteSingleChild(children || [])
         const menuMeta = (_temp.meta?.menu || {}) as {
-          promoteSingleChild?: boolean
           keepParent?: boolean
         }
-        const shouldPromote =
-          _temp.children?.length === 1 &&
-          menuMeta.keepParent !== true &&
-          (menuMeta.promoteSingleChild === true || _temp.meta?.hideChildrenInMenu === true)
+        // 仅统计菜单中可见的子路由（hideInMenu: true 的子路由不计入）
+        // 这样 TabPage 下的 detail/:id（hideInMenu: true）不会触发提升
+        const visibleChildren = (_temp.children || []).filter(child => !child.meta?.hideInMenu)
+        const shouldPromote = visibleChildren.length === 1 && menuMeta.keepParent !== true
 
-        if (shouldPromote)
-          _temp = {
-            ..._temp.children[0],
-            meta: {
-              ...(_temp.meta || {}),
-              ...(_temp.children[0].meta || {}),
-              order: _temp.children[0].meta?.order ?? _temp.meta?.order
-            }
-          }
+        if (shouldPromote) {
+          // 直接用子路由自身，不继承父级 meta
+          _temp = { ...visibleChildren[0] }
+        }
       }
       return _temp
     })
@@ -116,9 +111,15 @@ export function routeConversionHandler(routes: RouteRecordRaw[]) {
   function setRouteRedirect(routes: RouteRecordRaw[]) {
     routes.forEach(route => {
       if (route.children) {
+        // 仅当存在未带动态参数的子路由时才自动设置 redirect，避免 "Missing required param" 错误
         if (!route.redirect) {
-          route.redirect = {
-            path: route.children[0]?.path
+          const firstStaticChild = route.children.find(
+            child => typeof child.path === 'string' && !child.path.includes(':')
+          )
+          if (firstStaticChild) {
+            route.redirect = {
+              path: firstStaticChild.path
+            }
           }
         }
         setRouteRedirect(route.children)

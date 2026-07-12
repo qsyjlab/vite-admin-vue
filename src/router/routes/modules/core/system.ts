@@ -8,7 +8,9 @@ export default defineExposeRoutes([
     meta: {
       title: '系统管理',
       icon: 'ep.setting',
-      order: 60
+      order: 60,
+      // 角色映射模式 (ROLE) 下仅超级管理员可访问
+      roles: ['super']
 
       // hideChildrenInMenu: true
     },

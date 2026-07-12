@@ -42,7 +42,6 @@ export default defineExposeRoutes([
         path: '/sub-vite',
         meta: {
           isKeepAlive: true,
-          ignoreAuth: true,
           title: 'Qiankun',
           icon: 'ep.connection',
           order: 30,
@@ -55,7 +54,6 @@ export default defineExposeRoutes([
             path: 'react-swc/:pathMatch(.*)*',
             meta: {
               isKeepAlive: true,
-              ignoreAuth: true,
               title: 'ReactSwc',
               icon: 'ep.orange',
               hideChildrenInMenu: false

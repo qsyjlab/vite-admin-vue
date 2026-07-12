@@ -1,6 +1,6 @@
 import NProgress from 'nprogress'
 import { useRouteStore, useUserStore } from '@/store'
-import { getTokenCahce, getUserInfoCache } from '@/store/local'
+import { getTokenCahce, getUserInfoCache, getRolesCache } from '@/store/local'
 import { usePermissionStore } from '@/store/module/permissions'
 import { AxiosCanceler } from '@/service/axios-request/axios-canceler'
 import { LOGIN_NAME, PAGE_NOT_FOUND, WHITE_NAME_LIST } from '../constant'
@@ -109,9 +109,10 @@ function createListenerGuard(router: Router) {
 
 // 初始化 store 从 local
 function initializeStore() {
-  const { setUserInfo, setToken } = useUserStore()
+  const { setUserInfo, setToken, setRoles } = useUserStore()
   const userInfo = getUserInfoCache()
   const token = getTokenCahce()
+  const roles = getRolesCache()
 
   if (userInfo) {
     setUserInfo(userInfo)
@@ -119,5 +120,9 @@ function initializeStore() {
 
   if (token) {
     setToken(token)
+  }
+
+  if (roles) {
+    setRoles(roles)
   }
 }
