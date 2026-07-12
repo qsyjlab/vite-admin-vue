@@ -92,7 +92,7 @@ export const transformResponse: RequestTransform['transformResponse'] = (
       const errorJson = {
         message: message || '服务器错误',
         code: code || -1,
-        data: null
+        data: _data?.data ?? null
       }
 
       if (!ignoreResponseErrorMessage) {

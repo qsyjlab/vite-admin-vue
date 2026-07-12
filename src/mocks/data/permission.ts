@@ -59,6 +59,46 @@ const componentsModuleRoute = {
     },
 
     {
+      name: 'ProSelectDemo',
+      path: 'pro-select',
+      meta: {
+        title: 'ProSelect',
+        icon: 'ep.select',
+        sort: 25
+      }
+    },
+
+    {
+      name: 'ProRadioGroupDemo',
+      path: 'pro-radio-group',
+      meta: {
+        title: 'ProRadioGroup',
+        icon: 'ep.open',
+        sort: 26
+      }
+    },
+
+    {
+      name: 'ProCheckboxGroupDemo',
+      path: 'pro-checkbox-group',
+      meta: {
+        title: 'ProCheckboxGroup',
+        icon: 'ep.finished',
+        sort: 27
+      }
+    },
+
+    {
+      name: 'ProFieldDemo',
+      path: 'pro-field',
+      meta: {
+        title: 'ProField',
+        icon: 'ep.postcard',
+        sort: 28
+      }
+    },
+
+    {
       name: 'ProForm',
       path: 'pro-form',
       meta: {

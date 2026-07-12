@@ -14,19 +14,31 @@
 
 <style scoped>
 .not-found-page {
-  height: 100%;
   display: flex;
+  width: 100%;
+  min-height: 100%;
+  flex: 1 1 auto;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* background-color: white; */
   background-color: var(--global-bg-color-2);
+}
+
+:global(#app > .not-found-page) {
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .icon {
   width: 90px;
   height: 90px;
   margin-bottom: 20px;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .desc {

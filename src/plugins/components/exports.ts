@@ -1,9 +1,11 @@
 export {
+  PageCard,
+  PageWrapper
+  // ProTinymce
+} from '@/components'
+export {
   ProSelect,
   ProCheckboxGroup,
   ProRadioGroup,
-  PageCard,
-  PageWrapper,
-  Upload
-  // ProTinymce
-} from '@/components'
+  ProUpload as Upload
+} from '@vite-admin/pro-components'

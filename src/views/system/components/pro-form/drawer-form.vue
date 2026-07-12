@@ -1,93 +1,158 @@
 <template>
-  <page-wrapper>
-    <page-card>
-      <template #header>{{ $route.meta.title }}</template>
+  <page-wrapper :full="false" class="drawer-demo">
+    <header class="drawer-demo__header">
+      <div>
+        <h1>Drawer Form</h1>
+        <p>适用于信息较多、需要保留页面上下文的编辑流程</p>
+      </div>
+      <el-button type="primary" @click="drawer.open({ title: '编辑项目配置' })">
+        打开抽屉
+      </el-button>
+    </header>
 
-      <el-button type="primary" @click="visible = true">打开抽屉</el-button>
+    <section class="drawer-demo__summary">
+      <div>
+        <span>项目名称</span><strong>{{ savedValues?.name || '尚未提交' }}</strong>
+      </div>
+      <div>
+        <span>负责人</span><strong>{{ savedValues?.owner || '-' }}</strong>
+      </div>
+      <div>
+        <span>状态</span><strong>{{ savedValues?.enabled ? '启用' : '停用' }}</strong>
+      </div>
+    </section>
 
-      <el-drawer v-model="visible" direction="rtl" size="50%">
-        <pro-form :label-width="150" :fields="fields"> </pro-form>
-        <template #footer>
-          <div>
-            <el-button>取消</el-button>
-            <el-button type="primary">确定</el-button>
-          </div>
-        </template>
-      </el-drawer>
-    </page-card>
+    <pro-drawer-form
+      ref="drawerRef"
+      :fields="fields"
+      :initial-values="initialValues"
+      :on-finish="saveProject"
+      label-position="left"
+      :label-width="88"
+      @success="(_, values) => (savedValues = values)"
+    />
   </page-wrapper>
 </template>
 
 <script setup lang="ts">
-import type { FormSchema } from '@/components'
-import { ref } from 'vue'
+import { ref, useTemplateRef } from 'vue'
+import { PageWrapper } from '@/components'
+import {
+  ProDrawerForm,
+  useProDrawerForm,
+  type FormSchema,
+  type ProDrawerFormInstance
+} from '@vite-admin/pro-components'
 
-const visible = ref(false)
+defineOptions({ name: 'ProDrawerFormPage' })
 
-const fields: FormSchema[] = [
-  {
-    label: '签约客户名称',
-    el: 'el-input',
-    key: 'name',
-    col: {
-      span: 12
-    }
-  },
-  {
-    label: '我方公司名称',
-    el: 'el-input',
-    key: 'selfCompany',
-    col: {
-      span: 12
-    }
-  },
-  {
-    label: '合同名称',
-    el: 'el-input',
-    key: 'ht',
-    col: {
-      span: 12
-    }
-  },
-  {
-    label: '合同生效时间',
-    el: 'el-date-picker',
-    key: 'startTime',
-    attrs: {
-      type: 'daterange'
-    },
-    col: {
-      span: 12
-    }
-  },
-  {
-    label: '合同约定生效方式',
-    el: 'pro-select',
-    key: 'way',
-    fill: true,
-    col: {
-      span: 24
-    }
-  },
-  {
-    label: '合同约定失效效方式',
-    el: 'pro-select',
-    key: 'missWay',
-    fill: true,
-    col: {
-      span: 24
-    }
-  },
+interface ProjectForm {
+  name: string
+  owner: string
+  priority: 'normal' | 'high'
+  enabled: boolean
+  description: string
+}
 
+const initialValues: ProjectForm = {
+  name: '运营分析平台',
+  owner: '陈晨',
+  priority: 'normal',
+  enabled: true,
+  description: ''
+}
+const savedValues = ref<ProjectForm>()
+const fields: FormSchema<ProjectForm>[] = [
+  { key: 'name', label: '项目名称', valueType: 'text', required: true },
+  { key: 'owner', label: '负责人', valueType: 'text', required: true },
   {
-    label: '项目名称',
-    el: 'el-input',
-    key: 'projectName'
+    key: 'priority',
+    label: '优先级',
+    valueType: 'radio',
+    options: [
+      { label: '普通', value: 'normal' },
+      { label: '高优先级', value: 'high' }
+    ]
   },
+  { key: 'enabled', label: '启用项目', valueType: 'switch' },
   {
-    label: '商务经理',
-    el: 'el-input',
-    key: 'bName'
+    key: 'description',
+    label: '项目说明',
+    valueType: 'textarea',
+    fieldProps: { rows: 5 }
   }
 ]
+
+const drawerRef = useTemplateRef<ProDrawerFormInstance<ProjectForm, ProjectForm>>('drawerRef')
+const drawer = useProDrawerForm(drawerRef)
+
+async function saveProject(values: ProjectForm) {
+  await new Promise(resolve => window.setTimeout(resolve, 450))
+  return values
+}
 </script>
+
+<style scoped lang="scss">
+.drawer-demo {
+  color: var(--el-text-color-primary);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    p {
+      margin: 4px 0 0;
+      color: var(--el-text-color-secondary);
+      font-size: 13px;
+    }
+  }
+
+  &__summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border: 1px solid var(--el-border-color);
+    border-radius: 6px;
+    background: var(--el-bg-color);
+
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 20px;
+
+      & + div {
+        border-left: 1px solid var(--el-border-color-lighter);
+      }
+    }
+
+    span {
+      color: var(--el-text-color-secondary);
+      font-size: 13px;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .drawer-demo__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .drawer-demo__summary {
+    grid-template-columns: 1fr;
+
+    div + div {
+      border-top: 1px solid var(--el-border-color-lighter);
+      border-left: 0;
+    }
+  }
+}
+</style>

@@ -6,11 +6,33 @@
         title="推荐使用 useProForm 操作表单 ref,内置类型提示"
         type="warning"
       />
-      <ProForm :fields="fields" :label-width="150" @register="register"> </ProForm>
+      <ProForm
+        ref="formRef"
+        v-model:dirty="dirty"
+        v-model:loading="loading"
+        default-collapsed
+        :collapsed-rows="{ xs: 2, sm: 1 }"
+        :fields="fields"
+        :request="loadInitialValues"
+        :label-width="100"
+        label-position="left"
+        :submitter="false"
+      />
+      <el-alert
+        :title="loading ? '正在加载异步初始值' : dirty ? '表单有未保存修改' : '表单已同步'"
+        :type="dirty ? 'warning' : 'success'"
+        :closable="false"
+        style="margin-bottom: 12px"
+      />
       <div style="display: flex; justify-content: flex-end">
         <el-space>
-          <el-button @click="resetFields()">取消</el-button>
-          <el-button type="primary" @click="validate()">提交</el-button>
+          <el-button @click="setCollapsed(false)">展开</el-button>
+          <el-button @click="setCollapsed(true)">收起</el-button>
+          <el-button @click="toggleCollapse()">切换状态</el-button>
+          <el-button @click="reset()">重置</el-button>
+          <el-button @click="validate()">仅校验</el-button>
+          <el-button @click="load()">重新加载</el-button>
+          <el-button type="primary" @click="submit()">提交</el-button>
         </el-space>
       </div>
     </page-card>
@@ -19,17 +41,36 @@
 
 <script lang="ts">
 export default {
-  name: 'ProFormPage'
+  name: 'ProFormRefPage'
 }
 </script>
 
 <script setup lang="ts">
 import { PageCard, PageWrapper } from '@/components'
-import { useProForm } from '@/hooks'
+import {
+  type FormSchema,
+  type ProFormInstance,
+  useProForm,
+  useProFormDirtyGuard
+} from '@vite-admin/pro-components'
+import { ref, useTemplateRef } from 'vue'
 
-const { register, validate, resetFields } = useProForm()
+const formRef = useTemplateRef<ProFormInstance>('formRef')
+const { load, reset, setCollapsed, submit, toggleCollapse, validate } = useProForm(formRef)
+const dirty = ref(false)
+const loading = ref(false)
+useProFormDirtyGuard(formRef)
 
-const fields = [
+async function loadInitialValues() {
+  await new Promise(resolve => window.setTimeout(resolve, 260))
+  return {
+    input: 'demo',
+    'input-number': 8,
+    switch: true
+  }
+}
+
+const baseFields: FormSchema[] = [
   {
     label: '文本输入',
     el: 'el-input',
@@ -237,4 +278,15 @@ const fields = [
     }
   }
 ]
+
+const fields: FormSchema[] = baseFields.map(field => ({
+  ...field,
+  col: {
+    span: 8,
+    xs: 24,
+    sm: 12,
+    md: 8,
+    ...field.col
+  }
+}))
 </script>

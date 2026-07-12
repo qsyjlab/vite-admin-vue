@@ -30,36 +30,38 @@ export default defineExposeRoutes([
             path: 'pro-table-basic',
             meta: {
               title: 'ProTable 基本使用',
-              icon: 'ep.tickets'
+              icon: 'ep.tickets',
+              ignoreAuth: true
             },
             component: () => import('@/views/system/components/pro-table/pro-table-page.vue')
           },
           {
-            name: 'ProTableEdit',
-            path: 'pro-table-edit',
+            name: 'ProEditableTable',
+            path: 'pro-editable-table',
             meta: {
-              title: 'ProTable edit 基本使用',
-              icon: 'ep.edit-pen',
-              ignoreAuth: true
-            },
-            component: () => import('@/views/system/components/pro-table-edit/pro-table-edit.vue')
-          },
-          {
-            name: 'EditableProTable',
-            path: 'editable-pro-table',
-            meta: {
-              title: 'EditableProTable',
+              title: 'ProEditableTable',
               icon: 'ep.edit',
               ignoreAuth: true
             },
             component: () =>
-              import('@/views/system/components/editable-pro-table/editable-pro-table.vue')
+              import('@/views/system/components/pro-editable-table/pro-editable-table-page.vue')
           },
           {
-            name: 'DragSortTable',
-            path: 'drag-sort-table',
+            name: 'ProTableSearch',
+            path: 'pro-table-search',
             meta: {
-              title: 'DragSortTable',
+              title: 'ProTableSearch',
+              icon: 'ep.search',
+              ignoreAuth: true
+            },
+            component: () =>
+              import('@/views/system/components/pro-table-search/pro-table-search-page.vue')
+          },
+          {
+            name: 'ProDragSortTable',
+            path: 'pro-drag-sort-table',
+            meta: {
+              title: 'ProDragSortTable',
               icon: 'ep.rank',
               ignoreAuth: true
             },
@@ -76,8 +78,20 @@ export default defineExposeRoutes([
           icon: 'ep.edit-pen',
           order: 30
         },
-        redirect: { name: 'RichEditor' },
+        redirect: { name: 'ProCodeEditor' },
         children: [
+          {
+            name: 'ProCodeEditor',
+            path: 'pro-code-editor',
+            meta: {
+              title: 'ProCodeEditor',
+              icon: 'ep.code',
+              order: 10,
+              ignoreAuth: true
+            },
+            component: () =>
+              import('@/views/system/components/pro-code-editor/pro-code-editor-page.vue')
+          },
           {
             name: 'RichEditor',
             path: 'rich-editor',
@@ -88,6 +102,105 @@ export default defineExposeRoutes([
             component: () => import('@/views/system/components/rich-editor/rich-editor.vue')
           }
         ]
+      },
+
+      {
+        name: 'ProConfigProviderDemo',
+        path: 'pro-config-provider',
+        meta: {
+          title: 'ProConfigProvider',
+          icon: 'ep.setting',
+          order: 21,
+          ignoreAuth: true
+        },
+        component: () =>
+          import('@/views/system/components/pro-config-provider/pro-config-provider-page.vue')
+      },
+
+      {
+        name: 'ProCardDemo',
+        path: 'pro-card',
+        meta: {
+          title: 'ProCard',
+          icon: 'ep.postcard',
+          order: 22,
+          ignoreAuth: true
+        },
+        component: () => import('@/views/system/components/pro-card/pro-card-page.vue')
+      },
+
+      {
+        name: 'ProListDemo',
+        path: 'pro-list',
+        meta: {
+          title: 'ProList',
+          icon: 'ep.list',
+          order: 23,
+          ignoreAuth: true
+        },
+        component: () => import('@/views/system/components/pro-list/pro-list-page.vue')
+      },
+
+      {
+        name: 'ProEmptyDemo',
+        path: 'pro-empty',
+        meta: {
+          title: 'ProEmpty',
+          icon: 'ep.box',
+          order: 24,
+          ignoreAuth: true
+        },
+        component: () => import('@/views/system/components/pro-empty/pro-empty-page.vue')
+      },
+
+      {
+        name: 'ProSelectDemo',
+        path: 'pro-select',
+        meta: {
+          title: 'ProSelect',
+          icon: 'ep.select',
+          order: 25,
+          ignoreAuth: true
+        },
+        component: () => import('@/views/system/components/pro-select/pro-select-page.vue')
+      },
+
+      {
+        name: 'ProRadioGroupDemo',
+        path: 'pro-radio-group',
+        meta: {
+          title: 'ProRadioGroup',
+          icon: 'ep.open',
+          order: 26,
+          ignoreAuth: true
+        },
+        component: () =>
+          import('@/views/system/components/pro-radio-group/pro-radio-group-page.vue')
+      },
+
+      {
+        name: 'ProCheckboxGroupDemo',
+        path: 'pro-checkbox-group',
+        meta: {
+          title: 'ProCheckboxGroup',
+          icon: 'ep.finished',
+          order: 27,
+          ignoreAuth: true
+        },
+        component: () =>
+          import('@/views/system/components/pro-checkbox-group/pro-checkbox-group-page.vue')
+      },
+
+      {
+        name: 'ProFieldDemo',
+        path: 'pro-field',
+        meta: {
+          title: 'ProField',
+          icon: 'ep.postcard',
+          order: 28,
+          ignoreAuth: true
+        },
+        component: () => import('@/views/system/components/pro-field/pro-field-page.vue')
       },
 
       {
@@ -133,7 +246,8 @@ export default defineExposeRoutes([
             path: 'modal',
             meta: {
               title: 'Modal 表单',
-              icon: 'ep.copy-document'
+              icon: 'ep.copy-document',
+              ignoreAuth: true
             },
             component: () => import('@/views/system/components/pro-form/modal-form.vue')
           },
@@ -142,7 +256,8 @@ export default defineExposeRoutes([
             path: 'drawer',
             meta: {
               title: 'Drawer 表单',
-              icon: 'ep.expand'
+              icon: 'ep.expand',
+              ignoreAuth: true
             },
             component: () => import('@/views/system/components/pro-form/drawer-form.vue')
           },
@@ -151,7 +266,8 @@ export default defineExposeRoutes([
             path: 'steps',
             meta: {
               title: 'StepsForm 表单',
-              icon: 'ep.operation'
+              icon: 'ep.operation',
+              ignoreAuth: true
             },
             component: () => import('@/views/system/components/pro-form/steps-form.vue')
           }
@@ -165,7 +281,7 @@ export default defineExposeRoutes([
           icon: 'ep.upload-filled',
           order: 40
         },
-        component: () => import('@/views/system/components/Upload.vue')
+        component: () => import('@/views/system/components/pro-upload/pro-upload-page.vue')
       },
       {
         name: 'Anchor',

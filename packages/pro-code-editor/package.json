@@ -1,0 +1,14 @@
+{
+  "name": "@vite-admin/pro-code-editor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./pro-code-editor": "./src/pro-code-editor/index.ts",
+    "./pro-json-editor": "./src/pro-json-editor/index.ts"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  }
+}

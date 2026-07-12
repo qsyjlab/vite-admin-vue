@@ -2,7 +2,17 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { Plugin } from 'vite'
 
 import { allRouteModules } from '../../../src/mocks/data/permission'
+import {
+  batchDeleteMockOrders,
+  createMockOrder,
+  deleteMockOrder,
+  getMockOrder,
+  orderMeta,
+  queryMockOrders,
+  updateMockOrder
+} from '../../../src/mocks/data/order'
 import { userList } from '../../../src/mocks/data/user'
+import type { OrderFormModel } from '../../../src/api/order-types'
 
 function sendJson(response: ServerResponse, data: unknown, statusCode = 200) {
   response.statusCode = statusCode
@@ -15,8 +25,8 @@ function success(data: unknown, message = '') {
   return { code: 200, data, message }
 }
 
-function failure(message: string, code = 0) {
-  return { code, data: null, message }
+function failure(message: string, code = 0, data: unknown = null) {
+  return { code, data, message }
 }
 
 async function readJsonBody(request: IncomingMessage) {
@@ -124,6 +134,91 @@ export function mockApiPlugin(apiBaseUrl: string): Plugin {
           }))
           sendJson(response, success(todos))
           return
+        }
+
+        if (method === 'GET' && route === '/orders/meta') {
+          sendJson(response, success(orderMeta))
+          return
+        }
+
+        if (method === 'GET' && route === '/orders') {
+          sendJson(
+            response,
+            success(
+              queryMockOrders({
+                current: Number(url.searchParams.get('current') || 1),
+                pageSize: Number(url.searchParams.get('pageSize') || 10),
+                orderNo: url.searchParams.get('orderNo') || undefined,
+                customerName: url.searchParams.get('customerName') || undefined,
+                owner: url.searchParams.get('owner') || undefined,
+                status: (url.searchParams.get('status') || undefined) as never,
+                createdFrom: url.searchParams.get('createdFrom') || undefined,
+                createdTo: url.searchParams.get('createdTo') || undefined
+              })
+            )
+          )
+          return
+        }
+
+        if (method === 'POST' && route === '/orders') {
+          const result = createMockOrder((await readJsonBody(request)) as unknown as OrderFormModel)
+          sendJson(
+            response,
+            result.success
+              ? success(result.data, '订单创建成功')
+              : failure(result.message, 422, { fieldErrors: result.fieldErrors })
+          )
+          return
+        }
+
+        if (method === 'POST' && route === '/orders/batch-delete') {
+          const body = await readJsonBody(request)
+          const ids = Array.isArray(body.ids) ? body.ids.map(String) : []
+          sendJson(response, success({ deleted: batchDeleteMockOrders(ids) }))
+          return
+        }
+
+        const orderRoute = route.match(/^\/orders\/([^/]+)$/)
+        if (orderRoute) {
+          const id = decodeURIComponent(orderRoute[1])
+
+          if (method === 'GET') {
+            const order = getMockOrder(id)
+            sendJson(
+              response,
+              order ? success(order) : failure(`订单不存在：${id}`, 404),
+              order ? 200 : 404
+            )
+            return
+          }
+
+          if (method === 'PUT') {
+            const result = updateMockOrder(
+              id,
+              (await readJsonBody(request)) as unknown as OrderFormModel
+            )
+            if (!result) {
+              sendJson(response, failure(`订单不存在：${id}`, 404), 404)
+              return
+            }
+            sendJson(
+              response,
+              result.success
+                ? success(result.data, '订单更新成功')
+                : failure(result.message, 422, { fieldErrors: result.fieldErrors })
+            )
+            return
+          }
+
+          if (method === 'DELETE') {
+            const deleted = deleteMockOrder(id)
+            sendJson(
+              response,
+              deleted ? success({ deleted: true }) : failure(`订单不存在：${id}`, 404),
+              deleted ? 200 : 404
+            )
+            return
+          }
         }
 
         sendJson(response, failure(`Mock API not found: ${method} ${route}`, 404), 404)

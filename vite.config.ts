@@ -19,6 +19,12 @@ export default defineConfig(configEnv => {
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '@vite-admin/pro-components': fileURLToPath(
+          new URL('./packages/pro-components/src', import.meta.url)
+        ),
+        '@vite-admin/pro-code-editor': fileURLToPath(
+          new URL('./packages/pro-code-editor/src', import.meta.url)
+        ),
         '~': fileURLToPath(new URL('./', import.meta.url))
       }
     },

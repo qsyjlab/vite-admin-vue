@@ -81,6 +81,44 @@ export default defineRoutes([
             component: () => import('@/views/system/examples/route-engine/keep-alive-b.vue')
           }
         ]
+      },
+      {
+        name: 'ProComponentsExamples',
+        path: 'pro-components',
+        meta: {
+          title: 'Pro 组件实战',
+          ignoreAuth: true,
+          icon: 'ep.grid',
+          order: 20
+        },
+        children: [
+          {
+            name: 'OrderCrudExample',
+            path: 'order-crud',
+            meta: {
+              title: '订单 CRUD',
+              ignoreAuth: true,
+              icon: 'ep.shopping-cart',
+              order: 10
+            },
+            component: () =>
+              import('@/views/system/examples/pro-components/order-crud/order-crud-page.vue')
+          },
+          {
+            name: 'DashboardListExample',
+            path: 'dashboard-list',
+            meta: {
+              title: '项目运营工作台',
+              ignoreAuth: true,
+              icon: 'ep.data-analysis',
+              order: 20
+            },
+            component: () =>
+              import(
+                '@/views/system/examples/pro-components/dashboard-list/dashboard-list-page.vue'
+              )
+          }
+        ]
       }
     ]
   }

@@ -1,12 +1,7 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title">
-      <pro-table
-        :columns="columns"
-        :data="data"
-        :span-method="arraySpanMethod"
-        @register="register"
-      >
+      <pro-table ref="tableRef" :columns="columns" :data="data" :span-method="arraySpanMethod">
         <template #toolbar>
           <el-button @click="exportArrToExcel">数组方式导出</el-button>
           <el-button @click="exportExecel">导出</el-button>
@@ -16,18 +11,24 @@
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { type ProTableColumns, useProTable } from '@/components'
-import { ref } from 'vue'
+import {
+  type ProTableColumns,
+  type ProTableInstance,
+  useProTable
+} from '@vite-admin/pro-components'
+import { ref, useTemplateRef } from 'vue'
 import { aoaToSheetXlsx } from '@/utils'
 
 const data = ref<any[]>([])
-const { register, getTableRef } = useProTable()
+const tableRef = useTemplateRef<ProTableInstance<Record<string, unknown>>>('tableRef')
+const { getTable } = useProTable(tableRef)
 
 data.value = getData()
-const columns: ProTableColumns = [
+const columns: ProTableColumns<Record<string, unknown>> = [
   {
     title: 'ID',
-    key: 'id'
+    key: 'id',
+    dataIndex: 'id'
   },
   {
     title: '姓名',
@@ -41,41 +42,49 @@ const columns: ProTableColumns = [
           {
             title: '姓名',
             key: 'name',
+            dataIndex: 'name',
             children: []
           },
           {
             title: '姓名2',
             key: 'name2',
+            dataIndex: 'name2',
             children: []
           }
         ]
       },
       {
         title: '姓名2',
-        key: 'name1',
+        key: 'name-secondary',
+        dataIndex: 'name1',
         children: []
       }
     ]
   },
   {
     title: '年龄',
-    key: 'age'
+    key: 'age',
+    dataIndex: 'age'
   },
   {
     title: '编号',
-    key: 'code'
+    key: 'code',
+    dataIndex: 'code'
   },
   {
     title: '地址',
-    key: 'address'
+    key: 'address',
+    dataIndex: 'address'
   },
   {
     title: '开始时间',
-    key: 'startTime'
+    key: 'startTime',
+    dataIndex: 'startTime'
   },
   {
     title: '结束时间',
-    key: 'endTime'
+    key: 'endTime',
+    dataIndex: 'endTime'
   }
 ]
 
@@ -90,9 +99,9 @@ const arraySpanMethod = ({ rowIndex, columnIndex }) => {
 }
 
 const exportArrToExcel = async () => {
-  const tableRef = await getTableRef()
+  const table = await getTable()
 
-  console.log('tableRef', tableRef)
+  console.log('tableRef', table)
 }
 
 const exportExecel = async () => {

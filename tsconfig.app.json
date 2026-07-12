@@ -24,6 +24,10 @@
     "lib": ["esnext", "dom"],
     "paths": {
       "@/*": ["src/*"],
+      "@vite-admin/pro-components": ["packages/pro-components/src/index.ts"],
+      "@vite-admin/pro-components/*": ["packages/pro-components/src/*"],
+      "@vite-admin/pro-code-editor": ["packages/pro-code-editor/src/index.ts"],
+      "@vite-admin/pro-code-editor/*": ["packages/pro-code-editor/src/*"],
       "~/*": ["./*"]
     }
   },
@@ -35,6 +39,8 @@
     "components.d.ts",
     "src/**/*.d.ts",
     "typings/*.d.ts",
-    "src/mocks/**/*.ts"
+    "src/mocks/**/*.ts",
+    "packages/**/*.ts",
+    "packages/**/*.vue"
   ]
 }

@@ -1,7 +1,7 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title">
-      <pro-form :fields="fields" :label-width="120" @register="register"></pro-form>
+      <pro-form ref="formRef" :fields="fields" :label-width="120" />
 
       <div style="display: flex; justify-content: center">
         <el-space>
@@ -12,7 +12,8 @@
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { useProForm, type FormSchema } from '@/components'
+import { useTemplateRef } from 'vue'
+import { useProForm, type FormMethodsType, type FormSchema } from '@vite-admin/pro-components'
 import { encrypt, decrypt } from '@/utils'
 
 const fields: FormSchema[] = [
@@ -42,7 +43,8 @@ const fields: FormSchema[] = [
   }
 ]
 
-const { register, forceUpdateModel, validate } = useProForm()
+const formRef = useTemplateRef<FormMethodsType>('formRef')
+const { forceUpdateModel, validate } = useProForm(formRef)
 
 const encryptHandler = () => {
   validate(model => {

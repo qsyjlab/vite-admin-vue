@@ -4,7 +4,7 @@
       <ProTable
         :columns="columns"
         :data="dataSource"
-        :is-pagination="false"
+        :pagination="false"
         :row-key="'name'"
         :loading="loading"
       />
@@ -12,11 +12,12 @@
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { PageCard, PageWrapper, ProTable, type ProTableColumns } from '@/components'
+import { PageCard, PageWrapper } from '@/components'
+import { ProTable, type ProTableColumns } from '@vite-admin/pro-components'
 import { getMenuList } from '@/api/permission'
 import { ref } from 'vue'
 
-const columns: ProTableColumns = [
+const columns: ProTableColumns<Record<string, unknown>> = [
   {
     title: '菜单名称',
     key: 'meta.title'

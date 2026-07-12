@@ -1,0 +1,22 @@
+{
+  "name": "@vite-admin/pro-components",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*/index.ts"
+  },
+  "peerDependencies": {
+    "@element-plus/icons-vue": "^2.3.0",
+    "element-plus": "^2.9.0",
+    "lodash-es": "^4.17.0",
+    "sortablejs": "^1.15.0",
+    "vue": "^3.5.0",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.0",
+    "@types/sortablejs": "^1.15.0"
+  }
+}
