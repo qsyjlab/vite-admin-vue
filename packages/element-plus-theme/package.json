@@ -1,7 +1,28 @@
 {
   "name": "@framebase/element-plus-theme",
   "version": "0.1.0",
-  "private": true,
+  "description": "Customizable Element Plus tokens and component theme for light and dark mode.",
+  "license": "MIT",
+  "author": "qsyjlab",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qsyjlab/vite-admin-vue.git",
+    "directory": "packages/element-plus-theme"
+  },
+  "bugs": {
+    "url": "https://github.com/qsyjlab/vite-admin-vue/issues"
+  },
+  "homepage": "https://github.com/qsyjlab/vite-admin-vue/tree/master/packages/element-plus-theme",
+  "keywords": [
+    "element-plus",
+    "theme",
+    "scss",
+    "dark-mode"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
   "sideEffects": [
     "**/*.css"
   ],
@@ -28,7 +49,9 @@
     "typecheck": "pnpm run check",
     "lint": "pnpm run check",
     "test": "node --test tests/theme.node-test.mjs",
-    "pack:check": "pnpm run build && pnpm pack --pack-destination ../../.output/packages"
+    "verify": "pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run build",
+    "pack:check": "pnpm run verify && pnpm pack --pack-destination ../../.output/packages",
+    "prepublishOnly": "pnpm run verify"
   },
   "peerDependencies": {
     "element-plus": "^2.9.0"

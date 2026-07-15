@@ -132,7 +132,7 @@
 - `ProTransfer`：暂无明确业务缺口。
 - `ProSegmented`：现有组件足够，暂无 Pro 化收益。
 - `ProListForm`：表格和现有动态表单能够覆盖主要场景。
-- 独立仓库发布和 npm 正式发布流程：当前先维持同仓库 workspace 多包。
+- npm 正式发布与独立仓库迁移：已完成发布元数据、Changesets、消费者 tarball 验收和手动 workflow；实际组织创建、token 配置和仓库迁移待维护者执行，详见 [ProComponents 发布准备](./pro-components-publishing.md)。
 
 ## 工程收尾
 

@@ -20,11 +20,13 @@
     "test:types": "vue-tsc -p tsconfig.type-tests.json --noEmit",
     "test:unit": "vitest run",
     "test:packages": "pnpm --filter @framebase/element-plus-pro-components --filter @framebase/vue-code-editor --filter @framebase/element-plus-theme test",
+    "test:consumer": "pnpm pack:packages && node --import tsx ./build/scripts/verify-package-consumer.ts",
     "check": "cross-env NODE_OPTIONS='--max-old-space-size=8192' vue-tsc -b --noEmit",
     "check:packages": "pnpm --filter @framebase/element-plus-pro-components --filter @framebase/vue-code-editor --filter @framebase/element-plus-theme typecheck",
     "lint:packages": "pnpm --filter @framebase/element-plus-pro-components --filter @framebase/vue-code-editor --filter @framebase/element-plus-theme lint",
     "audit:packages": "node --import tsx ./build/scripts/audit-package-boundaries.ts",
     "verify:package-artifacts": "node --import tsx ./build/scripts/verify-package-artifacts.ts",
+    "verify:release": "pnpm verify:packages && pnpm test:consumer",
     "pack:packages": "pnpm --filter @framebase/element-plus-pro-components --filter @framebase/vue-code-editor --filter @framebase/element-plus-theme pack:check",
     "verify:packages": "pnpm audit:packages && pnpm check:packages && pnpm lint:packages && pnpm test:packages && pnpm build:packages && pnpm verify:package-artifacts",
     "preview": "vite preview",
@@ -33,7 +35,11 @@
     "prepare": "husky install",
     "clean:lib": "rimraf node_modules",
     "clean:output": "rimraf .output",
-    "buildComponents": "node ./build/scripts/buildComponents.ts"
+    "buildComponents": "node ./build/scripts/buildComponents.ts",
+    "changeset": "changeset",
+    "release:status": "changeset status",
+    "release:version": "changeset version && pnpm install --lockfile-only",
+    "release:publish": "pnpm verify:release && changeset publish"
   },
   "repository": {
     "url": "https://github.com/qsyjlab/vite-admin-vue"
@@ -77,13 +83,14 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.31.0",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@eslint/js": "^9.24.0",
     "@playwright/test": "^1.61.1",
     "@types/crypto-js": "^4.2.2",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^17.0.45",
+    "@types/node": "^22.20.1",
     "@types/nprogress": "^0.2.0",
     "@types/qrcode": "^1.5.1",
     "@types/sortablejs": "^1.15.3",
