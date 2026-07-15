@@ -71,7 +71,7 @@ import {
   useProForm,
   type FormMethodsType,
   type FormSchema
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 defineOptions({ name: 'ProFormDependencyPage' })
 

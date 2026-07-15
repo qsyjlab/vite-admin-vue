@@ -345,6 +345,10 @@ function refresh() {
   return loadData('refresh')
 }
 
+function retryRequest() {
+  return loadData('retry')
+}
+
 function retry() {
   void reload(false).catch(() => undefined)
 }
@@ -383,6 +387,8 @@ const exposed: ProListExpose<TRecord> = {
   getLoading: () => mergedLoading.value,
   getRequestLifecycle,
   getError: () => requestError.value,
+  retryRequest,
+  cancelRequest: requestState.cancel,
   getTotal: () => total.value,
   getPageInfo: () => ({ ...pageInfo.value }),
   setPageInfo,

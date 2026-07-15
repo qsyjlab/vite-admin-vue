@@ -55,6 +55,16 @@ export default defineExposeRoutes([
               import('@/views/system/components/pro-table-search/pro-table-search-page.vue')
           },
           {
+            name: 'ProQueryFilterDemo',
+            path: 'pro-query-filter',
+            meta: {
+              title: 'ProQueryFilter',
+              icon: 'ep.filter'
+            },
+            component: () =>
+              import('@/views/system/components/pro-query-filter/pro-query-filter-page.vue')
+          },
+          {
             name: 'ProDragSortTable',
             path: 'pro-drag-sort-table',
             meta: {
@@ -145,12 +155,23 @@ export default defineExposeRoutes([
       },
 
       {
+        name: 'ProResultDemo',
+        path: 'pro-result',
+        meta: {
+          title: 'ProResult',
+          icon: 'ep.circle-check',
+          order: 25
+        },
+        component: () => import('@/views/system/components/pro-result/pro-result-page.vue')
+      },
+
+      {
         name: 'ProSelectDemo',
         path: 'pro-select',
         meta: {
           title: 'ProSelect',
           icon: 'ep.select',
-          order: 25
+          order: 26
         },
         component: () => import('@/views/system/components/pro-select/pro-select-page.vue')
       },
@@ -161,7 +182,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'ProRadioGroup',
           icon: 'ep.open',
-          order: 26
+          order: 27
         },
         component: () =>
           import('@/views/system/components/pro-radio-group/pro-radio-group-page.vue')
@@ -173,10 +194,21 @@ export default defineExposeRoutes([
         meta: {
           title: 'ProCheckboxGroup',
           icon: 'ep.finished',
-          order: 27
+          order: 28
         },
         component: () =>
           import('@/views/system/components/pro-checkbox-group/pro-checkbox-group-page.vue')
+      },
+
+      {
+        name: 'ProCheckCardDemo',
+        path: 'pro-check-card',
+        meta: {
+          title: 'ProCheckCard',
+          icon: 'ep.checked',
+          order: 29
+        },
+        component: () => import('@/views/system/components/pro-check-card/pro-check-card-page.vue')
       },
 
       {
@@ -185,7 +217,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'ProField',
           icon: 'ep.postcard',
-          order: 28
+          order: 30
         },
         component: () => import('@/views/system/components/pro-field/pro-field-page.vue')
       },
@@ -308,16 +340,17 @@ export default defineExposeRoutes([
             name: 'TreeSelect',
             path: 'tree-select',
             meta: {
-              title: 'TreeSelect',
+              title: 'ProTreeSelect',
               icon: 'ep.connection'
             },
-            component: () => import('@/views/system/components/tree/tree-select.vue')
+            component: () =>
+              import('@/views/system/components/pro-tree-select/pro-tree-select-page.vue')
           },
           {
             name: 'BaseTree',
             path: 'base',
             meta: {
-              title: 'Tree',
+              title: 'ProTree',
               icon: 'ep.folder-opened'
             },
             component: () => import('@/views/system/components/tree/tree/tree.vue')

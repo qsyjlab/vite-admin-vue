@@ -1,10 +1,16 @@
 import { readdir, readFile } from 'node:fs/promises'
 import { extname, join, relative, resolve } from 'node:path'
 
+interface PackageBoundaryConfig {
+  name: string
+  directory: string
+  allowed: ReadonlySet<string>
+}
+
 const root = process.cwd()
-const packages = [
+const packages: PackageBoundaryConfig[] = [
   {
-    name: '@vite-admin/pro-components',
+    name: '@framebase/element-plus-pro-components',
     directory: resolve(root, 'packages/pro-components/src'),
     allowed: new Set([
       'vue',
@@ -17,15 +23,20 @@ const packages = [
     ])
   },
   {
-    name: '@vite-admin/pro-code-editor',
+    name: '@framebase/vue-code-editor',
     directory: resolve(root, 'packages/pro-code-editor/src'),
     allowed: new Set(['vue'])
+  },
+  {
+    name: '@framebase/element-plus-theme',
+    directory: resolve(root, 'packages/element-plus-theme/src'),
+    allowed: new Set()
   }
 ]
 
-const sourceExtensions = new Set(['.ts', '.tsx', '.vue', '.js', '.mjs'])
-const importPattern = /(?:from\s+|import\s*\()\s*['"]([^'"]+)['"]/g
-const errors = []
+const sourceExtensions = new Set(['.ts', '.tsx', '.vue', '.js', '.mjs', '.scss'])
+const importPattern = /(?:from\s+|import\s*\(|@use\s+)\s*['"]([^'"]+)['"]/g
+const errors: string[] = []
 
 for (const packageConfig of packages) {
   const files = await listFiles(packageConfig.directory)
@@ -51,7 +62,7 @@ if (errors.length) {
   console.log('Package boundary audit passed.')
 }
 
-async function listFiles(directory) {
+async function listFiles(directory: string): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true })
   const files = await Promise.all(
     entries.map(entry => {
@@ -69,7 +80,7 @@ async function listFiles(directory) {
   return files.flat()
 }
 
-function getPackageName(specifier) {
+function getPackageName(specifier: string): string {
   if (!specifier.startsWith('@')) return specifier.split('/')[0]
   return specifier.split('/').slice(0, 2).join('/')
 }

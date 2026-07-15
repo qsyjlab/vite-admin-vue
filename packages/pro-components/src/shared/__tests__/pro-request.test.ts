@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { useProRequest } from '../pro-request'
+import { isProRequestAbort, useProRequest } from '../pro-request'
 
 function deferred<T>() {
   let resolve!: (value: T) => void
@@ -99,5 +99,14 @@ describe('useProRequest', () => {
     failed = false
     await expect(state.retry()).resolves.toEqual(['ok'])
     expect(state.action.value).toBe('retry')
+  })
+})
+
+describe('isProRequestAbort', () => {
+  it('recognizes DOM and Axios cancellation errors', () => {
+    expect(isProRequestAbort(new DOMException('aborted', 'AbortError'))).toBe(true)
+    expect(isProRequestAbort({ name: 'CanceledError' })).toBe(true)
+    expect(isProRequestAbort({ code: 'ERR_CANCELED' })).toBe(true)
+    expect(isProRequestAbort(new Error('failed'))).toBe(false)
   })
 })

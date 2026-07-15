@@ -76,17 +76,30 @@ test.describe('Pro Components critical interactions', () => {
 
   test('table direct route exposes reload, density and column settings', async ({ page }) => {
     const errors = collectPageErrors(page)
-    await loginAsAdmin(page, '/components/pro-table')
+    await loginAsAdmin(page, '/components/pro-table/pro-table-basic')
 
-    await expect(page).toHaveURL(/\/components\/pro-table\/pro-table-basic$/)
+    await expect(page).toHaveURL(/\/components\/pro-table\/pro-table-basic(?:\?.*)?$/)
     await expect(page.getByText('订单列表', { exact: true })).toBeVisible()
     await expect(page.getByRole('button', { name: '表格密度' })).toBeVisible()
     await expect(page.getByRole('button', { name: '列设置' })).toBeVisible()
-    await page.getByRole('columnheader', { name: '订单金额' }).click()
+    const amountHeader = page.getByRole('columnheader', { name: '订单金额' })
+    const amountSortControl = amountHeader.locator('.caret-wrapper')
+    await expect(amountSortControl).toHaveCount(1)
+    const ascendingCaret = amountSortControl.locator('.sort-caret.ascending')
+    const descendingCaret = amountSortControl.locator('.sort-caret.descending')
+    await expect(ascendingCaret).toHaveCount(1)
+    await expect(descendingCaret).toHaveCount(1)
+    await ascendingCaret.click()
+    await expect
+      .poll(() => new URL(page.url()).searchParams.get('orders.sorter'))
+      .toContain('ascending')
     await expect(page.locator('.el-table__body-wrapper tbody tr').first()).toContainText(
       '¥9,600.00'
     )
-    await page.getByRole('columnheader', { name: '订单金额' }).click()
+    await amountSortControl.click()
+    await expect
+      .poll(() => new URL(page.url()).searchParams.get('orders.sorter'))
+      .toContain('descending')
     await expect(page.locator('.el-table__body-wrapper tbody tr').first()).toContainText(
       '¥54,400.00'
     )
@@ -98,7 +111,7 @@ test.describe('Pro Components critical interactions', () => {
     await loginAsAdmin(page, '/components/pro-form/ref')
 
     await expect(page.getByText('表单已同步', { exact: true })).toBeVisible()
-    const input = page.locator('[data-pro-field="input"] input')
+    const input = page.getByRole('textbox', { name: /文本输入/ })
     await expect(input).toHaveValue('demo')
     await input.fill('changed')
     await expect(page.getByText('表单有未保存修改', { exact: true })).toBeVisible()

@@ -56,7 +56,7 @@ import {
   type FormSchema,
   ProUploadList,
   useProForm
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 import { useTemplateRef } from 'vue'
 
 const formRef = useTemplateRef<FormMethodsType>('formRef')

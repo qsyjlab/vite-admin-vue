@@ -123,7 +123,7 @@ import {
   useProSelect,
   type ProSelectInstance,
   type ProSelectRequestQuery
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 defineOptions({
   name: 'ProSelectPage'

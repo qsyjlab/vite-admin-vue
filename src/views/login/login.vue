@@ -164,7 +164,7 @@ import {
   UserFilled
 } from '@element-plus/icons-vue'
 import { PermissionModeEnum } from '@/enum'
-import { ProCard } from '@vite-admin/pro-components'
+import { ProCard } from '@framebase/element-plus-pro-components'
 import { mockUsers } from '@/mocks/data/auth'
 
 const { loginSystem, loginOutSystem } = useUserStore()

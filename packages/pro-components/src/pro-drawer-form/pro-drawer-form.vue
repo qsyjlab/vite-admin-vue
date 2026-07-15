@@ -130,7 +130,6 @@ const container = useProFormContainer<TModel, TResult>({
 const { loading, loadingData, submitting, result, open, close, submit, reset } = container
 
 async function handleBeforeClose(done: () => void) {
-  if (loading.value && props.preventCloseWhileSubmitting) return
   if (props.beforeClose && !(await props.beforeClose())) return
   if (await close()) done()
 }

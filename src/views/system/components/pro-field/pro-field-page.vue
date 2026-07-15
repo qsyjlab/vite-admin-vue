@@ -100,7 +100,7 @@ import {
   type ProFieldInstance,
   type ProFieldMode,
   type ProFieldValueEnum
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 defineOptions({ name: 'ProFieldPage' })
 

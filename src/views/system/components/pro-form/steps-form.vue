@@ -41,7 +41,7 @@ import {
   useProStepsForm,
   type ProStepsFormInstance,
   type ProStepsFormStep
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 defineOptions({ name: 'ProStepsFormPage' })
 

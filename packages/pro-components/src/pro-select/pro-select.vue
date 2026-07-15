@@ -51,8 +51,16 @@
     <template v-if="$slots.loading" #loading>
       <slot name="loading" />
     </template>
-    <template v-if="$slots.empty" #empty>
-      <slot name="empty" />
+    <template #empty>
+      <slot name="empty" :error="requestError" :retry="handleRetryRequest">
+        <pro-empty
+          :status="emptyStatus"
+          :description="emptyDescription"
+          :action-text="requestError ? '重试' : undefined"
+          compact
+          @action="handleRetryRequest"
+        />
+      </slot>
     </template>
     <template v-if="$slots.prefix" #prefix>
       <slot name="prefix" />
@@ -75,6 +83,7 @@
 >
 import { computed, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 import { ElSelect } from 'element-plus'
+import ProEmpty from '../pro-empty/pro-empty.vue'
 import { useProConfigProvider } from '../pro-config-provider/pro-config-provider-context'
 import { resolveProConfigProviderPopperClass } from '../pro-config-provider/pro-config-provider-utils'
 import { getProOptionField } from '../shared/pro-option'
@@ -137,7 +146,7 @@ defineSlots<{
   default?: (scope: TOption) => unknown
   option?: (scope: { option: TOption; index: number }) => unknown
   loading?: () => unknown
-  empty?: () => unknown
+  empty?: (scope: { error: unknown; retry: () => Promise<void> }) => unknown
   prefix?: () => unknown
   tag?: (scope: Record<string, unknown>) => unknown
 }>()
@@ -149,6 +158,7 @@ const requestOptions = shallowRef<TOption[]>()
 const requestState = useProRequest<TOption[]>()
 const proConfig = useProConfigProvider()
 let requestSequence = 0
+const lastRequestExtra = shallowRef<Partial<TParams> & ProSelectRequestQuery>({})
 
 const defaultFields: ProSelectFields<TOption> = {
   label: 'label',
@@ -164,6 +174,17 @@ const mergedFields = computed<ProSelectFields<TOption>>(() => ({
 
 const renderedOptions = computed(() => requestOptions.value ?? props.options)
 const mergedLoading = computed(() => Boolean(props.loading || requestState.loading.value))
+const requestError = computed(() => requestState.error.value)
+const emptyStatus = computed(() => {
+  if (requestError.value) return 'error'
+  return lastRequestExtra.value[props.keywordKey] ? 'search' : 'empty'
+})
+const emptyDescription = computed(() => {
+  if (requestError.value instanceof Error && requestError.value.message) {
+    return requestError.value.message
+  }
+  return undefined
+})
 const requestLifecycle = computed(() => ({
   phase: requestState.phase.value,
   action: requestState.action.value,
@@ -207,15 +228,20 @@ function getRequestParams(extra: Record<string, unknown> = {}) {
   } as TParams & ProSelectRequestQuery
 }
 
-async function reload(extra: Partial<TParams> & ProSelectRequestQuery = {}, force = false) {
+async function reload(
+  extra: Partial<TParams> & ProSelectRequestQuery = {},
+  force = false,
+  action?: 'initial' | 'refresh' | 'retry'
+) {
   if (!props.request) return renderedOptions.value
+  lastRequestExtra.value = { ...extra }
   const currentSequence = ++requestSequence
   const params = getRequestParams(extra)
 
   try {
     const execute = () =>
       requestState.execute(props.request!, params, {
-        action: requestOptions.value === undefined ? 'initial' : 'refresh',
+        action: action ?? (requestOptions.value === undefined ? 'initial' : 'refresh'),
         debounce: props.requestDebounce,
         retry: props.requestRetry,
         retryDelay: props.requestRetryDelay
@@ -235,11 +261,18 @@ async function reload(extra: Partial<TParams> & ProSelectRequestQuery = {}, forc
     return options
   } catch (error) {
     if (currentSequence === requestSequence && !isProRequestAbort(error)) {
-      requestOptions.value = []
       emit('request-error', error)
     }
     return []
   }
+}
+
+function retryRequest() {
+  return reload(lastRequestExtra.value, true, 'retry')
+}
+
+async function handleRetryRequest() {
+  await retryRequest()
 }
 
 async function handleRemote(query: string) {
@@ -300,6 +333,12 @@ const exposed: ProSelectExpose<TOption, TParams> = {
   loading: mergedLoading,
   options: renderedOptions,
   getRequestLifecycle,
+  getError: () => requestState.error.value,
+  retryRequest,
+  cancelRequest: reason => {
+    requestSequence += 1
+    requestState.cancel(reason)
+  },
   reload,
   clearCache,
   clearOptions,

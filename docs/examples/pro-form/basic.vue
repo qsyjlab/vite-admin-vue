@@ -20,7 +20,7 @@ import {
   type ProFormInstance,
   ProForm,
   useProForm
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 interface QueryModel {
   keyword?: string

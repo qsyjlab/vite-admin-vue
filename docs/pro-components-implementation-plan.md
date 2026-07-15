@@ -74,9 +74,14 @@ packages/pro-components/src/
   pro-card/
   pro-list/
   pro-preview-file/
+  pro-empty/
+  pro-result/
+  pro-check-card/
+  pro-tree/
+  pro-query-filter/
 ```
 
-同名旧组件目录直接删除，业务入口、自动导入和示例统一切换到 `@vite-admin/pro-components`。不保留重新导出、`legacy` 包装或 `@deprecated` 过渡 API。
+同名旧组件目录直接删除，业务入口、自动导入和示例统一切换到 `@framebase/element-plus-pro-components`。不保留重新导出、`legacy` 包装或 `@deprecated` 过渡 API。
 
 ## 4. 泛型与类型约束
 
@@ -157,6 +162,12 @@ await select.focus()
 | `ProTableSearch`    | 查询表单、重置、参数转换                 | ProTable 与 ProForm 的桥接层         |
 | `ProDescriptions`   | 泛型数据路径、响应式列、字段渲染         | 复用 ProField                        |
 | `ProPreviewFile`    | 文件类型识别、预览状态和错误态           | Upload 系列可选调用                  |
+| `ProEmpty`          | 空数据、无结果、请求失败和重试操作       | 数据组件、预览和 CRUD 页面统一反馈   |
+| `ProResult`         | 成功、异常、权限和服务状态反馈           | 403/404/500 与业务结果页             |
+| `ProCheckCard`      | 卡片式单选/多选、键盘和表单校验          | 套餐、权限和功能模块配置             |
+| `ProTree`           | 树请求、搜索、选中、错误保留和重试       | 组织树与 TreeSelect 数据源           |
+| `ProTreeSelect`     | 异步路径回显、懒加载和 Ref/Hook          | 表单中的层级数据选择                 |
+| `ProQueryFilter`    | 查询条件折叠、计数、清空和参数桥接       | ProForm/ProTableSearch 可选组合      |
 
 ## 7. 分阶段实施
 
@@ -243,6 +254,14 @@ await select.focus()
 - [x] 清除跨组件的旧深层路径导入。
 - [x] 完成组件级、类型级和关键交互测试。
 
+### 阶段 10：反馈、树与工程闭环
+
+- [x] 完成 `ProEmpty`、`ProResult`、`ProCheckCard`、`ProTree / ProTreeSelect` 和 `ProQueryFilter` 的公共 API、Hook、示例与文档。
+- [x] 将 403/404/500、Preview、CRUD 和数据组件反馈态统一到 `ProResult / ProEmpty`。
+- [x] 完成 ROUTE_MAPPING、ROLE、BACKED 三种权限模式菜单回归。
+- [x] 完成 CheckCard、TreeSelect、Tree、Modal/Drawer dirty 和 ProTable URL E2E。
+- [x] 完成 workspace 包脚本、主题包迁移、依赖边界审计、产物校验和工程验收。
+
 ## 8. 质量门槛
 
 每一阶段至少执行：
@@ -273,3 +292,5 @@ P1（已完成）：ProEditableTable 多草稿稳定性、ProDescriptions 详情
 P2（已完成）：`ProConfigProvider`、`ProCard / ProStatisticCard` 与 `ProList` 已补齐组件、真实示例、类型测试和交互测试。
 
 P3（已完成）：统一请求生命周期已支持 AbortSignal、debounce、retry、阶段状态与卸载取消；`ProTable` 已支持服务端排序/筛选和受控分页；`ProList`、`ProDescriptions`、`ProSelect` 已统一暴露请求阶段；`ProForm` 已支持异步初始化、dirty/submitting 状态和离开保护。
+
+P4（已完成）：反馈组件、树组件、CheckCard、QueryFilter、ProSelect 缓存、ProTable URL 状态、三种权限模式与 20 条浏览器 E2E 已闭环；剩余事项仅保留在明确标注的暂缓清单中。

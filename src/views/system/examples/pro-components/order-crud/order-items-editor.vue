@@ -31,7 +31,7 @@ import {
   useProEditableTable,
   type ProEditableTableInstance,
   type ProTableColumns
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 import { createOrderItem, normalizeOrderItem } from './order-schema'
 
 defineOptions({ name: 'OrderItemsEditor' })

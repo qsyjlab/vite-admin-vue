@@ -42,7 +42,7 @@ import {
   type FormFieldError,
   type FormSchema,
   type ProModalFormInstance
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 defineOptions({ name: 'ProModalFormPage' })
 

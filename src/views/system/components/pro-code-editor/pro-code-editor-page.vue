@@ -40,7 +40,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { PageWrapper } from '@/components'
-import { ProCodeEditor, ProJsonEditor } from '@vite-admin/pro-code-editor'
+import { ProCodeEditor, ProJsonEditor } from '@framebase/vue-code-editor'
 
 defineOptions({ name: 'ProCodeEditorPage' })
 

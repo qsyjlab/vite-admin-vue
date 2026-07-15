@@ -16,6 +16,12 @@ export interface ProCheckCardProps<TValue extends ProCheckCardValue = ProCheckCa
   modelValue?: TValue | TValue[]
   multiple?: boolean
   bodyStyle?: CSSProperties
+  selectionRole?: 'radio' | 'checkbox'
+  tabindex?: number
+}
+
+export interface ProCheckCardExpose {
+  focus: () => void
 }
 
 export interface ProCheckCardSlots {

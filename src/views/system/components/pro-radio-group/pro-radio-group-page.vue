@@ -82,7 +82,7 @@ import {
   useProRadioGroup,
   type ProOptionFields,
   type ProRadioGroupInstance
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 defineOptions({
   name: 'ProRadioGroupPage'

@@ -1,4 +1,5 @@
 import type { FormModel, FormSchema, ProFormCollapsedRows, ProFormProps } from './types/form'
+import type { ProRequestLifecycle } from '../../shared/pro-request'
 
 export const emitsEnums = {
   SUBMIT: 'submit',
@@ -10,6 +11,7 @@ export const emitsEnums = {
   UPDATE_DIRTY: 'update:dirty',
   SUBMIT_SUCCESS: 'submit-success',
   SUBMIT_ERROR: 'submit-error',
+  REQUEST_STATE_CHANGE: 'request-state-change',
   REQUEST_ERROR: 'request-error'
 } as const
 
@@ -20,6 +22,7 @@ export type FormEmit<TModel extends FormModel> = {
   (event: 'update:loading' | 'update:dirty', value: boolean): void
   (event: 'submit-success', values: TModel): void
   (event: 'submit-error', error: unknown): void
+  (event: 'request-state-change', lifecycle: ProRequestLifecycle): void
   (event: 'request-error', error: unknown): void
 }
 

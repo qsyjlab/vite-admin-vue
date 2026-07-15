@@ -1,0 +1,59 @@
+:root {
+  --framebase-color-bg: #ffffff;
+  --framebase-color-bg-page: #f0f2f5;
+  --framebase-color-bg-overlay: #ffffff;
+  --framebase-color-fill-light: #fafafa;
+  --framebase-color-fill-lighter: #f5f5f5;
+  --framebase-color-border: #e8e8e8;
+  --framebase-color-border-light: #e8e8e8;
+  --framebase-color-border-lighter: #f0f0f0;
+  --framebase-color-border-strong: #d9d9d9;
+  --framebase-color-text-primary: #141414;
+  --framebase-color-text-regular: #1f1f1f;
+  --framebase-color-text-secondary: #595959;
+  --framebase-color-text-placeholder: #8c8c8c;
+  --framebase-color-danger: #ff4d4f;
+  --framebase-border-radius-base: 6px;
+  --framebase-border-radius-small: 4px;
+  --framebase-border-radius-large: 10px;
+  --framebase-border-radius-round: 999px;
+  --framebase-control-height: 36px;
+  --framebase-menu-item-height: 42px;
+  --framebase-menu-radius: 5px;
+  --framebase-shadow-light: 0 1px 2px rgba(0, 0, 0, 0.03),
+    0 4px 12px rgba(0, 0, 0, 0.04);
+  --framebase-shadow-base: 0 6px 16px rgba(0, 0, 0, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.04);
+
+  --el-bg-color: var(--framebase-color-bg);
+  --el-bg-color-page: var(--framebase-color-bg-page);
+  --el-bg-color-overlay: var(--framebase-color-bg-overlay);
+  --el-fill-color-blank: var(--framebase-color-bg);
+  --el-fill-color-light: var(--framebase-color-fill-light);
+  --el-fill-color-lighter: var(--framebase-color-fill-lighter);
+  --el-border-color: var(--framebase-color-border);
+  --el-border-color-light: var(--framebase-color-border-light);
+  --el-border-color-lighter: var(--framebase-color-border-lighter);
+  --el-border-color-dark: var(--framebase-color-border-strong);
+  --el-border-radius-base: var(--framebase-border-radius-base);
+  --el-border-radius-small: var(--framebase-border-radius-small);
+  --el-border-radius-round: var(--framebase-border-radius-round);
+  --el-text-color-primary: var(--framebase-color-text-primary);
+  --el-text-color-regular: var(--framebase-color-text-regular);
+  --el-text-color-secondary: var(--framebase-color-text-secondary);
+  --el-text-color-placeholder: var(--framebase-color-text-placeholder);
+  --el-text-color-disabled: var(--framebase-color-text-placeholder);
+  --el-disabled-text-color: var(--framebase-color-text-placeholder);
+  --el-menu-text-color: var(--el-text-color-regular);
+  --el-menu-hover-text-color: var(--el-text-color-primary);
+  --el-table-text-color: var(--el-text-color-regular);
+  --el-table-header-text-color: var(--el-text-color-primary);
+  --el-pagination-text-color: var(--el-text-color-regular);
+  --el-pagination-button-color: var(--el-text-color-regular);
+  --el-input-text-color: var(--el-text-color-regular);
+  --el-input-placeholder-color: var(--el-text-color-placeholder);
+  --el-select-input-color: var(--el-text-color-regular);
+  --el-box-shadow-light: var(--framebase-shadow-light);
+  --el-box-shadow: var(--framebase-shadow-base);
+  --el-color-danger: var(--framebase-color-danger);
+}

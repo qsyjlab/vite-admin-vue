@@ -163,7 +163,7 @@ import {
   type ProListInstance,
   type ProListRequestParams,
   type ProListRequestResult
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 import { projectRecords, projectStatusMap, type ProjectRecord } from './project-data'
 
 defineOptions({ name: 'DashboardListPage' })

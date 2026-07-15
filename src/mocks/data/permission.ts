@@ -36,6 +36,13 @@ const componentsModuleRoute = {
           meta: {
             title: 'ProTable 基本使用'
           }
+        },
+        {
+          name: 'ProQueryFilterDemo',
+          path: 'pro-query-filter',
+          meta: {
+            title: 'ProQueryFilter'
+          }
         }
       ]
     },
@@ -56,6 +63,16 @@ const componentsModuleRoute = {
           }
         }
       ]
+    },
+
+    {
+      name: 'ProResultDemo',
+      path: 'pro-result',
+      meta: {
+        title: 'ProResult',
+        icon: 'ep.circle-check',
+        sort: 25
+      }
     },
 
     {
@@ -85,6 +102,16 @@ const componentsModuleRoute = {
         title: 'ProCheckboxGroup',
         icon: 'ep.finished',
         sort: 27
+      }
+    },
+
+    {
+      name: 'ProCheckCardDemo',
+      path: 'pro-check-card',
+      meta: {
+        title: 'ProCheckCard',
+        icon: 'ep.checked',
+        sort: 29
       }
     },
 
@@ -149,6 +176,14 @@ const componentsModuleRoute = {
           }
         }
       ]
+    },
+    {
+      name: 'TreeSelect',
+      path: 'tree/tree-select',
+      meta: {
+        title: 'ProTreeSelect',
+        icon: 'ep.connection'
+      }
     },
     {
       name: 'Upload',

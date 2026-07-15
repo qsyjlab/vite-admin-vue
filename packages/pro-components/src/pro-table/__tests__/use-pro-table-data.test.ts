@@ -1,5 +1,5 @@
 import { computed, nextTick, reactive, ref } from 'vue'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { ProConfigProviderContext } from '../../pro-config-provider'
 import { useProTableData } from '../hooks/use-pro-table-data'
 import type { ProTableProps } from '../pro-table'
@@ -32,6 +32,10 @@ function setup(props: ProTableProps<Row, Record<string, never>>) {
 }
 
 describe('use-pro-table-data', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
   it('syncs controlled local data without treating it as a page change', async () => {
     const props = reactive<ProTableProps<Row, Record<string, never>>>({
       columns: [],
@@ -43,7 +47,7 @@ describe('use-pro-table-data', () => {
     await nextTick()
 
     expect(state.tableData.value).toEqual([{ id: 1, name: 'A' }])
-    expect(beforePageChange).toHaveBeenCalledTimes(1)
+    expect(beforePageChange).not.toHaveBeenCalled()
 
     props.data = [
       { id: 1, name: 'A-saved' },
@@ -52,7 +56,7 @@ describe('use-pro-table-data', () => {
     await nextTick()
 
     expect(state.tableData.value).toEqual(props.data)
-    expect(beforePageChange).toHaveBeenCalledTimes(1)
+    expect(beforePageChange).not.toHaveBeenCalled()
   })
 
   it('still resets editing state when remote query params change', async () => {
@@ -128,6 +132,76 @@ describe('use-pro-table-data', () => {
     })
   })
 
+  it('uses restored URL pagination for the first request without resetting it', async () => {
+    const storage = createStorage()
+    storage.setItem(
+      'orders-table',
+      JSON.stringify({ current: 7, pageSize: 100, filters: { status: ['storage'] } })
+    )
+    vi.stubGlobal('window', {
+      location: {
+        pathname: '/orders',
+        search: '?orders.current=3&orders.pageSize=25',
+        hash: ''
+      },
+      history: {
+        state: null,
+        replaceState: vi.fn(),
+        pushState: vi.fn()
+      },
+      localStorage: createStorage(),
+      sessionStorage: storage,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn()
+    })
+    const request = vi.fn(async () => ({ data: [], total: 0 }))
+    const props = reactive<ProTableProps<Row, Record<string, never>>>({
+      columns: [],
+      request,
+      pagination: true,
+      autoRequest: true,
+      urlState: { key: 'orders' },
+      statePersistence: { key: 'orders-table' }
+    })
+
+    const { state, beforePageChange } = setup(props)
+
+    await vi.waitFor(() => expect(request).toHaveBeenCalledTimes(1))
+    expect(request).toHaveBeenCalledWith(
+      expect.objectContaining({ current: 3, pageSize: 25 }),
+      expect.any(Object)
+    )
+    expect(state.pageInfo.value).toEqual({ current: 3, pageSize: 25 })
+    expect(beforePageChange).not.toHaveBeenCalled()
+  })
+
+  it('writes the initial server state when URL synchronization has no saved state', () => {
+    const replaceState = vi.fn()
+    vi.stubGlobal('window', {
+      location: { pathname: '/orders', search: '?tab=all', hash: '' },
+      history: { state: null, replaceState, pushState: vi.fn() },
+      localStorage: createStorage(),
+      sessionStorage: createStorage(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn()
+    })
+    const props = reactive<ProTableProps<Row, Record<string, never>>>({
+      columns: [],
+      request: async () => ({ data: [], total: 0 }),
+      pagination: true,
+      autoRequest: false,
+      urlState: { key: 'orders' }
+    })
+
+    setup(props)
+
+    expect(replaceState).toHaveBeenCalledWith(
+      null,
+      '',
+      '/orders?tab=all&orders.current=1&orders.pageSize=10'
+    )
+  })
+
   it('maps only server filters and supports aliases in nested columns', () => {
     const filters = resolveProTableServerFilters<Row>(
       [
@@ -153,3 +227,17 @@ describe('use-pro-table-data', () => {
     })
   })
 })
+
+function createStorage(): Storage {
+  const values = new Map<string, string>()
+  return {
+    get length() {
+      return values.size
+    },
+    clear: () => values.clear(),
+    getItem: key => values.get(key) ?? null,
+    key: index => [...values.keys()][index] ?? null,
+    removeItem: key => values.delete(key),
+    setItem: (key, value) => values.set(key, value)
+  }
+}

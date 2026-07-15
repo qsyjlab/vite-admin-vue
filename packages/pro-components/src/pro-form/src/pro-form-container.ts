@@ -35,6 +35,7 @@ export interface ProFormContainerBehavior<TModel extends FormModel, TResult = un
   beforeSubmit?: (form: FormMethodsType<TModel>) => boolean | Promise<boolean>
   closeOnSuccess?: boolean
   resetOnClose?: boolean
+  preventCloseWhileSubmitting?: boolean
   warnWhenDirty?: boolean
   dirtyConfirmMessage?: string
   confirmDirtyClose?: (message: string) => boolean | Promise<boolean>

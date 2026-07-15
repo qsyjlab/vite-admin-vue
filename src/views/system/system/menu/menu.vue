@@ -13,7 +13,7 @@
 </template>
 <script setup lang="ts">
 import { PageCard, PageWrapper } from '@/components'
-import { ProTable, type ProTableColumns } from '@vite-admin/pro-components'
+import { ProTable, type ProTableColumns } from '@framebase/element-plus-pro-components'
 import { getMenuList } from '@/api/permission'
 import { ref } from 'vue'
 

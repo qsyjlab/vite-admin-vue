@@ -36,6 +36,15 @@ const error404: RouteRecordRaw = {
   component: () => import('@/views/error/error-404.vue')
 }
 
+const error500: RouteRecordRaw = {
+  path: '/error500',
+  name: 'Error500',
+  meta: {
+    title: '500'
+  },
+  component: () => import('@/views/error/error-500.vue')
+}
+
 const root: RouteRecordRaw = {
   path: '/',
   name: 'Root',
@@ -75,6 +84,7 @@ export const routes = defineExposeRoutes([
   loginRoute,
   error403,
   error404,
+  error500,
   pageError,
   redirectRoute
 ])

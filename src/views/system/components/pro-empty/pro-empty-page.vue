@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { ElMessage } from 'element-plus'
 import { PageWrapper } from '@/components'
-import { ProEmpty, type ProEmptyStatus } from '@vite-admin/pro-components'
+import { ProEmpty, type ProEmptyStatus } from '@framebase/element-plus-pro-components'
 
 defineOptions({ name: 'ProEmptyPage' })
 

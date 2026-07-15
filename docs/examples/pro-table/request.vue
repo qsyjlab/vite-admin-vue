@@ -29,7 +29,7 @@ import {
   type ProTableInstance,
   type ProTableRequestParams,
   type ProTableRequestResult
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 interface UserRecord {
   date: string

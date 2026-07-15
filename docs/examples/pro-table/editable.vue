@@ -28,7 +28,7 @@ import {
   type ProTableColumns,
   type ProTableInstance,
   type ProTableRequestResult
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 interface UserRecord {
   id: number

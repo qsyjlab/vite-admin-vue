@@ -3,6 +3,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import {
   findMockUser,
   findMockUserByToken,
+  findMockUserByUsername,
   getBackendMenusByUsername,
   toLoginResponse
 } from '../data/auth'
@@ -17,7 +18,7 @@ import {
 } from '../data/order'
 import { sendJson, success, failure, readJsonBody } from './utils'
 
-import type { OrderFormModel } from '@/api/order-types'
+import type { OrderFormModel } from '../../api/order-types'
 
 interface MockRouteContext {
   url: URL
@@ -49,7 +50,9 @@ const authHandlers: MockHandler = async ({ route, method, request, response }) =
     const body = await readJsonBody(request)
     sendJson(
       response,
-      body.ticket ? success(toLoginResponse(findMockUser('admin')!)) : failure('SSO ticket 无效')
+      body.ticket
+        ? success(toLoginResponse(findMockUserByUsername('admin')!))
+        : failure('SSO ticket 无效')
     )
     return true
   }

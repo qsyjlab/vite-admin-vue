@@ -21,8 +21,11 @@ import {
   splitProTableSearchColumns,
   type ProTableSearchColumn,
   type ProTableWithSearchProps
-} from '@vite-admin/pro-components'
-import type { ProTableRequestParams, ProTableRequestResult } from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
+import type {
+  ProTableRequestParams,
+  ProTableRequestResult
+} from '@framebase/element-plus-pro-components'
 
 defineOptions({
   name: 'ProTableSearchPage'

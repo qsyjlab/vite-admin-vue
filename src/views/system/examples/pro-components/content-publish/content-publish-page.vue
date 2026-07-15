@@ -197,7 +197,7 @@ import {
   type ProTableInstance,
   type ProTableRequestParams,
   type ProTableRequestResult
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 defineOptions({ name: 'ContentPublishPage' })
 

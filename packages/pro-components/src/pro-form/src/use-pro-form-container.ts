@@ -67,6 +67,9 @@ export function useProFormContainer<TModel extends FormModel, TResult = unknown>
   }
 
   async function closeInternal(force: boolean) {
+    if (!force && submitting.value && options.getBehavior().preventCloseWhileSubmitting !== false) {
+      return false
+    }
     if (!force && !(await canCloseDirtyForm())) return false
     loadSequence += 1
     loadingData.value = false

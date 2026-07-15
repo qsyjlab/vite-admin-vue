@@ -1,10 +1,14 @@
 <template>
   <button
+    ref="buttonRef"
     type="button"
     class="pro-check-card"
     :class="{ 'is-checked': checked, 'is-disabled': disabled, 'is-loading': loading }"
     :disabled="disabled || loading"
-    :aria-pressed="checked"
+    :role="selectionRole"
+    :aria-checked="selectionRole ? checked : undefined"
+    :aria-pressed="selectionRole ? undefined : checked"
+    :tabindex="tabindex"
     :style="bodyStyle"
     @click="toggle"
   >
@@ -28,10 +32,15 @@
 </template>
 
 <script setup lang="ts" generic="TValue extends ProCheckCardValue = ProCheckCardValue">
-import { computed } from 'vue'
+import { computed, useTemplateRef } from 'vue'
 import { Check } from '@element-plus/icons-vue'
 import { ElAvatar, ElIcon } from 'element-plus'
-import type { ProCheckCardProps, ProCheckCardSlots, ProCheckCardValue } from './pro-check-card'
+import type {
+  ProCheckCardExpose,
+  ProCheckCardProps,
+  ProCheckCardSlots,
+  ProCheckCardValue
+} from './pro-check-card'
 
 defineOptions({ name: 'ProCheckCard' })
 const props = withDefaults(defineProps<ProCheckCardProps<TValue>>(), { multiple: false })
@@ -40,6 +49,7 @@ const emit = defineEmits<{
   change: [value: TValue | TValue[] | undefined]
 }>()
 defineSlots<ProCheckCardSlots>()
+const buttonRef = useTemplateRef<HTMLButtonElement>('buttonRef')
 
 const checked = computed(() =>
   props.multiple
@@ -56,6 +66,12 @@ function toggle() {
   emit('update:model-value', next)
   emit('change', next)
 }
+
+const exposed: ProCheckCardExpose = {
+  focus: () => buttonRef.value?.focus()
+}
+
+defineExpose(exposed)
 </script>
 
 <style scoped lang="scss">
@@ -80,6 +96,10 @@ function toggle() {
 
   &:hover {
     border-color: var(--el-color-primary-light-5);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--el-color-primary-light-3);
+    outline-offset: 2px;
   }
   &.is-checked {
     border-color: var(--el-color-primary);

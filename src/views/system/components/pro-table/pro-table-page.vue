@@ -9,6 +9,7 @@
         :request="queryOrders"
         :params="requestParams"
         :pagination="{ pageSize: 10, pageSizes: [10, 20, 50] }"
+        :url-state="{ key: 'orders' }"
         :columns-state="{ persistenceKey: 'pro-table-basic-columns' }"
         row-key="id"
         header-title="订单列表"
@@ -45,7 +46,7 @@ import {
   type ProTableRequestParams,
   type ProTableRequestResult,
   type ProTableSorter
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 defineOptions({
   name: 'ProTablePage'

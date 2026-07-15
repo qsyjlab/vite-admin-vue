@@ -19,7 +19,7 @@
 </template>
 <script setup lang="ts">
 import config from '@/config'
-import { ProDescriptions, type ProDescriptionColumns } from '@vite-admin/pro-components'
+import { ProDescriptions, type ProDescriptionColumns } from '@framebase/element-plus-pro-components'
 import { h } from 'vue'
 import { ElLink } from 'element-plus'
 

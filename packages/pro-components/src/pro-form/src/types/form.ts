@@ -4,7 +4,11 @@ import type { FormProps as EpFormProps } from 'element-plus'
 import type { ProFieldMode, ProFieldValueEnum, ProFieldValueType } from '../../../pro-field'
 import type { ProOption, ProOptionFields } from '../../../shared/pro-option'
 import type { ProDataIndex, ProPath } from '../../../shared/pro-path'
-import type { ProRequestContext, ProRequestExecuteOptions } from '../../../shared/pro-request'
+import type {
+  ProRequestContext,
+  ProRequestControl,
+  ProRequestExecuteOptions
+} from '../../../shared/pro-request'
 
 export type FormModel = Record<string, any>
 export type FormFieldPath<TModel extends FormModel = FormModel> = ProDataIndex<TModel>
@@ -123,7 +127,8 @@ export interface FormSchema<
 export type FormFieldProp = string | string[]
 export type FormValidationCallback = (isValid: boolean, invalidFields?: unknown) => void
 
-export interface FormMethodsType<TModel extends FormModel = FormModel> {
+export interface FormMethodsType<TModel extends FormModel = FormModel>
+  extends ProRequestControl<TModel> {
   submit: () => Promise<boolean>
   reset: () => void
   validate: (handle?: (model: TModel) => void) => Promise<boolean>

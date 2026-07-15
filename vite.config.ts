@@ -19,10 +19,13 @@ export default defineConfig(configEnv => {
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
-        '@vite-admin/pro-components': fileURLToPath(
+        '@framebase/element-plus-theme/style.css': fileURLToPath(
+          new URL('./packages/element-plus-theme/src/index.scss', import.meta.url)
+        ),
+        '@framebase/element-plus-pro-components': fileURLToPath(
           new URL('./packages/pro-components/src', import.meta.url)
         ),
-        '@vite-admin/pro-code-editor': fileURLToPath(
+        '@framebase/vue-code-editor': fileURLToPath(
           new URL('./packages/pro-code-editor/src', import.meta.url)
         ),
         '~': fileURLToPath(new URL('./', import.meta.url))

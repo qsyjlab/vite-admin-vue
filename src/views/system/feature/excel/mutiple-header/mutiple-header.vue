@@ -15,7 +15,7 @@ import {
   type ProTableColumns,
   type ProTableInstance,
   useProTable
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 import { ref, useTemplateRef } from 'vue'
 import { aoaToSheetXlsx } from '@/utils'
 

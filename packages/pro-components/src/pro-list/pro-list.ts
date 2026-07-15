@@ -4,8 +4,8 @@ import type { ProCardResponsiveColumns } from '../pro-card'
 import type { ProDataIndex } from '../shared/pro-path'
 import type {
   ProRequestContext,
-  ProRequestExecuteOptions,
-  ProRequestLifecycle
+  ProRequestControl,
+  ProRequestExecuteOptions
 } from '../shared/pro-request'
 
 export interface ProListPageInfo {
@@ -77,13 +77,11 @@ export interface ProListProps<
   retryText?: string
 }
 
-export interface ProListExpose<TRecord extends object> {
+export interface ProListExpose<TRecord extends object> extends ProRequestControl<TRecord[]> {
   reload: (resetPage?: boolean) => Promise<TRecord[]>
   refresh: () => Promise<TRecord[]>
   getData: () => TRecord[]
   getLoading: () => boolean
-  getRequestLifecycle: () => ProRequestLifecycle
-  getError: () => unknown
   getTotal: () => number
   getPageInfo: () => ProListPageInfo
   setPageInfo: (pageInfo: Partial<ProListPageInfo>, reload?: boolean) => Promise<TRecord[]>

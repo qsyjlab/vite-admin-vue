@@ -1,0 +1,36 @@
+{
+  "name": "@framebase/element-plus-theme",
+  "version": "0.1.0",
+  "private": true,
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "style": "./dist/style.css",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": "./dist/style.css",
+    "./style.css": "./dist/style.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./dark.css": "./dist/dark.css",
+    "./components.css": "./dist/components.css"
+  },
+  "scripts": {
+    "clean": "rimraf dist .cache",
+    "build": "pnpm run clean && pnpm run build:style && pnpm run build:tokens && pnpm run build:dark && pnpm run build:components",
+    "build:style": "sass src/index.scss dist/style.css --no-source-map --style=compressed",
+    "build:tokens": "sass src/tokens.scss dist/tokens.css --no-source-map --style=compressed",
+    "build:dark": "sass src/dark.scss dist/dark.css --no-source-map --style=compressed",
+    "build:components": "sass src/components/index.scss dist/components.css --no-source-map --style=compressed",
+    "check": "sass src/index.scss .cache/style.css --no-source-map && rimraf .cache",
+    "typecheck": "pnpm run check",
+    "lint": "pnpm run check",
+    "test": "node --test tests/theme.node-test.mjs",
+    "pack:check": "pnpm run build && pnpm pack --pack-destination ../../.output/packages"
+  },
+  "peerDependencies": {
+    "element-plus": "^2.9.0"
+  }
+}

@@ -3,14 +3,10 @@
     min-width: 100px;
     width: auto;
   }
-  ul {
-    li {
-      border-radius: 7px;
-    }
-  }
 
+  ul li,
   .btn-prev,
   .btn-next {
-    border-radius: 7px;
+    border-radius: var(--framebase-border-radius-base);
   }
 }

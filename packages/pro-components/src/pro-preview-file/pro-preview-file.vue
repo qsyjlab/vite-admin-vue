@@ -16,16 +16,21 @@
     <div class="pro-preview-file__content">
       <component :is="previewRenderer" v-if="previewRenderer" :file="source" :height="height" />
 
-      <el-result
+      <pro-empty
+        v-else-if="!source"
+        title="尚未选择文件"
+        description="选择文件后将在这里显示预览内容"
+      />
+
+      <pro-result
         v-else
-        icon="warning"
+        status="warning"
         title="暂不支持在线预览"
-        :sub-title="currentFile?.name || '未选择文件'"
+        :sub-title="currentFile?.name || '当前没有可预览的文件'"
+        :primary-text="download && source ? '下载文件' : undefined"
+        @primary="downloadFile"
       >
-        <template v-if="download && source" #extra>
-          <el-button :icon="Download" type="primary" @click="downloadFile">下载文件</el-button>
-        </template>
-      </el-result>
+      </pro-result>
     </div>
 
     <template #footer>
@@ -38,7 +43,9 @@
 <script setup lang="ts" generic="TFile extends ProPreviewFileSource = ProPreviewFileSource">
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { Download } from '@element-plus/icons-vue'
-import { ElButton, ElDialog, ElImageViewer, ElResult } from 'element-plus'
+import { ElButton, ElDialog, ElImageViewer } from 'element-plus'
+import ProEmpty from '../pro-empty/pro-empty.vue'
+import ProResult from '../pro-result/pro-result.vue'
 import type {
   ProPreviewFileExpose,
   ProPreviewFileProps,

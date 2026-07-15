@@ -8,4 +8,4 @@ export {
   ProCheckboxGroup,
   ProRadioGroup,
   ProUpload as Upload
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'

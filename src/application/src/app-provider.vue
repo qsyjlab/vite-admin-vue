@@ -13,7 +13,10 @@ import projectConfig from '@/config/project-setting'
 import proComponentSetting from '@/config/pro-component-setting'
 import config from '@/config'
 
-import { ProConfigProvider, registerProPreviewFileRenderer } from '@vite-admin/pro-components'
+import {
+  ProConfigProvider,
+  registerProPreviewFileRenderer
+} from '@framebase/element-plus-pro-components'
 import { DocxPreview } from '@/components/docx-preview'
 import { PdfPreview } from '@/components/pdf-preview'
 import { XlsxPreview } from '@/components/xlsx-preview'

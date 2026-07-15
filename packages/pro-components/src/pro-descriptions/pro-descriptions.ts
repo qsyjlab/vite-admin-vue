@@ -4,8 +4,8 @@ import type { ProFieldProps } from '../pro-field'
 import type { ProDataIndex, ProLiteralUnion } from '../shared/pro-path'
 import type {
   ProRequestContext,
-  ProRequestExecuteOptions,
-  ProRequestLifecycle
+  ProRequestControl,
+  ProRequestExecuteOptions
 } from '../shared/pro-request'
 
 export type ProDescriptionsBreakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
@@ -98,13 +98,11 @@ export interface ProDescriptionsProps<
 export interface ProDescriptionsExpose<
   TRecord extends object,
   TParams extends object = Record<string, never>
-> {
+> extends ProRequestControl<TRecord | undefined> {
   reload: (params?: TParams) => Promise<TRecord | undefined>
   getData: () => TRecord | undefined
   setData: (data?: TRecord) => void
   getLoading: () => boolean
-  getRequestLifecycle: () => ProRequestLifecycle
-  getError: () => unknown
   getCollapsed: () => boolean
   setCollapsed: (collapsed: boolean) => void
   toggleCollapse: () => void

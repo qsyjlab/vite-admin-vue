@@ -193,7 +193,7 @@ import {
   type ProDrawerFormInstance,
   type ProModalFormInstance,
   type ProTableInstance
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 import OrderDetailDrawer from './order-detail-drawer.vue'
 import OrderItemsEditor from './order-items-editor.vue'
 import {

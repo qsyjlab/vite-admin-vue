@@ -1,5 +1,5 @@
 /** 对于 pro 系列 组件的 props 预设 */
-import type { ProConfigProviderProps } from '@vite-admin/pro-components'
+import type { ProConfigProviderProps } from '@framebase/element-plus-pro-components'
 
 const componentSetting: DeepPartial<ProConfigProviderProps> = {
   size: 'default',

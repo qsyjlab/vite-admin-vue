@@ -1,6 +1,5 @@
-/* AD 风格消息提示 */
 .el-message {
-  border-radius: 6px;
   border: 1px solid var(--el-border-color-light);
+  border-radius: var(--framebase-border-radius-base);
   box-shadow: var(--el-box-shadow-light);
 }

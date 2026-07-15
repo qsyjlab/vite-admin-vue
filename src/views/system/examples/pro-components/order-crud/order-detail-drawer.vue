@@ -57,7 +57,7 @@ import {
   type ProDescriptionColumns,
   type ProDescriptionsInstance,
   type ProTableColumns
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 defineOptions({ name: 'OrderDetailDrawer' })
 

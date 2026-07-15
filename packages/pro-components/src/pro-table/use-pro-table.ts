@@ -42,6 +42,15 @@ export function useProTable<TRecord extends object>(templateRef?: ProTableTempla
     async getRequestLifecycle() {
       return (await getTable()).getRequestLifecycle()
     },
+    async getError() {
+      return (await getTable()).getError()
+    },
+    async retryRequest() {
+      return (await getTable()).retryRequest()
+    },
+    async cancelRequest(reason?: unknown) {
+      ;(await getTable()).cancelRequest(reason)
+    },
     async getSelectedKeys() {
       return (await getTable()).getSelectedKeys()
     },

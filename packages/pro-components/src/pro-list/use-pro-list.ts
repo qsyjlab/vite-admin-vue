@@ -35,6 +35,12 @@ export function useProList<TRecord extends object>(templateRef?: ProListTemplate
     async getError() {
       return (await getList()).getError()
     },
+    async retryRequest() {
+      return (await getList()).retryRequest()
+    },
+    async cancelRequest(reason?: unknown) {
+      ;(await getList()).cancelRequest(reason)
+    },
     async getTotal() {
       return (await getList()).getTotal()
     },

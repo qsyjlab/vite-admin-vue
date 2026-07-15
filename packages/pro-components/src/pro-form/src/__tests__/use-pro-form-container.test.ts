@@ -41,6 +41,15 @@ function createForm(
     toggleCollapse: vi.fn(),
     load: vi.fn(async () => ({ name: 'loaded' })),
     getLoading: vi.fn(() => false),
+    getRequestLifecycle: vi.fn(() => ({
+      phase: 'idle',
+      loading: false,
+      initialLoading: false,
+      refreshing: false
+    })),
+    getError: vi.fn(),
+    retryRequest: vi.fn(async () => ({ name: 'loaded' })),
+    cancelRequest: vi.fn(),
     getSubmitting: vi.fn(() => false),
     isDirty: vi.fn(() => false),
     markClean: vi.fn(),
@@ -220,5 +229,40 @@ describe('use pro form container', () => {
     await expect(container.submit()).resolves.toBe(true)
     expect(visible.value).toBe(false)
     expect(confirmDirtyClose).toHaveBeenCalledTimes(1)
+  })
+
+  it('closes a dirty form after confirmation succeeds', async () => {
+    const confirmDirtyClose = vi.fn(async () => true)
+    const form = createForm({ isDirty: vi.fn(() => true) })
+    const { container, visible } = createContainer({ warnWhenDirty: true, confirmDirtyClose }, form)
+
+    visible.value = true
+
+    await expect(container.close()).resolves.toBe(true)
+    expect(visible.value).toBe(false)
+    expect(confirmDirtyClose).toHaveBeenCalledTimes(1)
+  })
+
+  it('prevents every normal close path while submitting', async () => {
+    const finish = createDeferred<string>()
+    const finishStarted = createDeferred<boolean>()
+    const { container, visible } = createContainer<string>({
+      preventCloseWhileSubmitting: true,
+      onFinish: () => {
+        finishStarted.resolve(true)
+        return finish.promise
+      }
+    })
+    visible.value = true
+
+    const submitting = container.submit()
+    await finishStarted.promise
+
+    await expect(container.close()).resolves.toBe(false)
+    expect(visible.value).toBe(true)
+
+    finish.resolve('saved')
+    await expect(submitting).resolves.toBe(true)
+    expect(visible.value).toBe(false)
   })
 })

@@ -1,4 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
+import { TextDecoder, TextEncoder } from 'node:util'
 
 /** 统一 JSON 响应 */
 export function sendJson(response: ServerResponse, data: unknown, statusCode = 200) {
@@ -20,16 +21,23 @@ export function failure(message: string, code = 0, data: unknown = null) {
 
 /** 读取请求体 JSON */
 export async function readJsonBody(request: IncomingMessage): Promise<Record<string, unknown>> {
-  const chunks: Buffer[] = []
+  const chunks: Uint8Array[] = []
 
   for await (const chunk of request) {
-    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk))
+    chunks.push(typeof chunk === 'string' ? new TextEncoder().encode(chunk) : new Uint8Array(chunk))
   }
 
   if (!chunks.length) return {}
 
   try {
-    return JSON.parse(Buffer.concat(chunks).toString('utf8')) as Record<string, unknown>
+    const length = chunks.reduce((total, chunk) => total + chunk.byteLength, 0)
+    const body = new Uint8Array(length)
+    let offset = 0
+    for (const chunk of chunks) {
+      body.set(chunk, offset)
+      offset += chunk.byteLength
+    }
+    return JSON.parse(new TextDecoder().decode(body)) as Record<string, unknown>
   } catch {
     return {}
   }

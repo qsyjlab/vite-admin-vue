@@ -45,6 +45,8 @@ test.describe.serial('三种权限模式模拟登录', () => {
     expect(menus.some(t => t.includes('文档'))).toBeTruthy()
     expect(menus.some(t => t.includes('异常页面'))).toBeTruthy()
     expect(menus.some(t => t.includes('关于'))).toBeTruthy()
+    await page.goto('/components/pro-result')
+    await expect(page.getByRole('heading', { name: 'ProResult', exact: true })).toBeVisible()
     expect(errors.filter(e => !e.includes('favicon'))).toEqual([])
   })
 
@@ -64,6 +66,8 @@ test.describe.serial('三种权限模式模拟登录', () => {
     expect(menus.some(t => t.includes('菜单管理'))).toBeFalsy()
     expect(menus.some(t => t.includes('外部页面'))).toBeFalsy()
     expect(menus.some(t => t.includes('示例中心'))).toBeFalsy()
+    await page.goto('/components/pro-check-card')
+    await expect(page.getByRole('heading', { name: 'ProCheckCard', exact: true })).toBeVisible()
     expect(errors.filter(e => !e.includes('favicon'))).toEqual([])
   })
 
@@ -95,6 +99,8 @@ test.describe.serial('三种权限模式模拟登录', () => {
     expect(menus.some(t => t.includes('菜单管理'))).toBeTruthy()
     expect(menus.some(t => t.includes('组件'))).toBeTruthy()
     expect(menus.some(t => t.includes('功能'))).toBeTruthy()
+    await page.goto('/components/tree/base')
+    await expect(page.getByRole('heading', { name: 'ProTree', exact: true })).toBeVisible()
     expect(errors.filter(e => !e.includes('favicon'))).toEqual([])
   })
 
@@ -125,6 +131,8 @@ test.describe.serial('三种权限模式模拟登录', () => {
     expect(menus.some(t => t.includes('示例中心'))).toBeTruthy()
     expect(menus.some(t => t.includes('菜单管理'))).toBeTruthy()
     expect(menus.some(t => t.includes('外部页面'))).toBeTruthy()
+    await page.goto('/components/tree/tree-select')
+    await expect(page.getByRole('heading', { name: 'ProTreeSelect', exact: true })).toBeVisible()
     expect(errors.filter(e => !e.includes('favicon'))).toEqual([])
   })
 

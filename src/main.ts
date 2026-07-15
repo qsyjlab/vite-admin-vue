@@ -7,6 +7,7 @@ import setupAccess from '@/access'
 import setupStore from '@/store'
 import { sso } from '@/sso'
 import { cleanupLegacyMockWorker } from '@/mocks'
+import '@framebase/element-plus-theme/style.css'
 import '@/styles/index.scss'
 import { startQiankunApp } from '@/micro-app/root-app'
 

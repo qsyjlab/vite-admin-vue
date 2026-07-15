@@ -3,8 +3,8 @@ import type { Ref } from 'vue'
 import type { ProOption, ProOptionFieldPath, ProOptionFields } from '../shared/pro-option'
 import type {
   ProRequestContext,
-  ProRequestExecuteOptions,
-  ProRequestLifecycle
+  ProRequestControl,
+  ProRequestExecuteOptions
 } from '../shared/pro-request'
 
 export type ProSelectOption = ProOption
@@ -61,11 +61,10 @@ export interface ProSelectProps<
 export interface ProSelectExpose<
   TOption extends object = ProSelectOption,
   TParams extends ProSelectParams = ProSelectParams
-> {
+> extends ProRequestControl<TOption[]> {
   selectRef: Ref<unknown>
   loading: Readonly<Ref<boolean>>
   options: Readonly<Ref<TOption[]>>
-  getRequestLifecycle: () => ProRequestLifecycle
   reload: (params?: Partial<TParams> & ProSelectRequestQuery, force?: boolean) => Promise<TOption[]>
   clearCache: () => void
   clearOptions: () => void

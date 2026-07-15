@@ -29,6 +29,13 @@ export interface ProRequestLifecycle {
   refreshing: boolean
 }
 
+export interface ProRequestControl<TResult> {
+  getRequestLifecycle: () => ProRequestLifecycle
+  getError: () => unknown
+  retryRequest: () => Promise<TResult>
+  cancelRequest: (reason?: unknown) => void
+}
+
 export interface ProRequestState<TData> {
   data: ShallowRef<TData | undefined>
   error: ShallowRef<unknown>
@@ -71,6 +78,7 @@ export function useProRequest<TData>(defaults: ProRequestOptions = {}): ProReque
     debounceTimer = undefined
     rejectDebounce?.(reason)
     rejectDebounce = undefined
+    error.value = undefined
     phase.value = 'idle'
     action.value = undefined
   }
@@ -199,5 +207,9 @@ function createAbortError(message = 'Request aborted') {
 }
 
 export function isProRequestAbort(error: unknown) {
-  return error instanceof DOMException && error.name === 'AbortError'
+  if (error instanceof DOMException && error.name === 'AbortError') return true
+  if (!error || typeof error !== 'object') return false
+
+  const value = error as { code?: string; name?: string }
+  return value.name === 'CanceledError' || value.code === 'ERR_CANCELED'
 }

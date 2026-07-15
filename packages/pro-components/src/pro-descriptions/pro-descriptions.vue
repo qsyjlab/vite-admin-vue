@@ -332,13 +332,13 @@ onBeforeUnmount(() => {
   requestState.cancel()
 })
 
-async function reload(params?: TParams) {
+async function reload(params?: TParams, action?: 'initial' | 'refresh' | 'retry') {
   if (params) requestParams.value = cloneDeep(params)
   if (!props.request) return currentData.value
 
   try {
     const data = await requestState.execute(props.request, cloneDeep(requestParams.value), {
-      action: currentData.value ? 'refresh' : 'initial',
+      action: action ?? (currentData.value ? 'refresh' : 'initial'),
       debounce: props.requestDebounce,
       retry: props.requestRetry,
       retryDelay: props.requestRetryDelay
@@ -349,6 +349,10 @@ async function reload(params?: TParams) {
     if (!isProRequestAbort(error)) emit('request-error', error)
     return undefined
   }
+}
+
+function retryRequest() {
+  return reload(undefined, 'retry')
 }
 
 function setData(data?: TRecord) {
@@ -443,6 +447,8 @@ const exposed: ProDescriptionsExpose<TRecord, TParams> = {
   getLoading: () => mergedLoading.value,
   getRequestLifecycle,
   getError: () => requestError.value,
+  retryRequest,
+  cancelRequest: requestState.cancel,
   getCollapsed: () => effectiveCollapsed.value,
   setCollapsed,
   toggleCollapse

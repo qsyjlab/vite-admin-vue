@@ -36,6 +36,15 @@ export function useProSelect<
     async getRequestLifecycle() {
       return (await getSelect()).getRequestLifecycle()
     },
+    async getError() {
+      return (await getSelect()).getError()
+    },
+    async retryRequest() {
+      return (await getSelect()).retryRequest()
+    },
+    async cancelRequest(reason?: unknown) {
+      ;(await getSelect()).cancelRequest(reason)
+    },
     async clearOptions() {
       ;(await getSelect()).clearOptions()
     },

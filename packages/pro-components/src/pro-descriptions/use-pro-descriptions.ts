@@ -41,6 +41,12 @@ export function useProDescriptions<
     async getError() {
       return (await getDescriptions()).getError()
     },
+    async retryRequest() {
+      return (await getDescriptions()).retryRequest()
+    },
+    async cancelRequest(reason?: unknown) {
+      ;(await getDescriptions()).cancelRequest(reason)
+    },
     async getCollapsed() {
       return (await getDescriptions()).getCollapsed()
     },

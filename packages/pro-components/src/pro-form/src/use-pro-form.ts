@@ -115,6 +115,22 @@ export function useProForm<TModel extends FormModel = FormModel>(templateRef: Pr
     return (await getForm()).getLoading()
   }
 
+  async function getRequestLifecycle() {
+    return (await getForm()).getRequestLifecycle()
+  }
+
+  async function getError() {
+    return (await getForm()).getError()
+  }
+
+  async function retryRequest() {
+    return (await getForm()).retryRequest()
+  }
+
+  async function cancelRequest(reason?: unknown) {
+    ;(await getForm()).cancelRequest(reason)
+  }
+
   async function getSubmitting() {
     return (await getForm()).getSubmitting()
   }
@@ -148,6 +164,10 @@ export function useProForm<TModel extends FormModel = FormModel>(templateRef: Pr
     toggleCollapse,
     load,
     getLoading,
+    getRequestLifecycle,
+    getError,
+    retryRequest,
+    cancelRequest,
     getSubmitting,
     isDirty,
     markClean

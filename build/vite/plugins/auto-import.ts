@@ -60,10 +60,10 @@ export function proComponentResolver() {
   return name => {
     if (!name.startsWith('Pro')) return
     if (packagedProComponents.has(name)) {
-      return { name, from: '@vite-admin/pro-components' }
+      return { name, from: '@framebase/element-plus-pro-components' }
     }
     if (packagedCodeEditors.has(name)) {
-      return { name, from: '@vite-admin/pro-code-editor' }
+      return { name, from: '@framebase/vue-code-editor' }
     }
     return {
       name,

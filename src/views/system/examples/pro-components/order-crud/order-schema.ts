@@ -7,7 +7,7 @@ import {
   type ProTableColumns,
   type ProTableRenderScope,
   type ProTableSearchField
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 import type {
   OrderDetail,
   OrderFormModel,

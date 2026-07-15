@@ -52,7 +52,7 @@ import {
   type ProFormInstance,
   useProForm,
   useProFormDirtyGuard
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 import { ref, useTemplateRef } from 'vue'
 
 const formRef = useTemplateRef<ProFormInstance>('formRef')

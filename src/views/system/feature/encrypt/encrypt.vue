@@ -83,7 +83,11 @@
 import { useTemplateRef } from 'vue'
 import { InfoFilled, Key, Lock, RefreshLeft, Unlock } from '@element-plus/icons-vue'
 import { PageWrapper } from '@/components'
-import { useProForm, type FormMethodsType, type FormSchema } from '@vite-admin/pro-components'
+import {
+  useProForm,
+  type FormMethodsType,
+  type FormSchema
+} from '@framebase/element-plus-pro-components'
 import { encrypt, decrypt } from '@/utils'
 
 defineOptions({ name: 'EncryptPage' })

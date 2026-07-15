@@ -40,6 +40,13 @@ export const useForm = <TModel extends FormModel>(parameter: UseFormParameter<TM
   const submitting = ref(false)
   const requestState = useProRequest<Partial<TModel>>()
   const loading = computed(() => requestState.loading.value || submitting.value)
+  const requestLifecycle = computed(() => ({
+    phase: requestState.phase.value,
+    action: requestState.action.value,
+    loading: requestState.loading.value,
+    initialLoading: requestState.initialLoading.value,
+    refreshing: requestState.refreshing.value
+  }))
   const dirty = computed(() => !isEqual(formModel.value, cleanSnapshot.value))
   const internalCollapsed = ref(props.defaultCollapsed)
   let effectSnapshot = cloneDeep(toRaw(formModel.value))
@@ -135,6 +142,9 @@ export const useForm = <TModel extends FormModel>(parameter: UseFormParameter<TM
   )
 
   watch(loading, value => emits(emitsEnums.UPDATE_LOADING, value), { immediate: true })
+  watch(requestLifecycle, lifecycle => emits(emitsEnums.REQUEST_STATE_CHANGE, { ...lifecycle }), {
+    immediate: true
+  })
   watch(dirty, value => emits(emitsEnums.UPDATE_DIRTY, value), { immediate: true })
   watch(
     [() => props.request, () => props.autoRequest],
@@ -251,14 +261,14 @@ export const useForm = <TModel extends FormModel>(parameter: UseFormParameter<TM
     emits(emitsEnums.RESET, cloneDeep(getFieldsValue()))
   }
 
-  async function load() {
+  async function executeLoad(action?: 'initial' | 'refresh' | 'retry') {
     if (!props.request) {
       formModel.value = cloneDeep(props.model) as TModel
       markClean()
       return getFieldsValue({ transform: false })
     }
     const values = await requestState.execute((_, context) => props.request!(context), undefined, {
-      action: 'initial',
+      action: action ?? (requestState.data.value === undefined ? 'initial' : 'refresh'),
       debounce: props.requestDebounce,
       retry: props.requestRetry,
       retryDelay: props.requestRetryDelay
@@ -271,6 +281,14 @@ export const useForm = <TModel extends FormModel>(parameter: UseFormParameter<TM
     await nextTick()
     markClean()
     return getFieldsValue({ transform: false })
+  }
+
+  function load() {
+    return executeLoad()
+  }
+
+  function retryRequest() {
+    return executeLoad('retry')
   }
 
   function markClean() {
@@ -299,6 +317,10 @@ export const useForm = <TModel extends FormModel>(parameter: UseFormParameter<TM
     setCollapsed,
     toggleCollapse,
     load,
+    getRequestLifecycle: () => ({ ...requestLifecycle.value }),
+    getError: () => requestState.error.value,
+    retryRequest,
+    cancelRequest: requestState.cancel,
     getLoading: () => loading.value,
     getSubmitting: () => submitting.value,
     isDirty: () => dirty.value,
@@ -335,6 +357,7 @@ export const useForm = <TModel extends FormModel>(parameter: UseFormParameter<TM
     submitting,
     dirty,
     load,
+    requestLifecycle,
     markClean
   }
 }

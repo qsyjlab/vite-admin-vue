@@ -42,7 +42,7 @@ import {
   useProDrawerForm,
   type FormSchema,
   type ProDrawerFormInstance
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 defineOptions({ name: 'ProDrawerFormPage' })
 

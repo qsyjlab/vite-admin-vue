@@ -54,8 +54,8 @@ declare module 'vue' {
     ElTreeSelect: typeof import('element-plus/es')['ElTreeSelect']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     ProEcharts: typeof import('@/components')['ProEcharts']
-    ProForm: typeof import('@vite-admin/pro-components')['ProForm']
-    ProTable: typeof import('@vite-admin/pro-components')['ProTable']
+    ProForm: typeof import('@framebase/element-plus-pro-components')['ProForm']
+    ProTable: typeof import('@framebase/element-plus-pro-components')['ProTable']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

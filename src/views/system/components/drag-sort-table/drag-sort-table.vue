@@ -21,7 +21,7 @@ import {
   ProDragSortTable,
   type ProDragSortTableEnd,
   type ProTableColumns
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 defineOptions({
   name: 'ProDragSortTablePage'

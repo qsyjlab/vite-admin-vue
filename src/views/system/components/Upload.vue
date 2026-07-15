@@ -44,7 +44,7 @@ export default { name: 'Upload' }
 <script setup lang="ts">
 import { PageWrapper } from '@/components/page-wrapper'
 import { PageCard } from '@/components/page-card'
-import { ProUpload as Upload, ProUploadList } from '@vite-admin/pro-components'
+import { ProUpload as Upload, ProUploadList } from '@framebase/element-plus-pro-components'
 import { Plus, UploadFilled } from '@element-plus/icons-vue'
 
 import { ref } from 'vue'

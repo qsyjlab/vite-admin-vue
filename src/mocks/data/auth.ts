@@ -42,6 +42,7 @@ const allRouteNames = [
   'ProTableBasic',
   'ProEditableTable',
   'ProTableSearch',
+  'ProQueryFilterDemo',
   'ProDragSortTable',
   'Editor',
   'ProCodeEditor',
@@ -50,9 +51,11 @@ const allRouteNames = [
   'ProCardDemo',
   'ProListDemo',
   'ProEmptyDemo',
+  'ProResultDemo',
   'ProSelectDemo',
   'ProRadioGroupDemo',
   'ProCheckboxGroupDemo',
+  'ProCheckCardDemo',
   'ProFieldDemo',
   'ProForm',
   'ProFormBase',
@@ -99,6 +102,7 @@ const allRouteNames = [
   'Exception',
   '404',
   '403',
+  '500',
   'System',
   'SystemMenu',
   'Examples',
@@ -128,12 +132,15 @@ const editorRouteNames = [
   'ProTableBasic',
   'ProEditableTable',
   'ProTableSearch',
+  'ProQueryFilterDemo',
   'ProDragSortTable',
   'Editor',
   'ProCodeEditor',
   'RichEditor',
   'ProCardDemo',
   'ProListDemo',
+  'ProResultDemo',
+  'ProCheckCardDemo',
   'ProForm',
   'ProFormBase',
   'ProFormModal',
@@ -276,6 +283,12 @@ const adminBackendMenus = [
             meta: { title: 'ProTableSearch', icon: 'ep.search' }
           },
           {
+            name: 'ProQueryFilterDemo',
+            path: 'pro-query-filter',
+            component: '/system/components/pro-query-filter/pro-query-filter-page',
+            meta: { title: 'ProQueryFilter', icon: 'ep.filter' }
+          },
+          {
             name: 'ProDragSortTable',
             path: 'pro-drag-sort-table',
             component: '/system/components/drag-sort-table/drag-sort-table',
@@ -328,28 +341,40 @@ const adminBackendMenus = [
         meta: { title: 'ProEmpty', icon: 'ep.box', order: 24 }
       },
       {
+        name: 'ProResultDemo',
+        path: 'pro-result',
+        component: '/system/components/pro-result/pro-result-page',
+        meta: { title: 'ProResult', icon: 'ep.circle-check', order: 25 }
+      },
+      {
         name: 'ProSelectDemo',
         path: 'pro-select',
         component: '/system/components/pro-select/pro-select-page',
-        meta: { title: 'ProSelect', icon: 'ep.select', order: 25 }
+        meta: { title: 'ProSelect', icon: 'ep.select', order: 26 }
       },
       {
         name: 'ProRadioGroupDemo',
         path: 'pro-radio-group',
         component: '/system/components/pro-radio-group/pro-radio-group-page',
-        meta: { title: 'ProRadioGroup', icon: 'ep.open', order: 26 }
+        meta: { title: 'ProRadioGroup', icon: 'ep.open', order: 27 }
       },
       {
         name: 'ProCheckboxGroupDemo',
         path: 'pro-checkbox-group',
         component: '/system/components/pro-checkbox-group/pro-checkbox-group-page',
-        meta: { title: 'ProCheckboxGroup', icon: 'ep.finished', order: 27 }
+        meta: { title: 'ProCheckboxGroup', icon: 'ep.finished', order: 28 }
+      },
+      {
+        name: 'ProCheckCardDemo',
+        path: 'pro-check-card',
+        component: '/system/components/pro-check-card/pro-check-card-page',
+        meta: { title: 'ProCheckCard', icon: 'ep.checked', order: 29 }
       },
       {
         name: 'ProFieldDemo',
         path: 'pro-field',
         component: '/system/components/pro-field/pro-field-page',
-        meta: { title: 'ProField', icon: 'ep.postcard', order: 28 }
+        meta: { title: 'ProField', icon: 'ep.postcard', order: 30 }
       },
       {
         name: 'ProForm',
@@ -426,14 +451,14 @@ const adminBackendMenus = [
           {
             name: 'TreeSelect',
             path: 'tree-select',
-            component: '/system/components/tree/tree-select',
-            meta: { title: 'TreeSelect', icon: 'ep.connection' }
+            component: '/system/components/pro-tree-select/pro-tree-select-page',
+            meta: { title: 'ProTreeSelect', icon: 'ep.connection' }
           },
           {
             name: 'BaseTree',
             path: 'base',
             component: '/system/components/tree/tree/tree',
-            meta: { title: 'Tree', icon: 'ep.folder-opened' }
+            meta: { title: 'ProTree', icon: 'ep.folder-opened' }
           }
         ]
       }
@@ -695,14 +720,20 @@ const adminBackendMenus = [
       {
         name: '403',
         path: '403',
-        component: '/system/error/error-403',
+        component: '/error/error-403',
         meta: { title: '403', icon: 'ep.lock', order: 10, ignoreAuth: true }
       },
       {
         name: '404',
         path: '404',
-        component: '/system/error/error-404',
+        component: '/error/error-404',
         meta: { title: '404', icon: 'ep.warning', order: 20, ignoreAuth: true }
+      },
+      {
+        name: '500',
+        path: '500',
+        component: '/error/error-500',
+        meta: { title: '500', icon: 'ep.circle-close', order: 30, ignoreAuth: true }
       }
     ]
   },
@@ -760,6 +791,13 @@ export function getBackendMenusByUsername(username: string) {
  */
 export function findMockUser(username: string, password: string): MockUser | undefined {
   return mockUsers.find(u => u.username === username && u.password === password)
+}
+
+/**
+ * 根据用户名查找 mock 用户，用于不校验密码的 SSO 场景
+ */
+export function findMockUserByUsername(username: string): MockUser | undefined {
+  return mockUsers.find(user => user.username === username)
 }
 
 /**

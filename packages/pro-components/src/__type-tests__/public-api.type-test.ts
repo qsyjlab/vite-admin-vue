@@ -6,24 +6,32 @@ import {
   ProField,
   ProForm,
   ProList,
+  ProQueryFilter,
   ProSelect,
   ProTable,
+  ProTreeSelect,
   useProDescriptions,
   useProForm,
   useProList,
+  useProQueryFilter,
   useProSelect,
   useProTable,
+  useProTree,
+  useProTreeSelect,
   type FormMethodsType,
   type ProDescriptionColumns,
   type ProDescriptionsInstance,
   type ProFormInstance,
   type ProListInstance,
+  type ProQueryFilterInstance,
   type ProSelectInstance,
   type ProTableColumns,
   type ProTableInstance,
   type ProTableRequestParams,
-  type ProTableRequestResult
-} from '@vite-admin/pro-components'
+  type ProTableRequestResult,
+  type ProTreeInstance,
+  type ProTreeSelectInstance
+} from '@framebase/element-plus-pro-components'
 
 type Equal<TLeft, TRight> =
   (<T>() => T extends TLeft ? 1 : 2) extends <T>() => T extends TRight ? 1 : 2 ? true : false
@@ -41,6 +49,11 @@ interface UserQuery {
   keyword?: string
 }
 
+interface UserFilterParams {
+  keyword?: string
+  enabled?: boolean
+}
+
 interface UserFormModel {
   user: {
     name: string
@@ -52,6 +65,12 @@ interface UserOption {
   label: string
   value: number
   department: string
+}
+
+interface TreeNode {
+  id: number
+  label: string
+  children?: TreeNode[]
 }
 
 const columns = [
@@ -81,6 +100,12 @@ type ListRequestPhaseResult = Expect<
   >
 >
 
+const queryFilterRef = shallowRef<ProQueryFilterInstance<UserQuery, UserFilterParams> | null>(null)
+const queryFilter = useProQueryFilter(queryFilterRef)
+type QueryFilterResult = Expect<
+  Equal<Awaited<ReturnType<typeof queryFilter.submit>>, UserFilterParams | undefined>
+>
+
 const descriptionsRef = shallowRef<ProDescriptionsInstance<UserRecord, UserQuery> | null>(null)
 const descriptions = useProDescriptions(descriptionsRef)
 type DescriptionsDataResult = Expect<
@@ -107,6 +132,16 @@ type FormInstanceContract = Expect<
 >
 type FormDirtyResult = Expect<Equal<Awaited<ReturnType<typeof form.isDirty>>, boolean>>
 
+const treeSelectRef = shallowRef<ProTreeSelectInstance<TreeNode> | null>(null)
+const treeSelect = useProTreeSelect(treeSelectRef)
+type TreeSelectDataResult = Expect<
+  Equal<Awaited<ReturnType<typeof treeSelect.getData>>, TreeNode[]>
+>
+
+const treeRef = shallowRef<ProTreeInstance<TreeNode> | null>(null)
+const tree = useProTree(treeRef)
+type TreeDataResult = Expect<Equal<Awaited<ReturnType<typeof tree.getData>>, TreeNode[]>>
+
 async function requestUsers(
   params: ProTableRequestParams<UserQuery>
 ): Promise<ProTableRequestResult<UserRecord>> {
@@ -120,16 +155,21 @@ void [
   ProField,
   ProForm,
   ProList,
+  ProQueryFilter,
   ProSelect,
   ProTable,
+  ProTreeSelect,
   columns,
   descriptionColumns,
   requestUsers,
   table,
   list,
+  queryFilter,
   descriptions,
   select,
-  form
+  form,
+  treeSelect,
+  tree
 ]
 
 export type {
@@ -140,8 +180,11 @@ export type {
   FormValuesResult,
   ListDataResult,
   ListRequestPhaseResult,
+  QueryFilterResult,
   SelectOptionsResult,
   SelectRequestPhaseResult,
   TableDataResult,
-  TableServerStateResult
+  TableServerStateResult,
+  TreeSelectDataResult,
+  TreeDataResult
 }

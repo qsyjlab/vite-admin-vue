@@ -1,12 +1,12 @@
-# @vite-admin/pro-code-editor
+# @framebase/vue-code-editor
 
 轻量的 Vue 代码与 JSON 编辑组件包，与主 ProComponents 包分离，避免普通页面承担编辑器体积。
 
 ## 使用
 
 ```ts
-import { ProCodeEditor, ProJsonEditor } from '@vite-admin/pro-code-editor'
-import '@vite-admin/pro-code-editor/style.css'
+import { ProCodeEditor, ProJsonEditor } from '@framebase/vue-code-editor'
+import '@framebase/vue-code-editor/style.css'
 ```
 
 当前实现支持双向绑定、行号、Tab 缩进、只读、禁用、暗黑模式，以及 JSON 校验、格式化和压缩。CodeMirror 增强不属于当前工程收尾范围。

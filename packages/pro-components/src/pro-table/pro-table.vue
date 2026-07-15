@@ -74,6 +74,19 @@
       </slot>
     </div>
 
+    <el-alert
+      v-if="requestError && tableData.length"
+      class="pro-table__request-error"
+      type="error"
+      :title="resolvedRequestErrorText"
+      :closable="false"
+      show-icon
+    >
+      <template #default>
+        <el-button type="danger" link @click="handleRetryRequest">{{ retryText }}</el-button>
+      </template>
+    </el-alert>
+
     <div class="pro-table__body">
       <el-table
         ref="tableRef"
@@ -106,7 +119,21 @@
           :drag-handle="isDragHandleColumn(column)"
         />
         <template #empty>
-          <slot name="empty" />
+          <slot
+            name="empty"
+            :status="emptyStatus"
+            :error="requestError"
+            :retry="handleRetryRequest"
+          >
+            <pro-empty
+              :status="emptyStatus"
+              :title="resolvedEmptyTitle"
+              :description="resolvedEmptyDescription"
+              :action-text="requestError ? retryText : undefined"
+              compact
+              @action="handleRetryRequest"
+            />
+          </slot>
         </template>
       </el-table>
     </div>
@@ -140,6 +167,7 @@
 >
 import { computed } from 'vue'
 import { Operation, RefreshRight, Setting } from '@element-plus/icons-vue'
+import ProEmpty from '../pro-empty/pro-empty.vue'
 import { useProConfigProvider } from '../pro-config-provider/pro-config-provider-context'
 import { resolveProConfigProviderPopperClass } from '../pro-config-provider/pro-config-provider-utils'
 import ProTableColumnSetting from './components/pro-table-column-setting.vue'
@@ -191,6 +219,7 @@ const {
   total,
   pageInfo,
   mergedLoading,
+  requestError,
   paginationProps,
   refresh,
   handleCurrentChange,
@@ -217,9 +246,42 @@ const {
   isDragHandleColumn
 } = store
 const resolvedBorder = computed(() => props.border ?? proConfig.value.table?.border ?? true)
+const retryText = computed(() => props.retryText ?? '重试')
+const resolvedRequestErrorText = computed(() => {
+  if (typeof props.errorText === 'function') return props.errorText(requestError.value)
+  if (props.errorText) return props.errorText
+  if (requestError.value instanceof Error && requestError.value.message) {
+    return requestError.value.message
+  }
+  return '数据加载失败，请稍后重试'
+})
+const hasQueryState = computed(
+  () =>
+    Object.keys(props.params ?? {}).length > 0 ||
+    Boolean(store.sorter.value) ||
+    Object.values(store.filters.value).some(values => values.length > 0)
+)
+const emptyStatus = computed(() =>
+  requestError.value ? 'error' : hasQueryState.value ? 'search' : 'empty'
+)
+const resolvedEmptyTitle = computed(() => {
+  if (requestError.value) return '加载失败'
+  return props.emptyText
+})
+const resolvedEmptyDescription = computed(() =>
+  requestError.value ? resolvedRequestErrorText.value : undefined
+)
 const resolvedPopperClass = computed(() =>
   resolveProConfigProviderPopperClass(proConfig.value.dark)
 )
+
+async function handleRetryRequest() {
+  try {
+    await store.retryRequest()
+  } catch {
+    return
+  }
+}
 
 defineExpose(store.exposed)
 </script>
@@ -288,6 +350,11 @@ defineExpose(store.exposed)
   &__alert {
     flex: none;
     padding-bottom: 12px;
+  }
+
+  &__request-error {
+    flex: none;
+    margin-bottom: 12px;
   }
 
   &__body {

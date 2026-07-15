@@ -18,6 +18,14 @@
       :collapsed="collapsed"
       :default-collapsed="defaultCollapsed"
       :collapsed-rows="collapsedRows"
+      :omit-empty="omitEmpty"
+      :collapsible="collapsible"
+      :submitter-col="submitterCol"
+      :submit-text="submitText"
+      :reset-text="resetText"
+      :search-on-reset="searchOnReset"
+      :label-width="labelWidth"
+      :label-position="labelPosition"
       @update:model-value="handleModelChange"
       @update:collapsed="value => $emit('update:collapsed', value)"
       @search="(params, values) => $emit('search', params, values)"
@@ -45,14 +53,22 @@ import { computed, ref } from 'vue'
 import { ElButton, ElTag } from 'element-plus'
 import type { FormModel } from '../pro-form'
 import { ProTableSearch, type ProTableSearchInstance } from '../pro-table-search'
-import type { ProQueryFilterProps } from './pro-query-filter'
+import type { ProQueryFilterExpose, ProQueryFilterProps } from './pro-query-filter'
 
 defineOptions({ name: 'ProQueryFilter' })
 const props = withDefaults(defineProps<ProQueryFilterProps<TQuery, TParams>>(), {
   fields: () => [],
   defaultCollapsed: true,
   showActiveCount: true,
-  clearText: '清空条件'
+  clearText: '清空条件',
+  omitEmpty: true,
+  collapsible: true,
+  submitterCol: () => ({ span: 6, xs: 24, sm: 8, md: 8, lg: 6 }),
+  submitText: '查询',
+  resetText: '重置',
+  searchOnReset: true,
+  labelPosition: 'left',
+  labelWidth: 80
 })
 const emit = defineEmits<{
   'update:model-value': [values: TQuery]
@@ -66,7 +82,7 @@ function handleModelChange(values: TQuery) {
   emit('update:model-value', values)
 }
 async function clear() {
-  await searchRef.value?.reset()
+  return searchRef.value?.reset()
 }
 function countActiveValues(values?: TQuery) {
   if (!values) return 0
@@ -78,12 +94,27 @@ function countActiveValues(values?: TQuery) {
       (!Array.isArray(value) || value.length)
   ).length
 }
-defineExpose({
-  submit: () => searchRef.value?.submit(),
-  reset: () => searchRef.value?.reset(),
+const exposed: ProQueryFilterExpose<TQuery, TParams> = {
+  getSearch: () => searchRef.value,
+  getForm: () => searchRef.value?.getForm() ?? null,
+  getCollapsed: () => searchRef.value?.getCollapsed() ?? false,
+  setCollapsed: value => searchRef.value?.setCollapsed(value),
+  submit: async () => searchRef.value?.submit(),
+  reset: async () =>
+    searchRef.value?.reset() ??
+    (props.transform
+      ? props.transform((props.initialValues ?? ({} as TQuery)) as TQuery)
+      : ((props.initialValues ?? {}) as TParams)),
+  toggleCollapse: () => searchRef.value?.toggleCollapse(),
+  setFieldsValue: async values => searchRef.value?.setFieldsValue(values),
+  getFieldsValue: async transform =>
+    searchRef.value?.getFieldsValue(transform) ??
+    ((props.initialValues ?? props.modelValue ?? {}) as TQuery),
   clear,
   getActiveCount: () => activeCount.value
-})
+}
+
+defineExpose(exposed)
 </script>
 
 <style scoped lang="scss">

@@ -3,6 +3,7 @@ import type { Component, VNodeChild } from 'vue'
 import type { ProFieldProps } from '../pro-field'
 import type {
   ProRequestContext,
+  ProRequestControl,
   ProRequestExecuteOptions,
   ProRequestLifecycle
 } from '../shared/pro-request'
@@ -166,6 +167,14 @@ export interface ProTableStatePersistence {
   filters?: boolean
 }
 
+export interface ProTableUrlState {
+  key?: string
+  history?: 'replace' | 'push'
+  pagination?: boolean
+  sorter?: boolean
+  filters?: boolean
+}
+
 export interface ProTableOptions {
   reload?: boolean
   density?: boolean
@@ -215,6 +224,7 @@ export interface ProTableProps<
   options?: boolean | ProTableOptions
   columnsState?: ProTableColumnsState
   statePersistence?: ProTableStatePersistence
+  urlState?: boolean | ProTableUrlState
   indexBorder?: boolean | Partial<ProTableColumn<TRecord>>
   editable?: ProTableEditable<TRecord>
   dragSort?: boolean | ProTableDragSort<TRecord>
@@ -226,16 +236,18 @@ export interface ProTableProps<
   size?: TableProps<TRecord>['size']
   border?: boolean
   tableLayout?: TableProps<TRecord>['tableLayout']
+  emptyText?: string
+  errorText?: string | ((error: unknown) => string)
+  retryText?: string
 }
 
-export interface ProTableExpose<TRecord extends object> {
+export interface ProTableExpose<TRecord extends object> extends ProRequestControl<TRecord[]> {
   getTable: () => TableInstance | undefined
   getData: () => TRecord[]
   getLoading: () => boolean
   getPageInfo: () => ProTablePageInfo
   getTotal: () => number
   getServerState: () => ProTableServerState
-  getRequestLifecycle: () => ProTableRequestLifecycle
   getSelectedKeys: () => Array<string | number>
   reload: (resetPage?: boolean) => Promise<TRecord[]>
   refresh: () => Promise<TRecord[]>

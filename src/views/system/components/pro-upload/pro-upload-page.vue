@@ -96,7 +96,7 @@ import {
   type ProUploadListInstance,
   type ProUploadRequestContext,
   type FormSchema
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 defineOptions({ name: 'ProUploadPage' })
 

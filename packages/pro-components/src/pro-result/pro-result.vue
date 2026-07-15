@@ -1,6 +1,12 @@
 <template>
-  <section class="pro-result" :class="`is-${status}`" :style="bodyStyle" role="status">
-    <div class="pro-result__icon">
+  <section
+    class="pro-result"
+    :class="`is-${status}`"
+    :style="bodyStyle"
+    role="status"
+    aria-live="polite"
+  >
+    <div class="pro-result__icon" aria-hidden="true">
       <slot name="icon">
         <el-icon><component :is="iconComponent" /></el-icon>
       </slot>
@@ -33,6 +39,7 @@ import {
 } from '@element-plus/icons-vue'
 import { ElButton, ElIcon } from 'element-plus'
 import type { ProResultProps, ProResultSlots } from './pro-result'
+import { getProResultDefaultContent } from './pro-result-utils'
 
 defineOptions({ name: 'ProResult' })
 const props = withDefaults(defineProps<ProResultProps>(), { status: 'info' })
@@ -40,21 +47,21 @@ defineEmits<{ primary: []; secondary: [] }>()
 defineSlots<ProResultSlots>()
 const slots = useSlots()
 
-const meta = computed(
+const iconComponent = computed(
   () =>
     ({
-      success: [CircleCheckFilled, '操作成功', '请求已经成功完成'],
-      error: [CircleCloseFilled, '操作失败', '请求处理失败，请稍后重试'],
-      warning: [WarningFilled, '需要注意', '请检查相关信息后继续'],
-      info: [InfoFilled, '提示信息', '请根据提示继续操作'],
-      '403': [WarningFilled, '403', '抱歉，你无权访问此页面'],
-      '404': [InfoFilled, '404', '抱歉，你访问的页面不存在'],
-      '500': [CircleCloseFilled, '500', '服务器发生错误，请稍后重试']
+      success: CircleCheckFilled,
+      error: CircleCloseFilled,
+      warning: WarningFilled,
+      info: InfoFilled,
+      '403': WarningFilled,
+      '404': InfoFilled,
+      '500': CircleCloseFilled
     })[props.status]
 )
-const iconComponent = computed(() => meta.value[0])
-const resolvedTitle = computed(() => props.title ?? meta.value[1])
-const resolvedSubTitle = computed(() => props.subTitle ?? meta.value[2])
+const defaultContent = computed(() => getProResultDefaultContent(props.status))
+const resolvedTitle = computed(() => props.title ?? defaultContent.value.title)
+const resolvedSubTitle = computed(() => props.subTitle ?? defaultContent.value.subTitle)
 const hasExtra = computed(() => Boolean(slots.extra || props.primaryText || props.secondaryText))
 </script>
 

@@ -38,7 +38,7 @@ import {
   useProDescriptions,
   type ProDescriptionColumns,
   type ProDescriptionsInstance
-} from '@vite-admin/pro-components'
+} from '@framebase/element-plus-pro-components'
 
 interface UserDetail {
   id: string

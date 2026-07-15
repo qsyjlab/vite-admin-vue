@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import { useWaterMark, Watermark } from '@/components/watermark'
 import type { WatermarkProps } from '@/components/watermark'
-import { ProForm, type FormSchema } from '@vite-admin/pro-components'
+import { ProForm, type FormSchema } from '@framebase/element-plus-pro-components'
 import { ref, onMounted, reactive, nextTick, computed } from 'vue'
 
 const proFormFields: FormSchema[] = [

@@ -1,55 +1,39 @@
 <template>
-  <div class="not-found-page">
-    <div class="not-found-main">
-      <div class="icon">
-        <img src="~@/assets/svg/403.svg" alt="/" />
-      </div>
-      <div class="desc">对不起，您没有访问该资源的权限</div>
-    </div>
-    <div class="not-found-footer">
-      <el-button type="primary" @click="$router.back()">返回</el-button>
-    </div>
-  </div>
+  <main class="error-page">
+    <pro-result
+      status="403"
+      title="暂无访问权限"
+      sub-title="当前账号没有访问此资源的权限，请联系管理员授权。"
+      primary-text="返回上一页"
+      secondary-text="返回工作台"
+      @primary="router.back()"
+      @secondary="router.push('/welcome')"
+    />
+  </main>
 </template>
 
+<script setup lang="ts">
+import { useRouter } from 'vue-router'
+import { ProResult } from '@framebase/element-plus-pro-components'
+
+defineOptions({ name: 'Error403Page' })
+
+const router = useRouter()
+</script>
+
 <style scoped>
-.not-found-page {
+.error-page {
   display: flex;
   width: 100%;
   min-height: 100%;
   flex: 1 1 auto;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: var(--global-bg-color-2);
+  background: var(--global-bg-color-2);
 }
 
-:global(#app > .not-found-page) {
+:global(#app > .error-page) {
   min-height: 100vh;
   min-height: 100dvh;
-}
-
-.icon {
-  width: 90px;
-  height: 90px;
-  margin-bottom: 20px;
-
-  img {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-}
-
-.desc {
-  font-size: 14px;
-}
-
-.not-found-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 30px;
 }
 </style>
