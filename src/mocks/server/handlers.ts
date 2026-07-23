@@ -1,4 +1,4 @@
-import type { IncomingMessage, ServerResponse } from 'node:http'
+import { http, HttpResponse } from 'msw'
 
 import {
   findMockUser,
@@ -16,174 +16,135 @@ import {
   queryMockOrders,
   updateMockOrder
 } from '../data/order'
-import { sendJson, success, failure, readJsonBody } from './utils'
+import { success, failure } from './utils'
 
 import type { OrderFormModel } from '../../api/order-types'
 
-interface MockRouteContext {
-  url: URL
-  method: string
-  route: string
-  request: IncomingMessage
-  response: ServerResponse
-}
-
-type MockHandler = (ctx: MockRouteContext) => Promise<boolean | void>
+// mock 接口前缀，与 service/index.ts 的 basicApiService.baseURL 一致
+const BASE = import.meta.env.VITE_APP_MOCK_API_BASE_URL || '/basic-api'
 
 // ─── 认证相关 ──────────────────────────────────────────────────────────────
 
-const authHandlers: MockHandler = async ({ route, method, request, response }) => {
-  // POST /login —— 登录
-  if (method === 'POST' && route === '/login') {
-    const body = await readJsonBody(request)
-    const user = findMockUser(String(body.username || ''), String(body.password || ''))
-    if (user) {
-      sendJson(response, success(toLoginResponse(user)))
-    } else {
-      sendJson(response, failure('账号或密码错误'))
-    }
-    return true
-  }
+// POST /login —— 登录
+const loginHandler = http.post(`${BASE}/login`, async ({ request }) => {
+  const body = (await request.json()) as Record<string, string>
+  const user = findMockUser(String(body.username || ''), String(body.password || ''))
+  return user
+    ? HttpResponse.json(success(toLoginResponse(user)))
+    : HttpResponse.json(failure('账号或密码错误'))
+})
 
-  // POST /sso —— 单点登录
-  if (method === 'POST' && route === '/sso') {
-    const body = await readJsonBody(request)
-    sendJson(
-      response,
-      body.ticket
-        ? success(toLoginResponse(findMockUserByUsername('admin')!))
-        : failure('SSO ticket 无效')
-    )
-    return true
-  }
+// POST /sso —— 单点登录
+const ssoHandler = http.post(`${BASE}/sso`, async ({ request }) => {
+  const body = (await request.json()) as Record<string, string>
+  return HttpResponse.json(
+    body.ticket
+      ? success(toLoginResponse(findMockUserByUsername('admin')!))
+      : failure('SSO ticket 无效')
+  )
+})
 
-  // GET /uauth —— 获取当前用户信息（通过 token）
-  if (method === 'GET' && route === '/uauth') {
-    const authHeader = request.headers.authorization || ''
-    const token = authHeader.replace(/^Bearer\s+/i, '')
-    const user = findMockUserByToken(token)
-    sendJson(response, user ? success(toLoginResponse(user)) : failure('未登录', 401))
-    return true
-  }
+// GET /uauth —— 获取当前用户信息（通过 token）
+const uauthHandler = http.get(`${BASE}/uauth`, ({ request }) => {
+  const authHeader = request.headers.get('authorization') || ''
+  const token = authHeader.replace(/^Bearer\s+/i, '')
+  const user = findMockUserByToken(token)
+  return HttpResponse.json(user ? success(toLoginResponse(user)) : failure('未登录', 401), {
+    status: user ? 200 : 401
+  })
+})
 
-  // GET /refreshToken —— 刷新 token
-  if (method === 'GET' && route === '/refreshToken') {
-    sendJson(response, success({ refreshToken: Date.now() }))
-    return true
-  }
-
-  return false
-}
+// GET /refreshToken —— 刷新 token
+const refreshTokenHandler = http.get(`${BASE}/refreshToken`, () =>
+  HttpResponse.json(success({ refreshToken: Date.now() }))
+)
 
 // ─── 菜单相关 ──────────────────────────────────────────────────────────────
 
-const menuHandlers: MockHandler = async ({ route, method, request, response }) => {
-  // GET /getMenuList —— 后端菜单映射模式 (BACKED) 使用
-  if (method === 'GET' && route === '/getMenuList') {
-    const authHeader = request.headers.authorization || ''
-    const token = authHeader.replace(/^Bearer\s+/i, '')
-    const user = findMockUserByToken(token)
-    const username = user?.username || 'admin'
-    const menus = getBackendMenusByUsername(username)
-    sendJson(response, success(menus))
-    return true
-  }
-
-  return false
-}
+// GET /getMenuList —— 后端菜单映射模式 (BACKED) 使用
+const getMenuListHandler = http.get(`${BASE}/getMenuList`, ({ request }) => {
+  const authHeader = request.headers.get('authorization') || ''
+  const token = authHeader.replace(/^Bearer\s+/i, '')
+  const user = findMockUserByToken(token)
+  const username = user?.username || 'admin'
+  const menus = getBackendMenusByUsername(username)
+  return HttpResponse.json(success(menus))
+})
 
 // ─── 订单相关 ──────────────────────────────────────────────────────────────
 
-const orderHandlers: MockHandler = async ({ route, method, request, response, url }) => {
-  // GET /orders/meta —— 表单元数据
-  if (method === 'GET' && route === '/orders/meta') {
-    sendJson(response, success(orderMeta))
-    return true
-  }
+// GET /orders/meta —— 表单元数据
+const getOrderMetaHandler = http.get(`${BASE}/orders/meta`, () =>
+  HttpResponse.json(success(orderMeta))
+)
 
-  // GET /orders —— 列表查询
-  if (method === 'GET' && route === '/orders') {
-    sendJson(
-      response,
-      success(
-        queryMockOrders({
-          current: Number(url.searchParams.get('current') || 1),
-          pageSize: Number(url.searchParams.get('pageSize') || 10),
-          orderNo: url.searchParams.get('orderNo') || undefined,
-          customerName: url.searchParams.get('customerName') || undefined,
-          owner: url.searchParams.get('owner') || undefined,
-          status: (url.searchParams.get('status') || undefined) as never,
-          createdFrom: url.searchParams.get('createdFrom') || undefined,
-          createdTo: url.searchParams.get('createdTo') || undefined
-        })
-      )
+// GET /orders —— 列表查询
+const listOrdersHandler = http.get(`${BASE}/orders`, ({ request }) => {
+  const url = new URL(request.url)
+  return HttpResponse.json(
+    success(
+      queryMockOrders({
+        current: Number(url.searchParams.get('current') || 1),
+        pageSize: Number(url.searchParams.get('pageSize') || 10),
+        orderNo: url.searchParams.get('orderNo') || undefined,
+        customerName: url.searchParams.get('customerName') || undefined,
+        owner: url.searchParams.get('owner') || undefined,
+        status: (url.searchParams.get('status') || undefined) as never,
+        createdFrom: url.searchParams.get('createdFrom') || undefined,
+        createdTo: url.searchParams.get('createdTo') || undefined
+      })
     )
-    return true
-  }
+  )
+})
 
-  // POST /orders —— 创建订单
-  if (method === 'POST' && route === '/orders') {
-    const result = createMockOrder((await readJsonBody(request)) as unknown as OrderFormModel)
-    sendJson(
-      response,
-      result.success
-        ? success(result.data, '订单创建成功')
-        : failure(result.message, 422, { fieldErrors: result.fieldErrors })
-    )
-    return true
-  }
+// POST /orders —— 创建订单
+const createOrderHandler = http.post(`${BASE}/orders`, async ({ request }) => {
+  const result = createMockOrder((await request.json()) as unknown as OrderFormModel)
+  return HttpResponse.json(
+    result.success
+      ? success(result.data, '订单创建成功')
+      : failure(result.message, 422, { fieldErrors: result.fieldErrors }),
+    { status: result.success ? 200 : 422 }
+  )
+})
 
-  // POST /orders/batch-delete —— 批量删除
-  if (method === 'POST' && route === '/orders/batch-delete') {
-    const body = await readJsonBody(request)
-    const ids = Array.isArray(body.ids) ? body.ids.map(String) : []
-    sendJson(response, success({ deleted: batchDeleteMockOrders(ids) }))
-    return true
-  }
+// POST /orders/batch-delete —— 批量删除
+const batchDeleteOrdersHandler = http.post(`${BASE}/orders/batch-delete`, async ({ request }) => {
+  const body = (await request.json()) as { ids?: unknown[] }
+  const ids = Array.isArray(body.ids) ? body.ids.map(String) : []
+  return HttpResponse.json(success({ deleted: batchDeleteMockOrders(ids) }))
+})
 
-  // /orders/:id —— 单条操作
-  const orderRoute = route.match(/^\/orders\/([^/]+)$/)
-  if (orderRoute) {
-    const id = decodeURIComponent(orderRoute[1])
+// GET /orders/:id —— 查询单条
+const getOrderHandler = http.get(`${BASE}/orders/:id`, ({ params }) => {
+  const id = decodeURIComponent(String(params.id))
+  const order = getMockOrder(id)
+  return order
+    ? HttpResponse.json(success(order))
+    : HttpResponse.json(failure(`订单不存在：${id}`, 404), { status: 404 })
+})
 
-    if (method === 'GET') {
-      const order = getMockOrder(id)
-      sendJson(
-        response,
-        order ? success(order) : failure(`订单不存在：${id}`, 404),
-        order ? 200 : 404
-      )
-      return true
-    }
+// PUT /orders/:id —— 更新单条
+const updateOrderHandler = http.put(`${BASE}/orders/:id`, async ({ request, params }) => {
+  const id = decodeURIComponent(String(params.id))
+  const result = updateMockOrder(id, (await request.json()) as unknown as OrderFormModel)
+  if (!result) return HttpResponse.json(failure(`订单不存在：${id}`, 404), { status: 404 })
+  return HttpResponse.json(
+    result.success
+      ? success(result.data, '订单更新成功')
+      : failure(result.message, 422, { fieldErrors: result.fieldErrors }),
+    { status: result.success ? 200 : 422 }
+  )
+})
 
-    if (method === 'PUT') {
-      const result = updateMockOrder(id, (await readJsonBody(request)) as unknown as OrderFormModel)
-      if (!result) {
-        sendJson(response, failure(`订单不存在：${id}`, 404), 404)
-        return true
-      }
-      sendJson(
-        response,
-        result.success
-          ? success(result.data, '订单更新成功')
-          : failure(result.message, 422, { fieldErrors: result.fieldErrors })
-      )
-      return true
-    }
-
-    if (method === 'DELETE') {
-      const deleted = deleteMockOrder(id)
-      sendJson(
-        response,
-        deleted ? success({ deleted: true }) : failure(`订单不存在：${id}`, 404),
-        deleted ? 200 : 404
-      )
-      return true
-    }
-  }
-
-  return false
-}
+// DELETE /orders/:id —— 删除单条
+const deleteOrderHandler = http.delete(`${BASE}/orders/:id`, ({ params }) => {
+  const id = decodeURIComponent(String(params.id))
+  const deleted = deleteMockOrder(id)
+  return deleted
+    ? HttpResponse.json(success({ deleted: true }))
+    : HttpResponse.json(failure(`订单不存在：${id}`, 404), { status: 404 })
+})
 
 // ─── 杂项 ──────────────────────────────────────────────────────────────────
 
@@ -198,49 +159,46 @@ function createMockRows(page: number, pageSize: number) {
   }))
 }
 
-const miscHandlers: MockHandler = async ({ route, method, response, url }) => {
-  // GET /mockList
-  if (method === 'GET' && route === '/mockList') {
-    const page = Number(url.searchParams.get('page') || 1)
-    const pageSize = Number(url.searchParams.get('pageSize') || 10)
-    sendJson(response, success({ total: 1000, data: createMockRows(page, pageSize) }))
-    return true
-  }
+// GET /mockList
+const mockListHandler = http.get(`${BASE}/mockList`, ({ request }) => {
+  const url = new URL(request.url)
+  const page = Number(url.searchParams.get('page') || 1)
+  const pageSize = Number(url.searchParams.get('pageSize') || 10)
+  return HttpResponse.json(success({ total: 1000, data: createMockRows(page, pageSize) }))
+})
 
-  // GET /todos
-  if (method === 'GET' && route === '/todos') {
-    const limit = Number(url.searchParams.get('limit') || 10)
-    const todos = Array.from({ length: limit }, (_, index) => ({
-      userId: 1,
-      id: index + 1,
-      title: `todo-${index + 1}`,
-      completed: index % 2 === 0
-    }))
-    sendJson(response, success(todos))
-    return true
-  }
-
-  return false
-}
+// GET /todos
+const todosHandler = http.get(`${BASE}/todos`, ({ request }) => {
+  const url = new URL(request.url)
+  const limit = Number(url.searchParams.get('limit') || 10)
+  const todos = Array.from({ length: limit }, (_, index) => ({
+    userId: 1,
+    id: index + 1,
+    title: `todo-${index + 1}`,
+    completed: index % 2 === 0
+  }))
+  return HttpResponse.json(success(todos))
+})
 
 // ─── 处理器注册 ─────────────────────────────────────────────────────────────
 
-const allHandlers: MockHandler[] = [authHandlers, menuHandlers, orderHandlers, miscHandlers]
-
-/**
- * 处理 mock API 请求，返回 true 表示已处理
- */
-export async function handleMockRequest(ctx: MockRouteContext): Promise<boolean> {
-  for (const handler of allHandlers) {
-    const handled = await handler(ctx)
-    if (handled) return true
-  }
-  return false
-}
-
-/**
- * 未匹配到任何 mock 路由时的兜底响应
- */
-export function handleMockNotFound(response: ServerResponse, method: string, route: string) {
-  sendJson(response, failure(`Mock API not found: ${method} ${route}`, 404), 404)
-}
+export const handlers = [
+  // 认证
+  loginHandler,
+  ssoHandler,
+  uauthHandler,
+  refreshTokenHandler,
+  // 菜单
+  getMenuListHandler,
+  // 订单
+  getOrderMetaHandler,
+  listOrdersHandler,
+  createOrderHandler,
+  batchDeleteOrdersHandler,
+  getOrderHandler,
+  updateOrderHandler,
+  deleteOrderHandler,
+  // 杂项
+  mockListHandler,
+  todosHandler
+]

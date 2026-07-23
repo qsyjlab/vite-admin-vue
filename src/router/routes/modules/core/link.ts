@@ -39,7 +39,7 @@ export default defineExposeRoutes([
       },
       {
         name: 'Qiankun',
-        path: '/sub-vite',
+        path: 'sub-vite',
         meta: {
           isKeepAlive: true,
           title: 'Qiankun',

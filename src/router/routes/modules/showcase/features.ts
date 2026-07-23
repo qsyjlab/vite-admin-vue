@@ -163,15 +163,6 @@ export default defineExposeRoutes([
             },
             component: () =>
               import('@/views/system/feature/excel/mutiple-header/mutiple-header.vue')
-          },
-          {
-            name: 'ExcelImport',
-            path: 'import',
-            meta: {
-              title: '导入',
-              icon: 'ep.upload'
-            },
-            component: () => import('@/views/system/feature/excel/import.vue')
           }
         ]
       },

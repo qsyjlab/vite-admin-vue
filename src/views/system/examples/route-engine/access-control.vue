@@ -18,6 +18,50 @@
       </el-table>
     </page-card>
 
+    <page-card header="组件级鉴权演示" style="margin-bottom: 16px">
+      <div class="auth-demo">
+        <el-descriptions :column="3" border size="small">
+          <el-descriptions-item label="当前用户">{{ userInfo.userName }}</el-descriptions-item>
+          <el-descriptions-item label="角色">{{ roles.join('，') || '无' }}</el-descriptions-item>
+          <el-descriptions-item label="权限数">{{ permissions.length }} 项</el-descriptions-item>
+        </el-descriptions>
+
+        <div class="auth-demo__row">
+          <div class="auth-demo__cell">
+            <span class="auth-demo__label">$hasAuthorize('System')</span>
+            <el-tag :type="$hasAuthorize('System') ? 'success' : 'info'" size="small">
+              {{ $hasAuthorize('System') ? '有权限' : '无权限' }}
+            </el-tag>
+          </div>
+          <div class="auth-demo__cell">
+            <span class="auth-demo__label">$hasRole('super')</span>
+            <el-tag :type="$hasRole('super') ? 'success' : 'info'" size="small">
+              {{ $hasRole('super') ? '有角色' : '无角色' }}
+            </el-tag>
+          </div>
+        </div>
+
+        <div class="auth-demo__section">
+          <p class="auth-demo__label">&lt;Authority value="System"&gt; 声明式鉴权</p>
+          <Authority value="System">
+            <el-alert
+              title="你拥有 System 权限，Authority 组件渲染了此内容"
+              type="success"
+              :closable="false"
+              show-icon
+            />
+          </Authority>
+          <el-alert
+            v-if="!$hasAuthorize('System')"
+            title="你没有 System 权限，Authority 组件不会渲染任何内容"
+            type="info"
+            :closable="false"
+            show-icon
+          />
+        </div>
+      </div>
+    </page-card>
+
     <page-card header="落地建议">
       <div class="tip-list">
         <div v-for="item in tips" :key="item.title" class="tip-item">
@@ -30,6 +74,17 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useUserStore, usePermissionStore } from '@/store'
+import { Authority } from '@/components/authority'
+
+const userStore = useUserStore()
+const permissionStore = usePermissionStore()
+
+const userInfo = computed(() => userStore.userInfo)
+const roles = computed(() => userStore.roles.map(String))
+const permissions = computed(() => permissionStore.getPermissions())
+
 const summary = [
   {
     badge: 'public',
@@ -140,6 +195,44 @@ const tips = [
   span {
     color: var(--global-text-color-secondary);
     line-height: 1.7;
+  }
+}
+
+.auth-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  &__cell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border: 1px solid var(--global-border-color);
+    border-radius: 8px;
+    background: var(--global-surface-color-muted);
+  }
+
+  &__label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--global-text-color-secondary);
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    p {
+      margin: 0;
+    }
   }
 }
 

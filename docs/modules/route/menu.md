@@ -2,8 +2,10 @@
 
 ## 菜单配置
 
+以下为 `RouteMeta` 中的菜单相关字段（详见 `/typings/router.d.ts`）：
+
 ```ts
-  // 排序
+  // 排序（注意：项目使用 order 字段，不是 sort）
   order?: number
   // 路由标题
   title?: string
@@ -34,9 +36,13 @@
   roles?: string[] | number[]
 ```
 
+::: tip 排序字段
+菜单排序使用 `meta.order`，数值越小越靠前。**不是 `sort`**，旧版文档中的 `sort` 字段已废弃。
+:::
+
 ## 菜单模块
 
-顶级路由 / 开头作为一级菜单
+顶级路由 `/` 开头作为一级菜单
 
 ## 如何新增菜单
 

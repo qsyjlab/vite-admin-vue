@@ -37,7 +37,14 @@
    pnpm --filter @framebase/element-plus-theme publish --dry-run --access public
    ```
 
-正式发布只在 GitHub Actions 的手动 workflow 中执行，并将 `publish` 设置为 `true`。workflow 使用 `NPM_TOKEN` 和 npm provenance；默认 `publish=false`，只做验收。
+正式发布默认由维护者在本地手动执行，不依赖 GitHub Actions：
+
+```bash
+npm login --scope=@framebase
+pnpm release:publish
+```
+
+GitHub Actions 只作为可选的远程验收或备用发布入口，不是发布前置条件。
 
 ## 版本策略
 
@@ -47,6 +54,8 @@
 - 三包没有运行时内部依赖，因此不强制固定版本；只有确实需要联动时才在 changeset 中同时选择多个包。
 
 ## 独立仓库迁移
+
+完整阶段、tooling 职责和后台应用切换流程见 [ProComponents 独立仓库迁移计划](./pro-components-repository-migration-plan.md)。
 
 推荐建立一个 `framebase-element-plus` 仓库，继续使用 pnpm workspace 管理三包，而不是为每个包建立独立仓库。迁移顺序：
 

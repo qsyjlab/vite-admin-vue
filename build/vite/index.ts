@@ -11,7 +11,6 @@ import {
   viteComponentsPlugin,
   configSvgIconsPlugin,
   injectHtmlPlugin,
-  mockApiPlugin,
   appLoadingPlugin
 } from './plugins'
 // @ts-ignore
@@ -32,7 +31,6 @@ export function createVitePlugin(configEnv: ConfigEnv) {
     viteAutoImportPlugin(),
     viteComponentsPlugin(),
     configSvgIconsPlugin({ isBuild }),
-    mockApiPlugin(viteEnvs.VITE_APP_MOCK_API_BASE_URL),
     appLoadingPlugin({
       componentPath: resolveProjectPath('src/app-loading/app-loading.vue'),
       appTitle: viteEnvs.VITE_APP_TITLE,

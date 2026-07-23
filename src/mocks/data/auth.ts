@@ -33,8 +33,6 @@ export interface MockUser {
 const allRouteNames = [
   'Welcome',
   'WelcomeIndex',
-  'Dashboard',
-  'DashboardIndex',
   'Charts',
   'Echarts',
   'Components',
@@ -87,7 +85,6 @@ const allRouteNames = [
   'ExcelPreview',
   'ExcelBase',
   'ExcelBaseMutiHeader',
-  'ExcelImport',
   'docx',
   'HtmlToDocx',
   'HtmlToDocxPreview',
@@ -123,8 +120,6 @@ const allRouteNames = [
 const editorRouteNames = [
   'Welcome',
   'WelcomeIndex',
-  'Dashboard',
-  'DashboardIndex',
   'Charts',
   'Echarts',
   'Components',
@@ -156,14 +151,7 @@ const editorRouteNames = [
 ]
 
 /** 访客权限 —— 仅可访问工作台和图表 */
-const viewerRouteNames = [
-  'Welcome',
-  'WelcomeIndex',
-  'Dashboard',
-  'DashboardIndex',
-  'Charts',
-  'Echarts'
-]
+const viewerRouteNames = ['Welcome', 'WelcomeIndex', 'Charts', 'Echarts']
 
 // ─── Mock 用户列表 ────────────────────────────────────────────────────────
 
@@ -218,21 +206,6 @@ const adminBackendMenus = [
         path: 'index',
         component: '/system/WelcomeTo',
         meta: { title: '工作台', icon: 'ep.home-filled', affixTab: true, hideInBreadcrumb: true }
-      }
-    ]
-  },
-  {
-    name: 'Dashboard',
-    path: '/dashboard',
-    component: 'LAYOUT',
-    redirect: { name: 'DashboardIndex' },
-    meta: { title: 'Dashboard', icon: 'ep.stopwatch', order: 15, hideChildrenInMenu: true },
-    children: [
-      {
-        name: 'DashboardIndex',
-        path: 'index',
-        component: '/system/WelcomeTo',
-        meta: { title: 'Dashboard', icon: 'ep.stopwatch', hideInMenu: true }
       }
     ]
   },
@@ -554,12 +527,6 @@ const adminBackendMenus = [
             path: 'mutiple-header',
             component: '/system/feature/excel/mutiple-header/mutiple-header',
             meta: { title: '多表头', icon: 'ep.grid' }
-          },
-          {
-            name: 'ExcelImport',
-            path: 'import',
-            component: '/system/feature/excel/import',
-            meta: { title: '导入', icon: 'ep.upload' }
           }
         ]
       },
