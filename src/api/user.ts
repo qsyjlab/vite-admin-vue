@@ -1,9 +1,9 @@
-import { mockService } from '@/service'
+import { basicApiService } from '@/service'
 
-import type { UserModel } from '../../mock/user'
+import type { UserModel } from '@/mocks/data/user'
 
 export function login(data: Record<string, any>) {
-  return mockService.request<UserModel>({
+  return basicApiService.request<UserModel>({
     url: '/login',
     method: 'post',
     data
@@ -11,21 +11,21 @@ export function login(data: Record<string, any>) {
 }
 
 export function getUauth() {
-  return mockService.request<UserModel>({
+  return basicApiService.request<UserModel>({
     url: '/uauth',
     method: 'get'
   })
 }
 
 export function refreshToken() {
-  return mockService.request({
+  return basicApiService.request({
     url: '/refreshToken',
     method: 'get'
   })
 }
 
 export function ssoLogin(data: Record<string, any>) {
-  return mockService.request<UserModel>(
+  return basicApiService.request<UserModel>(
     {
       url: '/sso',
       method: 'post',

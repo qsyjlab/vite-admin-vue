@@ -1,22 +1,38 @@
 <template>
   <page-wrapper>
     <page-card style="margin-bottom: 15px" :full="false" header="查询表单">
-      <ProForm inline :fields="fields" :label-width="150" @submit="submit" @reset="reset">
-      </ProForm>
+      <ProForm
+        inline
+        default-collapsed
+        :fields="responsiveFields"
+        :label-width="100"
+        label-position="left"
+        :collapsed-rows="{ xs: 2, sm: 1 }"
+        :submitter="{ col: { span: 6, xs: 24, sm: 8, md: 8, lg: 6 } }"
+        @submit="submit"
+        @reset="reset"
+      />
     </page-card>
     <page-card style="margin-bottom: 15px" :full="false" header="查询表单（非grid模式）">
       <ProForm
         inline
         :layout="false"
-        :fields="fields"
-        :label-width="150"
+        :fields="fields.slice(0, 4)"
+        :label-width="100"
+        label-position="left"
         @submit="submit"
         @reset="reset"
       >
       </ProForm>
     </page-card>
     <page-card :full="false" header="基础表单">
-      <ProForm inline :fields="fields" :label-width="150" @register="register"> </ProForm>
+      <ProForm
+        ref="formRef"
+        :fields="responsiveFields"
+        :label-width="100"
+        label-position="left"
+        :submitter="false"
+      />
       <div style="display: flex; justify-content: flex-end">
         <el-space>
           <el-button @click="resetFields()">取消</el-button>
@@ -34,10 +50,17 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { PageCard, PageWrapper, FormSchema, ProUploadList } from '@/components'
-import { useProForm } from '@/hooks'
+import { PageCard, PageWrapper } from '@/components'
+import {
+  type FormMethodsType,
+  type FormSchema,
+  ProUploadList,
+  useProForm
+} from '@framebase/element-plus-pro-components'
+import { useTemplateRef } from 'vue'
 
-const { register, validate, resetFields } = useProForm()
+const formRef = useTemplateRef<FormMethodsType>('formRef')
+const { validate, resetFields } = useProForm(formRef)
 
 const fields: FormSchema[] = [
   {
@@ -68,7 +91,7 @@ const fields: FormSchema[] = [
     key: 'input-number2',
     tip: '当数字输入大于5隐藏',
     fill: true,
-    show: (value, values) => {
+    show: (_value, values) => {
       return values['input-number'] !== 5
     },
     attrs: {},
@@ -327,6 +350,17 @@ const fields: FormSchema[] = [
     }
   }
 ]
+
+const responsiveFields: FormSchema[] = fields.map(field => ({
+  ...field,
+  col: {
+    span: 8,
+    xs: 24,
+    sm: 12,
+    md: 8,
+    ...field.col
+  }
+}))
 
 const submit = (values: any) => {
   console.log('values', values)

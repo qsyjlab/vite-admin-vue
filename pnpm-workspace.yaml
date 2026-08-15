@@ -1,0 +1,14 @@
+packages:
+  - macro-apps/*
+  - packages/*
+  - docs
+
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - '@swc/core'
+  - '@vue-office/excel'
+  - '@vue-office/pdf'
+  - core-js
+  - esbuild
+  - msw
+  - vue-demi

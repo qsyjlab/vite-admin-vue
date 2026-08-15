@@ -35,7 +35,6 @@ export function fileReader(rawFile: File): Promise<FileReader['result']> {
         resolve(e.target!.result)
       } catch (error) {
         reject(error)
-      } finally {
       }
     }
     reader.readAsArrayBuffer(rawFile)

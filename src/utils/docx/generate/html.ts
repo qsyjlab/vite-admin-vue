@@ -1,4 +1,4 @@
-import { Paragraph, TextRun, ParagraphChild } from 'docx'
+import { Paragraph, TextRun, type ParagraphChild } from 'docx'
 import { cssStylesToAttrs, getInlineStyles, tagsToAttrs } from './style'
 
 export function richTextToParagraph(richText: string | string[]) {

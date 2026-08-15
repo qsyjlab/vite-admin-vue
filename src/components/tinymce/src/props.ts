@@ -1,5 +1,5 @@
-import { ExtractPropType } from 'element-plus/es/utils'
-import { PropType } from 'vue'
+import type { ExtractPropType } from 'element-plus/es/utils'
+import type { PropType } from 'vue'
 import { THEME_MODE, LANGS, TOOLBAR, OUTPUT_FORMAT } from './editor'
 
 export type OutputFormat = (typeof OUTPUT_FORMAT)[number]
@@ -42,7 +42,8 @@ export const tinymceProps = {
   },
   // v-model
   modelValue: {
-    type: String
+    type: String,
+    default: ''
   },
   // editor.on 触发更新
   modelValueEvents: {

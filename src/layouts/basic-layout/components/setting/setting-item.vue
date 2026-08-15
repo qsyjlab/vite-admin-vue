@@ -18,6 +18,16 @@ defineProps<{
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+  gap: 16px;
+
+  &__label {
+    color: var(--global-heading-color);
+    font-weight: 600;
+  }
+
+  &__content {
+    color: var(--global-text-color-regular);
+  }
 
   &.is-vertical {
     display: block;

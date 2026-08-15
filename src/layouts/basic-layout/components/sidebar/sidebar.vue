@@ -1,5 +1,5 @@
 <template>
-  <div class="basic-layout-aside__wrapper">
+  <div :class="['basic-layout-aside__wrapper', props.collapsed ? 'is-collapsed' : '']">
     <slot name="logo"></slot>
 
     <div class="scroll-wrapper">
@@ -13,6 +13,7 @@
     <slot name="trigger">
       <div class="trigger">
         <el-button
+          class="collapse-trigger-btn"
           text
           bg
           @click="layoutStore.setLayoutConfig({ collapsed: !layoutConfig.collapsed })"
@@ -63,16 +64,104 @@ const { menus } = useLayoutMenu(
 .basic-layout-aside__wrapper {
   display: flex;
   flex-direction: column;
+
   .scroll-wrapper {
     flex: auto;
     min-height: 0;
+
+    :deep(.el-scrollbar__wrap) {
+      overflow-x: hidden;
+    }
+
+    :deep(.el-scrollbar__bar.is-horizontal) {
+      display: none;
+    }
   }
   .trigger {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: 15px;
+    padding: 12px;
     flex-shrink: 0;
+  }
+
+  .collapse-trigger-btn {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 6px;
+    color: var(--global-text-color-regular);
+    border: none;
+    background: transparent;
+    box-shadow: none;
+
+    &:hover,
+    &:focus {
+      color: var(--el-color-primary);
+      background: var(--global-hover-color);
+      border: none;
+    }
+
+    &:active {
+      background: var(--el-fill-color);
+    }
+  }
+
+  &.is-collapsed {
+    .scroll-wrapper {
+      overflow: hidden;
+
+      :deep(.el-scrollbar__wrap) {
+        overflow-x: hidden;
+      }
+
+      :deep(.el-scrollbar__view) {
+        min-width: 0;
+      }
+    }
+
+    :deep(.basic-layout-aside__menus) {
+      width: 60px;
+      padding: 8px 4px;
+      box-sizing: border-box;
+    }
+
+    :deep(.el-menu--collapse) {
+      --el-menu-icon-width: 20px;
+      --el-menu-base-level-padding: 16px;
+
+      width: 52px;
+    }
+
+    :deep(.el-menu--collapse > .el-menu-item),
+    :deep(.el-menu--collapse > .el-sub-menu > .el-sub-menu__title) {
+      width: 52px;
+      height: 44px;
+      padding: 0 !important;
+      justify-content: center;
+      gap: 0 !important;
+    }
+
+    :deep(.el-menu--collapse > .el-menu-item .ellipsis),
+    :deep(.el-menu--collapse > .el-sub-menu > .el-sub-menu__title .ellipsis) {
+      display: none !important;
+    }
+
+    :deep(.el-menu--collapse .icon) {
+      margin: 0;
+    }
+
+    :deep(.el-menu--collapse .el-menu-tooltip__trigger) {
+      justify-content: center;
+      gap: 0;
+      padding: 0 !important;
+    }
+
+    .trigger {
+      justify-content: center;
+      padding: 12px 4px;
+    }
   }
 }
 </style>

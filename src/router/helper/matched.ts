@@ -1,4 +1,4 @@
-import { RouteRecordRaw, createRouterMatcher, RouterMatcher } from 'vue-router'
+import { type RouteRecordRaw, createRouterMatcher, type RouterMatcher } from 'vue-router'
 import { routes } from '../routes'
 
 /**
@@ -14,7 +14,7 @@ export function createMatcher(asyncRoutes: RouteRecordRaw[]) {
 export function resolveMatched(...rest: Parameters<RouterMatcher['resolve']>) {
   try {
     return matcher?.resolve(...rest).matched || []
-  } catch (error) {
+  } catch {
     return []
   }
 }

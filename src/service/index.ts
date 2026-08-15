@@ -2,9 +2,9 @@ import { interceptors, requestCatch, transformResponse } from './axios-request-i
 import { RequestResultAdapter } from './request-adapter'
 import config from '@/config'
 
-export const mockService = new RequestResultAdapter({
+export const basicApiService = new RequestResultAdapter({
   interceptors,
-  baseURL: '/basic-api',
+  baseURL: import.meta.env.VITE_APP_MOCK_API_BASE_URL,
   transform: {
     transformResponse,
     requestCatch

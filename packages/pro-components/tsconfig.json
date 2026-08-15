@@ -1,0 +1,8 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": false,
+    "tsBuildInfoFile": "../../node_modules/.tmp/pro-components.tsbuildinfo"
+  },
+  "include": ["src/**/*.ts", "src/**/*.vue"]
+}

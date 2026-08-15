@@ -1,12 +1,38 @@
 import { cloneDeep } from 'lodash-es'
-import { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 import { treeMap, pipe } from '@/utils'
 import { flatRoutesLevel, joinParentPath } from './resolve'
-import { Menu } from '../types'
+import type { Menu } from '../types'
+import { setComponentName } from './component-name'
+
+function normalizeRouteMenuMeta(routes: RouteRecordRaw[]) {
+  return routes.map(route => {
+    const menuMeta = route.meta?.menu || {}
+    const nextMeta = {
+      ...(route.meta || {}),
+      title: menuMeta.title ?? route.meta?.title,
+      icon: menuMeta.icon ?? route.meta?.icon,
+      order: menuMeta.order ?? route.meta?.order,
+      hideInMenu: menuMeta.hidden ?? route.meta?.hideInMenu,
+      hideChildrenInMenu: menuMeta.hideChildrenInMenu ?? route.meta?.hideChildrenInMenu
+    }
+
+    const nextRoute: RouteRecordRaw = {
+      ...route,
+      meta: nextMeta
+    }
+
+    if (nextRoute.children?.length) {
+      nextRoute.children = normalizeRouteMenuMeta(nextRoute.children)
+    }
+
+    return nextRoute
+  })
+}
 
 // 将路由转换成菜单
 export function generateRoutesToMenusHandler(routeModList: RouteRecordRaw[]): Menu[] {
-  const clonedRoutes = cloneDeep(routeModList)
+  const clonedRoutes = normalizeRouteMenuMeta(cloneDeep(routeModList))
 
   // 处理菜单过滤项
   function menusFilter(items: RouteRecordRaw[]) {
@@ -21,26 +47,42 @@ export function generateRoutesToMenusHandler(routeModList: RouteRecordRaw[]): Me
 
   // 处理菜单排序
   function routeMenusSort(routes: RouteRecordRaw[]) {
-    return routes.sort((prev, next) => {
+    const sorted = routes.sort((prev, next) => {
       return (
-        (prev.meta?.order || Number.POSITIVE_INFINITY) -
-        (next.meta?.order || Number.POSITIVE_INFINITY)
+        (prev.meta?.order ?? Number.POSITIVE_INFINITY) -
+        (next.meta?.order ?? Number.POSITIVE_INFINITY)
       )
     })
+
+    sorted.forEach(route => {
+      if (route.children?.length) {
+        route.children = routeMenusSort(route.children)
+      }
+    })
+
+    return sorted
   }
 
-  // 单层级按钮层级提升
+  // 单子路由默认提升：单路由情况下无需再包一层父路由
+  // 仅当显式设置 keepParent: true 时才保留父级
   function promoteSingleChild(menus: RouteRecordRaw[]): RouteRecordRaw[] {
     return menus.map(item => {
       let _temp: RouteRecordRaw = { ...item }
       const children = item.children
       if (children && children.length) {
         _temp.children = promoteSingleChild(children || [])
-        if (_temp.children?.length === 1 && _temp.meta?.hideChildrenInMenu !== false)
-          _temp = {
-            ..._temp.children[0],
-            meta: Object.assign(_temp.meta || {}, _temp.children[0].meta)
-          }
+        const menuMeta = (_temp.meta?.menu || {}) as {
+          keepParent?: boolean
+        }
+        // 仅统计菜单中可见的子路由（hideInMenu: true 的子路由不计入）
+        // 这样 TabPage 下的 detail/:id（hideInMenu: true）不会触发提升
+        const visibleChildren = (_temp.children || []).filter(child => !child.meta?.hideInMenu)
+        const shouldPromote = visibleChildren.length === 1 && menuMeta.keepParent !== true
+
+        if (shouldPromote) {
+          // 直接用子路由自身，不继承父级 meta
+          _temp = { ...visibleChildren[0] }
+        }
       }
       return _temp
     })
@@ -69,9 +111,15 @@ export function routeConversionHandler(routes: RouteRecordRaw[]) {
   function setRouteRedirect(routes: RouteRecordRaw[]) {
     routes.forEach(route => {
       if (route.children) {
+        // 仅当存在未带动态参数的子路由时才自动设置 redirect，避免 "Missing required param" 错误
         if (!route.redirect) {
-          route.redirect = {
-            path: route.children[0]?.path
+          const firstStaticChild = route.children.find(
+            child => typeof child.path === 'string' && !child.path.includes(':')
+          )
+          if (firstStaticChild) {
+            route.redirect = {
+              path: firstStaticChild.path
+            }
           }
         }
         setRouteRedirect(route.children)
@@ -80,5 +128,5 @@ export function routeConversionHandler(routes: RouteRecordRaw[]) {
 
     return routes
   }
-  return pipe(flatRoutesLevel, joinParentPath, setRouteRedirect)(routes)
+  return pipe(setComponentName, flatRoutesLevel, joinParentPath, setRouteRedirect)(routes)
 }

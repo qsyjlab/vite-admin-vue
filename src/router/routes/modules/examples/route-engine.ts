@@ -1,0 +1,141 @@
+import { defineRoutes } from '@/router'
+
+export default defineRoutes([
+  {
+    name: 'Examples',
+    path: '/examples',
+    meta: {
+      title: '示例中心',
+      menu: {
+        icon: 'ep.guide',
+        order: 50
+      }
+    },
+    children: [
+      {
+        name: 'RouteEngineExamples',
+        path: 'route-engine',
+        meta: {
+          title: '路由与菜单',
+          icon: 'ep.menu',
+          order: 10
+        },
+        children: [
+          {
+            name: 'RouteEngineOverview',
+            path: 'overview',
+            meta: {
+              title: '引擎概览',
+              icon: 'ep.monitor',
+              order: 10
+            },
+            component: () => import('@/views/system/examples/route-engine/overview.vue')
+          },
+          {
+            name: 'RouteEngineAccess',
+            path: 'access-control',
+            meta: {
+              title: '登录与权限',
+              icon: 'ep.lock',
+              order: 20
+            },
+            component: () => import('@/views/system/examples/route-engine/access-control.vue')
+          },
+          {
+            name: 'RouteEngineMenuProjection',
+            path: 'menu-projection',
+            meta: {
+              title: '菜单投影',
+              icon: 'ep.share',
+              order: 30
+            },
+            component: () => import('@/views/system/examples/route-engine/menu-projection.vue')
+          },
+          {
+            name: 'RouteEngineKeepAliveA',
+            path: 'keep-alive-a',
+            meta: {
+              title: '缓存示例',
+              isKeepAlive: true,
+              icon: 'ep.coin',
+              order: 40
+            },
+            component: () => import('@/views/system/examples/route-engine/keep-alive-a.vue')
+          },
+          {
+            name: 'RouteEngineKeepAliveB',
+            path: 'keep-alive-b',
+            meta: {
+              title: '缓存验证',
+              isKeepAlive: true,
+              hideInMenu: true,
+              icon: 'ep.coin'
+            },
+            component: () => import('@/views/system/examples/route-engine/keep-alive-b.vue')
+          }
+        ]
+      },
+      {
+        name: 'ProComponentsExamples',
+        path: 'pro-components',
+        meta: {
+          title: 'Pro 组件实战',
+          icon: 'ep.grid',
+          order: 20
+        },
+        children: [
+          {
+            name: 'OrderCrudExample',
+            path: 'order-crud',
+            meta: {
+              title: '订单 CRUD',
+              icon: 'ep.shopping-cart',
+              order: 10
+            },
+            component: () =>
+              import('@/views/system/examples/pro-components/order-crud/order-crud-page.vue')
+          },
+          {
+            name: 'DashboardListExample',
+            path: 'dashboard-list',
+            meta: {
+              title: '项目运营工作台',
+              icon: 'ep.data-analysis',
+              order: 20
+            },
+            component: () =>
+              import(
+                '@/views/system/examples/pro-components/dashboard-list/dashboard-list-page.vue'
+              )
+          },
+          {
+            name: 'OperationMonitorExample',
+            path: 'operation-monitor',
+            meta: {
+              title: '运营监控中心',
+              icon: 'ep.monitor',
+              order: 30
+            },
+            component: () =>
+              import(
+                '@/views/system/examples/pro-components/operation-monitor/operation-monitor-page.vue'
+              )
+          },
+          {
+            name: 'ContentPublishExample',
+            path: 'content-publish',
+            meta: {
+              title: '内容发布工作台',
+              icon: 'ep.edit-pen',
+              order: 40
+            },
+            component: () =>
+              import(
+                '@/views/system/examples/pro-components/content-publish/content-publish-page.vue'
+              )
+          }
+        ]
+      }
+    ]
+  }
+])

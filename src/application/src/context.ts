@@ -1,6 +1,6 @@
-import { InjectionKey, Ref } from 'vue'
+import type { InjectionKey, Ref } from 'vue'
 import { createContext, useContext } from '@/hooks/core/use-context'
-import { ProjectConfig } from '@/config/project-setting'
+import type { ProjectConfig } from '@/config/project-setting'
 export interface AppProviderContextProps {
   isMobile: Ref<boolean>
   projectConfig: ProjectConfig

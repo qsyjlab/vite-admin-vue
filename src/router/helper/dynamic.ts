@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash-es'
-import { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 import { EXCEPTION_COMPONENT, Layout } from '../constant'
 
 const layoutMap = new Map<string, () => Promise<typeof import('*.vue')>>()
@@ -7,6 +7,31 @@ const layoutMap = new Map<string, () => Promise<typeof import('*.vue')>>()
 layoutMap.set('LAYOUT', Layout)
 
 let dynamicViewsModules: Record<string, () => Promise<Recordable>>
+let dynamicViewModuleMap: Record<string, () => Promise<Recordable>> | null = null
+
+function createViewModuleMap(modules: Record<string, () => Promise<Recordable>>) {
+  const moduleMap: Record<string, () => Promise<Recordable>> = {}
+
+  Object.keys(modules).forEach(key => {
+    const loader = modules[key]
+    const normalizedPath = key.replace('../../views/', '')
+    const withoutExt = normalizedPath.replace(/\.(vue|tsx)$/, '')
+    const candidates = [normalizedPath, `/${normalizedPath}`, withoutExt, `/${withoutExt}`]
+
+    candidates.forEach(candidate => {
+      const existed = moduleMap[candidate]
+      if (existed && existed !== loader) {
+        console.warn(
+          `路由组件路径 "${candidate}" 匹配到多个视图文件，请避免在同目录使用同名 .vue/.tsx 文件。`
+        )
+        return
+      }
+      moduleMap[candidate] = loader
+    })
+  })
+
+  return moduleMap
+}
 
 export function transformObjToRoute<T = RouteRecordRaw>(routeList: RouteRecordRaw[]): T[] {
   routeList.forEach(route => {
@@ -32,7 +57,10 @@ export function transformObjToRoute<T = RouteRecordRaw>(routeList: RouteRecordRa
     } else {
       console.warn('请正确配置路由：' + route?.name?.toString() + '的component属性')
     }
-    route.children && asyncImportRoute(route.children)
+
+    if (route.children) {
+      asyncImportRoute(route.children)
+    }
   })
   return routeList as unknown as T[]
 }
@@ -40,9 +68,10 @@ export function transformObjToRoute<T = RouteRecordRaw>(routeList: RouteRecordRa
 // Dynamic introduction
 function asyncImportRoute(routes: RouteRecordRaw[] | undefined) {
   dynamicViewsModules = dynamicViewsModules || import.meta.glob('../../views/**/*.{vue,tsx}')
+  dynamicViewModuleMap = dynamicViewModuleMap || createViewModuleMap(dynamicViewsModules)
   if (!routes) return
   routes.forEach(item => {
-    const { component, name } = item
+    const { component } = item
     const { children } = item
 
     if (component) {
@@ -50,11 +79,13 @@ function asyncImportRoute(routes: RouteRecordRaw[] | undefined) {
       if (layoutFound) {
         item.component = layoutFound
       } else {
-        item.component = dynamicImport(dynamicViewsModules, component as unknown as string)
+        item.component = dynamicImport(dynamicViewModuleMap || {}, component as unknown as string)
       }
-    } else if (name) {
     }
-    children && asyncImportRoute(children)
+
+    if (children) {
+      asyncImportRoute(children)
+    }
   })
 }
 
@@ -62,27 +93,13 @@ function dynamicImport(
   dynamicViewsModules: Record<string, () => Promise<Recordable>>,
   component: string
 ) {
-  const keys = Object.keys(dynamicViewsModules)
-  const matchKeys = keys.filter(key => {
-    const k = key.replace('../../views', '')
-    const startFlag = component.startsWith('/')
-    const endFlag = component.endsWith('.vue') || component.endsWith('.tsx')
-    const startIndex = startFlag ? 0 : 1
-    const lastIndex = endFlag ? k.length : k.lastIndexOf('.')
-    return k.substring(startIndex, lastIndex) === component
-  })
-  if (matchKeys?.length === 1) {
-    const matchKey = matchKeys[0]
-    return dynamicViewsModules[matchKey]
-  } else if (matchKeys?.length > 1) {
-    console.warn(
-      'Please do not create `.vue` and `.TSX` files with the same file name in the same hierarchical directory under the views folder. This will cause dynamic introduction failure'
-    )
-    return
-  } else {
-    console.warn(
-      '在src/views/下找不到`' + component + '.vue` 或 `' + component + '.tsx`, 请自行创建!'
-    )
-    return EXCEPTION_COMPONENT
-  }
+  const componentPath = component.trim()
+  const matchedLoader = dynamicViewsModules[componentPath]
+
+  if (matchedLoader) return matchedLoader
+
+  console.warn(
+    '在src/views/下找不到`' + component + '.vue` 或 `' + component + '.tsx`, 请自行创建!'
+  )
+  return EXCEPTION_COMPONENT
 }

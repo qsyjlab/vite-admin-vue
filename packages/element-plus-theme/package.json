@@ -1,0 +1,59 @@
+{
+  "name": "@framebase/element-plus-theme",
+  "version": "0.1.0",
+  "description": "Customizable Element Plus tokens and component theme for light and dark mode.",
+  "license": "MIT",
+  "author": "qsyjlab",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qsyjlab/vite-admin-vue.git",
+    "directory": "packages/element-plus-theme"
+  },
+  "bugs": {
+    "url": "https://github.com/qsyjlab/vite-admin-vue/issues"
+  },
+  "homepage": "https://github.com/qsyjlab/vite-admin-vue/tree/master/packages/element-plus-theme",
+  "keywords": [
+    "element-plus",
+    "theme",
+    "scss",
+    "dark-mode"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "style": "./dist/style.css",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": "./dist/style.css",
+    "./style.css": "./dist/style.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./dark.css": "./dist/dark.css",
+    "./components.css": "./dist/components.css"
+  },
+  "scripts": {
+    "clean": "rimraf dist .cache",
+    "build": "pnpm run clean && pnpm run build:style && pnpm run build:tokens && pnpm run build:dark && pnpm run build:components",
+    "build:style": "sass src/index.scss dist/style.css --no-source-map --style=compressed",
+    "build:tokens": "sass src/tokens.scss dist/tokens.css --no-source-map --style=compressed",
+    "build:dark": "sass src/dark.scss dist/dark.css --no-source-map --style=compressed",
+    "build:components": "sass src/components/index.scss dist/components.css --no-source-map --style=compressed",
+    "check": "sass src/index.scss .cache/style.css --no-source-map && rimraf .cache",
+    "typecheck": "pnpm run check",
+    "lint": "pnpm run check",
+    "test": "node --test tests/theme.node-test.mjs",
+    "verify": "pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run build",
+    "pack:check": "pnpm run verify && pnpm pack --pack-destination ../../.output/packages",
+    "prepublishOnly": "pnpm run verify"
+  },
+  "peerDependencies": {
+    "element-plus": "^2.9.0"
+  }
+}

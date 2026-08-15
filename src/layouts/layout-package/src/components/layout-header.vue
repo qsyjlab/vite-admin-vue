@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { LayoutHeaderProps } from '../interface'
+import type { LayoutHeaderProps } from '../interface'
 
 type IProps = LayoutHeaderProps
 

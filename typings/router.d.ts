@@ -1,6 +1,15 @@
 /// <reference types="vue-router" />
 
 interface ExtraRouteMeta {
+  menu?: {
+    title?: string
+    icon?: string
+    order?: number
+    hidden?: boolean
+    hideChildrenInMenu?: boolean
+    promoteSingleChild?: boolean
+    keepParent?: boolean
+  }
   // 排序
   order?: number
   // 路由标题

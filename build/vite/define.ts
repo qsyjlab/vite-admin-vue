@@ -13,7 +13,7 @@ export function createDefine() {
       devDependencies,
       repository
     }
-  } catch (error) {}
+  } catch (_error) {}
 
   return {
     __APP_INFO__: JSON.stringify(appInfo)

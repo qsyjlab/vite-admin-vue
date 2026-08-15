@@ -19,7 +19,7 @@
 </template>
 <script setup lang="ts">
 import config from '@/config'
-import { ProDescriptions, ProDescriptionColumns } from '@/components/pro-descriptions'
+import { ProDescriptions, type ProDescriptionColumns } from '@framebase/element-plus-pro-components'
 import { h } from 'vue'
 import { ElLink } from 'element-plus'
 
@@ -28,7 +28,8 @@ const { pkg } = __APP_INFO__
 const infoColumns: ProDescriptionColumns = [
   {
     label: '项目名称',
-    key: 'name'
+    key: 'name',
+    dataIndex: 'name'
   },
   {
     label: '文档地址',
@@ -64,11 +65,11 @@ const schema: ProDescriptionColumns = []
 const devSchema: ProDescriptionColumns = []
 
 Object.keys(pkg.dependencies).forEach(key => {
-  schema.push({ key, label: key })
+  schema.push({ key, dataIndex: key, label: key })
 })
 
 Object.keys(pkg.devDependencies).forEach(key => {
-  devSchema.push({ key, label: key })
+  devSchema.push({ key, dataIndex: key, label: key })
 })
 </script>
 <style scoped></style>

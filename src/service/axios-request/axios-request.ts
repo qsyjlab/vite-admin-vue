@@ -64,8 +64,10 @@ class AxiosRequest {
             try {
               const result = transformResponse(response, requestOptions)
               resolve(result)
+              return
             } catch (error: any) {
               reject(error)
+              return
             }
           }
           resolve(response.data)
@@ -75,6 +77,11 @@ class AxiosRequest {
             return reject(requestCatch(error, requestOptions))
           }
           reject(error)
+        })
+        .finally(() => {
+          if (!ignoreCancelRequest) {
+            this.canceler.removePending(requestConfig)
+          }
         })
     })
   }

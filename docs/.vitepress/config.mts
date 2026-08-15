@@ -4,9 +4,8 @@ import { transformDemo } from './plugins/transform-demo'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'Vite Admin Vue',
-  description: ' ',
+  description: '基于 Vue3 + Vite + Element Plus + TypeScript 的中后台管理系统框架',
   base: '/vite-admin-vue/',
-  srcDir: 'packages',
   markdown: {
     config(md) {
       transformDemo(md)
@@ -18,11 +17,11 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: '指南', link: '/doc/guide/doc' },
-      { text: '组件', link: '/components/guide.md' },
+      { text: '首页', link: '/' },
+      { text: '指南', link: '/guide/intro' },
+      { text: '组件', link: '/components/guide' },
       {
-        text: '文档',
+        text: '外部文档',
         items: [
           {
             text: '@vitejs/plugin-legacy 中文文档',
@@ -32,56 +31,104 @@ export default defineConfig({
       }
     ],
     sidebar: {
-      '/doc': [
+      '/guide': [
         {
           text: '开始',
           items: [
-            { text: '简介', link: '/doc/guide/doc' },
-            { text: '使用', link: '/doc/guide/use' }
-          ]
-        },
-        {
-          text: '路由',
-          items: [
-            { text: '配置', link: '/doc/route/setting' },
-            { text: '菜单', link: '/doc/route/menu' },
-            { text: '路由刷新', link: '/doc/route/reload' },
-            { text: '多标签页', link: '/doc/route/tab' }
-          ]
-        },
-        {
-          text: '权限',
-          link: '/doc/permission/index.md'
-        },
-        {
-          text: '网络请求',
-          items: [
-            { text: '接口联调', link: '/doc/http/index.md' },
-            { text: 'service 工作逻辑', link: '/doc/http/service.md' }
-          ]
-        },
-
-        {
-          text: '外部模块引入',
-          link: '/doc/other/out-module.md'
-        },
-        {
-          text: '其他',
-          items: [
-            { text: '图标', link: '/doc/other/icon' },
-            { text: '暗黑主题', link: '/doc/other/theme' },
-            { text: '自动导入插件', link: '/doc/other/auto-import' }
+            { text: '简介', link: '/guide/intro' },
+            { text: '快速使用', link: '/guide/quick-start' },
+            { text: '目录结构', link: '/guide/structure' }
           ]
         }
       ],
       '/components': [
-        { text: '简介', link: '/components/guide.md' },
-        { text: '全局配置 ProConfigProvider', link: '/components/pro-config-provider.md' },
-        { text: '高级表格 ProTable', link: '/components/pro-table.md' },
-        { text: '高级表单 ProForm', link: '/components/pro-form.md' },
-        { text: '锚点组件 anchor', link: '/components/anchor.md' },
-        { text: '二维码组件 qrcode', link: '/components/qrcode.md' },
-        { text: '分段器 segmented', link: '/components/segmented.md' }
+        { text: '简介', link: '/components/guide' },
+        {
+          text: 'Pro 组件',
+          items: [
+            { text: 'ProConfigProvider 全局配置', link: '/components/pro/pro-config-provider' },
+            { text: 'ProTable 高级表格', link: '/components/pro/pro-table' },
+            { text: 'ProForm 高级表单', link: '/components/pro/pro-form' },
+            { text: 'ProCard 卡片', link: '/components/pro/pro-card' },
+            { text: 'ProDescriptions 描述列表', link: '/components/pro/pro-descriptions' },
+            { text: 'ProList 列表', link: '/components/pro/pro-list' },
+            { text: 'ProTree 树', link: '/components/pro/pro-tree' },
+            { text: 'ProTabs 标签页', link: '/components/pro/pro-tabs' },
+            { text: 'ProFeedback 反馈', link: '/components/pro/pro-feedback' }
+          ]
+        },
+        {
+          text: '基础组件',
+          items: [
+            { text: 'Icon 图标', link: '/components/basic/icon' },
+            { text: 'PageCard 页面卡片', link: '/components/basic/page-card' },
+            { text: 'Authority 权限', link: '/components/basic/authority' },
+            { text: 'Anchor 锚点', link: '/components/basic/anchor' },
+            { text: 'Segmented 分段器', link: '/components/basic/segmented' },
+            { text: 'Qrcode 二维码', link: '/components/basic/qrcode' },
+            { text: 'Watermark 水印', link: '/components/basic/watermark' },
+            { text: 'Echarts 图表', link: '/components/basic/echarts' },
+            { text: 'Tree 树', link: '/components/basic/tree' }
+          ]
+        }
+      ],
+      '/modules': [
+        {
+          text: '路由',
+          items: [
+            { text: '路由配置', link: '/modules/route/setting' },
+            { text: '菜单', link: '/modules/route/menu' },
+            { text: '路由刷新', link: '/modules/route/reload' },
+            { text: '多标签页', link: '/modules/route/tab' }
+          ]
+        },
+        {
+          text: '权限',
+          items: [
+            { text: '权限模式', link: '/modules/permission/index' },
+            { text: '组件级鉴权', link: '/modules/permission/component' }
+          ]
+        },
+        {
+          text: '布局',
+          items: [
+            { text: '布局模式', link: '/modules/layout/index' },
+            { text: '布局配置', link: '/modules/layout/config' }
+          ]
+        },
+        {
+          text: '网络请求',
+          items: [
+            { text: '接口联调', link: '/modules/http/index' },
+            { text: 'service 工作逻辑', link: '/modules/http/service' },
+            { text: 'Mock 数据', link: '/modules/http/mock' }
+          ]
+        },
+        {
+          text: '状态管理',
+          items: [{ text: 'Pinia Store', link: '/modules/store/index' }]
+        }
+      ],
+      '/engineering': [
+        {
+          text: '工程化',
+          items: [
+            { text: '构建与部署', link: '/engineering/build' },
+            { text: '代码规范', link: '/engineering/lint' },
+            { text: '测试', link: '/engineering/test' }
+          ]
+        }
+      ],
+      '/other': [
+        {
+          text: '其他',
+          items: [
+            { text: '图标', link: '/other/icon' },
+            { text: '暗黑主题', link: '/other/theme' },
+            { text: '自动导入插件', link: '/other/auto-import' },
+            { text: '外部模块引入', link: '/other/out-module' }
+          ]
+        }
       ]
     },
     socialLinks: [{ icon: 'github', link: 'https://github.com/qsyjlab/vite-admin-vue' }]

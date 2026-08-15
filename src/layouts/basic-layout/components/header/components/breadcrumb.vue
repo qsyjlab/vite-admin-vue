@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import { ref, onUnmounted } from 'vue'
-import { RouteRecordNormalized } from 'vue-router'
+import type { RouteRecordNormalized } from 'vue-router'
 import { routeChangeListener } from '@/router'
 import { REDIRECT_NAME } from '@/router/constant'
 import { ProIcon } from '@/components/icon'
@@ -21,7 +21,7 @@ import projectSetting from '@/config/project-setting'
 
 const matched = ref<RouteRecordNormalized[]>([])
 
-const stopListener = routeChangeListener((to, from, _matched) => {
+const stopListener = routeChangeListener((to, _from, _matched) => {
   if (to.name === REDIRECT_NAME) return
   matched.value = _matched.filter(i => i.meta.hideInBreadcrumb !== true)
 })

@@ -1,14 +1,23 @@
 <template>
-  <div>
-    <ProTable :columns="columns" :data="dataSource" :is-pagination="false" :row-key="'name'" />
-  </div>
+  <page-wrapper>
+    <page-card header="菜单与路由结构" full>
+      <ProTable
+        :columns="columns"
+        :data="dataSource"
+        :pagination="false"
+        :row-key="'name'"
+        :loading="loading"
+      />
+    </page-card>
+  </page-wrapper>
 </template>
 <script setup lang="ts">
-import { ProTable, ProTableColumns } from '@/components/pro-table'
+import { PageCard, PageWrapper } from '@/components'
+import { ProTable, type ProTableColumns } from '@framebase/element-plus-pro-components'
 import { getMenuList } from '@/api/permission'
 import { ref } from 'vue'
 
-const columns: ProTableColumns = [
+const columns: ProTableColumns<Record<string, unknown>> = [
   {
     title: '菜单名称',
     key: 'meta.title'
@@ -41,11 +50,14 @@ const columns: ProTableColumns = [
 ]
 
 const dataSource = ref<any>()
+const loading = ref(true)
 
-getMenuList().then(res => {
-  dataSource.value = res.data
-
-  console.log('dataSource.value ', dataSource.value)
-})
+getMenuList()
+  .then(res => {
+    dataSource.value = res.data
+  })
+  .finally(() => {
+    loading.value = false
+  })
 </script>
 <style scoped></style>

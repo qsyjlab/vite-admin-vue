@@ -25,7 +25,7 @@ withDefaults(
     full?: boolean
   }>(),
   {
-    full: true
+    full: false
   }
 )
 

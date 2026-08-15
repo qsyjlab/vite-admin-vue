@@ -1,6 +1,6 @@
 <template>
   <div>
-    <textarea :id="tinymceId" ref="tinymceRef" :style="{ visibility: 'hidden' }" />
+    <textarea :id="tinymceId" :style="{ visibility: 'hidden' }" />
   </div>
 </template>
 
@@ -25,7 +25,6 @@ const emits = defineEmits<{
 
 const tinymceId = new Date().getTime().toString()
 
-const tinymceRef = ref<HTMLElement | null>(null)
 const tinymceEditorInstance = ref<Editor | null>(null)
 
 onMounted(() => {
@@ -92,7 +91,7 @@ function setupTinymceEditor(editor: Editor) {
   editor.on('init', () => {
     if (!tinymceEditorInstance.value) return
 
-    props.modelValue && setValue(props.modelValue)
+    setValue(props.modelValue)
     bindHandlers()
   })
 
@@ -140,7 +139,9 @@ function destory() {
 
 // 设置内容
 function setValue(val: string) {
-  tinymceEditorInstance.value && tinymceEditorInstance.value.setContent(val)
+  if (tinymceEditorInstance.value) {
+    tinymceEditorInstance.value.setContent(val)
+  }
 }
 
 // 获取内容

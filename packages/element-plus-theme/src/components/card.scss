@@ -1,0 +1,25 @@
+.el-card {
+  --el-card-border-color: var(--framebase-color-border);
+  --el-card-border-radius: var(--framebase-border-radius-base);
+  --el-card-bg-color: var(--framebase-color-bg);
+  border: 1px solid var(--el-card-border-color);
+  border-radius: var(--el-card-border-radius);
+  box-shadow: var(--framebase-shadow-light);
+
+  &__header {
+    padding: 16px 20px 0;
+    border-bottom: 0;
+    color: var(--framebase-color-text-primary);
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  &__body {
+    padding: 16px 20px;
+  }
+}
+
+html.dark .el-card {
+  box-shadow: var(--framebase-shadow-light);
+}

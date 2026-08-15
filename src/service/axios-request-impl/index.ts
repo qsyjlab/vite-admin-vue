@@ -11,9 +11,10 @@ import type {
 
 import { isAxiosError, isCancelError } from '../axios-request'
 import { checkStatus } from './check-status'
+import { getTokenCahce } from '@/store/local'
 
 import { ResultEnum, showErrorMessage } from './helper'
-// import { mockService } from '../index'
+// import { basicApiService } from '../index'
 // import { refreshToken } from '@/api/user'
 
 // interface PendingTaskQueue {
@@ -25,6 +26,12 @@ import { ResultEnum, showErrorMessage } from './helper'
 // const refreshing = false
 
 const requestInterceptorImpl: requestInterceptorType = config => {
+  // 统一携带 token，便于后端识别当前用户（mock /getMenuList 依赖此 header）
+  const token = getTokenCahce()
+  if (token) {
+    config.headers = config.headers || {}
+    ;(config.headers as Record<string, string>).Authorization = `Bearer ${token}`
+  }
   return config
 }
 
@@ -63,10 +70,10 @@ const responseInterceptorCatchImpl: responseInterceptorCatchType = async error =
   //   refreshing = false
 
   //   pendingTaskQueue.forEach(({ config, resolve }) => {
-  //     resolve(mockService.request(config))
+  //     resolve(basicApiService.request(config))
   //   })
 
-  //   return mockService.request(config, {
+  //   return basicApiService.request(config, {
   //     ignoreCancelRequest: true
   //   })
   // }
@@ -92,10 +99,12 @@ export const transformResponse: RequestTransform['transformResponse'] = (
       const errorJson = {
         message: message || '服务器错误',
         code: code || -1,
-        data: null
+        data: _data?.data ?? null
       }
 
-      !ignoreResponseErrorMessage && showErrorMessage(errorJson.message)
+      if (!ignoreResponseErrorMessage) {
+        showErrorMessage(errorJson.message)
+      }
 
       console.error(
         '[AxiosRequest error]:',
@@ -115,7 +124,11 @@ export const requestCatch: RequestTransform['requestCatch'] = (error, requestOpt
   if (isCancelError(error)) return error
 
   if (!isAxiosError(error)) {
-    !ignoreErrorMessage && !isCancelError(error) && showErrorMessage(error.message)
+    if (!ignoreErrorMessage) {
+      if (!isCancelError(error)) {
+        showErrorMessage(error.message)
+      }
+    }
 
     return error
   }

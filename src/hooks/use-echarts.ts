@@ -42,7 +42,10 @@ export function useEcharts(
 
       if (!chartInstance) return
     }
-    clear && chartInstance?.clear()
+
+    if (clear) {
+      chartInstance?.clear()
+    }
 
     chartInstance?.setOption(unref(getOptions))
   }

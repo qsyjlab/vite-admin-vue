@@ -1,6 +1,6 @@
 import mitt from 'mitt'
 
-import { RouteRecordNormalized, RouteLocationNormalized } from 'vue-router'
+import type { RouteRecordNormalized, RouteLocationNormalized } from 'vue-router'
 import { resolveMatched } from './matched'
 
 interface RouteListenerParameter {
@@ -35,10 +35,9 @@ export function routeChangeListener(callback: RouterListenderCallback, immediate
   }
   emitter.on(routeListenerChangeKey, emitOnFn)
 
-  immediate &&
-    lastCache.from &&
-    lastCache.to &&
+  if (immediate && lastCache.from && lastCache.to) {
     callback(lastCache.to, lastCache.from, lastCache.matched || [])
+  }
 
   return () => {
     emitter.off(routeListenerChangeKey, emitOnFn)

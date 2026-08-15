@@ -1,12 +1,11 @@
 <template>
-  <div class="basic-layout-mix-menu" :tabindex="-1" @blur="leaveChildrenMenuHandler">
+  <div
+    :class="['basic-layout-mix-menu', layoutConfig.sideMixFixedMenu ? 'is-fixed' : '']"
+    :tabindex="-1"
+    @blur="leaveChildrenMenuHandler"
+  >
     <!---->
-    <div
-      class="basic-layout-mix-menu-module"
-      :style="{
-        width: 90 + 'px'
-      }"
-    >
+    <div class="basic-layout-mix-menu-module">
       <div
         v-for="(item, index) in menus"
         :key="index"
@@ -16,10 +15,12 @@
         <div
           :class="[
             item.name === activeKey ? 'is-active' : '',
-            'basic-layout-mix-menu-module__icon'
+            'basic-layout-mix-menu-module__icon',
+            !item.meta?.icon ? 'no-icon' : ''
           ]"
         >
-          <pro-icon :icon="item.meta?.icon" :size="20"></pro-icon>
+          <pro-icon v-if="item.meta?.icon" :icon="item.meta?.icon" :size="20"></pro-icon>
+          <span v-else class="fallback-text">{{ (item.meta?.title || '').charAt(0) }}</span>
         </div>
         <div
           :class="[
@@ -46,15 +47,16 @@
             height: headerHeight + 'px'
           }"
         >
-          <div
+          <button
+            type="button"
             class="basic-layout-mix-menu-children-header-icon"
-            :style="{
-              color: 'rgba(0, 0, 0, 0.35)'
-            }"
-            @click="onClickFixedEventHandler"
+            :aria-label="layoutConfig.sideMixFixedMenu ? '取消固定子菜单' : '固定子菜单'"
+            :title="layoutConfig.sideMixFixedMenu ? '取消固定子菜单' : '固定子菜单'"
+            @mousedown.prevent.stop
+            @click.stop="onClickFixedEventHandler"
           >
             <Pushpin />
-          </div>
+          </button>
         </div>
 
         <aside-menu :menus="activeChildren" />
@@ -89,7 +91,8 @@ const { getMenus } = usePermissionStore()
 const route = useRoute()
 const router = useRouter()
 
-const activeKey = ref(route.name)
+// 初始值取一级路由 name，避免刷新深层路由时 activeKey 为子路由 name 导致一级菜单不高亮
+const activeKey = ref(route.matched[0]?.name || route.name)
 
 const showChildren = ref(false)
 const activeChildren = ref<Menu[]>([])
@@ -98,7 +101,11 @@ const menus = computed(() => {
   return getMenus()
 })
 
-const stopRouteListener = routeChangeListener((to, from, matched) => {
+// 首次进入/刷新时 routeChangeListener 的 immediate 回放要求 lastCache.from && lastCache.to
+// 都存在，初始导航 from 缺失不会触发，需在此主动同步一次 activeKey 与 activeChildren
+activeChildren.value = getActiveChildrenMenus()
+
+const stopRouteListener = routeChangeListener((_to, _from, matched) => {
   const moduleRoute = matched[0]
   activeKey.value = moduleRoute.name
   activeChildren.value = getActiveChildrenMenus()
@@ -150,12 +157,19 @@ const leaveChildrenMenuHandler = () => {
 }
 
 const onClickFixedEventHandler = () => {
+  const nextFixed = !layoutStore.layoutConfig.sideMixFixedMenu
+
+  if (nextFixed) {
+    showChildren.value = true
+    layoutStore.setShowMixChildrenMenu(true)
+  }
+
   layoutStore.setLayoutConfig({
-    sideMixFixedMenu: !layoutStore.layoutConfig.sideMixFixedMenu
+    sideMixFixedMenu: nextFixed
   })
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../mix-sidebar';
+@use '../mix-sidebar';
 </style>

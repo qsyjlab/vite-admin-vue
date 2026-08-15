@@ -1,45 +1,18 @@
 <template>
-  <div
-    :style="{
-      display: 'flex',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      cursor: 'pointer'
-    }"
-  >
-    <div
-      v-for="(item, index) in options"
-      :key="index"
-      :style="{
-        marginRight: '30px',
-        fontSize: '30px'
-      }"
-      @click="onClick(item.value)"
-    >
-      <el-tooltip
-        effect="dark"
-        :content="item.title"
-        :style="{
-          position: 'relative'
-        }"
-      >
+  <div class="check-button-group">
+    <div v-for="(item, index) in options" :key="index" class="check-button-group__item">
+      <el-tooltip effect="dark" :content="item.title">
         <div
-          :style="{
-            position: 'relative'
-          }"
+          :class="['check-button-group__card', item.value === checkValue ? 'is-active' : '']"
+          role="button"
+          tabindex="0"
+          :aria-label="item.title"
+          :title="item.title"
+          @click="onClick(item.value)"
+          @keydown.enter="onClick(item.value)"
+          @keydown.space.prevent="onClick(item.value)"
         >
-          <div
-            v-if="item.value == checkValue"
-            :style="{
-              fontSize: '20px',
-              position: 'absolute',
-              right: 0,
-              bottom: '-4%',
-              color: '#1677ff',
-              zIndex: 1,
-              cursor: 'pointer'
-            }"
-          >
+          <div v-if="item.value == checkValue" class="check-button-group__checked">
             <Check />
           </div>
           <component :is="item.icon"></component>
@@ -76,3 +49,43 @@ const onClick = (value: unknown) => {
   emits('change', value)
 }
 </script>
+
+<style lang="scss" scoped>
+.check-button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+
+  &__item {
+    flex: 0 0 auto;
+  }
+
+  &__card {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.18s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  &__checked {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    background: var(--el-color-primary);
+    color: var(--el-color-white);
+    z-index: 2;
+    font-size: 12px;
+    box-shadow: var(--el-box-shadow-light);
+  }
+}
+</style>

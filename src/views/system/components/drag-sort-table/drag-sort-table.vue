@@ -1,103 +1,123 @@
 <template>
   <page-wrapper>
-    <page-card :header="$route.meta.title">
-      <drag-sort-table
+    <page-card :header="$route.meta.title" full>
+      <pro-drag-sort-table
+        v-model="data"
+        class="drag-sort-table-demo"
         :columns="columns"
-        mode="multiple"
-        :data="data"
-        drag-sort-key="drag"
-        @drag-sort-end="changeData"
-      >
-      </drag-sort-table>
+        row-key="id"
+        header-title="任务优先级"
+        @drag-sort-end="handleDragSortEnd"
+      />
     </page-card>
   </page-wrapper>
 </template>
+
 <script setup lang="ts">
-import { DragSortTable } from '@/components/drag-sort-table'
-import { PageWrapper } from '@/components/page-wrapper'
-import { PageCard } from '@/components/page-card'
-import { ProTableColumns } from '@/components/pro-table'
+import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
+import { PageCard, PageWrapper } from '@/components'
+import {
+  ProDragSortTable,
+  type ProDragSortTableEnd,
+  type ProTableColumns
+} from '@framebase/element-plus-pro-components'
 
-const data = ref<any>(
-  Array(100)
-    .fill(0)
-    .map((item, index) => {
-      return {
-        id: index,
-        name: index + 213123
-      }
-    })
-)
+defineOptions({
+  name: 'ProDragSortTablePage'
+})
 
-const columns: ProTableColumns = [
-  {
-    title: '拖拽',
-    key: 'drag'
-  },
-  {
-    title: '活动名称',
-    key: 'name',
-    tip: 'tip'
-  },
+interface TaskRecord {
+  id: number
+  title: string
+  owner: string
+  priority: 'high' | 'medium' | 'normal'
+  status: 'pending' | 'processing' | 'completed'
+  deadline: string
+}
 
-  {
-    title: '状态',
-    key: 'status',
-    rowComponent: {
-      el: 'ElInput',
-      rules: [{ required: true, message: '状态' }]
-    }
-  },
-  {
-    title: '邮箱',
-    key: 'email',
-    rowComponent: {
-      el: 'ElInput',
-      rules: [{ required: true, message: '邮箱' }]
-    }
-  },
-  {
-    title: '年份',
-    key: 'year',
-    rowComponent: {
-      el: 'ElInput',
-      rules: [{ required: true, message: '年份' }]
-    }
-  },
-  {
-    title: '进度条',
-    key: 'progress',
-    // width: 200,
-    editable: true,
-    valueType: () => {
-      return { type: 'progress' }
-    },
-    rowComponent: {
-      el: 'ElInput',
-      rules: [{ required: true, message: '进度条' }]
-    }
-  },
+const priorityValueEnum = {
+  high: { text: '高', type: 'danger' },
+  medium: { text: '中', type: 'warning' },
+  normal: { text: '普通', type: 'info' }
+} as const
+const statusValueEnum = {
+  pending: { text: '待处理', type: 'warning' },
+  processing: { text: '进行中', type: 'primary' },
+  completed: { text: '已完成', type: 'success' }
+} as const
 
+const data = ref<TaskRecord[]>([
   {
-    title: '活动时间',
-    key: 'time',
-    editable: true,
-    rowComponent: {
-      el: 'el-date-picker',
-      rules: [{ required: true, message: '活动时间' }]
-    }
+    id: 1,
+    title: '确认七月营销预算',
+    owner: '李娜',
+    priority: 'high',
+    status: 'processing',
+    deadline: '2026-07-12'
   },
   {
-    title: '操作',
-    key: 'operation',
-    // width: 300,
-    fixed: 'right'
+    id: 2,
+    title: '审核华东区采购申请',
+    owner: '张伟',
+    priority: 'high',
+    status: 'pending',
+    deadline: '2026-07-13'
+  },
+  {
+    id: 3,
+    title: '整理重点客户续约方案',
+    owner: '陈晨',
+    priority: 'medium',
+    status: 'processing',
+    deadline: '2026-07-15'
+  },
+  {
+    id: 4,
+    title: '发布服务质量周报',
+    owner: '王强',
+    priority: 'normal',
+    status: 'completed',
+    deadline: '2026-07-16'
   }
+])
+
+const columns: ProTableColumns<TaskRecord> = [
+  { key: 'title', dataIndex: 'title', title: '任务名称', minWidth: 220 },
+  { key: 'owner', dataIndex: 'owner', title: '负责人', width: 120 },
+  {
+    key: 'priority',
+    dataIndex: 'priority',
+    title: '优先级',
+    width: 110,
+    valueType: 'status',
+    valueEnum: priorityValueEnum
+  },
+  {
+    key: 'status',
+    dataIndex: 'status',
+    title: '状态',
+    width: 120,
+    valueType: 'status',
+    valueEnum: statusValueEnum
+  },
+  { key: 'deadline', dataIndex: 'deadline', title: '截止日期', width: 140, valueType: 'date' }
 ]
 
-const changeData = (_d: any) => {
-  data.value = _d
+function handleDragSortEnd(event: ProDragSortTableEnd<TaskRecord>) {
+  ElMessage.success(`${event.row.title} 已移动到第 ${event.newIndex + 1} 位`)
 }
 </script>
-<style scoped></style>
+
+<style scoped>
+.drag-sort-table-demo {
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+:deep(.page-card__body) {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+}
+</style>

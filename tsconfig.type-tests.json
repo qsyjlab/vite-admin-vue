@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "composite": false,
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.type-tests.tsbuildinfo"
+  },
+  "include": [
+    "auto-imports.d.ts",
+    "components.d.ts",
+    "typings/*.d.ts",
+    "src/**/*.d.ts",
+    "packages/pro-components/src/__type-tests__/**/*.ts"
+  ]
+}

@@ -1,0 +1,44 @@
+name: Framebase Packages CI
+
+on:
+  push:
+    branches: ['master']
+    paths:
+      - 'packages/**'
+      - 'tests/package-consumer/**'
+      - 'build/scripts/audit-package-boundaries.ts'
+      - 'build/scripts/verify-package-*.ts'
+      - '.changeset/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+  pull_request:
+    branches: ['master']
+    paths:
+      - 'packages/**'
+      - 'tests/package-consumer/**'
+      - 'build/scripts/audit-package-boundaries.ts'
+      - 'build/scripts/verify-package-*.ts'
+      - '.changeset/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.28.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.20.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm verify:packages
+      - run: pnpm test:consumer

@@ -1,22 +1,22 @@
-import { type Plugin, type ConfigEnv, loadEnv } from 'vite'
+import { type Plugin, type ConfigEnv, loadEnv, PluginOption } from 'vite'
 
 import vue from '@vitejs/plugin-vue'
 
 import vueJsx from '@vitejs/plugin-vue-jsx'
+// @ts-ignore
 import legacyPlugin from '@vitejs/plugin-legacy'
 import UnoCSS from 'unocss/vite'
 import {
-  viteMockPlugin,
   viteAutoImportPlugin,
   viteComponentsPlugin,
   configSvgIconsPlugin,
-  injectHtmlPlugin
+  injectHtmlPlugin,
+  appLoadingPlugin
 } from './plugins'
 // @ts-ignore
 import ElementPlus from 'unplugin-element-plus/vite'
-import visualizer from 'rollup-plugin-visualizer'
-import legecyConfig from '../../legecy.config'
-import { envDir } from '../utils'
+import { visualizer } from 'rollup-plugin-visualizer'
+import { envDir, resolveProjectPath } from '../utils'
 
 export function createVitePlugin(configEnv: ConfigEnv) {
   const { command, mode } = configEnv
@@ -25,16 +25,20 @@ export function createVitePlugin(configEnv: ConfigEnv) {
   // 拿到全部的 env
   const viteEnvs = loadEnv(mode, envDir, '')
 
-  const vitePlugins: Plugin[] = [
+  const vitePlugins: PluginOption[] = [
     vue(),
     vueJsx(),
     viteAutoImportPlugin(),
     viteComponentsPlugin(),
     configSvgIconsPlugin({ isBuild }),
+    appLoadingPlugin({
+      componentPath: resolveProjectPath('src/app-loading/app-loading.vue'),
+      appTitle: viteEnvs.VITE_APP_TITLE,
+      baseUrl: viteEnvs.BASE_URL || './'
+    }),
     ElementPlus({
       useSource: true
     }),
-    viteMockPlugin(isBuild),
     injectHtmlPlugin({ env: viteEnvs }),
     UnoCSS(),
     visualizer({
@@ -47,12 +51,16 @@ export function createVitePlugin(configEnv: ConfigEnv) {
   ]
 
   if (viteEnvs.ENABLE_LEGACY === 'true') {
-    vitePlugins.push(legacyPlugin(legecyConfig) as unknown as Plugin)
+    vitePlugins.push(
+      legacyPlugin({
+        renderLegacyChunks: false,
+        modernPolyfills: false
+      }) as unknown as Plugin
+    )
   }
 
   return vitePlugins
 }
 
 export * from './define'
-export * from './manua-chunks'
 export { createProxy } from './proxy'

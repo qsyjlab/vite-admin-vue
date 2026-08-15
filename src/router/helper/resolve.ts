@@ -1,6 +1,6 @@
-import { cloneDeep, omit } from 'lodash-es'
+import { cloneDeep } from 'lodash-es'
 import { createRouter, createWebHistory } from 'vue-router'
-import type { RouteRecordNormalized, RouteRecordRaw, RouterOptions } from 'vue-router'
+import type { RouteRecordRaw, RouterOptions } from 'vue-router'
 
 export function createWebHistoryRouter(
   routes: RouteRecordRaw[],
@@ -15,75 +15,40 @@ export function createWebHistoryRouter(
 
 /** 扁平路由 最大路由级别 2 级 */
 export function flatRoutesLevel(asyncRoutes: RouteRecordRaw[]) {
-  const routes = asyncRoutes
+  function resolveChildPath(parentPath: string, childPath: string) {
+    if (!childPath) return parentPath
+    if (childPath.startsWith('/')) return childPath
+    if (!parentPath) return childPath
 
-  function isMultipleRoute(route: RouteRecordRaw): boolean {
-    if (!route || !Reflect.has(route, 'children') || !route.children?.length) return false
-
-    const child = route.children
-
-    let isMultpile = false
-
-    for (let i = 0; i < child.length; i++) {
-      const c = child[i]
-      if (c.children?.length) {
-        isMultpile = true
-        break
-      }
-    }
-
-    return isMultpile
+    return `${parentPath.replace(/\/$/, '')}/${childPath.replace(/^\//, '')}`
   }
 
-  function upgradeRouteLevel(route: RouteRecordRaw) {
-    const routerInstance = createWebHistoryRouter([route])
+  function flattenChildren(children: RouteRecordRaw[], parentPath = ''): RouteRecordRaw[] {
+    const flattenedChildren: RouteRecordRaw[] = []
 
-    const routes = routerInstance.getRoutes()
+    children.forEach(child => {
+      const clonedChild = cloneDeep(child)
+      const fullPath = resolveChildPath(parentPath, clonedChild.path || '')
+      const nestedChildren = clonedChild.children
 
-    addToChildren(routes, route.children || [], route)
+      clonedChild.path = fullPath
+      delete clonedChild.children
+      flattenedChildren.push(clonedChild)
 
-    route.children = route.children?.map(item => omit(item, 'children')) as RouteRecordRaw[]
+      if (nestedChildren?.length) {
+        flattenedChildren.push(...flattenChildren(nestedChildren, fullPath))
+      }
+    })
+
+    return flattenedChildren
   }
 
-  function addToChildren(
-    routes: RouteRecordNormalized[],
-    children: RouteRecordRaw[],
-    routeRoot: RouteRecordRaw
-  ) {
-    for (let i = 0; i < children.length; i++) {
-      const c = children[i]
-      const route = routes.find(item => item.name === c.name)
+  return cloneDeep(asyncRoutes).map(route => {
+    if (!route.children?.length) return route
 
-      if (!route) continue
-
-      routeRoot.children = routeRoot.children || []
-
-      if (!routeRoot.children.find(item => item.name === route.name)) {
-        routeRoot.children.push(route)
-      }
-
-      if (c.children?.length) {
-        addToChildren(routes, c.children, routeRoot)
-      }
-    }
-  }
-
-  function flatMultiLevelRoutes(routes: RouteRecordRaw[]): RouteRecordRaw[] {
-    const rs: RouteRecordRaw[] = cloneDeep(routes)
-
-    for (let i = 0; i < rs.length; i++) {
-      const r = rs[i]
-
-      if (!isMultipleRoute(r)) {
-        continue
-      }
-      upgradeRouteLevel(r)
-    }
-
-    return rs
-  }
-
-  return flatMultiLevelRoutes(routes)
+    route.children = flattenChildren(route.children)
+    return route
+  })
 }
 
 // 路径处理

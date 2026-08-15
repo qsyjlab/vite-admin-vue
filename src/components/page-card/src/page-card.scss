@@ -1,44 +1,72 @@
-// TODO: dark mode
+/* AD 风格页面卡片 */
 
-$base-border-color: #363637;
-
-$base-bg-color: #141414;
 .page-card {
-  --page-card-padding: 14px;
-  --page-card-border-color: #e4e7ed;
-  --page-card-bg-color: white;
+  --page-card-padding-x: 20px;
+  --page-card-padding-y: 16px;
+  --page-card-border-color: var(--el-border-color);
+  --page-card-bg-color: var(--el-bg-color);
+  --page-card-radius: 6px;
+  --page-card-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 html.dark {
   .page-card {
-    --page-card-bg-color: var(--global-bg-color-2, $base-bg-color);
-    --page-card-border-color: var(--global-border-color, $base-border-color);
+    --page-card-bg-color: var(--el-bg-color, #1f1f1f);
+    --page-card-border-color: var(--el-border-color, #303030);
+    --page-card-shadow: var(--el-box-shadow-lighter, 0 1px 6px rgba(0, 0, 0, 0.32));
+
+    &__header .card-header {
+      color: var(--el-text-color-primary, #ffffff);
+    }
   }
 }
 
 .page-card {
   background-color: var(--page-card-bg-color);
-
-  display: flex;
-  flex-direction: column;
+  border: 1px solid var(--page-card-border-color);
+  border-radius: var(--page-card-radius);
+  box-shadow: var(--page-card-shadow);
 
   &.is-full {
-    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
   }
 
   &__header {
-    padding: var(--page-card-padding);
-    border-bottom: 1px solid var(--page-card-border-color);
+    padding: var(--page-card-padding-y) var(--page-card-padding-x) 0;
     flex-shrink: 0;
+
     .card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      color: var(--global-heading-color);
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1.4;
     }
   }
 
   &__body {
-    flex: 1;
-    padding: var(--page-card-padding);
+    padding: 16px var(--page-card-padding-x) var(--page-card-padding-y);
+    min-width: 0;
+  }
+}
+
+.page-card.is-full {
+  .page-card__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .page-card {
+    --page-card-padding-x: 14px;
+    --page-card-padding-y: 14px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
   }
 }

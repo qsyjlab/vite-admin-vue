@@ -1,12 +1,13 @@
 import NProgress from 'nprogress'
 import { useRouteStore, useUserStore } from '@/store'
-import { getTokenCahce, getUserInfoCache } from '@/store/local'
+import { getTokenCahce, getUserInfoCache, getRolesCache } from '@/store/local'
 import { usePermissionStore } from '@/store/module/permissions'
 import { AxiosCanceler } from '@/service/axios-request/axios-canceler'
 import { LOGIN_NAME, PAGE_NOT_FOUND, WHITE_NAME_LIST } from '../constant'
 import type { Router } from 'vue-router'
 import { emitRoute } from '../helper/listener'
 import projectSetting from '@/config/project-setting'
+import { assign, isEmpty } from 'lodash-es'
 
 export function setupRouterGuard(router: Router) {
   createListenerGuard(router)
@@ -17,18 +18,18 @@ export function setupRouterGuard(router: Router) {
 }
 
 export function createRouterGuard(router: Router) {
-  router.beforeEach(async (to, from, next) => {
+  router.beforeEach(async (to, from) => {
     // 外链
     if (to.meta.href) {
       window.open(to.meta.href)
 
-      return next({ path: from.fullPath, replace: true, query: from.query })
+      return { path: from.fullPath, replace: true, query: from.query }
     }
 
     // 如果忽略直接通过
-    if (to.meta.ignoreAuth) return next()
+    if (to.meta.ignoreAuth) return true
     // // 处理基础白名单的路由
-    if (WHITE_NAME_LIST.includes(to.name as string)) return next()
+    if (WHITE_NAME_LIST.includes(to.name as string)) return true
 
     const { initialized, setInitialized } = useUserStore()
     const permissionStore = usePermissionStore()
@@ -39,7 +40,7 @@ export function createRouterGuard(router: Router) {
       setInitialized(true)
 
       if (to.name === PAGE_NOT_FOUND) {
-        return next({ path: to.fullPath, replace: true, query: to.query })
+        return { path: to.fullPath, replace: true, query: to.query }
       }
     }
 
@@ -59,10 +60,10 @@ export function createRouterGuard(router: Router) {
         }
       }
 
-      return next(redirectData)
+      return redirectData
     }
 
-    next()
+    return true
   })
 }
 
@@ -99,15 +100,19 @@ function createHttpGuard(router: Router) {
 
 function createListenerGuard(router: Router) {
   router.beforeEach((to, from) => {
+    if (isEmpty(history.state.current)) {
+      assign(history.state, { current: from.fullPath })
+    }
     emitRoute(to, from)
   })
 }
 
 // 初始化 store 从 local
 function initializeStore() {
-  const { setUserInfo, setToken } = useUserStore()
+  const { setUserInfo, setToken, setRoles } = useUserStore()
   const userInfo = getUserInfoCache()
   const token = getTokenCahce()
+  const roles = getRolesCache()
 
   if (userInfo) {
     setUserInfo(userInfo)
@@ -115,5 +120,9 @@ function initializeStore() {
 
   if (token) {
     setToken(token)
+  }
+
+  if (roles) {
+    setRoles(roles)
   }
 }

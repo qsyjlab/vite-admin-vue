@@ -1,70 +1,143 @@
+/* AD 风格混合侧边栏 - 60px 宽度，内容居中 */
 .basic-layout-mix-menu {
+  --mix-sidebar-width: 60px;
   --layout-mixmenu-active-bg-color: var(--el-color-primary, #1677ff);
-  --layout-mixmenu-active-text-color: white;
+  --layout-mixmenu-active-text-color: var(--el-color-white);
   --layout-mixmenu-dot-color: var(--el-button-active-bg-color, #146be6);
 
   height: 100%;
   width: 100%;
+  min-width: 0;
   box-sizing: border-box;
   overflow: hidden;
 
-  text-align: center;
-  // position: absolute;
-  // z-index: 1001;
   &-module {
-    position: relative;
     display: flex;
     z-index: 99;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    padding: 0 8px;
+    width: var(--mix-sidebar-width);
+    height: 100%;
+    padding: 8px 4px;
+    flex-shrink: 0;
     box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
 
     &__label {
-      font-size: 13px;
-      // &.is-active {
-      //   color: var(--el-color-primary, #409eff);
-      // }
+      font-size: 10px;
+      color: var(--global-text-color-secondary);
+      line-height: 1.2;
+      margin-top: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 52px;
     }
 
     &__item {
       cursor: pointer;
-      padding: 8px 0;
-      position: relative;
       width: 100%;
-      height: 60px;
+      max-width: 52px;
+      min-height: 52px;
+      height: 52px;
       box-sizing: border-box;
-      border-radius: 7px;
-      margin-bottom: 3px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      display: grid;
+      grid-template-rows: 22px auto;
+      align-content: center;
+      justify-items: center;
+      row-gap: 4px;
+      position: relative;
 
       &.is-active {
-        background-color: var(--el-color-primary, #409eff);
+        background-color: var(--el-color-primary, #1677ff);
         color: var(--layout-mixmenu-active-text-color);
+
+        .basic-layout-mix-menu-module__label,
+        .basic-layout-mix-menu-module__icon .fallback-text {
+          color: var(--layout-mixmenu-active-text-color);
+        }
       }
 
-      &:hover {
-        background-color: var(--el-color-primary, #409eff);
-        color: var(--layout-mixmenu-active-text-color);
-        transition: all 0.2s;
+      &:hover:not(.is-active) {
+        background-color: var(--global-hover-color);
       }
     }
 
     &__icon {
-      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      line-height: 1;
+      margin: 0 auto;
+      position: relative;
+
+      :deep(.pro-icon) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px !important;
+        height: 20px !important;
+        margin: 0;
+        flex: 0 0 20px;
+        transform: translate(-50%, -50%);
+      }
+
+      :deep(.el-icon) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px !important;
+        width: 20px;
+        height: 20px;
+        margin: 0 !important;
+        color: inherit;
+      }
+
+      :deep(svg) {
+        display: block;
+        width: 20px !important;
+        height: 20px !important;
+      }
+
+      /* 无图标时显示首字 */
+      &.no-icon {
+        background: var(--global-surface-color-muted);
+        border-radius: 4px;
+      }
+
+      .fallback-text {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--global-text-color-secondary);
+        line-height: 22px;
+      }
     }
 
     &__line {
       position: absolute;
-      left: 0;
+      left: -1px;
       top: 50%;
-      height: 10px;
-      width: 10px;
-      transform: translate(-50%, -50%);
-      border: 1px solid white;
-      border-radius: 50%;
-
-      background-color: var(--layout-mixmenu-dot-color);
+      transform: translateY(-50%);
+      height: 20px;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background-color: var(--el-color-white);
     }
   }
 
@@ -79,17 +152,21 @@
   }
 
   &-children {
-    position: absolute;
+    position: fixed;
+    z-index: 1003;
     top: 0;
-    left: 90px;
-    height: 100%;
+    bottom: 0;
+    left: var(--mix-sidebar-width);
+    height: 100vh;
     box-sizing: border-box;
-
-    transition: all 0.3s;
-    background-color: white;
+    overflow: hidden;
+    transition: width 0.2s ease;
+    background-color: var(--global-surface-color-elevated);
+    border-right: 1px solid var(--global-border-color);
+    box-shadow: var(--el-box-shadow-light);
 
     &.is-show {
-      padding: 0 7px;
+      padding: 0 8px;
     }
 
     &-header {
@@ -99,11 +176,26 @@
       position: relative;
 
       &-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         position: absolute;
-        right: 20px;
+        right: 12px;
         top: 50%;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        border: 0;
+        border-radius: 6px;
+        background: transparent;
         cursor: pointer;
         transform: translateY(-50%);
+        color: var(--global-text-color-secondary);
+
+        &:hover {
+          color: var(--el-color-primary);
+          background: var(--global-hover-color);
+        }
       }
     }
 
@@ -113,19 +205,41 @@
       align-items: center;
       justify-content: center;
       height: 100%;
-      font-size: 16px;
-      font-weight: 700;
-      // transition: all 0.5s;
+      font-size: 14px;
+      font-weight: 600;
       line-height: normal;
       flex-shrink: 0;
-      color: black;
+      color: var(--global-heading-color);
     }
 
     &__content {
+      display: flex;
+      flex-direction: column;
       overflow-x: hidden;
       width: 100%;
       height: 100%;
       overflow: hidden;
+
+      > .el-menu {
+        min-height: 0;
+        flex: 1 1 auto;
+        padding: 8px;
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        .el-menu-item,
+        .el-sub-menu__title {
+          margin: 2px 0;
+        }
+      }
+    }
+  }
+
+  &.is-fixed {
+    .basic-layout-mix-menu-children {
+      position: absolute;
+      height: 100%;
+      box-shadow: none;
     }
   }
 }

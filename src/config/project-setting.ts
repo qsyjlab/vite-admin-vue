@@ -21,6 +21,8 @@ export interface ProjectConfig {
     showSettingButton: boolean
     /** 头部高度 */
     headerHeight: number
+    /** 顶部导航主题 */
+    headerTheme: 'light' | 'dark'
     /** header end */
 
     /** aside start */
@@ -30,17 +32,23 @@ export interface ProjectConfig {
     asideWidth: number
     /** 混合菜单固定 */
     sideMixFixedMenu: boolean
+    /** 侧边导航主题 */
+    sidebarTheme: 'light' | 'dark'
+    /** 深色导航背景色 */
+    darkMenuBackground: string
 
     /** aside end */
 
     /** tabbar start */
     /** 是否显示标签栏 */
     showTagPage: boolean
-    /** tab page 宽度 */
+    /** tab page 高度 */
     tabBarHeight: number
     /** tabbar end */
 
     splitMenu: boolean
+    /** 分割菜单没有子菜单时仍显示侧栏 */
+    showEmptySplitMenuSidebar: boolean
     /** 返回顶部 */
     showBackTop: boolean
     /** 是否显示页脚 */
@@ -71,13 +79,16 @@ const setting = readonly<ProjectConfig>({
 
     /** 是否显示头部 */
     showHeader: true,
-    headerHeight: 48,
+    headerHeight: 44,
+    headerTheme: 'light',
     /** header end */
 
     /** aside start */
     asideMenuCollapsed: false,
     asideWidth: 220,
     sideMixFixedMenu: false,
+    sidebarTheme: 'light',
+    darkMenuBackground: '#001529',
 
     /** aside end */
 
@@ -85,13 +96,14 @@ const setting = readonly<ProjectConfig>({
 
     /** 是否显示标签栏 */
     showTagPage: true,
-    /** tab page 宽度 */
-    tabBarHeight: 30,
+    /** tab page 高度 */
+    tabBarHeight: 35,
 
     /** tabbar end */
 
     /** 是否分割菜单 进在 顶部 混合模式下生效 */
     splitMenu: false,
+    showEmptySplitMenuSidebar: false,
     /** 返回顶部 */
     showBackTop: true,
     /** 是否显示页脚 */

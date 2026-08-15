@@ -12,7 +12,7 @@ async function buildComponents() {
     envFile: false,
     root: resolve(projectRootPath),
     optimizeDeps: {
-      exclude: ['../../src/components/tinymce/**', 'vue']
+      exclude: ['../../src/components/tinymce/**', 'vue', '@vue-office/pdf', '@vue-office/excel']
     },
 
     build: {
@@ -30,12 +30,10 @@ async function buildComponents() {
       commonjsOptions: {
         esmExternals: ['vue']
       },
-      rollupOptions: {
+      rolldownOptions: {
         // 配置 external
-        external: ['vue', '@element-plus/icons-vue', 'element-plus']
-      },
-      output: [
-        {
+        external: ['vue', '@element-plus/icons-vue', 'element-plus'],
+        output: {
           format: 'es',
           //不用打包成.es.js,这里我们想把它打包成.js
           entryFileNames: '[name].js',
@@ -45,7 +43,7 @@ async function buildComponents() {
           dir: 'es'
           // preserveModulesRoot: 'src'
         }
-      ]
+      }
     },
 
     plugins: [vue(), vueJsx()],

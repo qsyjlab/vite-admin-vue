@@ -1,0 +1,8 @@
+.el-dialog {
+  --el-dialog-border-radius: var(--framebase-border-radius-large);
+
+  .el-dialog__close:hover {
+    border-radius: var(--framebase-border-radius-base);
+    background-color: var(--el-fill-color-light);
+  }
+}

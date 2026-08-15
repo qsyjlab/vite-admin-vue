@@ -6,26 +6,28 @@ export function useReloadPage() {
   const { replace, currentRoute } = useRouter()
 
   function reload() {
-    const { query, params = {}, fullPath, name } = unref(currentRoute)
+    const { query, params = {}, path, name } = unref(currentRoute)
     if (name === REDIRECT_NAME) {
       return Promise.resolve(false)
     }
 
-    const _params: Record<string, any> = { ...params }
+    const redirectQuery: Record<string, any> = {}
 
     if (name && Object.keys(params).length > 0) {
-      _params['_origin_params'] = JSON.stringify(params ?? {})
-      _params['_redirect_type'] = 'name'
-      _params['path'] = String(name)
+      redirectQuery['_origin_params'] = JSON.stringify(params ?? {})
+      redirectQuery['_redirect_type'] = 'name'
+      redirectQuery['path'] = String(name)
     } else {
-      _params['_redirect_type'] = 'path'
-      _params['path'] = fullPath
+      redirectQuery['_redirect_type'] = 'path'
+      redirectQuery['path'] = path
     }
 
     return replace({
       name: REDIRECT_NAME,
-      params: _params,
-      query
+      query: {
+        ...query,
+        ...redirectQuery
+      }
     }).then(() => Promise.resolve(true))
   }
 

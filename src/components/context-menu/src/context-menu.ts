@@ -1,5 +1,5 @@
-import { InjectionKey } from 'vue'
-import { ContextMenuProvider, ProContextMenuItem } from './types'
+import type { InjectionKey } from 'vue'
+import type { ContextMenuProvider, ProContextMenuItem } from './types'
 
 export const contextMenuKey: InjectionKey<ContextMenuProvider> = Symbol()
 

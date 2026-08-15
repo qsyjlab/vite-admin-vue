@@ -1,0 +1,13 @@
+import { defineRouteModule } from '@/router/helper'
+
+export default defineRouteModule({
+  name: 'Docs',
+  path: '/docs',
+  meta: {
+    icon: 'ep.document',
+    order: 80,
+    ignoreAuth: true,
+    title: '文档',
+    href: 'https://qsyjlab.github.io/vite-admin-vue/'
+  }
+})

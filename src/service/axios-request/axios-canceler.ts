@@ -2,6 +2,7 @@ import type { AxiosRequestConfig } from 'axios'
 
 // 用于存储每个请求的标识和取消函数
 const pendingMap = new Map<string, AbortController>()
+const requestControllers = new WeakMap<AxiosRequestConfig, AbortController>()
 
 const getPendingUrl = (config: AxiosRequestConfig): string => {
   return [config.method, config.url].join('&')
@@ -13,16 +14,14 @@ export class AxiosCanceler {
    * @param config 请求配置
    */
   public addPending(config: AxiosRequestConfig): void {
-    this.removePending(config)
     const url = getPendingUrl(config)
+    pendingMap.get(url)?.abort(url)
+    pendingMap.delete(url)
 
-    // TODO: 这里的 signal 如果是外部传入的 似乎不会被触发
     const controller = new AbortController()
     config.signal = config.signal || controller.signal
-    if (!pendingMap.has(url)) {
-      // 如果当前请求不在等待中，将其添加到等待中
-      pendingMap.set(url, controller)
-    }
+    pendingMap.set(url, controller)
+    requestControllers.set(config, controller)
   }
 
   /**
@@ -43,14 +42,13 @@ export class AxiosCanceler {
    */
   public removePending(config: AxiosRequestConfig) {
     const url = getPendingUrl(config)
-    if (pendingMap.has(url)) {
-      // 如果当前请求在等待中，取消它并将其从等待中移除
-      const abortController = pendingMap.get(url)
-      if (abortController) {
-        abortController.abort(url)
-      }
+    const controller = requestControllers.get(config)
+
+    // A finished older request must not abort or remove the newer request with the same URL.
+    if (controller && pendingMap.get(url) === controller) {
       pendingMap.delete(url)
     }
+    requestControllers.delete(config)
   }
 
   /**
