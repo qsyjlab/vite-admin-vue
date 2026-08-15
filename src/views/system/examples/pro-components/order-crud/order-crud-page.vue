@@ -18,16 +18,19 @@
         </div>
       </template>
 
-      <pro-table-search
-        v-model="searchModel"
+      <pro-form
+        class="order-crud-page__search"
+        :model="searchModel"
         :fields="searchSchema"
-        :transform="normalizeOrderSearch"
+        inline
+        default-collapsed
         :loading="tableLoading"
         :collapsed-rows="{ xs: 2, sm: 1, md: 1 }"
-        :submitter-col="{ span: 8, xs: 24, sm: 12, md: 8 }"
+        :submitter="{ col: { span: 8, xs: 24, sm: 12, md: 8 } }"
         label-position="left"
         :label-width="84"
-        @search="handleSearch"
+        :on-finish="handleSearch"
+        @reset="handleResetSearch"
       />
 
       <div class="order-crud-page__table">
@@ -184,7 +187,6 @@ import {
   ProForm,
   ProModalForm,
   ProTable,
-  ProTableSearch,
   useProDrawerForm,
   useProModalForm,
   useProTable,
@@ -260,8 +262,13 @@ async function loadMeta() {
   return metaRequest
 }
 
-function handleSearch(params: OrderQuery) {
-  activeQuery.value = { ...params }
+function handleSearch(values: OrderSearchModel) {
+  searchModel.value = { ...values }
+  activeQuery.value = normalizeOrderSearch(values)
+}
+
+function handleResetSearch(values: OrderSearchModel) {
+  handleSearch(values)
 }
 
 function handleRequestError() {
@@ -446,7 +453,7 @@ async function removeSelectedOrders() {
     flex-direction: column;
   }
 
-  :deep(.pro-table-search) {
+  &__search {
     flex: none;
   }
 }

@@ -29,6 +29,31 @@
               @change="(value: any) => setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, value)"
             />
           </div>
+          <div class="setting-item setting-item--block">
+            <span class="setting-item__label">预设颜色</span>
+            <div class="theme-swatches" role="group" aria-label="主题色预设">
+              <button
+                v-for="swatch in THEME_COLOR_SWATCHES"
+                :key="swatch.color"
+                type="button"
+                class="theme-swatch"
+                :class="{ 'is-active': layoutConfig.themeColor === swatch.color }"
+                :style="{ '--sw': swatch.color }"
+                :aria-label="`切换主题色${swatch.name}`"
+                :aria-pressed="layoutConfig.themeColor === swatch.color"
+                @click="setLayoutConfig(LayoutConfigHandlerEnum.THEME_COLOR, swatch.color)"
+              >
+                <span class="theme-swatch__ring" aria-hidden="true"></span>
+                <el-icon
+                  v-if="layoutConfig.themeColor === swatch.color"
+                  class="theme-swatch__check"
+                  size="12"
+                >
+                  <Check />
+                </el-icon>
+              </button>
+            </div>
+          </div>
           <div class="setting-item">
             <span class="setting-item__label">深色侧边栏</span>
             <el-switch
@@ -191,9 +216,14 @@
 import { ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
-import { Close, CopyDocument, Refresh } from '@element-plus/icons-vue'
+import { Check, Close, CopyDocument, Refresh } from '@element-plus/icons-vue'
 import { useLayoutStore, usePermissionStore } from '@/store'
-import { useLayoutConfigHandler, LayoutConfigHandlerEnum, useMessage } from '@/hooks'
+import {
+  useLayoutConfigHandler,
+  LayoutConfigHandlerEnum,
+  THEME_COLOR_SWATCHES,
+  useMessage
+} from '@/hooks'
 import { copyToClipboard } from '@/utils'
 import { PermissionModeEnum } from '@/enum'
 
@@ -350,6 +380,79 @@ const resertConfig = () => {
   &__label {
     color: var(--el-text-color-regular);
     font-weight: 500;
+  }
+
+  &--block {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+    padding: 8px 0 10px;
+  }
+}
+
+/* ─── 预设色圆点（与登录页右上角同款风格） ─── */
+.theme-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.theme-swatch {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--sw);
+  cursor: pointer;
+  outline: none;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    pointer-events: none;
+  }
+
+  .theme-swatch__ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 999px;
+    border: 2px solid var(--sw);
+    opacity: 0;
+    transform: scale(0.9);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+    pointer-events: none;
+  }
+
+  .theme-swatch__check {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px color-mix(in srgb, var(--sw) 32%, transparent);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sw) 28%, transparent);
+  }
+
+  &.is-active .theme-swatch__ring {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 

@@ -5,6 +5,25 @@
     <link rel="icon" href="<%= BASE_URL %>logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= VITE_APP_TITLE %></title>
+    <script>
+      // 在 Vue 加载前同步设置暗黑模式 class，避免 app-loading 闪白
+      ;(function () {
+        try {
+          var t = localStorage.getItem('LAYOUT_THEME')
+          var isDark =
+            t === 'dark' ||
+            ((!t || t === 'auto') && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          if (!isDark) {
+            var layout = localStorage.getItem('_BASIC___LAYOUT__')
+            if (layout) {
+              var parsed = JSON.parse(layout)
+              if (parsed.value && parsed.value.theme === 'dark') isDark = true
+            }
+          }
+          if (isDark) document.documentElement.classList.add('dark')
+        } catch (e) {}
+      })()
+    </script>
   </head>
 
   <body>

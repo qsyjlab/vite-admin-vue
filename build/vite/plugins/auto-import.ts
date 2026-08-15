@@ -22,8 +22,6 @@ const migratedProComponents = new Set([
   'ProStepsForm',
   'ProStatisticCard',
   'ProTable',
-  'ProTableSearch',
-  'ProTableWithSearch',
   'ProUpload',
   'ProUploadList'
 ])
@@ -35,8 +33,7 @@ const packagedProComponents = new Set([
   'ProCheckCard',
   'ProCheckCardGroup',
   'ProTree',
-  'ProTreeSelect',
-  'ProQueryFilter'
+  'ProTreeSelect'
 ])
 const packagedCodeEditors = new Set(['ProCodeEditor', 'ProJsonEditor'])
 

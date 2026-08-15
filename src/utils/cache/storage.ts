@@ -63,10 +63,22 @@ class BaseStorage {
   }
 
   /**
-   * 清除廍
+   * 仅清除当前前缀下的所有缓存，避免误伤同域下其他存储项
    */
   clearAll(): void {
-    this.localStorage.clear()
+    const prefix = this.prefix || ''
+    if (!prefix) {
+      this.localStorage.clear()
+      return
+    }
+    const keysToRemove: string[] = []
+    for (let i = 0; i < this.localStorage.length; i++) {
+      const key = this.localStorage.key(i)
+      if (key && key.startsWith(prefix)) {
+        keysToRemove.push(key)
+      }
+    }
+    keysToRemove.forEach(k => this.localStorage.removeItem(k))
   }
 
   /**

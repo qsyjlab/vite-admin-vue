@@ -95,3 +95,16 @@ export function getLayoutCache() {
 export const clearCache = () => {
   $storage.clearAll()
 }
+
+/**
+ * 仅清除用户认证/授权相关缓存，保留布局配置、权限模式等全局偏好
+ */
+export const clearUserCache = () => {
+  const userKeys = [
+    StorageKeys.TOKEN,
+    StorageKeys.USER_INFO,
+    StorageKeys.PERMISSIONS,
+    StorageKeys.ROLES
+  ]
+  userKeys.forEach(k => $storage.remove(k))
+}

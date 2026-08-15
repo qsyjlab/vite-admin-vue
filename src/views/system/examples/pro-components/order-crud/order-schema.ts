@@ -1,12 +1,11 @@
 import { ElInputNumber } from 'element-plus'
 import {
   ProSelect,
-  type FormSchema,
   type ProDescriptionColumns,
   type ProFieldValueEnum,
+  type ProFormSchema,
   type ProTableColumns,
-  type ProTableRenderScope,
-  type ProTableSearchField
+  type ProTableRenderScope
 } from '@framebase/element-plus-pro-components'
 import type {
   OrderDetail,
@@ -122,15 +121,14 @@ export const tableColumns: ProTableColumns<OrderRecord> = [
   }
 ]
 
-export const searchFields = (meta?: OrderMeta): ProTableSearchField<OrderSearchModel>[] => [
+export const searchFields = (meta?: OrderMeta): ProFormSchema<OrderSearchModel> => [
   {
     key: 'search-order-number',
     name: 'orderNo',
     label: '订单编号',
     valueType: 'text',
     fieldProps: { clearable: true, placeholder: '支持模糊查询' },
-    col: { span: 8, xs: 24, sm: 12, md: 8 },
-    order: 1
+    col: { span: 8, xs: 24, sm: 12, md: 8 }
   },
   {
     key: 'search-customer-name',
@@ -138,8 +136,7 @@ export const searchFields = (meta?: OrderMeta): ProTableSearchField<OrderSearchM
     label: '客户名称',
     valueType: 'text',
     fieldProps: { clearable: true, placeholder: '输入客户名称' },
-    col: { span: 8, xs: 24, sm: 12, md: 8 },
-    order: 2
+    col: { span: 8, xs: 24, sm: 12, md: 8 }
   },
   {
     key: 'search-owner',
@@ -148,8 +145,7 @@ export const searchFields = (meta?: OrderMeta): ProTableSearchField<OrderSearchM
     valueType: 'select',
     options: meta?.owners ?? [],
     fieldProps: { clearable: true, filterable: true },
-    col: { span: 8, xs: 24, sm: 12, md: 8 },
-    order: 3
+    col: { span: 8, xs: 24, sm: 12, md: 8 }
   },
   {
     key: 'search-status',
@@ -158,8 +154,7 @@ export const searchFields = (meta?: OrderMeta): ProTableSearchField<OrderSearchM
     valueType: 'select',
     valueEnum: orderStatusValueEnum,
     fieldProps: { clearable: true },
-    col: { span: 8, xs: 24, sm: 12, md: 8 },
-    order: 4
+    col: { span: 8, xs: 24, sm: 12, md: 8 }
   },
   {
     key: 'search-created-range',
@@ -173,12 +168,11 @@ export const searchFields = (meta?: OrderMeta): ProTableSearchField<OrderSearchM
       endPlaceholder: '结束日期',
       unlinkPanels: true
     },
-    col: { span: 16, xs: 24, sm: 24, md: 16 },
-    order: 5
+    col: { span: 16, xs: 24, sm: 24, md: 16 }
   }
 ]
 
-export const formFields = (meta?: OrderMeta): FormSchema<OrderFormModel>[] => [
+export const formFields = (meta?: OrderMeta): ProFormSchema<OrderFormModel> => [
   {
     key: 'customer-field',
     name: 'customerId',

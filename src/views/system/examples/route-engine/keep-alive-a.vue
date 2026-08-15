@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onActivated, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -46,6 +46,10 @@ const count = ref(0)
 const goVerify = () => {
   router.push({ name: 'RouteEngineKeepAliveB' })
 }
+
+onActivated(() => {
+  console.log('keep-alive-a activated')
+})
 </script>
 
 <style lang="scss" scoped>

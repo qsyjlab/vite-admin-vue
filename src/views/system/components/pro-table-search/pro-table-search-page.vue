@@ -1,30 +1,46 @@
 <template>
   <page-wrapper>
     <page-card :header="$route.meta.title" full>
-      <pro-table-with-search
-        class="table-search-demo"
-        :columns="columns"
-        :search-fields="searchFields"
-        :request="queryOrders"
-        :initial-values="{ status: 'processing' }"
-        :search-props="searchProps"
-        :table-props="tableProps"
-      />
+      <div class="table-search-demo">
+        <pro-form
+          class="table-search-demo__form"
+          :model="searchModel"
+          :fields="searchFields"
+          inline
+          default-collapsed
+          :collapsed-rows="{ xs: 2, sm: 1 }"
+          :submitter="{ col: { span: 6, xs: 24, sm: 8, md: 6 } }"
+          label-position="left"
+          :label-width="80"
+          :on-finish="handleSearch"
+          @reset="handleReset"
+        />
+        <div class="table-search-demo__table">
+          <pro-table
+            :columns="columns"
+            :request="queryOrders"
+            :params="activeQuery"
+            row-key="id"
+            header-title="订单查询结果"
+            :index-border="false"
+            :pagination="{ pageSize: 10, pageSizes: [10, 20, 50] }"
+          />
+        </div>
+      </div>
     </page-card>
   </page-wrapper>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { PageCard, PageWrapper } from '@/components'
 import {
-  ProTableWithSearch,
-  splitProTableSearchColumns,
-  type ProTableSearchColumn,
-  type ProTableWithSearchProps
-} from '@framebase/element-plus-pro-components'
-import type {
-  ProTableRequestParams,
-  ProTableRequestResult
+  ProForm,
+  ProTable,
+  type ProFormSchema,
+  type ProTableColumns,
+  type ProTableRequestParams,
+  type ProTableRequestResult
 } from '@framebase/element-plus-pro-components'
 
 defineOptions({
@@ -59,28 +75,25 @@ const statusValueEnum = {
 } as const
 const ownerValueEnum = { 张伟: '张伟', 李娜: '李娜', 王强: '王强', 陈晨: '陈晨' }
 
-const columnDefinitions: ProTableSearchColumn<OrderRecord, OrderQuery>[] = [
+const columns: ProTableColumns<OrderRecord> = [
   {
     key: 'order-number',
     dataIndex: 'orderNo',
     title: '订单编号',
     width: 150,
-    fixed: 'left',
-    search: true
+    fixed: 'left'
   },
   {
     key: 'customer-name',
     dataIndex: 'customer.name',
     title: '客户名称',
-    minWidth: 160,
-    search: true
+    minWidth: 160
   },
   {
     key: 'owner',
     dataIndex: 'owner',
     title: '负责人',
-    width: 110,
-    search: { valueType: 'select', valueEnum: ownerValueEnum, order: 2 }
+    width: 110
   },
   {
     key: 'amount',
@@ -96,51 +109,86 @@ const columnDefinitions: ProTableSearchColumn<OrderRecord, OrderQuery>[] = [
     title: '状态',
     width: 110,
     valueType: 'status',
-    valueEnum: statusValueEnum,
-    search: { valueType: 'select', valueEnum: statusValueEnum, order: -1 }
+    valueEnum: statusValueEnum
   },
   {
     key: 'created-at',
     dataIndex: 'createdAt',
     title: '创建时间',
     width: 180,
-    valueType: 'datetime',
-    search: {
-      key: 'search-created-range',
-      name: 'createdRange',
-      label: '创建日期',
-      valueType: 'date',
-      fieldProps: {
-        type: 'daterange',
-        valueFormat: 'YYYY-MM-DD',
-        startPlaceholder: '开始日期',
-        endPlaceholder: '结束日期'
-      },
-      col: { span: 12, xs: 24, sm: 24, md: 12 },
-      order: 3
-    }
+    valueType: 'datetime'
   }
 ]
 
-const { columns, searchFields } = splitProTableSearchColumns(columnDefinitions)
-const searchProps: ProTableWithSearchProps<OrderRecord, OrderQuery>['searchProps'] = {
-  collapsedRows: { xs: 2, sm: 1 },
-  labelPosition: 'left',
-  labelWidth: 80,
-  transform: values => {
-    const { createdRange, ...params } = values
-    return {
-      ...params,
-      createdFrom: createdRange?.[0],
-      createdTo: createdRange?.[1]
-    }
+const searchFields: ProFormSchema<OrderQuery> = [
+  {
+    key: 'order-number-search',
+    name: 'orderNo',
+    label: '订单编号',
+    valueType: 'text',
+    col: { span: 6, xs: 24, sm: 12, md: 6 },
+    fieldProps: { clearable: true, placeholder: '输入订单编号' }
+  },
+  {
+    key: 'customer-name-search',
+    name: 'customer.name',
+    label: '客户名称',
+    valueType: 'text',
+    col: { span: 6, xs: 24, sm: 12, md: 6 },
+    fieldProps: { clearable: true, placeholder: '输入客户名称' }
+  },
+  {
+    key: 'owner-search',
+    name: 'owner',
+    label: '负责人',
+    valueType: 'select',
+    valueEnum: ownerValueEnum,
+    col: { span: 6, xs: 24, sm: 12, md: 6 },
+    fieldProps: { clearable: true, placeholder: '全部负责人' }
+  },
+  {
+    key: 'status-search',
+    name: 'status',
+    label: '状态',
+    valueType: 'select',
+    valueEnum: statusValueEnum,
+    col: { span: 6, xs: 24, sm: 12, md: 6 },
+    fieldProps: { clearable: true, placeholder: '全部状态' }
+  },
+  {
+    key: 'created-range-search',
+    name: 'createdRange',
+    label: '创建日期',
+    valueType: 'date',
+    fieldProps: {
+      type: 'daterange',
+      valueFormat: 'YYYY-MM-DD',
+      startPlaceholder: '开始日期',
+      endPlaceholder: '结束日期'
+    },
+    col: { span: 12, xs: 24, sm: 24, md: 12 }
+  }
+]
+
+const searchModel = ref<OrderQuery>({ status: 'processing' })
+const activeQuery = ref<Partial<OrderQuery>>({ status: 'processing' })
+
+function normalizeQuery(values: OrderQuery): Partial<OrderQuery> {
+  const { createdRange, ...params } = values
+  return {
+    ...params,
+    createdFrom: createdRange?.[0],
+    createdTo: createdRange?.[1]
   }
 }
-const tableProps: ProTableWithSearchProps<OrderRecord, OrderQuery>['tableProps'] = {
-  rowKey: 'id',
-  headerTitle: '订单查询结果',
-  indexBorder: false,
-  pagination: { pageSize: 10, pageSizes: [10, 20, 50] }
+
+function handleSearch(values: OrderQuery) {
+  searchModel.value = { ...values }
+  activeQuery.value = normalizeQuery(values)
+}
+
+function handleReset(values: OrderQuery) {
+  handleSearch(values)
 }
 
 const owners = Object.keys(ownerValueEnum)
@@ -181,8 +229,21 @@ async function queryOrders(
 
 <style scoped>
 .table-search-demo {
+  display: flex;
   min-height: 0;
   flex: 1 1 auto;
+  flex-direction: column;
+
+  &__form {
+    padding: 16px 16px 0;
+    border-bottom: 1px solid var(--el-border-color-lighter);
+    background: var(--el-fill-color-extra-light);
+  }
+
+  &__table {
+    min-height: 0;
+    flex: 1 1 auto;
+  }
 }
 
 :deep(.page-card__body) {

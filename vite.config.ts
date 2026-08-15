@@ -17,19 +17,42 @@ export default defineConfig(configEnv => {
     define: createDefine(),
     plugins: createVitePlugin(configEnv),
     resolve: {
-      alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url)),
-        '@framebase/element-plus-theme/style.css': fileURLToPath(
-          new URL('./packages/element-plus-theme/src/index.scss', import.meta.url)
-        ),
-        '@framebase/element-plus-pro-components': fileURLToPath(
-          new URL('./packages/pro-components/src', import.meta.url)
-        ),
-        '@framebase/vue-code-editor': fileURLToPath(
-          new URL('./packages/pro-code-editor/src', import.meta.url)
-        ),
-        '~': fileURLToPath(new URL('./', import.meta.url))
-      }
+      alias: [
+        // 临时：@framebase/element-plus-theme 指向 framebase 源码，便于实时调试主题变量
+        {
+          find: '@framebase/element-plus-theme/style.css',
+          replacement: fileURLToPath(
+            new URL('../framebase/packages/element-plus-theme/src/index.scss', import.meta.url)
+          )
+        },
+        {
+          find: '@framebase/element-plus-theme/tokens.css',
+          replacement: fileURLToPath(
+            new URL('../framebase/packages/element-plus-theme/src/tokens.scss', import.meta.url)
+          )
+        },
+        {
+          find: '@framebase/element-plus-theme/dark.css',
+          replacement: fileURLToPath(
+            new URL('../framebase/packages/element-plus-theme/src/dark.scss', import.meta.url)
+          )
+        },
+        {
+          find: '@framebase/element-plus-theme/components.css',
+          replacement: fileURLToPath(
+            new URL(
+              '../framebase/packages/element-plus-theme/src/components/index.scss',
+              import.meta.url
+            )
+          )
+        },
+        { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
+        {
+          find: '@framebase/vue-code-editor',
+          replacement: fileURLToPath(new URL('./packages/pro-code-editor/src', import.meta.url))
+        },
+        { find: '~', replacement: fileURLToPath(new URL('./', import.meta.url)) }
+      ]
     },
     server: {
       port: 5300,

@@ -8,6 +8,7 @@ import setupStore from '@/store'
 import { sso } from '@/sso'
 import { enableMock } from '@/mocks'
 import '@framebase/element-plus-theme/style.css'
+import '@framebase/element-plus-pro-components/style.css'
 import '@/styles/index.scss'
 import { startQiankunApp } from '@/micro-app/root-app'
 

@@ -39,9 +39,9 @@ const logout = () => {
   height: var(--layout-header-user-height, 36px);
   min-height: 0;
   padding: 0 10px 0 6px;
-  border-radius: 999px;
+  border-radius: 10px;
   color: var(--global-heading-color);
-  border: 1px solid var(--global-border-color);
+  // border: 1px solid var(--global-border-color);
   background: var(--global-surface-color);
 
   :deep(.el-avatar) {

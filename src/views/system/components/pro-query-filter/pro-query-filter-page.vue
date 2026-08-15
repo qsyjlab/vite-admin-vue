@@ -2,8 +2,8 @@
   <page-wrapper :full="false" class="query-filter-page">
     <header class="component-page-header">
       <div>
-        <h1>ProQueryFilter</h1>
-        <p>独立查询面板，可与 ProTable、列表或任意业务请求显式组合。</p>
+        <h1>ProForm 查询</h1>
+        <p>使用 ProForm 与 ProTable 显式组合查询页面。</p>
       </div>
       <div class="header-actions">
         <el-button @click="applyRiskPreset">高风险预设</el-button>
@@ -11,16 +11,19 @@
       </div>
     </header>
 
-    <pro-query-filter
+    <pro-form
       ref="queryFilterRef"
-      v-model="queryModel"
+      class="query-filter-form"
+      :model="queryModel"
       :fields="fields"
-      :transform="transformQuery"
+      inline
+      default-collapsed
       :collapsed-rows="{ xs: 2, sm: 1 }"
-      :submitter-col="{ span: 8, xs: 24, sm: 12, lg: 8 }"
+      :submitter="{ col: { span: 8, xs: 24, sm: 12, lg: 8 } }"
       label-position="left"
       :label-width="76"
-      @search="handleSearch"
+      :on-finish="handleSearch"
+      @reset="handleReset"
     />
 
     <section class="summary-grid">
@@ -56,15 +59,15 @@ import { computed, ref, useTemplateRef } from 'vue'
 import { ElButton } from 'element-plus'
 import { PageWrapper } from '@/components'
 import {
-  ProQueryFilter,
+  ProForm,
   ProTable,
-  useProQueryFilter,
-  type ProQueryFilterInstance,
-  type ProTableColumns,
-  type ProTableSearchField
+  useProForm,
+  type ProFormInstance,
+  type ProFormSchema,
+  type ProTableColumns
 } from '@framebase/element-plus-pro-components'
 
-defineOptions({ name: 'ProQueryFilterPage' })
+defineOptions({ name: 'ProFormQueryPage' })
 
 type OrderStatus = 'pending' | 'processing' | 'completed'
 type RiskLevel = 'normal' | 'attention' | 'high'
@@ -95,16 +98,15 @@ interface OrderRecord {
 
 const queryModel = ref<OrderQuery>({})
 const appliedParams = ref<OrderParams>({})
-const queryFilterRef =
-  useTemplateRef<ProQueryFilterInstance<OrderQuery, OrderParams>>('queryFilterRef')
-const queryFilter = useProQueryFilter(queryFilterRef)
+const queryFilterRef = useTemplateRef<ProFormInstance<OrderQuery>>('queryFilterRef')
+const queryFilter = useProForm(queryFilterRef)
 
-const fields: ProTableSearchField<OrderQuery>[] = [
+const fields: ProFormSchema<OrderQuery> = [
   {
     key: 'keyword',
     name: 'keyword',
     label: '关键词',
-    valueType: 'input',
+    valueType: 'text',
     fieldProps: { placeholder: '订单号 / 客户名称', clearable: true },
     col: { span: 8, xs: 24, sm: 12, lg: 8 }
   },
@@ -285,12 +287,19 @@ function transformQuery(values: OrderQuery): OrderParams {
   }
 }
 
-function handleSearch(params: OrderParams) {
-  appliedParams.value = { ...params }
+function handleSearch(values: OrderQuery) {
+  queryModel.value = { ...values }
+  appliedParams.value = transformQuery(values)
+}
+
+function handleReset() {
+  queryModel.value = {}
+  appliedParams.value = {}
 }
 
 async function applyRiskPreset() {
-  await queryFilter.setFieldsValue({ status: 'processing', risk: 'high' })
+  queryFilter.setFieldValue('status', 'processing')
+  queryFilter.setFieldValue('risk', 'high')
   await queryFilter.submit()
 }
 
@@ -302,6 +311,13 @@ async function submitFilter() {
 <style scoped lang="scss">
 .query-filter-page {
   min-width: 0;
+}
+
+.query-filter-form {
+  padding: 16px 16px 0;
+  border: 1px solid var(--el-border-color-light);
+  border-radius: var(--el-border-radius-base);
+  background: var(--el-fill-color-extra-light);
 }
 
 .component-page-header {
