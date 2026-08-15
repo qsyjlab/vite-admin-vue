@@ -5,7 +5,13 @@ import tseslint from 'typescript-eslint'
 import pluginVue from 'eslint-plugin-vue'
 import pluginPrettier from 'eslint-plugin-prettier/recommended'
 
-const ignores = ['node_modules', 'dist', '.output', 'public', 'docs/.vitepress/**', '.output']
+const ignores = [
+  '**/node_modules/**',
+  '**/dist/**',
+  '**/.output/**',
+  'public',
+  'docs/.vitepress/**'
+]
 
 /**
  * eslint 9 针对全局声明的类型无法识别到 需要手动指定

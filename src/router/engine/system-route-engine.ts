@@ -18,6 +18,42 @@ export interface SystemRouteEngineContext {
   backendRoutes?: RouteRecordRaw[]
 }
 
+/**
+ * 角色映射模式专用树过滤
+ *
+ * 与通用 filter 不同：当父路由的 meta.roles 不匹配时，整棵子树都被移除，
+ * 不会因为子路由没有 roles 声明而保留父路由。
+ */
+function filterByRole(routes: RouteRecordRaw[], roles: Array<string | number>): RouteRecordRaw[] {
+  const roleSet = new Set(roles.map(String))
+
+  function filterList(list: RouteRecordRaw[]): RouteRecordRaw[] {
+    return list
+      .map(route => ({ ...route }))
+      .filter(route => {
+        // 忽略鉴权的路由直接放行
+        if (route.meta?.ignoreAuth) {
+          if (route.children) route.children = filterList(route.children)
+          return true
+        }
+
+        const routeRoles = route.meta?.roles?.map(String)
+
+        // 路由声明了 roles 但用户不具备任何角色 —— 整棵子树移除
+        if (routeRoles?.length) {
+          const hasRole = routeRoles.some(role => roleSet.has(role))
+          if (!hasRole) return false
+        }
+
+        // 路由未声明 roles 或用户具备角色 —— 递归处理子路由
+        if (route.children) route.children = filterList(route.children)
+        return true
+      })
+  }
+
+  return filterList(routes)
+}
+
 function resolvePermissionRoutes(routes: RouteRecordRaw[], context: SystemRouteEngineContext) {
   const { permissionMode, permissions, roles, backendRoutes = [] } = context
 
@@ -33,17 +69,7 @@ function resolvePermissionRoutes(routes: RouteRecordRaw[], context: SystemRouteE
   }
 
   if (permissionMode === PermissionModeEnum.ROLE) {
-    function roleFilter(route: RouteRecordRaw) {
-      const routeRoles = route.meta?.roles?.map(String)
-      if (route.meta?.ignoreAuth) return true
-      if (!roles?.length) return false
-      if (!routeRoles?.length) return true
-
-      const roleSet = new Set(roles.map(String))
-      return routeRoles.some(role => roleSet.has(String(role)))
-    }
-
-    return filter(routes, roleFilter, { id: 'name' })
+    return filterByRole(routes, roles)
   }
 
   return transformObjToRoute(backendRoutes)

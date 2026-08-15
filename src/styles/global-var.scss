@@ -2,21 +2,21 @@
   --nprogress-bar-bg-color: var(--el-color-primary);
   --nprogress-bar-default-bg-color: '#29d';
   /** 全局背景色 */
-  --global-bg-color: #f0f2f5;
-  --global-bg-color-2: #ffffff;
-  --global-surface-color: #ffffff;
-  --global-surface-color-elevated: #ffffff;
-  --global-surface-color-muted: #f5f5f5;
-  --global-hover-color: #f0f3f8;
-  --global-hover-color-strong: #e8eef7;
+  --global-bg-color: var(--framebase-color-bg-page);
+  --global-bg-color-2: var(--framebase-color-bg);
+  --global-surface-color: var(--framebase-color-bg);
+  --global-surface-color-elevated: var(--framebase-color-bg-overlay);
+  --global-surface-color-muted: var(--framebase-color-fill-lighter);
+  --global-hover-color: var(--framebase-color-fill-lighter);
+  --global-hover-color-strong: var(--framebase-color-fill-light);
   /* 边框颜色 */
-  --global-border-color: #e8e8e8;
-  --global-border-color-strong: #d9d9d9;
+  --global-border-color: var(--framebase-color-border);
+  --global-border-color-strong: var(--framebase-color-border-strong);
   /* 文字颜色 - 高对比正文、清晰辅助文字 */
-  --global-text-color-regular: #1f1f1f;
-  --global-text-color-secondary: #595959;
-  --global-text-color-placeholder: #8c8c8c;
-  --global-heading-color: #141414;
+  --global-text-color-regular: var(--framebase-color-text-regular);
+  --global-text-color-secondary: var(--framebase-color-text-secondary);
+  --global-text-color-placeholder: var(--framebase-color-text-placeholder);
+  --global-heading-color: var(--framebase-color-text-primary);
   /* 侧边栏 */
   --global-sidebar-bg: #ffffff;
   --global-sidebar-surface: #f5f5f5;
@@ -26,28 +26,28 @@
   --global-shadow-color-strong: rgba(0, 0, 0, 0.12);
   /* 圆角 */
   --global-layout-radius: 8px;
-  --global-control-radius: 6px;
-  --global-pill-radius: 999px;
+  --global-control-radius: var(--framebase-border-radius-base);
+  --global-pill-radius: var(--framebase-border-radius-round);
   /* 亮色应用下的可配置深色导航背景 */
   --layout-dark-menu-background: #001529;
 }
 
 html.dark {
   /* 基于 Element Plus 暗黑模式配色体系 */
-  --global-bg-color: var(--el-bg-color-page, #141414);
-  --global-bg-color-2: var(--el-bg-color, #1f1f1f);
-  --global-surface-color: var(--el-bg-color, #1f1f1f);
-  --global-surface-color-elevated: var(--el-bg-color-overlay, #262626);
-  --global-surface-color-muted: var(--el-fill-color-lighter, #262626);
+  --global-bg-color: var(--framebase-color-bg-page);
+  --global-bg-color-2: var(--framebase-color-bg);
+  --global-surface-color: var(--framebase-color-bg);
+  --global-surface-color-elevated: var(--framebase-color-bg-overlay);
+  --global-surface-color-muted: var(--framebase-color-fill-lighter);
   --global-hover-color: #2a2d32;
   --global-hover-color-strong: #32363d;
-  --global-border-color: var(--el-border-color, #303030);
-  --global-border-color-strong: var(--el-border-color-dark, #424242);
+  --global-border-color: var(--framebase-color-border);
+  --global-border-color-strong: var(--framebase-color-border-strong);
   /* 暗色文字令牌，由组件自身变量消费 */
-  --global-text-color-regular: rgba(255, 255, 255, 0.88);
-  --global-text-color-secondary: rgba(255, 255, 255, 0.72);
-  --global-text-color-placeholder: rgba(255, 255, 255, 0.45);
-  --global-heading-color: rgba(255, 255, 255, 0.95);
+  --global-text-color-regular: var(--framebase-color-text-regular);
+  --global-text-color-secondary: var(--framebase-color-text-secondary);
+  --global-text-color-placeholder: var(--framebase-color-text-placeholder);
+  --global-heading-color: var(--framebase-color-text-primary);
   /* 侧边栏 */
   --global-sidebar-bg: var(--el-bg-color-page, #141414);
   --global-sidebar-surface: var(--el-fill-color-light, #1f1f1f);

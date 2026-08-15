@@ -1,0 +1,36 @@
+.el-popper.is-dark-navigation-menu {
+  --el-bg-color-overlay: var(--layout-dark-menu-background);
+  --el-menu-bg-color: transparent;
+  --el-menu-text-color: rgba(255, 255, 255, 0.86);
+  --el-menu-hover-text-color: var(--el-color-white);
+  --el-menu-hover-bg-color: rgba(255, 255, 255, 0.1);
+  --el-menu-active-color: var(--el-color-white);
+  border-color: rgba(255, 255, 255, 0.12);
+  background-color: var(--layout-dark-menu-background);
+
+  .el-menu--popup {
+    border-color: transparent;
+    background-color: var(--layout-dark-menu-background);
+  }
+
+  .el-menu-item,
+  .el-sub-menu__title {
+    color: var(--el-menu-text-color);
+    background-color: transparent;
+
+    &:hover {
+      color: var(--el-color-white);
+      background-color: var(--el-menu-hover-bg-color);
+    }
+  }
+
+  .el-menu-item.is-active {
+    color: var(--el-color-white);
+    background-color: var(--el-color-primary);
+  }
+
+  .el-popper__arrow::before {
+    border-color: rgba(255, 255, 255, 0.12);
+    background-color: var(--layout-dark-menu-background);
+  }
+}

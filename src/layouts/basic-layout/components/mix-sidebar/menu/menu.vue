@@ -91,7 +91,8 @@ const { getMenus } = usePermissionStore()
 const route = useRoute()
 const router = useRouter()
 
-const activeKey = ref(route.name)
+// 初始值取一级路由 name，避免刷新深层路由时 activeKey 为子路由 name 导致一级菜单不高亮
+const activeKey = ref(route.matched[0]?.name || route.name)
 
 const showChildren = ref(false)
 const activeChildren = ref<Menu[]>([])
@@ -99,6 +100,10 @@ const activeChildren = ref<Menu[]>([])
 const menus = computed(() => {
   return getMenus()
 })
+
+// 首次进入/刷新时 routeChangeListener 的 immediate 回放要求 lastCache.from && lastCache.to
+// 都存在，初始导航 from 缺失不会触发，需在此主动同步一次 activeKey 与 activeChildren
+activeChildren.value = getActiveChildrenMenus()
 
 const stopRouteListener = routeChangeListener((_to, _from, matched) => {
   const moduleRoute = matched[0]

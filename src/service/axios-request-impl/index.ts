@@ -11,6 +11,7 @@ import type {
 
 import { isAxiosError, isCancelError } from '../axios-request'
 import { checkStatus } from './check-status'
+import { getTokenCahce } from '@/store/local'
 
 import { ResultEnum, showErrorMessage } from './helper'
 // import { basicApiService } from '../index'
@@ -25,6 +26,12 @@ import { ResultEnum, showErrorMessage } from './helper'
 // const refreshing = false
 
 const requestInterceptorImpl: requestInterceptorType = config => {
+  // 统一携带 token，便于后端识别当前用户（mock /getMenuList 依赖此 header）
+  const token = getTokenCahce()
+  if (token) {
+    config.headers = config.headers || {}
+    ;(config.headers as Record<string, string>).Authorization = `Bearer ${token}`
+  }
   return config
 }
 
@@ -92,7 +99,7 @@ export const transformResponse: RequestTransform['transformResponse'] = (
       const errorJson = {
         message: message || '服务器错误',
         code: code || -1,
-        data: null
+        data: _data?.data ?? null
       }
 
       if (!ignoreResponseErrorMessage) {

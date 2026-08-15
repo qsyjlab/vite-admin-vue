@@ -1,243 +1,72 @@
 <template>
-  <div>
-    <ProForm inline :fields="fields" @submit="submit" @reset="reset"> </ProForm>
-  </div>
+  <ProForm
+    ref="formRef"
+    v-model:collapsed="collapsed"
+    inline
+    :fields="fields"
+    :model="initialValues"
+    :label-width="88"
+    label-position="left"
+    :collapsed-rows="{ xs: 2, sm: 1 }"
+    :submitter="{ col: { span: 6, xs: 24, sm: 8, md: 8, lg: 6 } }"
+    @submit="handleSubmit"
+  />
 </template>
 
 <script setup lang="ts">
-const fields = [
+import { ref, useTemplateRef } from 'vue'
+import {
+  type FormSchema,
+  type ProFormInstance,
+  ProForm,
+  useProForm
+} from '@framebase/element-plus-pro-components'
+
+interface QueryModel {
+  keyword?: string
+  status?: 'enabled' | 'disabled'
+  owner?: string
+  createdAt?: string
+}
+
+const collapsed = ref(true)
+const initialValues: QueryModel = { status: 'enabled' }
+const fields: FormSchema<QueryModel>[] = [
   {
-    label: 'name',
-    el: 'el-input',
-    key: 'name',
-    rules: [
-      { required: true, message: 'Please input Activity name', trigger: 'blur' },
-      { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
-    ],
-    col: {
-      span: 4
-    }
+    key: 'keyword',
+    name: 'keyword',
+    label: '关键词',
+    valueType: 'text',
+    col: { span: 8, xs: 24, sm: 12, md: 8 }
   },
   {
-    label: 'ProSelect',
-    el: 'ProSelect',
-    key: 'ProSelect',
-    attrs: {
-      options: [
-        {
-          label: '测试数据1',
-          value: '测试数据1'
-        },
-        {
-          label: '测试数据2',
-          value: '测试数据2'
-        },
-        {
-          label: '禁用项',
-          value: '2',
-          disabled: true
-        }
-      ]
-    },
-    events: {
-      change: (...rest: any[]) => {
-        console.log('rest change', rest)
-      }
-    },
-    col: {
-      span: 12
-    }
+    key: 'status',
+    name: 'status',
+    label: '状态',
+    valueType: 'select',
+    valueEnum: { enabled: '启用', disabled: '停用' },
+    col: { span: 8, xs: 24, sm: 12, md: 8 }
   },
   {
-    label: 'ProSelect 多选',
-    el: 'ProSelect',
-    key: 'ProSelectMutiple',
-    attrs: {
-      multiple: true,
-      'collapse-tags': true,
-      filterable: true,
-      options: [
-        {
-          label: '测试数据1',
-          value: '测试数据1'
-        },
-        {
-          label: '测试数据2',
-          value: '测试数据2'
-        },
-        {
-          label: '测试数据3',
-          value: '测试数据3'
-        },
-        {
-          label: '禁用项',
-          value: '2',
-          disabled: true
-        }
-      ]
-    },
-    col: {
-      span: 14
-    }
+    key: 'owner',
+    name: 'owner',
+    label: '负责人',
+    valueType: 'text',
+    col: { span: 8, xs: 24, sm: 12, md: 8 }
   },
   {
-    label: 'ProSelect 分组模式',
-    el: 'ProSelect',
-    key: 'ProSelectGroup',
-    attrs: {
-      group: true,
-      options: [
-        {
-          label: 'Popular cities',
-          options: [
-            {
-              value: 'Shanghai',
-              label: 'Shanghai'
-            },
-            {
-              value: 'Beijing',
-              label: 'Beijing'
-            }
-          ]
-        },
-        {
-          label: 'City name',
-          options: [
-            {
-              value: 'Chengdu',
-              label: 'Chengdu'
-            },
-            {
-              value: 'Shenzhen',
-              label: 'Shenzhen'
-            },
-            {
-              value: 'Guangzhou',
-              label: 'Guangzhou'
-            },
-            {
-              value: 'Dalian',
-              label: 'Dalian'
-            }
-          ]
-        }
-      ]
-    },
-    col: {
-      span: 7
-    }
-  },
-  {
-    label: 'ProSelect 远程搜索模式',
-    el: 'ProSelect',
-    key: 'ProSelectRemote',
-    attrs: {
-      filterable: true,
-      remote: true,
-      options: [
-        {
-          value: 'Shanghai',
-          label: 'Shanghai'
-        },
-        {
-          value: 'Beijing',
-          label: 'Beijing'
-        }
-      ]
-    },
-    col: {
-      span: 6
-    }
-  },
-  {
-    label: 'ProCheckboxGroup',
-    el: 'ProCheckboxGroup',
-    key: 'ProCheckboxGroup',
-    attrs: {
-      options: [
-        {
-          value: 'Shanghai',
-          label: 'Shanghai'
-        },
-        {
-          value: 'Beijing',
-          label: 'Beijing'
-        }
-      ]
-    },
-    col: {
-      span: 20
-    }
-  },
-  {
-    label: 'ProCheckboxGroup 按钮模式',
-    el: 'ProCheckboxGroup',
-    key: 'ProCheckboxGruopButton',
-    attrs: {
-      tag: 'checkbox-button',
-      options: [
-        {
-          value: 'Shanghai',
-          label: 'Shanghai'
-        },
-        {
-          value: 'Beijing',
-          label: 'Beijing'
-        }
-      ]
-    },
-    col: {
-      span: 12
-    }
-  },
-  {
-    label: 'ProRadioGroup',
-    el: 'ProRadioGroup',
-    key: 'ProRadioGroup',
-    attrs: {
-      options: [
-        {
-          value: 'Shanghai',
-          label: 'Shanghai'
-        },
-        {
-          value: 'Beijing',
-          label: 'Beijing'
-        }
-      ]
-    },
-    col: {
-      span: 20
-    }
-  },
-  {
-    label: 'ProRadioGroup 按钮模式',
-    el: 'ProRadioGroup',
-    key: 'ProRadioGruopButton',
-    attrs: {
-      tag: 'radio-button',
-      options: [
-        {
-          value: 'Shanghai',
-          label: 'Shanghai'
-        },
-        {
-          value: 'Beijing',
-          label: 'Beijing'
-        }
-      ]
-    },
-    col: {
-      span: 12
-    }
+    key: 'created-at',
+    name: 'createdAt',
+    label: '创建日期',
+    valueType: 'date',
+    col: { span: 8, xs: 24, sm: 12, md: 8 }
   }
 ]
 
-const submit = (values: any) => {
-  console.log('values', values)
-}
+const formRef = useTemplateRef<ProFormInstance<QueryModel>>('formRef')
+useProForm(formRef)
 
-const reset = (values: any) => {
-  console.log('values', values)
+function handleSubmit(values: QueryModel) {
+  console.log(values)
 }
 </script>

@@ -24,6 +24,17 @@ export default defineRouteModule({
       component: () => import('@/views/error/error-404.vue')
     },
     {
+      name: '500',
+      path: '500',
+      meta: {
+        ignoreAuth: true,
+        title: '500',
+        icon: 'ep.circle-close',
+        order: 30
+      },
+      component: () => import('@/views/error/error-500.vue')
+    },
+    {
       name: '403',
       path: '403',
       meta: {

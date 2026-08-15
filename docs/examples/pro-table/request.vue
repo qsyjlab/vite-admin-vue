@@ -8,37 +8,64 @@
       :columns="columns"
       :request="request"
       :params="params"
-      :transform="transform"
+      :response-adapter="responseAdapter"
       :transform-params="transformParams"
     />
 
     <el-space>
-      <el-button type="primary" @click="tableRef.reload()"
+      <el-button type="primary" @click="table.reload()"
         >重载列表（页数回退并重新请求数据）</el-button
       >
-      <el-button type="primary" @click="tableRef.refresh()">刷新列表（仅重新请求数据）</el-button>
+      <el-button type="primary" @click="table.refresh()">刷新列表（仅重新请求数据）</el-button>
     </el-space>
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, useTemplateRef } from 'vue'
+import {
+  ProTable,
+  useProTable,
+  type ProTableColumns,
+  type ProTableInstance,
+  type ProTableRequestParams,
+  type ProTableRequestResult
+} from '@framebase/element-plus-pro-components'
+
+interface UserRecord {
+  date: string
+  name: string
+  address: string
+}
+
+interface UserQuery {
+  keyword?: string
+}
+
+interface UserResponse {
+  data: UserRecord[]
+  total: number
+}
 
 const loading = ref(false)
-const params = ref({})
-const tableRef = ref()
+const params = ref<UserQuery>({})
+const tableRef = useTemplateRef<ProTableInstance<UserRecord>>('tableRef')
+const table = useProTable(tableRef)
 
-const columns = [
+const columns: ProTableColumns<UserRecord> = [
   {
     title: 'Date',
-    key: 'date'
+    key: 'date',
+    dataIndex: 'date'
   },
   {
     title: 'Name',
-    key: 'name'
+    key: 'name',
+    dataIndex: 'name'
   },
   {
     title: 'Address',
-    key: 'address'
+    key: 'address',
+    dataIndex: 'address'
   }
 ]
 
@@ -50,7 +77,7 @@ function sleep(delay = 500) {
   })
 }
 
-const request = async () => {
+const request = async (): Promise<UserResponse> => {
   await sleep()
   return Promise.resolve({
     data: [
@@ -119,15 +146,11 @@ const request = async () => {
   })
 }
 
-const transformParams = params => {
-  console.log('transformParams', transformParams)
-
-  return params
+const transformParams = (requestParams: ProTableRequestParams<UserQuery>) => {
+  return requestParams
 }
 
-const transform = data => {
-  console.log('data', data)
-
+const responseAdapter = (data: UserResponse): ProTableRequestResult<UserRecord> => {
   return {
     data: data.data,
     total: data.total

@@ -6,13 +6,14 @@ import setupDirective from '@/directive'
 import setupAccess from '@/access'
 import setupStore from '@/store'
 import { sso } from '@/sso'
-import { cleanupLegacyMockWorker } from '@/mocks'
+import { enableMock } from '@/mocks'
+import '@framebase/element-plus-theme/style.css'
 import '@/styles/index.scss'
 import { startQiankunApp } from '@/micro-app/root-app'
 
 const root = '#app'
 async function setupWebApp() {
-  await cleanupLegacyMockWorker()
+  await enableMock()
   const app = createApp(App)
 
   setupPlugins(app)

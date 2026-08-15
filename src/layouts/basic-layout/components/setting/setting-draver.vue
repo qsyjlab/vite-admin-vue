@@ -76,6 +76,17 @@
         </section>
 
         <section class="setting-section">
+          <h3>权限模式</h3>
+          <el-segmented
+            :model-value="permissionStore.getPermissionMode()"
+            :options="permissionModeOptions"
+            :disabled="modeSwitching"
+            @change="handlePermissionModeChange"
+          />
+          <p class="setting-section__hint">{{ currentPermissionModeDesc }}</p>
+        </section>
+
+        <section class="setting-section">
           <h3>菜单</h3>
           <div class="setting-item">
             <span class="setting-item__label">折叠菜单</span>
@@ -177,11 +188,14 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
 import { Close, CopyDocument, Refresh } from '@element-plus/icons-vue'
-import { useLayoutStore } from '@/store'
+import { useLayoutStore, usePermissionStore } from '@/store'
 import { useLayoutConfigHandler, LayoutConfigHandlerEnum, useMessage } from '@/hooks'
 import { copyToClipboard } from '@/utils'
+import { PermissionModeEnum } from '@/enum'
 
 import { LayoutMode } from '../../enum'
 import CheckButtonGroup from './check-button-group.vue'
@@ -189,6 +203,8 @@ import { LeftSideMix, NavTop, SideTopMix, LeftSide } from './icon'
 
 const { message, messageBox } = useMessage()
 const layoutStore = useLayoutStore()
+const permissionStore = usePermissionStore()
+const router = useRouter()
 const { layoutConfig, setLayoutConfig, getProjectSetting, resetLayoutConfig } =
   useLayoutConfigHandler()
 const { isOpenSettig } = storeToRefs(layoutStore)
@@ -199,6 +215,42 @@ const layoutModeOptions = [
   { title: '顶部混合菜单', value: LayoutMode.TopMix, icon: SideTopMix },
   { title: '左侧菜单混合', value: LayoutMode.SideMix, icon: LeftSideMix }
 ]
+
+// ─── 权限模式切换 ──────────────────────────────────────────────
+const modeSwitching = ref(false)
+const permissionModeOptions = [
+  { label: '路由映射', value: PermissionModeEnum.ROUTE_MAPPING },
+  { label: '角色映射', value: PermissionModeEnum.ROLE },
+  { label: '后端菜单', value: PermissionModeEnum.BACKED }
+]
+const permissionModeDescMap: Record<string, string> = {
+  [PermissionModeEnum.ROUTE_MAPPING]: '按用户拥有的路由 name 列表过滤菜单与路由',
+  [PermissionModeEnum.ROLE]: '按路由 meta.roles 过滤，父路由不匹配时整棵子树移除',
+  [PermissionModeEnum.BACKED]: '后端返回菜单树，前端动态渲染路由'
+}
+const currentPermissionModeDesc = computed(
+  () => permissionModeDescMap[permissionStore.getPermissionMode()] || ''
+)
+
+async function handlePermissionModeChange(value: string | number | boolean | undefined) {
+  const mode = value as keyof typeof PermissionModeEnum
+  try {
+    await messageBox.confirm('切换权限模式将重新生成路由并跳转到首页，是否继续？', '切换权限模式', {
+      type: 'warning',
+      confirmButtonText: '切换',
+      cancelButtonText: '取消'
+    })
+  } catch {
+    return // 用户取消，model-value 绑定 store 原值，segmented 自动回退
+  }
+  modeSwitching.value = true
+  permissionStore.setPermissionMode(mode)
+  await permissionStore.loadDynamicRoutes()
+  modeSwitching.value = false
+  message.success('权限模式已切换')
+  layoutStore.isOpenSettig = false
+  router.replace({ name: 'Welcome' })
+}
 
 const copyJsonConfig = () => {
   copyToClipboard(JSON.stringify(getProjectSetting(), null, 2), {
@@ -273,6 +325,17 @@ const resertConfig = () => {
     font-weight: 600;
     line-height: 1.5;
     letter-spacing: 0;
+  }
+
+  &__hint {
+    margin: 8px 0 0;
+    color: var(--el-text-color-secondary);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  :deep(.el-segmented) {
+    width: 100%;
   }
 }
 

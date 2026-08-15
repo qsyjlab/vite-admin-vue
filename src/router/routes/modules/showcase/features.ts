@@ -71,8 +71,7 @@ export default defineExposeRoutes([
         meta: {
           title: '文件下载',
           icon: 'ep.download',
-          order: 50,
-          ignoreAuth: true
+          order: 50
         },
         component: () => import('@/views/system/feature/download/download.vue')
       },
@@ -102,8 +101,7 @@ export default defineExposeRoutes([
         meta: {
           title: '打印',
           icon: 'ep.printer',
-          order: 80,
-          ignoreAuth: true
+          order: 80
         },
         component: () => import('@/views/system/feature/print/print.vue')
       },
@@ -114,7 +112,6 @@ export default defineExposeRoutes([
           title: 'Pdf',
           icon: 'ep.document',
           order: 90,
-          ignoreAuth: true,
           hideChildrenInMenu: false
         },
         children: [
@@ -124,7 +121,7 @@ export default defineExposeRoutes([
             meta: {
               title: '在线预览',
               icon: 'ep.view',
-              ignoreAuth: true
+              order: 90
             },
             component: () => import('@/views/system/feature/pdf/pdf-preview.vue')
           }
@@ -136,8 +133,7 @@ export default defineExposeRoutes([
         meta: {
           title: 'Excel',
           icon: 'ep.files',
-          order: 100,
-          ignoreAuth: true
+          order: 100
         },
         children: [
           {
@@ -145,8 +141,7 @@ export default defineExposeRoutes([
             path: 'preview',
             meta: {
               title: '在线预览',
-              icon: 'ep.view',
-              ignoreAuth: true
+              icon: 'ep.view'
             },
             component: () => import('@/views/system/feature/excel/preview.vue')
           },
@@ -155,8 +150,7 @@ export default defineExposeRoutes([
             path: 'base',
             meta: {
               title: '基本导出',
-              icon: 'ep.download',
-              ignoreAuth: true
+              icon: 'ep.download'
             },
             component: () => import('@/views/system/feature/excel/base/excel.vue')
           },
@@ -165,21 +159,10 @@ export default defineExposeRoutes([
             path: 'mutiple-header',
             meta: {
               title: '多表头',
-              icon: 'ep.grid',
-              ignoreAuth: true
+              icon: 'ep.grid'
             },
             component: () =>
               import('@/views/system/feature/excel/mutiple-header/mutiple-header.vue')
-          },
-          {
-            name: 'ExcelImport',
-            path: 'import',
-            meta: {
-              title: '导入',
-              icon: 'ep.upload',
-              ignoreAuth: true
-            },
-            component: () => import('@/views/system/feature/excel/import.vue')
           }
         ]
       },
@@ -190,7 +173,6 @@ export default defineExposeRoutes([
           title: 'docx',
           icon: 'ep.document-copy',
           order: 110,
-          ignoreAuth: true,
           hideChildrenInMenu: false
         },
         children: [
@@ -199,8 +181,7 @@ export default defineExposeRoutes([
             path: 'html-to-docx',
             meta: {
               title: '富文本导出docx',
-              icon: 'ep.edit-pen',
-              ignoreAuth: true
+              icon: 'ep.edit-pen'
             },
             component: () => import('@/views/system/feature/docx/html-to-docx.vue')
           },
@@ -209,8 +190,7 @@ export default defineExposeRoutes([
             path: 'html-to-docx-preview',
             meta: {
               title: '在线预览docx',
-              icon: 'ep.view',
-              ignoreAuth: true
+              icon: 'ep.view'
             },
             component: () => import('@/views/system/feature/docx/docx-preview.vue')
           }

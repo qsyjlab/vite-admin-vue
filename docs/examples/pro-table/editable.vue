@@ -1,166 +1,77 @@
 <template>
-  <div>
-    <ProTable
-      ref="tableRef"
-      v-model:loading="loading"
-      header-title="可编辑行"
-      checkable
-      :columns="columns"
-      :request="request"
-      :params="params"
-      :transform="transform"
-      :transform-params="transformParams"
-      :editable="{
-        mode: 'single',
-        onSave,
-        onDelete
-      }"
-    >
-      <template #name="{ row, editableState }">
-        <el-input v-if="editableState" v-model="editableState.data.name"></el-input>
-        <template v-else>
-          {{ row.name }}
-        </template>
+  <ProTable
+    ref="tableRef"
+    v-model:loading="loading"
+    header-title="可编辑行"
+    :columns="columns"
+    :request="request"
+    :editable="{ mode: 'single', enableValidate: true, onSave, onDelete }"
+  >
+    <template #action="{ row, editableState }">
+      <el-button v-if="!editableState" link type="primary" @click="table.startEditable(row.id)">
+        编辑
+      </el-button>
+      <template v-else>
+        <el-button link type="primary" @click="table.saveEditable(row.id)">保存</el-button>
+        <el-button link @click="table.cancelEditable(row.id)">取消</el-button>
       </template>
-      <template #action="{ row, editableState }">
-        <el-button
-          v-if="!editableState || !editableState.isEdit"
-          size="small"
-          @click="tableRef.value.editableCellUtils.startEditable(row.id)"
-          >编辑</el-button
-        >
-        <el-button v-else size="small" @click="saveRow(row)">保存</el-button>
-        <el-button
-          size="small"
-          type="danger"
-          @click="tableRef.value.editableCellUtils.deleteEditable(row.id)"
-          >删除</el-button
-        >
-      </template>
-    </ProTable>
-  </div>
+      <el-button link type="danger" @click="table.deleteEditable(row.id)">删除</el-button>
+    </template>
+  </ProTable>
 </template>
+
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, useTemplateRef } from 'vue'
+import {
+  ProTable,
+  useProTable,
+  type ProTableColumns,
+  type ProTableInstance,
+  type ProTableRequestResult
+} from '@framebase/element-plus-pro-components'
+
+interface UserRecord {
+  id: number
+  name: string
+  address: string
+}
 
 const loading = ref(false)
-const params = ref({})
-
-const tableRef = ref()
-
-const columns = [
+const tableRef = useTemplateRef<ProTableInstance<UserRecord>>('tableRef')
+const table = useProTable(tableRef)
+const columns: ProTableColumns<UserRecord> = [
   {
-    title: 'Date',
-    key: 'date',
-    editable: false
-  },
-  {
-    title: 'Name',
+    title: '姓名',
     key: 'name',
+    dataIndex: 'name',
     editable: true,
-    rowComponent: {
-      el: 'el-input'
-    }
+    rowComponent: { el: 'el-input' }
   },
   {
-    title: 'Address',
+    title: '地址',
     key: 'address',
+    dataIndex: 'address',
     editable: true,
-    rowComponent: {
-      el: 'el-input'
-    }
+    rowComponent: { el: 'el-input' }
   },
-  {
-    title: '操作',
-    key: 'action',
-    fixed: 'right'
-  }
+  { title: '操作', key: 'action', fixed: 'right', width: 180 }
 ]
 
-function saveRow(row) {
-  tableRef.value.editableCellUtils.saveEditable(row.id)
-  tableRef.value.refresh()
-}
-
-function onSave(row, done) {
-  done()
-}
-
-async function onDelete(row, done) {
-  console.log('onDelete row', row)
-
-  await sleep()
-
-  done()
-  tableRef.value.refresh()
-}
-
-function sleep(delay = 500) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve({})
-    }, delay)
-  })
-}
-
-const request = async () => {
-  await sleep()
-  return Promise.resolve({
-    data: [
-      {
-        id: 1,
-        date: '2016-05-03',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
-      },
-      {
-        id: 2,
-        date: '2016-05-02',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
-      },
-      {
-        id: 3,
-        date: '2016-05-04',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
-      },
-      {
-        id: 4,
-        date: '2016-05-01',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
-      },
-      {
-        id: 5,
-        date: '2016-05-03',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
-      },
-      {
-        id: 6,
-        date: '2016-05-02',
-        name: 'Tom',
-        address: 'No. 189, Grove St, Los Angeles'
-      }
-    ],
-    total: 6
-  })
-}
-
-const transformParams = params => {
-  console.log('transformParams', transformParams)
-
-  return params
-}
-
-const transform = data => {
-  console.log('data', data)
-
+async function request(): Promise<ProTableRequestResult<UserRecord>> {
   return {
-    data: data.data,
-    total: data.total
+    data: [
+      { id: 1, name: 'Tom', address: '上海市浦东新区' },
+      { id: 2, name: 'Jerry', address: '杭州市西湖区' }
+    ],
+    total: 2
   }
 }
+
+async function onSave(row: UserRecord) {
+  return { ...row, name: row.name.trim() }
+}
+
+async function onDelete() {
+  return true
+}
 </script>
-<style scoped></style>

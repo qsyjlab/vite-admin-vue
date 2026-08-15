@@ -1,0 +1,7 @@
+.el-tree {
+  --el-tree-node-content-height: 34px;
+
+  &-node__content {
+    border-radius: var(--framebase-menu-radius);
+  }
+}

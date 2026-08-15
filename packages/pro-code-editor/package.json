@@ -1,0 +1,62 @@
+{
+  "name": "@framebase/vue-code-editor",
+  "version": "0.1.0",
+  "description": "Lightweight Vue code and JSON editor components.",
+  "license": "MIT",
+  "author": "qsyjlab",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qsyjlab/vite-admin-vue.git",
+    "directory": "packages/pro-code-editor"
+  },
+  "bugs": {
+    "url": "https://github.com/qsyjlab/vite-admin-vue/issues"
+  },
+  "homepage": "https://github.com/qsyjlab/vite-admin-vue/tree/master/packages/pro-code-editor",
+  "keywords": [
+    "vue",
+    "vue3",
+    "code-editor",
+    "json-editor"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
+  "type": "module",
+  "main": "./dist/es/index.js",
+  "module": "./dist/es/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/es/index.js"
+    },
+    "./style.css": "./dist/es/style.css",
+    "./*": {
+      "types": "./dist/types/*/index.d.ts",
+      "import": "./dist/es/*/index.js"
+    }
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "pnpm run clean && pnpm run build:types && vite build --config vite.config.ts",
+    "build:types": "vue-tsc -p tsconfig.build.json",
+    "typecheck": "vue-tsc -p tsconfig.json --noEmit",
+    "test": "vitest run src",
+    "lint": "eslint src",
+    "verify": "pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run build",
+    "pack:check": "pnpm run verify && pnpm pack --pack-destination ../../.output/packages",
+    "prepublishOnly": "pnpm run verify"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  }
+}

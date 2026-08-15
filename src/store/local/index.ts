@@ -53,6 +53,26 @@ export function setPermissionsCache(permissions: string[]) {
 export function getPermissionsCache() {
   return $storage.get<string[]>(StorageKeys.PERMISSIONS)
 }
+
+/** 设置权限模式（运行时可切换） */
+export function setPermissionModeCache(mode: string) {
+  $storage.set(StorageKeys.PERMISSION_MODE, mode)
+}
+
+/** 获取权限模式（运行时可切换） */
+export function getPermissionModeCache() {
+  return $storage.get<string>(StorageKeys.PERMISSION_MODE)
+}
+
+/** 设置角色缓存 */
+export function setRolesCache(roles: string[]) {
+  $storage.set(StorageKeys.ROLES, roles)
+}
+
+/** 获取角色缓存 */
+export function getRolesCache() {
+  return $storage.get<string[]>(StorageKeys.ROLES)
+}
 /**
  * 获取配置
  * @param {ProjectLayoutConfig} layout

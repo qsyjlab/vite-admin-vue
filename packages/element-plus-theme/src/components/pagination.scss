@@ -1,0 +1,12 @@
+.el-pagination {
+  .el-select {
+    min-width: 100px;
+    width: auto;
+  }
+
+  ul li,
+  .btn-prev,
+  .btn-next {
+    border-radius: var(--framebase-border-radius-base);
+  }
+}

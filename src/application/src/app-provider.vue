@@ -2,7 +2,7 @@
 import { computed, defineComponent, ref, readonly, h } from 'vue'
 import { useTitle } from '@vueuse/core'
 import { useRoute } from 'vue-router'
-import { ElConfigProvider, ElProgress } from 'element-plus'
+import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 import { createBreakpointListener } from '@/hooks/event/use-breakpoint'
@@ -13,8 +13,18 @@ import projectConfig from '@/config/project-setting'
 import proComponentSetting from '@/config/pro-component-setting'
 import config from '@/config'
 
-import ProConfigProvider from '@/components/pro-config-provider'
+import {
+  ProConfigProvider,
+  registerProPreviewFileRenderer
+} from '@framebase/element-plus-pro-components'
+import { DocxPreview } from '@/components/docx-preview'
+import { PdfPreview } from '@/components/pdf-preview'
+import { XlsxPreview } from '@/components/xlsx-preview'
 import { getLayoutCache } from '@/store/local'
+
+registerProPreviewFileRenderer('docx', DocxPreview)
+registerProPreviewFileRenderer('pdf', PdfPreview)
+registerProPreviewFileRenderer('xlsx', XlsxPreview)
 
 export default defineComponent({
   name: 'AppProvider',
@@ -79,28 +89,7 @@ export default defineComponent({
         ElConfigProvider,
         { locale: zhCn },
         {
-          default: () =>
-            h(
-              ProConfigProvider,
-              {
-                proTable: {
-                  ...proComponentSetting.proTable,
-                  rendererMap: {
-                    'custom-text': () => {
-                      return '测试自定义渲染器'
-                    },
-                    'custom-render-componet': () => {
-                      return defineComponent({
-                        setup() {
-                          return () => h(ElProgress, { percentage: 50 })
-                        }
-                      })
-                    }
-                  }
-                }
-              },
-              () => slots.default?.()
-            )
+          default: () => h(ProConfigProvider, proComponentSetting, () => slots.default?.())
         }
       )
   }

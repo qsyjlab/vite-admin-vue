@@ -1,0 +1,29 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "baseUrl": ".",
+    "types": ["node", "element-plus/global", "vite/client"],
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
+    "paths": {
+      "@framebase/element-plus-pro-components": ["pro-components/src/index.ts"],
+      "@framebase/element-plus-pro-components/*": ["pro-components/src/*"],
+      "@framebase/vue-code-editor": ["pro-code-editor/src/index.ts"],
+      "@framebase/vue-code-editor/*": ["pro-code-editor/src/*"]
+    }
+  }
+}

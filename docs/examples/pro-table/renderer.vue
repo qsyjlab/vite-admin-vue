@@ -7,7 +7,7 @@
       :columns="columns"
       :request="request"
       :params="params"
-      :transform="transform"
+      :response-adapter="responseAdapter"
       :transform-params="transformParams"
     />
   </div>
@@ -148,7 +148,7 @@ const transformParams = params => {
   return params
 }
 
-const transform = data => {
+const responseAdapter = data => {
   console.log('data', data)
 
   return {

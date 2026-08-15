@@ -23,8 +23,6 @@ const props = defineProps({
 const loading = ref(true)
 
 const getWrapStyle = computed((): CSSProperties => {
-  console.log('props', props)
-
   return {
     height: `${props.height}`
   }

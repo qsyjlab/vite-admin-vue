@@ -1,115 +1,211 @@
 <template>
-  <page-wrapper>
-    <page-card :header="$route.meta.title">
-      <el-button @click="() => show()">打开</el-button>
+  <page-wrapper :full="false" class="container-demo">
+    <header class="container-demo__header">
+      <div>
+        <h1>Modal Form</h1>
+        <p>异步校验、编辑数据加载、提交转换与服务端错误回填</p>
+      </div>
+      <div class="container-demo__actions">
+        <el-button @click="modal.open({ title: '新建合同' })">新建</el-button>
+        <el-button type="primary" @click="modal.open({ id: 1, title: '编辑合同' })">
+          编辑示例
+        </el-button>
+      </div>
+    </header>
 
-      <el-button @click="() => show(1)">编辑</el-button>
+    <section class="result-panel">
+      <h2>最近提交</h2>
+      <pre>{{ lastSubmit ? JSON.stringify(lastSubmit, null, 2) : '暂无提交记录' }}</pre>
+    </section>
 
-      <ProDialogForm ref="formDialogRef" v-bind="formDialogProps" />
-    </page-card>
+    <pro-modal-form
+      ref="modalRef"
+      :fields="fields"
+      :initial-values="initialValues"
+      :load="loadContract"
+      :on-finish="saveContract"
+      :map-error="mapServerError"
+      :dialog-props="{ closeOnPressEscape: true }"
+      label-position="left"
+      :label-width="88"
+      @success="(_, values) => (lastSubmit = values)"
+    />
   </page-wrapper>
 </template>
+
 <script setup lang="ts">
-import { PageWrapper, PageCard, type FormSchema } from '@/components'
+import { ref, useTemplateRef } from 'vue'
+import { PageWrapper } from '@/components'
+import {
+  ProModalForm,
+  useProModalForm,
+  type FormFieldError,
+  type FormSchema,
+  type ProModalFormInstance
+} from '@framebase/element-plus-pro-components'
 
-import type { ProDialogFormInstance, ProDialogFormProps } from '@/components/pro-dialog-form'
-import { ref } from 'vue'
+defineOptions({ name: 'ProModalFormPage' })
 
-const fields: FormSchema[] = [
+interface ContractForm {
+  name: string
+  customer: string
+  amount: number | string
+  startDate: string
+  remark: string
+}
+
+const initialValues: ContractForm = {
+  name: '',
+  customer: '',
+  amount: 0,
+  startDate: '',
+  remark: ''
+}
+const lastSubmit = ref<ContractForm>()
+
+const fields: FormSchema<ContractForm>[] = [
   {
-    label: '签约客户名称',
-    el: 'el-input',
-    key: 'name',
-    col: {
-      span: 12
-    }
-  },
-  {
-    label: '我方公司名称',
-    el: 'el-input',
-    key: 'selfCompany',
-    col: {
-      span: 12
-    }
-  },
-  {
+    key: 'contract-name',
+    name: 'name',
     label: '合同名称',
-    el: 'el-input',
-    key: 'ht',
-    col: {
-      span: 12
-    }
+    valueType: 'text',
+    normalize: value => String(value || '').trimStart(),
+    rules: [
+      { required: true, message: '请输入合同名称' },
+      {
+        asyncValidator: async (_rule, value) => {
+          await wait(250)
+          if (value === '重复合同') throw new Error('合同名称已存在')
+        },
+        trigger: 'blur'
+      }
+    ],
+    col: { span: 12, xs: 24, sm: 12 }
   },
   {
-    label: '合同生效时间',
-    el: 'el-date-picker',
-    key: 'startTime',
-    attrs: {
-      type: 'daterange'
-    },
-    col: {
-      span: 12
-    }
+    key: 'customer',
+    name: 'customer',
+    label: '签约客户',
+    valueType: 'text',
+    required: true,
+    col: { span: 12, xs: 24, sm: 12 }
   },
   {
-    label: '合同约定生效方式',
-    el: 'pro-select',
-    key: 'way',
-
-    col: {
-      span: 6
-    }
+    key: 'amount',
+    name: 'amount',
+    label: '合同金额',
+    valueType: { type: 'money', currency: 'CNY' },
+    fieldProps: { min: 0, step: 10000 },
+    transform: value => Number(value || 0),
+    col: { span: 12, xs: 24, sm: 12 }
   },
   {
-    label: '合同约定失效效方式',
-    el: 'pro-select',
-    key: 'missWay',
-    col: {
-      span: 6
-    }
-  },
-
-  {
-    label: '项目名称',
-    el: 'el-input',
-    key: 'projectName'
+    key: 'start-date',
+    name: 'startDate',
+    label: '生效日期',
+    valueType: 'date',
+    required: true,
+    col: { span: 12, xs: 24, sm: 12 }
   },
   {
-    label: '商务经理',
-    el: 'el-input',
-    key: 'bName'
+    key: 'remark',
+    name: 'remark',
+    label: '备注',
+    valueType: 'textarea',
+    fieldProps: { rows: 3 },
+    col: { span: 24 }
   }
 ]
 
-const formDialogProps: ProDialogFormProps = {
-  dialogProps: {
-    width: '50%',
-    title: '新建表单'
-  },
-  fields: fields,
-  cancelText: '关闭',
-  confirmText: '确定',
-  labelWidth: 100,
-  labelPosition: 'top',
-  addRequest: data => {
-    console.log('data', data)
-    return Promise.resolve(data)
-  },
-  getRequest: () => {
-    return Promise.resolve({
-      test1: '测试数据'
-    })
-  },
-  editRequest: () => {
-    return Promise.resolve()
+const modalRef = useTemplateRef<ProModalFormInstance<ContractForm, ContractForm>>('modalRef')
+const modal = useProModalForm(modalRef)
+
+async function loadContract() {
+  await wait(300)
+  return {
+    name: '数据平台建设合同',
+    customer: '示例科技有限公司',
+    amount: 280000,
+    startDate: '2026-07-01',
+    remark: '编辑数据由 load 异步载入'
   }
 }
 
-const formDialogRef = ref<ProDialogFormInstance>()
+async function saveContract(values: ContractForm) {
+  await wait(500)
+  if (values.customer === '错误客户') {
+    throw { fieldErrors: [{ name: 'customer', errors: '该客户已被停用' }] }
+  }
+  return values
+}
 
-const show = (id?: number) => {
-  formDialogRef.value?.show(id, {
-    name: '测试名称'
-  })
+function mapServerError(error: unknown): FormFieldError<ContractForm>[] {
+  if (error && typeof error === 'object' && 'fieldErrors' in error) {
+    return (error as { fieldErrors: FormFieldError<ContractForm>[] }).fieldErrors
+  }
+  return []
+}
+
+function wait(duration: number) {
+  return new Promise(resolve => window.setTimeout(resolve, duration))
 }
 </script>
+
+<style scoped lang="scss">
+.container-demo {
+  color: var(--el-text-color-primary);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    p {
+      margin: 4px 0 0;
+      color: var(--el-text-color-secondary);
+      font-size: 13px;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+.result-panel {
+  padding: 20px;
+  border: 1px solid var(--el-border-color);
+  border-radius: 6px;
+  background: var(--el-bg-color);
+
+  h2 {
+    margin: 0 0 12px;
+    font-size: 16px;
+  }
+
+  pre {
+    min-height: 100px;
+    margin: 0;
+    padding: 14px;
+    overflow: auto;
+    border-radius: 4px;
+    background: var(--el-fill-color-light);
+    color: var(--el-text-color-regular);
+  }
+}
+
+@media (max-width: 640px) {
+  .container-demo__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+</style>

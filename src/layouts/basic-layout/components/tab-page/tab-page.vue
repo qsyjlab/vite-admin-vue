@@ -57,7 +57,7 @@ import { Refresh, Close, Upload, CircleClose } from '@element-plus/icons-vue'
 import { useReloadPage } from '@/hooks'
 import { REDIRECT_NAME } from '@/router/constant'
 import { ProContextMenu, type ProContextMenuItem } from '@/components/context-menu'
-import { ProTabs, type ProTabItem } from '@/components/pro-components/tabs'
+import { ProTabs, type ProTabItem } from '@/components/pro-tabs'
 
 interface Props {
   fontSize?: number

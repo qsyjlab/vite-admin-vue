@@ -9,6 +9,8 @@ interface ImportMetaEnv {
   readonly VITE_APP_API_BASE_URL: string
   // 本地 mock api base
   readonly VITE_APP_MOCK_API_BASE_URL: string
+  /** 是否启用 mock（true: dev+prod 都启用 | false: 完全关闭 | 未设置: 仅 dev 启用） */
+  readonly VITE_ENABLE_MOCK?: string
   // 单点登录地址
   readonly VITE_CAS_BASE_URL: string
   // 启用单点登录

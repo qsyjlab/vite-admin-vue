@@ -11,16 +11,35 @@
     "dev": "vite --host",
     "app:prod": "vite --host --mode prod",
     "build": "vite build",
+    "build:packages": "pnpm --filter @framebase/element-plus-pro-components --filter @framebase/vue-code-editor --filter @framebase/element-plus-theme build",
     "build:prod": "cross-env NODE_OPTIONS='--max-old-space-size=8192' vite build --mode prod",
     "test": "vitest --ui",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:pro": "pnpm run test:types && pnpm run test:unit && pnpm run test:e2e",
+    "test:types": "vue-tsc -p tsconfig.type-tests.json --noEmit",
+    "test:unit": "vitest run",
+    "test:packages": "pnpm --filter @framebase/element-plus-pro-components --filter @framebase/vue-code-editor --filter @framebase/element-plus-theme test",
+    "test:consumer": "pnpm pack:packages && node --import tsx ./build/scripts/verify-package-consumer.ts",
     "check": "cross-env NODE_OPTIONS='--max-old-space-size=8192' vue-tsc -b --noEmit",
+    "check:packages": "pnpm --filter @framebase/element-plus-pro-components --filter @framebase/vue-code-editor --filter @framebase/element-plus-theme typecheck",
+    "lint:packages": "pnpm --filter @framebase/element-plus-pro-components --filter @framebase/vue-code-editor --filter @framebase/element-plus-theme lint",
+    "audit:packages": "node --import tsx ./build/scripts/audit-package-boundaries.ts",
+    "verify:package-artifacts": "node --import tsx ./build/scripts/verify-package-artifacts.ts",
+    "verify:release": "pnpm verify:packages && pnpm test:consumer",
+    "pack:packages": "pnpm --filter @framebase/element-plus-pro-components --filter @framebase/vue-code-editor --filter @framebase/element-plus-theme pack:check",
+    "verify:packages": "pnpm audit:packages && pnpm check:packages && pnpm lint:packages && pnpm test:packages && pnpm build:packages && pnpm verify:package-artifacts",
     "preview": "vite preview",
     "prettier": "prettier --write .",
     "lint": "eslint . --fix",
     "prepare": "husky install",
     "clean:lib": "rimraf node_modules",
     "clean:output": "rimraf .output",
-    "buildComponents": "node ./build/scripts/buildComponents.ts"
+    "buildComponents": "node ./build/scripts/buildComponents.ts",
+    "changeset": "changeset",
+    "release:status": "changeset status",
+    "release:version": "changeset version && pnpm install --lockfile-only",
+    "release:publish": "pnpm verify:release && changeset publish"
   },
   "repository": {
     "url": "https://github.com/qsyjlab/vite-admin-vue"
@@ -32,6 +51,9 @@
   "dependencies": {
     "@arco-design/color": "^0.4.0",
     "@element-plus/icons-vue": "^2.3.1",
+    "@framebase/element-plus-pro-components": "workspace:*",
+    "@framebase/element-plus-theme": "workspace:*",
+    "@framebase/vue-code-editor": "workspace:*",
     "@unocss/reset": "^0.58.3",
     "@vue-office/excel": "^1.7.1",
     "@vue-office/pdf": "^1.6.4",
@@ -61,12 +83,14 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.31.0",
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@eslint/js": "^9.24.0",
+    "@playwright/test": "^1.61.1",
     "@types/crypto-js": "^4.2.2",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^17.0.45",
+    "@types/node": "^22.20.1",
     "@types/nprogress": "^0.2.0",
     "@types/qrcode": "^1.5.1",
     "@types/sortablejs": "^1.15.3",
@@ -86,6 +110,7 @@
     "globals": "^16.0.0",
     "husky": "^7.0.4",
     "lint-staged": "^15.5.1",
+    "msw": "^2.15.0",
     "postcss": "^8.4.16",
     "postcss-preset-env": "^7.8.0",
     "prettier": "^3.5.3",
@@ -93,6 +118,7 @@
     "rollup-plugin-visualizer": "^5.9.2",
     "sass": "^1.86.3",
     "terser": "^5.43.1",
+    "tsx": "^4.23.1",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.30.1",
     "unocss": "^66.3.3",
@@ -104,5 +130,10 @@
     "vite-plugin-svg-icons": "^2.0.1",
     "vitest": "^1.5.0",
     "vue-tsc": "^3.2.6"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

@@ -11,7 +11,7 @@
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import type { ProTableColumns } from '@/components'
+import type { ProTableColumns } from '@framebase/element-plus-pro-components'
 import { ref } from 'vue'
 import { aoaToSheetXlsx, jsonToSheetXlsx } from '@/utils'
 
@@ -38,7 +38,7 @@ XLSX.utils.book_append_sheet(workbook, worksheet, '岗位列表')
 XLSX.writeFile(workbook, 'positionWithinGroupList.xlsx')
 
 data.value = getData()
-const columns: ProTableColumns = [
+const columns: ProTableColumns<Record<string, unknown>> = [
   {
     title: 'ID',
     key: 'id'
