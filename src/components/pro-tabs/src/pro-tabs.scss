@@ -1,45 +1,68 @@
 .pro-tabs {
-  --tab-height: 48px;
-  --tab-gap: 5px;
-  --tab-padding-x: 12px;
-  --tab-bg: var(--el-fill-color-lighter, #f5f5f5);
-  --tab-border-color: transparent;
-  --tab-text-color: var(--el-text-color-regular, rgba(0, 0, 0, 0.65));
-  --tab-hover-bg: var(--global-hover-color, #f0f3f8);
-  --tab-hover-color: var(--el-text-color-primary, rgba(0, 0, 0, 0.88));
-  --tab-active-bg: var(--el-color-primary-light-9, #e6f4ff);
-  --tab-active-color: var(--el-color-primary, #1677ff);
-  --tab-close-color: var(--el-text-color-secondary, rgba(0, 0, 0, 0.45));
-  --tab-close-hover-bg: var(--el-fill-color, rgba(0, 0, 0, 0.08));
-  --container-bg: var(--global-surface-color-elevated, #fff);
+  --tab-padding-x: 10px;
+  --tab-padding-y: 4px;
+  --tab-radius: 6px;
+  --tab-gap: 6px;
+
+  /* 文字：完全跟随 Element Plus 主题色阶 */
+  --tab-text-color: var(--el-text-color-secondary, #6b7280);
+  --tab-hover-text: var(--el-text-color-regular, #374151);
+  --tab-active-text: var(--el-text-color-primary, #1f2937);
+
+  /* 背景：三级视觉层次，使用 Element Plus fill 语义色（统一冷灰调性） */
+  --tab-bg: transparent;
+  --tab-hover-bg: var(--el-fill-color-light, rgba(55, 65, 81, 0.055));
+  --tab-active-bg: linear-gradient(
+    180deg,
+    var(--el-fill-color, rgba(55, 65, 81, 0.09)) 0%,
+    var(--el-fill-color-light, rgba(55, 65, 81, 0.04)) 100%
+  );
+  --tab-active-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.06),
+    0 1px 1px rgba(15, 23, 42, 0.04),
+    inset 0 0 0 1px var(--el-border-color-lighter, rgba(55, 65, 81, 0.08));
+
+  /* 关闭按钮：弱化色 */
+  --tab-close-color: var(--el-text-color-placeholder, #9ca3af);
+  --tab-close-hover-bg: var(--el-fill-color, rgba(55, 65, 81, 0.1));
+  --tab-close-hover-color: var(--el-text-color-regular, #374151);
+
+  /* 容器：默认跟随 EP 分割线色，背景透明继承父 wrapper */
+  --container-border: var(--el-border-color-lighter, rgba(55, 65, 81, 0.08));
 
   display: flex;
   align-items: center;
   width: 100%;
-  height: var(--tab-height);
-  min-height: var(--tab-height);
+  height: auto;
   user-select: none;
-  background: var(--container-bg);
+  background: transparent;
+  padding: var(--tab-padding-y) 10px;
+  box-sizing: border-box;
 }
 
 html.dark .pro-tabs {
-  --tab-bg: var(--el-fill-color-lighter, #1d1d1d);
-  --tab-border-color: var(--el-border-color-lighter, #363637);
-  --tab-text-color: var(--el-text-color-regular, rgba(255, 255, 255, 0.72));
-  --tab-hover-bg: var(--global-hover-color, #2a2d32);
-  --tab-hover-color: var(--el-text-color-primary, rgba(255, 255, 255, 0.92));
-  --tab-active-bg: var(--el-color-primary-light-9, #141e2b);
-  --tab-active-color: var(--el-color-primary, #1677ff);
-  --tab-close-color: var(--el-text-color-secondary, rgba(255, 255, 255, 0.55));
-  --tab-close-hover-bg: var(--el-fill-color, rgba(255, 255, 255, 0.1));
-  --container-bg: var(--el-bg-color-overlay, #1d1e1f);
+  /* 暗黑：冷色调 EP 变量天然是深蓝灰体系，不再出现 #1f1f1f 中性褐 */
+  --tab-hover-bg: var(--el-fill-color-light, rgba(148, 163, 184, 0.08));
+  --tab-active-bg: linear-gradient(
+    180deg,
+    var(--el-fill-color, rgba(148, 163, 184, 0.14)) 0%,
+    var(--el-fill-color-light, rgba(148, 163, 184, 0.06)) 100%
+  );
+  --tab-active-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.32),
+    0 1px 1px rgba(0, 0, 0, 0.22),
+    inset 0 0 0 1px var(--el-border-color-darker, rgba(148, 163, 184, 0.14));
+
+  --tab-close-hover-bg: var(--el-fill-color, rgba(148, 163, 184, 0.16));
+
+  --container-border: var(--el-border-color-darker, rgba(148, 163, 184, 0.12));
 }
 
 .pro-tabs__scroll {
   display: flex;
   align-items: center;
   min-width: 0;
-  height: 100%;
+  height: auto;
   flex: 1 1 auto;
   overflow: hidden;
 }
@@ -50,54 +73,51 @@ html.dark .pro-tabs {
   gap: var(--tab-gap);
   width: max-content;
   min-width: 100%;
-  height: 100%;
-  padding: 6px 8px;
+  height: auto;
   box-sizing: border-box;
   white-space: nowrap;
 }
 
 .pro-tabs__item {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  height: calc(var(--tab-height) - 12px);
-  max-width: 220px;
-  padding: 0 var(--tab-padding-x);
+  gap: 7px;
+  height: auto;
+  max-width: 240px;
+  padding: var(--tab-padding-y) var(--tab-padding-x);
   flex-shrink: 0;
   box-sizing: border-box;
-  border: 1px solid var(--tab-border-color);
-  border-radius: 6px;
+  border: 0;
+  border-radius: var(--tab-radius);
   background: var(--tab-bg);
   color: var(--tab-text-color);
   font-size: 13px;
   font-weight: 500;
   line-height: 1;
+  letter-spacing: 0.01em;
   cursor: pointer;
   transition:
-    color 0.16s ease,
-    border-color 0.16s ease,
-    background-color 0.16s ease;
+    color 0.18s ease,
+    background-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.12s ease;
 
   &:hover {
-    color: var(--tab-hover-color);
-    border-color: var(--el-border-color-light);
+    color: var(--tab-hover-text);
     background: var(--tab-hover-bg);
+  }
 
-    .pro-tabs__item-close {
-      opacity: 1;
-    }
+  &:active {
+    transform: scale(0.985);
   }
 
   &.is-active {
-    color: var(--tab-active-color);
-    border-color: transparent;
+    color: var(--tab-active-text);
     background: var(--tab-active-bg);
+    box-shadow: var(--tab-active-shadow);
     font-weight: 600;
-
-    .pro-tabs__item-close {
-      opacity: 1;
-    }
   }
 
   &.is-affix {
@@ -113,17 +133,19 @@ html.dark .pro-tabs {
   flex-shrink: 0;
   color: inherit;
   line-height: 1;
+  opacity: 0.85;
 }
 
 .pro-tabs__item-affix {
   color: var(--tab-close-color);
+  opacity: 1;
 }
 
 .pro-tabs__item-label {
   display: block;
   min-width: 0;
-  max-width: 140px;
-  line-height: 20px;
+  max-width: 150px;
+  line-height: 1.2;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -133,25 +155,26 @@ html.dark .pro-tabs {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
-  margin: 0 -4px 0 0;
+  width: 18px;
+  height: 18px;
+  margin: 0 -2px 0 2px;
   padding: 0;
   flex-shrink: 0;
   border: 0;
   border-radius: 4px;
   background: transparent;
   color: var(--tab-close-color);
-  opacity: 0;
+  opacity: 1;
   cursor: pointer;
   transition:
-    opacity 0.16s ease,
     color 0.16s ease,
-    background-color 0.16s ease;
+    background-color 0.16s ease,
+    transform 0.12s ease;
 
   &:hover {
-    color: var(--tab-hover-color);
+    color: var(--tab-close-hover-color);
     background: var(--tab-close-hover-bg);
+    transform: scale(1.05);
   }
 }
 
@@ -162,7 +185,9 @@ html.dark .pro-tabs {
 
 .pro-tabs__item--chosen {
   z-index: 10;
-  box-shadow: var(--el-box-shadow-light) !important;
+  box-shadow:
+    0 4px 14px rgba(15, 23, 42, 0.18),
+    0 2px 6px rgba(15, 23, 42, 0.12) !important;
 }
 
 .pro-tabs__item--drag {
@@ -177,16 +202,16 @@ html.dark .pro-tabs {
   display: flex;
   align-items: center;
   justify-content: center;
-  align-self: stretch;
-  padding: 0 7px;
+  align-self: center;
+  padding: 0 6px 0 10px;
+  margin-left: 4px;
   flex-shrink: 0;
-  border-left: 1px solid var(--global-border-color);
+  border-left: 1px solid var(--container-border);
 
   .el-dropdown {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
   }
 }
 
@@ -195,8 +220,8 @@ html.dark .pro-tabs {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   padding: 0;
   border: 0;
   border-radius: 5px;
@@ -207,12 +232,17 @@ html.dark .pro-tabs {
   box-sizing: border-box;
   cursor: pointer;
   transition:
-    color 0.16s ease,
-    background-color 0.16s ease;
+    color 0.18s ease,
+    background-color 0.18s ease,
+    transform 0.12s ease;
 
   &:hover {
-    color: var(--tab-active-color);
+    color: var(--tab-active-text);
     background: var(--tab-hover-bg);
+  }
+
+  &:active {
+    transform: scale(0.96);
   }
 }
 
@@ -221,22 +251,19 @@ html.dark .pro-tabs {
   z-index: 2;
   margin: 0 2px;
   flex-shrink: 0;
-  background: var(--container-bg);
 
   &.is-disabled {
     opacity: 0.3;
     cursor: not-allowed;
+    pointer-events: none;
   }
 }
 
 @media (max-width: 767px) {
   .pro-tabs {
-    --tab-padding-x: 10px;
-  }
-
-  .pro-tabs__list {
-    padding-right: 5px;
-    padding-left: 5px;
+    --tab-padding-x: 12px;
+    --tab-padding-y: 6px;
+    padding: var(--tab-padding-y) 6px;
   }
 
   .pro-tabs__item-label {
@@ -244,6 +271,6 @@ html.dark .pro-tabs {
   }
 
   .pro-tabs__action {
-    padding: 0 4px;
+    padding: 0 4px 0 8px;
   }
 }

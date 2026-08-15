@@ -19,17 +19,17 @@
   --global-heading-color: var(--framebase-color-text-primary);
   /* 侧边栏 */
   --global-sidebar-bg: #ffffff;
-  --global-sidebar-surface: #f5f5f5;
-  --global-sidebar-surface-active: #e6f4ff;
+  --global-sidebar-surface: var(--framebase-color-fill-light);
+  --global-sidebar-surface-active: var(--framebase-color-primary-light-9);
   /* 阴影 */
-  --global-shadow-color: rgba(0, 0, 0, 0.06);
-  --global-shadow-color-strong: rgba(0, 0, 0, 0.12);
+  --global-shadow-color: rgba(15, 27, 51, 0.06);
+  --global-shadow-color-strong: rgba(15, 27, 51, 0.12);
   /* 圆角 */
   --global-layout-radius: 8px;
   --global-control-radius: var(--framebase-border-radius-base);
   --global-pill-radius: var(--framebase-border-radius-round);
-  /* 亮色应用下的可配置深色导航背景 */
-  --layout-dark-menu-background: #001529;
+  /* 亮色应用下的可配置深色导航背景（re-ap 侧边栏渐变起色） */
+  --layout-dark-menu-background: #0b1f4b;
 }
 
 html.dark {

@@ -11,6 +11,22 @@ import { computed, unref } from 'vue'
 type SetLayoutConfig = (eventKey: EventKeys, value: any) => void
 type EventKeys = (typeof LayoutConfigHandlerEnum)[keyof typeof LayoutConfigHandlerEnum]
 
+// ─── 主题色预设（登录页右上角 & 系统布局配置面板 共享同一套）
+export interface ThemeColorSwatch {
+  name: string
+  color: string
+}
+
+export const THEME_COLOR_SWATCHES: ThemeColorSwatch[] = [
+  { name: '湖蓝', color: '#1677FF' },
+  { name: '靛蓝', color: '#6366F1' },
+  { name: '玫红', color: '#EC4899' },
+  { name: '暖橙', color: '#F59E0B' },
+  { name: '宝蓝', color: '#3B82F6' },
+  { name: '翠绿', color: '#10B981' },
+  { name: '石墨', color: '#475569' }
+]
+
 export const LayoutConfigHandlerEnum = {
   // 布局模式
   LAYOUT_MODE: 'layoutMode',

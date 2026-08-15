@@ -186,7 +186,7 @@
         padding: 0;
         border: none;
         background: transparent;
-        color: var(--global-text-color-regular);
+        // color: var(--global-text-color-regular);
         box-shadow: none;
         transition:
           background-color 0.2s ease,
@@ -194,12 +194,12 @@
 
         &:hover {
           color: var(--el-color-primary);
-          background: var(--global-hover-color);
+          // background: var(--global-hover-color);
           border: none;
         }
 
         &:active {
-          background: var(--el-fill-color);
+          // background: var(--el-fill-color);
         }
       }
     }
@@ -405,6 +405,7 @@
 .page-container.is-dark-sidebar {
   .basic-layout-aside__wrapper {
     --mix-sidebar-divider-color: var(--layout-dark-menu-border-color);
+    /* 覆盖 Element Plus el-menu 的变量，让其背景完全透明 */
     --el-menu-bg-color: transparent;
     --el-menu-text-color: var(--layout-dark-menu-text-color);
     --el-menu-hover-text-color: var(--el-color-white);
@@ -412,36 +413,59 @@
     --el-menu-active-color: var(--el-color-primary);
     color: var(--layout-dark-menu-text-color);
     border-right-color: var(--layout-dark-menu-border-color);
-    background-color: var(--layout-dark-menu-bg-color);
+    /* 保证 logo 行、trigger 行和 scroll-wrapper 同一底色 */
+    background-color: var(--layout-dark-menu-bg-color) !important;
+  }
 
-    .el-menu {
-      background-color: transparent;
+  /* 核心：scroll-wrapper 是 flex:auto，占满中间所有空间。
+     直接在这里挂统一深蓝底色 + 清掉内联的 el-fill-color-blank 和 5px 圆角 */
+  .basic-layout-aside__wrapper .scroll-wrapper {
+    background-color: var(--layout-dark-menu-bg-color) !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* el-menu 本身、内部 ul、外层 scrollbar 系列：全部透明，透出 scroll-wrapper 深蓝 */
+  .basic-layout-aside__wrapper {
+    .el-menu,
+    .el-menu > ul,
+    .el-menu ul,
+    .basic-layout-aside__menus,
+    .el-scrollbar,
+    .el-scrollbar__wrap,
+    .el-scrollbar__view,
+    .el-scrollbar__bar,
+    .trigger,
+    .trigger > * {
+      background-color: transparent !important;
     }
+  }
 
-    .el-menu-item,
-    .el-sub-menu__title {
-      color: var(--layout-dark-menu-text-color);
-    }
+  .basic-layout-aside__wrapper .el-menu-item,
+  .basic-layout-aside__wrapper .el-sub-menu__title {
+    color: var(--layout-dark-menu-text-color);
+  }
 
-    .el-menu-item:hover,
-    .el-sub-menu__title:hover {
+  .basic-layout-aside__wrapper .el-menu-item:hover,
+  .basic-layout-aside__wrapper .el-sub-menu__title:hover {
+    color: var(--el-color-white);
+    background-color: var(--layout-dark-menu-hover-bg) !important;
+  }
+
+  .basic-layout-aside__wrapper .collapse-trigger-btn {
+    color: var(--layout-dark-menu-text-color);
+    background: var(--layout-dark-menu-control-bg);
+
+    &:hover,
+    &:focus {
       color: var(--el-color-white);
-      background-color: var(--layout-dark-menu-hover-bg);
-    }
-
-    .collapse-trigger-btn {
-      color: var(--layout-dark-menu-text-color);
-      background: var(--layout-dark-menu-control-bg);
-
-      &:hover,
-      &:focus {
-        color: var(--el-color-white);
-        background: var(--layout-dark-menu-hover-bg);
-      }
+      background: var(--layout-dark-menu-hover-bg);
     }
   }
 
   .basic-layout-logo {
+    background-color: transparent !important;
+
     &__title {
       color: var(--el-color-white);
     }

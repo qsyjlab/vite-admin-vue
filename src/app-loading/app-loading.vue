@@ -95,17 +95,17 @@ defineProps<{
 
 :global(html.dark) .app-splash,
 :global(html[data-theme='dark']) .app-splash {
-  --app-splash-bg: #141414;
-  --app-splash-surface: #1d1d1d;
-  --app-splash-border: #414243;
+  --app-splash-bg: #172036;
+  --app-splash-surface: #1f2a40;
+  --app-splash-border: #2d3a52;
   --app-splash-text: #e5eaf3;
 }
 
 @media (prefers-color-scheme: dark) {
   :global(html:not(.light):not([data-theme='light'])) .app-splash {
-    --app-splash-bg: #141414;
-    --app-splash-surface: #1d1d1d;
-    --app-splash-border: #414243;
+    --app-splash-bg: #172036;
+    --app-splash-surface: #1f2a40;
+    --app-splash-border: #2d3a52;
     --app-splash-text: #e5eaf3;
   }
 }

@@ -1,6 +1,8 @@
 :root {
   --basic-layout-dark-color: var(--el-bg-color-page, #141414);
   --basic-layout-border-color: var(--el-border-color, #303030);
+  /* 深蓝冷灰叠层：替代 #1f1f1f 中性褐，与深蓝菜单 / 卡片体系一致 */
+  --basic-layout-overlay-bg: var(--el-bg-color, #172036);
 }
 
 html.dark {
@@ -10,11 +12,47 @@ html.dark {
     background-color: var(--el-bg-color-page);
   }
 
+  /* 暗黑侧边栏模式：双保险，强覆盖 Element Plus 默认值 */
+  .page-container.is-dark-sidebar {
+    /* 1. 侧边栏根容器：给 logo 行、trigger 行统一底色 */
+    .basic-layout-aside__wrapper {
+      background-color: var(--layout-dark-menu-bg-color, #001529) !important;
+    }
+
+    /* 2. scroll-wrapper：主色载体（flex:auto 占满中间全部空间），
+          同时清掉内联的 el-fill-color-blank 背景色、5px 圆角和 margin */
+    .basic-layout-aside__wrapper .scroll-wrapper {
+      background-color: var(--layout-dark-menu-bg-color, #001529) !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+    }
+
+    /* 3. el-menu 本身、内部所有 ul、el-scrollbar 系列：全部透明，透出 scroll-wrapper 深蓝 */
+    .basic-layout-aside__wrapper {
+      .el-menu,
+      .el-menu > ul,
+      .el-menu ul,
+      .basic-layout-aside__menus,
+      .el-scrollbar,
+      .el-scrollbar__wrap,
+      .el-scrollbar__view,
+      .el-scrollbar__bar,
+      .trigger,
+      .trigger > * {
+        background-color: transparent !important;
+      }
+    }
+
+    .basic-layout-logo {
+      background-color: transparent !important;
+    }
+  }
+
   .basic-layout {
     &-header {
       &__wrapper {
         border-bottom: 1px solid var(--el-border-color);
-        background-color: var(--el-bg-color-overlay, #1f1f1f);
+        background-color: var(--basic-layout-overlay-bg);
       }
 
       &__right {
@@ -47,19 +85,36 @@ html.dark {
     &-tabs {
       &__wrapper {
         border-bottom: 1px solid var(--el-border-color);
-        background-color: var(--el-bg-color-overlay, #1f1f1f);
+        background-color: var(--basic-layout-overlay-bg);
       }
     }
 
     &-aside {
       &__wrapper {
         --mix-sidebar-divider-color: var(--el-border-color);
+        /* 暗黑侧边栏：完全跟随 is-dark-sidebar 的菜单深蓝底色，
+           不再用 Element Plus 通用页面背景（褐色 #141414），
+           保证 logo / 菜单 / 底部空白 / 折叠按钮 全区一色 */
+        background-color: var(
+          --layout-dark-menu-bg-color,
+          var(--el-bg-color-page, #001529)
+        );
 
-        background-color: var(--el-bg-color-page, #141414);
+        /* 内部子层级透传背景（保留 scroll-wrapper 让它拿上面 is-dark-sidebar 规则中的统一深蓝） */
+        > *:not(.scroll-wrapper),
+        .el-scrollbar,
+        .el-scrollbar__wrap,
+        .el-scrollbar__view {
+          background-color: transparent;
+        }
       }
 
       &__wrapper:not(.mix-sidebar) {
         border-right: 1px solid var(--el-border-color);
+      }
+
+      &__menus {
+        background-color: transparent;
       }
 
       .collapse-trigger-btn {
@@ -71,6 +126,12 @@ html.dark {
           background: var(--el-fill-color-light);
         }
       }
+    }
+
+    /* 暗黑模式下侧边栏里的 logo 容器：透传 wrapper 深蓝底色，
+       防止明亮主题的 surface-color 被带到暗黑模式 */
+    &-logo {
+      background-color: transparent;
     }
 
     &-main {
@@ -87,7 +148,7 @@ html.dark {
 
     &-mix-menu {
       &-children {
-        background-color: var(--el-bg-color-overlay, #1f1f1f);
+        background-color: var(--basic-layout-overlay-bg);
       }
 
       &-module__label,
