@@ -49,7 +49,7 @@ class BaseStorage {
         return null
       }
       return data.value
-    } catch (error) {
+    } catch {
       return null
     }
   }
