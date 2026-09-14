@@ -1,6 +1,18 @@
 <template>
-  <page-wrapper>
-    <page-card :header="$route.meta.title" full>
+  <page-wrapper class="pro-editable-table-page">
+    <g-page-header
+      title="ProEditableTable"
+      description="行内编辑、字段校验与保存/删除回调一体化的可编辑表格。"
+      :icon="EditPen"
+    >
+      <template #actions>
+        <el-tag effect="plain" type="primary">行内编辑</el-tag>
+        <el-tag effect="plain" type="success">字段校验</el-tag>
+        <el-tag effect="plain" type="warning">保存/删除</el-tag>
+      </template>
+    </g-page-header>
+
+    <pro-card :body-padding="false" class="pro-editable-table-page__table-card">
       <pro-editable-table
         ref="editableTableRef"
         v-model="data"
@@ -16,15 +28,17 @@
         checkable
         @append-error="error => ElMessage.warning(error.message)"
       />
-    </page-card>
+    </pro-card>
   </page-wrapper>
 </template>
 
 <script setup lang="ts">
+import { EditPen } from '@element-plus/icons-vue'
 import { ref, useTemplateRef } from 'vue'
 import { ElMessage } from 'element-plus'
-import { PageCard, PageWrapper } from '@/components'
+import { GPageHeader, PageWrapper } from '@/components'
 import {
+  ProCard,
   ProEditableTable,
   type ProEditableTableInstance
 } from '@framebase/element-plus-pro-components'
@@ -152,16 +166,28 @@ function showValidationError(errors: ProTableEditableErrors | undefined) {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.pro-editable-table-page {
+  gap: 16px;
+
+  &__table-card {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+
+    :deep(.pro-card__body) {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      min-height: 0;
+    }
+  }
+}
+
 .editable-table-demo {
   min-height: 0;
   flex: 1 1 auto;
   height: 100%;
-}
-
-:deep(.page-card__body) {
-  display: flex;
-  min-height: 0;
-  flex-direction: column;
 }
 </style>

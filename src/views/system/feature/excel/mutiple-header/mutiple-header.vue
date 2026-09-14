@@ -1,22 +1,35 @@
 <template>
-  <page-wrapper>
-    <page-card :header="$route.meta.title">
+  <page-wrapper class="excel-multiple-header-page">
+    <g-page-header
+      title="多表头"
+      description="演示多级表头的构建、单元格合并以及导出时表头占位符的合并计算。"
+      :icon="Grid"
+    >
+      <template #actions>
+        <el-tag effect="plain" type="primary">多级表头</el-tag>
+        <el-tag effect="plain" type="success">合并导出</el-tag>
+      </template>
+    </g-page-header>
+
+    <pro-card :body-padding="false">
       <pro-table ref="tableRef" :columns="columns" :data="data" :span-method="arraySpanMethod">
         <template #toolbar>
           <el-button @click="exportArrToExcel">数组方式导出</el-button>
           <el-button @click="exportExecel">导出</el-button>
         </template>
       </pro-table>
-    </page-card>
+    </pro-card>
   </page-wrapper>
 </template>
 <script setup lang="ts">
+import { Grid } from '@element-plus/icons-vue'
 import {
   type ProTableColumns,
   type ProTableInstance,
   useProTable
 } from '@framebase/element-plus-pro-components'
 import { ref, useTemplateRef } from 'vue'
+import { GPageHeader, PageWrapper } from '@/components'
 import { aoaToSheetXlsx } from '@/utils'
 
 const data = ref<any[]>([])
@@ -265,4 +278,8 @@ function getData() {
   return tableData
 }
 </script>
-<style scoped></style>
+<style scoped lang="scss">
+.excel-multiple-header-page {
+  gap: 16px;
+}
+</style>

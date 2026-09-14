@@ -27,11 +27,20 @@
   - 三种模式登录响应均返回 permissions + roles 数组，$hasAuthorize（依赖 permissions）与 $hasRole（依赖 roles）机制上均生效
   - admin 对 System/super 返回 true，editor/viewer 返回 false，与路由过滤结果一致
 
-## 阶段 3 · 页面美化
+## 阶段 3 · 页面美化（已完成）
 
-- [ ] 以风格 A（content-publish / dashboard-list）为基准沉淀统一页面骨架（ProCard + 渐变头部 + 统计卡 + 响应式 grid）
-- [ ] 改造 `/components` 下风格 B 空洞页（pro-table-page / echarts / anchor / segmented / context-menu 等）
-- [ ] 统一头部实现为自定义 `.xxx-page__header`，废止 page-card header 属性与内联 style
+- [x] 以风格 A（content-publish / dashboard-list）为基准沉淀统一页面骨架（ProCard + 渐变头部 + 统计卡 + 响应式 grid）
+  - 新增 `GPageHeader`（`src/components/page-header/`）：渐变背景头部，支持 title / description / icon 与 `#actions` 插槽，窄屏自动纵向堆叠
+  - 新增 `GPageStats`（`src/components/page-stats/`）：统计卡响应式 grid 容器（列数可配，1100px 降 2 列 / 640px 降 1 列），内容用组件库 `ProStatisticCard`
+  - 两者走 `G*` 全局组件自动导入，并在 `src/components/index.ts` 导出
+- [x] 改造 `/components` 下风格 B 空洞页（pro-table-page / echarts / anchor / segmented / context-menu 等）
+  - 5 个点名页全部完成：pro-table（订单统计卡）、echarts（浏览统计卡 + 抽取共享数据 `view-data.ts` 消除两份重复 mock）、anchor、segmented、context-menu
+  - 其余旧风格页一并统一：pro-editable-table、pro-table-search、drag-sort-table、pro-form、pro-form-ref、route-engine 5 页（overview / access-control / menu-projection / keep-alive-a / keep-alive-b）、excel 2 页、watermark、image-viwer、tab-page、system/menu、about
+  - 有数据支撑的页面补充 `ProStatisticCard` 统计卡，功能页不强加；业务逻辑零改动
+- [x] 统一头部实现为自定义 `.xxx-page__header`，废止 page-card header 属性与内联 style
+  - 全部 22 个旧 `page-card :header` 页面迁移到 `GPageHeader`；表格页以 `pro-card :body-padding="false"` + flex 链替代 page-card `full`，保持 `auto-fit-height` 自适应
+  - 清除容器内联 style（margin-bottom / 定位/高度改用 scoped class）
+  - 验证：test:types 通过 + 单测全通过 + 生产构建通过；dev server 逐页截图核对（ECharts / ProTable / segmented / 右键菜单 / 锚点 / 水印 / 标签栏 / 图片预览 / 多表头 / 引擎概览 / 登录与权限 / 菜单管理 / 关于）渲染正常
 
 ## 阶段 4 · MSW 迁移（已完成）
 

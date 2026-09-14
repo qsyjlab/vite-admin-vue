@@ -1,12 +1,18 @@
 <template>
-  <page-wrapper>
-    <page-card :header="$route.meta.title">
-      <div class="image-viewer-demo">
-        <div class="demo-copy">
-          <h3>图片预览示例</h3>
-          <p>点击缩略图打开预览，可切换图片、缩放和旋转。</p>
-        </div>
+  <page-wrapper class="image-viewer-page">
+    <g-page-header
+      title="图片预览"
+      description="点击缩略图打开 el-image 预览层，支持多图切换、缩放和旋转。"
+      :icon="Picture"
+    >
+      <template #actions>
+        <el-tag effect="plain" type="primary">多图切换</el-tag>
+        <el-tag effect="plain" type="success">缩放旋转</el-tag>
+      </template>
+    </g-page-header>
 
+    <pro-card>
+      <div class="image-viewer-demo">
         <div class="image-list">
           <el-image
             v-for="image in images"
@@ -23,12 +29,12 @@
           </el-image>
         </div>
       </div>
-    </page-card>
+    </pro-card>
   </page-wrapper>
 </template>
 <script setup lang="ts">
-import { PageWrapper } from '@/components/page-wrapper'
-import { PageCard } from '@/components/page-card'
+import { Picture } from '@element-plus/icons-vue'
+import { GPageHeader, PageWrapper } from '@/components'
 import { ProIcon } from '@/components/icon'
 import Error403Image from '@/assets/svg/403.svg'
 import Error404Image from '@/assets/svg/404.svg'
@@ -42,23 +48,14 @@ const images = [
 ]
 </script>
 <style lang="scss" scoped>
+.image-viewer-page {
+  gap: 16px;
+}
+
 .image-viewer-demo {
   display: flex;
   flex-direction: column;
   gap: 18px;
-}
-
-.demo-copy {
-  h3 {
-    margin: 0 0 6px;
-    color: var(--global-heading-color);
-    font-size: 16px;
-  }
-
-  p {
-    margin: 0;
-    color: var(--global-text-color-secondary);
-  }
 }
 
 .image-list {

@@ -1,6 +1,17 @@
 <template>
-  <page-wrapper>
-    <page-card header="登录与权限策略" style="margin-bottom: 16px">
+  <page-wrapper class="access-control-page">
+    <g-page-header
+      title="登录与权限"
+      description="从白名单、登录态到权限路由的完整准入链路，以及组件级鉴权能力演示。"
+      :icon="Lock"
+    >
+      <template #actions>
+        <el-tag effect="plain" type="primary">ignoreAuth</el-tag>
+        <el-tag effect="plain" type="success">Authority</el-tag>
+      </template>
+    </g-page-header>
+
+    <pro-card title="登录与权限策略">
       <div class="access-summary">
         <div v-for="item in summary" :key="item.title" class="summary-item">
           <el-tag :type="item.type" effect="light">{{ item.badge }}</el-tag>
@@ -8,17 +19,17 @@
           <span>{{ item.desc }}</span>
         </div>
       </div>
-    </page-card>
+    </pro-card>
 
-    <page-card header="准入链路" style="margin-bottom: 16px">
+    <pro-card title="准入链路">
       <el-table :data="rows" border>
         <el-table-column prop="layer" label="层级" min-width="120" />
         <el-table-column prop="rule" label="规则" min-width="320" />
         <el-table-column prop="example" label="示例" min-width="220" />
       </el-table>
-    </page-card>
+    </pro-card>
 
-    <page-card header="组件级鉴权演示" style="margin-bottom: 16px">
+    <pro-card title="组件级鉴权演示">
       <div class="auth-demo">
         <el-descriptions :column="3" border size="small">
           <el-descriptions-item label="当前用户">{{ userInfo.userName }}</el-descriptions-item>
@@ -60,21 +71,23 @@
           />
         </div>
       </div>
-    </page-card>
+    </pro-card>
 
-    <page-card header="落地建议">
+    <pro-card title="落地建议">
       <div class="tip-list">
         <div v-for="item in tips" :key="item.title" class="tip-item">
           <strong>{{ item.title }}</strong>
           <span>{{ item.desc }}</span>
         </div>
       </div>
-    </page-card>
+    </pro-card>
   </page-wrapper>
 </template>
 
 <script setup lang="ts">
+import { Lock } from '@element-plus/icons-vue'
 import { computed } from 'vue'
+import { GPageHeader, PageWrapper } from '@/components'
 import { useUserStore, usePermissionStore } from '@/store'
 import { Authority } from '@/components/authority'
 
@@ -146,6 +159,10 @@ const tips = [
 </script>
 
 <style lang="scss" scoped>
+.access-control-page {
+  gap: 16px;
+}
+
 .access-summary {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

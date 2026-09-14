@@ -1,6 +1,46 @@
 <template>
-  <page-wrapper>
-    <page-card :header="$route.meta.title" full>
+  <page-wrapper class="pro-table-page">
+    <g-page-header
+      title="ProTable 基本使用"
+      description="演示服务端排序、跨页多选、URL 状态同步与列配置持久化的完整表格能力。"
+      :icon="Tickets"
+    >
+      <template #actions>
+        <el-tag effect="plain" type="primary">服务端排序</el-tag>
+        <el-tag effect="plain" type="success">URL 同步</el-tag>
+        <el-tag effect="plain" type="warning">列持久化</el-tag>
+        <el-tag effect="plain" type="info">跨页多选</el-tag>
+      </template>
+    </g-page-header>
+
+    <g-page-stats>
+      <pro-statistic-card
+        title="订单总数"
+        :value="orderData.length"
+        suffix="单"
+        description="静态演示数据"
+      />
+      <pro-statistic-card
+        title="待处理"
+        :value="statusCount.pending"
+        suffix="单"
+        description="需要尽快跟进"
+      />
+      <pro-statistic-card
+        title="进行中"
+        :value="statusCount.processing"
+        suffix="单"
+        description="正在履约交付"
+      />
+      <pro-statistic-card
+        title="已完成"
+        :value="statusCount.completed"
+        suffix="单"
+        description="等待客户验收"
+      />
+    </g-page-stats>
+
+    <pro-card :body-padding="false" class="pro-table-page__table-card">
       <pro-table
         ref="tableRef"
         v-model:selected-keys="selectedKeys"
@@ -30,15 +70,17 @@
           </el-button>
         </template>
       </pro-table>
-    </page-card>
+    </pro-card>
   </page-wrapper>
 </template>
 
 <script setup lang="ts">
+import { Tickets } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { reactive, ref, useTemplateRef } from 'vue'
-import { PageCard, PageWrapper } from '@/components'
+import { GPageHeader, GPageStats, PageWrapper } from '@/components'
 import {
+  ProCard,
   ProTable,
   useProTable,
   type ProTableColumns,
@@ -86,6 +128,12 @@ const orderData: OrderRecord[] = Array.from({ length: 36 }, (_, index) => ({
   progress: 35 + ((index * 7) % 65),
   createdAt: `2026-07-${String((index % 10) + 1).padStart(2, '0')} 10:30:00`
 }))
+
+const statusCount = {
+  pending: orderData.filter(order => order.status === 'pending').length,
+  processing: orderData.filter(order => order.status === 'processing').length,
+  completed: orderData.filter(order => order.status === 'completed').length
+}
 
 const requestParams = reactive<OrderQuery>({ businessType: 'sales' })
 const selectedKeys = ref<Array<string | number>>([])
@@ -178,15 +226,27 @@ function handleSelectionChange(rows: OrderRecord[]) {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.pro-table-page {
+  gap: 16px;
+
+  &__table-card {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+
+    :deep(.pro-card__body) {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      min-height: 0;
+    }
+  }
+}
+
 .pro-table-basic-demo {
   min-height: 0;
   flex: 1 1 auto;
-}
-
-:deep(.page-card__body) {
-  display: flex;
-  min-height: 0;
-  flex-direction: column;
 }
 </style>

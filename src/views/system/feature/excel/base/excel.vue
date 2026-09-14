@@ -1,18 +1,31 @@
 <template>
-  <page-wrapper>
-    <page-card :header="$route.meta.title">
+  <page-wrapper class="excel-base-page">
+    <g-page-header
+      title="基本导出"
+      description="演示 aoaToSheetXlsx（二维数组）与 jsonToSheetXlsx（JSON + 指定列）两种导出方式。"
+      :icon="Download"
+    >
+      <template #actions>
+        <el-tag effect="plain" type="primary">二维数组</el-tag>
+        <el-tag effect="plain" type="success">JSON</el-tag>
+      </template>
+    </g-page-header>
+
+    <pro-card :body-padding="false">
       <pro-table :columns="columns" :data="data">
         <template #toolbar>
           <el-button @click="exportArrToExcel">数组方式导出</el-button>
           <el-button @click="exportExecel">导出</el-button>
         </template>
       </pro-table>
-    </page-card>
+    </pro-card>
   </page-wrapper>
 </template>
 <script setup lang="ts">
+import { Download } from '@element-plus/icons-vue'
 import type { ProTableColumns } from '@framebase/element-plus-pro-components'
 import { ref } from 'vue'
+import { GPageHeader, PageWrapper } from '@/components'
 import { aoaToSheetXlsx, jsonToSheetXlsx } from '@/utils'
 
 const data = ref<any[]>([])
@@ -119,4 +132,8 @@ function getPureArrayData() {
   })
 }
 </script>
-<style scoped></style>
+<style scoped lang="scss">
+.excel-base-page {
+  gap: 16px;
+}
+</style>

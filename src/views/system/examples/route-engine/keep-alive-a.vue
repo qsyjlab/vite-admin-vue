@@ -1,18 +1,16 @@
 <template>
-  <page-wrapper>
-    <page-card header="缓存状态示例" style="margin-bottom: 16px">
-      <div class="keep-head">
-        <div>
-          <p class="keep-title">在当前页输入内容后切到验证页，再返回当前页观察状态是否保留。</p>
-          <p class="keep-desc">
-            这个示例用于检查业务页 keep-alive name、tabs 缓存和动态路由注册是否配合正常。
-          </p>
-        </div>
+  <page-wrapper class="keep-alive-a-page">
+    <g-page-header
+      title="缓存示例"
+      description="在当前页输入内容后切到验证页，再返回当前页观察状态是否保留，用于检查 keep-alive、tabs 缓存与动态路由注册是否配合正常。"
+      :icon="Coin"
+    >
+      <template #actions>
         <el-button type="primary" @click="goVerify">切到验证页</el-button>
-      </div>
-    </page-card>
+      </template>
+    </g-page-header>
 
-    <page-card header="当前页状态">
+    <pro-card title="当前页状态">
       <el-form label-width="100px" class="state-form">
         <el-form-item label="输入内容">
           <el-input v-model="draft" placeholder="输入任意内容后切到验证页" />
@@ -31,13 +29,15 @@
           </div>
         </el-form-item>
       </el-form>
-    </page-card>
+    </pro-card>
   </page-wrapper>
 </template>
 
 <script setup lang="ts">
+import { Coin } from '@element-plus/icons-vue'
 import { onActivated, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { GPageHeader, PageWrapper } from '@/components'
 
 const router = useRouter()
 const draft = ref('')
@@ -53,25 +53,8 @@ onActivated(() => {
 </script>
 
 <style lang="scss" scoped>
-.keep-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.keep-alive-a-page {
   gap: 16px;
-}
-
-.keep-title {
-  margin: 0;
-  color: var(--global-heading-color);
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.5;
-}
-
-.keep-desc {
-  margin: 8px 0 0;
-  color: var(--global-text-color-secondary);
-  line-height: 1.7;
 }
 
 .state-form {

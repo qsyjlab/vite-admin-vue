@@ -1,32 +1,36 @@
 <template>
-  <page-wrapper>
-    <page-card header="菜单投影规则" style="margin-bottom: 16px">
-      <div class="projection-head">
-        <div>
-          <p>路由是页面能力的来源，菜单是导航展示的结果。推荐只维护一套覆盖入口，减少字段重复。</p>
-        </div>
+  <page-wrapper class="menu-projection-page">
+    <g-page-header
+      title="菜单投影"
+      description="路由是页面能力的来源，菜单是导航展示的结果。推荐只维护一套覆盖入口，减少字段重复。"
+      :icon="Share"
+    >
+      <template #actions>
         <el-tag type="warning" effect="light">meta.menu 优先</el-tag>
-      </div>
-    </page-card>
+      </template>
+    </g-page-header>
 
-    <page-card header="字段映射" style="margin-bottom: 16px">
+    <pro-card title="字段映射">
       <el-table :data="mappingRows" border>
         <el-table-column prop="source" label="输入字段" min-width="240" />
         <el-table-column prop="target" label="菜单字段" min-width="160" />
         <el-table-column prop="note" label="说明" min-width="320" />
       </el-table>
-    </page-card>
+    </pro-card>
 
     <div class="practice-grid">
-      <page-card v-for="item in practices" :key="item.title" :header="item.title" :full="false">
+      <pro-card v-for="item in practices" :key="item.title" :title="item.title">
         <p>{{ item.desc }}</p>
         <el-tag size="small" :type="item.type" effect="plain">{{ item.tag }}</el-tag>
-      </page-card>
+      </pro-card>
     </div>
   </page-wrapper>
 </template>
 
 <script setup lang="ts">
+import { Share } from '@element-plus/icons-vue'
+import { GPageHeader, PageWrapper } from '@/components'
+
 const mappingRows = [
   {
     source: 'meta.menu.title ?? meta.title',
@@ -78,17 +82,8 @@ const practices = [
 </script>
 
 <style lang="scss" scoped>
-.projection-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.menu-projection-page {
   gap: 16px;
-
-  p {
-    margin: 0;
-    color: var(--global-text-color-secondary);
-    line-height: 1.7;
-  }
 }
 
 .practice-grid {

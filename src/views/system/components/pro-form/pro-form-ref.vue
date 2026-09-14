@@ -1,8 +1,19 @@
 <template>
-  <page-wrapper>
-    <page-card :full="false" header="ref 操作示例">
+  <page-wrapper class="pro-form-ref-page">
+    <g-page-header
+      title="表单 ref 操作"
+      description="推荐使用 useProForm 操作表单 ref，内置类型提示与展开/收起/脏数据守卫能力。"
+      :icon="Pointer"
+    >
+      <template #actions>
+        <el-tag effect="plain" type="primary">useProForm</el-tag>
+        <el-tag effect="plain" type="warning">dirty 守卫</el-tag>
+      </template>
+    </g-page-header>
+
+    <pro-card>
       <el-alert
-        style="margin-bottom: 10px"
+        class="pro-form-ref-page__tip"
         title="推荐使用 useProForm 操作表单 ref,内置类型提示"
         type="warning"
       />
@@ -19,12 +30,12 @@
         :submitter="false"
       />
       <el-alert
+        class="pro-form-ref-page__tip"
         :title="loading ? '正在加载异步初始值' : dirty ? '表单有未保存修改' : '表单已同步'"
         :type="dirty ? 'warning' : 'success'"
         :closable="false"
-        style="margin-bottom: 12px"
       />
-      <div style="display: flex; justify-content: flex-end">
+      <div class="pro-form-ref-page__actions">
         <el-space>
           <el-button @click="setCollapsed(false)">展开</el-button>
           <el-button @click="setCollapsed(true)">收起</el-button>
@@ -35,7 +46,7 @@
           <el-button type="primary" @click="submit()">提交</el-button>
         </el-space>
       </div>
-    </page-card>
+    </pro-card>
   </page-wrapper>
 </template>
 
@@ -46,10 +57,12 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { PageCard, PageWrapper } from '@/components'
+import { Pointer } from '@element-plus/icons-vue'
+import { GPageHeader, PageWrapper } from '@/components'
 import {
   type FormSchema,
   type ProFormInstance,
+  ProCard,
   useProForm,
   useProFormDirtyGuard
 } from '@framebase/element-plus-pro-components'
@@ -290,3 +303,18 @@ const fields: FormSchema[] = baseFields.map(field => ({
   }
 }))
 </script>
+
+<style scoped lang="scss">
+.pro-form-ref-page {
+  gap: 16px;
+
+  &__tip {
+    margin-bottom: 12px;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+</style>

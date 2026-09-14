@@ -1,6 +1,17 @@
 <template>
-  <page-wrapper>
-    <page-card style="margin-bottom: 15px" :full="false" header="查询表单">
+  <page-wrapper class="pro-form-page">
+    <g-page-header
+      title="基础表单"
+      description="查询表单的 grid/非 grid 布局与基础表单、手动提交的完整用法。"
+      :icon="Memo"
+    >
+      <template #actions>
+        <el-tag effect="plain" type="primary">查询表单</el-tag>
+        <el-tag effect="plain" type="success">响应式栅格</el-tag>
+      </template>
+    </g-page-header>
+
+    <pro-card title="查询表单">
       <ProForm
         inline
         default-collapsed
@@ -12,8 +23,8 @@
         @submit="submit"
         @reset="reset"
       />
-    </page-card>
-    <page-card style="margin-bottom: 15px" :full="false" header="查询表单（非grid模式）">
+    </pro-card>
+    <pro-card title="查询表单（非grid模式）">
       <ProForm
         inline
         :layout="false"
@@ -24,8 +35,8 @@
         @reset="reset"
       >
       </ProForm>
-    </page-card>
-    <page-card :full="false" header="基础表单">
+    </pro-card>
+    <pro-card title="基础表单">
       <ProForm
         ref="formRef"
         :fields="responsiveFields"
@@ -33,13 +44,13 @@
         label-position="left"
         :submitter="false"
       />
-      <div style="display: flex; justify-content: flex-end">
+      <div class="pro-form-page__actions">
         <el-space>
           <el-button @click="resetFields()">取消</el-button>
           <el-button type="primary" @click="validate()">提交</el-button>
         </el-space>
       </div>
-    </page-card>
+    </pro-card>
   </page-wrapper>
 </template>
 
@@ -50,10 +61,12 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { PageCard, PageWrapper } from '@/components'
+import { Memo } from '@element-plus/icons-vue'
+import { GPageHeader, PageWrapper } from '@/components'
 import {
   type FormMethodsType,
   type FormSchema,
+  ProCard,
   ProUploadList,
   useProForm
 } from '@framebase/element-plus-pro-components'
@@ -370,3 +383,14 @@ const reset = (values: any) => {
   console.log('values', values)
 }
 </script>
+
+<style scoped lang="scss">
+.pro-form-page {
+  gap: 16px;
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+</style>

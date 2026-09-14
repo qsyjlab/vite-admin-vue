@@ -1,18 +1,16 @@
 <template>
-  <page-wrapper>
-    <page-card header="缓存验证页" style="margin-bottom: 16px">
-      <div class="verify-head">
-        <div>
-          <p class="verify-title">这个页面从菜单隐藏，只用于验证 A/B 页面切换后的缓存表现。</p>
-          <p class="verify-desc">
-            输入内容后返回缓存示例，再切回来，检查两个页面的本地状态是否都保留。
-          </p>
-        </div>
+  <page-wrapper class="keep-alive-b-page">
+    <g-page-header
+      title="缓存验证"
+      description="这个页面从菜单隐藏，只用于验证 A/B 页面切换后的缓存表现：输入内容后返回缓存示例，再切回来，检查两个页面的本地状态是否都保留。"
+      :icon="Coin"
+    >
+      <template #actions>
         <el-button type="primary" plain @click="goBack">返回缓存示例</el-button>
-      </div>
-    </page-card>
+      </template>
+    </g-page-header>
 
-    <page-card header="验证页状态">
+    <pro-card title="验证页状态">
       <el-form label-width="120px" class="state-form">
         <el-form-item label="关键词">
           <el-input v-model="keyword" placeholder="切回缓存示例后再返回，检查是否保留" />
@@ -27,13 +25,15 @@
           </div>
         </el-form-item>
       </el-form>
-    </page-card>
+    </pro-card>
   </page-wrapper>
 </template>
 
 <script setup lang="ts">
+import { Coin } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { GPageHeader, PageWrapper } from '@/components'
 
 const router = useRouter()
 const keyword = ref('')
@@ -45,25 +45,8 @@ const goBack = () => {
 </script>
 
 <style lang="scss" scoped>
-.verify-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.keep-alive-b-page {
   gap: 16px;
-}
-
-.verify-title {
-  margin: 0;
-  color: var(--global-heading-color);
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.5;
-}
-
-.verify-desc {
-  margin: 8px 0 0;
-  color: var(--global-text-color-secondary);
-  line-height: 1.7;
 }
 
 .state-form {

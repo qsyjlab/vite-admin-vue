@@ -1,53 +1,47 @@
 <template>
-  <page-wrapper>
-    <page-card class="route-hero" header="Route Engine 概览" style="margin-bottom: 16px">
-      <div class="hero-layout">
-        <div>
-          <p class="hero-title">把路由定义、权限过滤、菜单投影和动态注册收敛到一条清晰链路。</p>
-          <p class="hero-desc">
-            示例页用于验证框架约定是否稳定：路由只描述页面能力，菜单只负责展示，权限只负责准入。
-          </p>
-        </div>
-        <div class="hero-stats">
-          <div v-for="item in stats" :key="item.label" class="stat-item">
-            <span>{{ item.value }}</span>
-            <small>{{ item.label }}</small>
-          </div>
+  <page-wrapper class="route-overview-page">
+    <g-page-header
+      title="Route Engine 概览"
+      description="路由只描述页面能力，菜单只负责展示，权限只负责准入。"
+      :icon="Monitor"
+    >
+      <template #actions>
+        <el-tag effect="plain" type="primary">动态路由</el-tag>
+        <el-tag effect="plain" type="success">菜单投影</el-tag>
+      </template>
+    </g-page-header>
+
+    <g-page-stats :columns="3">
+      <pro-statistic-card title="路由层级" :value="4" description="Layout / Page / Child / Blank" />
+      <pro-statistic-card title="处理阶段" :value="5" description="从原始定义到可访问路由" />
+      <pro-statistic-card title="菜单来源" value="meta" description="展示字段可由 meta.menu 覆盖" />
+    </g-page-stats>
+
+    <pro-card title="处理流程" subtitle="示例页用于验证框架约定是否稳定">
+      <div class="flow-grid">
+        <div v-for="item in flow" :key="item.title" class="flow-card">
+          <div class="flow-index">{{ item.index }}</div>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.desc }}</p>
+          <el-tag size="small" effect="plain">{{ item.tag }}</el-tag>
         </div>
       </div>
-    </page-card>
+    </pro-card>
 
-    <div class="flow-grid">
-      <page-card
-        v-for="item in flow"
-        :key="item.title"
-        :header="item.title"
-        class="flow-card"
-        :full="false"
-      >
-        <div class="flow-index">{{ item.index }}</div>
-        <p>{{ item.desc }}</p>
-        <el-tag size="small" effect="plain">{{ item.tag }}</el-tag>
-      </page-card>
-    </div>
-
-    <page-card header="建议约定">
+    <pro-card title="建议约定">
       <div class="rule-grid">
         <div v-for="item in rules" :key="item.label" class="rule-item">
           <strong>{{ item.label }}</strong>
           <span>{{ item.value }}</span>
         </div>
       </div>
-    </page-card>
+    </pro-card>
   </page-wrapper>
 </template>
 
 <script setup lang="ts">
-const stats = [
-  { label: '路由层级', value: '4' },
-  { label: '处理阶段', value: '5' },
-  { label: '菜单来源', value: 'meta' }
-]
+import { Monitor } from '@element-plus/icons-vue'
+import { GPageHeader, GPageStats, PageWrapper } from '@/components'
 
 const flow = [
   {
@@ -85,66 +79,28 @@ const rules = [
 </script>
 
 <style lang="scss" scoped>
-.hero-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 24px;
-  align-items: center;
-}
-
-.hero-title {
-  margin: 0;
-  color: var(--global-heading-color);
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.5;
-}
-
-.hero-desc {
-  margin: 8px 0 0;
-  color: var(--global-text-color-secondary);
-  line-height: 1.7;
-}
-
-.hero-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 88px);
-  gap: 10px;
-}
-
-.stat-item {
-  height: 72px;
-  border: 1px solid var(--global-border-color);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: var(--global-surface-color-muted);
-
-  span {
-    color: var(--el-color-primary);
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 1;
-  }
-
-  small {
-    margin-top: 8px;
-    color: var(--global-text-color-secondary);
-    font-size: 12px;
-  }
+.route-overview-page {
+  gap: 16px;
 }
 
 .flow-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
-  margin-bottom: 16px;
 }
 
 .flow-card {
   position: relative;
+  padding: 16px 20px;
+  border: 1px solid var(--global-border-color);
+  border-radius: 8px;
+  background: var(--global-surface-color-muted);
+
+  h3 {
+    margin: 0 0 12px;
+    color: var(--global-heading-color);
+    font-size: 15px;
+  }
 
   p {
     min-height: 74px;
@@ -188,14 +144,9 @@ const rules = [
 }
 
 @media (max-width: 1200px) {
-  .hero-layout,
   .flow-grid,
   .rule-grid {
     grid-template-columns: 1fr;
-  }
-
-  .hero-stats {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 </style>

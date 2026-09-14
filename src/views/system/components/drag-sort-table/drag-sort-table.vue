@@ -1,6 +1,17 @@
 <template>
-  <page-wrapper>
-    <page-card :header="$route.meta.title" full>
+  <page-wrapper class="drag-sort-table-page">
+    <g-page-header
+      title="ProDragSortTable"
+      description="按住行拖拽即可调整任务优先级顺序，拖拽结果实时同步到 v-model。"
+      :icon="Rank"
+    >
+      <template #actions>
+        <el-tag effect="plain" type="primary">拖拽排序</el-tag>
+        <el-tag effect="plain" type="success">实时同步</el-tag>
+      </template>
+    </g-page-header>
+
+    <pro-card :body-padding="false" class="drag-sort-table-page__table-card">
       <pro-drag-sort-table
         v-model="data"
         class="drag-sort-table-demo"
@@ -9,15 +20,17 @@
         header-title="任务优先级"
         @drag-sort-end="handleDragSortEnd"
       />
-    </page-card>
+    </pro-card>
   </page-wrapper>
 </template>
 
 <script setup lang="ts">
+import { Rank } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
-import { PageCard, PageWrapper } from '@/components'
+import { GPageHeader, PageWrapper } from '@/components'
 import {
+  ProCard,
   ProDragSortTable,
   type ProDragSortTableEnd,
   type ProTableColumns
@@ -109,15 +122,27 @@ function handleDragSortEnd(event: ProDragSortTableEnd<TaskRecord>) {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.drag-sort-table-page {
+  gap: 16px;
+
+  &__table-card {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+
+    :deep(.pro-card__body) {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      min-height: 0;
+    }
+  }
+}
+
 .drag-sort-table-demo {
   min-height: 0;
   flex: 1 1 auto;
-}
-
-:deep(.page-card__body) {
-  display: flex;
-  min-height: 0;
-  flex-direction: column;
 }
 </style>

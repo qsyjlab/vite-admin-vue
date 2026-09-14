@@ -1,6 +1,44 @@
 <template>
-  <page-wrapper>
-    <page-card :header="$route.meta.title" full>
+  <page-wrapper class="pro-table-search-page">
+    <g-page-header
+      title="ProTableSearch"
+      description="ProForm 内联搜索区与 ProTable 组合，演示查询、重置与日期范围归一化。"
+      :icon="Search"
+    >
+      <template #actions>
+        <el-tag effect="plain" type="primary">内联搜索</el-tag>
+        <el-tag effect="plain" type="success">折叠布局</el-tag>
+      </template>
+    </g-page-header>
+
+    <g-page-stats>
+      <pro-statistic-card
+        title="订单总数"
+        :value="orderData.length"
+        suffix="单"
+        description="静态演示数据"
+      />
+      <pro-statistic-card
+        title="待处理"
+        :value="statusCount.pending"
+        suffix="单"
+        description="需要尽快跟进"
+      />
+      <pro-statistic-card
+        title="进行中"
+        :value="statusCount.processing"
+        suffix="单"
+        description="正在履约交付"
+      />
+      <pro-statistic-card
+        title="已取消"
+        :value="statusCount.cancelled"
+        suffix="单"
+        description="默认查询隐藏"
+      />
+    </g-page-stats>
+
+    <pro-card :body-padding="false" class="pro-table-search-page__table-card">
       <div class="table-search-demo">
         <pro-form
           class="table-search-demo__form"
@@ -27,14 +65,16 @@
           />
         </div>
       </div>
-    </page-card>
+    </pro-card>
   </page-wrapper>
 </template>
 
 <script setup lang="ts">
+import { Search } from '@element-plus/icons-vue'
 import { ref } from 'vue'
-import { PageCard, PageWrapper } from '@/components'
+import { GPageHeader, GPageStats, PageWrapper } from '@/components'
 import {
+  ProCard,
   ProForm,
   ProTable,
   type ProFormSchema,
@@ -204,6 +244,12 @@ const orderData: OrderRecord[] = Array.from({ length: 88 }, (_, index) => ({
   createdAt: `2026-07-${String((index % 10) + 1).padStart(2, '0')} 10:30:00`
 }))
 
+const statusCount = {
+  pending: orderData.filter(order => order.status === 'pending').length,
+  processing: orderData.filter(order => order.status === 'processing').length,
+  cancelled: orderData.filter(order => order.status === 'cancelled').length
+}
+
 async function queryOrders(
   params: ProTableRequestParams<OrderQuery>
 ): Promise<ProTableRequestResult<OrderRecord>> {
@@ -227,7 +273,25 @@ async function queryOrders(
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.pro-table-search-page {
+  gap: 16px;
+
+  &__table-card {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+
+    :deep(.pro-card__body) {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      min-height: 0;
+    }
+  }
+}
+
 .table-search-demo {
   display: flex;
   min-height: 0;
@@ -244,11 +308,5 @@ async function queryOrders(
     min-height: 0;
     flex: 1 1 auto;
   }
-}
-
-:deep(.page-card__body) {
-  display: flex;
-  min-height: 0;
-  flex-direction: column;
 }
 </style>
