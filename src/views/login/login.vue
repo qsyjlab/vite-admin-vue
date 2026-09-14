@@ -424,7 +424,8 @@ const loginAdmin = async () => {
     await loginSystem(loginForm)
     const redirect = router.currentRoute.value.query.redirect as string
     ElMessage.success('登录成功')
-    if (redirect) {
+    // 仅接受应用内路径，防住 //evil.com 之类的协议相对地址
+    if (redirect && redirect.startsWith('/') && !redirect.startsWith('//')) {
       router.replace(redirect)
     } else {
       router.replace({ name: 'Welcome' })

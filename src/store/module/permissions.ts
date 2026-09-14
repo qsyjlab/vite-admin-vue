@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
 import projectSetting from '@/config/project-setting'
 import { PermissionModeEnum } from '@/enum'
 import useUserStore from './user'
@@ -61,12 +62,25 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
     return permissionMode.value
   }
 
+  /** 防止并发触发多次 bootstrap（登录流程与路由守卫可能同时调用） */
+  let loadingPromise: Promise<void> | null = null
+
   async function loadDynamicRoutes() {
     const signature = getDynamicRoutesSignature()
     if (signature === dynamicRoutesSignature.value) {
       return
     }
+    if (loadingPromise) {
+      return loadingPromise
+    }
 
+    loadingPromise = bootstrapDynamicRoutes(signature).finally(() => {
+      loadingPromise = null
+    })
+    return loadingPromise
+  }
+
+  async function bootstrapDynamicRoutes(signature: string) {
     const userStore = useUserStore()
 
     // BACKED 模式需要从后端获取菜单路由数据
@@ -76,7 +90,8 @@ export const usePermissionStore = defineStore('permissionStoreKey', () => {
         const res = await getMenuList()
         backendRoutes = (res.data || []) as unknown as RouteRecordRaw[]
       } catch {
-        backendRoutes = []
+        ElMessage.error('菜单数据加载失败，请刷新重试')
+        return
       }
     }
 

@@ -21,7 +21,7 @@ export function createRouterGuard(router: Router) {
   router.beforeEach(async (to, from) => {
     // 外链
     if (to.meta.href) {
-      window.open(to.meta.href)
+      window.open(to.meta.href, '_blank', 'noopener,noreferrer')
 
       return { path: from.fullPath, replace: true, query: from.query }
     }
@@ -31,22 +31,10 @@ export function createRouterGuard(router: Router) {
     // // 处理基础白名单的路由
     if (WHITE_NAME_LIST.includes(to.name as string)) return true
 
-    const { initialized, setInitialized } = useUserStore()
-    const permissionStore = usePermissionStore()
-
-    if (!initialized) {
-      initializeStore()
-      await permissionStore.loadDynamicRoutes()
-      setInitialized(true)
-
-      if (to.name === PAGE_NOT_FOUND) {
-        return { path: to.fullPath, replace: true, query: to.query }
-      }
-    }
-
     const token = getTokenCahce()
     const isLogin = !!token
 
+    // 未登录直接跳登录页，避免匿名状态下请求菜单/路由数据
     if (!isLogin) {
       const redirectData: { name: string; replace: boolean; query?: Record<string, string> } = {
         name: LOGIN_NAME,
@@ -63,6 +51,19 @@ export function createRouterGuard(router: Router) {
       return redirectData
     }
 
+    const { initialized, setInitialized } = useUserStore()
+    const permissionStore = usePermissionStore()
+
+    if (!initialized) {
+      initializeStore()
+      await permissionStore.loadDynamicRoutes()
+      setInitialized(true)
+
+      if (to.name === PAGE_NOT_FOUND) {
+        return { path: to.fullPath, replace: true, query: to.query }
+      }
+    }
+
     return true
   })
 }
@@ -74,6 +75,11 @@ export function createProgressGuard(router: Router) {
   })
 
   router.afterEach(() => {
+    NProgress.done()
+  })
+
+  // 路由加载失败（组件 chunk 加载失败等）时避免进度条卡死
+  router.onError(() => {
     NProgress.done()
   })
 }
