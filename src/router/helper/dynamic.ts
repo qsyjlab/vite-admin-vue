@@ -6,8 +6,10 @@ const layoutMap = new Map<string, () => Promise<typeof import('*.vue')>>()
 
 layoutMap.set('LAYOUT', Layout)
 
-let dynamicViewsModules: Record<string, () => Promise<Recordable>>
-let dynamicViewModuleMap: Record<string, () => Promise<Recordable>> | null = null
+const dynamicViewsModules: Record<string, () => Promise<Recordable>> = import.meta.glob(
+  '../../views/**/*.{vue,tsx}'
+)
+const dynamicViewModuleMap = createViewModuleMap(dynamicViewsModules)
 
 function createViewModuleMap(modules: Record<string, () => Promise<Recordable>>) {
   const moduleMap: Record<string, () => Promise<Recordable>> = {}
@@ -34,7 +36,7 @@ function createViewModuleMap(modules: Record<string, () => Promise<Recordable>>)
 }
 
 export function transformObjToRoute<T = RouteRecordRaw>(routeList: RouteRecordRaw[]): T[] {
-  routeList.forEach(route => {
+  routeList.forEach((route, index) => {
     const component = route.component as unknown as string
     if (component) {
       if (component.toUpperCase() === 'LAYOUT') {
@@ -43,9 +45,11 @@ export function transformObjToRoute<T = RouteRecordRaw>(routeList: RouteRecordRa
         route.children = [cloneDeep(route)]
         route.component = Layout
 
-        //某些情况下如果name如果没有值， 多个一级路由菜单会导致页面404
+        // 某些情况下如果 name 没有值，多个一级路由菜单会导致页面 404，
+        // 用路径生成确定性名称兜底，避免未命名路由相互覆盖
         if (!route.name) {
           console.warn('找不到菜单对应的name, 请检查数据!' + JSON.stringify(route))
+          route.name = `Anonymous-${String(route.path || index).replace(/[^a-zA-Z0-9]/g, '-')}`
         }
         route.name = `${route.name?.toString()}Parent`
         route.path = ''
@@ -67,8 +71,6 @@ export function transformObjToRoute<T = RouteRecordRaw>(routeList: RouteRecordRa
 
 // Dynamic introduction
 function asyncImportRoute(routes: RouteRecordRaw[] | undefined) {
-  dynamicViewsModules = dynamicViewsModules || import.meta.glob('../../views/**/*.{vue,tsx}')
-  dynamicViewModuleMap = dynamicViewModuleMap || createViewModuleMap(dynamicViewsModules)
   if (!routes) return
   routes.forEach(item => {
     const { component } = item
@@ -79,7 +81,7 @@ function asyncImportRoute(routes: RouteRecordRaw[] | undefined) {
       if (layoutFound) {
         item.component = layoutFound
       } else {
-        item.component = dynamicImport(dynamicViewModuleMap || {}, component as unknown as string)
+        item.component = dynamicImport(dynamicViewModuleMap, component as unknown as string)
       }
     }
 

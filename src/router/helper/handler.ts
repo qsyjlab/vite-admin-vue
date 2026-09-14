@@ -128,5 +128,13 @@ export function routeConversionHandler(routes: RouteRecordRaw[]) {
 
     return routes
   }
-  return pipe(setComponentName, flatRoutesLevel, joinParentPath, setRouteRedirect)(routes)
+  // meta.menu 覆盖字段同样要在注册路由上归一化，
+  // 否则 tabs/keep-alive/面包屑等运行时读到的 meta 与菜单不一致
+  return pipe(
+    normalizeRouteMenuMeta,
+    setComponentName,
+    flatRoutesLevel,
+    joinParentPath,
+    setRouteRedirect
+  )(routes)
 }

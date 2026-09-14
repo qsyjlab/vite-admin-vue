@@ -60,12 +60,16 @@ export function createRouteEngine<TContext = Record<string, never>, TMenu = unkn
   } = options
 
   async function build(context: TContext): Promise<RouteEngineBuildResult<TMenu>> {
+    // 入口统一深拷贝一次，隔离路由模块缓存等外部状态；
+    // 各 handler 以「最后一个消费者可原地修改」为约定，不再逐级克隆
     const loadedRoutes = cloneDeep(await loadRoutes())
-    const normalizedRoutes = cloneDeep(await normalizeRoutes(loadedRoutes, context))
-    const validatedRoutes = cloneDeep(await validateRoutes(normalizedRoutes, context))
-    const authorizedRoutes = cloneDeep(await authorizeRoutes(validatedRoutes, context))
-    const menus = await projectMenus(cloneDeep(authorizedRoutes), context)
-    const transformedRoutes = await transformRoutes(cloneDeep(authorizedRoutes), context)
+    const normalizedRoutes = await normalizeRoutes(loadedRoutes, context)
+    const validatedRoutes = await validateRoutes(normalizedRoutes, context)
+    const authorizedRoutes = await authorizeRoutes(validatedRoutes, context)
+    // projectMenus 内部自带克隆，menus 节点与授权树完全分离
+    const menus = await projectMenus(authorizedRoutes, context)
+    // transformRoutes 是授权树的最后一个消费者，可原地修改
+    const transformedRoutes = await transformRoutes(authorizedRoutes, context)
 
     return {
       routes: transformedRoutes,

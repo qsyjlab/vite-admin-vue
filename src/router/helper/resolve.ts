@@ -27,6 +27,7 @@ export function flatRoutesLevel(asyncRoutes: RouteRecordRaw[]) {
     const flattenedChildren: RouteRecordRaw[] = []
 
     children.forEach(child => {
+      // 逐个克隆子路由以剥离嵌套关系；组件 loader 等不可克隆值会被保留引用
       const clonedChild = cloneDeep(child)
       const fullPath = resolveChildPath(parentPath, clonedChild.path || '')
       const nestedChildren = clonedChild.children
@@ -43,7 +44,8 @@ export function flatRoutesLevel(asyncRoutes: RouteRecordRaw[]) {
     return flattenedChildren
   }
 
-  return cloneDeep(asyncRoutes).map(route => {
+  // 入参树由引擎持有且此处是最后一个消费者，直接在原地替换 children，无需整树克隆
+  return asyncRoutes.map(route => {
     if (!route.children?.length) return route
 
     route.children = flattenChildren(route.children)
