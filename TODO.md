@@ -52,3 +52,15 @@
 - [x] 移除 `build/vite/plugins/mock-api.ts` 及 build/vite 各处引用
 - [x] env 增加 `VITE_ENABLE_MOCK`（.env=true / .env.prod=false）+ env.d.ts 类型
 - [x] 验证：test:types 通过 + 137 单测全通过 + dev server 正常启动
+
+## 阶段 5 · 路由系统优化（进行中）
+
+- [x] 守卫鉴权时序修复：token 校验前置，匿名访客不再触发后端菜单请求（`7276aa1`）
+- [x] `loadDynamicRoutes` 单飞锁，消除登录流程与守卫并发 bootstrap 竞态；BACKED 模式菜单请求失败给出提示（`7276aa1`）
+- [x] NProgress 在 `router.onError` 兜底结束；外链 `window.open` 加 noopener；登录 redirect 仅接受站内路径（`7276aa1`）
+- [x] 引擎 build 深拷贝 6 次 → 1 次；BACKED 授权边界深拷贝隔离后端数据；`meta.menu` 覆盖字段归一化扩展到注册路由（`a4068a3`）
+- [x] 授权逻辑抽取为独立 `authorize.ts`；`dynamic.ts` glob 提升到模块作用域、未命名路由确定性兜底 name（`a4068a3`）
+- [x] vitest 补 `@` 别名；新增 17 个路由单测（授权三模式 / 引擎生命周期 / 管线回归）（`a4068a3`）
+- [x] 菜单管理页修复：排序列改读 `meta.order`、redirect 列格式化；`ExtraRouteMeta` 补齐 `single/affix/isKeepAlive`（`5c9381b`）
+- [ ] keep-alive 缓存生命周期：`useRouteStore` 只有 addAlive 没有 removeAlive，关标签不释放缓存；`tab-page.ts` 的 `updateTabCache` 过滤条件写反（`ignoreKeepAlive` 应取反）；`removeTabPage` 关闭非当前标签也会跳转；关闭左/右侧标签不刷新缓存
+- [ ] qiankun 集成修复：`activeRule '/sub-vite/react-swc'` 与实际路由 `/out-page/sub-vite/react-swc` 不匹配；容器 `#react-swc` 元素不存在；`sub-app.ts` 挂载竞态（unmount 早于 setup 完成会泄漏实例）；`start()` 无条件执行且 entry 硬编码 dev 地址；`src/micro-app/index.ts` 空文件
