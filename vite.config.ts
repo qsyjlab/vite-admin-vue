@@ -18,34 +18,6 @@ export default defineConfig(configEnv => {
     plugins: createVitePlugin(configEnv),
     resolve: {
       alias: [
-        // 临时：@framebase/element-plus-theme 指向 framebase 源码，便于实时调试主题变量
-        {
-          find: '@framebase/element-plus-theme/style.css',
-          replacement: fileURLToPath(
-            new URL('../framebase/packages/element-plus-theme/src/index.scss', import.meta.url)
-          )
-        },
-        {
-          find: '@framebase/element-plus-theme/tokens.css',
-          replacement: fileURLToPath(
-            new URL('../framebase/packages/element-plus-theme/src/tokens.scss', import.meta.url)
-          )
-        },
-        {
-          find: '@framebase/element-plus-theme/dark.css',
-          replacement: fileURLToPath(
-            new URL('../framebase/packages/element-plus-theme/src/dark.scss', import.meta.url)
-          )
-        },
-        {
-          find: '@framebase/element-plus-theme/components.css',
-          replacement: fileURLToPath(
-            new URL(
-              '../framebase/packages/element-plus-theme/src/components/index.scss',
-              import.meta.url
-            )
-          )
-        },
         { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
         {
           find: '@framebase/vue-code-editor',
