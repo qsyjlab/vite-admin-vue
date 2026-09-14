@@ -46,27 +46,52 @@ const columns: ProTableColumns<Record<string, unknown>> = [
     title: '权限 key',
     key: 'code'
   },
-  /**
-  // TODO: el-table 如果 列拿到的值是 object
-   * Invalid VNode type: undefined (undefined)
-   */
   {
     title: 'redirect',
-    key: 'redirect'
+    key: 'redirectText'
   },
   {
     title: '排序',
-    key: 'meta.sort',
+    key: 'order',
     tip: '排序只对同级节点生效'
   }
 ]
 
-const dataSource = ref<any>()
+interface MenuNode {
+  name?: string
+  redirect?: unknown
+  children?: MenuNode[]
+  meta?: Record<string, unknown>
+  [key: string]: unknown
+}
+
+/** redirect 可能是 string / { name } / { path }，表格里统一显示为字符串 */
+function formatRedirect(redirect: unknown): string {
+  if (!redirect) return '-'
+  if (typeof redirect === 'string') return redirect
+  if (typeof redirect === 'object') {
+    const target = redirect as { name?: string; path?: string }
+    return target.name ?? target.path ?? '-'
+  }
+  return String(redirect)
+}
+
+/** 为表格展示补充展平字段（redirectText/order），保留树形结构 */
+function normalizeForDisplay(nodes: MenuNode[]): MenuNode[] {
+  return nodes.map(node => ({
+    ...node,
+    redirectText: formatRedirect(node.redirect),
+    order: (node.meta?.order as number | undefined) ?? '-',
+    children: node.children?.length ? normalizeForDisplay(node.children) : undefined
+  }))
+}
+
+const dataSource = ref<MenuNode[]>([])
 const loading = ref(true)
 
 getMenuList()
   .then(res => {
-    dataSource.value = res.data
+    dataSource.value = normalizeForDisplay((res.data || []) as MenuNode[])
   })
   .finally(() => {
     loading.value = false

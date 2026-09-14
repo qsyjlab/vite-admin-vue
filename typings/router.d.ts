@@ -39,6 +39,12 @@ interface ExtraRouteMeta {
   hideChildrenInMenu?: boolean
   // 角色类型
   roles?: string[] | number[]
+  // 页面级缓存声明（与 ignoreKeepAlive 相对，路由模块中使用）
+  isKeepAlive?: boolean
+  // 由动态路由转换写入：一级业务路由已被 Layout 包装
+  single?: boolean
+  // 由动态路由转换写入：包装后的父级不参与 affix tab
+  affix?: boolean
 }
 
 declare module 'vue-router' {
